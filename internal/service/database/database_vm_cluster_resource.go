@@ -211,6 +211,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"exascale_db_storage_vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"file_system_configuration_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -317,6 +323,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_management_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -492,6 +502,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
 		tmp := exadataInfrastructureId.(string)
 		request.ExadataInfrastructureId = &tmp
+	}
+
+	if exascaleDbStorageVaultId, ok := s.D.GetOkExists("exascale_db_storage_vault_id"); ok {
+		tmp := exascaleDbStorageVaultId.(string)
+		request.ExascaleDbStorageVaultId = &tmp
 	}
 
 	if fileSystemConfigurationDetails, ok := s.D.GetOkExists("file_system_configuration_details"); ok {
@@ -796,6 +811,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
 
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
+	}
+
 	fileSystemConfigurationDetails := []interface{}{}
 	for _, item := range s.Res.FileSystemConfigurationDetails {
 		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -845,6 +864,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
 
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)

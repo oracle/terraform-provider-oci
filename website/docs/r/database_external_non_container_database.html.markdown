@@ -47,7 +47,7 @@ The following attributes are exported:
 * `character_set` - The character set of the external database.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_configuration` - The Oracle Database configuration
-* `database_edition` - The Oracle Database edition. 
+* `database_edition` - The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE. 
 * `database_management_config` - The configuration of the Database Management service.
 	* `database_management_connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [external database connector](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails). 
 	* `database_management_status` - The status of the Database Management service.

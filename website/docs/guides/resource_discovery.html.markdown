@@ -647,6 +647,7 @@ database
 * oci\_database\_execution\_action
 * oci\_database\_execution\_window
 * oci\_database\_scheduled\_action
+* oci\_database\_exadata\_infrastructure\_configure\_exascale\_management
 
 database_migration
     
