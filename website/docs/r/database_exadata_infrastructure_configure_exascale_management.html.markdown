@@ -1,28 +1,25 @@
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_exadata_infrastructure"
-sidebar_current: "docs-oci-datasource-database-exadata_infrastructure"
+page_title: "Oracle Cloud Infrastructure: oci_database_exadata_infrastructure_configure_exascale_management"
+sidebar_current: "docs-oci-resource-database-exadata_infrastructure_configure_exascale_management"
 description: |-
-  Provides details about a specific Exadata Infrastructure in Oracle Cloud Infrastructure Database service
+  Provides the Exadata Infrastructure Configure Exascale Management resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_exadata_infrastructure
-This data source provides details about a specific Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
+# oci_database_exadata_infrastructure_configure_exascale_management
+This resource provides the Exadata Infrastructure Configure Exascale Management resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified Exadata infrastructure. Applies to Exadata Cloud@Customer instances only.
-To get information on an Exadata Cloud Service infrastructure resource, use the  [GetCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/GetCloudExadataInfrastructure) operation.
+Configures Exascale on Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
+resource "oci_database_exadata_infrastructure_configure_exascale_management" "test_exadata_infrastructure_configure_exascale_management" {
 	#Required
 	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-
-	#Optional
-	excluded_fields = var.exadata_infrastructure_excluded_fields
+	total_storage_in_gbs = var.exadata_infrastructure_configure_exascale_management_total_storage_in_gbs
 }
 ```
 
@@ -31,8 +28,11 @@ data "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 The following arguments are supported:
 
 * `exadata_infrastructure_id` - (Required) The Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `excluded_fields` - (Optional) If provided, the specified fields will be excluded in the response.
+* `total_storage_in_gbs` - (Required) Storage size needed for Exascale in GBs.
 
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
 
@@ -48,7 +48,6 @@ The following attributes are exported:
 * `cloud_control_plane_server2` - The IP address for the second control plane server.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the Exadata infrastructure.
-* `compute_model` - The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
 	* `is_contact_mos_validated` - If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
@@ -59,7 +58,6 @@ The following attributes are exported:
 * `cpus_enabled` - The number of enabled CPU cores.
 * `csi_number` - The CSI Number of the Exadata infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
-* `database_server_type` - The database server type of the Exadata infrastructure.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the Exadata infrastructure.
 * `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
@@ -86,8 +84,7 @@ The following attributes are exported:
 	* `custom_action_timeout_in_mins` - Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). 
 	* `days_of_week` - Days during the week when maintenance should be performed.
 		* `name` - Name of the day of the week.
-	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
-		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are - 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
 	* `is_monthly_patching_enabled` - If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
@@ -97,6 +94,7 @@ The following attributes are exported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
+	* `skip_ru` - If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `max_cpu_count` - The total number of CPU cores available.
 * `max_data_storage_in_tbs` - The total available DATA disk group size.
@@ -106,7 +104,7 @@ The following attributes are exported:
 * `monthly_db_server_version` - The monthly software version of the database servers (dom0) in the Exadata infrastructure.
 * `multi_rack_configuration_file` - The base64 encoded Multi-Rack configuration json file.
 * `netmask` - The netmask for the control plane network.
-* `network_bonding_mode_details` - Details of bonding mode for Client and Backup and DR networks of an Exadata infrastructure.
+* `network_bonding_mode_details` - Details of bonding mode for Client and Backup and DR networks of an Exadata infrastructure. 
 	* `backup_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
 	* `client_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
 	* `dr_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
@@ -115,8 +113,23 @@ The following attributes are exported:
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.
-* `storage_server_type` - The storage server type of the Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the Exadata infrastructure.
 * `time_created` - The date and time the Exadata infrastructure was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Exadata Infrastructure Configure Exascale Management
+	* `update` - (Defaults to 20 minutes), when updating the Exadata Infrastructure Configure Exascale Management
+	* `delete` - (Defaults to 20 minutes), when destroying the Exadata Infrastructure Configure Exascale Management
+
+
+## Import
+
+ExadataInfrastructureConfigureExascaleManagement can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_exadata_infrastructure_configure_exascale_management.test_exadata_infrastructure_configure_exascale_management "id"
+```
 

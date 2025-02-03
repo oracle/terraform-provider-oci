@@ -158,6 +158,12 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	s.D.Set("dns_server", s.Res.DnsServer)
 
+	if s.Res.ExascaleConfig != nil {
+		s.D.Set("exascale_config", []interface{}{ExascaleConfigDetailsToMap(s.Res.ExascaleConfig)})
+	} else {
+		s.D.Set("exascale_config", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Gateway != nil {

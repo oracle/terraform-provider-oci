@@ -187,6 +187,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"exascale_db_storage_vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"file_system_configuration_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -253,6 +257,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				},
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_management_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -414,6 +422,10 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
 
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
+	}
+
 	fileSystemConfigurationDetails := []interface{}{}
 	for _, item := range s.Res.FileSystemConfigurationDetails {
 		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -455,6 +467,8 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
 
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)

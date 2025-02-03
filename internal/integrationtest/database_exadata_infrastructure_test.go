@@ -452,6 +452,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.dns_server.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.exascale_config.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.gateway", "10.32.88.6"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.id"),
@@ -527,6 +528,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_server.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "exascale_config.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "gateway", "10.32.88.6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

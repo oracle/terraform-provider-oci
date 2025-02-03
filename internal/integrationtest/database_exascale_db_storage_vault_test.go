@@ -32,6 +32,8 @@ var (
 	DatabaseExascaleDbStorageVaultRequiredOnlyResource = DatabaseExascaleDbStorageVaultResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageVaultRepresentation)
 
+	DatabaseExascaleDbStorageExaccVaultResource = DatabaseExascaleDbStorageExaccVaultResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Optional, acctest.Create, DatabaseExascaleDbStorageExaccVaultRepresentation)
 	DatabaseExascaleDbStorageVaultResourceConfig = DatabaseExascaleDbStorageVaultResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Optional, acctest.Update, DatabaseExascaleDbStorageVaultRepresentation)
 
@@ -69,12 +71,32 @@ var (
 		"total_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `800`, Update: `1600`},
 	}
 
+	DatabaseExascaleDbStorageExaccVaultRepresentation = map[string]interface{}{
+		"availability_domain":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `TFExascaleDbStorageVault`, Update: `TFExascaleDbStorageVaultUpdatedName`},
+		"exadata_infrastructure_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure_configure_exascale_management.test_exadata_infrastructure_configure_exascale_management.id}`},
+		"high_capacity_database_storage": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExascaleDbStorageExaccVaultHighCapacityDatabaseStorageRepresentation},
+		"description":                    acctest.Representation{RepType: acctest.Optional, Create: `ExaScale DB Storage Vault - description`, Update: `ExaScale DB Storage Vault - updated description`},
+		"time_zone":                      acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"example-tag-namespace-all.example-tag": "value"}, Update: map[string]string{"example-tag-namespace-all.example-tag": "updatedValue"}},
+		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExascaleDbStorageIgnoreDefinedTagsRepresentation},
+	}
+
+	DatabaseExascaleDbStorageExaccVaultHighCapacityDatabaseStorageRepresentation = map[string]interface{}{
+		"total_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `2048`, Update: `2500`},
+	}
+
 	DatabaseExascaleDbStorageIgnoreDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	ClusterPlacementGroupIdDependency                  = `variable "cpg_id" {}`
-	DatabaseExascaleDbStorageVaultResourceDependencies = AvailabilityDomainConfig + ClusterPlacementGroupIdDependency
+	DatabaseExascaleDbStorageVaultResourceDependencies = AvailabilityDomainConfig
+
+	DatabaseExascaleDbStorageExaccVaultResourceDependencies = DatabaseExadataInfrastructureConfigureExascaleManagementResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure_configure_exascale_management", "test_exadata_infrastructure_configure_exascale_management", acctest.Required, acctest.Create, DatabaseExadataInfrastructureConfigureExascaleManagementRepresentation)
 )
 
 // issue-routing-tag: database/ExaCS
@@ -282,6 +304,64 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:                  config + DatabaseExascaleDbStorageVaultRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestDatabaseExascaleDbStorageExaccVaultResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseExascaleDbStorageExaccVaultResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_exascale_db_storage_vault.test_exascale_db_storage_vault"
+
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExascaleDbStorageExaccVaultResourceDependencies+AvailabilityDomainConfig+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Optional, acctest.Create, DatabaseExascaleDbStorageExaccVaultRepresentation), "database", "exascaleDbStorageVault", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseExascaleDbStorageVaultDestroy, []resource.TestStep{
+		// verify EXACC vault
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExascaleDbStorageExaccVaultResourceDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageExaccVaultRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExascaleDbStorageVault"),
+				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.0.total_size_in_gbs", "2048"),
+				resource.TestCheckResourceAttr(resourceName, "description", "TFExascaleDbStorageVault"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + DatabaseExascaleDbStorageExaccVaultResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

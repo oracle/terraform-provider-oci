@@ -598,6 +598,15 @@ var exportDatabaseScheduledActionHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseExadataInfrastructureConfigureExascaleManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_exadata_infrastructure_configure_exascale_management",
+	ResourceAbbreviation: "exadata_infrastructure_configure_exascale_management",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
+		string(oci_database.ExadataInfrastructureLifecycleStateActive),
+	},
+}
+
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
