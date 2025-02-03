@@ -176,6 +176,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
 		}
 
+		if r.ExascaleDbStorageVaultId != nil {
+			vmCluster["exascale_db_storage_vault_id"] = *r.ExascaleDbStorageVaultId
+		}
+
 		fileSystemConfigurationDetails := []interface{}{}
 		for _, item := range r.FileSystemConfigurationDetails {
 			fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -225,6 +229,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 		vmCluster["ssh_public_keys"] = r.SshPublicKeys
 
 		vmCluster["state"] = r.LifecycleState
+
+		vmCluster["storage_management_type"] = r.StorageManagementType
 
 		if r.SystemVersion != nil {
 			vmCluster["system_version"] = *r.SystemVersion

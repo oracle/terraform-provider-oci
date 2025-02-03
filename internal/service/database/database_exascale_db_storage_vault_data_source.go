@@ -94,6 +94,10 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExadataInfrastructureId != nil {
+		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HighCapacityDatabaseStorage != nil {
