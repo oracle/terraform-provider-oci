@@ -1,4 +1,4 @@
-## 6.25.0 (Unreleased)
+## 6.25.0 (February 05, 2025)
 
 ### Added
 - Support for MHS - DB system database mode and access mode
