@@ -110,8 +110,7 @@ var (
 		"name": acctest.Representation{RepType: acctest.Required, Create: `NOVEMBER`, Update: `DECEMBER`},
 	}
 
-	DatabaseCloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig +
-		DefinedTagsDependencies
+	DatabaseCloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/ExaCS
@@ -307,13 +306,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compute_count", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_file_system_configurations.#", "9"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_file_system_configurations.#", "0"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.db_server_version"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.is_scheduling_policy_associated"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.last_maintenance_run_id"), // null for fake resource
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.custom_action_timeout_in_mins", "11"),
@@ -352,13 +352,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "9"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "0"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_server_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_scheduling_policy_associated"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_maintenance_run_id"), // null for fake resource
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.custom_action_timeout_in_mins", "11"),

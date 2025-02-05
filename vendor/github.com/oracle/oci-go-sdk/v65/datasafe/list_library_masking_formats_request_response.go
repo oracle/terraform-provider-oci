@@ -352,18 +352,24 @@ type ListLibraryMaskingFormatsSortByEnum string
 
 // Set of constants representing the allowable values for ListLibraryMaskingFormatsSortByEnum
 const (
-	ListLibraryMaskingFormatsSortByDisplayname ListLibraryMaskingFormatsSortByEnum = "displayName"
-	ListLibraryMaskingFormatsSortByTimecreated ListLibraryMaskingFormatsSortByEnum = "timeCreated"
+	ListLibraryMaskingFormatsSortByDisplayname    ListLibraryMaskingFormatsSortByEnum = "displayName"
+	ListLibraryMaskingFormatsSortByTimecreated    ListLibraryMaskingFormatsSortByEnum = "timeCreated"
+	ListLibraryMaskingFormatsSortByTimeupdated    ListLibraryMaskingFormatsSortByEnum = "timeUpdated"
+	ListLibraryMaskingFormatsSortByLifecyclestate ListLibraryMaskingFormatsSortByEnum = "lifecycleState"
 )
 
 var mappingListLibraryMaskingFormatsSortByEnum = map[string]ListLibraryMaskingFormatsSortByEnum{
-	"displayName": ListLibraryMaskingFormatsSortByDisplayname,
-	"timeCreated": ListLibraryMaskingFormatsSortByTimecreated,
+	"displayName":    ListLibraryMaskingFormatsSortByDisplayname,
+	"timeCreated":    ListLibraryMaskingFormatsSortByTimecreated,
+	"timeUpdated":    ListLibraryMaskingFormatsSortByTimeupdated,
+	"lifecycleState": ListLibraryMaskingFormatsSortByLifecyclestate,
 }
 
 var mappingListLibraryMaskingFormatsSortByEnumLowerCase = map[string]ListLibraryMaskingFormatsSortByEnum{
-	"displayname": ListLibraryMaskingFormatsSortByDisplayname,
-	"timecreated": ListLibraryMaskingFormatsSortByTimecreated,
+	"displayname":    ListLibraryMaskingFormatsSortByDisplayname,
+	"timecreated":    ListLibraryMaskingFormatsSortByTimecreated,
+	"timeupdated":    ListLibraryMaskingFormatsSortByTimeupdated,
+	"lifecyclestate": ListLibraryMaskingFormatsSortByLifecyclestate,
 }
 
 // GetListLibraryMaskingFormatsSortByEnumValues Enumerates the set of values for ListLibraryMaskingFormatsSortByEnum
@@ -380,6 +386,8 @@ func GetListLibraryMaskingFormatsSortByEnumStringValues() []string {
 	return []string{
 		"displayName",
 		"timeCreated",
+		"timeUpdated",
+		"lifecycleState",
 	}
 }
 

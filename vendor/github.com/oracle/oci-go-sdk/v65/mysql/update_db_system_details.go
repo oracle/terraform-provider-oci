@@ -27,6 +27,20 @@ type UpdateDbSystemDetails struct {
 	// The OCID of the subnet the DB System is associated with.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The database mode indicating the types of statements that will be allowed to run in the DB system.
+	// This mode will apply only to statements run by user connections. Replicated write statements will continue
+	// to be allowed regardless of the DatabaseMode.
+	//   - READ_WRITE: allow running read and write statements on the DB system;
+	//   - READ_ONLY: only allow running read statements on the DB system.
+	DatabaseMode DbSystemDatabaseModeEnum `mandatory:"false" json:"databaseMode,omitempty"`
+
+	// The access mode indicating if the database access will be restricted only to administrators or not:
+	//  - UNRESTRICTED: the access to the database is not restricted;
+	//  - RESTRICTED: the access will be allowed only to users with specific privileges;
+	//    RESTRICTED will correspond to setting the MySQL system variable
+	//    offline_mode (https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON.
+	AccessMode DbSystemAccessModeEnum `mandatory:"false" json:"accessMode,omitempty"`
+
 	// Specifies if the DB System is highly available.
 	// Set to true to enable high availability. Two secondary MySQL instances are created and placed in the unused
 	// availability or fault domains, depending on your region and subnet type.
@@ -129,6 +143,8 @@ type UpdateDbSystemDetails struct {
 	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
 	// Up to 10 email addresses can be added to the customer contacts for a DB System.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	ReadEndpoint *UpdateReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m UpdateDbSystemDetails) String() string {
@@ -141,6 +157,12 @@ func (m UpdateDbSystemDetails) String() string {
 func (m UpdateDbSystemDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDbSystemDatabaseModeEnum(string(m.DatabaseMode)); !ok && m.DatabaseMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseMode: %s. Supported values are: %s.", m.DatabaseMode, strings.Join(GetDbSystemDatabaseModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemAccessModeEnum(string(m.AccessMode)); !ok && m.AccessMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessMode: %s. Supported values are: %s.", m.AccessMode, strings.Join(GetDbSystemAccessModeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCrashRecoveryStatusEnum(string(m.CrashRecovery)); !ok && m.CrashRecovery != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
 	}

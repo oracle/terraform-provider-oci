@@ -91,6 +91,14 @@ type ListUsersRequest struct {
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimePasswordLastChangedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timePasswordLastChangedLessThan"`
 
+	// A filter to return users whose password expiry date in the database is greater than or equal to the date and time specified, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// **Example:** 2016-12-19T16:39:57.600Z
+	TimePasswordExpiryGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timePasswordExpiryGreaterThanOrEqualTo"`
+
+	// A filter to return users whose password expiry date in the database is less than the date and time specified, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// **Example:** 2016-12-19T16:39:57.600Z
+	TimePasswordExpiryLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timePasswordExpiryLessThan"`
+
 	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 

@@ -71,6 +71,7 @@ The following attributes are exported:
 * `id` - The OCID of the maintenance run.
 * `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
 * `is_dst_file_update_enabled` - Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
+* `is_maintenance_run_granular` - If `FALSE`, the maintenance run doesn't support granular maintenance.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_subtype` - Maintenance sub-type.
 * `maintenance_type` - Maintenance type.
@@ -91,6 +92,7 @@ The following attributes are exported:
 * `time_ended` - The date and time the maintenance run was completed.
 * `time_scheduled` - The date and time the maintenance run is scheduled to occur.
 * `time_started` - The date and time the maintenance run starts.
+* `total_time_taken_in_mins` - The total time taken by corresponding resource activity in minutes.
 
 ## Timeouts
 

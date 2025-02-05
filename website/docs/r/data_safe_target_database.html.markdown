@@ -121,7 +121,7 @@ The following arguments are supported:
 	* `listener_port` - (Required when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The port number of the database listener.
 	* `service_name` - (Required when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The service name of the database registered as target database.
 	* `vm_cluster_id` - (Applicable when database_type=DATABASE_CLOUD_SERVICE) (Updatable) The OCID of the VM cluster in which the database is running.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the target database in Data Safe.
 * `display_name` - (Optional) (Updatable) The display name of the target database in Data Safe. The name is modifiable and does not need to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
@@ -181,7 +181,7 @@ The following attributes are exported:
 	* `listener_port` - The port number of the database listener.
 	* `service_name` - The service name of the database registered as target database.
 	* `vm_cluster_id` - The OCID of the VM cluster in which the database is running.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the target database in Data Safe.
 * `display_name` - The display name of the target database in Data Safe.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 

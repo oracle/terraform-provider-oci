@@ -166,6 +166,8 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		mysqlDbSystem["access_mode"] = r.AccessMode
+
 		if r.AvailabilityDomain != nil {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
@@ -185,6 +187,8 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 		}
 
 		mysqlDbSystem["database_management"] = r.DatabaseManagement
+
+		mysqlDbSystem["database_mode"] = r.DatabaseMode
 
 		if r.DefinedTags != nil {
 			mysqlDbSystem["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
@@ -236,6 +240,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.MysqlVersion != nil {
 			mysqlDbSystem["mysql_version"] = *r.MysqlVersion
+		}
+
+		if r.ReadEndpoint != nil {
+			mysqlDbSystem["read_endpoint"] = []interface{}{ReadEndpointDetailsToMap(r.ReadEndpoint)}
+		} else {
+			mysqlDbSystem["read_endpoint"] = nil
 		}
 
 		if r.ShapeName != nil {

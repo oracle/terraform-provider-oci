@@ -588,6 +588,8 @@ data_safe
 * oci\_data\_safe\_sql\_firewall\_policy
 * oci\_data\_safe\_sql\_collection
 * oci\_data\_safe\_target\_database\_peer\_target\_database
+* oci\_data\_safe\_sensitive\_types\_export
+* oci\_data\_safe\_sensitive\_data\_model\_referential\_relation
 * oci\_data\_safe\_calculate\_audit\_volume\_available
 * oci\_data\_safe\_calculate\_audit\_volume\_collected
 
@@ -626,6 +628,12 @@ database
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 * oci\_database\_autonomous\_database\_software\_image
+* oci\_database\_execution\_window
+* oci\_database\_scheduling\_plan
+* oci\_database\_scheduling\_policy\_scheduling\_window
+* oci\_database\_scheduling\_policy
+* oci\_database\_execution\_action
+* oci\_database\_scheduled\_action
 
 database_migration
     
@@ -679,6 +687,7 @@ datascience
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
+* oci\_datascience\_schedule
 
 demand_signal
     

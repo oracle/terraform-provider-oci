@@ -89,6 +89,11 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     window_start_time = "01:00-00:00"
   }
 
+  #Optional
+  read_endpoint {
+    is_enabled       = "false"
+  }
+
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.mysql_defined_tags_value}"}
   #freeform_tags = var.mysql_freeform_tags
   description = "MySQL Database Service"
@@ -110,6 +115,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     backup_id   = oci_mysql_mysql_backup.test_mysql_backup.id
     source_type = "BACKUP"
   }
+
+  #Optional
+  access_mode = "UNRESTRICTED"
+  database_mode = "READ_WRITE"
 
   #Optional
   crash_recovery = "ENABLED"

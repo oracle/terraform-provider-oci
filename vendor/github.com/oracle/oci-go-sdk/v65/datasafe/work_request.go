@@ -202,6 +202,9 @@ const (
 	WorkRequestOperationTypeApplyDifference                           WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
 	WorkRequestOperationTypeMaskPolicyGenerateHealthReport            WorkRequestOperationTypeEnum = "MASK_POLICY_GENERATE_HEALTH_REPORT"
 	WorkRequestOperationTypeMaskPolicyDeleteHealthReport              WorkRequestOperationTypeEnum = "MASK_POLICY_DELETE_HEALTH_REPORT"
+	WorkRequestOperationTypeCreateSensitiveTypesExport                WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPES_EXPORT"
+	WorkRequestOperationTypeUpdateSensitiveTypesExport                WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPES_EXPORT"
+	WorkRequestOperationTypeBulkCreateSensitiveTypes                  WorkRequestOperationTypeEnum = "BULK_CREATE_SENSITIVE_TYPES"
 	WorkRequestOperationTypeAbortMasking                              WorkRequestOperationTypeEnum = "ABORT_MASKING"
 	WorkRequestOperationTypeCreateSecurityPolicyReport                WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
 	WorkRequestOperationTypeRefreshSecurityPolicyCache                WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
@@ -349,6 +352,9 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"APPLY_DIFFERENCE":                              WorkRequestOperationTypeApplyDifference,
 	"MASK_POLICY_GENERATE_HEALTH_REPORT":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
 	"MASK_POLICY_DELETE_HEALTH_REPORT":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
+	"CREATE_SENSITIVE_TYPES_EXPORT":                 WorkRequestOperationTypeCreateSensitiveTypesExport,
+	"UPDATE_SENSITIVE_TYPES_EXPORT":                 WorkRequestOperationTypeUpdateSensitiveTypesExport,
+	"BULK_CREATE_SENSITIVE_TYPES":                   WorkRequestOperationTypeBulkCreateSensitiveTypes,
 	"ABORT_MASKING":                                 WorkRequestOperationTypeAbortMasking,
 	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
@@ -496,6 +502,9 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"apply_difference":                              WorkRequestOperationTypeApplyDifference,
 	"mask_policy_generate_health_report":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
 	"mask_policy_delete_health_report":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
+	"create_sensitive_types_export":                 WorkRequestOperationTypeCreateSensitiveTypesExport,
+	"update_sensitive_types_export":                 WorkRequestOperationTypeUpdateSensitiveTypesExport,
+	"bulk_create_sensitive_types":                   WorkRequestOperationTypeBulkCreateSensitiveTypes,
 	"abort_masking":                                 WorkRequestOperationTypeAbortMasking,
 	"create_security_policy_report":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"refresh_security_policy_cache":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
@@ -654,6 +663,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"APPLY_DIFFERENCE",
 		"MASK_POLICY_GENERATE_HEALTH_REPORT",
 		"MASK_POLICY_DELETE_HEALTH_REPORT",
+		"CREATE_SENSITIVE_TYPES_EXPORT",
+		"UPDATE_SENSITIVE_TYPES_EXPORT",
+		"BULK_CREATE_SENSITIVE_TYPES",
 		"ABORT_MASKING",
 		"CREATE_SECURITY_POLICY_REPORT",
 		"REFRESH_SECURITY_POLICY_CACHE",

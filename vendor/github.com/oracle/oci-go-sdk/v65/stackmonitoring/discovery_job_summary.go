@@ -119,6 +119,10 @@ const (
 	DiscoveryJobSummaryResourceTypeCustomResource   DiscoveryJobSummaryResourceTypeEnum = "CUSTOM_RESOURCE"
 	DiscoveryJobSummaryResourceTypeOracleHttpServer DiscoveryJobSummaryResourceTypeEnum = "ORACLE_HTTP_SERVER"
 	DiscoveryJobSummaryResourceTypeMicrosoftIis     DiscoveryJobSummaryResourceTypeEnum = "MICROSOFT_IIS"
+	DiscoveryJobSummaryResourceTypeNginx            DiscoveryJobSummaryResourceTypeEnum = "NGINX"
+	DiscoveryJobSummaryResourceTypeJbossServer      DiscoveryJobSummaryResourceTypeEnum = "JBOSS_SERVER"
+	DiscoveryJobSummaryResourceTypeJbossDomain      DiscoveryJobSummaryResourceTypeEnum = "JBOSS_DOMAIN"
+	DiscoveryJobSummaryResourceTypeOracleJvm        DiscoveryJobSummaryResourceTypeEnum = "ORACLE_JVM"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -138,6 +142,10 @@ var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryR
 	"CUSTOM_RESOURCE":    DiscoveryJobSummaryResourceTypeCustomResource,
 	"ORACLE_HTTP_SERVER": DiscoveryJobSummaryResourceTypeOracleHttpServer,
 	"MICROSOFT_IIS":      DiscoveryJobSummaryResourceTypeMicrosoftIis,
+	"NGINX":              DiscoveryJobSummaryResourceTypeNginx,
+	"JBOSS_SERVER":       DiscoveryJobSummaryResourceTypeJbossServer,
+	"JBOSS_DOMAIN":       DiscoveryJobSummaryResourceTypeJbossDomain,
+	"ORACLE_JVM":         DiscoveryJobSummaryResourceTypeOracleJvm,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -157,6 +165,10 @@ var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJo
 	"custom_resource":    DiscoveryJobSummaryResourceTypeCustomResource,
 	"oracle_http_server": DiscoveryJobSummaryResourceTypeOracleHttpServer,
 	"microsoft_iis":      DiscoveryJobSummaryResourceTypeMicrosoftIis,
+	"nginx":              DiscoveryJobSummaryResourceTypeNginx,
+	"jboss_server":       DiscoveryJobSummaryResourceTypeJbossServer,
+	"jboss_domain":       DiscoveryJobSummaryResourceTypeJbossDomain,
+	"oracle_jvm":         DiscoveryJobSummaryResourceTypeOracleJvm,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -187,6 +199,10 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"CUSTOM_RESOURCE",
 		"ORACLE_HTTP_SERVER",
 		"MICROSOFT_IIS",
+		"NGINX",
+		"JBOSS_SERVER",
+		"JBOSS_DOMAIN",
+		"ORACLE_JVM",
 	}
 }
 
