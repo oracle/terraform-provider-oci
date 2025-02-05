@@ -52,6 +52,12 @@ type MaskingPolicyHealthReport struct {
 
 	// The description of the masking health report.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The count of errors in the masking health report.
+	ErrorCount *int64 `mandatory:"false" json:"errorCount"`
+
+	// The count of warnings in the masking health report.
+	WarningCount *int64 `mandatory:"false" json:"warningCount"`
 }
 
 func (m MaskingPolicyHealthReport) String() string {

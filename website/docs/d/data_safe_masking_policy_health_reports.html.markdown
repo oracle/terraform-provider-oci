@@ -55,9 +55,10 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the health report.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the masking health report.
 * `display_name` - The display name of the health report.
+* `error_count` - The count of errors in the masking health report.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the health report.
 * `masking_policy_id` - The OCID of the masking policy.
@@ -65,4 +66,5 @@ The following attributes are exported:
 * `target_id` - The OCID of the target database for which this report was created.
 * `time_created` - The date and time the report was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 * `time_updated` - The date and time the report was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339)  
+* `warning_count` - The count of warnings in the masking health report.
 

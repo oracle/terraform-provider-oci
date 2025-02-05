@@ -21,7 +21,7 @@ type UpdateAuditProfileDetails struct {
 	// The description of the audit profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The display name of the audit profile. The name does not have to be unique, and it's changeable.
+	// The display name of the audit profile. The name does not have to be unique, and it's updatable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Indicates if you want to continue collecting audit records beyond the free limit of one million audit records per month per target database,

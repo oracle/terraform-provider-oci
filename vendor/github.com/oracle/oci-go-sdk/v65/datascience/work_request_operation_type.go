@@ -42,6 +42,12 @@ const (
 	WorkRequestOperationTypePrivateEndpointDelete     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 	WorkRequestOperationTypePrivateEndpointMove       WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
 	WorkRequestOperationTypePrivateEndpointUpdate     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
+	WorkRequestOperationTypeScheduleCreate            WorkRequestOperationTypeEnum = "SCHEDULE_CREATE"
+	WorkRequestOperationTypeScheduleUpdate            WorkRequestOperationTypeEnum = "SCHEDULE_UPDATE"
+	WorkRequestOperationTypeScheduleDelete            WorkRequestOperationTypeEnum = "SCHEDULE_DELETE"
+	WorkRequestOperationTypeScheduleMove              WorkRequestOperationTypeEnum = "SCHEDULE_MOVE"
+	WorkRequestOperationTypeScheduleActivate          WorkRequestOperationTypeEnum = "SCHEDULE_ACTIVATE"
+	WorkRequestOperationTypeScheduleDeactivate        WorkRequestOperationTypeEnum = "SCHEDULE_DEACTIVATE"
 	WorkRequestOperationTypeRestoreArchivedModel      WorkRequestOperationTypeEnum = "RESTORE_ARCHIVED_MODEL"
 )
 
@@ -70,6 +76,12 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PRIVATE_ENDPOINT_DELETE":     WorkRequestOperationTypePrivateEndpointDelete,
 	"PRIVATE_ENDPOINT_MOVE":       WorkRequestOperationTypePrivateEndpointMove,
 	"PRIVATE_ENDPOINT_UPDATE":     WorkRequestOperationTypePrivateEndpointUpdate,
+	"SCHEDULE_CREATE":             WorkRequestOperationTypeScheduleCreate,
+	"SCHEDULE_UPDATE":             WorkRequestOperationTypeScheduleUpdate,
+	"SCHEDULE_DELETE":             WorkRequestOperationTypeScheduleDelete,
+	"SCHEDULE_MOVE":               WorkRequestOperationTypeScheduleMove,
+	"SCHEDULE_ACTIVATE":           WorkRequestOperationTypeScheduleActivate,
+	"SCHEDULE_DEACTIVATE":         WorkRequestOperationTypeScheduleDeactivate,
 	"RESTORE_ARCHIVED_MODEL":      WorkRequestOperationTypeRestoreArchivedModel,
 }
 
@@ -98,6 +110,12 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"private_endpoint_delete":     WorkRequestOperationTypePrivateEndpointDelete,
 	"private_endpoint_move":       WorkRequestOperationTypePrivateEndpointMove,
 	"private_endpoint_update":     WorkRequestOperationTypePrivateEndpointUpdate,
+	"schedule_create":             WorkRequestOperationTypeScheduleCreate,
+	"schedule_update":             WorkRequestOperationTypeScheduleUpdate,
+	"schedule_delete":             WorkRequestOperationTypeScheduleDelete,
+	"schedule_move":               WorkRequestOperationTypeScheduleMove,
+	"schedule_activate":           WorkRequestOperationTypeScheduleActivate,
+	"schedule_deactivate":         WorkRequestOperationTypeScheduleDeactivate,
 	"restore_archived_model":      WorkRequestOperationTypeRestoreArchivedModel,
 }
 
@@ -137,6 +155,12 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PRIVATE_ENDPOINT_DELETE",
 		"PRIVATE_ENDPOINT_MOVE",
 		"PRIVATE_ENDPOINT_UPDATE",
+		"SCHEDULE_CREATE",
+		"SCHEDULE_UPDATE",
+		"SCHEDULE_DELETE",
+		"SCHEDULE_MOVE",
+		"SCHEDULE_ACTIVATE",
+		"SCHEDULE_DEACTIVATE",
 		"RESTORE_ARCHIVED_MODEL",
 	}
 }

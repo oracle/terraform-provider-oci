@@ -94,7 +94,7 @@ The following attributes are exported:
 * `connect_time` - Specify the total elapsed time limit for a session, expressed in minutes.
 * `cpu_per_call` - Specify the CPU time limit for a call (a parse, execute, or fetch), expressed in hundredths of seconds.
 * `cpu_per_session` - Specify the CPU time limit for a session, expressed in hundredth of seconds.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}`
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
 * `failed_login_attempts` - Maximum times the user is allowed in fail login before the user account is locked.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`
 * `idle_time` - Specify the permitted periods of continuous inactive time during a  session, expressed in minutes.

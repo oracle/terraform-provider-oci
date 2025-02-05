@@ -111,6 +111,8 @@ type DbSystemSnapshot struct {
 	// The region identifier of the region where the DB system exists.
 	// For more information, please see Regions and Availability Domains (https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
 	Region *string `mandatory:"false" json:"region"`
+
+	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m DbSystemSnapshot) String() string {

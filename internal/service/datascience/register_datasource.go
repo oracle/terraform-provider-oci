@@ -6,6 +6,7 @@ package datascience
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_datascience_containers", DatascienceContainersDataSource())
 	tfresource.RegisterDatasource("oci_datascience_private_endpoint", DatasciencePrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_datascience_private_endpoints", DatasciencePrivateEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_fast_launch_job_configs", DatascienceFastLaunchJobConfigsDataSource())
@@ -31,4 +32,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_datascience_pipelines", DatasciencePipelinesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_project", DatascienceProjectDataSource())
 	tfresource.RegisterDatasource("oci_datascience_projects", DatascienceProjectsDataSource())
+	tfresource.RegisterDatasource("oci_datascience_schedule", DatascienceScheduleDataSource())
+	tfresource.RegisterDatasource("oci_datascience_schedules", DatascienceSchedulesDataSource())
 }

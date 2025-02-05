@@ -1,3 +1,13 @@
+## 6.25.0 (February 05, 2025)
+
+### Added
+- Support for MHS - DB system database mode and access mode
+- Export and import of user defined sensitive types in Data Safe
+- Support for Data Science Scheduler
+- Support for MHS Persistent read load balancer endpoint
+- Support for OCI Data Science List Service Managed Container Endpoint
+- Support for ExaDB-C@C Granular Maintenance Scheduling support for Exadata Infrastructure Components Phase 2 InfraPatching
+
 ## 6.24.0 (January 29, 2025)
 
 ### Added

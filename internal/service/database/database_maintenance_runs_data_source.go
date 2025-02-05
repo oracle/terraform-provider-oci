@@ -190,6 +190,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["is_dst_file_update_enabled"] = *r.IsDstFileUpdateEnabled
 		}
 
+		if r.IsMaintenanceRunGranular != nil {
+			maintenanceRun["is_maintenance_run_granular"] = *r.IsMaintenanceRunGranular
+		}
+
 		if r.LifecycleDetails != nil {
 			maintenanceRun["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -248,6 +252,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 
 		if r.TimeStarted != nil {
 			maintenanceRun["time_started"] = r.TimeStarted.String()
+		}
+
+		if r.TotalTimeTakenInMins != nil {
+			maintenanceRun["total_time_taken_in_mins"] = *r.TotalTimeTakenInMins
 		}
 
 		resources = append(resources, maintenanceRun)

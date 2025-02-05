@@ -54,7 +54,7 @@ The following attributes are exported:
 * `items` - An array of masking analytics summary objects.
 	* `count` - The total count for the aggregation metric.
 	* `dimensions` - The scope of analytics data.
-		* `policy_id` - The OCID of the masking policy..
+		* `policy_id` - The OCID of the masking policy.
 		* `target_id` - The OCID of the target database.
 	* `metric_name` - The name of the aggregation metric.
 
