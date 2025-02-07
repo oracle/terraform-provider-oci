@@ -61,6 +61,10 @@ type LdapBindAccount struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the password for the LDAP bind account in the Vault.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
@@ -114,6 +118,11 @@ func (m LdapBindAccount) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m LdapBindAccount) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m LdapBindAccount) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m LdapBindAccount) String() string {

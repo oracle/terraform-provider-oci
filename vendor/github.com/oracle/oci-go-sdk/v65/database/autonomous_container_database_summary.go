@@ -119,6 +119,14 @@ type AutonomousContainerDatabaseSummary struct {
 
 	BackupConfig *AutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
 
+	// This list describes the backup destination properties associated with the Autonomous Container Database (ACD) 's preferred backup destination. The object at a given index is associated with the destination present at the same index in the backup destination details list of the ACD Backup Configuration.
+	BackupDestinationPropertiesList []BackupDestinationProperties `mandatory:"false" json:"backupDestinationPropertiesList"`
+
+	// A backup config object holds information about preferred backup destinations only. This object holds information about the associated backup destinations, such as secondary backup destinations created for local backups or remote replicated backups.
+	AssociatedBackupConfigurationDetails []BackupDestinationConfigurationSummary `mandatory:"false" json:"associatedBackupConfigurationDetails"`
+
+	RecoveryApplianceDetails *RecoveryApplianceDetails `mandatory:"false" json:"recoveryApplianceDetails"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 

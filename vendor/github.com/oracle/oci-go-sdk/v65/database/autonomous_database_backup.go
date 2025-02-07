@@ -111,21 +111,30 @@ type AutonomousDatabaseBackupTypeEnum string
 
 // Set of constants representing the allowable values for AutonomousDatabaseBackupTypeEnum
 const (
-	AutonomousDatabaseBackupTypeIncremental AutonomousDatabaseBackupTypeEnum = "INCREMENTAL"
-	AutonomousDatabaseBackupTypeFull        AutonomousDatabaseBackupTypeEnum = "FULL"
-	AutonomousDatabaseBackupTypeLongterm    AutonomousDatabaseBackupTypeEnum = "LONGTERM"
+	AutonomousDatabaseBackupTypeIncremental           AutonomousDatabaseBackupTypeEnum = "INCREMENTAL"
+	AutonomousDatabaseBackupTypeFull                  AutonomousDatabaseBackupTypeEnum = "FULL"
+	AutonomousDatabaseBackupTypeLongterm              AutonomousDatabaseBackupTypeEnum = "LONGTERM"
+	AutonomousDatabaseBackupTypeVirtualFull           AutonomousDatabaseBackupTypeEnum = "VIRTUAL_FULL"
+	AutonomousDatabaseBackupTypeCumulativeIncremental AutonomousDatabaseBackupTypeEnum = "CUMULATIVE_INCREMENTAL"
+	AutonomousDatabaseBackupTypeRollForwardImageCopy  AutonomousDatabaseBackupTypeEnum = "ROLL_FORWARD_IMAGE_COPY"
 )
 
 var mappingAutonomousDatabaseBackupTypeEnum = map[string]AutonomousDatabaseBackupTypeEnum{
-	"INCREMENTAL": AutonomousDatabaseBackupTypeIncremental,
-	"FULL":        AutonomousDatabaseBackupTypeFull,
-	"LONGTERM":    AutonomousDatabaseBackupTypeLongterm,
+	"INCREMENTAL":             AutonomousDatabaseBackupTypeIncremental,
+	"FULL":                    AutonomousDatabaseBackupTypeFull,
+	"LONGTERM":                AutonomousDatabaseBackupTypeLongterm,
+	"VIRTUAL_FULL":            AutonomousDatabaseBackupTypeVirtualFull,
+	"CUMULATIVE_INCREMENTAL":  AutonomousDatabaseBackupTypeCumulativeIncremental,
+	"ROLL_FORWARD_IMAGE_COPY": AutonomousDatabaseBackupTypeRollForwardImageCopy,
 }
 
 var mappingAutonomousDatabaseBackupTypeEnumLowerCase = map[string]AutonomousDatabaseBackupTypeEnum{
-	"incremental": AutonomousDatabaseBackupTypeIncremental,
-	"full":        AutonomousDatabaseBackupTypeFull,
-	"longterm":    AutonomousDatabaseBackupTypeLongterm,
+	"incremental":             AutonomousDatabaseBackupTypeIncremental,
+	"full":                    AutonomousDatabaseBackupTypeFull,
+	"longterm":                AutonomousDatabaseBackupTypeLongterm,
+	"virtual_full":            AutonomousDatabaseBackupTypeVirtualFull,
+	"cumulative_incremental":  AutonomousDatabaseBackupTypeCumulativeIncremental,
+	"roll_forward_image_copy": AutonomousDatabaseBackupTypeRollForwardImageCopy,
 }
 
 // GetAutonomousDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupTypeEnum
@@ -143,6 +152,9 @@ func GetAutonomousDatabaseBackupTypeEnumStringValues() []string {
 		"INCREMENTAL",
 		"FULL",
 		"LONGTERM",
+		"VIRTUAL_FULL",
+		"CUMULATIVE_INCREMENTAL",
+		"ROLL_FORWARD_IMAGE_COPY",
 	}
 }
 

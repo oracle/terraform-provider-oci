@@ -79,6 +79,10 @@ type Snapshot struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The time when this snapshot will be deleted.
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
 
