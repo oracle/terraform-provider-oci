@@ -69,6 +69,15 @@ type BackupDestinationSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The total storage size of the backup destination in GBs, rounded to the nearest integer.
+	TotalStorageSizeInGBs *int `mandatory:"false" json:"totalStorageSizeInGBs"`
+
+	// The total amount of space utilized on the backup destination (in GBs), rounded to the nearest integer.
+	UtilizedStorageSizeInGBs *int `mandatory:"false" json:"utilizedStorageSizeInGBs"`
+
+	// The time when the total storage size and the utilized storage size of the backup destination are updated.
+	TimeAtWhichStorageDetailsAreUpdated *common.SDKTime `mandatory:"false" json:"timeAtWhichStorageDetailsAreUpdated"`
 }
 
 func (m BackupDestinationSummary) String() string {

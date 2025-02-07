@@ -237,6 +237,9 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
+	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -634,6 +637,7 @@ func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		CloneTableSpaceList                      []int                                                             `json:"cloneTableSpaceList"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		AutonomousDatabaseBackupId               *string                                                           `json:"autonomousDatabaseBackupId"`
 		CloneType                                CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum            `json:"cloneType"`
@@ -756,6 +760,8 @@ func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (
 
 	m.SecretVersionNumber = model.SecretVersionNumber
 
+	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
+	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
 	m.CompartmentId = model.CompartmentId
 
 	m.AutonomousDatabaseBackupId = model.AutonomousDatabaseBackupId
@@ -772,16 +778,19 @@ type CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum string
 const (
 	CreateAutonomousDatabaseFromBackupDetailsCloneTypeFull     CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum = "FULL"
 	CreateAutonomousDatabaseFromBackupDetailsCloneTypeMetadata CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum = "METADATA"
+	CreateAutonomousDatabaseFromBackupDetailsCloneTypePartial  CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum = "PARTIAL"
 )
 
 var mappingCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum = map[string]CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum{
 	"FULL":     CreateAutonomousDatabaseFromBackupDetailsCloneTypeFull,
 	"METADATA": CreateAutonomousDatabaseFromBackupDetailsCloneTypeMetadata,
+	"PARTIAL":  CreateAutonomousDatabaseFromBackupDetailsCloneTypePartial,
 }
 
 var mappingCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumLowerCase = map[string]CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum{
 	"full":     CreateAutonomousDatabaseFromBackupDetailsCloneTypeFull,
 	"metadata": CreateAutonomousDatabaseFromBackupDetailsCloneTypeMetadata,
+	"partial":  CreateAutonomousDatabaseFromBackupDetailsCloneTypePartial,
 }
 
 // GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum
@@ -798,6 +807,7 @@ func GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumStringValues() []s
 	return []string{
 		"FULL",
 		"METADATA",
+		"PARTIAL",
 	}
 }
 

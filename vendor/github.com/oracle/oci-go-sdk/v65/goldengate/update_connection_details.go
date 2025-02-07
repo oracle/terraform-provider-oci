@@ -141,6 +141,34 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateGoogleCloudStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MICROSOFT_FABRIC":
+		mm := UpdateMicrosoftFabricConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := UpdatePostgresqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := UpdateMicrosoftSqlserverConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNOWFLAKE":
+		mm := UpdateSnowflakeConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := UpdateHdfsConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS":
+		mm := UpdateDatabricksConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA":
+		mm := UpdateKafkaConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := UpdateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -157,12 +185,8 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateGoldenGateConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "POSTGRESQL":
-		mm := UpdatePostgresqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MICROSOFT_SQLSERVER":
-		mm := UpdateMicrosoftSqlserverConnectionDetails{}
+	case "GOOGLE_PUBSUB":
+		mm := UpdateGooglePubSubConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_NOSQL":
@@ -177,20 +201,8 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateAmazonS3ConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "SNOWFLAKE":
-		mm := UpdateSnowflakeConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HDFS":
-		mm := UpdateHdfsConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "MYSQL":
 		mm := UpdateMysqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA":
-		mm := UpdateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DB2":
