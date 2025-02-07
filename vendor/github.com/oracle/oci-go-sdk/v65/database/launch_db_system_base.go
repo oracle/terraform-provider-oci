@@ -150,6 +150,10 @@ type LaunchDbSystemBase interface {
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	GetPrivateIp() *string
 
+	// A private IPv6 address of your choice. Must be an available IP address within the subnet's CIDR.
+	// If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet.
+	GetPrivateIpV6() *string
+
 	GetDataCollectionOptions() *DataCollectionOptions
 }
 
@@ -175,6 +179,7 @@ type launchdbsystembase struct {
 	DefinedTags                  map[string]map[string]interface{}                  `mandatory:"false" json:"definedTags"`
 	SecurityAttributes           map[string]map[string]interface{}                  `mandatory:"false" json:"securityAttributes"`
 	PrivateIp                    *string                                            `mandatory:"false" json:"privateIp"`
+	PrivateIpV6                  *string                                            `mandatory:"false" json:"privateIpV6"`
 	DataCollectionOptions        *DataCollectionOptions                             `mandatory:"false" json:"dataCollectionOptions"`
 	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
 	AvailabilityDomain           *string                                            `mandatory:"true" json:"availabilityDomain"`
@@ -224,6 +229,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.PrivateIp = s.Model.PrivateIp
+	m.PrivateIpV6 = s.Model.PrivateIpV6
 	m.DataCollectionOptions = s.Model.DataCollectionOptions
 	m.Source = s.Model.Source
 
@@ -359,6 +365,11 @@ func (m launchdbsystembase) GetSecurityAttributes() map[string]map[string]interf
 // GetPrivateIp returns PrivateIp
 func (m launchdbsystembase) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+// GetPrivateIpV6 returns PrivateIpV6
+func (m launchdbsystembase) GetPrivateIpV6() *string {
+	return m.PrivateIpV6
 }
 
 // GetDataCollectionOptions returns DataCollectionOptions

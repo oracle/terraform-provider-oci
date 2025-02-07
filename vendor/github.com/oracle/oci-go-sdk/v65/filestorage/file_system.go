@@ -69,6 +69,10 @@ type FileSystem struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key which is the master encryption key for the file system.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 

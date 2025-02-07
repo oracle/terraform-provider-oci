@@ -57,6 +57,10 @@ type OutboundConnectorSummary interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
+	GetSystemTags() map[string]map[string]interface{}
 }
 
 type outboundconnectorsummary struct {
@@ -65,6 +69,7 @@ type outboundconnectorsummary struct {
 	Locks              []ResourceLock                             `mandatory:"false" json:"locks"`
 	FreeformTags       map[string]string                          `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{}          `mandatory:"false" json:"definedTags"`
+	SystemTags         map[string]map[string]interface{}          `mandatory:"false" json:"systemTags"`
 	CompartmentId      *string                                    `mandatory:"true" json:"compartmentId"`
 	Id                 *string                                    `mandatory:"true" json:"id"`
 	LifecycleState     OutboundConnectorSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -93,6 +98,7 @@ func (m *outboundconnectorsummary) UnmarshalJSON(data []byte) error {
 	m.Locks = s.Model.Locks
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.ConnectorType = s.Model.ConnectorType
 
 	return err
@@ -135,6 +141,11 @@ func (m outboundconnectorsummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m outboundconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m outboundconnectorsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 // GetCompartmentId returns CompartmentId

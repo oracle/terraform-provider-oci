@@ -42,6 +42,9 @@ const (
 	ConnectionTypeGeneric               ConnectionTypeEnum = "GENERIC"
 	ConnectionTypeGoogleCloudStorage    ConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
 	ConnectionTypeGoogleBigquery        ConnectionTypeEnum = "GOOGLE_BIGQUERY"
+	ConnectionTypeDatabricks            ConnectionTypeEnum = "DATABRICKS"
+	ConnectionTypeGooglePubsub          ConnectionTypeEnum = "GOOGLE_PUBSUB"
+	ConnectionTypeMicrosoftFabric       ConnectionTypeEnum = "MICROSOFT_FABRIC"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
@@ -69,6 +72,9 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"GENERIC":                 ConnectionTypeGeneric,
 	"GOOGLE_CLOUD_STORAGE":    ConnectionTypeGoogleCloudStorage,
 	"GOOGLE_BIGQUERY":         ConnectionTypeGoogleBigquery,
+	"DATABRICKS":              ConnectionTypeDatabricks,
+	"GOOGLE_PUBSUB":           ConnectionTypeGooglePubsub,
+	"MICROSOFT_FABRIC":        ConnectionTypeMicrosoftFabric,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
@@ -96,6 +102,9 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"generic":                 ConnectionTypeGeneric,
 	"google_cloud_storage":    ConnectionTypeGoogleCloudStorage,
 	"google_bigquery":         ConnectionTypeGoogleBigquery,
+	"databricks":              ConnectionTypeDatabricks,
+	"google_pubsub":           ConnectionTypeGooglePubsub,
+	"microsoft_fabric":        ConnectionTypeMicrosoftFabric,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -134,6 +143,9 @@ func GetConnectionTypeEnumStringValues() []string {
 		"GENERIC",
 		"GOOGLE_CLOUD_STORAGE",
 		"GOOGLE_BIGQUERY",
+		"DATABRICKS",
+		"GOOGLE_PUBSUB",
+		"MICROSOFT_FABRIC",
 	}
 }
 

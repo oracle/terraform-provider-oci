@@ -470,6 +470,9 @@ type AutonomousDatabaseSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
+	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -667,6 +670,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                        `json:"clusterPlacementGroupId"`
+		CloneTableSpaceList                     []int                                                          `json:"cloneTableSpaceList"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -925,6 +929,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
+	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
+	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId
