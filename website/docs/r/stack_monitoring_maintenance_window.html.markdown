@@ -40,7 +40,9 @@ resource "oci_stack_monitoring_maintenance_window" "test_maintenance_window" {
 	}
 
 	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.maintenance_window_description
+	freeform_tags = {"bar-key"= "value"}
 }
 ```
 
@@ -49,7 +51,9 @@ resource "oci_stack_monitoring_maintenance_window" "test_maintenance_window" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) Maintenance Window description.
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `name` - (Required) Maintenance Window name.
 * `resources` - (Required) (Updatable) List of resource Ids which are part of the Maintenance Window 
 	* `are_members_included` - (Optional) (Updatable) Flag to indicate if the members of the resource has to be include in the Maintenance Window. 
@@ -70,7 +74,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Maintenance Window description.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window. 
 * `lifecycle_details` - Lifecycle Details of the Maintenance Window.
 * `name` - Maintenance Window name.
@@ -89,6 +95,7 @@ The following attributes are exported:
 	* `time_maintenance_window_end` - Start time of Maintenance window. A RFC3339 formatted datetime string 
 	* `time_maintenance_window_start` - Start time of Maintenance window. A RFC3339 formatted datetime string 
 * `state` - Lifecycle state of the monitored resource.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the the maintenance window was created. An RFC3339 formatted datetime string 
 * `time_updated` - The time the the mainteance window was updated. An RFC3339 formatted datetime string 
 
