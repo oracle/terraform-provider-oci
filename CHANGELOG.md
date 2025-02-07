@@ -1,3 +1,33 @@
+## 6.26.0 (Unreleased)
+
+### Added
+- Support for Organizations
+- Support for IPV6 for BaseDB
+- Support for Backup/Recovery Enhancements Phase 2 | ADB-D C@C
+- Support for Stack Monitoring: Support for Monitoring Templates
+- Support for Connections R6
+- Support for File Storage: Onboard to System Tags.
+- Support for IPv6 on OKE
+- Support for secret generation in SiV
+- README.md of service examples with magic button
+- Release for v6.25.0
+- Support for MHS - DB system database mode and access mode
+- Export and import of user defined sensitive types in Data Safe
+- Support for Data Science Scheduler
+- Support for MHS Persistent read load balancer endpoint
+- Support for OCI Data Science List Service Managed Container Endpoint
+- Support for ExaDB-C@C Granular Maintenance Scheduling support for Exadata Infrastructure Components Phase 2 InfraPatching
+- README.md of service examples with magic button
+- Release for v6.24.0
+- Support for External HSM Support ExaDB-C@C
+- Support for Ops Insights : Support External MySQL Databases
+- Support for DBM : Support External MySQL Databases
+- Support for OPSI News Reports - Actionable Insights
+- Support DR for cloud native applications running on OKE
+### Bug Fix
+- Fix update call for password change and apply config type while moving from fixed to flex database
+to use the correct Id for updating options config resource
+
 ## 6.25.0 (February 05, 2025)
 
 ### Added
