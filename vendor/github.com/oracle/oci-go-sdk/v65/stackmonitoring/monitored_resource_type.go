@@ -55,6 +55,9 @@ type MonitoredResourceType struct {
 	// RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// Key/Value pair for additional namespaces used by stack monitoring services for SYSTEM (SMB) resource types.
+	AdditionalNamespaceMap map[string]string `mandatory:"false" json:"additionalNamespaceMap"`
+
 	Metadata ResourceTypeMetadataDetails `mandatory:"false" json:"metadata"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -98,21 +101,22 @@ func (m MonitoredResourceType) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceType) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName      *string                           `json:"displayName"`
-		Description      *string                           `json:"description"`
-		MetricNamespace  *string                           `json:"metricNamespace"`
-		LifecycleState   ResourceTypeLifecycleStateEnum    `json:"lifecycleState"`
-		SourceType       SourceTypeEnum                    `json:"sourceType"`
-		ResourceCategory ResourceCategoryEnum              `json:"resourceCategory"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		Metadata         resourcetypemetadatadetails       `json:"metadata"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		Name             *string                           `json:"name"`
-		CompartmentId    *string                           `json:"compartmentId"`
+		DisplayName            *string                           `json:"displayName"`
+		Description            *string                           `json:"description"`
+		MetricNamespace        *string                           `json:"metricNamespace"`
+		LifecycleState         ResourceTypeLifecycleStateEnum    `json:"lifecycleState"`
+		SourceType             SourceTypeEnum                    `json:"sourceType"`
+		ResourceCategory       ResourceCategoryEnum              `json:"resourceCategory"`
+		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated            *common.SDKTime                   `json:"timeUpdated"`
+		AdditionalNamespaceMap map[string]string                 `json:"additionalNamespaceMap"`
+		Metadata               resourcetypemetadatadetails       `json:"metadata"`
+		FreeformTags           map[string]string                 `json:"freeformTags"`
+		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
+		Id                     *string                           `json:"id"`
+		Name                   *string                           `json:"name"`
+		CompartmentId          *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -135,6 +139,8 @@ func (m *MonitoredResourceType) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.AdditionalNamespaceMap = model.AdditionalNamespaceMap
 
 	nn, e = model.Metadata.UnmarshalPolymorphicJSON(model.Metadata.JsonData)
 	if e != nil {

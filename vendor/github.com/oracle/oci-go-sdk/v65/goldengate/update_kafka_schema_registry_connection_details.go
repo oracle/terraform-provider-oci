@@ -62,6 +62,7 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 
 	// The password to access Schema Registry using basic authentication.
 	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
@@ -72,6 +73,7 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The base64 encoded content of the TrustStore file.
+	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This field will be removed after February 15 2026.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the TrustStore file.
@@ -79,6 +81,7 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
 
 	// The TrustStore password.
+	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId". This field will be removed after February 15 2026.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl TrustStore password is stored.
@@ -86,6 +89,7 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
 
 	// The base64 encoded content of the KeyStore file.
+	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the KeyStore file.
@@ -93,6 +97,7 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
 
 	// The KeyStore password.
+	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl KeyStore password is stored.
@@ -101,6 +106,7 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 
 	// The password for the cert inside the KeyStore.
 	// In case it differs from the KeyStore password, it should be provided.
+	// Deprecated: This field is deprecated and replaced by "sslKeyPasswordSecretId". This field will be removed after February 15 2026.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the cert inside the KeyStore.

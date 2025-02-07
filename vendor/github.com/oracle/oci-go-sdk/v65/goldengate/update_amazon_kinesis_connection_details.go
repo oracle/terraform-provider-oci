@@ -56,6 +56,7 @@ type UpdateAmazonKinesisConnectionDetails struct {
 	AccessKeyId *string `mandatory:"false" json:"accessKeyId"`
 
 	// Secret access key to access the Amazon Kinesis.
+	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This field will be removed after February 15 2026.
 	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the secret access key is stored.
