@@ -1,3 +1,20 @@
+## 6.26.0 (Unreleased)
+
+### Added
+- Support for Organizations
+- Support for IPV6 for BaseDB
+- Support for Backup/Recovery Enhancements Phase 2 | ADB-D C@C
+- Support for Stack Monitoring: Support for Monitoring Templates
+- Support for Connections R6
+- Support for File Storage: Onboard to System Tags.
+- Support for IPv6 on OKE
+- Support for secret generation in SiV
+enhacnement for RAG
+### Deprecation
+- Removed linting from ocibuild.conf
+### Bug Fix
+- Fix update call for password change and apply config type while moving from fixed to flex database
+
 ## 6.25.0 (Unreleased)
 
 ### Added
