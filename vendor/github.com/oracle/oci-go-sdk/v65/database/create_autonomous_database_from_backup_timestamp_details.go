@@ -243,6 +243,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// Clone from latest available backup timestamp.
 	UseLatestAvailableBackupTimeStamp *bool `mandatory:"false" json:"useLatestAvailableBackupTimeStamp"`
 
+	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
+	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -642,6 +645,7 @@ func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data 
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		Timestamp                                *common.SDKTime                                                   `json:"timestamp"`
 		UseLatestAvailableBackupTimeStamp        *bool                                                             `json:"useLatestAvailableBackupTimeStamp"`
+		CloneTableSpaceList                      []int                                                             `json:"cloneTableSpaceList"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		AutonomousDatabaseId                     *string                                                           `json:"autonomousDatabaseId"`
 		CloneType                                CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum   `json:"cloneType"`
@@ -768,6 +772,8 @@ func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data 
 
 	m.UseLatestAvailableBackupTimeStamp = model.UseLatestAvailableBackupTimeStamp
 
+	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
+	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
 	m.CompartmentId = model.CompartmentId
 
 	m.AutonomousDatabaseId = model.AutonomousDatabaseId
@@ -784,16 +790,19 @@ type CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum string
 const (
 	CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeFull     CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = "FULL"
 	CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = "METADATA"
+	CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypePartial  CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = "PARTIAL"
 )
 
 var mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = map[string]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum{
 	"FULL":     CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeFull,
 	"METADATA": CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata,
+	"PARTIAL":  CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypePartial,
 }
 
 var mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumLowerCase = map[string]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum{
 	"full":     CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeFull,
 	"metadata": CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata,
+	"partial":  CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypePartial,
 }
 
 // GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum
@@ -810,6 +819,7 @@ func GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumStringVal
 	return []string{
 		"FULL",
 		"METADATA",
+		"PARTIAL",
 	}
 }
 

@@ -67,6 +67,7 @@ type CreateSnowflakeConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect to Snowflake platform.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
@@ -77,6 +78,7 @@ type CreateSnowflakeConnectionDetails struct {
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The base64 encoded content of private key file in PEM format.
+	// Deprecated: This field is deprecated and replaced by "privateKeyFileSecretId". This field will be removed after February 15 2026.
 	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint.
@@ -85,6 +87,7 @@ type CreateSnowflakeConnectionDetails struct {
 	PrivateKeyFileSecretId *string `mandatory:"false" json:"privateKeyFileSecretId"`
 
 	// Password if the private key file is encrypted.
+	// Deprecated: This field is deprecated and replaced by "privateKeyPassphraseSecretId". This field will be removed after February 15 2026.
 	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the private key file.

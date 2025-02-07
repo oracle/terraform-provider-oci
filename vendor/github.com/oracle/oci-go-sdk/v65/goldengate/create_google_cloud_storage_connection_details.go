@@ -60,6 +60,7 @@ type CreateGoogleCloudStorageConnectionDetails struct {
 
 	// The base64 encoded content of the service account key file containing
 	// the credentials required to use Google Cloud Storage.
+	// Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026.
 	ServiceAccountKeyFile *string `mandatory:"false" json:"serviceAccountKeyFile"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
