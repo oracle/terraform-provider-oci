@@ -23,10 +23,12 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	#Optional
 	access_level = var.security_assessment_finding_access_level
 	compartment_id_in_subtree = var.security_assessment_finding_compartment_id_in_subtree
+	field = var.security_assessment_finding_field
 	finding_key = var.security_assessment_finding_finding_key
 	is_top_finding = var.security_assessment_finding_is_top_finding
 	references {
 	}
+	scim_query = var.security_assessment_finding_scim_query
 	severity = var.security_assessment_finding_severity
 	state = var.security_assessment_finding_state
 	target_id = oci_cloud_guard_target.test_target.id
@@ -37,11 +39,16 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 
 The following arguments are supported:
 
-* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
-* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
-* `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings.
+* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
+* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
+* `field` - (Optional) Specifies a subset of fields to be returned in the response.
+* `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings. 
 * `is_top_finding` - (Optional) A filter to return only the findings that are marked as top findings.
-* `references` - (Optional) An optional filter to return only findings containing the specified reference.
+* `references` - (Optional) An optional filter to return only findings that match the specified reference.
+* `scim_query` - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at [RFC3339](https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)
+
+	**Example:** | scimQuery=(severity eq 'high') and (targetId eq 'target_1') scimQuery=(category eq "Users") and (targetId eq "target_1") scimQuery=(reference eq 'CIS') and (targetId eq 'target_1')
+	Supported fields: severity findingKey reference targetId isTopFinding title category remarks details summary isRiskModified
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 * `state` - (Optional) A filter to return only the findings that match the specified lifecycle states.
