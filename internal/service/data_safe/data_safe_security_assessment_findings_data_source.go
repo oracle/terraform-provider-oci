@@ -26,6 +26,13 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"field": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"finding_key": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -35,6 +42,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"references": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"scim_query": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -205,6 +216,19 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 		request.CompartmentIdInSubtree = &tmp
 	}
 
+	if field, ok := s.D.GetOkExists("field"); ok {
+		interfaces := field.([]interface{})
+		tmp := make([]oci_data_safe.ListFindingsFieldEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_data_safe.ListFindingsFieldEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("field") {
+			request.Field = tmp
+		}
+	}
+
 	if findingKey, ok := s.D.GetOkExists("finding_key"); ok {
 		tmp := findingKey.(string)
 		request.FindingKey = &tmp
@@ -217,6 +241,11 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 
 	if references, ok := s.D.GetOkExists("references"); ok {
 		request.References = oci_data_safe.ListFindingsReferencesEnum(references.(string))
+	}
+
+	if scimQuery, ok := s.D.GetOkExists("scim_query"); ok {
+		tmp := scimQuery.(string)
+		request.ScimQuery = &tmp
 	}
 
 	if securityAssessmentId, ok := s.D.GetOkExists("security_assessment_id"); ok {
