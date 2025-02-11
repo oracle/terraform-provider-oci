@@ -106,6 +106,10 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// be auto-assigned with an available IPv4 address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	// The IPv6 address from the provided OCI subnet which needs to be assigned to the VNIC. If not provided, it will
+	// be auto-assigned with an available IPv6 address from the subnet.
+	PrivateIpV6 *string `mandatory:"false" json:"privateIpV6"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -258,6 +262,7 @@ func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []
 		TimeZone                           *string                                                                          `json:"timeZone"`
 		FaultDomains                       []string                                                                         `json:"faultDomains"`
 		PrivateIp                          *string                                                                          `json:"privateIp"`
+		PrivateIpV6                        *string                                                                          `json:"privateIpV6"`
 		LicenseModel                       CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum                 `json:"licenseModel"`
 		DbSystemFreeformTags               map[string]string                                                                `json:"dbSystemFreeformTags"`
 		DbSystemDefinedTags                map[string]map[string]interface{}                                                `json:"dbSystemDefinedTags"`
@@ -320,6 +325,8 @@ func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []
 	m.FaultDomains = make([]string, len(model.FaultDomains))
 	copy(m.FaultDomains, model.FaultDomains)
 	m.PrivateIp = model.PrivateIp
+
+	m.PrivateIpV6 = model.PrivateIpV6
 
 	m.LicenseModel = model.LicenseModel
 

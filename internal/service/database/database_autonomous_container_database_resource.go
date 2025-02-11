@@ -109,6 +109,25 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
+							//RECOVERY_APPLIANCE BackupDestination doesn't support recovery_windows_in_days.
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								// Navigate to the "backup_destination_details" list
+								if backupConfig, ok := d.Get("backup_config").([]interface{}); ok {
+									if len(backupConfig) > 0 {
+										// Extract the backup_destination_details
+										if details, ok := backupConfig[0].(map[string]interface{})["backup_destination_details"].([]interface{}); ok {
+											if len(details) > 0 {
+												// Check the "type" field inside backup_destination_details
+												if destinationType, ok := details[0].(map[string]interface{})["type"].(string); ok && destinationType == "RECOVERY_APPLIANCE" {
+													// Suppress the diff when type is "RA"
+													return true
+												}
+											}
+										}
+									}
+								}
+								return false
+							},
 						},
 
 						// Computed
@@ -464,6 +483,62 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			},
 
 			// Computed
+			"associated_backup_configuration_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"backup_destination_attach_history": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"dbrs_policy_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"internet_proxy": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"recovery_window_in_days": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"space_utilized_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"time_at_which_storage_details_are_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vpc_password": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vpc_user": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -471,6 +546,34 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			"available_cpus": {
 				Type:     schema.TypeFloat,
 				Computed: true,
+			},
+			"backup_destination_properties_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"backup_destination_attach_history": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"space_utilized_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"time_at_which_storage_details_are_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"compute_model": {
 				Type:     schema.TypeString,
@@ -658,6 +761,31 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			"reclaimable_cpus": {
 				Type:     schema.TypeFloat,
 				Computed: true,
+			},
+			"recovery_appliance_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"allocated_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"recovery_window_in_days": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"time_recovery_appliance_details_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"reserved_cpus": {
 				Type:     schema.TypeFloat,
@@ -1067,7 +1195,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -1075,21 +1203,21 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
+	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok && s.D.HasChange("is_dst_file_update_enabled") {
 		tmp := isDstFileUpdateEnabled.(bool)
 		request.IsDstFileUpdateEnabled = &tmp
 	}
 
-	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok && s.D.HasChange("maintenance_window_details") {
 		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
 			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
@@ -1100,16 +1228,16 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
+	if patchModel, ok := s.D.GetOkExists("patch_model"); ok && s.D.HasChange("patch_model") {
 		request.PatchModel = oci_database.UpdateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
 	}
 
-	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
+	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok && s.D.HasChange("standby_maintenance_buffer_in_days") {
 		tmp := standbyMaintenanceBufferInDays.(int)
 		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
-	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok && s.D.HasChange("version_preference") {
 		request.VersionPreference = oci_database.UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
 	}
 
@@ -1145,6 +1273,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
+	associatedBackupConfigurationDetails := []interface{}{}
+	for _, item := range s.Res.AssociatedBackupConfigurationDetails {
+		associatedBackupConfigurationDetails = append(associatedBackupConfigurationDetails, BackupDestinationConfigurationSummaryToMap(item))
+	}
+	s.D.Set("associated_backup_configuration_details", associatedBackupConfigurationDetails)
+
 	if s.Res.AutonomousExadataInfrastructureId != nil {
 		s.D.Set("autonomous_exadata_infrastructure_id", *s.Res.AutonomousExadataInfrastructureId)
 	}
@@ -1166,6 +1300,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	} else {
 		s.D.Set("backup_config", nil)
 	}
+
+	backupDestinationPropertiesList := []interface{}{}
+	for _, item := range s.Res.BackupDestinationPropertiesList {
+		backupDestinationPropertiesList = append(backupDestinationPropertiesList, BackupDestinationPropertiesToMap(item))
+	}
+	s.D.Set("backup_destination_properties_list", backupDestinationPropertiesList)
 
 	if s.Res.CloudAutonomousVmClusterId != nil {
 		s.D.Set("cloud_autonomous_vm_cluster_id", *s.Res.CloudAutonomousVmClusterId)
@@ -1283,6 +1423,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
 	}
 
+	if s.Res.RecoveryApplianceDetails != nil {
+		s.D.Set("recovery_appliance_details", []interface{}{RecoveryApplianceDetailsToMap(s.Res.RecoveryApplianceDetails)})
+	} else {
+		s.D.Set("recovery_appliance_details", nil)
+	}
+
 	if s.Res.ReservedCpus != nil {
 		s.D.Set("reserved_cpus", *s.Res.ReservedCpus)
 	}
@@ -1345,7 +1491,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToAutonomousContain
 		}
 	}
 
-	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok &&
+		s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
 	}
@@ -1367,6 +1514,52 @@ func AutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.AutonomousCo
 
 	if obj.RecoveryWindowInDays != nil {
 		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	return result
+}
+
+func BackupDestinationConfigurationSummaryToMap(obj oci_database.BackupDestinationConfigurationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	stringHistory := make([]string, len(obj.BackupDestinationAttachHistory))
+	for i, attachTime := range obj.BackupDestinationAttachHistory {
+		stringHistory[i] = attachTime.String()
+	}
+	result["backup_destination_attach_history"] = stringHistory
+
+	if obj.DbrsPolicyId != nil {
+		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InternetProxy != nil {
+		result["internet_proxy"] = string(*obj.InternetProxy)
+	}
+
+	if obj.RecoveryWindowInDays != nil {
+		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	if obj.SpaceUtilizedInGBs != nil {
+		result["space_utilized_in_gbs"] = int(*obj.SpaceUtilizedInGBs)
+	}
+
+	if obj.TimeAtWhichStorageDetailsAreUpdated != nil {
+		result["time_at_which_storage_details_are_updated"] = obj.TimeAtWhichStorageDetailsAreUpdated.String()
+	}
+
+	result["type"] = string(obj.Type)
+
+	if obj.VpcPassword != nil {
+		result["vpc_password"] = string(*obj.VpcPassword)
+	}
+
+	if obj.VpcUser != nil {
+		result["vpc_user"] = string(*obj.VpcUser)
 	}
 
 	return result
@@ -1431,6 +1624,26 @@ func AutonomousContainerDatabaseBackupDestinationDetailsToMap(obj oci_database.B
 	return result
 }
 
+func BackupDestinationPropertiesToMap(obj oci_database.BackupDestinationProperties) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	stringHistory := make([]string, len(obj.BackupDestinationAttachHistory))
+	for i, attachTime := range obj.BackupDestinationAttachHistory {
+		stringHistory[i] = attachTime.String()
+	}
+	result["backup_destination_attach_history"] = stringHistory
+
+	if obj.SpaceUtilizedInGBs != nil {
+		result["space_utilized_in_gbs"] = int(*obj.SpaceUtilizedInGBs)
+	}
+
+	if obj.TimeAtWhichStorageDetailsAreUpdated != nil {
+		result["time_at_which_storage_details_are_updated"] = obj.TimeAtWhichStorageDetailsAreUpdated.String()
+	}
+
+	return result
+}
+
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
 	result := oci_database.DayOfWeek{}
 
@@ -1444,7 +1657,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToDayOfWeek(fieldKe
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
 	result := oci_database.MaintenanceWindow{}
 
-	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "preference")) {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 
 		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
@@ -1525,7 +1738,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
 	}
 
-	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "preference")) {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 	}
 
@@ -1588,7 +1801,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToPeerAutonomousCon
 		}
 	}
 
-	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok &&
+		s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
 	}
@@ -1607,6 +1821,24 @@ func PeerAutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.PeerAuto
 
 	if obj.RecoveryWindowInDays != nil {
 		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	return result
+}
+
+func RecoveryApplianceDetailsToMap(obj *oci_database.RecoveryApplianceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AllocatedStorageSizeInGBs != nil {
+		result["allocated_storage_size_in_gbs"] = int(*obj.AllocatedStorageSizeInGBs)
+	}
+
+	if obj.RecoveryWindowInDays != nil {
+		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	if obj.TimeRecoveryApplianceDetailsUpdated != nil {
+		result["time_recovery_appliance_details_updated"] = obj.TimeRecoveryApplianceDetailsUpdated.String()
 	}
 
 	return result
