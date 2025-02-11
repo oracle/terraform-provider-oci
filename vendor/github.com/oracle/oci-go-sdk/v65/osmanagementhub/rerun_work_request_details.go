@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// RerunWorkRequestDetails Provides the information used target specific resources to rerun work requests for.
+// RerunWorkRequestDetails Provides the information used to target specific resources for the rerun of a work request.
 type RerunWorkRequestDetails struct {
 
-	// List of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to rerun work request for.
+	// List of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to affected by the rerun of the work request.
 	ManagedInstances []string `mandatory:"false" json:"managedInstances"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`

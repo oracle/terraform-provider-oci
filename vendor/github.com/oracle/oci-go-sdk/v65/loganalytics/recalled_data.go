@@ -60,6 +60,9 @@ type RecalledData struct {
 
 	// This is the recalled data end time
 	TimeRecalledDataEnded *common.SDKTime `mandatory:"true" json:"timeRecalledDataEnded"`
+
+	// This is the current progress percentage for the recalled data
+	PercentageComplete *int `mandatory:"false" json:"percentageComplete"`
 }
 
 func (m RecalledData) String() string {
@@ -86,21 +89,24 @@ type RecalledDataStatusEnum string
 
 // Set of constants representing the allowable values for RecalledDataStatusEnum
 const (
-	RecalledDataStatusRecalled RecalledDataStatusEnum = "RECALLED"
-	RecalledDataStatusPending  RecalledDataStatusEnum = "PENDING"
-	RecalledDataStatusFailed   RecalledDataStatusEnum = "FAILED"
+	RecalledDataStatusRecalled        RecalledDataStatusEnum = "RECALLED"
+	RecalledDataStatusPending         RecalledDataStatusEnum = "PENDING"
+	RecalledDataStatusFailed          RecalledDataStatusEnum = "FAILED"
+	RecalledDataStatusPartialRecalled RecalledDataStatusEnum = "PARTIAL_RECALLED"
 )
 
 var mappingRecalledDataStatusEnum = map[string]RecalledDataStatusEnum{
-	"RECALLED": RecalledDataStatusRecalled,
-	"PENDING":  RecalledDataStatusPending,
-	"FAILED":   RecalledDataStatusFailed,
+	"RECALLED":         RecalledDataStatusRecalled,
+	"PENDING":          RecalledDataStatusPending,
+	"FAILED":           RecalledDataStatusFailed,
+	"PARTIAL_RECALLED": RecalledDataStatusPartialRecalled,
 }
 
 var mappingRecalledDataStatusEnumLowerCase = map[string]RecalledDataStatusEnum{
-	"recalled": RecalledDataStatusRecalled,
-	"pending":  RecalledDataStatusPending,
-	"failed":   RecalledDataStatusFailed,
+	"recalled":         RecalledDataStatusRecalled,
+	"pending":          RecalledDataStatusPending,
+	"failed":           RecalledDataStatusFailed,
+	"partial_recalled": RecalledDataStatusPartialRecalled,
 }
 
 // GetRecalledDataStatusEnumValues Enumerates the set of values for RecalledDataStatusEnum
@@ -118,6 +124,7 @@ func GetRecalledDataStatusEnumStringValues() []string {
 		"RECALLED",
 		"PENDING",
 		"FAILED",
+		"PARTIAL_RECALLED",
 	}
 }
 

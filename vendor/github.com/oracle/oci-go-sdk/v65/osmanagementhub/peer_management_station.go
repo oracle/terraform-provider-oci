@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// PeerManagementStation A list of the other management stations behind the same load balancer, identified by matching the hostname and compartment.
+// PeerManagementStation A list of other management stations that are behind the same load balancer within a high availability
+// configuration. Stations are identified as peers if they have the same hostname and compartment.
 type PeerManagementStation struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.

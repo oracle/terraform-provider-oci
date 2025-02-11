@@ -19,14 +19,14 @@ import (
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on
+	// A machine-usable code for the error that occurred. Error codes are listed on
 	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured. (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	// The time the error occurred. (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

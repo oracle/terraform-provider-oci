@@ -715,7 +715,7 @@ func (client LifecycleEnvironmentClient) promoteSoftwareSourceToLifecycleStage(c
 	return response, err
 }
 
-// RebootLifecycleStage Reboots managed instances in a lifecycle stage.
+// RebootLifecycleStage Reboots all managed instances in the specified lifecycle stage.
 // A default retry strategy applies to this operation RebootLifecycleStage()
 func (client LifecycleEnvironmentClient) RebootLifecycleStage(ctx context.Context, request RebootLifecycleStageRequest) (response RebootLifecycleStageResponse, err error) {
 	var ociResponse common.OCIResponse

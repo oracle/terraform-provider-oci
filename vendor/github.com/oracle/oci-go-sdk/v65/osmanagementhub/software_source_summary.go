@@ -47,7 +47,7 @@ type SoftwareSourceSummary interface {
 	// Availability of the software source (for OCI environments).
 	GetAvailabilityAtOci() AvailabilityEnum
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	GetOsFamily() OsFamilyEnum
 
 	// The architecture type supported by the software source.

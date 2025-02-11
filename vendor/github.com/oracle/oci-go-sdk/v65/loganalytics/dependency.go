@@ -27,6 +27,12 @@ type Dependency struct {
 
 	// The unique identifier of the reference, if available.
 	ReferenceId *int64 `mandatory:"false" json:"referenceId"`
+
+	// The name of the dependency object
+	ReferenceName *string `mandatory:"false" json:"referenceName"`
+
+	// The display name of the dependency object
+	ReferenceDisplayName *string `mandatory:"false" json:"referenceDisplayName"`
 }
 
 func (m Dependency) String() string {

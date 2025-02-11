@@ -532,5 +532,11 @@
         "realmKey": "oc46",
         "regionIdentifier": "uk-london-2",
         "realmDomainComponent": "oraclecloud46.com"
+    },
+    {
+        "regionKey": "abl",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-abilene-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

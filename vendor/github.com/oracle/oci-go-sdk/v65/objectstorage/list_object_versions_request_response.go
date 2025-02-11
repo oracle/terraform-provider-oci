@@ -47,7 +47,7 @@ type ListObjectVersionsRequest struct {
 	// 'timeModified' (object modification date and time), 'storageTier' and 'archivalState' fields.
 	// Specify the value of this parameter as a comma-separated, case-insensitive list of those field names.
 	// For example 'name,etag,timeCreated,md5,timeModified,storageTier,archivalState'.
-	Fields ListObjectVersionsFieldsEnum `mandatory:"false" contributesTo:"query" name:"fields" omitEmpty:"true"`
+	Fields *string `mandatory:"false" contributesTo:"query" name:"fields" omitEmpty:"true"`
 
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
@@ -120,9 +120,6 @@ func (request ListObjectVersionsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListObjectVersionsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListObjectVersionsFieldsEnum(string(request.Fields)); !ok && request.Fields != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", request.Fields, strings.Join(GetListObjectVersionsFieldsEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -162,70 +159,4 @@ func (response ListObjectVersionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListObjectVersionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListObjectVersionsFieldsEnum Enum with underlying type: string
-type ListObjectVersionsFieldsEnum string
-
-// Set of constants representing the allowable values for ListObjectVersionsFieldsEnum
-const (
-	ListObjectVersionsFieldsName          ListObjectVersionsFieldsEnum = "name"
-	ListObjectVersionsFieldsSize          ListObjectVersionsFieldsEnum = "size"
-	ListObjectVersionsFieldsEtag          ListObjectVersionsFieldsEnum = "etag"
-	ListObjectVersionsFieldsTimecreated   ListObjectVersionsFieldsEnum = "timeCreated"
-	ListObjectVersionsFieldsMd5           ListObjectVersionsFieldsEnum = "md5"
-	ListObjectVersionsFieldsTimemodified  ListObjectVersionsFieldsEnum = "timeModified"
-	ListObjectVersionsFieldsStoragetier   ListObjectVersionsFieldsEnum = "storageTier"
-	ListObjectVersionsFieldsArchivalstate ListObjectVersionsFieldsEnum = "archivalState"
-)
-
-var mappingListObjectVersionsFieldsEnum = map[string]ListObjectVersionsFieldsEnum{
-	"name":          ListObjectVersionsFieldsName,
-	"size":          ListObjectVersionsFieldsSize,
-	"etag":          ListObjectVersionsFieldsEtag,
-	"timeCreated":   ListObjectVersionsFieldsTimecreated,
-	"md5":           ListObjectVersionsFieldsMd5,
-	"timeModified":  ListObjectVersionsFieldsTimemodified,
-	"storageTier":   ListObjectVersionsFieldsStoragetier,
-	"archivalState": ListObjectVersionsFieldsArchivalstate,
-}
-
-var mappingListObjectVersionsFieldsEnumLowerCase = map[string]ListObjectVersionsFieldsEnum{
-	"name":          ListObjectVersionsFieldsName,
-	"size":          ListObjectVersionsFieldsSize,
-	"etag":          ListObjectVersionsFieldsEtag,
-	"timecreated":   ListObjectVersionsFieldsTimecreated,
-	"md5":           ListObjectVersionsFieldsMd5,
-	"timemodified":  ListObjectVersionsFieldsTimemodified,
-	"storagetier":   ListObjectVersionsFieldsStoragetier,
-	"archivalstate": ListObjectVersionsFieldsArchivalstate,
-}
-
-// GetListObjectVersionsFieldsEnumValues Enumerates the set of values for ListObjectVersionsFieldsEnum
-func GetListObjectVersionsFieldsEnumValues() []ListObjectVersionsFieldsEnum {
-	values := make([]ListObjectVersionsFieldsEnum, 0)
-	for _, v := range mappingListObjectVersionsFieldsEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListObjectVersionsFieldsEnumStringValues Enumerates the set of values in String for ListObjectVersionsFieldsEnum
-func GetListObjectVersionsFieldsEnumStringValues() []string {
-	return []string{
-		"name",
-		"size",
-		"etag",
-		"timeCreated",
-		"md5",
-		"timeModified",
-		"storageTier",
-		"archivalState",
-	}
-}
-
-// GetMappingListObjectVersionsFieldsEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListObjectVersionsFieldsEnum(val string) (ListObjectVersionsFieldsEnum, bool) {
-	enum, ok := mappingListObjectVersionsFieldsEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

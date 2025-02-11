@@ -1519,7 +1519,8 @@ func (client ManagedInstanceClient) manageModuleStreamsOnManagedInstance(ctx con
 	return response, err
 }
 
-// RebootManagedInstance Reboots a managed instance.
+// RebootManagedInstance Initiates a reboot of the specified managed instance. You can also specify the number of minutes the service
+// waits before marking the reboot operation as failed.
 // A default retry strategy applies to this operation RebootManagedInstance()
 func (client ManagedInstanceClient) RebootManagedInstance(ctx context.Context, request RebootManagedInstanceRequest) (response RebootManagedInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

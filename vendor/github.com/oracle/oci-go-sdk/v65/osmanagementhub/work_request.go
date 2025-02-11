@@ -51,10 +51,10 @@ type WorkRequest struct {
 	// A progress or error message, if there is any.
 	Message *string `mandatory:"false" json:"message"`
 
-	// The OCID of the parent work request, if there is any.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent work request, if there is any.
 	ParentId *string `mandatory:"false" json:"parentId"`
 
-	// The list of OCIDs for the child work requests.
+	// The list of OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the child work requests.
 	ChildrenId []string `mandatory:"false" json:"childrenId"`
 
 	// A list of package names to be installed, updated, or removed.
@@ -107,7 +107,7 @@ type WorkRequest struct {
 	// Indicates whether this work request is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
-	// The number of minutes to wait before considering that a reboot has failed on a managed instance.
+	// The number of minutes the service waits for the reboot to complete. If the managed instance doesn't reboot within the timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 }
 

@@ -19,7 +19,7 @@ import (
 // ReplacePackagesInSoftwareSourceDetails Provides a list of packages that will replace the existing packages in the software source.
 type ReplacePackagesInSoftwareSourceDetails struct {
 
-	// List of packages specified by the name of the package (N) or the full package name (NVRA).
+	// List of packages specified by the name of the package (N) or the full package name (NVRA or NEVRA).
 	Packages []string `mandatory:"true" json:"packages"`
 }
 

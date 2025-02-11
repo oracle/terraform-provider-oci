@@ -21,29 +21,38 @@ type OpensearchClusterPipelineSummary struct {
 	// The OCID of the cluster pipeline.
 	Id *string `mandatory:"true" json:"id"`
 
+	// The name of the cluster pipeline. Avoid entering confidential information.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
 	// The OCID of the compartment where the cluster pipeline is located.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The maximum pipeline capacity, in OCPUs.
-	MaxOcpuCount *int `mandatory:"true" json:"maxOcpuCount"`
+	// The number of OCPUs configured for each pipeline node.
+	OcpuCount *int `mandatory:"true" json:"ocpuCount"`
 
-	// The maximum pipeline capacity, in OCPUs.
-	MinOcpuCount *int `mandatory:"true" json:"minOcpuCount"`
+	// The amount of memory in GB, for each pipeline node.
+	MemoryGB *int `mandatory:"true" json:"memoryGB"`
 
-	// The maximum amount of memory in GB, for the pipeline.
-	MaxMemoryGB *int `mandatory:"true" json:"maxMemoryGB"`
-
-	// The minimum amount of memory in GB, for the pipeline.
-	MinMemoryGB *int `mandatory:"true" json:"minMemoryGB"`
+	// The number of nodes configured for the pipeline.
+	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
 	// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
 	PipelineConfigurationBody *string `mandatory:"true" json:"pipelineConfigurationBody"`
 
-	// The current state of the cluster backup.
+	// The data prepper config in YAML format. The command accepts the data prepper config as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
+	DataPrepperConfigurationBody *string `mandatory:"true" json:"dataPrepperConfigurationBody"`
+
+	// The current state of the cluster pipeline.
 	LifecycleState OpensearchClusterPipelineLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The name of the cluster pipeline. Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	// The current state of the pipeline.
+	PipelineMode OpensearchClusterPipelinePipelineModeEnum `mandatory:"true" json:"pipelineMode"`
+
+	// The OCID of the pipeline's VCN.
+	VcnId *string `mandatory:"false" json:"vcnId"`
+
+	// The OCID of the pipeline's subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The date and time the cluster pipeline was created. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -75,6 +84,9 @@ func (m OpensearchClusterPipelineSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingOpensearchClusterPipelineLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOpensearchClusterPipelineLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOpensearchClusterPipelinePipelineModeEnum(string(m.PipelineMode)); !ok && m.PipelineMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineMode: %s. Supported values are: %s.", m.PipelineMode, strings.Join(GetOpensearchClusterPipelinePipelineModeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

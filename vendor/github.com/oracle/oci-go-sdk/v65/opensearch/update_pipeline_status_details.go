@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// ValidateOpensearchPipelineDetails The configuration details for validating pipeline configuration provided as input.
-type ValidateOpensearchPipelineDetails struct {
+// UpdatePipelineStatusDetails update pipeline status.
+type UpdatePipelineStatusDetails struct {
 
-	// The OCID of the compartment where the pipeline will be created.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// OCID of the OpenSearch Pipeline.
+	PipelineId *string `mandatory:"true" json:"pipelineId"`
 
-	// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
-	PipelineConfigurationBody *string `mandatory:"true" json:"pipelineConfigurationBody"`
+	// the new status of the OpenSearch Pipeline
+	LifecycleState *string `mandatory:"true" json:"lifecycleState"`
 }
 
-func (m ValidateOpensearchPipelineDetails) String() string {
+func (m UpdatePipelineStatusDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ValidateOpensearchPipelineDetails) ValidateEnumValue() (bool, error) {
+func (m UpdatePipelineStatusDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

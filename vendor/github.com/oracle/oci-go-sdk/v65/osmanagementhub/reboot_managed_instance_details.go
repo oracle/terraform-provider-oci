@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
-// RebootManagedInstanceDetails Provides the timeout to consider reboot failed on a managed instance.
+// RebootManagedInstanceDetails Provides the information used for the reboot job.
 type RebootManagedInstanceDetails struct {
 
-	// The number of minutes to wait before considering that a reboot has failed on a managed instance.
+	// The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within this
+	// time, the reboot job status is set to failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`

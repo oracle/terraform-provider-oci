@@ -15,7 +15,7 @@ import (
 // UpdateSoftwareSourceManifestRequest wrapper for the UpdateSoftwareSourceManifest operation
 type UpdateSoftwareSourceManifestRequest struct {
 
-	// The package manifest document to be updated for this software source.
+	// Provides the document used to update the package list of the software source.
 	UpdateSoftwareSourceManifestDetails io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.

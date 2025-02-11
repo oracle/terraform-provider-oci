@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// SynchronizeMirrorsDetails Details for syncing selected mirrors
+// SynchronizeMirrorsDetails Detailed information about software source mirrors to be synced.
 type SynchronizeMirrorsDetails struct {
 
-	// List of Software Source OCIDs to synchronize
+	// List of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to synchronize.
 	SoftwareSourceList []string `mandatory:"true" json:"softwareSourceList"`
 }
 

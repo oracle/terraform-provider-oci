@@ -31,7 +31,8 @@ type ProfileSummary struct {
 	// User-specified description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an
+	// instance once registered. Management stations are only used with non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
 	// The type of registration profile.
@@ -49,7 +50,7 @@ type ProfileSummary struct {
 	// The architecture type.
 	ArchType ArchTypeEnum `mandatory:"false" json:"archType,omitempty"`
 
-	// The time the the Onboarding was created. An RFC3339 formatted datetime string
+	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The current state of the registration profile.

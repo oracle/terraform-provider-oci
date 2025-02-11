@@ -20,17 +20,17 @@ import (
 type MetricExtraction struct {
 
 	// The compartment OCID (/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The namespace of the extracted metric.
 	// A valid value starts with an alphabetical character and includes only
 	// alphanumeric characters and underscores (_).
-	Namespace *string `mandatory:"true" json:"namespace"`
+	Namespace *string `mandatory:"false" json:"namespace"`
 
 	// The metric name of the extracted metric.
 	// A valid value starts with an alphabetical character and includes only
 	// alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
-	MetricName *string `mandatory:"true" json:"metricName"`
+	MetricName *string `mandatory:"false" json:"metricName"`
 
 	// The resourceGroup of the extracted metric.
 	// A valid value starts with an alphabetical character and includes only

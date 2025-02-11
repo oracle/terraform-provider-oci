@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// WorkRequestLogEntryCollection Results of a work request log search. Contains both work request log items and other information, such as metadata.
+// WorkRequestLogEntryCollection The set of work request logs returned for the ListWorkRequestLogs operation.
 type WorkRequestLogEntryCollection struct {
 
 	// List of work request log entries.

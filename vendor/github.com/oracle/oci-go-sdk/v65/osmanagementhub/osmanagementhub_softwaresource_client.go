@@ -718,7 +718,7 @@ func (client SoftwareSourceClient) getSoftwarePackage(ctx context.Context, reque
 	return response, err
 }
 
-// GetSoftwarePackageByName Returns information about the specified software package based on its fully qualified name.
+// GetSoftwarePackageByName Returns information about the specified software package based on its fully qualified name (NVRA or NEVRA).
 // A default retry strategy applies to this operation GetSoftwarePackageByName()
 func (client SoftwareSourceClient) GetSoftwarePackageByName(ctx context.Context, request GetSoftwarePackageByNameRequest) (response GetSoftwarePackageByNameResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -826,7 +826,7 @@ func (client SoftwareSourceClient) getSoftwareSource(ctx context.Context, reques
 	return response, err
 }
 
-// GetSoftwareSourceManifest Returns an archive containing the Package manifest document.
+// GetSoftwareSourceManifest Returns an archive containing the list of packages in the software source.
 // A default retry strategy applies to this operation GetSoftwareSourceManifest()
 func (client SoftwareSourceClient) GetSoftwareSourceManifest(ctx context.Context, request GetSoftwareSourceManifestRequest) (response GetSoftwareSourceManifestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1777,7 +1777,7 @@ func (client SoftwareSourceClient) searchSoftwareSourcePackageGroups(ctx context
 	return response, err
 }
 
-// SoftwareSourceGenerateMetadata Regenerates metadata for Custom Software Sources
+// SoftwareSourceGenerateMetadata Regenerates metadata for the specified custom software source.
 // A default retry strategy applies to this operation SoftwareSourceGenerateMetadata()
 func (client SoftwareSourceClient) SoftwareSourceGenerateMetadata(ctx context.Context, request SoftwareSourceGenerateMetadataRequest) (response SoftwareSourceGenerateMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1890,7 +1890,7 @@ func (client SoftwareSourceClient) updateSoftwareSource(ctx context.Context, req
 	return response, err
 }
 
-// UpdateSoftwareSourceManifest Updates the Package manifest document in the service.
+// UpdateSoftwareSourceManifest Updates the package list document for the software source.
 // A default retry strategy applies to this operation UpdateSoftwareSourceManifest()
 func (client SoftwareSourceClient) UpdateSoftwareSourceManifest(ctx context.Context, request UpdateSoftwareSourceManifestRequest) (response UpdateSoftwareSourceManifestResponse, err error) {
 	var ociResponse common.OCIResponse

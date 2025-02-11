@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// MirrorsCollection List of mirrors associated with a Management Station
+// MirrorsCollection The set of software source mirrors returned for the
+// ListMirrors operation.
 type MirrorsCollection struct {
 
 	// List of mirrors

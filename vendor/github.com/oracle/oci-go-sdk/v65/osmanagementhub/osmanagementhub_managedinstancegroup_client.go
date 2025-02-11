@@ -1252,7 +1252,7 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 	return response, err
 }
 
-// RebootManagedInstanceGroup Reboots managed instances in a managed instance group.
+// RebootManagedInstanceGroup Reboots all managed instances in the specified group.
 // A default retry strategy applies to this operation RebootManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) RebootManagedInstanceGroup(ctx context.Context, request RebootManagedInstanceGroupRequest) (response RebootManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse

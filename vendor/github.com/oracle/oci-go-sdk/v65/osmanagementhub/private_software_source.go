@@ -70,16 +70,16 @@ type PrivateSoftwareSource struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Whether signature verification should be done for the software source
+	// Indicates if GPG verification is enabled for the software source.
 	IsGpgCheckEnabled *bool `mandatory:"false" json:"isGpgCheckEnabled"`
 
-	// Whether SSL validation needs to be turned on
+	// Indicates if SSL validation is enabled for the software source.
 	IsSslVerifyEnabled *bool `mandatory:"false" json:"isSslVerifyEnabled"`
 
 	// Advanced repository options for the software source
 	AdvancedRepoOptions *string `mandatory:"false" json:"advancedRepoOptions"`
 
-	// Whether this software source can be synced to a management station
+	// Indicates if this software source can be mirrored to a management station.
 	IsMirrorSyncAllowed *bool `mandatory:"false" json:"isMirrorSyncAllowed"`
 
 	// Availability of the software source (for non-OCI environments).
@@ -88,7 +88,7 @@ type PrivateSoftwareSource struct {
 	// Availability of the software source (for OCI environments).
 	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
 	// The architecture type supported by the software source.

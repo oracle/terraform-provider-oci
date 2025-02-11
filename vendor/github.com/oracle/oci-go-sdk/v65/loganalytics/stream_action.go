@@ -22,6 +22,8 @@ type StreamAction struct {
 	// The ManagementSavedSearch id [OCID] utilized in the action.
 	SavedSearchId *string `mandatory:"false" json:"savedSearchId"`
 
+	TemplateDetails *TemplateDetails `mandatory:"false" json:"templateDetails"`
+
 	MetricExtraction *MetricExtraction `mandatory:"false" json:"metricExtraction"`
 
 	// The duration of data to be searched for SAVED_SEARCH tasks,

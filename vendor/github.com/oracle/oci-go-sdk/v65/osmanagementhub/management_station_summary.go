@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ManagementStationSummary Summary of the Management Station.
+// ManagementStationSummary Provides summary information for a management station.
 type ManagementStationSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.

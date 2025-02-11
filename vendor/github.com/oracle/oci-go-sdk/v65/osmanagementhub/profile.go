@@ -41,7 +41,8 @@ type Profile interface {
 	// The description of the registration profile.
 	GetDescription() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an
+	// instance once registered. Management stations are only used by non-OCI instances.
 	GetManagementStationId() *string
 
 	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
@@ -50,7 +51,7 @@ type Profile interface {
 	// The time the registration profile was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeModified() *common.SDKTime
 
-	// The version of the profile.
+	// The version of the profile. The version is automatically incremented each time the profiled is edited.
 	GetProfileVersion() *string
 
 	// The current state of the registration profile.

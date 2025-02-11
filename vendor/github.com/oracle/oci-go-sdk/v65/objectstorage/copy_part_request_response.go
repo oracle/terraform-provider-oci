@@ -77,6 +77,10 @@ type CopyPartRequest struct {
 	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	OpcSseKmsKeyId *string `mandatory:"false" contributesTo:"header" name:"opc-sse-kms-key-id"`
 
+	// The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads),
+	// in addition to the default MD5 checksum.
+	OpcChecksumAlgorithm CopyPartOpcChecksumAlgorithmEnum `mandatory:"false" contributesTo:"header" name:"opc-checksum-algorithm"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -162,6 +166,9 @@ func (request CopyPartRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request CopyPartRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingCopyPartOpcChecksumAlgorithmEnum(string(request.OpcChecksumAlgorithm)); !ok && request.OpcChecksumAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpcChecksumAlgorithm: %s. Supported values are: %s.", request.OpcChecksumAlgorithm, strings.Join(GetCopyPartOpcChecksumAlgorithmEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -192,4 +199,50 @@ func (response CopyPartResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CopyPartResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CopyPartOpcChecksumAlgorithmEnum Enum with underlying type: string
+type CopyPartOpcChecksumAlgorithmEnum string
+
+// Set of constants representing the allowable values for CopyPartOpcChecksumAlgorithmEnum
+const (
+	CopyPartOpcChecksumAlgorithmCrc32c CopyPartOpcChecksumAlgorithmEnum = "CRC32C"
+	CopyPartOpcChecksumAlgorithmSha256 CopyPartOpcChecksumAlgorithmEnum = "SHA256"
+	CopyPartOpcChecksumAlgorithmSha384 CopyPartOpcChecksumAlgorithmEnum = "SHA384"
+)
+
+var mappingCopyPartOpcChecksumAlgorithmEnum = map[string]CopyPartOpcChecksumAlgorithmEnum{
+	"CRC32C": CopyPartOpcChecksumAlgorithmCrc32c,
+	"SHA256": CopyPartOpcChecksumAlgorithmSha256,
+	"SHA384": CopyPartOpcChecksumAlgorithmSha384,
+}
+
+var mappingCopyPartOpcChecksumAlgorithmEnumLowerCase = map[string]CopyPartOpcChecksumAlgorithmEnum{
+	"crc32c": CopyPartOpcChecksumAlgorithmCrc32c,
+	"sha256": CopyPartOpcChecksumAlgorithmSha256,
+	"sha384": CopyPartOpcChecksumAlgorithmSha384,
+}
+
+// GetCopyPartOpcChecksumAlgorithmEnumValues Enumerates the set of values for CopyPartOpcChecksumAlgorithmEnum
+func GetCopyPartOpcChecksumAlgorithmEnumValues() []CopyPartOpcChecksumAlgorithmEnum {
+	values := make([]CopyPartOpcChecksumAlgorithmEnum, 0)
+	for _, v := range mappingCopyPartOpcChecksumAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCopyPartOpcChecksumAlgorithmEnumStringValues Enumerates the set of values in String for CopyPartOpcChecksumAlgorithmEnum
+func GetCopyPartOpcChecksumAlgorithmEnumStringValues() []string {
+	return []string{
+		"CRC32C",
+		"SHA256",
+		"SHA384",
+	}
+}
+
+// GetMappingCopyPartOpcChecksumAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCopyPartOpcChecksumAlgorithmEnum(val string) (CopyPartOpcChecksumAlgorithmEnum, bool) {
+	enum, ok := mappingCopyPartOpcChecksumAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

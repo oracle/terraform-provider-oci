@@ -32,7 +32,8 @@ type StationProfile struct {
 	// The description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an
+	// instance once registered. Management stations are only used by non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
 	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
@@ -41,7 +42,7 @@ type StationProfile struct {
 	// The time the registration profile was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 
-	// The version of the profile.
+	// The version of the profile. The version is automatically incremented each time the profiled is edited.
 	ProfileVersion *string `mandatory:"false" json:"profileVersion"`
 
 	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.

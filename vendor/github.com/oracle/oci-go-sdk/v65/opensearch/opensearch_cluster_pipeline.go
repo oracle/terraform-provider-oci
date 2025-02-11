@@ -37,23 +37,23 @@ type OpensearchClusterPipeline struct {
 	// The OCID for the compartment where the pipeline's VCN is located.
 	VcnCompartmentId *string `mandatory:"true" json:"vcnCompartmentId"`
 
-	// The OCID for the compartment where the pipwline's subnet is located.
+	// The OCID for the compartment where the pipeline's subnet is located.
 	SubnetCompartmentId *string `mandatory:"true" json:"subnetCompartmentId"`
 
-	// The maximum pipeline capacity, in OCPUs.
-	MaxOcpuCount *int `mandatory:"true" json:"maxOcpuCount"`
+	// The number of OCPUs configured for each pipeline node.
+	OcpuCount *int `mandatory:"true" json:"ocpuCount"`
 
-	// The maximum pipeline capacity, in OCPUs.
-	MinOcpuCount *int `mandatory:"true" json:"minOcpuCount"`
+	// The amount of memory in GB, for each pipeline node.
+	MemoryGB *int `mandatory:"true" json:"memoryGB"`
 
-	// The maximum amount of memory in GB, for the pipeline.
-	MaxMemoryGB *int `mandatory:"true" json:"maxMemoryGB"`
-
-	// The minimum amount of memory in GB, for the pipeline.
-	MinMemoryGB *int `mandatory:"true" json:"minMemoryGB"`
+	// The number of nodes configured for the pipeline.
+	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
 	// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
 	PipelineConfigurationBody *string `mandatory:"true" json:"pipelineConfigurationBody"`
+
+	// The data prepper config in YAML format. The command accepts the data prepper config as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
+	DataPrepperConfigurationBody *string `mandatory:"true" json:"dataPrepperConfigurationBody"`
 
 	// The fully qualified domain name (FQDN) for the cluster's API endpoint.
 	OpensearchPipelineFqdn *string `mandatory:"true" json:"opensearchPipelineFqdn"`
@@ -64,11 +64,20 @@ type OpensearchClusterPipeline struct {
 	// The current state of the cluster backup.
 	LifecycleState OpensearchClusterPipelineLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The current state of the pipeline.
+	PipelineMode OpensearchClusterPipelinePipelineModeEnum `mandatory:"true" json:"pipelineMode"`
+
 	// The date and time the cluster pipeline was created. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The amount of time in milliseconds since the pipeline was updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The customer IP and the corresponding fully qualified domain name that the pipeline will connect to.
+	ReverseConnectionEndpoints []OpensearchPipelineReverseConnectionEndpoint `mandatory:"false" json:"reverseConnectionEndpoints"`
+
+	// The OCID of the NSG where the pipeline private endpoint vnic will be attached.
+	NsgId *string `mandatory:"false" json:"nsgId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -94,6 +103,9 @@ func (m OpensearchClusterPipeline) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingOpensearchClusterPipelineLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOpensearchClusterPipelineLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOpensearchClusterPipelinePipelineModeEnum(string(m.PipelineMode)); !ok && m.PipelineMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineMode: %s. Supported values are: %s.", m.PipelineMode, strings.Join(GetOpensearchClusterPipelinePipelineModeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -157,5 +169,47 @@ func GetOpensearchClusterPipelineLifecycleStateEnumStringValues() []string {
 // GetMappingOpensearchClusterPipelineLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingOpensearchClusterPipelineLifecycleStateEnum(val string) (OpensearchClusterPipelineLifecycleStateEnum, bool) {
 	enum, ok := mappingOpensearchClusterPipelineLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// OpensearchClusterPipelinePipelineModeEnum Enum with underlying type: string
+type OpensearchClusterPipelinePipelineModeEnum string
+
+// Set of constants representing the allowable values for OpensearchClusterPipelinePipelineModeEnum
+const (
+	OpensearchClusterPipelinePipelineModeRunning OpensearchClusterPipelinePipelineModeEnum = "RUNNING"
+	OpensearchClusterPipelinePipelineModeStopped OpensearchClusterPipelinePipelineModeEnum = "STOPPED"
+)
+
+var mappingOpensearchClusterPipelinePipelineModeEnum = map[string]OpensearchClusterPipelinePipelineModeEnum{
+	"RUNNING": OpensearchClusterPipelinePipelineModeRunning,
+	"STOPPED": OpensearchClusterPipelinePipelineModeStopped,
+}
+
+var mappingOpensearchClusterPipelinePipelineModeEnumLowerCase = map[string]OpensearchClusterPipelinePipelineModeEnum{
+	"running": OpensearchClusterPipelinePipelineModeRunning,
+	"stopped": OpensearchClusterPipelinePipelineModeStopped,
+}
+
+// GetOpensearchClusterPipelinePipelineModeEnumValues Enumerates the set of values for OpensearchClusterPipelinePipelineModeEnum
+func GetOpensearchClusterPipelinePipelineModeEnumValues() []OpensearchClusterPipelinePipelineModeEnum {
+	values := make([]OpensearchClusterPipelinePipelineModeEnum, 0)
+	for _, v := range mappingOpensearchClusterPipelinePipelineModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOpensearchClusterPipelinePipelineModeEnumStringValues Enumerates the set of values in String for OpensearchClusterPipelinePipelineModeEnum
+func GetOpensearchClusterPipelinePipelineModeEnumStringValues() []string {
+	return []string{
+		"RUNNING",
+		"STOPPED",
+	}
+}
+
+// GetMappingOpensearchClusterPipelinePipelineModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOpensearchClusterPipelinePipelineModeEnum(val string) (OpensearchClusterPipelinePipelineModeEnum, bool) {
+	enum, ok := mappingOpensearchClusterPipelinePipelineModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

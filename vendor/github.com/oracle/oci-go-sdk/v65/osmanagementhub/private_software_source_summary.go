@@ -64,7 +64,7 @@ type PrivateSoftwareSourceSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Whether this software source can be synced to a management station
+	// Indicates if this software source can be mirrored to a management station.
 	IsMirrorSyncAllowed *bool `mandatory:"false" json:"isMirrorSyncAllowed"`
 
 	// The current state of the software source.
@@ -76,7 +76,7 @@ type PrivateSoftwareSourceSummary struct {
 	// Availability of the software source (for OCI environments).
 	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
 	// The architecture type supported by the software source.

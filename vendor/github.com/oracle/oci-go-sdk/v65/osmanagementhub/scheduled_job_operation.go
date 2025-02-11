@@ -38,7 +38,8 @@ type ScheduledJobOperation struct {
 	// This parameter only applies when the scheduled job is for attaching or detaching software sources.
 	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
 
-	// The number of minutes to wait before considering that a reboot has failed on a managed instance.
+	// The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the
+	// timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 }
 

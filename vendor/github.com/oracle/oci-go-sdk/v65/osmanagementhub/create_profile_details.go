@@ -20,7 +20,8 @@ import (
 // CreateProfileDetails Provides the information used to create a new registration profile.
 type CreateProfileDetails interface {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// confidential information.
 	GetDisplayName() *string
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
@@ -29,7 +30,8 @@ type CreateProfileDetails interface {
 	// User-specified description of the registration profile.
 	GetDescription() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances. This is required when creating a profile for non-OCI instances.
+	// description: The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate
+	// with an instance once registered. This is required when creating a profile for non-OCI instances.
 	GetManagementStationId() *string
 
 	// The type of instance to register.

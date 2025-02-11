@@ -28,7 +28,7 @@ type UpdateScheduledJobDetails struct {
 	// The type of scheduling frequency for the job.
 	ScheduleType ScheduleTypesEnum `mandatory:"false" json:"scheduleType,omitempty"`
 
-	// The desired time of the next execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	// The time of the next execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeNextExecution *common.SDKTime `mandatory:"false" json:"timeNextExecution"`
 
 	// The frequency schedule for a recurring scheduled job.

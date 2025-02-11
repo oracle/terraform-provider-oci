@@ -40,7 +40,8 @@ type ProfileVersion struct {
 	// The description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an
+	// instance once registered. Management stations are only used with non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
 	// The list of software sources that the registration profile will use.
@@ -65,7 +66,7 @@ type ProfileVersion struct {
 	ProfileVersion *string `mandatory:"false" json:"profileVersion"`
 
 	// The current state of the registration profile.
-	LifecycleState ProfileVersionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The type of instance to register.
 	RegistrationType ProfileVersionRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
@@ -99,8 +100,8 @@ func (m ProfileVersion) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingProfileTypeEnum(string(m.ProfileType)); !ok && m.ProfileType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProfileType: %s. Supported values are: %s.", m.ProfileType, strings.Join(GetProfileTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingProfileVersionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetProfileVersionLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingProfileLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetProfileLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingProfileVersionRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileVersionRegistrationTypeEnumStringValues(), ",")))
@@ -109,68 +110,6 @@ func (m ProfileVersion) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// ProfileVersionLifecycleStateEnum Enum with underlying type: string
-type ProfileVersionLifecycleStateEnum string
-
-// Set of constants representing the allowable values for ProfileVersionLifecycleStateEnum
-const (
-	ProfileVersionLifecycleStateCreating ProfileVersionLifecycleStateEnum = "CREATING"
-	ProfileVersionLifecycleStateUpdating ProfileVersionLifecycleStateEnum = "UPDATING"
-	ProfileVersionLifecycleStateActive   ProfileVersionLifecycleStateEnum = "ACTIVE"
-	ProfileVersionLifecycleStateInactive ProfileVersionLifecycleStateEnum = "INACTIVE"
-	ProfileVersionLifecycleStateDeleting ProfileVersionLifecycleStateEnum = "DELETING"
-	ProfileVersionLifecycleStateDeleted  ProfileVersionLifecycleStateEnum = "DELETED"
-	ProfileVersionLifecycleStateFailed   ProfileVersionLifecycleStateEnum = "FAILED"
-)
-
-var mappingProfileVersionLifecycleStateEnum = map[string]ProfileVersionLifecycleStateEnum{
-	"CREATING": ProfileVersionLifecycleStateCreating,
-	"UPDATING": ProfileVersionLifecycleStateUpdating,
-	"ACTIVE":   ProfileVersionLifecycleStateActive,
-	"INACTIVE": ProfileVersionLifecycleStateInactive,
-	"DELETING": ProfileVersionLifecycleStateDeleting,
-	"DELETED":  ProfileVersionLifecycleStateDeleted,
-	"FAILED":   ProfileVersionLifecycleStateFailed,
-}
-
-var mappingProfileVersionLifecycleStateEnumLowerCase = map[string]ProfileVersionLifecycleStateEnum{
-	"creating": ProfileVersionLifecycleStateCreating,
-	"updating": ProfileVersionLifecycleStateUpdating,
-	"active":   ProfileVersionLifecycleStateActive,
-	"inactive": ProfileVersionLifecycleStateInactive,
-	"deleting": ProfileVersionLifecycleStateDeleting,
-	"deleted":  ProfileVersionLifecycleStateDeleted,
-	"failed":   ProfileVersionLifecycleStateFailed,
-}
-
-// GetProfileVersionLifecycleStateEnumValues Enumerates the set of values for ProfileVersionLifecycleStateEnum
-func GetProfileVersionLifecycleStateEnumValues() []ProfileVersionLifecycleStateEnum {
-	values := make([]ProfileVersionLifecycleStateEnum, 0)
-	for _, v := range mappingProfileVersionLifecycleStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetProfileVersionLifecycleStateEnumStringValues Enumerates the set of values in String for ProfileVersionLifecycleStateEnum
-func GetProfileVersionLifecycleStateEnumStringValues() []string {
-	return []string{
-		"CREATING",
-		"UPDATING",
-		"ACTIVE",
-		"INACTIVE",
-		"DELETING",
-		"DELETED",
-		"FAILED",
-	}
-}
-
-// GetMappingProfileVersionLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingProfileVersionLifecycleStateEnum(val string) (ProfileVersionLifecycleStateEnum, bool) {
-	enum, ok := mappingProfileVersionLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ProfileVersionRegistrationTypeEnum Enum with underlying type: string

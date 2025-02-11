@@ -70,7 +70,7 @@ type VendorSoftwareSource struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// This property applies only to replicated vendor software sources. This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment. This property applies only to replicated vendor software sources.
 	OriginSoftwareSourceId *string `mandatory:"false" json:"originSoftwareSourceId"`
 
 	// Indicates whether the software source is required for the Autonomous Linux service.
@@ -82,7 +82,7 @@ type VendorSoftwareSource struct {
 	// Availability of the software source (for OCI environments).
 	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
 	// The architecture type supported by the software source.

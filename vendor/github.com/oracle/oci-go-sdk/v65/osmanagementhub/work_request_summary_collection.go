@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// WorkRequestSummaryCollection Results of a work request search. Contains both work request items and other information, such as metadata.
+// WorkRequestSummaryCollection The set of work requests returned for the ListWorkRequests operation.
 type WorkRequestSummaryCollection struct {
 
 	// List of work requests.

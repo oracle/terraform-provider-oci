@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// AttachManagementStationToProfileDetails Provides the information used to attach a managed station to a profile.
+// AttachManagementStationToProfileDetails Provides the information used to attach a management station to a profile.
 type AttachManagementStationToProfileDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed station that the instance will be associated with.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station that the instance will be associated with.
 	ManagementStationId *string `mandatory:"true" json:"managementStationId"`
 }
 

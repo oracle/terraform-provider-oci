@@ -559,7 +559,7 @@ func (client OnboardingClient) detachSoftwareSourcesFromProfile(ctx context.Cont
 	return response, err
 }
 
-// GetProfile Gets information about the specified registration profile.
+// GetProfile Returns information about the specified registration profile.
 // A default retry strategy applies to this operation GetProfile()
 func (client OnboardingClient) GetProfile(ctx context.Context, request GetProfileRequest) (response GetProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -613,7 +613,7 @@ func (client OnboardingClient) getProfile(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetProfileVersion Gets information about the specified registration profile version.
+// GetProfileVersion Returns information about the version of the specified registration profile.
 // A default retry strategy applies to this operation GetProfileVersion()
 func (client OnboardingClient) GetProfileVersion(ctx context.Context, request GetProfileVersionRequest) (response GetProfileVersionResponse, err error) {
 	var ociResponse common.OCIResponse

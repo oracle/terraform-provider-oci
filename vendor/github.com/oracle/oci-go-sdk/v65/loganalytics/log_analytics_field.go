@@ -82,6 +82,12 @@ type LogAnalyticsField struct {
 
 	// The field unit type.
 	UnitType *string `mandatory:"false" json:"unitType"`
+
+	// The last updated date and time.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// A flag indicating whether or not duplicates would be retained.
+	IsKeepDuplicates *bool `mandatory:"false" json:"isKeepDuplicates"`
 }
 
 func (m LogAnalyticsField) String() string {

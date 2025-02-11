@@ -19,7 +19,7 @@ import (
 // UpdateWorkRequestDetails Provides the information used to update a work request.
 type UpdateWorkRequestDetails struct {
 
-	// status of current work request.
+	// Status of current work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
 	// The percentage complete of the operation tracked by this work request.

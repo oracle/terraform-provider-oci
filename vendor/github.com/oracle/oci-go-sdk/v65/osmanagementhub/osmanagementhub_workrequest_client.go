@@ -92,7 +92,7 @@ func (client *WorkRequestClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
-// GetWorkRequest Gets information about the specified work request.
+// GetWorkRequest Returns information about the specified work request.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client WorkRequestClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -146,7 +146,7 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 	return response, err
 }
 
-// ListWorkRequestErrors Gets the errors for the specified work request.
+// ListWorkRequestErrors Returns the errors for the specified work request.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client WorkRequestClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -200,7 +200,7 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 	return response, err
 }
 
-// ListWorkRequestLogs Gets the logs for the specified work request.
+// ListWorkRequestLogs Returns the logs for the specified work request.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client WorkRequestClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -309,7 +309,7 @@ func (client WorkRequestClient) listWorkRequests(ctx context.Context, request co
 	return response, err
 }
 
-// RerunWorkRequest Reruns a failed work request based on a work request id. After a work request status is failed, rerun the work request to restart the work on failed targets.
+// RerunWorkRequest Reruns a failed work for the specified work request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Rerunning restarts the work on failed targets.
 // A default retry strategy applies to this operation RerunWorkRequest()
 func (client WorkRequestClient) RerunWorkRequest(ctx context.Context, request RerunWorkRequestRequest) (response RerunWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -19,7 +19,7 @@ import (
 // RemovePackagesFromSoftwareSourceDetails Provides a list of packages to be removed from the software source.
 type RemovePackagesFromSoftwareSourceDetails struct {
 
-	// List of packages specified by the name of the package (N) or the full package name (NVRA).
+	// List of packages specified by the name of the package (N) or the full package name (NVRA or NEVRA).
 	Packages []string `mandatory:"true" json:"packages"`
 }
 

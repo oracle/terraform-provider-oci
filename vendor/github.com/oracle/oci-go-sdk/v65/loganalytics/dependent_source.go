@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DependentSource A source that uses the parser, either directly or indirectly.
+// DependentSource A source that depends on or uses the resource such as a field or a parser
 type DependentSource struct {
 
 	// The source name.

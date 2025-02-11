@@ -116,7 +116,7 @@ type ScheduledJob struct {
 	// and then retries. If that fails, the service waits 10 minutes and then retries.
 	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request to create a scheduled rerun for.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 }
 

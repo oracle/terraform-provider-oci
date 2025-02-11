@@ -96,7 +96,7 @@ type CreateScheduledJobDetails struct {
 	// Indicates whether this scheduled job is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request to create a scheduled rerun for.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 }
 

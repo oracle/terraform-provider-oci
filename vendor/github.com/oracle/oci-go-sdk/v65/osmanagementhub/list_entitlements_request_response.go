@@ -17,7 +17,7 @@ type ListEntitlementsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return entitlements that match the given CSI.
+	// A filter to return entitlements that match the given customer support identifier (CSI).
 	Csi *string `mandatory:"false" contributesTo:"query" name:"csi"`
 
 	// A filter to return only resources that match the given vendor name.

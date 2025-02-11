@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateProfileDetails Information for updating a registration profile
+// UpdateProfileDetails Provides the information used to update a registration profile.
 type UpdateProfileDetails struct {
 
 	// A user-friendly name for the profile. Does not have to be unique. Avoid entering confidential information.

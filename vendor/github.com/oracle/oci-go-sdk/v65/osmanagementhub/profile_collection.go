@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ProfileCollection Results of a registration profile search. Contains both registration profile summary items and other data.
+// ProfileCollection The set of registration profiles returned for the ListProfiles operation.
 type ProfileCollection struct {
 
 	// List of registration profiles.

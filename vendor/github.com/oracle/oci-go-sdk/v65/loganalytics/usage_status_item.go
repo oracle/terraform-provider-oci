@@ -29,6 +29,9 @@ type UsageStatusItem struct {
 
 	// The maximum availability of the field.
 	MaxAvailable *int `mandatory:"false" json:"maxAvailable"`
+
+	// A flag indicating whether duplicates should be retained while processing multi-valued fields.
+	IsKeepDuplicates *bool `mandatory:"false" json:"isKeepDuplicates"`
 }
 
 func (m UsageStatusItem) String() string {

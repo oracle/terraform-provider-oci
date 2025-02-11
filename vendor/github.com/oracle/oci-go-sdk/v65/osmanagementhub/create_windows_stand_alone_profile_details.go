@@ -17,10 +17,11 @@ import (
 	"strings"
 )
 
-// CreateWindowsStandAloneProfileDetails Provides the information used to create a windows stand-alone registration profile.
+// CreateWindowsStandAloneProfileDetails Provides the information used to create a Windows standalone registration profile.
 type CreateWindowsStandAloneProfileDetails struct {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
@@ -29,7 +30,8 @@ type CreateWindowsStandAloneProfileDetails struct {
 	// User-specified description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances. This is required when creating a profile for non-OCI instances.
+	// description: The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate
+	// with an instance once registered. This is required when creating a profile for non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
 	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.

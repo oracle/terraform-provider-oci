@@ -63,6 +63,9 @@ type LogAnalyticsObjectCollectionRuleSummary struct {
 	// Type of files/objects in this object collection rule.
 	LogType LogTypesEnum `mandatory:"false" json:"logType,omitempty"`
 
+	// A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage.
+	StreamId *string `mandatory:"false" json:"streamId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`

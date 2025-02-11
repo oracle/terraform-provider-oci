@@ -67,7 +67,7 @@ type ManagedInstance struct {
 	// The profile that was used to register this instance with the service.
 	Profile *string `mandatory:"false" json:"profile"`
 
-	// The profile version that was used to register this instance with the service.
+	// The version of the profile that was used to register this instance with the service.
 	ProfileVersion *string `mandatory:"false" json:"profileVersion"`
 
 	// Indicates whether this managed instance is acting as an on-premises management station.
@@ -76,7 +76,7 @@ type ManagedInstance struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station.
 	PrimaryManagementStationId *string `mandatory:"false" json:"primaryManagementStationId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary managment station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary management station.
 	SecondaryManagementStationId *string `mandatory:"false" json:"secondaryManagementStationId"`
 
 	// The list of software sources currently attached to the managed instance.

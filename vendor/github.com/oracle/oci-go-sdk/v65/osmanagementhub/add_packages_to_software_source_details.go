@@ -19,10 +19,10 @@ import (
 // AddPackagesToSoftwareSourceDetails Provides the list of packages to add to a software source.
 type AddPackagesToSoftwareSourceDetails struct {
 
-	// List of packages specified by the name of the package (N) or the full package name (NVRA).
+	// List of packages specified by the name of the package (N) or the full package name (NVRA or NEVRA).
 	Packages []string `mandatory:"true" json:"packages"`
 
-	// Indicates whether the service should continue adding packages to the repository in presence of missing packages (best attempt)
+	// Indicates whether the service should generate a custom software source when the package list contains invalid values. When set to true, the service ignores any invalid packages and generates the custom software source with using the valid packages.
 	IsContinueOnMissingPackages *bool `mandatory:"false" json:"isContinueOnMissingPackages"`
 }
 

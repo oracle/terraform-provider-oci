@@ -18,7 +18,7 @@ type DbNodeActionRequest struct {
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// The action to perform on the DB Node.
-	Action DbNodeActionActionEnum `mandatory:"true" contributesTo:"query" name:"action" omitEmpty:"true"`
+	Action *string `mandatory:"true" contributesTo:"query" name:"action" omitEmpty:"true"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -72,9 +72,6 @@ func (request DbNodeActionRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request DbNodeActionRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingDbNodeActionActionEnum(string(request.Action)); !ok && request.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", request.Action, strings.Join(GetDbNodeActionActionEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -108,54 +105,4 @@ func (response DbNodeActionResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response DbNodeActionResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// DbNodeActionActionEnum Enum with underlying type: string
-type DbNodeActionActionEnum string
-
-// Set of constants representing the allowable values for DbNodeActionActionEnum
-const (
-	DbNodeActionActionStop      DbNodeActionActionEnum = "STOP"
-	DbNodeActionActionStart     DbNodeActionActionEnum = "START"
-	DbNodeActionActionSoftreset DbNodeActionActionEnum = "SOFTRESET"
-	DbNodeActionActionReset     DbNodeActionActionEnum = "RESET"
-)
-
-var mappingDbNodeActionActionEnum = map[string]DbNodeActionActionEnum{
-	"STOP":      DbNodeActionActionStop,
-	"START":     DbNodeActionActionStart,
-	"SOFTRESET": DbNodeActionActionSoftreset,
-	"RESET":     DbNodeActionActionReset,
-}
-
-var mappingDbNodeActionActionEnumLowerCase = map[string]DbNodeActionActionEnum{
-	"stop":      DbNodeActionActionStop,
-	"start":     DbNodeActionActionStart,
-	"softreset": DbNodeActionActionSoftreset,
-	"reset":     DbNodeActionActionReset,
-}
-
-// GetDbNodeActionActionEnumValues Enumerates the set of values for DbNodeActionActionEnum
-func GetDbNodeActionActionEnumValues() []DbNodeActionActionEnum {
-	values := make([]DbNodeActionActionEnum, 0)
-	for _, v := range mappingDbNodeActionActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetDbNodeActionActionEnumStringValues Enumerates the set of values in String for DbNodeActionActionEnum
-func GetDbNodeActionActionEnumStringValues() []string {
-	return []string{
-		"STOP",
-		"START",
-		"SOFTRESET",
-		"RESET",
-	}
-}
-
-// GetMappingDbNodeActionActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingDbNodeActionActionEnum(val string) (DbNodeActionActionEnum, bool) {
-	enum, ok := mappingDbNodeActionActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

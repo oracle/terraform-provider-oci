@@ -38,16 +38,18 @@ type ListProfilesRequest struct {
 	// A filter to return profiles that match the given instance type.
 	RegistrationType []ProfileRegistrationTypeEnum `contributesTo:"query" name:"registrationType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A boolean variable that is used to list only the default profile resources.
+	// A filter to return only default profiles.
 	IsDefaultProfile *bool `mandatory:"false" contributesTo:"query" name:"isDefaultProfile"`
 
 	// A filter to return only service-provided profiles.
 	IsServiceProvidedProfile *bool `mandatory:"false" contributesTo:"query" name:"isServiceProvidedProfile"`
 
-	// A multi filter to return only managed instances that match the given management stations OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// A filter to return resources that are associated with the specified management
+	// station OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ManagementStation []string `contributesTo:"query" name:"managementStation" collectionFormat:"multi"`
 
-	// A multi filter to return only managed instances that don't contain the given management stations OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// A filter to return resources that aren't associated with the specified management
+	// station OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ManagementStationNotEqualTo []string `contributesTo:"query" name:"managementStationNotEqualTo" collectionFormat:"multi"`
 
 	// The version of the registration profile.

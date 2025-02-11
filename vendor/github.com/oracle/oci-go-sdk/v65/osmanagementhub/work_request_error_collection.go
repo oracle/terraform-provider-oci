@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// WorkRequestErrorCollection Results of a work request error search. Contains both work request error items and other information, such as metadata.
+// WorkRequestErrorCollection The set of work request errors returned for the ListWorkRequestErrors operation.
 type WorkRequestErrorCollection struct {
 
 	// List of work request error objects.

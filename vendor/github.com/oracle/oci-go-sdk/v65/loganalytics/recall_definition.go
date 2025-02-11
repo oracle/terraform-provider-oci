@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OpenSearch Service API
+// LogAnalytics API
 //
-// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
+// The LogAnalytics API for the LogAnalytics service.
 //
 
-package opensearch
+package loganalytics
 
 import (
 	"fmt"
@@ -15,19 +15,24 @@ import (
 	"strings"
 )
 
-// PipelineValidationErrorDetails The configuration details for validating pipeline configuration provided as input.
-type PipelineValidationErrorDetails struct {
-	Message *string `mandatory:"true" json:"message"`
+// RecallDefinition Defines a recall in a query.
+type RecallDefinition struct {
+
+	// Id of the recall.
+	Id *string `mandatory:"false" json:"id"`
+
+	// Name of the recall.
+	Name *string `mandatory:"false" json:"name"`
 }
 
-func (m PipelineValidationErrorDetails) String() string {
+func (m RecallDefinition) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m PipelineValidationErrorDetails) ValidateEnumValue() (bool, error) {
+func (m RecallDefinition) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

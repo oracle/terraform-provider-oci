@@ -41,7 +41,7 @@ type SoftwareSource interface {
 	// The repository ID for the software source.
 	GetRepoId() *string
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	GetOsFamily() OsFamilyEnum
 
 	// The architecture type supported by the software source.

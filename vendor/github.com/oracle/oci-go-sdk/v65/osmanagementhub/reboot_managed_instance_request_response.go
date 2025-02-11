@@ -17,7 +17,8 @@ type RebootManagedInstanceRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
-	// Details of the timeout to be set for reboot.
+	// The timeout to be set for the reboot job. The timeout is the amount of time in minutes that the service waits for
+	// the reboot to complete before marking the job as failed.
 	RebootManagedInstanceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

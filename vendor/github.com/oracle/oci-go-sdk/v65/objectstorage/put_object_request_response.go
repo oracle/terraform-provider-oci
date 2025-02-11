@@ -56,6 +56,10 @@ type PutObjectRequest struct {
 	// "The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)"
 	ContentMD5 *string `mandatory:"false" contributesTo:"header" name:"Content-MD5"`
 
+	// The option to commit a new chunk of data to the end of an existing object. If the object doesn't exist, it'll create a new one.
+	// The maximum size of the data to append to an object in a single append request is 512MB. Each object can only be appended up to 10,000 times.
+	IsAppend *bool `mandatory:"false" contributesTo:"query" name:"isAppend"`
+
 	// The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads),
 	// in addition to the default MD5 checksum.
 	OpcChecksumAlgorithm PutObjectOpcChecksumAlgorithmEnum `mandatory:"false" contributesTo:"header" name:"opc-checksum-algorithm"`
@@ -258,6 +262,12 @@ type PutObjectResponse struct {
 
 	// VersionId of the newly created object
 	VersionId *string `presentIn:"header" name:"version-id"`
+
+	// The offset where the chunk was appended to, in bytes. If no object exists, 0 will be returned. This header is only returned for append operations.
+	AppendOffset *int64 `presentIn:"header" name:"append-offset"`
+
+	// The number of chunks committed to the object. This can be used to manage how many more appends can be done.
+	CommittedChunkCount *int `presentIn:"header" name:"committed-chunk-count"`
 }
 
 func (response PutObjectResponse) String() string {

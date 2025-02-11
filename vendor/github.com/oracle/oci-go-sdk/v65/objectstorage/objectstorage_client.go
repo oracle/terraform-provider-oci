@@ -800,6 +800,68 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 	return response, err
 }
 
+// CreateInventoryRule Creates a new inventory rule in the namespace
+// A default retry strategy applies to this operation CreateInventoryRule()
+func (client ObjectStorageClient) CreateInventoryRule(ctx context.Context, request CreateInventoryRuleRequest) (response CreateInventoryRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createInventoryRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInventoryRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInventoryRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInventoryRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInventoryRuleResponse")
+	}
+	return
+}
+
+// createInventoryRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) createInventoryRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/inventoryRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CreateInventoryRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateInventoryRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/InventoryRule/CreateInventoryRule"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateInventoryRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateMultipartUpload Starts a new multipart upload to a specific object in the given bucket in the given namespace.
 // See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
@@ -1295,6 +1357,68 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/DeleteBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteBucket", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInventoryRule Deletes the specified rule.
+// A default retry strategy applies to this operation DeleteInventoryRule()
+func (client ObjectStorageClient) DeleteInventoryRule(ctx context.Context, request DeleteInventoryRuleRequest) (response DeleteInventoryRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInventoryRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInventoryRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInventoryRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInventoryRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInventoryRuleResponse")
+	}
+	return
+}
+
+// deleteInventoryRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) deleteInventoryRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/inventoryRules/{inventoryRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(DeleteInventoryRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteInventoryRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/InventoryRule/DeleteInventoryRule"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteInventoryRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1916,6 +2040,68 @@ func (client ObjectStorageClient) getBucketOptions(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/GetBucketOptions"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetBucketOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInventoryRule Get the specified inventory rule.
+// A default retry strategy applies to this operation GetInventoryRule()
+func (client ObjectStorageClient) GetInventoryRule(ctx context.Context, request GetInventoryRuleRequest) (response GetInventoryRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInventoryRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInventoryRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInventoryRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInventoryRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInventoryRuleResponse")
+	}
+	return
+}
+
+// getInventoryRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getInventoryRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/inventoryRules/{inventoryRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(GetInventoryRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetInventoryRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/InventoryRule/GetInventoryRule"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "GetInventoryRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2794,6 +2980,68 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/ListBuckets"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListBuckets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInventoryRules List the inventory rules.
+// A default retry strategy applies to this operation ListInventoryRules()
+func (client ObjectStorageClient) ListInventoryRules(ctx context.Context, request ListInventoryRulesRequest) (response ListInventoryRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInventoryRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInventoryRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInventoryRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInventoryRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInventoryRulesResponse")
+	}
+	return
+}
+
+// listInventoryRules implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listInventoryRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/inventoryRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ListInventoryRulesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListInventoryRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/InventoryRule/ListInventoryRules"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ListInventoryRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -4594,6 +4842,68 @@ func (client ObjectStorageClient) updateBucketOptions(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/UpdateBucketOptions"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateBucketOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInventoryRule Updates the specified inventory rule. Rule changes take effect typically within 30 seconds.
+// A default retry strategy applies to this operation UpdateInventoryRule()
+func (client ObjectStorageClient) UpdateInventoryRule(ctx context.Context, request UpdateInventoryRuleRequest) (response UpdateInventoryRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateInventoryRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInventoryRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInventoryRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInventoryRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInventoryRuleResponse")
+	}
+	return
+}
+
+// updateInventoryRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updateInventoryRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/inventoryRules/{inventoryRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(UpdateInventoryRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateInventoryRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/InventoryRule/UpdateInventoryRule"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateInventoryRule", apiReferenceLink)
 		return response, err
 	}
 

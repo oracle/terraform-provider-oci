@@ -29,13 +29,13 @@ type ListSoftwarePackageSoftwareSourcesRequest struct {
 	// A filter to return only instances whose architecture type matches the given architecture.
 	ArchType []ArchTypeEnum `contributesTo:"query" name:"archType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source in a non-OCI environment for a tenancy.
+	// The availability of the software source in a non-OCI environment for a tenancy.
 	Availability []AvailabilityEnum `contributesTo:"query" name:"availability" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source in an OCI environment for a tenancy.
+	// The availability of the software source in an OCI environment for a tenancy.
 	AvailabilityAtOci []AvailabilityEnum `contributesTo:"query" name:"availabilityAtOci" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source. Use this query parameter to filter across availabilities in different environments.
+	// The availability of the software source. Use this query parameter to filter across availabilities in different environments.
 	AvailabilityAnywhere []AvailabilityEnum `contributesTo:"query" name:"availabilityAnywhere" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter to return resources that match the given user-friendly name.

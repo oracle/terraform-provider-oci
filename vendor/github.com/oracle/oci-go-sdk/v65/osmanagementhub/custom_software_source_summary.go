@@ -76,13 +76,13 @@ type CustomSoftwareSourceSummary struct {
 	// Availability of the software source (for OCI environments).
 	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
 	// The architecture type supported by the software source.
 	ArchType ArchTypeEnum `mandatory:"true" json:"archType"`
 
-	// The creation type of a software source.
+	// Identifies how the custom software source was created.
 	SoftwareSourceSubType SoftwareSourceSubTypeEnum `mandatory:"false" json:"softwareSourceSubType,omitempty"`
 }
 
