@@ -567,9 +567,9 @@ func (p ConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err error) {
 		password = privateKeyPassword
 	}
 
-	privateKey := p.D.privateKey
+	privateKey := strings.ReplaceAll(p.D.privateKey, "\\n", "\n") // Ensure \n is replaced by actual newlines
 	if privateKey != "" {
-		return oci_common.PrivateKeyFromBytes([]byte(privateKey), &password)
+		return oci_common.PrivateKeyFromBytesWithPassword([]byte(privateKey), []byte(password))
 	}
 
 	privateKeyPath := p.D.privateKeyPath
