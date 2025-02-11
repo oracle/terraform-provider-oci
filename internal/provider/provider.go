@@ -555,8 +555,10 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 		password = privateKeyPassword.(string)
 	}
 
-	if privateKey, hasPrivateKey := p.D.GetOkExists(globalvar.PrivateKeyAttrName); hasPrivateKey {
-		return oci_common.PrivateKeyFromBytes([]byte(privateKey.(string)), &password)
+	if privateKey, hasPrivateKey := p.D.GetOk(globalvar.PrivateKeyAttrName); hasPrivateKey {
+		keyData := privateKey.(string)
+		keyData = strings.ReplaceAll(keyData, "\\n", "\n") // Ensure \n is replaced by actual newlines
+		return oci_common.PrivateKeyFromBytesWithPassword([]byte(keyData), []byte(password))
 	}
 
 	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(globalvar.PrivateKeyPathAttrName); hasPrivateKeyPath {
