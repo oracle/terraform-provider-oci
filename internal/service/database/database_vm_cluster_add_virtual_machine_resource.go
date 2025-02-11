@@ -133,6 +133,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"cpus_enabled": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -373,6 +377,8 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)

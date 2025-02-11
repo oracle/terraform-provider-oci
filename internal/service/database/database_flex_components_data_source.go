@@ -26,6 +26,10 @@ func DatabaseFlexComponentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"flex_component_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -49,11 +53,39 @@ func DatabaseFlexComponentsDataSource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"available_local_storage_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"available_memory_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"compute_model": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"description_summary": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"hardware_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"minimum_core_count": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"runtime_minimum_core_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"shape": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -96,6 +128,11 @@ func (s *DatabaseFlexComponentsDataSourceCrud) Get() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -160,12 +197,38 @@ func FlexComponentSummaryToMap(obj oci_database.FlexComponentSummary) map[string
 		result["available_db_storage_in_gbs"] = int(*obj.AvailableDbStorageInGBs)
 	}
 
+	if obj.AvailableLocalStorageInGBs != nil {
+		result["available_local_storage_in_gbs"] = int(*obj.AvailableLocalStorageInGBs)
+	}
+
+	if obj.AvailableMemoryInGBs != nil {
+		result["available_memory_in_gbs"] = int(*obj.AvailableMemoryInGBs)
+	}
+
+	if obj.ComputeModel != nil {
+		result["compute_model"] = string(*obj.ComputeModel)
+	}
+
+	if obj.DescriptionSummary != nil {
+		result["description_summary"] = string(*obj.DescriptionSummary)
+	}
+
+	result["hardware_type"] = string(obj.HardwareType)
+
 	if obj.MinimumCoreCount != nil {
 		result["minimum_core_count"] = int(*obj.MinimumCoreCount)
 	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
+	}
+
+	if obj.RuntimeMinimumCoreCount != nil {
+		result["runtime_minimum_core_count"] = int(*obj.RuntimeMinimumCoreCount)
+	}
+
+	if obj.Shape != nil {
+		result["shape"] = string(*obj.Shape)
 	}
 
 	return result
