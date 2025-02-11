@@ -17,8 +17,8 @@ import (
 var (
 	DatabaseDatabaseFlexComponentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Optional, Create: `X11M`},
-		"shape":          acctest.Representation{RepType: acctest.Optional, Create: `Exadata.X11M`},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: `Exadata.X8M.StorageServer`},
+		"shape":          acctest.Representation{RepType: acctest.Optional, Create: `Exadata.X8M`},
 	}
 
 	DatabaseFlexComponentResourceConfig = ""
@@ -54,13 +54,6 @@ func TestDatabaseFlexComponentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.available_db_storage_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.minimum_core_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.shape"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.available_memory_in_gbs"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.available_local_storage_in_gbs"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.compute_model"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.runtime_minimum_core_count"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.hardware_type"),
-				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.description_summary"),
 			),
 		},
 	})

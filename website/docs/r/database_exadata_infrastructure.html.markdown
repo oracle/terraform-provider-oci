@@ -46,6 +46,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 		phone_number = var.exadata_infrastructure_contacts_phone_number
 	}
 	corporate_proxy = var.exadata_infrastructure_corporate_proxy
+	database_server_type = var.exadata_infrastructure_database_server_type
 	defined_tags = var.exadata_infrastructure_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	is_cps_offline_report_enabled = var.exadata_infrastructure_is_cps_offline_report_enabled
@@ -79,6 +80,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 		dr_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_dr_network_bonding_mode
 	}
 	storage_count = var.exadata_infrastructure_storage_count
+	storage_server_type = var.exadata_infrastructure_storage_server_type
 }
 ```
 
@@ -99,6 +101,7 @@ The following arguments are supported:
 	* `name` - (Required) (Updatable) The name of the Exadata Infrastructure contact.
 	* `phone_number` - (Optional) (Updatable) The phone number for the Exadata Infrastructure contact.
 * `corporate_proxy` - (Optional) (Updatable) The corporate network proxy for access to the control plane network. Oracle recommends using an HTTPS proxy when possible for enhanced security. 
+* `database_server_type` - (Optional) The database server type of the Exadata infrastructure.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Exadata infrastructure. The name does not need to be unique. 
 * `dns_server` - (Required) (Updatable) The list of DNS server IP addresses. Maximum of 3 allowed.
@@ -132,6 +135,7 @@ The following arguments are supported:
 * `ntp_server` - (Required) (Updatable) The list of NTP server IP addresses. Maximum of 3 allowed.
 * `shape` - (Required) The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `storage_count` - (Optional) The number of storage servers for the Exadata infrastructure.
+* `storage_server_type` - (Optional) The storage server type of the Exadata infrastructure.
 * `time_zone` - (Required) (Updatable) The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
 * `additional_storage_count` - The requested number of additional storage servers for the Exadata infrastructure.
 
@@ -152,6 +156,7 @@ The following attributes are exported:
 * `cloud_control_plane_server2` - The IP address for the second control plane server.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the Exadata infrastructure.
+* `compute_model` - The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
 	* `is_contact_mos_validated` - If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
@@ -162,6 +167,7 @@ The following attributes are exported:
 * `cpus_enabled` - The number of enabled CPU cores.
 * `csi_number` - The CSI Number of the Exadata infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `database_server_type` - The database server type of the Exadata infrastructure.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the Exadata infrastructure.
 * `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
@@ -214,6 +220,7 @@ The following attributes are exported:
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.
+* `storage_server_type` - The storage server type of the Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the Exadata infrastructure.
 * `time_created` - The date and time the Exadata infrastructure was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
