@@ -36,6 +36,10 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"are_server_types_supported": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"available_core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -68,8 +72,16 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"compute_model": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"core_count_increment": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"max_storage_count": {
@@ -197,6 +209,10 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		dbSystemShape := map[string]interface{}{}
 
+		if r.AreServerTypesSupported != nil {
+			dbSystemShape["are_server_types_supported"] = *r.AreServerTypesSupported
+		}
+
 		if r.AvailableCoreCount != nil {
 			dbSystemShape["available_core_count"] = *r.AvailableCoreCount
 		}
@@ -229,8 +245,14 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 			dbSystemShape["available_memory_per_node_in_gbs"] = *r.AvailableMemoryPerNodeInGBs
 		}
 
+		dbSystemShape["compute_model"] = r.ComputeModel
+
 		if r.CoreCountIncrement != nil {
 			dbSystemShape["core_count_increment"] = *r.CoreCountIncrement
+		}
+
+		if r.DisplayName != nil {
+			dbSystemShape["display_name"] = *r.DisplayName
 		}
 
 		if r.MaxStorageCount != nil {

@@ -62,6 +62,10 @@ func DatabaseDbServersDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"compute_model": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"cpu_core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -254,6 +258,8 @@ func (s *DatabaseDbServersDataSourceCrud) SetData() error {
 		dbServer["autonomous_virtual_machine_ids"] = r.AutonomousVirtualMachineIds
 
 		dbServer["autonomous_vm_cluster_ids"] = r.AutonomousVmClusterIds
+
+		dbServer["compute_model"] = r.ComputeModel
 
 		if r.CpuCoreCount != nil {
 			dbServer["cpu_core_count"] = *r.CpuCoreCount

@@ -106,6 +106,8 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	contacts := []interface{}{}
 	for _, item := range s.Res.Contacts {
 		contacts = append(contacts, ExadataInfrastructureContactToMap(item))
@@ -126,6 +128,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DatabaseServerType != nil {
+		s.D.Set("database_server_type", *s.Res.DatabaseServerType)
 	}
 
 	if s.Res.DbNodeStorageSizeInGBs != nil {
@@ -238,6 +244,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerType != nil {
+		s.D.Set("storage_server_type", *s.Res.StorageServerType)
 	}
 
 	if s.Res.StorageServerVersion != nil {

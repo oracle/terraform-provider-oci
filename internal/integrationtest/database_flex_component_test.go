@@ -18,6 +18,7 @@ var (
 	DatabaseDatabaseFlexComponentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `Exadata.X8M.StorageServer`},
+		"shape":          acctest.Representation{RepType: acctest.Optional, Create: `Exadata.X8M`},
 	}
 
 	DatabaseFlexComponentResourceConfig = ""
@@ -46,7 +47,7 @@ func TestDatabaseFlexComponentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "Exadata.X8M.StorageServer"),
-
+				resource.TestCheckResourceAttr(datasourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "flex_component_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "flex_component_collection.0.items.0.available_core_count"),
