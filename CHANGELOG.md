@@ -1,4 +1,4 @@
-## 6.26.0 (Unreleased)
+## 6.26.0 (February 11, 2025)
 
 ### Added
 - Support for Organizations
