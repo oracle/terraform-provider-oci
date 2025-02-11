@@ -48,6 +48,7 @@ The following attributes are exported:
 * `cloud_control_plane_server2` - The IP address for the second control plane server.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the Exadata infrastructure.
+* `compute_model` - The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
 	* `is_contact_mos_validated` - If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
@@ -58,6 +59,7 @@ The following attributes are exported:
 * `cpus_enabled` - The number of enabled CPU cores.
 * `csi_number` - The CSI Number of the Exadata infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `database_server_type` - The database server type of the Exadata infrastructure.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the Exadata infrastructure.
 * `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
@@ -110,6 +112,7 @@ The following attributes are exported:
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.
+* `storage_server_type` - The storage server type of the Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the Exadata infrastructure.
 * `time_created` - The date and time the Exadata infrastructure was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).

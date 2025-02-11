@@ -141,6 +141,12 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_server_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -315,6 +321,12 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"storage_server_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"activated_storage_count": {
@@ -338,6 +350,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 			},
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"compute_model": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -601,6 +617,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.CorporateProxy = &tmp
 	}
 
+	if databaseServerType, ok := s.D.GetOkExists("database_server_type"); ok {
+		tmp := databaseServerType.(string)
+		request.DatabaseServerType = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -711,6 +732,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
 		tmp := storageCount.(int)
 		request.StorageCount = &tmp
+	}
+
+	if storageServerType, ok := s.D.GetOkExists("storage_server_type"); ok {
+		tmp := storageServerType.(string)
+		request.StorageServerType = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
@@ -1006,6 +1032,8 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	contacts := []interface{}{}
 	for _, item := range s.Res.Contacts {
 		contacts = append(contacts, ExadataInfrastructureContactToMap(item))
@@ -1026,6 +1054,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DatabaseServerType != nil {
+		s.D.Set("database_server_type", *s.Res.DatabaseServerType)
 	}
 
 	if s.Res.DbNodeStorageSizeInGBs != nil {
@@ -1138,6 +1170,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerType != nil {
+		s.D.Set("storage_server_type", *s.Res.StorageServerType)
 	}
 
 	if s.Res.StorageServerVersion != nil {

@@ -187,7 +187,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   cpu_core_count            = "4"
   display_name              = "testVmCluster"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-  gi_version                = "23.0.0.0.0"
+  gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
   ssh_public_keys           = [var.ssh_public_key]
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
   db_servers                = [data.oci_database_db_servers.test_db_servers.db_servers.0.id, data.oci_database_db_servers.test_db_servers.db_servers.1.id]
@@ -344,9 +344,9 @@ data "oci_database_vm_clusters" "test_vm_clusters" {
   #Optional
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }
-/*
+
 resource "local_file" "test_vm_cluster_network_downloaded_config_file" {
   content  = data.oci_database_vm_cluster_network_download_config_file.test_vm_cluster_network_download_config_file.content
   filename = "${path.module}/vm_cluster_config.txt"
 }
-*/
+
