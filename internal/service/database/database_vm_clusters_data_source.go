@@ -129,6 +129,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["cloud_automation_update_details"] = nil
 		}
 
+		vmCluster["compute_model"] = r.ComputeModel
+
 		if r.CpusEnabled != nil {
 			vmCluster["cpus_enabled"] = *r.CpusEnabled
 			vmCluster["cpu_core_count"] = *r.CpusEnabled
