@@ -87,6 +87,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     is_enabled        = "false"
     retention_in_days = "10"
     window_start_time = "01:00-00:00"
+    copy_policies {
+        backup_copy_retention_in_days = "2"
+        copy_to_region                = "us-phoenix-1"
+    }
   }
 
   #Optional
