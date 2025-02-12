@@ -51,9 +51,6 @@ func (s *BaseCrudFW) State() string {
 
 // Default implementation, used in conjunction with State()
 func (s *BaseCrudFW) setState(sync StatefulResource) error {
-	// Pseudo code:
-	//   currentState := sync.Res.State || sync.Resource.State || sync.WorkRequest.State
-	//   s.D.Set("state", currentState)
 	v := reflectValueOf(sync).Elem()
 	for _, key := range []string{"Res", "Resource", "WorkRequest"} {
 		// Yes, this "valid"ation is terrible
@@ -91,7 +88,6 @@ func (s *BaseCrudFW) setState(sync StatefulResource) error {
 
 	return fmt.Errorf("Could not set resource state, sync did not have a valid .Res.State, .Resource.State, or .WorkRequest.State")
 
-	return nil
 }
 
 func GenerateFrameworkDataSourceHashID(idPrefix string, ctx context.Context, state tfsdk.State) string {
