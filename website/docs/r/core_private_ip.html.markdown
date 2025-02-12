@@ -26,7 +26,9 @@ resource "oci_core_private_ip" "test_private_ip" {
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = var.private_ip_hostname_label
 	ip_address = var.private_ip_ip_address
+	lifetime = var.private_ip_lifetime
 	route_table_id = oci_core_route_table.test_route_table.id
+	subnet_id = oci_core_subnet.test_subnet.id
 	vlan_id = oci_core_vlan.test_vlan.id
 	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.vnic_id
 }
@@ -45,7 +47,11 @@ The following arguments are supported:
 
 	Example: `bminstance1` 
 * `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3` 
-* `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use. 
+* `lifetime` - (Optional) (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
+	* Ephemeral
+	* Reserved 
+* `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see [Source Based Routing](https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing). 
+* `subnet_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the private IP is to be drawn. The IP address, *if supplied*, must be valid for the given subnet. 
 * `vlan_id` - (Optional) Use this attribute only with the Oracle Cloud VMware Solution.
 
 	The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN from which the private IP is to be drawn. The IP address, *if supplied*, must be valid for the given VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
@@ -74,9 +80,13 @@ The following attributes are exported:
 
 	However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the address is from the range specified by the `cidrBlock` attribute for the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
-	Example: `10.0.3.3`
-* `is_primary` - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: `true`
-* `is_reserved` - true if the IP is reserved and can exist detached from vnic 
+	Example: `10.0.3.3` 
+* `ip_state` - State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE. 
+* `is_primary` - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: `true` 
+* `lifetime` - Lifetime of the IP address. There are two types of IPv6 IPs:
+	* Ephemeral
+	* Reserved 
+* `route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see [Source Based Routing](https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
 
 	However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the `subnetId` is null. 
