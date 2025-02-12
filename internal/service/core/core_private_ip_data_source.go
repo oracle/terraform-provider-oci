@@ -92,9 +92,13 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	s.D.Set("ip_state", s.Res.IpState)
+
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}
+
+	s.D.Set("lifetime", s.Res.Lifetime)
 
 	if s.Res.RouteTableId != nil {
 		s.D.Set("route_table_id", *s.Res.RouteTableId)
