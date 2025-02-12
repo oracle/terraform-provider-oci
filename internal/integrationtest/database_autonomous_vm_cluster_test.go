@@ -91,8 +91,9 @@ var (
 	}
 
 	DatabaseECPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseDevAutonomousVmClusterRepresentation, map[string]interface{}{
-		"compute_model": acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
-		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `ecpuAutonomousVmCluster`},
+		"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `ecpuAutonomousVmCluster`},
+		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`},
 	})
 
 	DatabaseOCPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
