@@ -84,6 +84,10 @@ func (s *CoreIpv6DataSourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	s.D.Set("ip_state", s.Res.IpState)
+
+	s.D.Set("lifetime", s.Res.Lifetime)
+
 	if s.Res.RouteTableId != nil {
 		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}

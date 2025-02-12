@@ -35,33 +35,49 @@ var (
 		"ipv6id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipv6.test_ipv6.id}`},
 	}
 
+	CoreIpv6DataSourceRepresentation = map[string]interface{}{
+		"ip_state":  acctest.Representation{RepType: acctest.Optional, Create: `ipState`},
+		"lifetime":  acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
+		"subnet_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vnic_id":   acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"filter":    acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIpv6DataSourceFilterRepresentation}}
+
 	CoreCoreIpv6DataSourceRepresentation = map[string]interface{}{
 		"vnic_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIpv6DataSourceFilterRepresentation}}
+
 	CoreIpv6DataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_ipv6.test_ipv6.id}`}},
 	}
 
 	CoreIpv6Representation = map[string]interface{}{
-		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
-		"vnic_id":        acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"ip_address":     acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 4)}5901:cede:a617:8bba`},
+		"lifetime":       acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
+		"vnic_id":        acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+	}
+
+	CoreIpv6Representation2 = map[string]interface{}{
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifetime":       acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
 	CoreIpv6ResourceDependencies = utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
-			"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
+			"ipv6cidr_block": acctest.Representation{RepType: acctest.Required, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
-			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies + `
@@ -99,7 +115,6 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -117,13 +132,10 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Create, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "EPHEMERAL"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
@@ -149,8 +161,8 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -165,6 +177,33 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				},
 			),
 		},
+
+		// verify detach operation
+		{
+			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, CoreIpv6Representation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify datasource
 		{
 			Config: config +
@@ -172,12 +211,18 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				compartmentIdVariableStr + CoreIpv6ResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
+				//resource.TestCheckResourceAttr(datasourceName, "ip_address", "ipAddress"),
+				//resource.TestCheckResourceAttr(datasourceName, "ip_state", "ipState"),
+				//resource.TestCheckResourceAttr(datasourceName, "lifetime", "lifetime2"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "subnet_id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.ip_state"),
+				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.lifetime", "RESERVED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.route_table_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.ip_address"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.subnet_id"),
@@ -196,6 +241,9 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifetime", "RESERVED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "route_table_id"),

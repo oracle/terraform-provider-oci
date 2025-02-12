@@ -69,7 +69,17 @@ func CoreByoipRangesDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"ip_anycast_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"ipv6cidr_block": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"monitor_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
