@@ -163,6 +163,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		associatedBackupConfigurationDetails := []interface{}{}
+		for _, item := range r.AssociatedBackupConfigurationDetails {
+			associatedBackupConfigurationDetails = append(associatedBackupConfigurationDetails, BackupDestinationConfigurationSummaryToMap(item))
+		}
+		autonomousContainerDatabase["associated_backup_configuration_details"] = associatedBackupConfigurationDetails
+
 		if r.AutonomousExadataInfrastructureId != nil {
 			autonomousContainerDatabase["autonomous_exadata_infrastructure_id"] = *r.AutonomousExadataInfrastructureId
 		}
@@ -184,6 +190,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		} else {
 			autonomousContainerDatabase["backup_config"] = nil
 		}
+
+		backupDestinationPropertiesList := []interface{}{}
+		for _, item := range r.BackupDestinationPropertiesList {
+			backupDestinationPropertiesList = append(backupDestinationPropertiesList, BackupDestinationPropertiesToMap(item))
+		}
+		autonomousContainerDatabase["backup_destination_properties_list"] = backupDestinationPropertiesList
 
 		if r.CloudAutonomousVmClusterId != nil {
 			autonomousContainerDatabase["cloud_autonomous_vm_cluster_id"] = *r.CloudAutonomousVmClusterId
@@ -299,6 +311,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		if r.ReclaimableCpus != nil {
 			autonomousContainerDatabase["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
+		if r.RecoveryApplianceDetails != nil {
+			autonomousContainerDatabase["recovery_appliance_details"] = []interface{}{RecoveryApplianceDetailsToMap(r.RecoveryApplianceDetails)}
+		} else {
+			autonomousContainerDatabase["recovery_appliance_details"] = nil
 		}
 
 		if r.ReservedCpus != nil {

@@ -114,6 +114,7 @@ The following attributes are exported:
 * `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the password for the LDAP bind account in the Vault.
 * `password_secret_version` - Version of the password secret in the Vault to use.
 * `state` - The current state of this outbound connector.
+* `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
 * `time_created` - The date and time the outbound connector was created in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Timeouts

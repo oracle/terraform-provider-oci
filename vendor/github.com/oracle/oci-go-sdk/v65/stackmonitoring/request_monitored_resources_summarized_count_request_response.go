@@ -186,18 +186,21 @@ type RequestMonitoredResourcesSummarizedCountLicenseEnum string
 
 // Set of constants representing the allowable values for RequestMonitoredResourcesSummarizedCountLicenseEnum
 const (
-	RequestMonitoredResourcesSummarizedCountLicenseStandardEdition   RequestMonitoredResourcesSummarizedCountLicenseEnum = "STANDARD_EDITION"
-	RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEdition RequestMonitoredResourcesSummarizedCountLicenseEnum = "ENTERPRISE_EDITION"
+	RequestMonitoredResourcesSummarizedCountLicenseStandardEdition                       RequestMonitoredResourcesSummarizedCountLicenseEnum = "STANDARD_EDITION"
+	RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEdition                     RequestMonitoredResourcesSummarizedCountLicenseEnum = "ENTERPRISE_EDITION"
+	RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEditionForGpuInfrastructure RequestMonitoredResourcesSummarizedCountLicenseEnum = "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE"
 )
 
 var mappingRequestMonitoredResourcesSummarizedCountLicenseEnum = map[string]RequestMonitoredResourcesSummarizedCountLicenseEnum{
-	"STANDARD_EDITION":   RequestMonitoredResourcesSummarizedCountLicenseStandardEdition,
-	"ENTERPRISE_EDITION": RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEdition,
+	"STANDARD_EDITION":                          RequestMonitoredResourcesSummarizedCountLicenseStandardEdition,
+	"ENTERPRISE_EDITION":                        RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEdition,
+	"ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE": RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEditionForGpuInfrastructure,
 }
 
 var mappingRequestMonitoredResourcesSummarizedCountLicenseEnumLowerCase = map[string]RequestMonitoredResourcesSummarizedCountLicenseEnum{
-	"standard_edition":   RequestMonitoredResourcesSummarizedCountLicenseStandardEdition,
-	"enterprise_edition": RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEdition,
+	"standard_edition":                          RequestMonitoredResourcesSummarizedCountLicenseStandardEdition,
+	"enterprise_edition":                        RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEdition,
+	"enterprise_edition_for_gpu_infrastructure": RequestMonitoredResourcesSummarizedCountLicenseEnterpriseEditionForGpuInfrastructure,
 }
 
 // GetRequestMonitoredResourcesSummarizedCountLicenseEnumValues Enumerates the set of values for RequestMonitoredResourcesSummarizedCountLicenseEnum
@@ -214,6 +217,7 @@ func GetRequestMonitoredResourcesSummarizedCountLicenseEnumStringValues() []stri
 	return []string{
 		"STANDARD_EDITION",
 		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE",
 	}
 }
 

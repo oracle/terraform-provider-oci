@@ -162,16 +162,12 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.ConnectionType {
-	case "GOLDENGATE":
-		mm := GoldenGateConnectionSummary{}
+	case "MICROSOFT_FABRIC":
+		mm := MicrosoftFabricConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA_SCHEMA_REGISTRY":
 		mm := KafkaSchemaRegistryConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "JAVA_MESSAGE_SERVICE":
-		mm := JavaMessageServiceConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MICROSOFT_SQLSERVER":
@@ -186,6 +182,46 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := OracleConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := OciObjectStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := AzureSynapseConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3ConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := MysqlConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ELASTICSEARCH":
+		mm := ElasticsearchConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_PUBSUB":
+		mm := GooglePubSubConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := GoogleCloudStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOLDENGATE":
+		mm := GoldenGateConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := SnowflakeConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -198,36 +234,16 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := RedisConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := OciObjectStorageConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AZURE_SYNAPSE_ANALYTICS":
-		mm := AzureSynapseConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MONGODB":
-		mm := MongoDbConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOOGLE_BIGQUERY":
 		mm := GoogleBigQueryConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMAZON_S3":
-		mm := AmazonS3ConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "POSTGRESQL":
 		mm := PostgresqlConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MYSQL":
-		mm := MysqlConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GENERIC":
@@ -238,10 +254,6 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := KafkaConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "ELASTICSEARCH":
-		mm := ElasticsearchConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DB2":
 		mm := Db2ConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -250,12 +262,12 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := AmazonRedshiftConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "HDFS":
-		mm := HdfsConnectionSummary{}
+	case "DATABRICKS":
+		mm := DatabricksConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "GOOGLE_CLOUD_STORAGE":
-		mm := GoogleCloudStorageConnectionSummary{}
+	case "HDFS":
+		mm := HdfsConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

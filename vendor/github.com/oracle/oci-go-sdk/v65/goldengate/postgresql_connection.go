@@ -296,6 +296,7 @@ const (
 	PostgresqlConnectionTechnologyTypeAzurePostgresql            PostgresqlConnectionTechnologyTypeEnum = "AZURE_POSTGRESQL"
 	PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql PostgresqlConnectionTechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_POSTGRESQL"
 	PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql   PostgresqlConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeGoogleAlloyDbForPostgresql PostgresqlConnectionTechnologyTypeEnum = "GOOGLE_ALLOY_DB_FOR_POSTGRESQL"
 )
 
 var mappingPostgresqlConnectionTechnologyTypeEnum = map[string]PostgresqlConnectionTechnologyTypeEnum{
@@ -306,6 +307,7 @@ var mappingPostgresqlConnectionTechnologyTypeEnum = map[string]PostgresqlConnect
 	"AZURE_POSTGRESQL":               PostgresqlConnectionTechnologyTypeAzurePostgresql,
 	"AZURE_COSMOS_DB_FOR_POSTGRESQL": PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql,
 	"GOOGLE_CLOUD_SQL_POSTGRESQL":    PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
+	"GOOGLE_ALLOY_DB_FOR_POSTGRESQL": PostgresqlConnectionTechnologyTypeGoogleAlloyDbForPostgresql,
 }
 
 var mappingPostgresqlConnectionTechnologyTypeEnumLowerCase = map[string]PostgresqlConnectionTechnologyTypeEnum{
@@ -316,6 +318,7 @@ var mappingPostgresqlConnectionTechnologyTypeEnumLowerCase = map[string]Postgres
 	"azure_postgresql":               PostgresqlConnectionTechnologyTypeAzurePostgresql,
 	"azure_cosmos_db_for_postgresql": PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql,
 	"google_cloud_sql_postgresql":    PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
+	"google_alloy_db_for_postgresql": PostgresqlConnectionTechnologyTypeGoogleAlloyDbForPostgresql,
 }
 
 // GetPostgresqlConnectionTechnologyTypeEnumValues Enumerates the set of values for PostgresqlConnectionTechnologyTypeEnum
@@ -337,6 +340,7 @@ func GetPostgresqlConnectionTechnologyTypeEnumStringValues() []string {
 		"AZURE_POSTGRESQL",
 		"AZURE_COSMOS_DB_FOR_POSTGRESQL",
 		"GOOGLE_CLOUD_SQL_POSTGRESQL",
+		"GOOGLE_ALLOY_DB_FOR_POSTGRESQL",
 	}
 }
 

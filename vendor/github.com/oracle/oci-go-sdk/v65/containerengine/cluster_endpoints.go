@@ -32,6 +32,9 @@ type ClusterEndpoints struct {
 	// The FQDN assigned to the Kubernetes API private endpoint.
 	// Example: 'https://yourVcnHostnameEndpoint'
 	VcnHostnameEndpoint *string `mandatory:"false" json:"vcnHostnameEndpoint"`
+
+	// The IPv6 networking Kubernetes API server endpoint.
+	Ipv6Endpoint *string `mandatory:"false" json:"ipv6Endpoint"`
 }
 
 func (m ClusterEndpoints) String() string {

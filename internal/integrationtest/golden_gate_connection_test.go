@@ -112,6 +112,9 @@ var (
 		oci_golden_gate.ConnectionTypePostgresql,
 		oci_golden_gate.ConnectionTypeRedis,
 		oci_golden_gate.ConnectionTypeSnowflake,
+		oci_golden_gate.ConnectionTypeDatabricks,
+		oci_golden_gate.ConnectionTypeGooglePubsub,
+		oci_golden_gate.ConnectionTypeMicrosoftFabric,
 	}
 
 	CommonConnectionRepresentation = map[string]interface{}{
@@ -422,8 +425,12 @@ var (
 			representation: map[string]interface{}{
 				"connection_string": acctest.Representation{RepType: acctest.Required, Create: `mongodb://10.0.0.1:9000`,
 					Update: `mongodb://10.0.0.1:9001`},
-				"username": acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+				"username":            acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
+				"password":            acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: ``},
+				"security_protocol":   acctest.Representation{RepType: acctest.Optional, Update: string(oci_golden_gate.MongoDbConnectionSecurityProtocolTls)},
+				"does_use_secret_ids": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+				"password_secret_id":  acctest.Representation{RepType: acctest.Optional, Update: `${var.new_password_secret_id}`},
+				"tls_ca_file":         acctest.Representation{RepType: acctest.Optional, Update: `LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNTakNDQWZHZ0F3SUJBZ0lKQUlkQjcyaUp0NisxTUFvR0NDcUdTTTQ5QkFNQ01JR0JNUXN3Q1FZRFZRUUcKRXdKVlV6RUxNQWtHQTFVRUNBd0NWVk14RERBS0JnTlZCQWNNQTA1WlF6RVBNQTBHQTFVRUNnd0dUM0poWTJ4bApNUXd3Q2dZRFZRUUxEQU52WTJreER6QU5CZ05WQkFNTUJtTmhUbUZ0WlRFbk1DVUdDU3FHU0liM0RRRUpBUllZCmVuTnZiSFF1YUc5eWRtRjBhRUJ2Y21GamJHVXVZMjl0TUI0WERUSXpNRE15TWpJek5EVXhPRm9YRFRJMU1USXgKTmpJek5EVXhPRm93Z1lFeEN6QUpCZ05WQkFZVEFsVlRNUXN3Q1FZRFZRUUlEQUpWVXpFTU1Bb0dBMVVFQnd3RApUbGxETVE4d0RRWURWUVFLREFaUGNtRmpiR1V4RERBS0JnTlZCQXNNQTI5amFURVBNQTBHQTFVRUF3d0dZMkZPCllXMWxNU2N3SlFZSktvWklodmNOQVFrQkZoaDZjMjlzZEM1b2IzSjJZWFJvUUc5eVlXTnNaUzVqYjIwd1dUQVQKQmdjcWhrak9QUUlCQmdncWhrak9QUU1CQndOQ0FBU3RCWVRWNU1BUGlXWEJUaE9qS25MaGVTVDVvaU1PK1FhOAphSkNucXEvVXNNT2d6YWNXeDFzc3hmUTJtc1Q0N1pJcUpvNnh6RS9yR0thc2RUM2U2RHcvbzFBd1RqQWRCZ05WCkhRNEVGZ1FVVG5UQkF1VXhWK254TjZXZ0lsbnRwZU95cmo0d0h3WURWUjBqQkJnd0ZvQVVUblRCQXVVeFYrbngKTjZXZ0lsbnRwZU95cmo0d0RBWURWUjBUQkFVd0F3RUIvekFLQmdncWhrak9QUVFEQWdOSEFEQkVBaUFwUmxsLwpLeGk4RnJYSDVWVDE2czJIVVRGdC9Ddlh0SzZjamhabHZBTG43Z0lnSGlnTEk2QjVLdlFQOGFONDA4dW0xQzhLCnROZGh4TWZLdGFMWEJwbVZraGc9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K`},
 			},
 		},
 
@@ -516,6 +523,54 @@ var (
 				"password":            acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			},
 		},
+
+		// Databricks
+		{connectionType: oci_golden_gate.ConnectionTypeDatabricks, technologyType: oci_golden_gate.TechnologyTypeDatabricks,
+			representation: map[string]interface{}{
+				"connection_url": acctest.Representation{RepType: acctest.Required, Create: `jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########44/0##3-7-hlrb`,
+					Update: `jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########44/0##3-7-hlrb2`},
+				"authentication_type": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.DatabricksConnectionAuthenticationTypePersonalAccessToken)},
+				"password":            acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+			},
+		},
+
+		// GooglePubsub
+		{connectionType: oci_golden_gate.ConnectionTypeGooglePubsub, technologyType: oci_golden_gate.TechnologyTypeGooglePubsub,
+			representation: map[string]interface{}{
+				"service_account_key_file": acctest.Representation{RepType: acctest.Required,
+					Create: b64.StdEncoding.EncodeToString([]byte(
+						"{\n  \"type\": \"service_account\",\n" +
+							"  \"project_id\": \"your-project-id\",\n" +
+							"  \"private_key_id\": \"your-private-key-id\",\n" +
+							"  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nYour_Private_Key_Here\\n-----END PRIVATE KEY-----\",\n" +
+							"  \"client_email\": \"your-service-account-email@your-project-id.iam.gserviceaccount.com\",\n" +
+							"  \"client_id\": \"your-client-id1\",\n" +
+							"  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+							"  \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",\n" +
+							"  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+							"  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email%40your-project-id.iam.gserviceaccount.com\"\n}\n")),
+					Update: b64.StdEncoding.EncodeToString([]byte(
+						"{\n  \"type\": \"service_account\",\n" +
+							"  \"project_id\": \"your-project-id\",\n" +
+							"  \"private_key_id\": \"your-private-key-id\",\n" +
+							"  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nYour_Private_Key_Here\\n-----END PRIVATE KEY-----\",\n" +
+							"  \"client_email\": \"your-service-account-email@your-project-id.iam.gserviceaccount.com\",\n" +
+							"  \"client_id\": \"your-client-id2\",\n" +
+							"  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+							"  \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",\n" +
+							"  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+							"  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email%40your-project-id.iam.gserviceaccount.com\"\n}\n"))},
+			},
+		},
+
+		// MicrosoftFabric
+		{connectionType: oci_golden_gate.ConnectionTypeMicrosoftFabric, technologyType: oci_golden_gate.TechnologyTypeMicrosoftFabricLakehouse,
+			representation: map[string]interface{}{
+				"tenant_id": acctest.Representation{RepType: acctest.Required, Create: `14593954-d337-4a61-a364-9f758c64f97f`},
+				"client_id": acctest.Representation{RepType: acctest.Required, Create: `06ecaabf-8b80-4ec8-a0ec-20cbf463703d`,
+					Update: `06ecaabf-8b80-4ec8-a0ec-20cbf463703f`},
+			},
+		},
 	}
 
 	ExcludedFields = []string{
@@ -543,6 +598,7 @@ var (
 		"service_account_key_file",
 		"is_lock_override",
 		"trigger_refresh",
+		"tls_ca_file",
 	}
 )
 

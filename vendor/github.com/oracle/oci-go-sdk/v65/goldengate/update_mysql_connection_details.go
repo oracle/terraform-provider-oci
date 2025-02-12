@@ -59,6 +59,7 @@ type UpdateMysqlConnectionDetails struct {
 
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
 	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
@@ -90,6 +91,7 @@ type UpdateMysqlConnectionDetails struct {
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
 	// Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL).
+	// Deprecated: This field is deprecated and replaced by "sslKeySecretId". This field will be removed after February 15 2026.
 	SslKey *string `mandatory:"false" json:"sslKey"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the Client Key

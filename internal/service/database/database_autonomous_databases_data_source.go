@@ -254,6 +254,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["character_set"] = *r.CharacterSet
 		}
 
+		autonomousDatabase["clone_table_space_list"] = r.CloneTableSpaceList
+
 		if r.ClusterPlacementGroupId != nil {
 			autonomousDatabase["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
 		}

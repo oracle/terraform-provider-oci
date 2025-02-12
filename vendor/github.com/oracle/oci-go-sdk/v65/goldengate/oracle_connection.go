@@ -284,27 +284,42 @@ type OracleConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for OracleConnectionTechnologyTypeEnum
 const (
-	OracleConnectionTechnologyTypeAmazonRdsOracle              OracleConnectionTechnologyTypeEnum = "AMAZON_RDS_ORACLE"
-	OracleConnectionTechnologyTypeOciAutonomousDatabase        OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
-	OracleConnectionTechnologyTypeOracleDatabase               OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
-	OracleConnectionTechnologyTypeOracleExadata                OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
-	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeAmazonRdsOracle                       OracleConnectionTechnologyTypeEnum = "AMAZON_RDS_ORACLE"
+	OracleConnectionTechnologyTypeOciAutonomousDatabase                 OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
+	OracleConnectionTechnologyTypeOracleDatabase                        OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
+	OracleConnectionTechnologyTypeOracleExadata                         OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure          OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure       OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud    OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD"
+	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws            OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
+	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws         OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
 )
 
 var mappingOracleConnectionTechnologyTypeEnum = map[string]OracleConnectionTechnologyTypeEnum{
-	"AMAZON_RDS_ORACLE":                OracleConnectionTechnologyTypeAmazonRdsOracle,
-	"OCI_AUTONOMOUS_DATABASE":          OracleConnectionTechnologyTypeOciAutonomousDatabase,
-	"ORACLE_DATABASE":                  OracleConnectionTechnologyTypeOracleDatabase,
-	"ORACLE_EXADATA":                   OracleConnectionTechnologyTypeOracleExadata,
-	"ORACLE_EXADATA_DATABASE_AT_AZURE": OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"AMAZON_RDS_ORACLE":                          OracleConnectionTechnologyTypeAmazonRdsOracle,
+	"OCI_AUTONOMOUS_DATABASE":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
+	"ORACLE_DATABASE":                            OracleConnectionTechnologyTypeOracleDatabase,
+	"ORACLE_EXADATA":                             OracleConnectionTechnologyTypeOracleExadata,
+	"ORACLE_EXADATA_DATABASE_AT_AZURE":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
+	"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
+	"ORACLE_EXADATA_DATABASE_AT_AWS":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
+	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
 }
 
 var mappingOracleConnectionTechnologyTypeEnumLowerCase = map[string]OracleConnectionTechnologyTypeEnum{
-	"amazon_rds_oracle":                OracleConnectionTechnologyTypeAmazonRdsOracle,
-	"oci_autonomous_database":          OracleConnectionTechnologyTypeOciAutonomousDatabase,
-	"oracle_database":                  OracleConnectionTechnologyTypeOracleDatabase,
-	"oracle_exadata":                   OracleConnectionTechnologyTypeOracleExadata,
-	"oracle_exadata_database_at_azure": OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"amazon_rds_oracle":                          OracleConnectionTechnologyTypeAmazonRdsOracle,
+	"oci_autonomous_database":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
+	"oracle_database":                            OracleConnectionTechnologyTypeOracleDatabase,
+	"oracle_exadata":                             OracleConnectionTechnologyTypeOracleExadata,
+	"oracle_exadata_database_at_azure":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"oracle_autonomous_database_at_azure":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
+	"oracle_exadata_database_at_google_cloud":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"oracle_autonomous_database_at_google_cloud": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
+	"oracle_exadata_database_at_aws":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
+	"oracle_autonomous_database_at_aws":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
 }
 
 // GetOracleConnectionTechnologyTypeEnumValues Enumerates the set of values for OracleConnectionTechnologyTypeEnum
@@ -324,6 +339,11 @@ func GetOracleConnectionTechnologyTypeEnumStringValues() []string {
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
 		"ORACLE_EXADATA_DATABASE_AT_AZURE",
+		"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE",
+		"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD",
+		"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD",
+		"ORACLE_EXADATA_DATABASE_AT_AWS",
+		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
 	}
 }
 

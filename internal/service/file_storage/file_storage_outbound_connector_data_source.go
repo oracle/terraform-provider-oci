@@ -114,6 +114,10 @@ func (s *FileStorageOutboundConnectorDataSourceCrud) SetData() error {
 
 		s.D.Set("state", v.LifecycleState)
 
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}

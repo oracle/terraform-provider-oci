@@ -69,7 +69,7 @@ type MetricExtension struct {
 	// Metric Extension update time. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// List of resource objects on which this metric extension is enabled.
+	// List of resource details objects having resourceIds on which this metric extension is enabled.
 	EnabledOnResources []EnabledResourceDetails `mandatory:"false" json:"enabledOnResources"`
 
 	// Count of resources on which this metric extension is enabled.

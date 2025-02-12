@@ -185,6 +185,10 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 			mountTarget["subnet_id"] = *r.SubnetId
 		}
 
+		if r.SystemTags != nil {
+			mountTarget["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeBillingCycleEnd != nil {
 			mountTarget["time_billing_cycle_end"] = r.TimeBillingCycleEnd.String()
 		}
