@@ -76,9 +76,9 @@ func (s *IdentityIdentityProvidersDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_identity.ListIdentityProvidersProtocolEnum(protocol.(string))
-	}
+	//if protocol, ok := s.D.GetOkExists("protocol"); ok {
+	//	request.Protocol = oci_identity.ListIdentityProvidersProtocolEnum(protocol.(string))
+	//}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_identity.IdentityProviderLifecycleStateEnum(state.(string))

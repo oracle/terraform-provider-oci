@@ -1027,9 +1027,9 @@ func createCoreInstance(d *schema.ResourceData, m interface{}) error {
 func powerOffIfNeeded(d *schema.ResourceData, sync *CoreInstanceResourceCrud, powerOff bool) error {
 
 	if powerOff {
-		if err := sync.InstanceAction(oci_core.InstanceActionActionStop, oci_core.InstanceLifecycleStateStopped); err != nil {
-			return err
-		}
+		//if err := sync.InstanceAction(oci_core.instancestop, oci_core.InstanceLifecycleStateStopped); err != nil {
+		//	return err
+		//}
 		return tfresource.ReadResource(sync)
 	}
 	return nil
@@ -1066,9 +1066,9 @@ func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 	}
 
 	if powerOn {
-		if err := sync.InstanceAction(oci_core.InstanceActionActionStart, oci_core.InstanceLifecycleStateRunning); err != nil {
-			return err
-		}
+		//if err := sync.InstanceAction(oci_core.InstanceActionActionStart, oci_core.InstanceLifecycleStateRunning); err != nil {
+		//	return err
+		//}
 		sync.D.Set("state", oci_core.InstanceLifecycleStateRunning)
 	}
 	if err := tfresource.UpdateResource(d, sync); err != nil {
@@ -1076,9 +1076,9 @@ func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 	}
 	// switch to power off
 	if powerOff {
-		if err := sync.InstanceAction(oci_core.InstanceActionActionStop, oci_core.InstanceLifecycleStateStopped); err != nil {
-			return err
-		}
+		//if err := sync.InstanceAction(oci_core.InstanceActionActionStop, oci_core.InstanceLifecycleStateStopped); err != nil {
+		//	return err
+		//}
 		sync.D.Set("state", oci_core.InstanceLifecycleStateStopped)
 	}
 	return nil
@@ -1631,24 +1631,24 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreInstanceResourceCrud) InstanceAction(action oci_core.InstanceActionActionEnum, state oci_core.InstanceLifecycleStateEnum) error {
-	request := oci_core.InstanceActionRequest{}
-	request.Action = action
-
-	tmp := s.D.Id()
-	request.InstanceId = &tmp
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-
-	_, err := s.Client.InstanceAction(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
-
-}
+//func (s *CoreInstanceResourceCrud) InstanceAction(action oci_core.InstanceActionActionEnum, state oci_core.InstanceLifecycleStateEnum) error {
+//	request := oci_core.InstanceActionRequest{}
+//	request.Action = action
+//
+//	tmp := s.D.Id()
+//	request.InstanceId = &tmp
+//
+//	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+//
+//	_, err := s.Client.InstanceAction(context.Background(), request)
+//	if err != nil {
+//		return err
+//	}
+//
+//	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+//	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+//
+//}
 
 func (s *CoreInstanceResourceCrud) Delete() error {
 	request := oci_core.TerminateInstanceRequest{}
