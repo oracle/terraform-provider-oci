@@ -30,6 +30,13 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	backup_policy {
 
 		#Optional
+		copy_policies {
+			#Required
+			copy_to_region = var.mysql_db_system_backup_policy_copy_policies_copy_to_region
+
+			#Optional
+			backup_copy_retention_in_days = var.mysql_db_system_backup_policy_copy_policies_backup_copy_retention_in_days
+		}
 		defined_tags = {"foo-namespace.bar-key"= "value"}
 		freeform_tags = {"bar-key"= "value"}
 		is_enabled = var.mysql_db_system_backup_policy_is_enabled
@@ -117,6 +124,13 @@ The following arguments are supported:
 
 	For a standalone DB System, this defines the availability domain in which the DB System is placed. 
 * `backup_policy` - (Optional) (Updatable) Backup policy as optionally used for DB System Creation. 
+	* `copy_policies` - (Optional) (Updatable) List of policies of a DB system to schedule cross-region DB system backup copy.
+
+		The policy includes the name of the destination region to which the DB system backup will be copied, and an optional parameter which specifies the retention period of the copied DB system backup in days.
+
+		**Note:** Currently, only one policy can be specified in the list. 
+		* `backup_copy_retention_in_days` - (Optional) (Updatable) Number of days to retain the copied DB system backup.
+		* `copy_to_region` - (Required) (Updatable) The destination region name to which the DB system backup will be copied.
 	* `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
 		Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
@@ -228,6 +242,13 @@ The following attributes are exported:
 
 	For a standalone DB System, this defines the availability domain in which the DB System is placed. 
 * `backup_policy` - The Backup policy for the DB System.
+	* `copy_policies` - List of policies of a DB system to schedule cross-region DB system backup copy.
+
+		The policy includes the name of the destination region to which the DB system backup will be copied, and an optional parameter which specifies the retention period of the copied DB system backup in days.
+
+		**Note:** Currently, only one policy can be specified in the list. 
+		* `backup_copy_retention_in_days` - Number of days to retain the copied DB system backup.
+		* `copy_to_region` - The destination region name to which the DB system backup will be copied.
 	* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
 		Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
