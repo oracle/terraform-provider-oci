@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -447,7 +447,7 @@ func vbInstanceWaitForWorkRequest(wId *string, entityType string, action oci_vis
 	retryPolicy.ShouldRetryOperation = vbInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_visual_builder.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_visual_builder.WorkRequestStatusInProgress),
 			string(oci_visual_builder.WorkRequestStatusAccepted),

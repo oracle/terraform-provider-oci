@@ -9,7 +9,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -1304,7 +1304,7 @@ func mapToAttachLoadBalancerDetails(item map[string]interface{}) oci_core.Attach
 
 func (s *CoreInstancePoolResourceCrud) pollForLbOperationCompletion(poolId *string, lbToTrack *oci_core.AttachLoadBalancerDetails) (*oci_core.InstancePool, error) {
 	response := oci_core.GetInstancePoolResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttaching),
 			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetaching),

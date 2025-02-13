@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -204,7 +204,7 @@ func namespaceIngestTimeRulesManagementWaitForWorkRequest(namespaceName *string,
 	retryPolicy.ShouldRetryOperation = namespaceIngestTimeRulesManagementWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_log_analytics.GetConfigWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_log_analytics.LogAnalyticsConfigWorkRequestLifecycleStateInProgress),
 			string(oci_log_analytics.LogAnalyticsConfigWorkRequestLifecycleStateAccepted),

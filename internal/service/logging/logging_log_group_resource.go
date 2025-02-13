@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -259,7 +259,7 @@ func logGroupWaitForWorkRequest(wId *string, entityType string, action oci_loggi
 	retryPolicy.ShouldRetryOperation = logGroupWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_logging.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_logging.OperationStatusInProgress),
 			string(oci_logging.OperationStatusAccepted),

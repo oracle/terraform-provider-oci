@@ -11,7 +11,7 @@ import (
 
 	"regexp"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
 // issue-routing-tag: load_balancer/default

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -429,7 +429,7 @@ func pathAnalysiWaitForWorkRequest(wId *string, entityType string, action oci_vn
 	retryPolicy.ShouldRetryOperation = pathAnalysiWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_vn_monitoring.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_vn_monitoring.OperationStatusInProgress),
 			string(oci_vn_monitoring.OperationStatusAccepted),
