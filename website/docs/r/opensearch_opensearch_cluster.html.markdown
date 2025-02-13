@@ -128,6 +128,7 @@ The following arguments are supported:
 * `vcn_compartment_id` - (Required) The OCID for the compartment where the cluster's VCN is located.
 * `vcn_id` - (Required) The OCID of the cluster's VCN.
 * `configure_outbound_cluster_trigger` - (Optional) (Updatable) An optional property when incremented triggers Configure Outbound Cluster. Could be set to any integer value.
+* `upgrade_major_version_trigger` - (Optional) An optional property to upgrade the major version of the cluster. This workflow upgrades the cluster without creating a clone. If you want to create a clone and upgrade the clone for testing please use SDK or CLI.
 
 
 ** IMPORTANT **

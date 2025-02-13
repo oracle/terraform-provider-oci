@@ -281,7 +281,11 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-
+			"upgrade_major_version_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			// Computed
 			"availability_domains": {
 				Type:     schema.TypeList,
@@ -403,6 +407,21 @@ func updateOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) er
 			}
 		} else {
 			sync.D.Set("configure_outbound_cluster_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("upgrade_major_version_trigger"); ok && sync.D.HasChange("upgrade_major_version_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("upgrade_major_version_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.UpgradeOpenSearchCluster()
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("upgrade_major_version_trigger", oldRaw)
 			return fmt.Errorf("new value of trigger should be greater than the old value")
 		}
 	}
@@ -1166,6 +1185,53 @@ func (s *OpensearchOpensearchClusterResourceCrud) ConfigureOutboundCluster() err
 	return nil
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) UpgradeOpenSearchCluster() error {
+	request := oci_opensearch.UpgradeOpenSearchClusterRequest{}
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+	if desiredSoftwareVersion, ok := s.D.GetOkExists("software_version"); ok {
+		tmp := desiredSoftwareVersion.(string)
+		request.DesiredSoftwareVersion = &tmp
+	}
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+	// clone is not supported via terraform
+	defaultValue := false
+	request.IsClone = &defaultValue
+	idTmp := s.D.Id()
+	request.OpensearchClusterId = &idTmp
+	if originalClusterDisplayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := originalClusterDisplayName.(string)
+		request.OriginalClusterDisplayName = &tmp
+	}
+	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.SystemTags = convertedSystemTags
+	}
+	request.UpgradeType = oci_opensearch.UpgradeTypeMajor
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
+	response, err := s.Client.UpgradeOpenSearchCluster(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+	val := s.D.Get("upgrade_major_version_trigger")
+	s.D.Set("upgrade_major_version_trigger", val)
+
+	workId := response.OpcWorkRequestId
+	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
 func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizontal() error {
 	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
 	request := oci_opensearch.ResizeOpensearchClusterHorizontalRequest{}
