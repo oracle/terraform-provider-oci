@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -570,7 +570,7 @@ func waitForSqlEndpoint(sqlEndpointId *string, action oci_dataflow.SqlEndpointLi
 	retryPolicy.ShouldRetryOperation = sqlEndpointShouldRetryFunc(timeout)
 
 	response := oci_dataflow.GetSqlEndpointResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_dataflow.SqlEndpointLifecycleStateCreating),
 			string(oci_dataflow.SqlEndpointLifecycleStateDeleting),

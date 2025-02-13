@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -267,7 +267,7 @@ func dkimWaitForWorkRequest(wId *string, entityType string, action oci_email.Act
 	retryPolicy.ShouldRetryOperation = dkimWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_email.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_email.OperationStatusInProgress),
 			string(oci_email.OperationStatusAccepted),

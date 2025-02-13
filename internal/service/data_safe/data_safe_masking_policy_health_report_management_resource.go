@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -162,7 +162,7 @@ func generateHealthReportWaitForWorkRequest(wId *string, entityType string, acti
 	retryPolicy.ShouldRetryOperation = maskDataWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_data_safe.WorkRequestStatusInProgress),
 			string(oci_data_safe.WorkRequestStatusAccepted),
