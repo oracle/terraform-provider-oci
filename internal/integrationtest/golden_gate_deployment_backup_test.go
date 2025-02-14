@@ -260,6 +260,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_backup_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_source_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", testCompartmentId),

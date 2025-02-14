@@ -67,6 +67,12 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BackupSchedule != nil {
+		s.D.Set("backup_schedule", []interface{}{BackupScheduleToMap(s.Res.BackupSchedule)})
+	} else {
+		s.D.Set("backup_schedule", nil)
+	}
+
 	s.D.Set("category", s.Res.Category)
 
 	if s.Res.CompartmentId != nil {
@@ -211,6 +217,14 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastBackupScheduled != nil {
+		s.D.Set("time_last_backup_scheduled", s.Res.TimeLastBackupScheduled.String())
+	}
+
+	if s.Res.TimeNextBackupScheduled != nil {
+		s.D.Set("time_next_backup_scheduled", s.Res.TimeNextBackupScheduled.String())
 	}
 
 	if s.Res.TimeOfNextMaintenance != nil {
