@@ -32,7 +32,7 @@ data "oci_os_management_hub_entitlements" "test_entitlements" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
-* `csi` - (Optional) A filter to return entitlements that match the given CSI.
+* `csi` - (Optional) A filter to return entitlements that match the given customer support identifier (CSI).
 * `vendor_name` - (Optional) A filter to return only resources that match the given vendor name.
 
 

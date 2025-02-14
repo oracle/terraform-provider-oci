@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
@@ -95,6 +96,12 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		s.D.Set("packages", v.Packages)
 
+		s.D.Set("software_source_sub_type", v.SoftwareSourceSubType)
+
+		if v.TimeMetadataUpdated != nil {
+			s.D.Set("time_metadata_updated", v.TimeMetadataUpdated.Format(time.RFC3339Nano))
+		}
+
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
 			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
@@ -137,6 +144,182 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		if v.GpgKeyUrl != nil {
 			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		if v.PackageCount != nil {
+			s.D.Set("package_count", strconv.FormatInt(*v.PackageCount, 10))
+		}
+
+		if v.RepoId != nil {
+			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Url != nil {
+			s.D.Set("url", *v.Url)
+		}
+	case oci_os_management_hub.PrivateSoftwareSource:
+		s.D.Set("software_source_type", "PRIVATE")
+
+		if v.AdvancedRepoOptions != nil {
+			s.D.Set("advanced_repo_options", *v.AdvancedRepoOptions)
+		}
+
+		if v.IsGpgCheckEnabled != nil {
+			s.D.Set("is_gpg_check_enabled", *v.IsGpgCheckEnabled)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
+		}
+
+		if v.IsSslVerifyEnabled != nil {
+			s.D.Set("is_ssl_verify_enabled", *v.IsSslVerifyEnabled)
+		}
+
+		s.D.Set("arch_type", v.ArchType)
+
+		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
+
+		s.D.Set("checksum_type", v.ChecksumType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.GpgKeyFingerprint != nil {
+			s.D.Set("gpg_key_fingerprint", *v.GpgKeyFingerprint)
+		}
+
+		if v.GpgKeyId != nil {
+			s.D.Set("gpg_key_id", *v.GpgKeyId)
+		}
+
+		if v.GpgKeyUrl != nil {
+			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		if v.PackageCount != nil {
+			s.D.Set("package_count", strconv.FormatInt(*v.PackageCount, 10))
+		}
+
+		if v.RepoId != nil {
+			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Url != nil {
+			s.D.Set("url", *v.Url)
+		}
+	case oci_os_management_hub.ThirdPartySoftwareSource:
+		s.D.Set("software_source_type", "THIRD_PARTY")
+
+		if v.AdvancedRepoOptions != nil {
+			s.D.Set("advanced_repo_options", *v.AdvancedRepoOptions)
+		}
+
+		if v.IsGpgCheckEnabled != nil {
+			s.D.Set("is_gpg_check_enabled", *v.IsGpgCheckEnabled)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
+		}
+
+		if v.IsSslVerifyEnabled != nil {
+			s.D.Set("is_ssl_verify_enabled", *v.IsSslVerifyEnabled)
+		}
+
+		s.D.Set("arch_type", v.ArchType)
+
+		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
+
+		s.D.Set("checksum_type", v.ChecksumType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.GpgKeyFingerprint != nil {
+			s.D.Set("gpg_key_fingerprint", *v.GpgKeyFingerprint)
+		}
+
+		if v.GpgKeyId != nil {
+			s.D.Set("gpg_key_id", *v.GpgKeyId)
+		}
+
+		if v.GpgKeyUrl != nil {
+			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
@@ -217,10 +400,6 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
 		}
 
-		if v.IsMandatoryForAutonomousLinux != nil {
-			s.D.Set("is_mandatory_for_autonomous_linux", *v.IsMandatoryForAutonomousLinux)
-		}
-
 		s.D.Set("os_family", v.OsFamily)
 
 		if v.PackageCount != nil {
@@ -273,8 +452,14 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		s.D.Set("packages", v.Packages)
 
+		s.D.Set("software_source_sub_type", v.SoftwareSourceSubType)
+
 		if v.SoftwareSourceVersion != nil {
 			s.D.Set("software_source_version", *v.SoftwareSourceVersion)
+		}
+
+		if v.TimeMetadataUpdated != nil {
+			s.D.Set("time_metadata_updated", v.TimeMetadataUpdated.Format(time.RFC3339Nano))
 		}
 
 		vendorSoftwareSources := []interface{}{}

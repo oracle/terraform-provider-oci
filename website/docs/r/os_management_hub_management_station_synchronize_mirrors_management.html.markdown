@@ -10,7 +10,7 @@ description: |-
 # oci_os_management_hub_management_station_synchronize_mirrors_management
 This resource provides the Management Station Synchronize Mirrors Management resource in Oracle Cloud Infrastructure Os Management Hub service.
 
-Synchronize the specified software sources mirrors on the management station.
+Synchronize the specified software sources mirrored on the management station.
 
 
 ## Example Usage
@@ -28,7 +28,7 @@ resource "oci_os_management_hub_management_station_synchronize_mirrors_managemen
 The following arguments are supported:
 
 * `management_station_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
-* `software_source_list` - (Required) List of Software Source OCIDs to synchronize
+* `software_source_list` - (Required) List of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to synchronize.
 
 
 ** IMPORTANT **
