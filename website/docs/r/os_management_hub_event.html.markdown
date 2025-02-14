@@ -51,6 +51,7 @@ The following attributes are exported:
 			* `backtrace` - Kernel vmcore backtrace.
 			* `component` - Kernel vmcore component.
 		* `work_request_ids` - List of all work request [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the event.
+	* `attempted_resolutions` - The actions used to attempt fixing the error.
 	* `content` - Provides information collected for the exploit attempt event.
 		* `content_availability` - Crash content availability status:
 			* 'NOT_AVAILABLE' indicates the content is not available on the instance nor in the service
@@ -65,10 +66,16 @@ The following attributes are exported:
 		* `type` - Event type:
 			* `KERNEL` - Used to identify a kernel oops/crash content
 			* `EXPLOIT_ATTEMPT` - Used to identify a known exploit detection content 
+	* `error_cause` - The commands executed by the agent that caused the error.
+	* `error_log` - The output log of the error.
 	* `event_fingerprint` - Fingerprint of the event.
 	* `event_count` - Number of times the event has occurred.
+	* `health_state` - Health state of the management station
 	* `operation_type` - Type of management station operation.
 	* `reason` - Reason for the event.
+	* `reboot_status` - Reboot status for the current event
+	* `resolution_log` - The log output after the resolutions.
+	* `resolution_status` - Indicates if the event succeeded.
 	* `status` - Status of the management station operation.
 	* `time_first_occurred` - The date and time that the event first occurred.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
@@ -100,7 +107,9 @@ The following attributes are exported:
 	* `KSPLICE_UPDATE` - Ksplice updates
 	* `SOFTWARE_SOURCE` - Software source
 	* `AGENT` - Agent
-	* `MANAGEMENT_STATION` - Management Station 
+	* `MANAGEMENT_STATION` - Management Station
+	* `SYSADMIN` - Used to identify attempts on fixing agent errors on the instance
+	* `REBOOT` - Reboot 
 
 ## Timeouts
 

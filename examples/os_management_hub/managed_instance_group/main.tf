@@ -6,8 +6,8 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
-variable "managed_instances" { type = list(string) }
+variable "compartment_ocid" {}
+variable "osmh_managed_instance_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -15,13 +15,12 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
-  // version = "5.35.0"
 }
 
 data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
   #Optional
   arch_type            = ["X86_64"]
-  compartment_id       = var.compartment_id
+  compartment_id       = var.compartment_ocid
   display_name         = "ol8_baseos_latest-x86_64"
   os_family            = ["ORACLE_LINUX_8"]
   software_source_type = ["VENDOR"]
@@ -32,7 +31,7 @@ data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
 data "oci_os_management_hub_software_sources" "ol8_appstream_x86_64" {
   #Optional
   arch_type            = ["X86_64"]
-  compartment_id       = var.compartment_id
+  compartment_id       = var.compartment_ocid
   display_name         = "ol8_appstream-x86_64"
   os_family            = ["ORACLE_LINUX_8"]
   software_source_type = ["VENDOR"]
@@ -43,7 +42,7 @@ data "oci_os_management_hub_software_sources" "ol8_appstream_x86_64" {
 resource "oci_os_management_hub_managed_instance_group" "test_managed_instance_group" {
   #Required
   arch_type           = "X86_64"
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   display_name        = "displayName"
   os_family           = "ORACLE_LINUX_8"
   software_source_ids = [data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id]
@@ -67,7 +66,7 @@ data "oci_os_management_hub_managed_instance_group" "test_managed_instance_group
 
 data "oci_os_management_hub_managed_instance_groups" "test_managed_instance_groups" {
   #Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_os_management_hub_managed_instance_group_available_modules" "test_managed_instance_group_available_modules" {
@@ -75,7 +74,7 @@ data "oci_os_management_hub_managed_instance_group_available_modules" "test_mana
   managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
 
   #Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_os_management_hub_managed_instance_group_available_packages" "test_managed_instance_group_available_packages" {
@@ -83,7 +82,7 @@ data "oci_os_management_hub_managed_instance_group_available_packages" "test_man
   managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
 
   #Optional
-  compartment_id        = var.compartment_id
+  compartment_id        = var.compartment_ocid
   display_name_contains = "tmux"
 }
 
@@ -92,13 +91,13 @@ data "oci_os_management_hub_managed_instance_group_available_software_sources" "
   managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
 
   #Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 resource "oci_os_management_hub_managed_instance_group_attach_managed_instances_management" "test_managed_instance_group_attach_managed_instances_management" {
   #Required
   managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
-  managed_instances         = var.managed_instances
+  managed_instances         = [var.osmh_managed_instance_ocid]
 
   #Optional
   work_request_details {
@@ -117,7 +116,7 @@ resource "time_sleep" "wait_for_attach_managed_instances" {
 resource "oci_os_management_hub_managed_instance_group_detach_managed_instances_management" "test_managed_instance_group_detach_managed_instances_management" {
   #Required
   managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
-  managed_instances         = var.managed_instances
+  managed_instances         = [var.osmh_managed_instance_ocid]
 
   depends_on = [
     time_sleep.wait_for_attach_managed_instances

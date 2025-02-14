@@ -25,6 +25,10 @@ func OsManagementHubManagedInstancesDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"agent_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"arch_type": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -71,6 +75,10 @@ func OsManagementHubManagedInstancesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_reboot_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"lifecycle_environment": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,6 +112,20 @@ func OsManagementHubManagedInstancesDataSource() *schema.Resource {
 			"managed_instance_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"management_station": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"management_station_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"os_family": {
 				Type:     schema.TypeList,
@@ -189,6 +211,11 @@ func (s *OsManagementHubManagedInstancesDataSourceCrud) Get() error {
 		}
 	}
 
+	if agentVersion, ok := s.D.GetOkExists("agent_version"); ok {
+		tmp := agentVersion.(string)
+		request.AgentVersion = &tmp
+	}
+
 	if archType, ok := s.D.GetOkExists("arch_type"); ok {
 		interfaces := archType.([]interface{})
 		tmp := make([]oci_os_management_hub.ArchTypeEnum, len(interfaces))
@@ -255,6 +282,11 @@ func (s *OsManagementHubManagedInstancesDataSourceCrud) Get() error {
 		request.IsProfileAttached = &tmp
 	}
 
+	if isRebootRequired, ok := s.D.GetOkExists("is_reboot_required"); ok {
+		tmp := isRebootRequired.(bool)
+		request.IsRebootRequired = &tmp
+	}
+
 	if lifecycleEnvironment, ok := s.D.GetOkExists("lifecycle_environment"); ok {
 		tmp := lifecycleEnvironment.(string)
 		request.LifecycleEnvironment = &tmp
@@ -304,6 +336,32 @@ func (s *OsManagementHubManagedInstancesDataSourceCrud) Get() error {
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
 		tmp := managedInstanceId.(string)
 		request.ManagedInstanceId = &tmp
+	}
+
+	if managementStation, ok := s.D.GetOkExists("management_station"); ok {
+		interfaces := managementStation.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("management_station") {
+			request.ManagementStation = tmp
+		}
+	}
+
+	if managementStationNotEqualTo, ok := s.D.GetOkExists("management_station_not_equal_to"); ok {
+		interfaces := managementStationNotEqualTo.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("management_station_not_equal_to") {
+			request.ManagementStationNotEqualTo = tmp
+		}
 	}
 
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {

@@ -5,6 +5,7 @@ package os_management_hub
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
@@ -94,6 +95,12 @@ func (s *OsManagementHubManagementStationDataSourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.IsAutoConfigEnabled != nil {
+		s.D.Set("is_auto_config_enabled", *s.Res.IsAutoConfigEnabled)
+	}
+
+	s.D.Set("location", s.Res.Location)
+
 	if s.Res.ManagedInstanceId != nil {
 		s.D.Set("managed_instance_id", *s.Res.ManagedInstanceId)
 	}
@@ -108,10 +115,30 @@ func (s *OsManagementHubManagementStationDataSourceCrud) SetData() error {
 		s.D.Set("mirror_capacity", *s.Res.MirrorCapacity)
 	}
 
+	if s.Res.MirrorPackageCount != nil {
+		s.D.Set("mirror_package_count", *s.Res.MirrorPackageCount)
+	}
+
+	if s.Res.MirrorSize != nil {
+		s.D.Set("mirror_size", strconv.FormatInt(*s.Res.MirrorSize, 10))
+	}
+
+	if s.Res.MirrorStorageAvailableSize != nil {
+		s.D.Set("mirror_storage_available_size", strconv.FormatInt(*s.Res.MirrorStorageAvailableSize, 10))
+	}
+
+	if s.Res.MirrorStorageSize != nil {
+		s.D.Set("mirror_storage_size", strconv.FormatInt(*s.Res.MirrorStorageSize, 10))
+	}
+
 	if s.Res.MirrorSyncStatus != nil {
 		s.D.Set("mirror_sync_status", []interface{}{MirrorSyncStatusToMap(s.Res.MirrorSyncStatus)})
 	} else {
 		s.D.Set("mirror_sync_status", nil)
+	}
+
+	if s.Res.MirrorUniquePackageCount != nil {
+		s.D.Set("mirror_unique_package_count", *s.Res.MirrorUniquePackageCount)
 	}
 
 	if s.Res.OverallPercentage != nil {
@@ -119,6 +146,12 @@ func (s *OsManagementHubManagementStationDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("overall_state", s.Res.OverallState)
+
+	peerManagementStations := []interface{}{}
+	for _, item := range s.Res.PeerManagementStations {
+		peerManagementStations = append(peerManagementStations, PeerManagementStationToMap(item))
+	}
+	s.D.Set("peer_management_stations", peerManagementStations)
 
 	if s.Res.ProfileId != nil {
 		s.D.Set("profile_id", *s.Res.ProfileId)

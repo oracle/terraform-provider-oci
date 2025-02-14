@@ -62,31 +62,12 @@ func deleteOsManagementHubManagedInstanceAttachProfileManagement(d *schema.Resou
 type OsManagementHubManagedInstanceAttachProfileManagementResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_os_management_hub.ManagedInstanceClient
-	Res                    *oci_os_management_hub.GetManagedInstanceResponse
+	Res                    *string
 	DisableNotFoundRetries bool
 }
 
 func (s *OsManagementHubManagedInstanceAttachProfileManagementResourceCrud) ID() string {
-	return *s.Res.Id
-}
-
-func (s *OsManagementHubManagedInstanceAttachProfileManagementResourceCrud) Get() error {
-	request := oci_os_management_hub.GetManagedInstanceRequest{}
-
-	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
-		tmp := managedInstanceId.(string)
-		request.ManagedInstanceId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
-
-	response, err := s.Client.GetManagedInstance(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response
-	return nil
+	return *s.Res
 }
 
 func (s *OsManagementHubManagedInstanceAttachProfileManagementResourceCrud) Create() error {
@@ -95,6 +76,7 @@ func (s *OsManagementHubManagedInstanceAttachProfileManagementResourceCrud) Crea
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
 		tmp := managedInstanceId.(string)
 		request.ManagedInstanceId = &tmp
+		s.Res = &tmp
 	}
 
 	if profileId, ok := s.D.GetOkExists("profile_id"); ok {
@@ -109,7 +91,7 @@ func (s *OsManagementHubManagedInstanceAttachProfileManagementResourceCrud) Crea
 		return err
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *OsManagementHubManagedInstanceAttachProfileManagementResourceCrud) SetData() error {

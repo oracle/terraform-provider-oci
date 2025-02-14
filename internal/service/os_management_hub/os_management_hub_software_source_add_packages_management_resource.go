@@ -45,6 +45,12 @@ func OsManagementHubSoftwareSourceAddPackagesManagementResource() *schema.Resour
 			},
 
 			// Optional
+			"is_continue_on_missing_packages": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 		},
@@ -77,7 +83,7 @@ type OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud struct {
 }
 
 func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) ID() string {
-	return tfresource.GenerateDataSourceHashID("OsManagementHubSoftwareSourceAddPackagesManagementResource-", OsManagementHubSoftwareSourceAddPackagesManagementResource(), s.D)
+	return *s.Res.GetId()
 }
 
 func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Get() error {
@@ -101,6 +107,11 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Get() e
 
 func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Create() error {
 	request := oci_os_management_hub.AddPackagesToSoftwareSourceRequest{}
+
+	if isContinueOnMissingPackages, ok := s.D.GetOkExists("is_continue_on_missing_packages"); ok {
+		tmp := isContinueOnMissingPackages.(bool)
+		request.IsContinueOnMissingPackages = &tmp
+	}
 
 	if packages, ok := s.D.GetOkExists("packages"); ok {
 		interfaces := packages.([]interface{})
@@ -135,14 +146,14 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Create(
 		return s.Get()
 	}
 
-	return s.getSoftwareSourceAddPackagesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSoftwareSourceAddPackagesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) getSoftwareSourceAddPackagesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	softwareSourceAddPackagesManagementId, err := softwareSourceAddPackagesManagementWaitForWorkRequest(workId, "softwaresource",
+	softwareSourceAddPackagesManagementId, err := softwareSourceAddPackagesManagementWaitForWorkRequest(workId, "software_source",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {

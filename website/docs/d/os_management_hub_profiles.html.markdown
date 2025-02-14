@@ -26,9 +26,12 @@ data "oci_os_management_hub_profiles" "test_profiles" {
 	display_name_contains = var.profile_display_name_contains
 	is_default_profile = var.profile_is_default_profile
 	is_service_provided_profile = var.profile_is_service_provided_profile
+	management_station = var.profile_management_station
+	management_station_not_equal_to = var.profile_management_station_not_equal_to
 	os_family = var.profile_os_family
 	profile_id = oci_os_management_hub_profile.test_profile.id
 	profile_type = var.profile_profile_type
+	profile_version = var.profile_profile_version
 	registration_type = var.profile_registration_type
 	state = var.profile_state
 	vendor_name = var.profile_vendor_name
@@ -39,18 +42,21 @@ data "oci_os_management_hub_profiles" "test_profiles" {
 
 The following arguments are supported:
 
-* `arch_type` - (Applicable when profile_type=SOFTWARESOURCE | STATION) A filter to return only profiles that match the given archType.
+* `arch_type` - (Applicable when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) A filter to return only profiles that match the given archType.
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given display names.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
-* `is_default_profile` - (Optional) A boolean variable that is used to list only the default profile resources. 
+* `is_default_profile` - (Optional) A filter to return only default profiles. 
 * `is_service_provided_profile` - (Optional) A filter to return only service-provided profiles. 
-* `os_family` - (Applicable when profile_type=SOFTWARESOURCE | STATION) A filter to return only resources that match the given operating system family.
+* `management_station` - (Optional) A filter to return resources that are associated with the specified management  station [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `management_station_not_equal_to` - (Optional) A filter to return resources that aren't associated with the specified management  station [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `os_family` - (Applicable when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) A filter to return only resources that match the given operating system family.
 * `profile_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile. A filter used to return the specified profile.
 * `profile_type` - (Optional) A filter to return registration profiles that match the given profile type.
+* `profile_version` - (Optional) The version of the registration profile.
 * `registration_type` - (Optional) A filter to return profiles that match the given instance type.
 * `state` - (Optional) A filter to return only registration profiles in the given state.
-* `vendor_name` - (Applicable when profile_type=SOFTWARESOURCE | STATION) A filter to return only resources that match the given vendor name.
+* `vendor_name` - (Applicable when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) A filter to return only resources that match the given vendor name.
 
 
 ## Attributes Reference
@@ -81,9 +87,10 @@ The following attributes are exported:
 * `managed_instance_group` - Provides identifying information for the specified managed instance group.
 	* `display_name` - Managed instance group name.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
-* `management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+* `management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an  instance once registered. Management stations are only used by non-OCI instances. 
 * `os_family` - The operating system family.
 * `profile_type` - The type of profile.
+* `profile_version` - The version of the profile. The version is automatically incremented each time the profiled is edited.
 * `registration_type` - The type of instance to register.
 * `software_sources` - The list of software sources that the registration profile will use.
 	* `description` - Software source description.
@@ -94,5 +101,6 @@ The following attributes are exported:
 * `state` - The current state of the registration profile.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the registration profile was created (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
+* `time_modified` - The time the registration profile was last modified (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
 * `vendor_name` - The vendor of the operating system for the instance.
 

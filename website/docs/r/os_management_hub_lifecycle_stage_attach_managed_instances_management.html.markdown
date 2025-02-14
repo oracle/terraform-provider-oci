@@ -19,8 +19,11 @@ Attaches (adds) managed instances to a lifecycle stage. Once added, you can appl
 resource "oci_os_management_hub_lifecycle_stage_attach_managed_instances_management" "test_lifecycle_stage_attach_managed_instances_management" {
 	#Required
 	lifecycle_stage_id = oci_os_management_hub_lifecycle_stage.test_lifecycle_stage.id
+<<<<<<< ours
+=======
 
 	#Required
+>>>>>>> theirs
 	managed_instance_details {
 		#Required
 		managed_instances = var.lifecycle_stage_attach_managed_instances_management_managed_instance_details_managed_instances

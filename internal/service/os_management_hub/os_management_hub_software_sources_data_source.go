@@ -69,6 +69,10 @@ func OsManagementHubSoftwareSourcesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_mirror_sync_allowed": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"os_family": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -123,6 +127,10 @@ func OsManagementHubSoftwareSourcesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"software_source_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"software_source_sub_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -183,6 +191,10 @@ func OsManagementHubSoftwareSourcesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"is_mandatory_for_autonomous_linux": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_mirror_sync_allowed": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
@@ -341,6 +353,11 @@ func (s *OsManagementHubSoftwareSourcesDataSourceCrud) Get() error {
 	if isMandatoryForAutonomousLinux, ok := s.D.GetOkExists("is_mandatory_for_autonomous_linux"); ok {
 		tmp := isMandatoryForAutonomousLinux.(bool)
 		request.IsMandatoryForAutonomousLinux = &tmp
+	}
+
+	if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+		tmp := isMirrorSyncAllowed.(bool)
+		request.IsMirrorSyncAllowed = &tmp
 	}
 
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {

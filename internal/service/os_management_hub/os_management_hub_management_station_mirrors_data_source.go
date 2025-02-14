@@ -5,6 +5,7 @@ package os_management_hub
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
@@ -77,8 +78,16 @@ func OsManagementHubManagementStationMirrorsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"package_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"percentage": {
 										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"size": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"state": {
@@ -222,8 +231,16 @@ func MirrorSummaryToMap(obj oci_os_management_hub.MirrorSummary) map[string]inte
 
 	result["os_family"] = string(obj.OsFamily)
 
+	if obj.PackageCount != nil {
+		result["package_count"] = int(*obj.PackageCount)
+	}
+
 	if obj.Percentage != nil {
 		result["percentage"] = int(*obj.Percentage)
+	}
+
+	if obj.Size != nil {
+		result["size"] = strconv.FormatInt(*obj.Size, 10)
 	}
 
 	result["state"] = string(obj.State)

@@ -10,7 +10,7 @@ description: |-
 # oci_os_management_hub_management_station_refresh_management
 This resource provides the Management Station Refresh Management resource in Oracle Cloud Infrastructure Os Management Hub service.
 
-Refreshes the list of software sources mirrored by the management station to support the associated instances.
+Refreshes the list of software sources mirrored by the management station.
 
 
 ## Example Usage

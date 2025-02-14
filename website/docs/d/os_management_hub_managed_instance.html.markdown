@@ -32,6 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `agent_version` - The version of osmh-agent running on the managed instance
 * `architecture` - The CPU architecture type of the managed instance.
 * `autonomous_settings` - Settings for the Autonomous Linux service.
 	* `is_data_collection_authorized` - Indicates whether Autonomous Linux will collect crash files. This setting can be changed by the user.
@@ -66,8 +67,9 @@ The following attributes are exported:
 * `other_updates_available` - Number of non-classified (other) updates available for installation.
 * `primary_management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station. 
 * `profile` - The profile that was used to register this instance with the service.
+* `profile_version` - The version of the profile that was used to register this instance with the service.
 * `scheduled_job_count` - Number of scheduled jobs associated with this instance.
-* `secondary_management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary managment station. 
+* `secondary_management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary management station. 
 * `security_updates_available` - Number of security type updates available for installation.
 * `software_sources` - The list of software sources currently attached to the managed instance.
 	* `description` - Software source description.

@@ -10,8 +10,6 @@ func init() {
 	tf_export.RegisterCompartmentGraphs("os_management_hub", osManagementHubResourceGraph)
 }
 
-// Custom overrides for generating composite IDs within the resource discovery framework
-
 // Hints for discovering and exporting this resource to configuration and state files
 var exportOsManagementHubManagedInstanceHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_os_management_hub_managed_instance",
@@ -42,6 +40,11 @@ var exportOsManagementHubManagedInstanceDetachProfileManagementHints = &tf_expor
 	ResourceAbbreviation: "managed_instance_detach_profile_management",
 }
 
+var exportOsManagementHubManagedInstanceRebootManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_managed_instance_reboot_management",
+	ResourceAbbreviation: "managed_instance_reboot_management",
+}
+
 var exportOsManagementHubProfileHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_os_management_hub_profile",
 	DatasourceClass:        "oci_os_management_hub_profiles",
@@ -52,6 +55,31 @@ var exportOsManagementHubProfileHints = &tf_export.TerraformResourceHints{
 	DiscoverableLifecycleStates: []string{
 		string(oci_os_management_hub.ProfileLifecycleStateActive),
 	},
+}
+
+var exportOsManagementHubProfileAttachLifecycleStageManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_profile_attach_lifecycle_stage_management",
+	ResourceAbbreviation: "profile_attach_lifecycle_stage_management",
+}
+
+var exportOsManagementHubProfileAttachManagedInstanceGroupManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_profile_attach_managed_instance_group_management",
+	ResourceAbbreviation: "profile_attach_managed_instance_group_management",
+}
+
+var exportOsManagementHubProfileAttachManagementStationManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_profile_attach_management_station_management",
+	ResourceAbbreviation: "profile_attach_management_station_management",
+}
+
+var exportOsManagementHubProfileAttachSoftwareSourcesManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_profile_attach_software_sources_management",
+	ResourceAbbreviation: "profile_attach_software_sources_management",
+}
+
+var exportOsManagementHubProfileDetachSoftwareSourcesManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_profile_detach_software_sources_management",
+	ResourceAbbreviation: "profile_detach_software_sources_management",
 }
 
 var exportOsManagementHubScheduledJobHints = &tf_export.TerraformResourceHints{
@@ -91,6 +119,11 @@ var exportOsManagementHubLifecycleStageDetachManagedInstancesManagementHints = &
 var exportOsManagementHubLifecycleStagePromoteSoftwareSourceManagementHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_os_management_hub_lifecycle_stage_promote_software_source_management",
 	ResourceAbbreviation: "lifecycle_stage_promote_software_source_management",
+}
+
+var exportOsManagementHubLifecycleStageRebootManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_lifecycle_stage_reboot_management",
+	ResourceAbbreviation: "lifecycle_stage_reboot_management",
 }
 
 var exportOsManagementHubManagedInstanceGroupHints = &tf_export.TerraformResourceHints{
@@ -150,6 +183,11 @@ var exportOsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementHint
 	ResourceAbbreviation: "managed_instance_group_install_windows_updates_management",
 }
 
+var exportOsManagementHubManagedInstanceGroupRebootManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_managed_instance_group_reboot_management",
+	ResourceAbbreviation: "managed_instance_group_reboot_management",
+}
+
 var exportOsManagementHubManagementStationHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_os_management_hub_management_station",
 	DatasourceClass:        "oci_os_management_hub_management_stations",
@@ -165,6 +203,11 @@ var exportOsManagementHubManagementStationHints = &tf_export.TerraformResourceHi
 var exportOsManagementHubManagementStationRefreshManagementHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_os_management_hub_management_station_refresh_management",
 	ResourceAbbreviation: "management_station_refresh_management",
+}
+
+var exportOsManagementHubManagementStationAssociateManagedInstancesManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_management_station_associate_managed_instances_management",
+	ResourceAbbreviation: "management_station_associate_managed_instances_management",
 }
 
 var exportOsManagementHubManagementStationSynchronizeMirrorsManagementHints = &tf_export.TerraformResourceHints{
@@ -186,6 +229,7 @@ var exportOsManagementHubSoftwareSourceHints = &tf_export.TerraformResourceHints
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_os_management_hub.SoftwareSourceLifecycleStateActive),
+		string(oci_os_management_hub.SoftwareSourceLifecycleStateNeedsAttention),
 	},
 }
 
@@ -197,6 +241,21 @@ var exportOsManagementHubSoftwareSourceChangeAvailabilityManagementHints = &tf_e
 var exportOsManagementHubSoftwareSourceAddPackagesManagementHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_os_management_hub_software_source_add_packages_management",
 	ResourceAbbreviation: "software_source_add_packages_management",
+}
+
+var exportOsManagementHubSoftwareSourceRemovePackagesManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_software_source_remove_packages_management",
+	ResourceAbbreviation: "software_source_remove_packages_management",
+}
+
+var exportOsManagementHubSoftwareSourceReplacePackagesManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_software_source_replace_packages_management",
+	ResourceAbbreviation: "software_source_replace_packages_management",
+}
+
+var exportOsManagementHubSoftwareSourceGenerateMetadataManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_software_source_generate_metadata_management",
+	ResourceAbbreviation: "software_source_generate_metadata_management",
 }
 
 var exportOsManagementHubEventHints = &tf_export.TerraformResourceHints{
@@ -211,6 +270,11 @@ var exportOsManagementHubEventHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOsManagementHubWorkRequestRerunManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_os_management_hub_work_request_rerun_management",
+	ResourceAbbreviation: "work_request_rerun_management",
+}
+
 var osManagementHubResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOsManagementHubManagedInstanceHints},
@@ -221,5 +285,13 @@ var osManagementHubResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOsManagementHubManagementStationHints},
 		{TerraformResourceHints: exportOsManagementHubSoftwareSourceHints},
 		{TerraformResourceHints: exportOsManagementHubEventHints},
+	},
+	"oci_os_management_hub_software_source": {
+		{
+			TerraformResourceHints: exportOsManagementHubSoftwareSourceHints,
+			DatasourceQueryParams: map[string]string{
+				"software_source_id": "id",
+			},
+		},
 	},
 }

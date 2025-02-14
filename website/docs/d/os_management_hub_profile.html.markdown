@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_os_management_hub_profile
 This data source provides details about a specific Profile resource in Oracle Cloud Infrastructure Os Management Hub service.
 
-Gets information about the specified registration profile.
+Returns information about the specified registration profile.
 
 ## Example Usage
 
@@ -50,9 +50,10 @@ The following attributes are exported:
 * `managed_instance_group` - Provides identifying information for the specified managed instance group.
 	* `display_name` - Managed instance group name.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
-* `management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+* `management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an  instance once registered. Management stations are only used by non-OCI instances. 
 * `os_family` - The operating system family.
 * `profile_type` - The type of profile.
+* `profile_version` - The version of the profile. The version is automatically incremented each time the profiled is edited.
 * `registration_type` - The type of instance to register.
 * `software_sources` - The list of software sources that the registration profile will use.
 	* `description` - Software source description.
@@ -63,5 +64,6 @@ The following attributes are exported:
 * `state` - The current state of the registration profile.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the registration profile was created (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
+* `time_modified` - The time the registration profile was last modified (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
 * `vendor_name` - The vendor of the operating system for the instance.
 

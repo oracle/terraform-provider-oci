@@ -40,9 +40,9 @@ data "oci_os_management_hub_software_package_software_source" "test_software_pac
 The following arguments are supported:
 
 * `arch_type` - (Optional) A filter to return only instances whose architecture type matches the given architecture.
-* `availability` - (Optional) The availabilities of the software source in a non-OCI environment for a tenancy.
-* `availability_anywhere` - (Optional) The availabilities of the software source. Use this query parameter to filter across availabilities in different environments.
-* `availability_at_oci` - (Optional) The availabilities of the software source in an Oracle Cloud Infrastructure environment for a tenancy.
+* `availability` - (Optional) The availability of the software source in a non-OCI environment for a tenancy.
+* `availability_anywhere` - (Optional) The availability of the software source. Use this query parameter to filter across availabilities in different environments.
+* `availability_at_oci` - (Optional) The availability of the software source in an Oracle Cloud Infrastructure environment for a tenancy.
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given user-friendly name.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
@@ -73,10 +73,12 @@ The following attributes are exported:
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	* `is_mandatory_for_autonomous_linux` - Indicates whether the software source is required for the Autonomous Linux service.
-	* `os_family` - The OS family the software source belongs to.
+	* `is_mirror_sync_allowed` - Indicates if this software source can be mirrored to a management station.
+	* `os_family` - The OS family of the software source.
 	* `package_count` - Number of packages the software source contains.
 	* `repo_id` - The repository ID for the software source.
-	* `size` - The size of the software source in gigabytes (GB).
+	* `size` - The size of the software source in bytes (B).
+	* `software_source_sub_type` - Identifies how the versioned custom software source was created.
 	* `software_source_type` - Type of software source.
 	* `software_source_version` - The version to assign to this custom software source.
 	* `state` - The current state of the software source.
