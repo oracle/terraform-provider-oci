@@ -17,6 +17,7 @@ func init() {
 	RegisterOracleClient("oci_os_management_hub.ManagementStationClient", &OracleClient{InitClientFn: initOsmanagementhubManagementStationClient})
 	RegisterOracleClient("oci_os_management_hub.OnboardingClient", &OracleClient{InitClientFn: initOsmanagementhubOnboardingClient})
 	RegisterOracleClient("oci_os_management_hub.WorkRequestClient", &OracleClient{InitClientFn: initOsmanagementhubWorkRequestClient})
+	RegisterOracleClient("oci_os_management_hub.WorkRequestClient", &OracleClient{InitClientFn: initOsmanagementhubWorkRequestClient})
 	RegisterOracleClient("oci_os_management_hub.ScheduledJobClient", &OracleClient{InitClientFn: initOsmanagementhubScheduledJobClient})
 	RegisterOracleClient("oci_os_management_hub.SoftwareSourceClient", &OracleClient{InitClientFn: initOsmanagementhubSoftwareSourceClient})
 }

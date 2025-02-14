@@ -439,6 +439,68 @@ func (s *OsManagementHubEventDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_os_management_hub.RebootEvent:
+		s.D.Set("type", "REBOOT")
+
+		if v.Data != nil {
+			s.D.Set("data", []interface{}{RebootEventDataToMap(v.Data)})
+		} else {
+			s.D.Set("data", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.EventDetails != nil {
+			s.D.Set("event_details", *v.EventDetails)
+		}
+
+		if v.EventSummary != nil {
+			s.D.Set("event_summary", *v.EventSummary)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.IsManagedByAutonomousLinux != nil {
+			s.D.Set("is_managed_by_autonomous_linux", *v.IsManagedByAutonomousLinux)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemDetails != nil {
+			s.D.Set("system_details", []interface{}{SystemDetailsToMap(v.SystemDetails)})
+		} else {
+			s.D.Set("system_details", nil)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeOccurred != nil {
+			s.D.Set("time_occurred", v.TimeOccurred.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_os_management_hub.SoftwareSourceEvent:
 		s.D.Set("type", "SOFTWARE_SOURCE")
 
@@ -506,6 +568,68 @@ func (s *OsManagementHubEventDataSourceCrud) SetData() error {
 
 		if v.Data != nil {
 			s.D.Set("data", []interface{}{SoftwareUpdateEventDataToMap(v.Data)})
+		} else {
+			s.D.Set("data", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.EventDetails != nil {
+			s.D.Set("event_details", *v.EventDetails)
+		}
+
+		if v.EventSummary != nil {
+			s.D.Set("event_summary", *v.EventSummary)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.IsManagedByAutonomousLinux != nil {
+			s.D.Set("is_managed_by_autonomous_linux", *v.IsManagedByAutonomousLinux)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemDetails != nil {
+			s.D.Set("system_details", []interface{}{SystemDetailsToMap(v.SystemDetails)})
+		} else {
+			s.D.Set("system_details", nil)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeOccurred != nil {
+			s.D.Set("time_occurred", v.TimeOccurred.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_os_management_hub.SysadminEvent:
+		s.D.Set("type", "SYSADMIN")
+
+		if v.Data != nil {
+			s.D.Set("data", []interface{}{SysadminEventDataToMap(v.Data)})
 		} else {
 			s.D.Set("data", nil)
 		}

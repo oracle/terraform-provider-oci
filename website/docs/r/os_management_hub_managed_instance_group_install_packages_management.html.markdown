@@ -22,6 +22,7 @@ resource "oci_os_management_hub_managed_instance_group_install_packages_manageme
 	package_names = var.managed_instance_group_install_packages_management_package_names
 
 	#Optional
+	is_latest = var.managed_instance_group_install_packages_management_is_latest
 	work_request_details {
 
 		#Optional
@@ -35,6 +36,7 @@ resource "oci_os_management_hub_managed_instance_group_install_packages_manageme
 
 The following arguments are supported:
 
+* `is_latest` - (Optional) Indicates whether this is the latest package version.
 * `managed_instance_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 * `package_names` - (Required) The list of package names.
 * `work_request_details` - (Optional) Provides the name and description of the job.

@@ -19,6 +19,7 @@ data "oci_os_management_hub_managed_instances" "test_managed_instances" {
 
 	#Optional
 	advisory_name = var.managed_instance_advisory_name
+	agent_version = var.managed_instance_agent_version
 	arch_type = var.managed_instance_arch_type
 	compartment_id = var.compartment_id
 	display_name = var.managed_instance_display_name
@@ -29,13 +30,21 @@ data "oci_os_management_hub_managed_instances" "test_managed_instances" {
 	is_managed_by_autonomous_linux = var.managed_instance_is_managed_by_autonomous_linux
 	is_management_station = var.managed_instance_is_management_station
 	is_profile_attached = var.managed_instance_is_profile_attached
+<<<<<<< ours
+	is_reboot_required = var.managed_instance_is_reboot_required
+	lifecycle_environment {
+	}
+=======
 	lifecycle_environment = var.managed_instance_lifecycle_environment
+>>>>>>> theirs
 	lifecycle_environment_not_equal_to = var.managed_instance_lifecycle_environment_not_equal_to
 	lifecycle_stage = var.managed_instance_lifecycle_stage
 	lifecycle_stage_not_equal_to = var.managed_instance_lifecycle_stage_not_equal_to
 	location = var.managed_instance_location
 	location_not_equal_to = var.managed_instance_location_not_equal_to
 	managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
+	management_station = var.managed_instance_management_station
+	management_station_not_equal_to = var.managed_instance_management_station_not_equal_to
 	os_family = var.managed_instance_os_family
 	profile = var.managed_instance_profile
 	profile_not_equal_to = var.managed_instance_profile_not_equal_to
@@ -49,6 +58,7 @@ data "oci_os_management_hub_managed_instances" "test_managed_instances" {
 The following arguments are supported:
 
 * `advisory_name` - (Optional) The assigned erratum name. It's unique and not changeable.  Example: `ELSA-2020-5804` 
+* `agent_version` - (Optional) A filter to return only managed instances with the specified version of osmh-agent running.
 * `arch_type` - (Optional) A filter to return only instances whose architecture type matches the given architecture.
 * `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given display names.
@@ -59,6 +69,7 @@ The following arguments are supported:
 * `is_managed_by_autonomous_linux` - (Optional) Indicates whether to list only resources managed by the Autonomous Linux service. 
 * `is_management_station` - (Optional) A filter to return only managed instances that are acting as management stations.
 * `is_profile_attached` - (Optional) A filter to return only managed instances with a registration profile attached.
+* `is_reboot_required` - (Optional) A filter to return only managed instances that require a reboot to install updates.
 * `lifecycle_environment` - (Optional) A filter to return only managed instances in a specific lifecycle environment.
 * `lifecycle_environment_not_equal_to` - (Optional) A filter to return only managed instances that aren't in a specific lifecycle environment.
 * `lifecycle_stage` - (Optional) A filter to return only managed instances that are associated with the specified lifecycle environment.
@@ -66,6 +77,8 @@ The following arguments are supported:
 * `location` - (Optional) A filter to return only resources whose location matches the given value.
 * `location_not_equal_to` - (Optional) A filter to return only resources whose location does not match the given value.
 * `managed_instance_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
+* `management_station` - (Optional) A filter to return resources that are associated with the specified management  station [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `management_station_not_equal_to` - (Optional) A filter to return resources that aren't associated with the specified management  station [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `os_family` - (Optional) A filter to return only resources that match the given operating system family.
 * `profile` - (Optional) A multi filter to return only managed instances that match the given profile ids.
 * `profile_not_equal_to` - (Optional) A multi filter to return only managed instances that don't contain the given profile [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -83,6 +96,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `agent_version` - The version of osmh-agent running on the managed instance
 * `architecture` - The CPU architecture type of the managed instance.
 * `autonomous_settings` - Settings for the Autonomous Linux service.
 	* `is_data_collection_authorized` - Indicates whether Autonomous Linux will collect crash files. This setting can be changed by the user.
@@ -117,8 +131,9 @@ The following attributes are exported:
 * `other_updates_available` - Number of non-classified (other) updates available for installation.
 * `primary_management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station. 
 * `profile` - The profile that was used to register this instance with the service.
+* `profile_version` - The version of the profile that was used to register this instance with the service.
 * `scheduled_job_count` - Number of scheduled jobs associated with this instance.
-* `secondary_management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary managment station. 
+* `secondary_management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary management station. 
 * `security_updates_available` - Number of security type updates available for installation.
 * `software_sources` - The list of software sources currently attached to the managed instance.
 	* `description` - Software source description.

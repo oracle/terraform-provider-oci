@@ -85,6 +85,10 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			"agent_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"architecture": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -217,6 +221,10 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"profile": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"profile_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -598,6 +606,10 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Delete() error {
 }
 
 func (s *OsManagementHubManagedInstanceResourceCrud) SetData() error {
+	if s.Res.AgentVersion != nil {
+		s.D.Set("agent_version", *s.Res.AgentVersion)
+	}
+
 	s.D.Set("architecture", s.Res.Architecture)
 
 	if s.Res.AutonomousSettings != nil {
@@ -700,6 +712,10 @@ func (s *OsManagementHubManagedInstanceResourceCrud) SetData() error {
 		s.D.Set("profile", *s.Res.Profile)
 	}
 
+	if s.Res.ProfileVersion != nil {
+		s.D.Set("profile_version", *s.Res.ProfileVersion)
+	}
+
 	if s.Res.ScheduledJobCount != nil {
 		s.D.Set("scheduled_job_count", *s.Res.ScheduledJobCount)
 	}
@@ -781,6 +797,10 @@ func IdToMap(obj *oci_os_management_hub.Id) map[string]interface{} {
 
 func ManagedInstanceSummaryToMap(obj oci_os_management_hub.ManagedInstanceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AgentVersion != nil {
+		result["agent_version"] = string(*obj.AgentVersion)
+	}
 
 	result["architecture"] = string(obj.Architecture)
 

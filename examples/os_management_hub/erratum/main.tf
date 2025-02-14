@@ -6,7 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -19,28 +19,28 @@ provider "oci" {
 
 data "oci_os_management_hub_errata" "test_errata" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  name = ["ELBA-2024-12244"]
+  name          = ["ELBA-2024-12244"]
   name_contains = "ELBA-2024-12244"
 }
 
 data "oci_os_management_hub_errata" "test_errata_2" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  classification_type = ["BUGFIX"]
-  name = ["ELBA-2024-12244"]
-  name_contains = "ELBA-2024-12244"
-  os_family = "ORACLE_LINUX_9"
-  time_issue_date_end = "2024-04-01T00:00:00.000Z"
+  classification_type   = ["BUGFIX"]
+  name                  = ["ELBA-2024-12244"]
+  name_contains         = "ELBA-2024-12244"
+  os_family             = "ORACLE_LINUX_9"
+  time_issue_date_end   = "2024-04-01T00:00:00.000Z"
   time_issue_date_start = "2024-03-20T00:00:00.000Z"
 }
 
 
 data "oci_os_management_hub_erratum" "test_erratum" {
-  compartment_id = "${var.compartment_id}"
-  name = "ELBA-2024-12244"
+  compartment_id = "${var.compartment_ocid}"
+  name           = "ELBA-2024-12244"
 }
