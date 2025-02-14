@@ -122,6 +122,10 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			// Computed
+			"backup_source_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"backup_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -531,6 +535,8 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Delete() error {
 }
 
 func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
+	s.D.Set("backup_source_type", s.Res.BackupSourceType)
+
 	s.D.Set("backup_type", s.Res.BackupType)
 
 	if s.Res.BucketName != nil {
@@ -633,6 +639,8 @@ func (s *GoldenGateDeploymentBackupResourceCrud) mapToAddResourceLockDetails(fie
 
 func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["backup_source_type"] = string(obj.BackupSourceType)
 
 	result["backup_type"] = string(obj.BackupType)
 

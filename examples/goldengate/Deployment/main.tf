@@ -72,6 +72,18 @@ variable "deployment_state" {
   	default = "ACTIVE"
 }
 
+variable "deployment_backup_schedule_time_backup_scheduled" {
+	default = "2029-02-07T13:00:51.897Z"
+}
+
+variable "deployment_backup_schedule_frequency_backup_scheduled" {
+	default = "DAILY"
+}
+
+variable "deployment_backup_schedule_is_metadata_only" {
+	default = false
+}
+
 provider "oci" {
   	tenancy_ocid     = var.tenancy_ocid
   	user_ocid        = var.user_ocid
@@ -111,6 +123,14 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 			security_group_id = var.group_id
 		}
   	}
+	backup_schedule {
+		time_backup_scheduled      = var.deployment_backup_schedule_time_backup_scheduled
+		frequency_backup_scheduled = var.deployment_backup_schedule_frequency_backup_scheduled
+		compartment_id             = var.compartment_id
+		bucket 					   = var.objectstorage_bucket_name
+		namespace                  = var.objectstorage_namespace
+		is_metadata_only		   = var.deployment_backup_schedule_is_metadata_only
+	}
 	locks {}
 }
 

@@ -33,6 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `backup_source_type` - Possible deployment backup source types. 
 * `backup_type` - Possible Deployment backup types. 
 * `bucket` - Name of the bucket where the object is to be uploaded in the object storage
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
