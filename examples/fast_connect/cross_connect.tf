@@ -1,6 +1,14 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
+variable "cross_connect_secret_version_cak" {
+  default = null
+}
+
+variable "cross_connect_secret_version_ckn" {
+  default = null
+}
+
 resource "oci_core_cross_connect" "cross_connect" {
   #Required
   compartment_id        = var.compartment_ocid
@@ -33,5 +41,28 @@ output "cross_connects" {
   value = data.oci_core_cross_connects.cross_connects.cross_connects
 }
 
+resource "oci_core_cross_connect" "test_cross_connect_for_macsec" {
+  compartment_id        = var.compartment_ocid
+  location_name         = data.oci_core_cross_connect_locations.cross_connect_locations.cross_connect_locations[0].name
+  port_speed_shape_name = data.oci_core_cross_connect_port_speed_shapes.cross_connect_port_speed_shapes.cross_connect_port_speed_shapes[0].name
+  display_name = "MacSecTestForCrossConnect"
+  is_active = true
+  macsec_properties {
+        #Required
+        state = "ENABLED"
+        #Optional
+        encryption_cipher = "AES256_GCM"
+        primary_key {
+            #Required
+            connectivity_association_key_secret_id = var.secret_ocid_cak
+            connectivity_association_name_secret_id = var.secret_ocid_ckn
+            #Optional, api will always create with current version, but can use to update
+            connectivity_association_key_secret_version = var.cross_connect_secret_version_cak
+            connectivity_association_name_secret_version = var.cross_connect_secret_version_ckn
+        }
+        is_unprotected_traffic_allowed = false
+
+    }
+}
 
 
