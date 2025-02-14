@@ -10,7 +10,7 @@ description: |-
 # oci_os_management_hub_software_source
 This resource provides the Software Source resource in Oracle Cloud Infrastructure Os Management Hub service.
 
-Creates a new versioned or custom software source.
+Creates a new software source.
 
 
 ## Example Usage
@@ -22,6 +22,8 @@ resource "oci_os_management_hub_software_source" "test_software_source" {
 	software_source_type = var.software_source_software_source_type
 
 	#Optional
+	advanced_repo_options = var.software_source_advanced_repo_options
+	arch_type = var.software_source_arch_type
 	custom_software_source_filter {
 
 		#Optional
@@ -52,13 +54,20 @@ resource "oci_os_management_hub_software_source" "test_software_source" {
 	description = var.software_source_description
 	display_name = var.software_source_display_name
 	freeform_tags = {"Department"= "Finance"}
+	gpg_key_url = var.software_source_gpg_key_url
 	is_auto_resolve_dependencies = var.software_source_is_auto_resolve_dependencies
 	is_automatically_updated = var.software_source_is_automatically_updated
 	is_created_from_package_list = var.software_source_is_created_from_package_list
+	is_gpg_check_enabled = var.software_source_is_gpg_check_enabled
 	is_latest_content_only = var.software_source_is_latest_content_only
+	is_mirror_sync_allowed = var.software_source_is_mirror_sync_allowed
+	is_ssl_verify_enabled = var.software_source_is_ssl_verify_enabled
 	origin_software_source_id = oci_os_management_hub_software_source.test_software_source.id
+	os_family = var.software_source_os_family
 	packages = var.software_source_packages
+	software_source_sub_type = var.software_source_software_source_sub_type
 	software_source_version = var.software_source_software_source_version
+	url = var.software_source_url
 	vendor_software_sources {
 
 		#Optional
@@ -72,6 +81,8 @@ resource "oci_os_management_hub_software_source" "test_software_source" {
 
 The following arguments are supported:
 
+* `advanced_repo_options` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) Advanced repository options for the software source
+* `arch_type` - (Required when software_source_type=PRIVATE | THIRD_PARTY) The architecture type supported by the third-party software source.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 * `custom_software_source_filter` - (Applicable when software_source_type=CUSTOM | VERSIONED) (Updatable) Provides the information used to apply filters to a vendor software source to create or update a custom software source.
 	* `module_stream_profile_filters` - (Applicable when software_source_type=CUSTOM | VERSIONED) (Updatable) The list of module stream/profile filters.
@@ -91,19 +102,26 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) User-specified description for the software source. Avoid entering confidential information.
 * `display_name` - (Optional) (Updatable) User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `gpg_key_url` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) URI of the GPG key for this software source.
 * `is_auto_resolve_dependencies` - (Applicable when software_source_type=CUSTOM | VERSIONED) (Updatable) Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
 * `is_automatically_updated` - (Applicable when software_source_type=CUSTOM) (Updatable) Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.
 * `is_created_from_package_list` - (Applicable when software_source_type=CUSTOM | VERSIONED) Indicates whether the service should create the software source from a list of packages provided by the user.
+* `is_gpg_check_enabled` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) Whether signature verification should be done for the software source.
 * `is_latest_content_only` - (Applicable when software_source_type=CUSTOM | VERSIONED) (Updatable) Indicates whether the software source will include only the latest versions of content from vendor software sources, while accounting for other constraints set in the custom or versioned custom software source (such as a package list or filters).
 	* For a module filter that does not specify a stream, this will include all available streams, and within each stream only the latest version of packages.
 	* For a module filter that does specify a stream, this will include only the latest version of packages for the specified stream.
 	* For a package filter that does not specify a version, this will include only the latest available version of the package.
 	* For a package filter that does specify a version, this will include only the specified version of the package (the isLatestContentOnly attribute is ignored).
 	* For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored). 
+* `is_mirror_sync_allowed` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) Whether this software source can be synced to a management station
+* `is_ssl_verify_enabled` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) Whether SSL validation needs to be turned on
 * `origin_software_source_id` - (Required when software_source_type=VENDOR) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
+* `os_family` - (Required when software_source_type=PRIVATE | THIRD_PARTY) The OS family for the third-party software source.
 * `packages` - (Applicable when software_source_type=CUSTOM | VERSIONED) A property used for compatibility only. It doesn't provide a complete list of packages. See [AddPackagesToSoftwareSourceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/osmh/latest/datatypes/AddPackagesToSoftwareSourceDetails) for providing the list of packages used to create the software source when isCreatedFromPackageList is set to true.
+* `software_source_sub_type` - (Applicable when software_source_type=CUSTOM | VERSIONED) The creation type of a software source.
 * `software_source_type` - (Required) (Updatable) Type of software source.
 * `software_source_version` - (Required when software_source_type=VERSIONED) The version to assign to this custom software source.
+* `url` - (Required when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) URL for the third-party software source.
 * `vendor_software_sources` - (Required when software_source_type=CUSTOM | VERSIONED) (Updatable) List of vendor software sources.
 	* `display_name` - (Required when software_source_type=CUSTOM | VERSIONED) (Updatable) User-friendly name.
 	* `id` - (Required when software_source_type=CUSTOM | VERSIONED) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that is immutable on creation.
@@ -116,6 +134,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `advanced_repo_options` - Advanced repository options for the software source
 * `arch_type` - The architecture type supported by the software source.
 * `availability` - Availability of the software source (for non-OCI environments).
 * `availability_at_oci` - Availability of the software source (for Oracle Cloud Infrastructure environments).
@@ -141,11 +160,12 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `gpg_key_fingerprint` - Fingerprint of the GPG key for this software source.
 * `gpg_key_id` - ID of the GPG key for this software source.
-* `gpg_key_url` - URL of the GPG key for this software source.
+* `gpg_key_url` - URI of the GPG key for this software source.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 * `is_auto_resolve_dependencies` - Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
 * `is_automatically_updated` - Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.
 * `is_created_from_package_list` - Indicates whether the service should create the software source from a list of packages provided by the user.
+* `is_gpg_check_enabled` - Whether signature verification should be done for the software source
 * `is_latest_content_only` - Indicates whether the software source will include only the latest versions of content from vendor software sources, while accounting for other constraints set in the custom or versioned custom software source (such as a package list or filters).
 	* For a module filter that does not specify a stream, this will include all available streams, and within each stream only the latest version of packages.
 	* For a module filter that does specify a stream, this will include only the latest version of packages for the specified stream.
@@ -153,17 +173,21 @@ The following attributes are exported:
 	* For a package filter that does specify a version, this will include only the specified version of the package (the isLatestContentOnly attribute is ignored).
 	* For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored). 
 * `is_mandatory_for_autonomous_linux` - Indicates whether the software source is required for the Autonomous Linux service.
-* `origin_software_source_id` - This property applies only to replicated vendor software sources. This is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment.
-* `os_family` - The OS family the software source belongs to.
+* `is_mirror_sync_allowed` - Indicates if this software source can be mirrored to a management station.
+* `is_ssl_verify_enabled` - Indicates if SSL validation is enabled for the software source.
+* `origin_software_source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment. This property applies only to replicated vendor software sources.
+* `os_family` - The OS family of the software source.
 * `package_count` - Number of packages the software source contains.
 * `packages` - The packages in the software source.
 * `repo_id` - The repository ID for the software source.
-* `size` - The size of the software source in gigabytes (GB).
+* `size` - The size of the software source in bytes (B).
+* `software_source_sub_type` - Identifies how the versioned custom software source was created.
 * `software_source_type` - Type of software source.
 * `software_source_version` - The version to assign to this custom software source.
 * `state` - The current state of the software source.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the software source was created (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
+* `time_metadata_updated` - The date and time the metadata for this software source was last updated (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
 * `url` - URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is 'custom/<repoId>'.
 * `vendor_name` - Name of the vendor providing the software source.
 * `vendor_software_sources` - List of vendor software sources that are used for the basis of the versioned custom software source.

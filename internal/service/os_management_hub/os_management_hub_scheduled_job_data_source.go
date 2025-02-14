@@ -143,6 +143,10 @@ func (s *OsManagementHubScheduledJobDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.WorkRequestId != nil {
+		s.D.Set("work_request_id", *s.Res.WorkRequestId)
+	}
+
 	s.D.Set("work_request_ids", s.Res.WorkRequestIds)
 
 	return nil

@@ -6,9 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
-variable "lifecycle_stage_id" {} 
-
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -19,8 +17,6 @@ provider "oci" {
 }
 
 # List all entitlements in a compartment
-# --------------------------------------
 data "oci_os_management_hub_entitlements" "test_entitlements" {
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 }
-

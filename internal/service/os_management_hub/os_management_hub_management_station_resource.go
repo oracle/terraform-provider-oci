@@ -6,6 +6,7 @@ package os_management_hub
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -61,6 +62,11 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_sslverify_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"sslcert": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -128,6 +134,11 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_auto_config_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"refresh_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -155,12 +166,32 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 					},
 				},
 			},
+			"location": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"managed_instance_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"mirror_capacity": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"mirror_package_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"mirror_size": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"mirror_storage_available_size": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"mirror_storage_size": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"mirror_sync_status": {
@@ -196,6 +227,10 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 					},
 				},
 			},
+			"mirror_unique_package_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"overall_percentage": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -203,6 +238,27 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 			"overall_state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"peer_management_stations": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"profile_id": {
 				Type:     schema.TypeString,
@@ -363,6 +419,11 @@ func (s *OsManagementHubManagementStationResourceCrud) Create() error {
 		request.Hostname = &tmp
 	}
 
+	if isAutoConfigEnabled, ok := s.D.GetOkExists("is_auto_config_enabled"); ok {
+		tmp := isAutoConfigEnabled.(bool)
+		request.IsAutoConfigEnabled = &tmp
+	}
+
 	if mirror, ok := s.D.GetOkExists("mirror"); ok {
 		if tmpList := mirror.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mirror", 0)
@@ -459,6 +520,11 @@ func (s *OsManagementHubManagementStationResourceCrud) Update() error {
 		request.Hostname = &tmp
 	}
 
+	if isAutoConfigEnabled, ok := s.D.GetOkExists("is_auto_config_enabled"); ok {
+		tmp := isAutoConfigEnabled.(bool)
+		request.IsAutoConfigEnabled = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.ManagementStationId = &tmp
 
@@ -536,6 +602,12 @@ func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.IsAutoConfigEnabled != nil {
+		s.D.Set("is_auto_config_enabled", *s.Res.IsAutoConfigEnabled)
+	}
+
+	s.D.Set("location", s.Res.Location)
+
 	if s.Res.ManagedInstanceId != nil {
 		s.D.Set("managed_instance_id", *s.Res.ManagedInstanceId)
 	}
@@ -550,10 +622,30 @@ func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
 		s.D.Set("mirror_capacity", *s.Res.MirrorCapacity)
 	}
 
+	if s.Res.MirrorPackageCount != nil {
+		s.D.Set("mirror_package_count", *s.Res.MirrorPackageCount)
+	}
+
+	if s.Res.MirrorSize != nil {
+		s.D.Set("mirror_size", strconv.FormatInt(*s.Res.MirrorSize, 10))
+	}
+
+	if s.Res.MirrorStorageAvailableSize != nil {
+		s.D.Set("mirror_storage_available_size", strconv.FormatInt(*s.Res.MirrorStorageAvailableSize, 10))
+	}
+
+	if s.Res.MirrorStorageSize != nil {
+		s.D.Set("mirror_storage_size", strconv.FormatInt(*s.Res.MirrorStorageSize, 10))
+	}
+
 	if s.Res.MirrorSyncStatus != nil {
 		s.D.Set("mirror_sync_status", []interface{}{MirrorSyncStatusToMap(s.Res.MirrorSyncStatus)})
 	} else {
 		s.D.Set("mirror_sync_status", nil)
+	}
+
+	if s.Res.MirrorUniquePackageCount != nil {
+		s.D.Set("mirror_unique_package_count", *s.Res.MirrorUniquePackageCount)
 	}
 
 	if s.Res.OverallPercentage != nil {
@@ -561,6 +653,12 @@ func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
 	}
 
 	s.D.Set("overall_state", s.Res.OverallState)
+
+	peerManagementStations := []interface{}{}
+	for _, item := range s.Res.PeerManagementStations {
+		peerManagementStations = append(peerManagementStations, PeerManagementStationToMap(item))
+	}
+	s.D.Set("peer_management_stations", peerManagementStations)
 
 	if s.Res.ProfileId != nil {
 		s.D.Set("profile_id", *s.Res.ProfileId)
@@ -645,6 +743,11 @@ func (s *OsManagementHubManagementStationResourceCrud) mapToCreateMirrorConfigur
 		result.Directory = &tmp
 	}
 
+	if isSslverifyEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_sslverify_enabled")); ok {
+		tmp := isSslverifyEnabled.(bool)
+		result.IsSslverifyEnabled = &tmp
+	}
+
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(string)
 		result.Port = &tmp
@@ -671,6 +774,11 @@ func (s *OsManagementHubManagementStationResourceCrud) mapToUpdateMirrorConfigur
 		result.Directory = &tmp
 	}
 
+	if isSslverifyEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_sslverify_enabled")); ok {
+		tmp := isSslverifyEnabled.(bool)
+		result.IsSslverifyEnabled = &tmp
+	}
+
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(string)
 		result.Port = &tmp
@@ -694,6 +802,10 @@ func MirrorConfigurationToMap(obj *oci_os_management_hub.MirrorConfiguration) ma
 
 	if obj.Directory != nil {
 		result["directory"] = string(*obj.Directory)
+	}
+
+	if obj.IsSslverifyEnabled != nil {
+		result["is_sslverify_enabled"] = bool(*obj.IsSslverifyEnabled)
 	}
 
 	if obj.Port != nil {
@@ -830,6 +942,8 @@ func ManagementStationSummaryToMap(obj oci_os_management_hub.ManagementStationSu
 		result["id"] = string(*obj.Id)
 	}
 
+	result["location"] = string(obj.Location)
+
 	if obj.ManagedInstanceId != nil {
 		result["managed_instance_id"] = string(*obj.ManagedInstanceId)
 	}
@@ -886,6 +1000,20 @@ func MirrorSyncStatusToMap(obj *oci_os_management_hub.MirrorSyncStatus) map[stri
 
 	if obj.Unsynced != nil {
 		result["unsynced"] = int(*obj.Unsynced)
+	}
+
+	return result
+}
+
+func PeerManagementStationToMap(obj oci_os_management_hub.PeerManagementStation) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	return result

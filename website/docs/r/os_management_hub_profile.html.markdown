@@ -42,21 +42,21 @@ resource "oci_os_management_hub_profile" "test_profile" {
 
 The following arguments are supported:
 
-* `arch_type` - (Required when profile_type=SOFTWARESOURCE | STATION) The architecture type.
+* `arch_type` - (Required when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) The architecture type.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) User-specified description of the registration profile.
-* `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering  confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_default_profile` - (Optional) (Updatable) Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified. 
 * `lifecycle_stage_id` - (Required when profile_type=LIFECYCLE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage that the instance will be associated with.
 * `managed_instance_group_id` - (Required when profile_type=GROUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group that the instance will join after registration.
-* `management_station_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
-* `os_family` - (Required when profile_type=SOFTWARESOURCE | STATION) The operating system family.
+* `management_station_id` - (Optional) description: The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate  with an instance once registered. This is required when creating a profile for non-OCI instances. 
+* `os_family` - (Required when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) The operating system family.
 * `profile_type` - (Required) The type of profile.
 * `registration_type` - (Optional) The type of instance to register.
 * `software_source_ids` - (Applicable when profile_type=SOFTWARESOURCE) The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
-* `vendor_name` - (Required when profile_type=SOFTWARESOURCE | STATION) The vendor of the operating system for the instance.
+* `vendor_name` - (Required when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) The vendor of the operating system for the instance.
 
 
 ** IMPORTANT **
@@ -84,9 +84,10 @@ The following attributes are exported:
 * `managed_instance_group` - Provides identifying information for the specified managed instance group.
 	* `display_name` - Managed instance group name.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
-* `management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+* `management_station_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an  instance once registered. Management stations are only used by non-OCI instances. 
 * `os_family` - The operating system family.
 * `profile_type` - The type of profile.
+* `profile_version` - The version of the profile. The version is automatically incremented each time the profiled is edited.
 * `registration_type` - The type of instance to register.
 * `software_sources` - The list of software sources that the registration profile will use.
 	* `description` - Software source description.
@@ -97,6 +98,7 @@ The following attributes are exported:
 * `state` - The current state of the registration profile.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the registration profile was created (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
+* `time_modified` - The time the registration profile was last modified (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
 * `vendor_name` - The vendor of the operating system for the instance.
 
 ## Timeouts
