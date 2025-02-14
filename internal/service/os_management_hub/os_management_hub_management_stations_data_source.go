@@ -34,6 +34,20 @@ func OsManagementHubManagementStationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"location": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"location_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"managed_instance_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -135,6 +149,10 @@ func OsManagementHubManagementStationsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"location": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -184,6 +202,32 @@ func (s *OsManagementHubManagementStationsDataSourceCrud) Get() error {
 	if id, ok := s.D.GetOkExists("id"); ok {
 		tmp := id.(string)
 		request.Id = &tmp
+	}
+
+	if location, ok := s.D.GetOkExists("location"); ok {
+		interfaces := location.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location") {
+			request.Location = tmp
+		}
+	}
+
+	if locationNotEqualTo, ok := s.D.GetOkExists("location_not_equal_to"); ok {
+		interfaces := locationNotEqualTo.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location_not_equal_to") {
+			request.LocationNotEqualTo = tmp
+		}
 	}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
