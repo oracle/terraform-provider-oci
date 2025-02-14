@@ -82,9 +82,11 @@ The following arguments are supported:
     * `is_unprotected_traffic_allowed` - (Optional) (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
     * `primary_key` - (Optional) (Updatable) Defines the secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s held in Vault that represent the MACsec key.
         * `connectivity_association_key_secret_id` - (Required) (Updatable) Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity Association Key (CAK) of this MACsec key.
+		* `connectivity_association_key_secret_version` - (Optional) (Updatable) The secret version of the `connectivity_association_key_secret_id` secret in Vault.
 
             NOTE: Only the latest secret version will be used. 
         * `connectivity_association_name_secret_id` - (Required) (Updatable) Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity association Key Name (CKN) of this MACsec key.
+		* `connectivity_association_name_secret_version` - (Optional) (Updatable) The secret version of the `connectivity_association_name_secret_id` secret in Vault.
 
             NOTE: Only the latest secret version will be used. 
     * `state` - (Required) (Updatable) Indicates whether or not MACsec is enabled.
