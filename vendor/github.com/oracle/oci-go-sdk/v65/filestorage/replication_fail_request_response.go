@@ -14,7 +14,7 @@ import (
 // ReplicationFailRequest wrapper for the ReplicationFail operation
 type ReplicationFailRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	ReplicationId *string `mandatory:"true" contributesTo:"query" name:"replicationId"`
 
 	// The `objectNum` of the associated replicationTarget.

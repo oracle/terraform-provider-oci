@@ -14,7 +14,7 @@ import (
 // GetExternalListenerRequest wrapper for the GetExternalListener operation
 type GetExternalListenerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external listener.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external listener.
 	ExternalListenerId *string `mandatory:"true" contributesTo:"path" name:"externalListenerId"`
 
 	// The client request ID for tracing.

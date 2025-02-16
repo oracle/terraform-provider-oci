@@ -14,7 +14,7 @@ import (
 // GetCreateReverseConnectionNatIpRequest wrapper for the GetCreateReverseConnectionNatIp operation
 type GetCreateReverseConnectionNatIpRequest struct {
 
-	// The private endpoint's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The private endpoint's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Details object for retrieving or creating a reverse connection NAT IP.

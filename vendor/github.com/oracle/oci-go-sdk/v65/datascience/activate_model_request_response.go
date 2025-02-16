@@ -14,7 +14,7 @@ import (
 // ActivateModelRequest wrapper for the ActivateModel operation
 type ActivateModelRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -78,7 +78,7 @@ type ActivateModelResponse struct {
 	// The Model instance
 	Model `presentIn:"body"`
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

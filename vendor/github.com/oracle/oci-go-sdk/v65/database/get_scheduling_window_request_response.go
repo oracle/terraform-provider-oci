@@ -14,10 +14,10 @@ import (
 // GetSchedulingWindowRequest wrapper for the GetSchedulingWindow operation
 type GetSchedulingWindowRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
-	// The Scheduling Window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingWindowId *string `mandatory:"true" contributesTo:"path" name:"schedulingWindowId"`
 
 	// Unique identifier for the request.

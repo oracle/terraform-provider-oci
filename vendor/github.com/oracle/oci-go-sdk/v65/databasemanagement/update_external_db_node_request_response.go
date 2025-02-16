@@ -14,7 +14,7 @@ import (
 // UpdateExternalDbNodeRequest wrapper for the UpdateExternalDbNode operation
 type UpdateExternalDbNodeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database node.
 	ExternalDbNodeId *string `mandatory:"true" contributesTo:"path" name:"externalDbNodeId"`
 
 	// The details required to update an external DB node.

@@ -14,7 +14,7 @@ import (
 // RemoveConnectionLockRequest wrapper for the RemoveConnectionLock operation
 type RemoveConnectionLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// RemoveResourceLockDetails body parameter

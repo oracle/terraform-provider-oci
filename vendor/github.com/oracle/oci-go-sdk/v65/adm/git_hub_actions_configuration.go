@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -24,7 +24,7 @@ type GitHubActionsConfiguration struct {
 	// For Enterprise GitHub the expected format is http(s)://[hostname]/api/v3/repos/[owner]/[repoName]
 	RepositoryUrl *string `mandatory:"true" json:"repositoryUrl"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Private Access Token (PAT) Secret.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Private Access Token (PAT) Secret.
 	// The PAT provides the credentials to access the GitHub Action.
 	PatSecretId *string `mandatory:"true" json:"patSecretId"`
 

@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -30,7 +30,7 @@ type CrossConnectMappingDetails struct {
 	// means you don't use BGP MD5 authentication.
 	BgpMd5AuthKey *string `mandatory:"false" json:"bgpMd5AuthKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect or cross-connect group for this mapping.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect or cross-connect group for this mapping.
 	// Specified by the owner of the cross-connect or cross-connect group (the
 	// customer if the customer is colocated with Oracle, or the provider if the
 	// customer is connecting via provider).

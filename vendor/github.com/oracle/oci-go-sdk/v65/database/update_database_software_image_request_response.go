@@ -14,7 +14,7 @@ import (
 // UpdateDatabaseSoftwareImageRequest wrapper for the UpdateDatabaseSoftwareImage operation
 type UpdateDatabaseSoftwareImageRequest struct {
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"databaseSoftwareImageId"`
 
 	// Request to update the properties of a DB system.

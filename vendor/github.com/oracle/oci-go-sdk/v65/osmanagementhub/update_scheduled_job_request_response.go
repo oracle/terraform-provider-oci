@@ -14,7 +14,7 @@ import (
 // UpdateScheduledJobRequest wrapper for the UpdateScheduledJob operation
 type UpdateScheduledJobRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 	ScheduledJobId *string `mandatory:"true" contributesTo:"path" name:"scheduledJobId"`
 
 	// Provides the information used to update the job.

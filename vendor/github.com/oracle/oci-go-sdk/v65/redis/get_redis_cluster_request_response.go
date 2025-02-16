@@ -14,7 +14,7 @@ import (
 // GetRedisClusterRequest wrapper for the GetRedisCluster operation
 type GetRedisClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	RedisClusterId *string `mandatory:"true" contributesTo:"path" name:"redisClusterId"`
 
 	// The client request ID for tracing.

@@ -14,7 +14,7 @@ import (
 // GetMonitoredResourceTypeRequest wrapper for the GetMonitoredResourceType operation
 type GetMonitoredResourceTypeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource type.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource type.
 	MonitoredResourceTypeId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceTypeId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

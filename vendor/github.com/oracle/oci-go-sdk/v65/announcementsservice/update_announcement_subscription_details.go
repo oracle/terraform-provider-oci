@@ -24,7 +24,7 @@ type UpdateAnnouncementSubscriptionDetails struct {
 	// A description of the announcement subscription. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. The caller of the operation needs the ONS_TOPIC_PUBLISH permission for the targeted Notifications service topic. For more information about Notifications permissions, see Details for Notifications (https://docs.cloud.oracle.com/Content/Identity/policyreference/notificationpolicyreference.htm).
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. The caller of the operation needs the ONS_TOPIC_PUBLISH permission for the targeted Notifications service topic. For more information about Notifications permissions, see Details for Notifications (https://docs.oracle.com/iaas/Content/Identity/policyreference/notificationpolicyreference.htm).
 	OnsTopicId *string `mandatory:"false" json:"onsTopicId"`
 
 	// (For announcement subscriptions with SaaS configured as the platform type or Oracle Fusion Applications as the service, or both, only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the x-obmcs-human-language format. For example fr-FR.

@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -19,7 +19,7 @@ import (
 // QuotaRuleSummary Summary information for a principal's usage and quota rule.
 type QuotaRuleSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
 	// The type of the owner of this quota rule and usage.

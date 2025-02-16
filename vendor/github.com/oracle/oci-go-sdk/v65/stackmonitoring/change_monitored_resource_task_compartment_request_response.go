@@ -14,7 +14,7 @@ import (
 // ChangeMonitoredResourceTaskCompartmentRequest wrapper for the ChangeMonitoredResourceTaskCompartment operation
 type ChangeMonitoredResourceTaskCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of stack monitoring resource task.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of stack monitoring resource task.
 	MonitoredResourceTaskId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceTaskId"`
 
 	// The information to be updated.

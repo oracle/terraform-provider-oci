@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,10 +19,10 @@ import (
 // ClientVpnSummary a summary of ClientVpn.
 type ClientVpnSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that user sent request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that user sent request.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of clientVPNEndpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of clientVPNEndpoint.
 	Id *string `mandatory:"false" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -38,7 +38,7 @@ type ClientVpnSummary struct {
 	// A subnet for openVPN clients to access servers.
 	ClientSubnetCidr *string `mandatory:"false" json:"clientSubnetCidr"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attachedSubnet (VNIC) in customer tenancy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attachedSubnet (VNIC) in customer tenancy.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The IP address in attached subnet.

@@ -18,7 +18,7 @@ import (
 // ChangePrivateEndpointCompartmentDetails The configuration details for moving the resource for private endpoint to other compartment.
 type ChangePrivateEndpointCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the resource to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the resource to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

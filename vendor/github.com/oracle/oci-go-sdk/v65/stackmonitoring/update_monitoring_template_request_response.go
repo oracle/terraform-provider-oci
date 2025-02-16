@@ -14,7 +14,7 @@ import (
 // UpdateMonitoringTemplateRequest wrapper for the UpdateMonitoringTemplate operation
 type UpdateMonitoringTemplateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" contributesTo:"path" name:"monitoringTemplateId"`
 
 	// The information to be updated.

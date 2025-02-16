@@ -14,7 +14,7 @@ import (
 // GetDatastoreRequest wrapper for the GetDatastore operation
 type GetDatastoreRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore.
 	DatastoreId *string `mandatory:"true" contributesTo:"path" name:"datastoreId"`
 
 	// Unique identifier for the request. If you need to contact Oracle about a particular

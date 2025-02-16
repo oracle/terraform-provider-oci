@@ -26,10 +26,10 @@ type Endpoint struct {
 	// A user-friendly display name for the resource. It should be unique and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the endpoint compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the endpoint compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the Endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the Endpoint.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// The time the the endpoint was created. An RFC3339 formatted datetime string.
@@ -38,7 +38,7 @@ type Endpoint struct {
 	// The state of the endpoint.
 	LifecycleState EndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
 	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
@@ -99,18 +99,18 @@ type EndpointComputeTypeEnum string
 
 // Set of constants representing the allowable values for EndpointComputeTypeEnum
 const (
-	EndpointComputeTypeCpu EndpointComputeTypeEnum = "CPU"
-	EndpointComputeTypeGpu EndpointComputeTypeEnum = "GPU"
+	EndpointComputeTypeStandard EndpointComputeTypeEnum = "STANDARD"
+	EndpointComputeTypePremium  EndpointComputeTypeEnum = "PREMIUM"
 )
 
 var mappingEndpointComputeTypeEnum = map[string]EndpointComputeTypeEnum{
-	"CPU": EndpointComputeTypeCpu,
-	"GPU": EndpointComputeTypeGpu,
+	"STANDARD": EndpointComputeTypeStandard,
+	"PREMIUM":  EndpointComputeTypePremium,
 }
 
 var mappingEndpointComputeTypeEnumLowerCase = map[string]EndpointComputeTypeEnum{
-	"cpu": EndpointComputeTypeCpu,
-	"gpu": EndpointComputeTypeGpu,
+	"standard": EndpointComputeTypeStandard,
+	"premium":  EndpointComputeTypePremium,
 }
 
 // GetEndpointComputeTypeEnumValues Enumerates the set of values for EndpointComputeTypeEnum
@@ -125,8 +125,8 @@ func GetEndpointComputeTypeEnumValues() []EndpointComputeTypeEnum {
 // GetEndpointComputeTypeEnumStringValues Enumerates the set of values in String for EndpointComputeTypeEnum
 func GetEndpointComputeTypeEnumStringValues() []string {
 	return []string{
-		"CPU",
-		"GPU",
+		"STANDARD",
+		"PREMIUM",
 	}
 }
 

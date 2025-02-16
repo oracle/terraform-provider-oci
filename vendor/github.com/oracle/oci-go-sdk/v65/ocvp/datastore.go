@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// Datastore An Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm) Datastore for software-defined data center.
+// Datastore An Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm) Datastore for software-defined data center.
 type Datastore struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The List of Block volume OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)s that belong to the Datastore.
+	// The List of Block volume OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s that belong to the Datastore.
 	BlockVolumeIds []string `mandatory:"true" json:"blockVolumeIds"`
 
 	// The list of Block Volume details that belong to the datastore.
 	BlockVolumeDetails []BlockVolumeDetails `mandatory:"true" json:"blockVolumeDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that
 	// contains the Datastore.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -52,26 +52,26 @@ type Datastore struct {
 	// The availability domain of the Datastore.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the datastore cluster that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the datastore cluster that
 	// Datastore belongs to.
 	DatastoreClusterId *string `mandatory:"false" json:"datastoreClusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VMware Cluster that Datastore is attached to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware Cluster that Datastore is attached to.
 	ClusterId *string `mandatory:"false" json:"clusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC that Datastore is associated with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC that Datastore is associated with.
 	SddcId *string `mandatory:"false" json:"sddcId"`
 
 	// Size of the Datastore in GB.
 	Capacity *float64 `mandatory:"false" json:"capacity"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 

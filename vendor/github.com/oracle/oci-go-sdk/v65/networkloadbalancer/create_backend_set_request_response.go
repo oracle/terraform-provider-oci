@@ -14,7 +14,7 @@ import (
 // CreateBackendSetRequest wrapper for the CreateBackendSet operation
 type CreateBackendSetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// The details for adding a backend set.

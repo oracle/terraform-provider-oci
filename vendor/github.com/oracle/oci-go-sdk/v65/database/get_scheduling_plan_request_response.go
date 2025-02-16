@@ -14,7 +14,7 @@ import (
 // GetSchedulingPlanRequest wrapper for the GetSchedulingPlan operation
 type GetSchedulingPlanRequest struct {
 
-	// The Schedule Plan OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Schedule Plan OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPlanId *string `mandatory:"true" contributesTo:"path" name:"schedulingPlanId"`
 
 	// Unique identifier for the request.

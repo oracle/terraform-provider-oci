@@ -14,7 +14,7 @@ import (
 // UpdateExternalDbHomeRequest wrapper for the UpdateExternalDbHome operation
 type UpdateExternalDbHomeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database home.
 	ExternalDbHomeId *string `mandatory:"true" contributesTo:"path" name:"externalDbHomeId"`
 
 	// The details required to update an external DB home.

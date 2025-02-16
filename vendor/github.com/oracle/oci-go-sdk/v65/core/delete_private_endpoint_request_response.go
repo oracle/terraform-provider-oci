@@ -14,7 +14,7 @@ import (
 // DeletePrivateEndpointRequest wrapper for the DeletePrivateEndpoint operation
 type DeletePrivateEndpointRequest struct {
 
-	// The private endpoint's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The private endpoint's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -100,8 +100,8 @@ type DeletePrivateEndpointResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
-	// Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }

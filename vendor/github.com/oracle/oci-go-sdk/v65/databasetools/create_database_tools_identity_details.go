@@ -19,13 +19,13 @@ import (
 // CreateDatabaseToolsIdentityDetails Details for the new Database Tools identity.
 type CreateDatabaseToolsIdentityDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools identity.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools identity.
 	GetCompartmentId() *string
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
 	GetDatabaseToolsConnectionId() *string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

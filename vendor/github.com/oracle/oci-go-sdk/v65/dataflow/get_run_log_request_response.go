@@ -81,7 +81,7 @@ type GetRunLogResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For optimistic concurrency control.
-	// See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Indicates the size of the data as described in RFC 2616, section 14.13.

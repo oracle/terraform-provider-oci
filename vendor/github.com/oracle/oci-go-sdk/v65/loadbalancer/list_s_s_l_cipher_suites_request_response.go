@@ -14,7 +14,7 @@ import (
 // ListSSLCipherSuitesRequest wrapper for the ListSSLCipherSuites operation
 type ListSSLCipherSuitesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

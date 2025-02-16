@@ -5,8 +5,8 @@
 // Autoscaling API
 //
 // Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
-// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
+// autoscaling, see Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Compute (https://docs.oracle.com/iaas/Content/Compute/home.htm).
 //
 
 package autoscaling
@@ -95,7 +95,7 @@ func (client *AutoScalingClient) ConfigurationProvider() *common.ConfigurationPr
 
 // ChangeAutoScalingConfigurationCompartment Moves an autoscaling configuration into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move an autoscaling configuration to a different compartment, associated resources such as instance
 // pools are not moved.
 // A default retry strategy applies to this operation ChangeAutoScalingConfigurationCompartment()

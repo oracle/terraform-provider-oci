@@ -6,7 +6,7 @@
 //
 // API for the API Gateway service. Use this API to manage gateways, deployments, and related items.
 // For more information, see
-// Overview of API Gateway (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
+// Overview of API Gateway (https://docs.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
 //
 
 package apigateway
@@ -20,7 +20,7 @@ import (
 // ChangeUsagePlanCompartmentDetails The new compartment details for the usage plan.
 type ChangeUsagePlanCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the
 	// resource is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

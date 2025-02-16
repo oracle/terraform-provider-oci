@@ -14,7 +14,7 @@ import (
 // GetDedicatedAiClusterRequest wrapper for the GetDedicatedAiCluster operation
 type GetDedicatedAiClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
 	DedicatedAiClusterId *string `mandatory:"true" contributesTo:"path" name:"dedicatedAiClusterId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -145,7 +145,7 @@ func (client RedisClusterClient) cancelWorkRequest(ctx context.Context, request 
 	return response, err
 }
 
-// ChangeRedisClusterCompartment Moves an OCI Cache cluster into a different compartment within the same tenancy. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// ChangeRedisClusterCompartment Moves an OCI Cache cluster into a different compartment within the same tenancy. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 // A default retry strategy applies to this operation ChangeRedisClusterCompartment()
 func (client RedisClusterClient) ChangeRedisClusterCompartment(ctx context.Context, request ChangeRedisClusterCompartmentRequest) (response ChangeRedisClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -204,7 +204,7 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 	return response, err
 }
 
-// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 // A default retry strategy applies to this operation CreateRedisCluster()
 func (client RedisClusterClient) CreateRedisCluster(ctx context.Context, request CreateRedisClusterRequest) (response CreateRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -263,7 +263,7 @@ func (client RedisClusterClient) createRedisCluster(ctx context.Context, request
 	return response, err
 }
 
-// DeleteRedisCluster Deletes the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// DeleteRedisCluster Deletes the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 // A default retry strategy applies to this operation DeleteRedisCluster()
 func (client RedisClusterClient) DeleteRedisCluster(ctx context.Context, request DeleteRedisClusterRequest) (response DeleteRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -317,7 +317,7 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 	return response, err
 }
 
-// GetRedisCluster Retrieves the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// GetRedisCluster Retrieves the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 // A default retry strategy applies to this operation GetRedisCluster()
 func (client RedisClusterClient) GetRedisCluster(ctx context.Context, request GetRedisClusterRequest) (response GetRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -479,7 +479,7 @@ func (client RedisClusterClient) listRedisClusterNodes(ctx context.Context, requ
 	return response, err
 }
 
-// ListRedisClusters Lists the OCI Cache clusters in the specified compartment. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// ListRedisClusters Lists the OCI Cache clusters in the specified compartment. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 // A default retry strategy applies to this operation ListRedisClusters()
 func (client RedisClusterClient) ListRedisClusters(ctx context.Context, request ListRedisClustersRequest) (response ListRedisClustersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -695,7 +695,7 @@ func (client RedisClusterClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateRedisCluster Updates the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// UpdateRedisCluster Updates the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 // A default retry strategy applies to this operation UpdateRedisCluster()
 func (client RedisClusterClient) UpdateRedisCluster(ctx context.Context, request UpdateRedisClusterRequest) (response UpdateRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse

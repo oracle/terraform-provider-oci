@@ -14,7 +14,7 @@ import (
 // DisableModuleStreamOnManagedInstanceRequest wrapper for the DisableModuleStreamOnManagedInstance operation
 type DisableModuleStreamOnManagedInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// The details of the module stream to be disabled on a managed instance.

@@ -19,7 +19,7 @@ import (
 // CustomerOkeComputeConfigurationDetails The configuration details for the customer OKE type compute target.
 type CustomerOkeComputeConfigurationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OKE cluster created by the customer prior to creating a compute target resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OKE cluster created by the customer prior to creating a compute target resource.
 	ClusterId *string `mandatory:"true" json:"clusterId"`
 }
 

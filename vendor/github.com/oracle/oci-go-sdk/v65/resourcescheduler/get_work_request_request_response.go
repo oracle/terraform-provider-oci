@@ -14,7 +14,7 @@ import (
 // GetWorkRequestRequest wrapper for the GetWorkRequest operation
 type GetWorkRequestRequest struct {
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// This is a unique Oracle-assigned identifier for the request. If you need to contact

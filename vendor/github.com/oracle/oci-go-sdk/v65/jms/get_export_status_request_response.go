@@ -14,7 +14,7 @@ import (
 // GetExportStatusRequest wrapper for the GetExportStatus operation
 type GetExportStatusRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The client request ID for tracing.

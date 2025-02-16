@@ -14,7 +14,7 @@ import (
 // ListSecurityAttributeWorkRequestsRequest wrapper for the ListSecurityAttributeWorkRequests operation
 type ListSecurityAttributeWorkRequestsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call.

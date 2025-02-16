@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -95,7 +95,7 @@ func (client *ClusterClient) ConfigurationProvider() *common.ConfigurationProvid
 // CreateCluster Create a vSphere Cluster in software-defined data center (SDDC).
 // Use the WorkRequest operations to track the
 // creation of the Cluster.
-// **Important:** You must configure the Cluster's networking resources with the security rules detailed in Security Rules for Oracle Cloud VMware Solution SDDCs (https://docs.cloud.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm). Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.
+// **Important:** You must configure the Cluster's networking resources with the security rules detailed in Security Rules for Oracle Cloud VMware Solution SDDCs (https://docs.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm). Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.
 // A default retry strategy applies to this operation CreateCluster()
 func (client ClusterClient) CreateCluster(ctx context.Context, request CreateClusterRequest) (response CreateClusterResponse, err error) {
 	var ociResponse common.OCIResponse

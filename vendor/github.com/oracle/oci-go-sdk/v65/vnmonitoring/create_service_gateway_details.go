@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,7 +19,7 @@ import (
 // CreateServiceGatewayDetails The representation of CreateServiceGatewayDetails
 type CreateServiceGatewayDetails struct {
 
-	// The OCID  (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
+	// The OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of the OCIDs of the Service objects to
@@ -32,7 +32,7 @@ type CreateServiceGatewayDetails struct {
 	// RouteTable.
 	Services []ServiceIdRequestDetails `mandatory:"true" json:"services"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -47,12 +47,12 @@ type CreateServiceGatewayDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway will use.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway will use.
 	// If you don't specify a route table here, the service gateway is created without an associated route
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the service gateway.
 	// For information about why you would associate a route table with a service gateway, see
-	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
+	// Transit Routing: Private Access to Oracle Services (https://docs.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

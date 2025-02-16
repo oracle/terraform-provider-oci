@@ -14,7 +14,7 @@ import (
 // ChangeIpAnycastCompartmentRequest wrapper for the ChangeIpAnycastCompartment operation
 type ChangeIpAnycastCompartmentRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Anycast Object.
+	// Specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Anycast Object.
 	IpAnycastId *string `mandatory:"true" contributesTo:"path" name:"ipAnycastId"`
 
 	// Request to change the compartment of a BYOIP CIDR block.

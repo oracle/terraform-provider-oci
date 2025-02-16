@@ -20,10 +20,10 @@ import (
 // CreateFsuHomeDetails The information about the new Exadata Fleet Update Home.
 type CreateFsuHomeDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image for the Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image for the Home.
 	GetFsuImageId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
 	// resource.
 	GetCompartmentId() *string
 

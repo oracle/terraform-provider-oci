@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,7 +18,7 @@ import (
 // UpdateConsumerGroupDetails The information to be updated.
 type UpdateConsumerGroupDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the consumer group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the consumer group.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The filter used by the consumer group. Only messages matching the filter will be available by consumers of the group.

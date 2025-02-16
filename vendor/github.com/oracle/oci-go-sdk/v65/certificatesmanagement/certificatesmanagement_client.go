@@ -308,7 +308,7 @@ func (client CertificatesManagementClient) cancelCertificateVersionDeletion(ctx 
 }
 
 // ChangeCaBundleCompartment Moves a CA bundle to a different compartment in the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the secret.
 func (client CertificatesManagementClient) ChangeCaBundleCompartment(ctx context.Context, request ChangeCaBundleCompartmentRequest) (response ChangeCaBundleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -368,7 +368,7 @@ func (client CertificatesManagementClient) changeCaBundleCompartment(ctx context
 }
 
 // ChangeCertificateAuthorityCompartment Moves a certificate authority (CA) to a different compartment within the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, If-Match is checked against the ETag values of the source.
 func (client CertificatesManagementClient) ChangeCertificateAuthorityCompartment(ctx context.Context, request ChangeCertificateAuthorityCompartmentRequest) (response ChangeCertificateAuthorityCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -428,7 +428,7 @@ func (client CertificatesManagementClient) changeCertificateAuthorityCompartment
 }
 
 // ChangeCertificateCompartment Moves a certificate to a different compartment within the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the secret.
 func (client CertificatesManagementClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -14,7 +14,7 @@ import (
 // DeleteJmsPluginRequest wrapper for the DeleteJmsPlugin operation
 type DeleteJmsPluginRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the JmsPlugin.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the JmsPlugin.
 	JmsPluginId *string `mandatory:"true" contributesTo:"path" name:"jmsPluginId"`
 
 	// The client request ID for tracing.

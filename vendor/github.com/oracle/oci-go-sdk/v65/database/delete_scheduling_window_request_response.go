@@ -14,10 +14,10 @@ import (
 // DeleteSchedulingWindowRequest wrapper for the DeleteSchedulingWindow operation
 type DeleteSchedulingWindowRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
-	// The Scheduling Window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingWindowId *string `mandatory:"true" contributesTo:"path" name:"schedulingWindowId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

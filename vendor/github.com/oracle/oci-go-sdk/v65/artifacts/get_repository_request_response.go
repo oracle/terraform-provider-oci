@@ -14,7 +14,7 @@ import (
 // GetRepositoryRequest wrapper for the GetRepository operation
 type GetRepositoryRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.
 	// Example: `ocid1.artifactrepository.oc1..exampleuniqueID`
 	RepositoryId *string `mandatory:"true" contributesTo:"path" name:"repositoryId"`
 

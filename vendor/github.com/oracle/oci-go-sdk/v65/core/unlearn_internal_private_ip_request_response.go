@@ -17,7 +17,7 @@ type UnlearnInternalPrivateIpRequest struct {
 	// Request to unlearn a private IP
 	UnlearnInternalPrivateIpDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Unique identifier for the request.

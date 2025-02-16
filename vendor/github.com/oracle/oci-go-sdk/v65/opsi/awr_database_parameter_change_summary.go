@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -20,7 +20,7 @@ import (
 // AwrDatabaseParameterChangeSummary A summary of the changes made to a single AWR database parameter.
 type AwrDatabaseParameterChangeSummary struct {
 
-	// The ID of the snapshot with the parameter value changed. The snapshot identifier is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the snapshot with the parameter value changed. The snapshot identifier is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /awrHubs/{awrHubId}/awrDatabaseSnapshots
 	SnapshotIdentifier *int `mandatory:"true" json:"snapshotIdentifier"`

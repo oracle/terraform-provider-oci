@@ -25,7 +25,7 @@ type ServiceError interface {
 	GetMessage() string
 
 	// A short error code that defines the error, meant for programmatic parsing.
-	// See https://docs.cloud.oracle.com/Content/API/References/apierrors.htm
+	// See https://docs.oracle.com/iaas/Content/API/References/apierrors.htm
 	GetCode() string
 
 	// Unique Oracle-assigned identifier for the request.

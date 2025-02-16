@@ -14,7 +14,7 @@ import (
 // GetExternalDbSystemConnectorRequest wrapper for the GetExternalDbSystemConnector operation
 type GetExternalDbSystemConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external connector.
 	ExternalDbSystemConnectorId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemConnectorId"`
 
 	// The client request ID for tracing.

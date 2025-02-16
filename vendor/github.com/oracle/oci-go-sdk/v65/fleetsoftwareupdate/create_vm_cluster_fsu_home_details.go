@@ -20,10 +20,10 @@ import (
 // CreateVmClusterFsuHomeDetails The information about the new Exadata Fleet Update Home using a VmCluster or CloudVmCluster resource as source.
 type CreateVmClusterFsuHomeDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image for the Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image for the Home.
 	FsuImageId *string `mandatory:"true" json:"fsuImageId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
 	// resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -31,7 +31,7 @@ type CreateVmClusterFsuHomeDetails struct {
 	// It cannot be the same as an existing Exadata Fleet Update Home resource.
 	HomeName *string `mandatory:"true" json:"homeName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM Cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster.
 	// Only CloudVmCluster or VmCluster resources are allowed.
 	VmClusterId *string `mandatory:"true" json:"vmClusterId"`
 

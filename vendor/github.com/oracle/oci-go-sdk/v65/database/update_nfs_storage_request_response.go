@@ -14,7 +14,7 @@ import (
 // UpdateNfsStorageRequest wrapper for the UpdateNfsStorage operation
 type UpdateNfsStorageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NFS Storage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NFS Storage.
 	NfsStorageId *string `mandatory:"true" contributesTo:"path" name:"nfsStorageId"`
 
 	// Request to update the attributes of a nfs storage.

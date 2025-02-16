@@ -20,7 +20,7 @@ import (
 // ExportImportConfigSummary A description of a configuration item or dependency. It specifies all the properties that define the configuration item or dependency that will be exported.
 type ExportImportConfigSummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	GetId() *string
 

@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -19,12 +19,12 @@ import (
 // SourceDetails Source information for the file system.
 type SourceDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system.
+	// See Cloning a File System (https://docs.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	ParentFileSystemId *string `mandatory:"false" json:"parentFileSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source snapshot used to create a cloned file system.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source snapshot used to create a cloned file system.
+	// See Cloning a File System (https://docs.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	SourceSnapshotId *string `mandatory:"false" json:"sourceSnapshotId"`
 }
 

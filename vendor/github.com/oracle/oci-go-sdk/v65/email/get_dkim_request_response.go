@@ -14,7 +14,7 @@ import (
 // GetDkimRequest wrapper for the GetDkim operation
 type GetDkimRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DKIM.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DKIM.
 	DkimId *string `mandatory:"true" contributesTo:"path" name:"dkimId"`
 
 	// The request ID for tracing from the system

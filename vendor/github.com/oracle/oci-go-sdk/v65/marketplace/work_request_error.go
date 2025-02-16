@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.oracle.com/iaas/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -19,7 +19,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occurred. Error codes are listed
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
+	// (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm)
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable error string.

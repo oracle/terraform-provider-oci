@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,7 +20,7 @@ import (
 // SqlTuningTaskReturn The returned object for starting or cloning a SQL tuning advisor task.
 type SqlTuningTaskReturn struct {
 
-	// The identifier of the task being started or cloned. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The identifier of the task being started or cloned. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint
 	// ListSqlTuningAdvisorTasks.
 	SqlTuningTaskId *int64 `mandatory:"true" json:"sqlTuningTaskId"`

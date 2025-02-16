@@ -5,7 +5,7 @@
 // DNS API
 //
 // API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
-// For more information, see Overview of the DNS Service (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// For more information, see Overview of the DNS Service (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -455,7 +455,7 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 }
 
 // CreateSteeringPolicy Creates a new steering policy in the specified compartment. For more information on
-// creating policies with templates, see Traffic Management API Guide (https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
+// creating policies with templates, see Traffic Management API Guide (https://docs.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
 // A default retry strategy applies to this operation CreateSteeringPolicy()
 func (client DnsClient) CreateSteeringPolicy(ctx context.Context, request CreateSteeringPolicyRequest) (response CreateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2495,7 +2495,7 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 // For key signing keys (KSKs), you must create the DS record with the new key information **before** promoting
 // the new key to establish a chain of trust. To avoid a service disruption, remove the old DS record as soon
 // as its TTL (time to live) expires.
-// For more information, see DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm).
+// For more information, see DNSSEC (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm).
 // A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
 func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2557,7 +2557,7 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 // StageZoneDnssecKeyVersion Stages a new `DnssecKeyVersion` on the zone. Staging is a process that generates a new "successor" key version
 // that replaces an existing "predecessor" key version.
 // **Note:** A new key-signing key (KSK) version is inert until you update the parent zone DS records.
-// For more information, see the DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm) documentation.
+// For more information, see the DNSSEC (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm) documentation.
 // A default retry strategy applies to this operation StageZoneDnssecKeyVersion()
 func (client DnsClient) StageZoneDnssecKeyVersion(ctx context.Context, request StageZoneDnssecKeyVersionRequest) (response StageZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3056,7 +3056,7 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 
 // UpdateZone Updates the zone with the specified information.
 // Global secondary zones may have their external masters updated. For more information about secondary
-// zones, see Manage DNS Service Zone (https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/managingdnszones.htm). When the zone name
+// zones, see Manage DNS Service Zone (https://docs.oracle.com/iaas/Content/DNS/Tasks/managingdnszones.htm). When the zone name
 // is provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId
 // query parameter is required.
 // A default retry strategy applies to this operation UpdateZone()

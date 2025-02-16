@@ -85,7 +85,7 @@ type PatchLibrariesResponse struct {
 	LibraryList `presentIn:"body"`
 
 	// For optimistic concurrency control.
-	// See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request.

@@ -14,7 +14,7 @@ import (
 // GetInternalDnsResolverConfigRequest wrapper for the GetInternalDnsResolverConfig operation
 type GetInternalDnsResolverConfigRequest struct {
 
-	// The DNS resolver's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// The DNS resolver's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	InternalDnsResolverId *string `mandatory:"true" contributesTo:"path" name:"internalDnsResolverId"`
 
 	// Unique identifier for the request.

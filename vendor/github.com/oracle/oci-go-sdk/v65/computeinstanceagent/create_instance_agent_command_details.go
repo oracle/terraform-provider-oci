@@ -19,7 +19,7 @@ import (
 // CreateInstanceAgentCommandDetails Creation details for an Oracle Cloud Agent command.
 type CreateInstanceAgentCommandDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to create the command in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the command in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The amount of time that Oracle Cloud Agent is given to run the command on the instance before timing
@@ -36,11 +36,6 @@ type CreateInstanceAgentCommandDetails struct {
 	// Avoid entering confidential information.
 	// Example: `Database Backup Script`
 	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// Command String is a fully formed command that runcommand executes.
-	// Example: main.sh is stored in object storage and user provides the following command with parameters to execute
-	// /bin/sh main.sh abc 10 foo.sh
-	CommandString *string `mandatory:"false" json:"commandString"`
 }
 
 func (m CreateInstanceAgentCommandDetails) String() string {

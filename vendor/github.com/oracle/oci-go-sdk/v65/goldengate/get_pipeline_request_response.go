@@ -14,7 +14,7 @@ import (
 // GetPipelineRequest wrapper for the GetPipeline operation
 type GetPipelineRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// The client request ID for tracing.

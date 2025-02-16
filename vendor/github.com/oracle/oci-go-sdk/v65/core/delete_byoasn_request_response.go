@@ -14,7 +14,7 @@ import (
 // DeleteByoasnRequest wrapper for the DeleteByoasn operation
 type DeleteByoasnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource.
 	ByoasnId *string `mandatory:"true" contributesTo:"path" name:"byoasnId"`
 
 	// Unique identifier for the request.

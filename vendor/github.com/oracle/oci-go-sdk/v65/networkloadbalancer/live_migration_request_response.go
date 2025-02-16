@@ -14,7 +14,7 @@ import (
 // LiveMigrationRequest wrapper for the LiveMigration operation
 type LiveMigrationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// Details for live migrating nlb from source to destination pod.

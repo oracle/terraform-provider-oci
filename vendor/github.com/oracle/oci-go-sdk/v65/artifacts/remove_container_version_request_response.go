@@ -14,7 +14,7 @@ import (
 // RemoveContainerVersionRequest wrapper for the RemoveContainerVersion operation
 type RemoveContainerVersionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image.
 	// Example: `ocid1.containerimage.oc1..exampleuniqueID`
 	ImageId *string `mandatory:"true" contributesTo:"path" name:"imageId"`
 

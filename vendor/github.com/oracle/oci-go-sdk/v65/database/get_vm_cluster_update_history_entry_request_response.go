@@ -14,10 +14,10 @@ import (
 // GetVmClusterUpdateHistoryEntryRequest wrapper for the GetVmClusterUpdateHistoryEntry operation
 type GetVmClusterUpdateHistoryEntryRequest struct {
 
-	// The VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	VmClusterId *string `mandatory:"true" contributesTo:"path" name:"vmClusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance update history entry.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update history entry.
 	UpdateHistoryEntryId *string `mandatory:"true" contributesTo:"path" name:"updateHistoryEntryId"`
 
 	// Unique identifier for the request.

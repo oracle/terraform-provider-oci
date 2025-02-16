@@ -14,7 +14,7 @@ import (
 // DisableDatabaseManagementFeatureRequest wrapper for the DisableDatabaseManagementFeature operation
 type DisableDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// The details required to disable a Database Management feature for an Oracle cloud database.

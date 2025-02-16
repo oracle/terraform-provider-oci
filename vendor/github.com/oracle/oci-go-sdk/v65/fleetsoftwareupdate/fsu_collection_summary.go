@@ -20,16 +20,16 @@ import (
 // FsuCollectionSummary Exadata Fleet Update Collection Resource.
 type FsuCollectionSummary interface {
 
-	// OCID identifier for the Exadata Fleet Update Collection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection.
 	GetId() *string
 
-	// Exadata Fleet Update Collection resource display name.
+	// The user-friendly name for the Exadata Fleet Update Collection.
 	GetDisplayName() *string
 
 	// Exadata service type for the target resource members.
 	GetServiceType() CollectionServiceTypesEnum
 
-	// Compartment Identifier
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	GetCompartmentId() *string
 
 	// The time the Exadata Fleet Update Collection was created. An RFC3339 formatted datetime string.
@@ -50,7 +50,7 @@ type FsuCollectionSummary interface {
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
 	GetLastCompletedFsuCycleId() *string
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -130,6 +130,10 @@ func (m *fsucollectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{
 		return mm, err
 	case "DB":
 		mm := DbFsuCollectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GUEST_OS":
+		mm := GuestOsFsuCollectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

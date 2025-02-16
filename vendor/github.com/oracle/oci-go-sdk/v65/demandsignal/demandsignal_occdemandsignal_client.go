@@ -92,7 +92,7 @@ func (client *OccDemandSignalClient) ConfigurationProvider() *common.Configurati
 }
 
 // ChangeOccDemandSignalCompartment Moves a OccDemandSignal into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeOccDemandSignalCompartment()
 func (client OccDemandSignalClient) ChangeOccDemandSignalCompartment(ctx context.Context, request ChangeOccDemandSignalCompartmentRequest) (response ChangeOccDemandSignalCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

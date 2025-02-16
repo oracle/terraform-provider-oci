@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -16,13 +16,13 @@ import (
 )
 
 // DatabaseUpgradeHistoryEntrySummary The Database service supports the upgrade history of databases.
-// To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized, talk to an administrator. If you are an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized, talk to an administrator. If you are an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // For information about access control and compartments, see
-// Overview of the Identity Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Overview of the Identity Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DatabaseUpgradeHistoryEntrySummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database upgrade history.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database upgrade history.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The database upgrade action.
@@ -37,7 +37,7 @@ type DatabaseUpgradeHistoryEntrySummary struct {
 	// The source of the Oracle Database software to be used for the upgrade.
 	//  - Use `DB_HOME` to specify an existing Database Home to upgrade the database. The database is moved to the target Database Home and makes use of the Oracle Database software version of the target Database Home.
 	//  - Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.
-	//  - Use `DB_SOFTWARE_IMAGE` to specify a database software image (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database.
+	//  - Use `DB_SOFTWARE_IMAGE` to specify a database software image (https://docs.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database.
 	Source DatabaseUpgradeHistoryEntrySummarySourceEnum `mandatory:"false" json:"source,omitempty"`
 
 	// Additional information about the current lifecycle state.
@@ -50,10 +50,10 @@ type DatabaseUpgradeHistoryEntrySummary struct {
 	// the database software image used for upgrading database.
 	TargetDatabaseSoftwareImageId *string `mandatory:"false" json:"targetDatabaseSoftwareImageId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	TargetDbHomeId *string `mandatory:"false" json:"targetDbHomeId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	SourceDbHomeId *string `mandatory:"false" json:"sourceDbHomeId"`
 
 	// The date and time when the database upgrade ended.

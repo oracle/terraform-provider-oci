@@ -14,7 +14,7 @@ import (
 // ListProductLicensesRequest wrapper for the ListProductLicenses operation
 type ListProductLicensesRequest struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return.

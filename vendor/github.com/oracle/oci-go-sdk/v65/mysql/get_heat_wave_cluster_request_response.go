@@ -14,7 +14,7 @@ import (
 // GetHeatWaveClusterRequest wrapper for the GetHeatWaveCluster operation
 type GetHeatWaveClusterRequest struct {
 
-	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB System OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// Customer-defined unique identifier for the request. If you need to

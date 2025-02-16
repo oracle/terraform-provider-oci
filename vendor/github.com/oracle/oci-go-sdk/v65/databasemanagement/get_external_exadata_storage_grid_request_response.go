@@ -14,7 +14,7 @@ import (
 // GetExternalExadataStorageGridRequest wrapper for the GetExternalExadataStorageGrid operation
 type GetExternalExadataStorageGridRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage grid.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata storage grid.
 	ExternalExadataStorageGridId *string `mandatory:"true" contributesTo:"path" name:"externalExadataStorageGridId"`
 
 	// The client request ID for tracing.

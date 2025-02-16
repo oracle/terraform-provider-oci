@@ -14,7 +14,7 @@ import (
 // ListDatabaseToolsConnectionsRequest wrapper for the ListDatabaseToolsConnections operation
 type ListDatabaseToolsConnectionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
@@ -32,7 +32,7 @@ type ListDatabaseToolsConnectionsRequest struct {
 	// A filter to return only resources with one of the specified runtimeIdentity values.
 	RuntimeIdentity []RuntimeIdentityEnum `contributesTo:"query" name:"runtimeIdentity" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
 	RelatedResourceIdentifier *string `mandatory:"false" contributesTo:"query" name:"relatedResourceIdentifier"`
 
 	// The maximum number of items to return.

@@ -14,7 +14,7 @@ import (
 // GetFlowLogConfigRequest wrapper for the GetFlowLogConfig operation
 type GetFlowLogConfigRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the flow log configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the flow log configuration.
 	FlowLogConfigId *string `mandatory:"true" contributesTo:"path" name:"flowLogConfigId"`
 
 	// Unique Oracle-assigned identifier for the request.

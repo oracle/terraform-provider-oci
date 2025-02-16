@@ -19,14 +19,14 @@ import (
 // MonitoredResourceType The response object for create monitored resource type and get monitored resource type operations.
 type MonitoredResourceType struct {
 
-	// Monitored resource type identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Monitored resource type identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// A unique monitored resource type name. The name must be unique across tenancy.
 	// Name can not be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Monitored resource type display name.
@@ -38,7 +38,7 @@ type MonitoredResourceType struct {
 	// Metric namespace for resource type.
 	MetricNamespace *string `mandatory:"false" json:"metricNamespace"`
 
-	// Tenancy Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Tenancy Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
 	AvailabilityMetricsConfig *AvailabilityMetricsDetails `mandatory:"false" json:"availabilityMetricsConfig"`

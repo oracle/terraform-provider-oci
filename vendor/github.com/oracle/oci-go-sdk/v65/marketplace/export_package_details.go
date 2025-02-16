@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.oracle.com/iaas/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -18,7 +18,7 @@ import (
 // ExportPackageDetails The model for the parameters needed to export a listing.
 type ExportPackageDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to export container image or helm chart.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to export container image or helm chart.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The repository path (/Content/General/Concepts/identifiers.htm) of the container reposistory where the container image or helm chart should be exported.

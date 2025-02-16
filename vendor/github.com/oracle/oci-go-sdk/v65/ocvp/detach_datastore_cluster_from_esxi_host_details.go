@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -19,7 +19,7 @@ import (
 // DetachDatastoreClusterFromEsxiHostDetails Details for the datastore cluster detachment from ESXi hosts.
 type DetachDatastoreClusterFromEsxiHostDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host to detach the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host to detach the
 	// datastore cluster from.
 	EsxiHostId *string `mandatory:"true" json:"esxiHostId"`
 }

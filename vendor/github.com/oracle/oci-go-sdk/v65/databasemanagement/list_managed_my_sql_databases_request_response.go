@@ -14,7 +14,7 @@ import (
 // ListManagedMySqlDatabasesRequest wrapper for the ListManagedMySqlDatabases operation
 type ListManagedMySqlDatabasesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.

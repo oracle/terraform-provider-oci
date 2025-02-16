@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -155,7 +155,7 @@ func (client DatastoreClient) addBlockVolumeToDatastore(ctx context.Context, req
 
 // ChangeDatastoreCompartment Moves an Datastore into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDatastoreCompartment()
 func (client DatastoreClient) ChangeDatastoreCompartment(ctx context.Context, request ChangeDatastoreCompartmentRequest) (response ChangeDatastoreCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

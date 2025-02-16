@@ -18,7 +18,7 @@ import (
 // DeploymentPeerSummary The summary of the deployment Peer.
 type DeploymentPeerSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
 	// The name of the region. e.g.: us-ashburn-1

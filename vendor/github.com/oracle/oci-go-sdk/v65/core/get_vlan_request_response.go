@@ -14,7 +14,7 @@ import (
 // GetVlanRequest wrapper for the GetVlan operation
 type GetVlanRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
 	VlanId *string `mandatory:"true" contributesTo:"path" name:"vlanId"`
 
 	// Unique identifier for the request.

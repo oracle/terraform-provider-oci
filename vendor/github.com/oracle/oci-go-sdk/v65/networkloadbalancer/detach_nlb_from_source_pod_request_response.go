@@ -14,7 +14,7 @@ import (
 // DetachNlbFromSourcePodRequest wrapper for the DetachNlbFromSourcePod operation
 type DetachNlbFromSourcePodRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

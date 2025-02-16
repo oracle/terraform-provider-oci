@@ -14,10 +14,10 @@ import (
 // ListAssociatedDatabasesRequest wrapper for the ListAssociatedDatabases operation
 type ListAssociatedDatabasesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 	DbManagementPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"dbManagementPrivateEndpointId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.

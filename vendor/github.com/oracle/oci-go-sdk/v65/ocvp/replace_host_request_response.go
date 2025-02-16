@@ -14,7 +14,7 @@ import (
 // ReplaceHostRequest wrapper for the ReplaceHost operation
 type ReplaceHostRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
 	// The details for replacing ESXi host

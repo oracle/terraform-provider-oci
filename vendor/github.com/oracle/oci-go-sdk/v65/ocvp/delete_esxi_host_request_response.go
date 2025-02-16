@@ -14,7 +14,7 @@ import (
 // DeleteEsxiHostRequest wrapper for the DeleteEsxiHost operation
 type DeleteEsxiHostRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

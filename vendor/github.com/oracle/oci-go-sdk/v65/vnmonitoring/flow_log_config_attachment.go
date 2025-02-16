@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -21,7 +21,7 @@ import (
 // CreateFlowLogConfigAttachment.
 type FlowLogConfigAttachment struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
 	// flow log configuration attachment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -29,20 +29,20 @@ type FlowLogConfigAttachment struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The flow log configuration attachment's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The flow log configuration attachment's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// The flow log configuration attachment's current state.
 	LifecycleState FlowLogConfigAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that the flow log
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that the flow log
 	// configuration is attached to.
 	TargetEntityId *string `mandatory:"true" json:"targetEntityId"`
 
 	// The type of resource that the flow log configuration is attached to.
 	TargetEntityType FlowLogConfigAttachmentTargetEntityTypeEnum `mandatory:"true" json:"targetEntityType"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the flow log configuration that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the flow log configuration that
 	// is attached to the resource.
 	FlowLogConfigId *string `mandatory:"true" json:"flowLogConfigId"`
 
@@ -50,7 +50,7 @@ type FlowLogConfigAttachment struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of captureFilter.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of captureFilter.
 	CaptureFilterId *string `mandatory:"false" json:"captureFilterId"`
 }
 

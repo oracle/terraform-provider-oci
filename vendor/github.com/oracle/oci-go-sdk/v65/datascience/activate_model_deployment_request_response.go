@@ -14,7 +14,7 @@ import (
 // ActivateModelDeploymentRequest wrapper for the ActivateModelDeployment operation
 type ActivateModelDeploymentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment.
 	ModelDeploymentId *string `mandatory:"true" contributesTo:"path" name:"modelDeploymentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -75,7 +75,7 @@ type ActivateModelDeploymentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// The OCID (https://docs.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

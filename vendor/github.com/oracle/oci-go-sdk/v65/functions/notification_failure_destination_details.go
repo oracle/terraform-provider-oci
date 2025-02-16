@@ -20,7 +20,7 @@ import (
 // Example: `{"kind": "NOTIFICATION", "topicId": "topic_OCID"}`
 type NotificationFailureDestinationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
 	TopicId *string `mandatory:"true" json:"topicId"`
 }
 

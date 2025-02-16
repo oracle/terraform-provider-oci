@@ -14,7 +14,7 @@ import (
 // DeleteOperationsInsightsPrivateEndpointRequest wrapper for the DeleteOperationsInsightsPrivateEndpoint operation
 type DeleteOperationsInsightsPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Operation Insights private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Operation Insights private endpoint.
 	OperationsInsightsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"operationsInsightsPrivateEndpointId"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`

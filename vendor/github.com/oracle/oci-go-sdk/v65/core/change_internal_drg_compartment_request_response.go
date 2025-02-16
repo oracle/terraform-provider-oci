@@ -14,7 +14,7 @@ import (
 // ChangeInternalDrgCompartmentRequest wrapper for the ChangeInternalDrgCompartment operation
 type ChangeInternalDrgCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	InternalDrgId *string `mandatory:"true" contributesTo:"path" name:"internalDrgId"`
 
 	// Request to change the compartment of a DRG.

@@ -14,7 +14,7 @@ import (
 // UpdateNamedCredentialRequest wrapper for the UpdateNamedCredential operation
 type UpdateNamedCredentialRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential.
 	NamedCredentialId *string `mandatory:"true" contributesTo:"path" name:"namedCredentialId"`
 
 	// The details required to update a named credential.

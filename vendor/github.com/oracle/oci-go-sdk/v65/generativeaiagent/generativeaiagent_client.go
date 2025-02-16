@@ -8,7 +8,7 @@
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
 // For creating and managing client chat sessions see the /EN/generative-ai-agents-client/latest/.
-// To learn more about the service, see the Generative AI Agents documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai-agents/home.htm).
+// To learn more about the service, see the Generative AI Agents documentation (https://docs.oracle.com/iaas/Content/generative-ai-agents/home.htm).
 //
 
 package generativeaiagent
@@ -150,7 +150,7 @@ func (client GenerativeAiAgentClient) cancelWorkRequest(ctx context.Context, req
 }
 
 // ChangeAgentCompartment Moves an agent into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeAgentCompartment()
 func (client GenerativeAiAgentClient) ChangeAgentCompartment(ctx context.Context, request ChangeAgentCompartmentRequest) (response ChangeAgentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -210,7 +210,7 @@ func (client GenerativeAiAgentClient) changeAgentCompartment(ctx context.Context
 }
 
 // ChangeAgentEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeAgentEndpointCompartment()
 func (client GenerativeAiAgentClient) ChangeAgentEndpointCompartment(ctx context.Context, request ChangeAgentEndpointCompartmentRequest) (response ChangeAgentEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -270,7 +270,7 @@ func (client GenerativeAiAgentClient) changeAgentEndpointCompartment(ctx context
 }
 
 // ChangeKnowledgeBaseCompartment Moves a knowledge base into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
 func (client GenerativeAiAgentClient) ChangeKnowledgeBaseCompartment(ctx context.Context, request ChangeKnowledgeBaseCompartmentRequest) (response ChangeKnowledgeBaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

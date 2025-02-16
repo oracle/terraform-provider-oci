@@ -538,7 +538,7 @@ func (client ScheduleClient) listResourceTypes(ctx context.Context, request comm
 	return response, err
 }
 
-// ListSchedules This API gets a list of schedules. You must provide either a compartmentId or a scheduleId or both. You can list resources in this compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). This is required unless a specific schedule ID is passed.
+// ListSchedules This API gets a list of schedules. You must provide either a compartmentId or a scheduleId or both. You can list resources in this compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). This is required unless a specific schedule ID is passed.
 // A default retry strategy applies to this operation ListSchedules()
 func (client ScheduleClient) ListSchedules(ctx context.Context, request ListSchedulesRequest) (response ListSchedulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -700,7 +700,7 @@ func (client ScheduleClient) listWorkRequestLogs(ctx context.Context, request co
 	return response, err
 }
 
-// ListWorkRequests This API gets a list of work requests. You must provide either a compartmentId or a workRequestId or both. You can list work requests in this compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). This is required unless a specific workRequestId is passed.
+// ListWorkRequests This API gets a list of work requests. You must provide either a compartmentId or a workRequestId or both. You can list work requests in this compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). This is required unless a specific workRequestId is passed.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ScheduleClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse

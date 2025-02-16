@@ -21,7 +21,7 @@ import (
 // *  If the network load balancer has a list of configured network security groups and this list is empty, then the operation removes all of the network security groups associated with the network load balancer.
 type UpdateNetworkSecurityGroupsDetails struct {
 
-	// An array of network security group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the network load
+	// An array of network security group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load
 	// balancer.
 	// During the creation of the network load balancer, the service adds the new network load balancer to the specified network security groups.
 	// The benefits of associating the network load balancer with network security groups include:

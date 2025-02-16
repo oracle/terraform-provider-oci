@@ -24,7 +24,7 @@ type Whitelist struct {
 	// A set of IP addresses or CIDR notations to include in the whitelist.
 	Addresses []string `mandatory:"false" json:"addresses"`
 
-	// A list of OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of IP address lists to include in the whitelist.
+	// A list of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of IP address lists to include in the whitelist.
 	AddressLists []string `mandatory:"false" json:"addressLists"`
 }
 

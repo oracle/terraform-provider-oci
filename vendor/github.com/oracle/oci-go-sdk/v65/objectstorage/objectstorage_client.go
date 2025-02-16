@@ -5,8 +5,8 @@
 // Object Storage Service API
 //
 // Use Object Storage and Archive Storage APIs to manage buckets, objects, and related resources.
-// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
-// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
+// For more information, see Overview of Object Storage (https://docs.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -216,7 +216,7 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 }
 
 // BulkCopyObjects Creates a request to copy a batch of objects within a region or to another region.
-// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// See Object Names (https://docs.oracle.com/iaas/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
 // A default retry strategy applies to this operation BulkCopyObjects()
 func (client ObjectStorageClient) BulkCopyObjects(ctx context.Context, request BulkCopyObjectsRequest) (response BulkCopyObjectsResponse, err error) {
@@ -477,7 +477,7 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 }
 
 // CopyObject Creates a request to copy an object within a region or to another region.
-// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// See Object Names (https://docs.oracle.com/iaas/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
 // A default retry strategy applies to this operation CopyObject()
 func (client ObjectStorageClient) CopyObject(ctx context.Context, request CopyObjectRequest) (response CopyObjectResponse, err error) {
@@ -863,7 +863,7 @@ func (client ObjectStorageClient) createInventoryRule(ctx context.Context, reque
 }
 
 // CreateMultipartUpload Starts a new multipart upload to a specific object in the given bucket in the given namespace.
-// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// See Object Names (https://docs.oracle.com/iaas/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
 // A default retry strategy applies to this operation CreateMultipartUpload()
 func (client ObjectStorageClient) CreateMultipartUpload(ctx context.Context, request CreateMultipartUploadRequest) (response CreateMultipartUploadResponse, err error) {
@@ -2176,7 +2176,7 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 // Any user with the OBJECTSTORAGE_NAMESPACE_READ permission will be able to see the current metadata. If you are
 // not authorized, talk to an administrator. If you are an administrator who needs to write policies
 // to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // A default retry strategy applies to this operation GetNamespaceMetadata()
 func (client ObjectStorageClient) GetNamespaceMetadata(ctx context.Context, request GetNamespaceMetadataRequest) (response GetNamespaceMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2925,7 +2925,7 @@ func (client ObjectStorageClient) listAcls(ctx context.Context, request common.O
 // `opc-next-page` value with the `page` request parameter.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // A default retry strategy applies to this operation ListBuckets()
 func (client ObjectStorageClient) ListBuckets(ctx context.Context, request ListBucketsRequest) (response ListBucketsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3178,7 +3178,7 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 // more object versions, use the returned `opc-next-page` value with the `page` request parameter.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // A default retry strategy applies to this operation ListObjectVersions()
 func (client ObjectStorageClient) ListObjectVersions(ctx context.Context, request ListObjectVersionsRequest) (response ListObjectVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3247,7 +3247,7 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 // parameters.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // A default retry strategy applies to this operation ListObjects()
 func (client ObjectStorageClient) ListObjects(ctx context.Context, request ListObjectsRequest) (response ListObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3374,7 +3374,7 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 // ListPrivateEndpoints Gets a list of all PrivateEndpointSummary in a compartment associated with a namespace.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // A default retry strategy applies to this operation ListPrivateEndpoints()
 func (client ObjectStorageClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3938,9 +3938,9 @@ func (client ObjectStorageClient) mergeObjectMetadata(ctx context.Context, reque
 
 // PutObject Creates a new object or overwrites an existing object with the same name. The maximum object size allowed by
 // PutObject is 50 GiB.
-// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// See Object Names (https://docs.oracle.com/iaas/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
-// See Special Instructions for Object Storage PUT (https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut)
+// See Special Instructions for Object Storage PUT (https://docs.oracle.com/iaas/Content/API/Concepts/signingrequests.htm#ObjectStoragePut)
 // for request signature requirements.
 // A default retry strategy applies to this operation PutObject()
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
@@ -4343,7 +4343,7 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 }
 
 // RenameObject Rename an object in the given Object Storage namespace.
-// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// See Object Names (https://docs.oracle.com/iaas/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
 // A default retry strategy applies to this operation RenameObject()
 func (client ObjectStorageClient) RenameObject(ctx context.Context, request RenameObjectRequest) (response RenameObjectResponse, err error) {
@@ -4720,7 +4720,7 @@ func (client ObjectStorageClient) updateAclGroup(ctx context.Context, request co
 // UpdateBucket Performs a partial or full update of a bucket's user-defined metadata.
 // Use UpdateBucket to move a bucket from one compartment to another within the same tenancy. Supply the compartmentID
 // of the compartment that you want to move the bucket to. For more information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation UpdateBucket()
 func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request UpdateBucketRequest) (response UpdateBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5043,7 +5043,7 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 // UpdatePrivateEndpoint Performs a partial or full update of a user-defined data associated with the Private Endpoint.
 // Use UpdatePrivateEndpoint to move a Private Endpoint from one compartment to another within the same tenancy. Supply the compartmentID
 // of the compartment that you want to move the Private Endpoint to. Or use it to update the name, subnetId, endpointFqdn or privateEndpointIp or accessTargets of the Private Endpoint.
-// For more information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For more information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // This API follows replace semantics (rather than merge semantics). That means if the body provides values for
 // parameters and the resource has exisiting ones, this operation will replace those existing values.
 // A default retry strategy applies to this operation UpdatePrivateEndpoint()

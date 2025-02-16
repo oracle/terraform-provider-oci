@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -20,7 +20,7 @@ import (
 // AwrDatabaseSummary The AWR summary for a database.
 type AwrDatabaseSummary struct {
 
-	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /awrHubs/{awrHubId}/awrDatabases
 	AwrSourceDatabaseIdentifier *string `mandatory:"true" json:"awrSourceDatabaseIdentifier"`
@@ -40,12 +40,12 @@ type AwrDatabaseSummary struct {
 	// The end time of the latest snapshot.
 	TimeLatestSnapshotEnd *common.SDKTime `mandatory:"false" json:"timeLatestSnapshotEnd"`
 
-	// The ID of the earliest snapshot. The snapshot identifier is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the earliest snapshot. The snapshot identifier is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /awrHubs/{awrHubId}/awrDatabaseSnapshots
 	FirstSnapshotIdentifier *int `mandatory:"false" json:"firstSnapshotIdentifier"`
 
-	// The ID of the latest snapshot. The snapshot identifier is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the latest snapshot. The snapshot identifier is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /awrHubs/{awrHubId}/awrDatabaseSnapshots
 	LatestSnapshotIdentifier *int `mandatory:"false" json:"latestSnapshotIdentifier"`

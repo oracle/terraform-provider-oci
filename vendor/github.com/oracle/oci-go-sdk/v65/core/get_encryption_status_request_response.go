@@ -14,7 +14,7 @@ import (
 // GetEncryptionStatusRequest wrapper for the GetEncryptionStatus operation
 type GetEncryptionStatusRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN or region ID - `REGION`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN or region ID - `REGION`.
 	EncryptionStatusId *string `mandatory:"true" contributesTo:"path" name:"encryptionStatusId"`
 
 	// Unique identifier for the request.

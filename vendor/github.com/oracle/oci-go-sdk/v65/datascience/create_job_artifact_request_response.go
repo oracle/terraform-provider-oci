@@ -15,7 +15,7 @@ import (
 // CreateJobArtifactRequest wrapper for the CreateJobArtifact operation
 type CreateJobArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	JobId *string `mandatory:"true" contributesTo:"path" name:"jobId"`
 
 	// The content length of the body.
@@ -84,7 +84,7 @@ type CreateJobArtifactResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

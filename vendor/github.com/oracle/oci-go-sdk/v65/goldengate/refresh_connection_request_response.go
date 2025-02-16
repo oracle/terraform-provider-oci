@@ -14,7 +14,7 @@ import (
 // RefreshConnectionRequest wrapper for the RefreshConnection operation
 type RefreshConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// Details of refresh external Connection attributes.

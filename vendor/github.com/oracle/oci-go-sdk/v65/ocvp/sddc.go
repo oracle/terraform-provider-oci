@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// Sddc An Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm) software-defined data center (SDDC) contains the resources required for a
+// Sddc An Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm) software-defined data center (SDDC) contains the resources required for a
 // functional VMware environment. Instances in an SDDC
 // (see EsxiHost) run in a virtual cloud network (VCN)
 // and are preconfigured with VMware and storage. Use the vCenter utility to manage
@@ -26,7 +26,7 @@ import (
 // vSAN, and so on). See the Core Services API for information about VCN subnets and VLANs.
 type Sddc struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits,
@@ -48,7 +48,7 @@ type Sddc struct {
 	// `vmwareSoftwareVersion` with that new version.
 	VmwareSoftwareVersion *string `mandatory:"true" json:"vmwareSoftwareVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that
 	// contains the SDDC.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -63,12 +63,12 @@ type Sddc struct {
 	// Example: `nsx-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 	NsxManagerFqdn *string `mandatory:"true" json:"nsxManagerFqdn"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
 	// the virtual IP (VIP) for vCenter. For information about `PrivateIp` objects, see the
 	// Core Services API.
 	VcenterPrivateIpId *string `mandatory:"true" json:"vcenterPrivateIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
 	// the virtual IP (VIP) for NSX Manager. For information about `PrivateIp` objects, see the
 	// Core Services API.
 	NsxManagerPrivateIpId *string `mandatory:"true" json:"nsxManagerPrivateIpId"`
@@ -97,12 +97,12 @@ type Sddc struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
@@ -129,13 +129,13 @@ type Sddc struct {
 	// can change this initial username to a different value in NSX Manager.
 	NsxManagerUsername *string `mandatory:"false" json:"nsxManagerUsername"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
 	// the virtual IP (VIP) for the NSX Edge Uplink. Use this OCID as the route target for
 	// route table rules when setting up connectivity between the SDDC and other networks.
 	// For information about `PrivateIp` objects, see the Core Services API.
 	NsxEdgeUplinkIpId *string `mandatory:"false" json:"nsxEdgeUplinkIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
 	// the virtual IP (VIP) for HCX Manager. For information about `PrivateIp` objects, see the
 	// Core Services API.
 	HcxPrivateIpId *string `mandatory:"false" json:"hcxPrivateIpId"`

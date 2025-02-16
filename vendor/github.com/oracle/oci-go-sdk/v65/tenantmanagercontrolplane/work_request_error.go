@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -19,7 +19,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occured. Error codes are listed in
-	// API Errors (https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
+	// API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable description of the issue encountered.

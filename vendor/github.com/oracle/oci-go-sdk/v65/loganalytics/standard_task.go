@@ -19,7 +19,7 @@ import (
 // StandardTask Log analytics scheduled task resource.
 type StandardTask struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name that is changeable and that does not have to be unique.
@@ -33,7 +33,7 @@ type StandardTask struct {
 
 	Action Action `mandatory:"true" json:"action"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time the scheduled task was created, in the format defined by RFC3339.
@@ -42,7 +42,7 @@ type StandardTask struct {
 	// The date and time the scheduled task was last updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// most recent Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
+	// most recent Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
 	// Number of execution occurrences.

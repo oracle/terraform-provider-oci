@@ -19,7 +19,7 @@ import (
 // CreateMonitoredResourceTaskDetails The request details for the stack monitoring resource task.
 type CreateMonitoredResourceTaskDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	TaskDetails MonitoredResourceTaskDetails `mandatory:"true" json:"taskDetails"`

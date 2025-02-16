@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -21,7 +21,7 @@ import (
 // ChangeConfigurationSourceProviderCompartmentDetails Compartment details for moving a configuration source provider.
 type ChangeConfigurationSourceProviderCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// to move the configuration source provider to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

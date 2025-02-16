@@ -14,7 +14,7 @@ import (
 // ListRedisClusterNodesRequest wrapper for the ListRedisClusterNodes operation
 type ListRedisClusterNodesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	RedisClusterId *string `mandatory:"true" contributesTo:"path" name:"redisClusterId"`
 
 	// A filter to return only resources that match the entire display name given.

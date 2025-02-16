@@ -25,11 +25,11 @@ type ListNodePoolsRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// 1 is the minimum, 1000 is the maximum. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The optional order in which to sort the results.
@@ -42,7 +42,7 @@ type ListNodePoolsRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A list of nodepool lifecycle states on which to filter on, matching any of the list items (OR logic). eg. ACTIVE, DELETING. For more information, see Monitoring Clusters (https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm)
+	// A list of nodepool lifecycle states on which to filter on, matching any of the list items (OR logic). eg. ACTIVE, DELETING. For more information, see Monitoring Clusters (https://docs.oracle.com/iaas/Content/ContEng/Tasks/contengmonitoringclusters.htm)
 	LifecycleState []NodePoolLifecycleStateEnum `contributesTo:"query" name:"lifecycleState" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -124,7 +124,7 @@ type ListNodePoolsResponse struct {
 	Items []NodePoolSummary `presentIn:"body"`
 
 	// For list pagination. When this header appears in the response, additional pages of results remain.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

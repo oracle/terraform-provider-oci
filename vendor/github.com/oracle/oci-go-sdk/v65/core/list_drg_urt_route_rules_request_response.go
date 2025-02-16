@@ -14,12 +14,12 @@ import (
 // ListDrgUrtRouteRulesRequest wrapper for the ListDrgUrtRouteRules operation
 type ListDrgUrtRouteRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	DrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"drgAttachmentId"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List"
 	// call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -93,7 +93,7 @@ func (client *EventClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // ChangeEventCompartment Moves an event into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeEventCompartment()
 func (client EventClient) ChangeEventCompartment(ctx context.Context, request ChangeEventCompartmentRequest) (response ChangeEventCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

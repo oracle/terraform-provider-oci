@@ -14,7 +14,7 @@ import (
 // DeletePathAnalyzerTestRequest wrapper for the DeletePathAnalyzerTest operation
 type DeletePathAnalyzerTestRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
 	PathAnalyzerTestId *string `mandatory:"true" contributesTo:"path" name:"pathAnalyzerTestId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

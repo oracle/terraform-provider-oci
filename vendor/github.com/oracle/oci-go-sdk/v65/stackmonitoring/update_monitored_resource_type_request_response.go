@@ -14,7 +14,7 @@ import (
 // UpdateMonitoredResourceTypeRequest wrapper for the UpdateMonitoredResourceType operation
 type UpdateMonitoredResourceTypeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource type.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource type.
 	MonitoredResourceTypeId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceTypeId"`
 
 	// The information to be updated for the given resource type id.

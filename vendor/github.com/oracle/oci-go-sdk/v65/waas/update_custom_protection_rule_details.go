@@ -46,18 +46,18 @@ type UpdateCustomProtectionRuleDetails struct {
 	//   ```
 	//
 	// The example contains two `SecRules` each having distinct regex expression to match the `Cookie` header value during the second input analysis phase.
-	// For more information about custom protection rules, see Custom Protection Rules (https://docs.cloud.oracle.com/Content/WAF/Tasks/customprotectionrules.htm).
+	// For more information about custom protection rules, see Custom Protection Rules (https://docs.oracle.com/iaas/Content/WAF/Tasks/customprotectionrules.htm).
 	// For more information about ModSecurity syntax, see Making Rules: The Basic Syntax (https://www.modsecurity.org/CRS/Documentation/making.html).
 	// For more information about ModSecurity's open source WAF rules, see Mod Security's OWASP Core Rule Set documentation (https://www.modsecurity.org/CRS/Documentation/index.html).
 	Template *string `mandatory:"false" json:"template"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

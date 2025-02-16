@@ -14,7 +14,7 @@ import (
 // GetScheduledActionRequest wrapper for the GetScheduledAction operation
 type GetScheduledActionRequest struct {
 
-	// The Scheduled Action OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduled Action OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ScheduledActionId *string `mandatory:"true" contributesTo:"path" name:"scheduledActionId"`
 
 	// Unique identifier for the request.

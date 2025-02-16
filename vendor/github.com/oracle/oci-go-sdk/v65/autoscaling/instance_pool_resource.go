@@ -5,8 +5,8 @@
 // Autoscaling API
 //
 // Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
-// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
+// autoscaling, see Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Compute (https://docs.oracle.com/iaas/Content/Compute/home.htm).
 //
 
 package autoscaling
@@ -21,7 +21,7 @@ import (
 // InstancePoolResource A Compute instance pool.
 type InstancePoolResource struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration.
 	Id *string `mandatory:"true" json:"id"`
 }
 

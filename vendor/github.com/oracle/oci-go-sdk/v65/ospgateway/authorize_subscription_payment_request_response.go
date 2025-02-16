@@ -20,7 +20,7 @@ type AuthorizeSubscriptionPaymentRequest struct {
 	// Subscription id(OCID).
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// subscription payment request.

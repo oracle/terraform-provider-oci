@@ -14,7 +14,7 @@ import (
 // GetApplicationRequest wrapper for the GetApplication operation
 type GetApplicationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this application.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this application.
 	ApplicationId *string `mandatory:"true" contributesTo:"path" name:"applicationId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

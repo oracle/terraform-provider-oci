@@ -14,7 +14,7 @@ import (
 // DeleteConnectionRequest wrapper for the DeleteConnection operation
 type DeleteConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

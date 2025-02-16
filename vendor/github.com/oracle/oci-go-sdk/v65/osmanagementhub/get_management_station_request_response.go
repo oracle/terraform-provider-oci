@@ -14,7 +14,7 @@ import (
 // GetManagementStationRequest wrapper for the GetManagementStation operation
 type GetManagementStationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

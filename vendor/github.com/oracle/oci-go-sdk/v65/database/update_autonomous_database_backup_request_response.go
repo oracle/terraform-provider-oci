@@ -14,7 +14,7 @@ import (
 // UpdateAutonomousDatabaseBackupRequest wrapper for the UpdateAutonomousDatabaseBackup operation
 type UpdateAutonomousDatabaseBackupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 	AutonomousDatabaseBackupId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseBackupId"`
 
 	// Request to update an existing Autonomous Database backup.

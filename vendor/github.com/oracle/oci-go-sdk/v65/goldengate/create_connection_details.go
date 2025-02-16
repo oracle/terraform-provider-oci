@@ -22,7 +22,7 @@ type CreateConnectionDetails interface {
 	// An object's Display Name.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	GetCompartmentId() *string
 
 	// Metadata about this specific object.
@@ -52,7 +52,7 @@ type CreateConnectionDetails interface {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:

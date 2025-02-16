@@ -14,7 +14,7 @@ import (
 // UpdateGenericArtifactByPathRequest wrapper for the UpdateGenericArtifactByPath operation
 type UpdateGenericArtifactByPathRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.
 	// Example: `ocid1.artifactrepository.oc1..exampleuniqueID`
 	RepositoryId *string `mandatory:"true" contributesTo:"path" name:"repositoryId"`
 

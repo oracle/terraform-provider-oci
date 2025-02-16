@@ -14,7 +14,7 @@ import (
 // ChangeWaasPolicyCompartmentRequest wrapper for the ChangeWaasPolicyCompartment operation
 type ChangeWaasPolicyCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 	WaasPolicyId *string `mandatory:"true" contributesTo:"path" name:"waasPolicyId"`
 
 	ChangeWaasPolicyCompartmentDetails `contributesTo:"body"`

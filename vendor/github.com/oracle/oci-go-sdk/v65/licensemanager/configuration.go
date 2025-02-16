@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -18,7 +18,7 @@ import (
 // Configuration Details of the compartment-specific configuration.
 type Configuration struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the configuration is specified.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the configuration is specified.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The list of associated configuration email IDs.

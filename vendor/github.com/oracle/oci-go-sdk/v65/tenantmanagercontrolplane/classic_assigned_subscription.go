@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -19,10 +19,10 @@ import (
 // ClassicAssignedSubscription Assigned subscription information.
 type ClassicAssignedSubscription struct {
 
-	// The Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the subscription.
+	// The Oracle ID (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the subscription.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the owning compartment. Always a tenancy OCID.
+	// The Oracle ID (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the owning compartment. Always a tenancy OCID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of subscription, such as 'UCM', 'SAAS', 'ERP', 'CRM'.

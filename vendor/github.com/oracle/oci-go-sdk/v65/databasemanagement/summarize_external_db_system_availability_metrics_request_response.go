@@ -14,7 +14,7 @@ import (
 // SummarizeExternalDbSystemAvailabilityMetricsRequest wrapper for the SummarizeExternalDbSystemAvailabilityMetrics operation
 type SummarizeExternalDbSystemAvailabilityMetricsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
 	// The beginning of the time range set to retrieve metric data for the DB system

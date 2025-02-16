@@ -14,10 +14,10 @@ import (
 // GetDbSystemPatchRequest wrapper for the GetDbSystemPatch operation
 type GetDbSystemPatchRequest struct {
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// Unique Oracle-assigned identifier for the request.

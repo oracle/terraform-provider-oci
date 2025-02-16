@@ -14,7 +14,7 @@ import (
 // ChangeQosTemplateCompartmentRequest wrapper for the ChangeQosTemplateCompartment operation
 type ChangeQosTemplateCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Quality of Service (https://docs.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template.
 	QosTemplateId *string `mandatory:"true" contributesTo:"path" name:"qosTemplateId"`
 
 	// Request to change the compartment of a QoS template.

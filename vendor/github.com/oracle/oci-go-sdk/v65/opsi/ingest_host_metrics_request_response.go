@@ -14,7 +14,7 @@ import (
 // IngestHostMetricsRequest wrapper for the IngestHostMetrics operation
 type IngestHostMetricsRequest struct {
 
-	// Required OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
+	// Required OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 	Id *string `mandatory:"true" contributesTo:"query" name:"id"`
 
 	// Payload for one or more host performance metrics for a particular host.

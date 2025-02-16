@@ -20,7 +20,7 @@ import (
 // ExportImportOptionsSummary An Options object represents configuration options to be exported.
 type ExportImportOptionsSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	Id *string `mandatory:"false" json:"id"`
 

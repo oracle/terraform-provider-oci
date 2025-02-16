@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -1642,7 +1642,7 @@ func (client VirtualNetworkClient) bulkMigration(ctx context.Context, request co
 
 // ChangeByoasnCompartment Moves a BYOASN Resource to a different compartment. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeByoasnCompartment()
 func (client VirtualNetworkClient) ChangeByoasnCompartment(ctx context.Context, request ChangeByoasnCompartmentRequest) (response ChangeByoasnCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1710,7 +1710,7 @@ func (client VirtualNetworkClient) changeByoasnCompartment(ctx context.Context, 
 
 // ChangeByoipRangeCompartment Moves a BYOIP CIDR block to a different compartment. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeByoipRangeCompartment(ctx context.Context, request ChangeByoipRangeCompartmentRequest) (response ChangeByoipRangeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1777,7 +1777,7 @@ func (client VirtualNetworkClient) changeByoipRangeCompartment(ctx context.Conte
 
 // ChangeC3DrgCompartment Moves a DRG into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeC3DrgCompartment(ctx context.Context, request ChangeC3DrgCompartmentRequest) (response ChangeC3DrgCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1844,7 +1844,7 @@ func (client VirtualNetworkClient) changeC3DrgCompartment(ctx context.Context, r
 
 // ChangeCaptureFilterCompartment Moves a capture filter to a new compartment in the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeCaptureFilterCompartment(ctx context.Context, request ChangeCaptureFilterCompartmentRequest) (response ChangeCaptureFilterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1977,7 +1977,7 @@ func (client VirtualNetworkClient) changeClientVpnCompartment(ctx context.Contex
 
 // ChangeCpeCompartment Moves a CPE object into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeCpeCompartment()
 func (client VirtualNetworkClient) ChangeCpeCompartment(ctx context.Context, request ChangeCpeCompartmentRequest) (response ChangeCpeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2045,7 +2045,7 @@ func (client VirtualNetworkClient) changeCpeCompartment(ctx context.Context, req
 
 // ChangeCrossConnectCompartment Moves a cross-connect into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeCrossConnectCompartment()
 func (client VirtualNetworkClient) ChangeCrossConnectCompartment(ctx context.Context, request ChangeCrossConnectCompartmentRequest) (response ChangeCrossConnectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2113,7 +2113,7 @@ func (client VirtualNetworkClient) changeCrossConnectCompartment(ctx context.Con
 
 // ChangeCrossConnectGroupCompartment Moves a cross-connect group into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeCrossConnectGroupCompartment()
 func (client VirtualNetworkClient) ChangeCrossConnectGroupCompartment(ctx context.Context, request ChangeCrossConnectGroupCompartmentRequest) (response ChangeCrossConnectGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2181,7 +2181,7 @@ func (client VirtualNetworkClient) changeCrossConnectGroupCompartment(ctx contex
 
 // ChangeDhcpOptionsCompartment Moves a set of DHCP options into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeDhcpOptionsCompartment(ctx context.Context, request ChangeDhcpOptionsCompartmentRequest) (response ChangeDhcpOptionsCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2248,7 +2248,7 @@ func (client VirtualNetworkClient) changeDhcpOptionsCompartment(ctx context.Cont
 
 // ChangeDrgAttachmentCompartment Moves a DRG attachment into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeDrgAttachmentCompartment(ctx context.Context, request ChangeDrgAttachmentCompartmentRequest) (response ChangeDrgAttachmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2315,7 +2315,7 @@ func (client VirtualNetworkClient) changeDrgAttachmentCompartment(ctx context.Co
 
 // ChangeDrgCompartment Moves a DRG into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeDrgCompartment(ctx context.Context, request ChangeDrgCompartmentRequest) (response ChangeDrgCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2382,7 +2382,7 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 
 // ChangeIPSecConnectionCompartment Moves an IPSec connection into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeIPSecConnectionCompartment()
 func (client VirtualNetworkClient) ChangeIPSecConnectionCompartment(ctx context.Context, request ChangeIPSecConnectionCompartmentRequest) (response ChangeIPSecConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2450,7 +2450,7 @@ func (client VirtualNetworkClient) changeIPSecConnectionCompartment(ctx context.
 
 // ChangeInternalDrgCompartment Moves a DRG into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeInternalDrgCompartment(ctx context.Context, request ChangeInternalDrgCompartmentRequest) (response ChangeInternalDrgCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2510,7 +2510,7 @@ func (client VirtualNetworkClient) changeInternalDrgCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeInternalEcmpGroupCompartment Moves an Internal Ecmp Group into a different compartment within the same tenancy. For information | about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes). When provided, If-Match is checked against ETag values of the resource.
+// ChangeInternalEcmpGroupCompartment Moves an Internal Ecmp Group into a different compartment within the same tenancy. For information | about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes). When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeInternalEcmpGroupCompartment()
 func (client VirtualNetworkClient) ChangeInternalEcmpGroupCompartment(ctx context.Context, request ChangeInternalEcmpGroupCompartmentRequest) (response ChangeInternalEcmpGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2643,7 +2643,7 @@ func (client VirtualNetworkClient) changeInternalGenericGatewayCompartment(ctx c
 
 // ChangeInternetGatewayCompartment Moves an internet gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeInternetGatewayCompartment(ctx context.Context, request ChangeInternetGatewayCompartmentRequest) (response ChangeInternetGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2710,7 +2710,7 @@ func (client VirtualNetworkClient) changeInternetGatewayCompartment(ctx context.
 
 // ChangeIpAnycastCompartment Moves a IpAnycast Resource to a different compartment. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeIpAnycastCompartment()
 func (client VirtualNetworkClient) ChangeIpAnycastCompartment(ctx context.Context, request ChangeIpAnycastCompartmentRequest) (response ChangeIpAnycastCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2778,7 +2778,7 @@ func (client VirtualNetworkClient) changeIpAnycastCompartment(ctx context.Contex
 
 // ChangeLocalPeeringGatewayCompartment Moves a local peering gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeLocalPeeringGatewayCompartment(ctx context.Context, request ChangeLocalPeeringGatewayCompartmentRequest) (response ChangeLocalPeeringGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2845,7 +2845,7 @@ func (client VirtualNetworkClient) changeLocalPeeringGatewayCompartment(ctx cont
 
 // ChangeNatGatewayCompartment Moves a NAT gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeNatGatewayCompartment(ctx context.Context, request ChangeNatGatewayCompartmentRequest) (response ChangeNatGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2911,7 +2911,7 @@ func (client VirtualNetworkClient) changeNatGatewayCompartment(ctx context.Conte
 }
 
 // ChangeNetworkSecurityGroupCompartment Moves a network security group into a different compartment within the same tenancy. For
-// information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeNetworkSecurityGroupCompartment(ctx context.Context, request ChangeNetworkSecurityGroupCompartmentRequest) (response ChangeNetworkSecurityGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2978,7 +2978,7 @@ func (client VirtualNetworkClient) changeNetworkSecurityGroupCompartment(ctx con
 
 // ChangePrivateEndpointCompartment Moves a private endpoint into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangePrivateEndpointCompartment(ctx context.Context, request ChangePrivateEndpointCompartmentRequest) (response ChangePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3045,7 +3045,7 @@ func (client VirtualNetworkClient) changePrivateEndpointCompartment(ctx context.
 
 // ChangePublicIpCompartment Moves a public IP into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // This operation applies only to reserved public IPs. Ephemeral public IPs always belong to the
 // same compartment as their VNIC and move accordingly.
 func (client VirtualNetworkClient) ChangePublicIpCompartment(ctx context.Context, request ChangePublicIpCompartmentRequest) (response ChangePublicIpCompartmentResponse, err error) {
@@ -3114,7 +3114,7 @@ func (client VirtualNetworkClient) changePublicIpCompartment(ctx context.Context
 
 // ChangePublicIpPoolCompartment Moves a public IP pool to a different compartment. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangePublicIpPoolCompartment(ctx context.Context, request ChangePublicIpPoolCompartmentRequest) (response ChangePublicIpPoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3179,7 +3179,7 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 	return response, err
 }
 
-// ChangeQosTemplateCompartment Moves a Quality of Service (QoS) template into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeQosTemplateCompartment Moves a Quality of Service (QoS) template into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, the `if-match` parameter is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeQosTemplateCompartment()
 func (client VirtualNetworkClient) ChangeQosTemplateCompartment(ctx context.Context, request ChangeQosTemplateCompartmentRequest) (response ChangeQosTemplateCompartmentResponse, err error) {
@@ -3248,7 +3248,7 @@ func (client VirtualNetworkClient) changeQosTemplateCompartment(ctx context.Cont
 
 // ChangeRemotePeeringConnectionCompartment Moves a remote peering connection (RPC) into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeRemotePeeringConnectionCompartment()
 func (client VirtualNetworkClient) ChangeRemotePeeringConnectionCompartment(ctx context.Context, request ChangeRemotePeeringConnectionCompartmentRequest) (response ChangeRemotePeeringConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3316,7 +3316,7 @@ func (client VirtualNetworkClient) changeRemotePeeringConnectionCompartment(ctx 
 
 // ChangeRouteTableCompartment Moves a route table into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeRouteTableCompartment(ctx context.Context, request ChangeRouteTableCompartmentRequest) (response ChangeRouteTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3383,7 +3383,7 @@ func (client VirtualNetworkClient) changeRouteTableCompartment(ctx context.Conte
 
 // ChangeSecurityListCompartment Moves a security list into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeSecurityListCompartment(ctx context.Context, request ChangeSecurityListCompartmentRequest) (response ChangeSecurityListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3450,7 +3450,7 @@ func (client VirtualNetworkClient) changeSecurityListCompartment(ctx context.Con
 
 // ChangeServiceGatewayCompartment Moves a service gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeServiceGatewayCompartment(ctx context.Context, request ChangeServiceGatewayCompartmentRequest) (response ChangeServiceGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3517,7 +3517,7 @@ func (client VirtualNetworkClient) changeServiceGatewayCompartment(ctx context.C
 
 // ChangeSubnetCompartment Moves a subnet into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeSubnetCompartment(ctx context.Context, request ChangeSubnetCompartmentRequest) (response ChangeSubnetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3584,7 +3584,7 @@ func (client VirtualNetworkClient) changeSubnetCompartment(ctx context.Context, 
 
 // ChangeVcnCompartment Moves a VCN into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeVcnCompartment(ctx context.Context, request ChangeVcnCompartmentRequest) (response ChangeVcnCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3651,7 +3651,7 @@ func (client VirtualNetworkClient) changeVcnCompartment(ctx context.Context, req
 
 // ChangeVcnDrgCompartment Moves a DRG into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeVcnDrgCompartment(ctx context.Context, request ChangeVcnDrgCompartmentRequest) (response ChangeVcnDrgCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3718,7 +3718,7 @@ func (client VirtualNetworkClient) changeVcnDrgCompartment(ctx context.Context, 
 
 // ChangeVirtualCircuitCompartment Moves a virtual circuit into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeVirtualCircuitCompartment()
 func (client VirtualNetworkClient) ChangeVirtualCircuitCompartment(ctx context.Context, request ChangeVirtualCircuitCompartmentRequest) (response ChangeVirtualCircuitCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3786,7 +3786,7 @@ func (client VirtualNetworkClient) changeVirtualCircuitCompartment(ctx context.C
 
 // ChangeVlanCompartment Moves a VLAN into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeVlanCompartment(ctx context.Context, request ChangeVlanCompartmentRequest) (response ChangeVlanCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3853,7 +3853,7 @@ func (client VirtualNetworkClient) changeVlanCompartment(ctx context.Context, re
 
 // ChangeVnicAttachmentsCompartmentRequest Request to change the compartment ID for a list of VNIC Attachments. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeVnicAttachmentsCompartmentRequest(ctx context.Context, request ChangeVnicAttachmentsCompartmentRequestRequest) (response ChangeVnicAttachmentsCompartmentRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3920,7 +3920,7 @@ func (client VirtualNetworkClient) changeVnicAttachmentsCompartmentRequest(ctx c
 
 // ChangeVtapCompartment Moves a VTAP to a new compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client VirtualNetworkClient) ChangeVtapCompartment(ctx context.Context, request ChangeVtapCompartmentRequest) (response ChangeVtapCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4171,7 +4171,7 @@ func (client VirtualNetworkClient) connectLocalPeeringConnections(ctx context.Co
 // an Identity and Access Management (IAM) policy that gives the requestor permission
 // to connect to LPGs in the acceptor's compartment. Without that permission, this
 // operation will fail. For more information, see
-// VCN Peering (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
+// VCN Peering (https://docs.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
 func (client VirtualNetworkClient) ConnectLocalPeeringGateways(ctx context.Context, request ConnectLocalPeeringGatewaysRequest) (response ConnectLocalPeeringGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4237,7 +4237,7 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 // an Identity and Access Management (IAM) policy that gives the requestor permission
 // to connect to RPCs in the acceptor's compartment. Without that permission, this
 // operation will fail. For more information, see
-// VCN Peering (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
+// VCN Peering (https://docs.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
 // A default retry strategy applies to this operation ConnectRemotePeeringConnections()
 func (client VirtualNetworkClient) ConnectRemotePeeringConnections(ctx context.Context, request ConnectRemotePeeringConnectionsRequest) (response ConnectRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4430,13 +4430,13 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 }
 
 // CreateC3Drg Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
-// see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// see Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
-// and access control, see Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// and access control, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the DRG, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateC3Drg(ctx context.Context, request CreateC3DrgRequest) (response CreateC3DrgResponse, err error) {
@@ -4505,13 +4505,13 @@ func (client VirtualNetworkClient) createC3Drg(ctx context.Context, request comm
 
 // CreateC3DrgAttachment Attaches the specified DRG to the specified resource. A DRG can be attached to a VCN, virtual circuit,
 // IPSec connection, or remote peering connection. A DRG can be attached to multiple VCNs.
-// The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more information about DRGs, see
-// Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// The response includes a `DrgAttachment` object with its own OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more information about DRGs, see
+// Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // For the purposes of access control, the DRG attachment is automatically placed into the same compartment
 // as the attached resource. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 func (client VirtualNetworkClient) CreateC3DrgAttachment(ctx context.Context, request CreateC3DrgAttachmentRequest) (response CreateC3DrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4711,10 +4711,10 @@ func (client VirtualNetworkClient) createC3DrgRouteTable(ctx context.Context, re
 }
 
 // CreateCaptureFilter Creates a virtual test access point (VTAP) capture filter in the specified compartment.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains
 // the VTAP. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the VTAP, otherwise a default is provided.
 // It does not have to be unique, and you can change it.
 func (client VirtualNetworkClient) CreateCaptureFilter(ctx context.Context, request CreateCaptureFilterRequest) (response CreateCaptureFilterResponse, err error) {
@@ -4917,15 +4917,15 @@ func (client VirtualNetworkClient) createClientVpnUser(ctx context.Context, requ
 }
 
 // CreateCpe Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
-// more information, see Site-to-Site VPN Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// more information, see Site-to-Site VPN Overview (https://docs.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the CPE to reside. Notice that the CPE doesn't have to be in the same compartment as the IPSec
 // connection or other Networking Service components. If you're not sure which compartment to
 // use, put the CPE in the same compartment as the DRG. For more information about
-// compartments and access control, see Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// compartments and access control, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You must provide the public IP address of your on-premises router. See
-// CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+// CPE Configuration (https://docs.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 // You may optionally specify a *display name* for the CPE, otherwise a default is provided. It does not have to
 // be unique, and you can change it. Avoid entering confidential information.
 // A default retry strategy applies to this operation CreateCpe()
@@ -4998,15 +4998,15 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 // with the connection.
 // After creating the `CrossConnect` object, you need to go the FastConnect location
 // and request to have the physical cable installed. For more information, see
-// FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
+// FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 // compartment where you want the cross-connect to reside. If you're
 // not sure which compartment to use, put the cross-connect in the
 // same compartment with your VCN. For more information about
 // compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the cross-connect.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // A default retry strategy applies to this operation CreateCrossConnect()
@@ -5076,15 +5076,15 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 
 // CreateCrossConnectGroup Creates a new cross-connect group to use with Oracle Cloud Infrastructure
 // FastConnect. For more information, see
-// FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
+// FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 // compartment where you want the cross-connect group to reside. If you're
 // not sure which compartment to use, put the cross-connect group in the
 // same compartment with your VCN. For more information about
 // compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the cross-connect group.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // A default retry strategy applies to this operation CreateCrossConnectGroup()
@@ -5284,12 +5284,12 @@ func (client VirtualNetworkClient) createDav(ctx context.Context, request common
 
 // CreateDhcpOptions Creates a new set of DHCP options for the specified VCN. For more information, see
 // DhcpOptions.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the set of
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the set of
 // DHCP options to reside. Notice that the set of options doesn't have to be in the same compartment as the VCN,
 // subnets, or other Networking Service components. If you're not sure which compartment to use, put the set
 // of DHCP options in the same compartment as the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the set of DHCP options, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateDhcpOptions(ctx context.Context, request CreateDhcpOptionsRequest) (response CreateDhcpOptionsResponse, err error) {
@@ -5357,13 +5357,13 @@ func (client VirtualNetworkClient) createDhcpOptions(ctx context.Context, reques
 }
 
 // CreateDrg Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
-// see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// see Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
-// and access control, see Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// and access control, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the DRG, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateDrg(ctx context.Context, request CreateDrgRequest) (response CreateDrgResponse, err error) {
@@ -5432,13 +5432,13 @@ func (client VirtualNetworkClient) createDrg(ctx context.Context, request common
 
 // CreateDrgAttachment Attaches the specified DRG to the specified network resource. A VCN can be attached to only one DRG
 // at a time, but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment`
-// object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more information about DRGs, see
-// Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// object with its own OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more information about DRGs, see
+// Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // For the purposes of access control, the DRG attachment is automatically placed into the currently selected compartment.
 // For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 func (client VirtualNetworkClient) CreateDrgAttachment(ctx context.Context, request CreateDrgAttachmentRequest) (response CreateDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5902,18 +5902,18 @@ func (client VirtualNetworkClient) createFlowLogConfigAttachment(ctx context.Con
 }
 
 // CreateIPSecConnection Creates a new IPSec connection between the specified DRG and CPE. For more information, see
-// Site-to-Site VPN Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
+// Site-to-Site VPN Overview (https://docs.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
 // If you configure at least one tunnel to use static routing, then in the request you must provide
 // at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
 // If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
 // the static routes. For more information, see the important note in
 // IPSecConnection.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the
 // IPSec connection to reside. Notice that the IPSec connection doesn't have to be in the same compartment
 // as the DRG, CPE, or other Networking Service components. If you're not sure which compartment to
 // use, put the IPSec connection in the same compartment as the DRG. For more information about
 // compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You may optionally specify a *display name* for the IPSec connection, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // After creating the IPSec connection, you need to configure your on-premises router
@@ -5923,7 +5923,7 @@ func (client VirtualNetworkClient) createFlowLogConfigAttachment(ctx context.Con
 //
 // For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 // (that is, the pre-shared key). For more information, see
-// CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+// CPE Configuration (https://docs.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 // A default retry strategy applies to this operation CreateIPSecConnection()
 func (client VirtualNetworkClient) CreateIPSecConnection(ctx context.Context, request CreateIPSecConnectionRequest) (response CreateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6121,12 +6121,12 @@ func (client VirtualNetworkClient) createInternalDnsRecord(ctx context.Context, 
 
 // CreateInternalDrg This is only used for internal operations to support TRANSIT  HUB. Creates a new dynamic routing gateway (DRG)
 // of type DRG_TRANSIT_HUB in the specified compartment. Creates a new dynamic routing gateway (DRG) in the specified
-// compartment. For more information, see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// compartment. For more information, see Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
-// and access control, see Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// and access control, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You may optionally specify a *display name* for the DRG, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateInternalDrg(ctx context.Context, request CreateInternalDrgRequest) (response CreateInternalDrgResponse, err error) {
@@ -6194,14 +6194,14 @@ func (client VirtualNetworkClient) createInternalDrg(ctx context.Context, reques
 }
 
 // CreateInternalDrgAttachment Connects the specified DRG to a specified network resource type. A VCN can be attached to only one DRG at a time,
-// but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more
+// but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment` object with its own OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more
 // information about DRGs, see
-// Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // For the purposes of access control, the DRG attachment is automatically placed into the same compartment as its DRG.
 // For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 func (client VirtualNetworkClient) CreateInternalDrgAttachment(ctx context.Context, request CreateInternalDrgAttachmentRequest) (response CreateInternalDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6528,12 +6528,12 @@ func (client VirtualNetworkClient) createInternalGenericGateway(ctx context.Cont
 }
 
 // CreateInternalInternetGateway Creates a new internet gateway for the specified VCN. For more information, see
-// Access to the Internet (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
+// Access to the Internet (https://docs.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
 // Gateway to reside. Notice that the internet gateway doesn't have to be in the same compartment as the VCN or
 // other Networking Service components. If you're not sure which compartment to use, put the Internet
 // Gateway in the same compartment with the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You may optionally specify a *display name* for the internet gateway, otherwise a default is provided. It
 // does not have to be unique, and you can change it. Avoid entering confidential information.
 // For traffic to flow between a subnet and an internet gateway, you must create a route rule accordingly in
@@ -6674,9 +6674,9 @@ func (client VirtualNetworkClient) createInternalPrivateIp(ctx context.Context, 
 
 // CreateInternalPublicIp Creates an internal public IP. Use the `lifetime` property to specify whether it's an ephemeral or
 // reserved public IP. For information about limits on how many you can create, see
-// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
+// Public IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 // * **For an ephemeral public IP assigned to a private IP:** You must also specify a `privateIpId`
-// with the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary private IP you want to assign the public IP to. The public IP is
+// with the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary private IP you want to assign the public IP to. The public IP is
 // created in the same availability domain as the private IP. An ephemeral public IP must always be
 // assigned to a private IP, and only to the *primary* private IP on a VNIC, not a secondary
 // private IP. Exception: If you create a NatGateway, Oracle
@@ -6886,7 +6886,7 @@ func (client VirtualNetworkClient) createInternalServiceVnicShard(ctx context.Co
 }
 
 // CreateInternalVcn Creates a new virtual cloud network (VCN). For more information, see
-// VCNs and Subnets (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
+// VCNs and Subnets (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 // For the VCN, you specify a list of one or more IPv4 CIDR blocks that meet the following criteria:
 //   - The CIDR blocks must be valid.
 //   - They must not overlap with each other or with the on-premises network CIDR block.
@@ -6894,25 +6894,25 @@ func (client VirtualNetworkClient) createInternalServiceVnicShard(ctx context.Co
 //
 // For a CIDR block, Oracle recommends that you use one of the private IP address ranges specified in RFC 1918 (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
 // 172.16.0.0/16. The CIDR blocks can range from /16 to /30.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the VCN to
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the VCN to
 // reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
 // compartment to use. Notice that the VCN doesn't have to be in the same compartment as the subnets or other
 // Networking Service components. For more information about compartments and access control, see
 //
-//	Overview of the IAM Service  (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
+//	Overview of the IAM Service  (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
 //
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the VCN, otherwise a default is provided. It does not have to
 // be unique, and you can change it. Avoid entering confidential information.
 // You can also add a DNS label for the VCN, which is required if you want the instances to use the
 // Interent and VCN Resolver option for DNS in the VCN. For more information, see
-// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 // The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
-// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for each is returned in the response. You can't delete these default objects, but you can change their
+// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for each is returned in the response. You can't delete these default objects, but you can change their
 // contents (that is, change the route rules, security list rules, and so on).
 // The VCN and subnets you create are not accessible until you attach an internet gateway or set up a Site-to-Site VPN
 // or FastConnect. For more information, see
-// Overview of the Networking Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
+// Overview of the Networking Service (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 // A default retry strategy applies to this operation CreateInternalVcn()
 func (client VirtualNetworkClient) CreateInternalVcn(ctx context.Context, request CreateInternalVcnRequest) (response CreateInternalVcnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7108,78 +7108,13 @@ func (client VirtualNetworkClient) createInternalVnicAttachment(ctx context.Cont
 	return response, err
 }
 
-// CreateInternalZprAttachment Creates an Internal ZPR attachment that can be attached to a compartment.
-func (client VirtualNetworkClient) CreateInternalZprAttachment(ctx context.Context, request CreateInternalZprAttachmentRequest) (response CreateInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// createInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) createInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/zprAttachments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response CreateInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/CreateInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalZprAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateInternetGateway Creates a new internet gateway for the specified VCN. For more information, see
-// Access to the Internet (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
+// Access to the Internet (https://docs.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
 // Gateway to reside. Notice that the internet gateway doesn't have to be in the same compartment as the VCN or
 // other Networking Service components. If you're not sure which compartment to use, put the Internet
 // Gateway in the same compartment with the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You may optionally specify a *display name* for the internet gateway, otherwise a default is provided. It
 // does not have to be unique, and you can change it. Avoid entering confidential information.
 // For traffic to flow between a subnet and an internet gateway, you must create a route rule accordingly in
@@ -7780,7 +7715,7 @@ func (client VirtualNetworkClient) createPrivateEndpoint(ctx context.Context, re
 
 // CreatePrivateIp Creates a secondary private IP for the specified VNIC.
 // For more information about secondary private IPs, see
-// IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
+// IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
 func (client VirtualNetworkClient) CreatePrivateIp(ctx context.Context, request CreatePrivateIpRequest) (response CreatePrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7912,9 +7847,9 @@ func (client VirtualNetworkClient) createPrivateIpNextHop(ctx context.Context, r
 
 // CreatePublicIp Creates a public IP. Use the `lifetime` property to specify whether it's an ephemeral or
 // reserved public IP. For information about limits on how many you can create, see
-// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
+// Public IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 // * **For an ephemeral public IP assigned to a private IP:** You must also specify a `privateIpId`
-// with the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary private IP you want to assign the public IP to. The public IP is
+// with the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary private IP you want to assign the public IP to. The public IP is
 // created in the same availability domain as the private IP. An ephemeral public IP must always be
 // assigned to a private IP, and only to the *primary* private IP on a VNIC, not a secondary
 // private IP. Exception: If you create a NatGateway, Oracle
@@ -8056,7 +7991,7 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 	return response, err
 }
 
-// CreateQosTemplate Creates a Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template. There can be only one QoS template for a tenancy.
+// CreateQosTemplate Creates a Quality of Service (https://docs.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template. There can be only one QoS template for a tenancy.
 // A default retry strategy applies to this operation CreateQosTemplate()
 func (client VirtualNetworkClient) CreateQosTemplate(ctx context.Context, request CreateQosTemplateRequest) (response CreateQosTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8190,15 +8125,15 @@ func (client VirtualNetworkClient) createRemotePeeringConnection(ctx context.Con
 
 // CreateRouteTable Creates a new route table for the specified VCN. In the request you must also include at least one route
 // rule for the new route table. For information on the number of rules you can have in a route table, see
-// Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For general information about route
+// Service Limits (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For general information about route
 // tables in your VCN and the types of targets you can use in route rules,
-// see Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the route
+// see Route Tables (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the route
 // table to reside. Notice that the route table doesn't have to be in the same compartment as the VCN, subnets,
 // or other Networking Service components. If you're not sure which compartment to use, put the route
 // table in the same compartment as the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the route table, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateRouteTable(ctx context.Context, request CreateRouteTableRequest) (response CreateRouteTableResponse, err error) {
@@ -8332,15 +8267,15 @@ func (client VirtualNetworkClient) createScanProxy(ctx context.Context, request 
 }
 
 // CreateSecurityList Creates a new security list for the specified VCN. For more information
-// about security lists, see Security Lists (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm).
+// about security lists, see Security Lists (https://docs.oracle.com/iaas/Content/Network/Concepts/securitylists.htm).
 // For information on the number of rules you can have in a security list, see
-// Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the security
+// Service Limits (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the security
 // list to reside. Notice that the security list doesn't have to be in the same compartment as the VCN, subnets,
 // or other Networking Service components. If you're not sure which compartment to use, put the security
 // list in the same compartment as the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the security list, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateSecurityList(ctx context.Context, request CreateSecurityListRequest) (response CreateSecurityListResponse, err error) {
@@ -8408,10 +8343,10 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 }
 
 // CreateServiceGateway Creates a new service gateway in the specified compartment.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the service gateway to reside. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the service gateway, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // Use the ListServices operation to find service CIDR labels
@@ -8482,29 +8417,29 @@ func (client VirtualNetworkClient) createServiceGateway(ctx context.Context, req
 
 // CreateSubnet Creates a new subnet in the specified VCN. You can't change the size of the subnet after creation,
 // so it's important to think about the size of subnets you need before creating them.
-// For more information, see VCNs and Subnets (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
+// For more information, see VCNs and Subnets (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 // For information on the number of subnets you can have in a VCN, see
-// Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the subnet
+// Service Limits (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the subnet
 // to reside. Notice that the subnet doesn't have to be in the same compartment as the VCN, route tables, or
 // other Networking Service components. If you're not sure which compartment to use, put the subnet in
 // the same compartment as the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs,
-// see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs,
+// see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally associate a route table with the subnet. If you don't, the subnet will use the
 // VCN's default route table. For more information about route tables, see
-// Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
+// Route Tables (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 // You may optionally associate a security list with the subnet. If you don't, the subnet will use the
 // VCN's default security list. For more information about security lists, see
-// Security Lists (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm).
+// Security Lists (https://docs.oracle.com/iaas/Content/Network/Concepts/securitylists.htm).
 // You may optionally associate a set of DHCP options with the subnet. If you don't, the subnet will use the
 // VCN's default set. For more information about DHCP options, see
-// DHCP Options (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm).
+// DHCP Options (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm).
 // You may optionally specify a *display name* for the subnet, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // You can also add a DNS label for the subnet, which is required if you want the Internet and
 // VCN Resolver to resolve hostnames for instances in the subnet. For more information, see
-// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 func (client VirtualNetworkClient) CreateSubnet(ctx context.Context, request CreateSubnetRequest) (response CreateSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8570,30 +8505,30 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 }
 
 // CreateVcn Creates a new virtual cloud network (VCN). For more information, see
-// VCNs and Subnets (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
+// VCNs and Subnets (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 // For the VCN, you specify a list of one or more IPv4 CIDR blocks that meet the following criteria:
 // - The CIDR blocks must be valid.
 // - They must not overlap with each other or with the on-premises network CIDR block.
 // - The number of CIDR blocks does not exceed the limit of CIDR blocks allowed per VCN.
 // For a CIDR block, Oracle recommends that you use one of the private IP address ranges specified in RFC 1918 (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
 // 172.16.0.0/16. The CIDR blocks can range from /16 to /30.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the VCN to
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the VCN to
 // reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
 // compartment to use. Notice that the VCN doesn't have to be in the same compartment as the subnets or other
 // Networking Service components. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the VCN, otherwise a default is provided. It does not have to
 // be unique, and you can change it. Avoid entering confidential information.
 // You can also add a DNS label for the VCN, which is required if you want the instances to use the
 // Interent and VCN Resolver option for DNS in the VCN. For more information, see
-// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 // The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
-// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for each is returned in the response. You can't delete these default objects, but you can change their
+// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for each is returned in the response. You can't delete these default objects, but you can change their
 // contents (that is, change the route rules, security list rules, and so on).
 // The VCN and subnets you create are not accessible until you attach an internet gateway or set up a Site-to-Site VPN
 // or FastConnect. For more information, see
-// Overview of the Networking Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
+// Overview of the Networking Service (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 func (client VirtualNetworkClient) CreateVcn(ctx context.Context, request CreateVcnRequest) (response CreateVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8659,12 +8594,12 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 }
 
 // CreateVcnDrg Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
-// see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// see Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
-// and access control, see Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// and access control, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You may optionally specify a *display name* for the DRG, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client VirtualNetworkClient) CreateVcnDrg(ctx context.Context, request CreateVcnDrgRequest) (response CreateVcnDrgResponse, err error) {
@@ -8732,14 +8667,14 @@ func (client VirtualNetworkClient) createVcnDrg(ctx context.Context, request com
 }
 
 // CreateVcnDrgAttachment Attaches the specified DRG to the specified VCN. A VCN can be attached to only one DRG at a time.
-// The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more
+// The response includes a `DrgAttachment` object with its own OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more
 // information about DRGs, see
-// Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
+// Dynamic Routing Gateways (DRGs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // For the purposes of access control, the DRG attachment is automatically placed into the same compartment
 // as the VCN. For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 func (client VirtualNetworkClient) CreateVcnDrgAttachment(ctx context.Context, request CreateVcnDrgAttachmentRequest) (response CreateVcnDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8806,22 +8741,22 @@ func (client VirtualNetworkClient) createVcnDrgAttachment(ctx context.Context, r
 
 // CreateVirtualCircuit Creates a new virtual circuit to use with Oracle Cloud
 // Infrastructure FastConnect. For more information, see
-// FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
+// FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 // compartment where you want the virtual circuit to reside. If you're
 // not sure which compartment to use, put the virtual circuit in the
 // same compartment with the DRG it's using. For more information about
 // compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about OCIDs, see
-// Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the virtual circuit.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // **Important:** When creating a virtual circuit, you specify a DRG for
 // the traffic to flow through. Make sure you attach the DRG to your
 // VCN and confirm the VCN's routing sends traffic to the DRG. Otherwise
 // traffic will not flow. For more information, see
-// Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
+// Route Tables (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 // A default retry strategy applies to this operation CreateVirtualCircuit()
 func (client VirtualNetworkClient) CreateVirtualCircuit(ctx context.Context, request CreateVirtualCircuitRequest) (response CreateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9018,10 +8953,10 @@ func (client VirtualNetworkClient) createVnicWorker(ctx context.Context, request
 }
 
 // CreateVtap Creates a virtual test access point (VTAP) in the specified compartment.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the VTAP.
+// For the purposes of access control, you must provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the VTAP.
 // For more information about compartments and access control, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the VTAP, otherwise a default is provided.
 // It does not have to be unique, and you can change it.
 func (client VirtualNetworkClient) CreateVtap(ctx context.Context, request CreateVtapRequest) (response CreateVtapResponse, err error) {
@@ -9091,7 +9026,7 @@ func (client VirtualNetworkClient) createVtap(ctx context.Context, request commo
 // DeleteByoasn Deletes the specified `Byoasn` resource.
 // The resource must be in one of the following states: CREATING, ACTIVE or FAILED.
 // It must not be in use by any of the byoipRanges or deletion will fail.
-// You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// You must specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) DeleteByoasn(ctx context.Context, request DeleteByoasnRequest) (response DeleteByoasnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9154,7 +9089,7 @@ func (client VirtualNetworkClient) deleteByoasn(ctx context.Context, request com
 // DeleteByoipRange Deletes the specified `ByoipRange` resource.
 // The resource must be in one of the following states: CREATING, PROVISIONED, ACTIVE, or FAILED.
 // It must not have any subranges currently allocated to a PublicIpPool object or the deletion will fail.
-// You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// You must specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // If the `ByoipRange` resource is currently in the PROVISIONED or ACTIVE state, it will be de-provisioned and then deleted.
 func (client VirtualNetworkClient) DeleteByoipRange(ctx context.Context, request DeleteByoipRangeRequest) (response DeleteByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11137,7 +11072,7 @@ func (client VirtualNetworkClient) deleteInternalPrivateIp(ctx context.Context, 
 }
 
 // DeleteInternalPublicIp Unassigns and deletes the specified internal public IP (either ephemeral or reserved).
-// You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The public IP address is returned to the
+// You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The public IP address is returned to the
 // Oracle Cloud Infrastructure public IP pool.
 // For an assigned reserved public IP, the initial unassignment portion of this operation
 // is asynchronous. Poll the public IP's `lifecycleState` to determine
@@ -11445,66 +11380,6 @@ func (client VirtualNetworkClient) deleteInternalVnicAttachment(ctx context.Cont
 	return response, err
 }
 
-// DeleteInternalZprAttachment Detaches a ZPR Attachment from a resource.
-func (client VirtualNetworkClient) DeleteInternalZprAttachment(ctx context.Context, request DeleteInternalZprAttachmentRequest) (response DeleteInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// deleteInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) deleteInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response DeleteInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/DeleteInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalZprAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteInternalZprPolicy Delete ZPR policy.
 func (client VirtualNetworkClient) DeleteInternalZprPolicy(ctx context.Context, request DeleteInternalZprPolicyRequest) (response DeleteInternalZprPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11630,7 +11505,7 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 
 // DeleteIpAnycast Deletes the specified `IpAnycast` resource.
 // The resource must be in one of the following states: CREATING, INACTIVE or FAILED.
-// You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// You must specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) DeleteIpAnycast(ctx context.Context, request DeleteIpAnycastRequest) (response DeleteIpAnycastResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11690,7 +11565,7 @@ func (client VirtualNetworkClient) deleteIpAnycast(ctx context.Context, request 
 	return response, err
 }
 
-// DeleteIpv6 Unassigns and deletes the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// DeleteIpv6 Unassigns and deletes the specified IPv6. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // The IPv6 address is returned to the subnet's pool of available addresses.
 func (client VirtualNetworkClient) DeleteIpv6(ctx context.Context, request DeleteIpv6Request) (response DeleteIpv6Response, err error) {
 	var ociResponse common.OCIResponse
@@ -11942,7 +11817,7 @@ func (client VirtualNetworkClient) deleteNatGateway(ctx context.Context, request
 // To get a list of the VNICs in a network security group, use
 // ListNetworkSecurityGroupVnics.
 // Each returned NetworkSecurityGroupVnic object
-// contains both the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC and the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC's parent resource (for example,
+// contains both the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC and the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC's parent resource (for example,
 // the Compute instance that the VNIC is attached to).
 func (client VirtualNetworkClient) DeleteNetworkSecurityGroup(ctx context.Context, request DeleteNetworkSecurityGroupRequest) (response DeleteNetworkSecurityGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12124,12 +11999,12 @@ func (client VirtualNetworkClient) deletePrivateEndpoint(ctx context.Context, re
 }
 
 // DeletePrivateIp Unassigns and deletes the specified private IP. You must
-// specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The private IP address is returned to
+// specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The private IP address is returned to
 // the subnet's pool of available addresses.
 // This operation cannot be used with primary private IPs, which are
 // automatically unassigned and deleted when the VNIC is terminated.
 // **Important:** If a secondary private IP is the
-// target of a route rule (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip),
+// target of a route rule (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip),
 // unassigning it from the VNIC causes that route rule to blackhole and the traffic
 // will be dropped.
 func (client VirtualNetworkClient) DeletePrivateIp(ctx context.Context, request DeletePrivateIpRequest) (response DeletePrivateIpResponse, err error) {
@@ -12252,7 +12127,7 @@ func (client VirtualNetworkClient) deletePrivateIpNextHop(ctx context.Context, r
 }
 
 // DeletePublicIp Unassigns and deletes the specified public IP (either ephemeral or reserved).
-// You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The public IP address is returned to the
+// You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The public IP address is returned to the
 // Oracle Cloud Infrastructure public IP pool.
 // **Note:** You cannot update, unassign, or delete the public IP that Oracle automatically
 // assigned to an entity for you (such as a load balancer or NAT gateway). The public IP is
@@ -12324,7 +12199,7 @@ func (client VirtualNetworkClient) deletePublicIp(ctx context.Context, request c
 
 // DeletePublicIpPool Deletes the specified public IP pool.
 // To delete a public IP pool it must not have any active IP address allocations.
-// You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) when deleting an IP pool.
+// You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) when deleting an IP pool.
 func (client VirtualNetworkClient) DeletePublicIpPool(ctx context.Context, request DeletePublicIpPoolRequest) (response DeletePublicIpPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15163,7 +15038,7 @@ func (client VirtualNetworkClient) getAristaDeviceConfig(ctx context.Context, re
 	return response, err
 }
 
-// GetByoasn Gets the `Byoasn` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetByoasn Gets the `Byoasn` resource. You must specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetByoasn()
 func (client VirtualNetworkClient) GetByoasn(ctx context.Context, request GetByoasnRequest) (response GetByoasnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15224,7 +15099,7 @@ func (client VirtualNetworkClient) getByoasn(ctx context.Context, request common
 	return response, err
 }
 
-// GetByoipRange Gets the `ByoipRange` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetByoipRange Gets the `ByoipRange` resource. You must specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetByoipRange(ctx context.Context, request GetByoipRangeRequest) (response GetByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17077,7 +16952,7 @@ func (client VirtualNetworkClient) getDrgMigrationCountTenancy(ctx context.Conte
 }
 
 // GetDrgRedundancyStatus Gets the redundancy status for the specified DRG. For more information, see
-// Redundancy Remedies (https://docs.cloud.oracle.com/iaas/Content/Network/Troubleshoot/drgredundancy.htm).
+// Redundancy Remedies (https://docs.oracle.com/iaas/Content/Network/Troubleshoot/drgredundancy.htm).
 // A default retry strategy applies to this operation GetDrgRedundancyStatus()
 func (client VirtualNetworkClient) GetDrgRedundancyStatus(ctx context.Context, request GetDrgRedundancyStatusRequest) (response GetDrgRedundancyStatusResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17500,7 +17375,7 @@ func (client VirtualNetworkClient) getEndpointServiceNextHop(ctx context.Context
 }
 
 // GetFastConnectProviderService Gets the specified provider service.
-// For more information, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// For more information, see FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 // A default retry strategy applies to this operation GetFastConnectProviderService()
 func (client VirtualNetworkClient) GetFastConnectProviderService(ctx context.Context, request GetFastConnectProviderServiceRequest) (response GetFastConnectProviderServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -18986,10 +18861,10 @@ func (client VirtualNetworkClient) getInternalPrivateIp(ctx context.Context, req
 	return response, err
 }
 
-// GetInternalPublicIp Gets the specified internal public IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetInternalPublicIp Gets the specified internal public IP. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 func (client VirtualNetworkClient) GetInternalPublicIp(ctx context.Context, request GetInternalPublicIpRequest) (response GetInternalPublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -19473,66 +19348,6 @@ func (client VirtualNetworkClient) getInternalVnicAttachment(ctx context.Context
 	return response, err
 }
 
-// GetInternalZprAttachment Gets the `ZprAttachment` resource.
-func (client VirtualNetworkClient) GetInternalZprAttachment(ctx context.Context, request GetInternalZprAttachmentRequest) (response GetInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// getInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) getInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response GetInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/GetInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalZprAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetInternetGateway Gets the specified internet gateway's information.
 func (client VirtualNetworkClient) GetInternetGateway(ctx context.Context, request GetInternetGatewayRequest) (response GetInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -19730,10 +19545,10 @@ func (client VirtualNetworkClient) getIpsecCpeDeviceConfigContent(ctx context.Co
 	return response, err
 }
 
-// GetIpv6 Gets the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetIpv6 Gets the specified IPv6. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using
 // ListIpv6s
-// with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetIpv6(ctx context.Context, request GetIpv6Request) (response GetIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20410,10 +20225,10 @@ func (client VirtualNetworkClient) getPrivateEndpointAssociation(ctx context.Con
 	return response, err
 }
 
-// GetPrivateIp Gets the specified private IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetPrivateIp Gets the specified private IP. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using
 // ListPrivateIps
-// with the private IP address (for example, 10.0.3.3) and subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// with the private IP address (for example, 10.0.3.3) and subnet OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetPrivateIp(ctx context.Context, request GetPrivateIpRequest) (response GetPrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20533,14 +20348,14 @@ func (client VirtualNetworkClient) getPrivateIpNextHop(ctx context.Context, requ
 	return response, err
 }
 
-// GetPublicIp Gets the specified public IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetPublicIp Gets the specified public IP. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using GetPublicIpByIpAddress
 // with the public IP address (for example, 203.0.113.2).
 // Or you can use GetPublicIpByPrivateIpId
-// with the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP that the public IP is assigned to.
+// with the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP that the public IP is assigned to.
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 func (client VirtualNetworkClient) GetPublicIp(ctx context.Context, request GetPublicIpRequest) (response GetPublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20603,7 +20418,7 @@ func (client VirtualNetworkClient) getPublicIp(ctx context.Context, request comm
 // GetPublicIpByIpAddress Gets the public IP based on the public IP address (for example, 203.0.113.2).
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 func (client VirtualNetworkClient) GetPublicIpByIpAddress(ctx context.Context, request GetPublicIpByIpAddressRequest) (response GetPublicIpByIpAddressResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20666,13 +20481,13 @@ func (client VirtualNetworkClient) getPublicIpByIpAddress(ctx context.Context, r
 // GetPublicIpByPrivateIpId Gets the public IP assigned to the specified private IP. You must specify the OCID
 // of the private IP. If no public IP is assigned, a 404 is returned.
 // **Note:** If you're fetching a reserved public IP that is in the process of being
-// moved to a different private IP, and you provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original private
-// IP, this operation returns a 404. If you instead provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target
+// moved to a different private IP, and you provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original private
+// IP, this operation returns a 404. If you instead provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target
 // private IP, or if you instead call
 // GetPublicIp or
 // GetPublicIpByIpAddress, the
 // service returns the public IP object with `lifecycleState` = ASSIGNING and
-// `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
+// `assignedEntityId` = OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 func (client VirtualNetworkClient) GetPublicIpByPrivateIpId(ctx context.Context, request GetPublicIpByPrivateIpIdRequest) (response GetPublicIpByPrivateIpIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20797,7 +20612,7 @@ func (client VirtualNetworkClient) getPublicIpCapacityByCidr(ctx context.Context
 	return response, err
 }
 
-// GetPublicIpPool Gets the specified `PublicIpPool` object. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetPublicIpPool Gets the specified `PublicIpPool` object. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetPublicIpPool(ctx context.Context, request GetPublicIpPoolRequest) (response GetPublicIpPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21521,7 +21336,7 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 	return response, err
 }
 
-// GetSubnetCidrUtilization Gets the CIDR utilization data of the specified subnet. Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetSubnetCidrUtilization Gets the CIDR utilization data of the specified subnet. Specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetSubnetCidrUtilization(ctx context.Context, request GetSubnetCidrUtilizationRequest) (response GetSubnetCidrUtilizationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21581,7 +21396,7 @@ func (client VirtualNetworkClient) getSubnetCidrUtilization(ctx context.Context,
 	return response, err
 }
 
-// GetSubnetIpInventory Gets the IP Inventory data of the specified subnet. Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetSubnetIpInventory Gets the IP Inventory data of the specified subnet. Specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetSubnetIpInventory(ctx context.Context, request GetSubnetIpInventoryRequest) (response GetSubnetIpInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22271,7 +22086,7 @@ func (client VirtualNetworkClient) getVcnMappinglessStatus(ctx context.Context, 
 	return response, err
 }
 
-// GetVcnOverlap Gets the CIDR overlap information of the specified VCN in selected compartments. Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetVcnOverlap Gets the CIDR overlap information of the specified VCN in selected compartments. Specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetVcnOverlap(ctx context.Context, request GetVcnOverlapRequest) (response GetVcnOverlapResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22578,7 +22393,7 @@ func (client VirtualNetworkClient) getVlan(ctx context.Context, request common.O
 }
 
 // GetVnic Gets the information for the specified virtual network interface card (VNIC).
-// You can get the VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) from the
+// You can get the VNIC OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) from the
 // ListVnicAttachments
 // operation.
 func (client VirtualNetworkClient) GetVnic(ctx context.Context, request GetVnicRequest) (response GetVnicResponse, err error) {
@@ -22825,7 +22640,7 @@ func (client VirtualNetworkClient) getZprNetworkSecurityGroups(ctx context.Conte
 	return response, err
 }
 
-// Ipv6VnicDetach Unassign the specified IPv6 address from Virtual Network Interface Card (VNIC). You must specify the IPv6 OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Ipv6VnicDetach Unassign the specified IPv6 address from Virtual Network Interface Card (VNIC). You must specify the IPv6 OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) Ipv6VnicDetach(ctx context.Context, request Ipv6VnicDetachRequest) (response Ipv6VnicDetachResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23016,7 +22831,7 @@ func (client VirtualNetworkClient) listAdditionalRouteRules(ctx context.Context,
 }
 
 // ListAllowedPeerRegionsForRemotePeering Lists the regions that support remote VCN peering (which is peering across regions).
-// For more information, see VCN Peering (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
+// For more information, see VCN Peering (https://docs.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
 // A default retry strategy applies to this operation ListAllowedPeerRegionsForRemotePeering()
 func (client VirtualNetworkClient) ListAllowedPeerRegionsForRemotePeering(ctx context.Context, request ListAllowedPeerRegionsForRemotePeeringRequest) (response ListAllowedPeerRegionsForRemotePeeringResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -23814,7 +23629,7 @@ func (client VirtualNetworkClient) listClientVpns(ctx context.Context, request c
 // the actual CPE device represented by a Cpe object.
 // If you want to generate CPE configuration content for one of the returned CPE device types,
 // ensure that the Cpe object's `cpeDeviceShapeId` attribute is set
-// to the CPE device type's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (returned by this operation).
+// to the CPE device type's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (returned by this operation).
 // For information about generating CPE configuration content, see these operations:
 //   - GetCpeDeviceConfigContent
 //   - GetIpsecCpeDeviceConfigContent
@@ -24127,7 +23942,7 @@ func (client VirtualNetworkClient) listCrossConnectMappings(ctx context.Context,
 }
 
 // ListCrossConnects Lists the cross-connects in the specified compartment. You can filter the list
-// by specifying the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a cross-connect group.
+// by specifying the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a cross-connect group.
 // A default retry strategy applies to this operation ListCrossConnects()
 func (client VirtualNetworkClient) ListCrossConnects(ctx context.Context, request ListCrossConnectsRequest) (response ListCrossConnectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -25049,7 +24864,7 @@ func (client VirtualNetworkClient) listEgressDisintermediatedRoutes(ctx context.
 }
 
 // ListEndpointServices Lists the endpoint services in the specified compartment. You can optionally filter the list
-// by specifying the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a service VCN.
+// by specifying the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a service VCN.
 func (client VirtualNetworkClient) ListEndpointServices(ctx context.Context, request ListEndpointServicesRequest) (response ListEndpointServicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -25112,8 +24927,8 @@ func (client VirtualNetworkClient) listEndpointServices(ctx context.Context, req
 // ListFastConnectProviderServices Lists the service offerings from supported providers. You need this
 // information so you can specify your desired provider and service
 // offering when you create a virtual circuit.
-// For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
-// For more information, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// For the compartment ID, provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// For more information, see FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 // A default retry strategy applies to this operation ListFastConnectProviderServices()
 func (client VirtualNetworkClient) ListFastConnectProviderServices(ctx context.Context, request ListFastConnectProviderServicesRequest) (response ListFastConnectProviderServicesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -25176,7 +24991,7 @@ func (client VirtualNetworkClient) listFastConnectProviderServices(ctx context.C
 
 // ListFastConnectProviderVirtualCircuitBandwidthShapes Gets the list of available virtual circuit bandwidth levels for a provider.
 // You need this information so you can specify your desired bandwidth level (shape) when you create a virtual circuit.
-// For more information about virtual circuits, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// For more information about virtual circuits, see FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 // A default retry strategy applies to this operation ListFastConnectProviderVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListFastConnectProviderVirtualCircuitBandwidthShapes(ctx context.Context, request ListFastConnectProviderVirtualCircuitBandwidthShapesRequest) (response ListFastConnectProviderVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -26482,66 +26297,6 @@ func (client VirtualNetworkClient) listInternalVnics(ctx context.Context, reques
 	return response, err
 }
 
-// ListInternalZprAttachments List the ZprAttachments in the specified compartement.
-func (client VirtualNetworkClient) ListInternalZprAttachments(ctx context.Context, request ListInternalZprAttachmentsRequest) (response ListInternalZprAttachmentsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInternalZprAttachments, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInternalZprAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInternalZprAttachmentsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInternalZprAttachmentsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInternalZprAttachmentsResponse")
-	}
-	return
-}
-
-// listInternalZprAttachments implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) listInternalZprAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/zprAttachments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response ListInternalZprAttachmentsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/ListInternalZprAttachments"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalZprAttachments", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListInternetGateways Lists the internet gateways in the specified VCN and the specified compartment.
 // If the VCN ID is not provided, then the list includes the internet gateways from all VCNs in the specified compartment.
 func (client VirtualNetworkClient) ListInternetGateways(ctx context.Context, request ListInternetGatewaysRequest) (response ListInternetGatewaysResponse, err error) {
@@ -26726,11 +26481,11 @@ func (client VirtualNetworkClient) listIpInventory(ctx context.Context, request 
 
 // ListIpv6s Lists the Ipv6 objects based
 // on one of these filters:
-//   - Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//   - VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - Subnet OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - VNIC OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //   - Both IPv6 address and subnet OCID: This lets you get an `Ipv6` object based on its private
-//     IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
-//     GetIpv6 requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//     IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
+//     GetIpv6 requires the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) ListIpv6s(ctx context.Context, request ListIpv6sRequest) (response ListIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -27214,7 +26969,7 @@ func (client VirtualNetworkClient) listNextHops(ctx context.Context, request com
 }
 
 // ListPrivateAccessGateways Lists the private access gateways (PAGs) in the specified compartment. You can optionally
-// filter the list by specifying the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a service VCN.
+// filter the list by specifying the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a service VCN.
 func (client VirtualNetworkClient) ListPrivateAccessGateways(ctx context.Context, request ListPrivateAccessGatewaysRequest) (response ListPrivateAccessGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -27338,7 +27093,7 @@ func (client VirtualNetworkClient) listPrivateEndpointAssociations(ctx context.C
 }
 
 // ListPrivateEndpoints List the private endpoints in the specified compartment. You can optionally filter the list by
-// specifying the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a subnet in the customer's VCN.
+// specifying the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a subnet in the customer's VCN.
 func (client VirtualNetworkClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -27400,18 +27155,18 @@ func (client VirtualNetworkClient) listPrivateEndpoints(ctx context.Context, req
 
 // ListPrivateIps Lists the PrivateIp objects based
 // on one of these filters:
-//   - Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//   - VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - Subnet OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - VNIC OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //   - Both private IP address and subnet OCID: This lets
 //     you get a `privateIP` object based on its private IP
-//     address (for example, 10.0.3.3) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
+//     address (for example, 10.0.3.3) and not its OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
 //     GetPrivateIp
-//     requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//     requires the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
 // If you're listing all the private IPs associated with a given subnet
 // or VNIC, the response includes both primary and secondary private IPs.
 // If you are an Oracle Cloud VMware Solution customer and have VLANs
-// in your VCN, you can filter the list by VLAN OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). See Vlan.
+// in your VCN, you can filter the list by VLAN OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). See Vlan.
 func (client VirtualNetworkClient) ListPrivateIps(ctx context.Context, request ListPrivateIpsRequest) (response ListPrivateIpsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -27676,7 +27431,7 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 	return response, err
 }
 
-// ListQosBandwidthReservationTemplateShapes The operation lists available Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template names which can be associated with virtual circuits. For the compartment ID, you can provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy's root compartment.
+// ListQosBandwidthReservationTemplateShapes The operation lists available Quality of Service (https://docs.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template names which can be associated with virtual circuits. For the compartment ID, you can provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy's root compartment.
 // A default retry strategy applies to this operation ListQosBandwidthReservationTemplateShapes()
 func (client VirtualNetworkClient) ListQosBandwidthReservationTemplateShapes(ctx context.Context, request ListQosBandwidthReservationTemplateShapesRequest) (response ListQosBandwidthReservationTemplateShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -28718,7 +28473,7 @@ func (client VirtualNetworkClient) listVirtualCircuitAssociatedTunnels(ctx conte
 	return response, err
 }
 
-// ListVirtualCircuitBandwidthShapes The operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// ListVirtualCircuitBandwidthShapes The operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 // A default retry strategy applies to this operation ListVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListVirtualCircuitBandwidthShapes(ctx context.Context, request ListVirtualCircuitBandwidthShapesRequest) (response ListVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -29024,8 +28779,8 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 }
 
 // ListVnicWorkers Lists the vnicWorkers based on one of these filters:
-//   - Service VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//   - Instance OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - Service VNIC OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - Instance OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) ListVnicWorkers(ctx context.Context, request ListVnicWorkersRequest) (response ListVnicWorkersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -29594,7 +29349,7 @@ func (client VirtualNetworkClient) pollNcpJob(ctx context.Context, request commo
 	return response, err
 }
 
-// PrivateIpVnicDetach Unassign the specified PrivateIP address from Virtual Network Interface Card (VNIC). You must specify the PrivateIP OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// PrivateIpVnicDetach Unassign the specified PrivateIP address from Virtual Network Interface Card (VNIC). You must specify the PrivateIP OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) PrivateIpVnicDetach(ctx context.Context, request PrivateIpVnicDetachRequest) (response PrivateIpVnicDetachResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -34455,7 +34210,7 @@ func (client VirtualNetworkClient) updateInternalInternetGateway(ctx context.Con
 	return response, err
 }
 
-// UpdateInternalIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// UpdateInternalIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
 //   - Move an IPv6 to a different VNIC in the same subnet.
 //   - Enable/disable internet access for an IPv6.
@@ -34585,7 +34340,7 @@ func (client VirtualNetworkClient) updateInternalPrivateIp(ctx context.Context, 
 	return response, err
 }
 
-// UpdateInternalPublicIp Updates the specified internal public IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Use this operation if you want to:
+// UpdateInternalPublicIp Updates the specified internal public IP. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Use this operation if you want to:
 // * Assign a reserved public IP in your pool to a private IP/NAT Gateway.
 // * Move a reserved public IP to a different private IP/NAT Gateway.
 // * Unassign a reserved public IP from a private IP/NAT Gateway (which returns it to your pool
@@ -34615,7 +34370,7 @@ func (client VirtualNetworkClient) updateInternalPrivateIp(ctx context.Context, 
 // a VNIC or instance can have. If you try to move a reserved public IP
 // to a VNIC or instance that has already reached its public IP limit, an error is
 // returned. For information about the public IP limits, see
-// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
+// Public IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 func (client VirtualNetworkClient) UpdateInternalPublicIp(ctx context.Context, request UpdateInternalPublicIpRequest) (response UpdateInternalPublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -34861,66 +34616,6 @@ func (client VirtualNetworkClient) updateInternalVnicMetadata(ctx context.Contex
 	return response, err
 }
 
-// UpdateInternalZprAttachment Updates the details for the specified `ZprAttachment`.
-func (client VirtualNetworkClient) UpdateInternalZprAttachment(ctx context.Context, request UpdateInternalZprAttachmentRequest) (response UpdateInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// updateInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) updateInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response UpdateInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/UpdateInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalZprAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateInternetGateway Updates the specified internet gateway. You can disable/enable it, or change its display name
 // or tags. Avoid entering confidential information.
 // If the gateway is disabled, that means no traffic will flow to/from the internet even if there's
@@ -35044,7 +34739,7 @@ func (client VirtualNetworkClient) updateIpAnycast(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// UpdateIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
 //   - Move an IPv6 to a different VNIC in the same subnet.
 //   - Enable/disable internet access for an IPv6.
@@ -35292,7 +34987,7 @@ func (client VirtualNetworkClient) updateNatGateway(ctx context.Context, request
 // UpdateNetworkSecurityGroup Updates the specified network security group.
 // To add or remove an existing VNIC from the group, use
 // UpdateVnic.
-// To add a VNIC to the group *when you create the VNIC*, specify the NSG's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) during creation.
+// To add a VNIC to the group *when you create the VNIC*, specify the NSG's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) during creation.
 // For example, see the `nsgIds` attribute in CreateVnicDetails.
 // To add or remove security rules from the group, use
 // AddNetworkSecurityGroupSecurityRules
@@ -35539,7 +35234,7 @@ func (client VirtualNetworkClient) updatePrivateEndpoint(ctx context.Context, re
 	return response, err
 }
 
-// UpdatePrivateIp Updates the specified private IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// UpdatePrivateIp Updates the specified private IP. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
 //   - Move a secondary private IP to a different VNIC in the same subnet.
 //   - Change the display name for a secondary private IP.
@@ -35667,7 +35362,7 @@ func (client VirtualNetworkClient) updatePrivateIpNextHop(ctx context.Context, r
 	return response, err
 }
 
-// UpdatePublicIp Updates the specified public IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Use this operation if you want to:
+// UpdatePublicIp Updates the specified public IP. You must specify the object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Use this operation if you want to:
 // * Assign a reserved public IP in your pool to a private IP.
 // * Move a reserved public IP to a different private IP.
 // * Unassign a reserved public IP from a private IP (which returns it to your pool
@@ -35698,7 +35393,7 @@ func (client VirtualNetworkClient) updatePrivateIpNextHop(ctx context.Context, r
 // a VNIC or instance can have. If you try to move a reserved public IP
 // to a VNIC or instance that has already reached its public IP limit, an error is
 // returned. For information about the public IP limits, see
-// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
+// Public IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 func (client VirtualNetworkClient) UpdatePublicIp(ctx context.Context, request UpdatePublicIpRequest) (response UpdatePublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -36765,7 +36460,7 @@ func (client VirtualNetworkClient) updateVcnDrgAttachment(ctx context.Context, r
 // its state will return to PROVISIONED. Make sure you confirm that
 // the associated BGP session is back up. For more information
 // about the various states and how to test connectivity, see
-// FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// FastConnect Overview (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 // To change the list of public IP prefixes for a public virtual circuit,
 // use BulkAddVirtualCircuitPublicPrefixes
 // and
@@ -37533,7 +37228,7 @@ func (client VirtualNetworkClient) upsertInternalZprPolicy(ctx context.Context, 
 }
 
 // ValidateByoasn Submits the BYOASN for validation. Please do not submit to Oracle for validation if the information for the BYOASN is not already modified in the Regional Internet Registry.
-// See To import a BYOASN (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm) for details.
+// See To import a BYOASN (https://docs.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm) for details.
 // A default retry strategy applies to this operation ValidateByoasn()
 func (client VirtualNetworkClient) ValidateByoasn(ctx context.Context, request ValidateByoasnRequest) (response ValidateByoasnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -37600,7 +37295,7 @@ func (client VirtualNetworkClient) validateByoasn(ctx context.Context, request c
 }
 
 // ValidateByoipRange Submits the BYOIP CIDR block you are importing for validation. Do not submit to Oracle for validation if you have not already
-// modified the information for the BYOIP CIDR block with your Regional Internet Registry. See To import a CIDR block (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm#import_cidr) for details.
+// modified the information for the BYOIP CIDR block with your Regional Internet Registry. See To import a CIDR block (https://docs.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm#import_cidr) for details.
 func (client VirtualNetworkClient) ValidateByoipRange(ctx context.Context, request ValidateByoipRangeRequest) (response ValidateByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -14,10 +14,10 @@ import (
 // UpdateVmClusterNetworkRequest wrapper for the UpdateVmClusterNetwork operation
 type UpdateVmClusterNetworkRequest struct {
 
-	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
-	// The VM cluster network OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The VM cluster network OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	VmClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"vmClusterNetworkId"`
 
 	// Request to update the properties of a VM cluster network.
@@ -82,7 +82,7 @@ type UpdateVmClusterNetworkResponse struct {
 	// The VmClusterNetwork instance
 	VmClusterNetwork `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

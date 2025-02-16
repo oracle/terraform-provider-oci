@@ -14,7 +14,7 @@ import (
 // RebootLifecycleStageRequest wrapper for the RebootLifecycleStage operation
 type RebootLifecycleStageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
 	// Details rebooting managed instances in a lifecycle stage.

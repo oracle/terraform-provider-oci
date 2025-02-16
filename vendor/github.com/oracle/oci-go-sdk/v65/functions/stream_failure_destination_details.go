@@ -20,7 +20,7 @@ import (
 // Example: `{"kind": "STREAM", "streamId": "stream_OCID"}`
 type StreamFailureDestinationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.
 	StreamId *string `mandatory:"true" json:"streamId"`
 }
 

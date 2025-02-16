@@ -14,7 +14,7 @@ import (
 // DeleteOdaPrivateEndpointAttachmentRequest wrapper for the DeleteOdaPrivateEndpointAttachment operation
 type DeleteOdaPrivateEndpointAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.
 	OdaPrivateEndpointAttachmentId *string `mandatory:"true" contributesTo:"path" name:"odaPrivateEndpointAttachmentId"`
 
 	// For optimistic concurrency control in a PUT or DELETE call for

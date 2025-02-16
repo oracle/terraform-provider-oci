@@ -21,7 +21,7 @@ import (
 // portions of the configuration.
 type Config interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	GetId() *string
 
@@ -35,10 +35,10 @@ type Config interface {
 	// Example: `2020-02-13T22:47:12.613Z`
 	GetTimeUpdated() *common.SDKTime
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	GetCreatedBy() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	GetUpdatedBy() *string
 
 	// For optimistic concurrency control. See `if-match`.

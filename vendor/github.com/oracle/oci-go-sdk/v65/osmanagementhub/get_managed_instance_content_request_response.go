@@ -15,7 +15,7 @@ import (
 // GetManagedInstanceContentRequest wrapper for the GetManagedInstanceContent operation
 type GetManagedInstanceContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// A filter to return only vulnerabilities matching the given types.

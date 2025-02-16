@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -21,13 +21,13 @@ type RotateCloudAutonomousVmClusterOrdsCertsDetails struct {
 	// Specify SYSTEM to use Oracle-managed certificates. Specify BYOC when you want to bring your own certificate.
 	CertificateGenerationType RotateCloudAutonomousVmClusterOrdsCertsDetailsCertificateGenerationTypeEnum `mandatory:"true" json:"certificateGenerationType"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate to use.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate to use.
 	CertificateId *string `mandatory:"false" json:"certificateId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate authority.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate authority.
 	CertificateAuthorityId *string `mandatory:"false" json:"certificateAuthorityId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate bundle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate bundle.
 	CaBundleId *string `mandatory:"false" json:"caBundleId"`
 }
 

@@ -14,7 +14,7 @@ import (
 // DeleteContainerInstanceRequest wrapper for the DeleteContainerInstance operation
 type DeleteContainerInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
 	ContainerInstanceId *string `mandatory:"true" contributesTo:"path" name:"containerInstanceId"`
 
 	// The amount of time that processes in a container have to gracefully end. After the timeout is reached, the processes are sent a signal to be deleted.

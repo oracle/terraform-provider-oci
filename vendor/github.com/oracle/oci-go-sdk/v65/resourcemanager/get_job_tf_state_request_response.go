@@ -15,7 +15,7 @@ import (
 // GetJobTfStateRequest wrapper for the GetJobTfState operation
 type GetJobTfStateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	JobId *string `mandatory:"true" contributesTo:"path" name:"jobId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

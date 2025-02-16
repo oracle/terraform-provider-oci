@@ -15,7 +15,7 @@ import (
 // DownloadExadataInfrastructureConfigFileRequest wrapper for the DownloadExadataInfrastructureConfigFile operation
 type DownloadExadataInfrastructureConfigFileRequest struct {
 
-	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
 	// Unique identifier for the request.

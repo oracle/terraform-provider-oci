@@ -14,14 +14,14 @@ import (
 // ReserveTargetNumRequest wrapper for the ReserveTargetNum operation
 type ReserveTargetNumRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	ReplicationId *string `mandatory:"true" contributesTo:"query" name:"replicationId"`
 
-	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
+	// Filter results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
 	// the resouce type.
 	SourceId *string `mandatory:"true" contributesTo:"query" name:"sourceId"`
 
-	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
+	// Filter results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
 	// the resouce type.
 	TargetId *string `mandatory:"true" contributesTo:"query" name:"targetId"`
 

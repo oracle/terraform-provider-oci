@@ -17,7 +17,7 @@ type UpdateDiscoveryScheduleRequest struct {
 	// Discovery schedule information to be updated.
 	UpdateDiscoveryScheduleDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule.
 	DiscoveryScheduleId *string `mandatory:"true" contributesTo:"path" name:"discoveryScheduleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

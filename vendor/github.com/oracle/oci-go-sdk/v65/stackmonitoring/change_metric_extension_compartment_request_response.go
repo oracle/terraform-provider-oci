@@ -14,7 +14,7 @@ import (
 // ChangeMetricExtensionCompartmentRequest wrapper for the ChangeMetricExtensionCompartment operation
 type ChangeMetricExtensionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the metric extension resource.
 	MetricExtensionId *string `mandatory:"true" contributesTo:"path" name:"metricExtensionId"`
 
 	// The information required to change compartment of given Metric Extension resource

@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -309,7 +309,7 @@ func (client WorkRequestClient) listWorkRequests(ctx context.Context, request co
 	return response, err
 }
 
-// RerunWorkRequest Reruns a failed work for the specified work request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Rerunning restarts the work on failed targets.
+// RerunWorkRequest Reruns a failed work for the specified work request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Rerunning restarts the work on failed targets.
 // A default retry strategy applies to this operation RerunWorkRequest()
 func (client WorkRequestClient) RerunWorkRequest(ctx context.Context, request RerunWorkRequestRequest) (response RerunWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse

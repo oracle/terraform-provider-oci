@@ -14,7 +14,7 @@ import (
 // DeleteModelRequest wrapper for the DeleteModel operation
 type DeleteModelRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

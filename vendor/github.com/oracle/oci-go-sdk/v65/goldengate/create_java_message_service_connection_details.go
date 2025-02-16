@@ -22,7 +22,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// An object's Display Name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.
@@ -55,7 +55,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Indicates that sensitive attributes are provided via Secrets.
@@ -82,7 +82,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "jndiSecurityCredentialsSecretId". This field will be removed after February 15 2026.
 	JndiSecurityCredentials *string `mandatory:"false" json:"jndiSecurityCredentials"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the security credentials are stored associated to the principal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the security credentials are stored associated to the principal.
 	// Note: When provided, 'jndiSecurityCredentials' field must not be provided.
 	JndiSecurityCredentialsSecretId *string `mandatory:"false" json:"jndiSecurityCredentialsSecretId"`
 
@@ -103,7 +103,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
 	// that Oracle GoldenGate uses to connect the associated Java Message Service.
 	// Note: When provided, 'password' field must not be provided.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
@@ -112,7 +112,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This field will be removed after February 15 2026.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the TrustStore file is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the TrustStore file is stored.
 	// Note: When provided, 'trustStore' field must not be provided.
 	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
 
@@ -120,7 +120,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId". This field will be removed after February 15 2026.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the TrustStore password is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the TrustStore password is stored.
 	// Note: When provided, 'trustStorePassword' field must not be provided.
 	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
 
@@ -128,7 +128,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored.
 	// Note: When provided, 'keyStore' field must not be provided.
 	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
 
@@ -136,7 +136,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the KeyStore password is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the KeyStore password is stored.
 	// Note: When provided, 'keyStorePassword' field must not be provided.
 	KeyStorePasswordSecretId *string `mandatory:"false" json:"keyStorePasswordSecretId"`
 
@@ -145,7 +145,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "sslKeyPasswordSecretId". This field will be removed after February 15 2026.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore.
 	// In case it differs from the KeyStore password, it should be provided.
 	// Note: When provided, 'sslKeyPassword' field must not be provided.
 	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`

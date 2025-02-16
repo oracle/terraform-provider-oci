@@ -14,7 +14,7 @@ import (
 // RemoveMountTargetLockRequest wrapper for the RemoveMountTargetLock operation
 type RemoveMountTargetLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
 	// The details to be updated for the RemoveLock.

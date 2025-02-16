@@ -14,7 +14,7 @@ import (
 // ChangeContainerInstanceCompartmentRequest wrapper for the ChangeContainerInstanceCompartment operation
 type ChangeContainerInstanceCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
 	ContainerInstanceId *string `mandatory:"true" contributesTo:"path" name:"containerInstanceId"`
 
 	// The information to be updated.

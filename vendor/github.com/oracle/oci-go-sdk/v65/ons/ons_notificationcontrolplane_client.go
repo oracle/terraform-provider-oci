@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons
@@ -160,7 +160,7 @@ func (client NotificationControlPlaneClient) addTopicLock(ctx context.Context, r
 
 // ChangeTopicCompartment Moves a topic into a different compartment within the same tenancy.
 // For instructions, see
-// Moving a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/change-compartment-topic.htm).
+// Moving a Topic (https://docs.oracle.com/iaas/Content/Notification/Tasks/change-compartment-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.Context, request ChangeTopicCompartmentRequest) (response ChangeTopicCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -228,14 +228,14 @@ func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.
 
 // CreateTopic Creates a topic in the specified compartment.
 // For instructions, see
-// Creating a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/create-topic.htm).
+// Creating a Topic (https://docs.oracle.com/iaas/Content/Notification/Tasks/create-topic.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the topic to reside.
-// For information about access control and compartments, see Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// For information about access control and compartments, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You must specify a display name for the topic.
 // All Oracle Cloud Infrastructure resources, including topics, get an Oracle-assigned, unique ID called an
 // Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response. You can also
 // retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the resource in the
-// Console. For more information, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Console. For more information, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, request CreateTopicRequest) (response CreateTopicResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -303,7 +303,7 @@ func (client NotificationControlPlaneClient) createTopic(ctx context.Context, re
 
 // DeleteTopic Deletes the specified topic.
 // For instructions, see
-// Deleting a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/delete-topic.htm).
+// Deleting a Topic (https://docs.oracle.com/iaas/Content/Notification/Tasks/delete-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, request DeleteTopicRequest) (response DeleteTopicResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -366,7 +366,7 @@ func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, re
 
 // GetTopic Gets the specified topic's configuration information.
 // For instructions, see
-// Getting a Topic's Details (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/get-topic.htm).
+// Getting a Topic's Details (https://docs.oracle.com/iaas/Content/Notification/Tasks/get-topic.htm).
 func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, request GetTopicRequest) (response GetTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -428,7 +428,7 @@ func (client NotificationControlPlaneClient) getTopic(ctx context.Context, reque
 
 // ListTopics Lists topics in the specified compartment.
 // For instructions, see
-// Listing Topics (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/list-topic.htm).
+// Listing Topics (https://docs.oracle.com/iaas/Content/Notification/Tasks/list-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 120.
 func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, request ListTopicsRequest) (response ListTopicsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -551,7 +551,7 @@ func (client NotificationControlPlaneClient) removeTopicLock(ctx context.Context
 
 // UpdateTopic Updates the specified topic's configuration.
 // For instructions, see
-// Updating a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/update-topic.htm).
+// Updating a Topic (https://docs.oracle.com/iaas/Content/Notification/Tasks/update-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, request UpdateTopicRequest) (response UpdateTopicResponse, err error) {
 	var ociResponse common.OCIResponse

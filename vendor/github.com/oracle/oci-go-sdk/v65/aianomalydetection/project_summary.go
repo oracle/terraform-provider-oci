@@ -20,7 +20,7 @@ import (
 // ProjectSummary Summary of the Project.
 type ProjectSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.

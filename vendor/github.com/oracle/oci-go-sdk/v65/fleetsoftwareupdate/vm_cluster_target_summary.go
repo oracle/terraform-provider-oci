@@ -34,6 +34,9 @@ type VmClusterTargetSummary struct {
 
 	// OCID of the Grid Infrastructure software image.
 	SoftwareImageId *string `mandatory:"false" json:"softwareImageId"`
+
+	// Exadata Image (Guest OS) version.
+	SystemVersion *string `mandatory:"false" json:"systemVersion"`
 }
 
 // GetId returns Id

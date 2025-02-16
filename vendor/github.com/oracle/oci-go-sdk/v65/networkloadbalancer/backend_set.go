@@ -17,7 +17,7 @@ import (
 
 // BackendSet The configuration of a network load balancer backend set.
 // For more information about backend set configuration, see
-// Backend Sets for Network Load Balancers (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendSets/backend-set-management.htm).
+// Backend Sets for Network Load Balancers (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/BackendSets/backend-set-management.htm).
 // **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type BackendSet struct {
 

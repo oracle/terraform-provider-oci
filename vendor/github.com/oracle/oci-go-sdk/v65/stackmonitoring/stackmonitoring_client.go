@@ -1663,7 +1663,7 @@ func (client StackMonitoringClient) deleteMetricExtension(ctx context.Context, r
 	return response, err
 }
 
-// DeleteMonitoredResource Delete monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// DeleteMonitoredResource Delete monitored resource by the given identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // By default, only the specified resource is deleted. If the parameter 'isDeleteMembers' is set to true,
 // then the member resources will be deleted too. If the operation fails partially, the deleted entries
 // will not be rolled back.
@@ -1719,7 +1719,7 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 	return response, err
 }
 
-// DeleteMonitoredResourceType Deletes a monitored resource type by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// DeleteMonitoredResourceType Deletes a monitored resource type by identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client StackMonitoringClient) DeleteMonitoredResourceType(ctx context.Context, request DeleteMonitoredResourceTypeRequest) (response DeleteMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2616,7 +2616,7 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 	return response, err
 }
 
-// GetMaintenanceWindow Get maintenance window for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// GetMaintenanceWindow Get maintenance window for the given identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetMaintenanceWindow()
 func (client StackMonitoringClient) GetMaintenanceWindow(ctx context.Context, request GetMaintenanceWindowRequest) (response GetMaintenanceWindowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2724,7 +2724,7 @@ func (client StackMonitoringClient) getMetricExtension(ctx context.Context, requ
 	return response, err
 }
 
-// GetMonitoredResource Get monitored resource for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// GetMonitoredResource Get monitored resource for the given identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetMonitoredResource()
 func (client StackMonitoringClient) GetMonitoredResource(ctx context.Context, request GetMonitoredResourceRequest) (response GetMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2778,7 +2778,7 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 	return response, err
 }
 
-// GetMonitoredResourceTask Gets stack monitoring resource task details by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// GetMonitoredResourceTask Gets stack monitoring resource task details by identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetMonitoredResourceTask()
 func (client StackMonitoringClient) GetMonitoredResourceTask(ctx context.Context, request GetMonitoredResourceTaskRequest) (response GetMonitoredResourceTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2832,7 +2832,7 @@ func (client StackMonitoringClient) getMonitoredResourceTask(ctx context.Context
 	return response, err
 }
 
-// GetMonitoredResourceType Gets a monitored resource type by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// GetMonitoredResourceType Gets a monitored resource type by identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetMonitoredResourceType()
 func (client StackMonitoringClient) GetMonitoredResourceType(ctx context.Context, request GetMonitoredResourceTypeRequest) (response GetMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4428,7 +4428,7 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 	return response, err
 }
 
-// SearchMonitoredResourceMembers List the member resources for the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// SearchMonitoredResourceMembers List the member resources for the given monitored resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation SearchMonitoredResourceMembers()
 func (client StackMonitoringClient) SearchMonitoredResourceMembers(ctx context.Context, request SearchMonitoredResourceMembersRequest) (response SearchMonitoredResourceMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4773,7 +4773,7 @@ func (client StackMonitoringClient) updateAlarmCondition(ctx context.Context, re
 // UpdateAndPropagateTags Provided tags will be added or updated in the existing list of tags for the affected resources.
 // Resources to be updated are identified based on association types specified.
 // If association types not specified, then tags will be updated only for the resource identified by
-// the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// the given monitored resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation UpdateAndPropagateTags()
 func (client StackMonitoringClient) UpdateAndPropagateTags(ctx context.Context, request UpdateAndPropagateTagsRequest) (response UpdateAndPropagateTagsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4994,7 +4994,7 @@ func (client StackMonitoringClient) updateDiagnosticAction(ctx context.Context, 
 	return response, err
 }
 
-// UpdateMaintenanceWindow Update maintenance window by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// UpdateMaintenanceWindow Update maintenance window by the given identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client StackMonitoringClient) UpdateMaintenanceWindow(ctx context.Context, request UpdateMaintenanceWindowRequest) (response UpdateMaintenanceWindowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5100,7 +5100,7 @@ func (client StackMonitoringClient) updateMetricExtension(ctx context.Context, r
 	return response, err
 }
 
-// UpdateMonitoredResource Update monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// UpdateMonitoredResource Update monitored resource by the given identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Note that "properties" object, if specified, will entirely replace the existing object,
 // as part this operation.
 func (client StackMonitoringClient) UpdateMonitoredResource(ctx context.Context, request UpdateMonitoredResourceRequest) (response UpdateMonitoredResourceResponse, err error) {
@@ -5155,7 +5155,7 @@ func (client StackMonitoringClient) updateMonitoredResource(ctx context.Context,
 	return response, err
 }
 
-// UpdateMonitoredResourceTask Update stack monitoring resource task by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// UpdateMonitoredResourceTask Update stack monitoring resource task by the given identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client StackMonitoringClient) UpdateMonitoredResourceTask(ctx context.Context, request UpdateMonitoredResourceTaskRequest) (response UpdateMonitoredResourceTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5208,7 +5208,7 @@ func (client StackMonitoringClient) updateMonitoredResourceTask(ctx context.Cont
 	return response, err
 }
 
-// UpdateMonitoredResourceType Update the Monitored Resource Type identified by the identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// UpdateMonitoredResourceType Update the Monitored Resource Type identified by the identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client StackMonitoringClient) UpdateMonitoredResourceType(ctx context.Context, request UpdateMonitoredResourceTypeRequest) (response UpdateMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

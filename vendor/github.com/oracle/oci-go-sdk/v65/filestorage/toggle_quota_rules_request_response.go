@@ -14,7 +14,7 @@ import (
 // ToggleQuotaRulesRequest wrapper for the ToggleQuotaRules operation
 type ToggleQuotaRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// Details for toggling quota enforcement in the file system.

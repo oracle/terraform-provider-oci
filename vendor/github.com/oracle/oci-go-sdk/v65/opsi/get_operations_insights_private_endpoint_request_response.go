@@ -14,7 +14,7 @@ import (
 // GetOperationsInsightsPrivateEndpointRequest wrapper for the GetOperationsInsightsPrivateEndpoint operation
 type GetOperationsInsightsPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Operation Insights private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Operation Insights private endpoint.
 	OperationsInsightsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"operationsInsightsPrivateEndpointId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

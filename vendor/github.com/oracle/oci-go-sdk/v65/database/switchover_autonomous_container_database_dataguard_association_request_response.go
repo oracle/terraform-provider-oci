@@ -14,10 +14,10 @@ import (
 // SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest wrapper for the SwitchoverAutonomousContainerDatabaseDataguardAssociation operation
 type SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest struct {
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseId"`
 
-	// The Autonomous Container Database-Autonomous Data Guard association OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database-Autonomous Data Guard association OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseDataguardAssociationId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseDataguardAssociationId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -87,7 +87,7 @@ type SwitchoverAutonomousContainerDatabaseDataguardAssociationResponse struct {
 	// a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

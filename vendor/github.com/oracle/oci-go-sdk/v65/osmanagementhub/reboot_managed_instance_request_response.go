@@ -14,7 +14,7 @@ import (
 // RebootManagedInstanceRequest wrapper for the RebootManagedInstance operation
 type RebootManagedInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// The timeout to be set for the reboot job. The timeout is the amount of time in minutes that the service waits for

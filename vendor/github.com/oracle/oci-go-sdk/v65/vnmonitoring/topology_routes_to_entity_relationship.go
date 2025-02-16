@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -22,10 +22,10 @@ import (
 // from one entity to another. For example, a DRG might have a routing rule to send certain traffic to an LPG.
 type TopologyRoutesToEntityRelationship struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first entity in the relationship.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first entity in the relationship.
 	Id1 *string `mandatory:"true" json:"id1"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second entity in the relationship.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second entity in the relationship.
 	Id2 *string `mandatory:"true" json:"id2"`
 
 	RouteRuleDetails *TopologyRoutesToRelationshipDetails `mandatory:"true" json:"routeRuleDetails"`

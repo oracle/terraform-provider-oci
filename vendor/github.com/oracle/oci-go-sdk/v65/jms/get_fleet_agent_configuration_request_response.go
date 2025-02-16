@@ -14,7 +14,7 @@ import (
 // GetFleetAgentConfigurationRequest wrapper for the GetFleetAgentConfiguration operation
 type GetFleetAgentConfigurationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The client request ID for tracing.

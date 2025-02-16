@@ -5,7 +5,7 @@
 // Compute Cloud@Customer API
 //
 // Use the Compute Cloud@Customer API to manage Compute Cloud@Customer infrastructures and upgrade schedules.
-// For more information see Compute Cloud@Customer documentation (https://docs.cloud.oracle.com/iaas/compute-cloud-at-customer/home.htm).
+// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/compute-cloud-at-customer/home.htm).
 //
 
 package computecloudatcustomer
@@ -24,7 +24,7 @@ type CreateCccInfrastructureDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with
 	// the infrastructure.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

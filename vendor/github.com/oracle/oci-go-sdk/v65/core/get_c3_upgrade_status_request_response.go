@@ -14,7 +14,7 @@ import (
 // GetC3UpgradeStatusRequest wrapper for the GetC3UpgradeStatus operation
 type GetC3UpgradeStatusRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
 
 	// Unique identifier for the request.

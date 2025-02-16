@@ -14,7 +14,7 @@ import (
 // GetExternalDatabaseConnectorRequest wrapper for the GetExternalDatabaseConnector operation
 type GetExternalDatabaseConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 	// external database connector resource (`ExternalDatabaseConnectorId`).
 	ExternalDatabaseConnectorId *string `mandatory:"true" contributesTo:"path" name:"externalDatabaseConnectorId"`
 

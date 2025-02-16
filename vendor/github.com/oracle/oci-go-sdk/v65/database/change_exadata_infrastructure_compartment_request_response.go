@@ -17,7 +17,7 @@ type ChangeExadataInfrastructureCompartmentRequest struct {
 	// Request to move Exadata infrastructure to a different compartment
 	ChangeExadataInfrastructureCompartmentDetails `contributesTo:"body"`
 
-	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

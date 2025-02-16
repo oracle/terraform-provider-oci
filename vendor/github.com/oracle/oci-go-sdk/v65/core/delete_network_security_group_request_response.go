@@ -14,7 +14,7 @@ import (
 // DeleteNetworkSecurityGroupRequest wrapper for the DeleteNetworkSecurityGroup operation
 type DeleteNetworkSecurityGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
 	NetworkSecurityGroupId *string `mandatory:"true" contributesTo:"path" name:"networkSecurityGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

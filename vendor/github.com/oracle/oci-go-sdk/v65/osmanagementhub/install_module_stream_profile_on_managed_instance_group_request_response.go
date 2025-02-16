@@ -14,7 +14,7 @@ import (
 // InstallModuleStreamProfileOnManagedInstanceGroupRequest wrapper for the InstallModuleStreamProfileOnManagedInstanceGroup operation
 type InstallModuleStreamProfileOnManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// The details used to install module stream profiles on a managed instance gorup.

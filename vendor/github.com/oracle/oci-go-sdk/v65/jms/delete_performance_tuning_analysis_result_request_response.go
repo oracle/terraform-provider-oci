@@ -14,7 +14,7 @@ import (
 // DeletePerformanceTuningAnalysisResultRequest wrapper for the DeletePerformanceTuningAnalysisResult operation
 type DeletePerformanceTuningAnalysisResultRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The OCID of the performance tuning analysis result.

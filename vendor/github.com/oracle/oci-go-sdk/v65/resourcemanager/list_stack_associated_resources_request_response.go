@@ -14,7 +14,7 @@ import (
 // ListStackAssociatedResourcesRequest wrapper for the ListStackAssociatedResources operation
 type ListStackAssociatedResourcesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
 	StackId *string `mandatory:"true" contributesTo:"path" name:"stackId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -25,15 +25,15 @@ type ListStackAssociatedResourcesRequest struct {
 	// For more information about resource types supported for the Oracle Cloud Infrastructure OCI provider, see Oracle Cloud Infrastructure Provider (https://registry.terraform.io/providers/oracle/oci/latest/docs).
 	TerraformResourceType *string `mandatory:"false" contributesTo:"query" name:"terraformResourceType"`
 
-	// A filter to return only resources that exist in the compartment, identified by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// A filter to return only resources that exist in the compartment, identified by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The number of items returned in a paginated `List` call. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the preceding `List` call.
-	// For information about pagination, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For information about pagination, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -95,7 +95,7 @@ type ListStackAssociatedResourcesResponse struct {
 	// To receive the next page, include the header value in the `page` param.
 	// If the `opc-next-page` header does not appear in the response, there
 	// are no more list items to get. For more information about list pagination,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

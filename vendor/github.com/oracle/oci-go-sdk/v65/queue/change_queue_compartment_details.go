@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,7 +18,7 @@ import (
 // ChangeQueueCompartmentDetails The information to be updated.
 type ChangeQueueCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// into which the resource should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

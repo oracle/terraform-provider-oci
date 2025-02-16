@@ -14,7 +14,7 @@ import (
 // GetDataSourceRequest wrapper for the GetDataSource operation
 type GetDataSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data source.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

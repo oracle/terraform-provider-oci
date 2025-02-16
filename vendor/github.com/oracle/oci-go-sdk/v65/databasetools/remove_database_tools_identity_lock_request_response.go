@@ -14,7 +14,7 @@ import (
 // RemoveDatabaseToolsIdentityLockRequest wrapper for the RemoveDatabaseToolsIdentityLock operation
 type RemoveDatabaseToolsIdentityLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
 	DatabaseToolsIdentityId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsIdentityId"`
 
 	// RemoveResourceLockDetails body parameter

@@ -14,7 +14,7 @@ import (
 // UpdateAndPropagateTagsRequest wrapper for the UpdateAndPropagateTags operation
 type UpdateAndPropagateTagsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
 	MonitoredResourceId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceId"`
 
 	// The tags to be updated.

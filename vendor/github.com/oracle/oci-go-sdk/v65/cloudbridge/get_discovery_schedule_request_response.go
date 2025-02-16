@@ -14,7 +14,7 @@ import (
 // GetDiscoveryScheduleRequest wrapper for the GetDiscoverySchedule operation
 type GetDiscoveryScheduleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule.
 	DiscoveryScheduleId *string `mandatory:"true" contributesTo:"path" name:"discoveryScheduleId"`
 
 	// The client request ID for tracing.

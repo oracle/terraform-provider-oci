@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,7 +19,7 @@ import (
 // AttachSoftwareSourcesToManagedInstanceGroupDetails Provides the information used to attach software sources to a managed instance group.
 type AttachSoftwareSourcesToManagedInstanceGroupDetails struct {
 
-	// List of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to attach to the group.
+	// List of software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to attach to the group.
 	SoftwareSources []string `mandatory:"true" json:"softwareSources"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`

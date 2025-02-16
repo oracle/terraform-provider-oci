@@ -14,7 +14,7 @@ import (
 // GetDatastoreClusterRequest wrapper for the GetDatastoreCluster operation
 type GetDatastoreClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
 	DatastoreClusterId *string `mandatory:"true" contributesTo:"path" name:"datastoreClusterId"`
 
 	// Unique identifier for the request. If you need to contact Oracle about a particular

@@ -14,7 +14,7 @@ import (
 // UpdateIpAnycastRequest wrapper for the UpdateIpAnycast operation
 type UpdateIpAnycastRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Anycast Object.
+	// Specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Anycast Object.
 	IpAnycastId *string `mandatory:"true" contributesTo:"path" name:"ipAnycastId"`
 
 	// IpAnycast details.

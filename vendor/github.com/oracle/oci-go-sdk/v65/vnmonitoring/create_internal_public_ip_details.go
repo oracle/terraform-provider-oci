@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,17 +19,17 @@ import (
 // CreateInternalPublicIpDetails This structure is used when creating publicIps for internal clients.
 type CreateInternalPublicIpDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the public IP. For ephemeral public IPs,
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the public IP. For ephemeral public IPs,
 	// you must set this to the private IP's
-	//  compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	//  compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defines when the public IP is deleted and released back to the Oracle Cloud
 	// Infrastructure public IP pool. For more information, see
-	// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
+	// Public IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 	Lifetime CreateInternalPublicIpDetailsLifetimeEnum `mandatory:"true" json:"lifetime"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the entity to assign the public IP to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the entity to assign the public IP to.
 	AssignedEntityId *string `mandatory:"false" json:"assignedEntityId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -44,7 +44,7 @@ type CreateInternalPublicIpDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pool object created by the current tenancy
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pool object created by the current tenancy
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 
 	// Only provided when no publicIpPoolId is specified.

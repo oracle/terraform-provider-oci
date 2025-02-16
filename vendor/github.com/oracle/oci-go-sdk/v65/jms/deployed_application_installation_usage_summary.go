@@ -25,7 +25,7 @@ type DeployedApplicationInstallationUsageSummary struct {
 	// ApplicationKey will be identical for deployed applications with different applicationSourcePaths.
 	ApplicationKey *string `mandatory:"true" json:"applicationKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related fleet.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 
 	// The name of the deployed application.

@@ -18,7 +18,7 @@ import (
 // Fleet A Fleet is the primary collection with which users interact when using Java Management Service.
 type Fleet struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the Fleet.
@@ -27,7 +27,7 @@ type Fleet struct {
 	// The Fleet's description.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of the Fleet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The approximate count of all unique Java Runtimes in the Fleet in the past seven days.
@@ -68,15 +68,15 @@ type Fleet struct {
 	IsExportSettingEnabled *bool `mandatory:"false" json:"isExportSettingEnabled"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Concepts/understandingfreeformtags.htm).)
+	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm).)
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// System tags can be viewed by users, but can only be created by the system.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

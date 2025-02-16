@@ -20,13 +20,13 @@ import (
 // NetworkAddressListSummary Summary of NetworkAddressList.
 type NetworkAddressListSummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.
 	GetId() *string
 
 	// NetworkAddressList display name, can be renamed.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
 	// The time the NetworkAddressList was created. An RFC3339 formatted datetime string.

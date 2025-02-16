@@ -14,7 +14,7 @@ import (
 // UpdateWebAppAccelerationPolicyRequest wrapper for the UpdateWebAppAccelerationPolicy operation
 type UpdateWebAppAccelerationPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
 	WebAppAccelerationPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationPolicyId"`
 
 	// The information to be updated.

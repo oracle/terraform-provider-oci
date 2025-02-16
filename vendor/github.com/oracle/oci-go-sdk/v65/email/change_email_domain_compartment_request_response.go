@@ -14,7 +14,7 @@ import (
 // ChangeEmailDomainCompartmentRequest wrapper for the ChangeEmailDomainCompartment operation
 type ChangeEmailDomainCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email domain.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email domain.
 	EmailDomainId *string `mandatory:"true" contributesTo:"path" name:"emailDomainId"`
 
 	// The configuration details for the move operation.

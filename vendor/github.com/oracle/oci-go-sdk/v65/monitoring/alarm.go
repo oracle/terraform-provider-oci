@@ -7,7 +7,7 @@
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
-// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
+// the Monitoring documentation (https://docs.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -20,17 +20,17 @@ import (
 
 // Alarm The properties that define an alarm.
 // For information about alarms, see
-// Alarms Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#AlarmsOverview).
+// Alarms Overview (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#AlarmsOverview).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // For information about endpoints and signing API requests, see
-// About the API (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm).
+// About the API (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm).
 // For information about available SDKs and tools, see
-// SDKS and Other Tools (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdks.htm).
+// SDKS and Other Tools (https://docs.oracle.com/iaas/Content/API/Concepts/sdks.htm).
 type Alarm struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name for the alarm. It does not have to be unique, and it's changeable.
@@ -38,10 +38,10 @@ type Alarm struct {
 	// Example: `High CPU Utilization`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric
 	// being evaluated by the alarm.
 	MetricCompartmentId *string `mandatory:"true" json:"metricCompartmentId"`
 
@@ -57,14 +57,14 @@ type Alarm struct {
 	// interval values are supported for smaller time ranges. You can optionally
 	// specify dimensions and grouping functions.
 	// Also, you can customize the
-	// absence detection period (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm).
+	// absence detection period (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm).
 	// Supported grouping functions: `grouping()`, `groupBy()`.
 	// For information about writing MQL expressions, see
-	// Editing the MQL Expression for a Query (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm).
+	// Editing the MQL Expression for a Query (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm).
 	// For details about MQL, see
-	// Monitoring Query Language (MQL) Reference (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
+	// Monitoring Query Language (MQL) Reference (https://docs.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
 	// For available dimensions, review the metric definition for the supported service. See
-	// Supported Services (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
+	// Supported Services (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
 	// Example of threshold alarm:
 	//   -----
 	//     CpuUtilization[1m]{availabilityDomain="cumS:PHX-AD-1"}.groupBy(availabilityDomain).percentile(0.9) > 85
@@ -86,7 +86,7 @@ type Alarm struct {
 	Severity AlarmSeverityEnum `mandatory:"true" json:"severity"`
 
 	// A list of destinations for alarm notifications.
-	// Each destination is represented by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// Each destination is represented by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// of a related resource, such as a NotificationTopic.
 	// Supported destination services: Notifications, Streaming.
 	// Limit: One destination per supported destination service.
@@ -138,7 +138,7 @@ type Alarm struct {
 	PendingDuration *string `mandatory:"false" json:"pendingDuration"`
 
 	// The human-readable content of the delivered alarm notification.
-	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// Optionally include dynamic variables (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
 	// Oracle recommends providing guidance
 	// to operators for resolving the alarm condition. Consider adding links to standard runbook
 	// practices. Avoid entering confidential information.
@@ -187,8 +187,8 @@ type Alarm struct {
 	// The value must start with a number (up to four digits), followed by a period and an uppercase X.
 	NotificationVersion *string `mandatory:"false" json:"notificationVersion"`
 
-	// Customizable notification title (`title` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
-	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// Customizable notification title (`title` alarm message parameter (https://docs.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
 	// The notification title appears as the subject line in a formatted email message and as the title in a Slack message.
 	NotificationTitle *string `mandatory:"false" json:"notificationTitle"`
 
@@ -196,11 +196,11 @@ type Alarm struct {
 	// Specify a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H`
 	// for one hour). Minimum: PT3M. Maximum: PT2H. Default: PT3M.
 	// For more information about the slack period, see
-	// About the Internal Reset Period (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#reset).
+	// About the Internal Reset Period (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#reset).
 	EvaluationSlackDuration *string `mandatory:"false" json:"evaluationSlackDuration"`
 
-	// Customizable alarm summary (`alarmSummary` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
-	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// Customizable alarm summary (`alarmSummary` alarm message parameter (https://docs.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
 	// The alarm summary appears within the body of the alarm message and in responses to
 	// ListAlarmsStatus
 	// GetAlarmHistory and

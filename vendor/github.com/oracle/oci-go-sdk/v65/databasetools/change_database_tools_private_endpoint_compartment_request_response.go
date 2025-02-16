@@ -14,7 +14,7 @@ import (
 // ChangeDatabaseToolsPrivateEndpointCompartmentRequest wrapper for the ChangeDatabaseToolsPrivateEndpointCompartment operation
 type ChangeDatabaseToolsPrivateEndpointCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
 	DatabaseToolsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsPrivateEndpointId"`
 
 	// Request to change the compartment of the DatabaseToolsPrivateEndpoint.

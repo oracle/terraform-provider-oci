@@ -14,7 +14,7 @@ import (
 // UpdateDrgRouteDistributionRequest wrapper for the UpdateDrgRouteDistribution operation
 type UpdateDrgRouteDistributionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
 	DrgRouteDistributionId *string `mandatory:"true" contributesTo:"path" name:"drgRouteDistributionId"`
 
 	// Details object for updating a route distribution

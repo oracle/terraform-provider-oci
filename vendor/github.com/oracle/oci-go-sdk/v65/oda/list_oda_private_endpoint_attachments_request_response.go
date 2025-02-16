@@ -14,7 +14,7 @@ import (
 // ListOdaPrivateEndpointAttachmentsRequest wrapper for the ListOdaPrivateEndpointAttachments operation
 type ListOdaPrivateEndpointAttachmentsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint.
 	OdaPrivateEndpointId *string `mandatory:"true" contributesTo:"query" name:"odaPrivateEndpointId"`
 
 	// List the ODA Private Endpoint Attachments that belong to this compartment.

@@ -14,7 +14,7 @@ import (
 // ChangeAlarmCompartmentRequest wrapper for the ChangeAlarmCompartment operation
 type ChangeAlarmCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
 	// The configuration details for moving an alarm.

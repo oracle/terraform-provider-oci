@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -21,11 +21,11 @@ import (
 // ApplyJobPlanResolution Deprecated. Use the property `executionPlanStrategy` in `jobOperationDetails` instead.
 type ApplyJobPlanResolution struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies the most recently executed plan job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies the most recently executed plan job.
 	PlanJobId *string `mandatory:"false" json:"planJobId"`
 
-	// Specifies whether to use the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the most recently run plan job.
-	// `True` if using the latest job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be a plan job that completed successfully.
+	// Specifies whether to use the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the most recently run plan job.
+	// `True` if using the latest job OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be a plan job that completed successfully.
 	IsUseLatestJobId *bool `mandatory:"false" json:"isUseLatestJobId"`
 
 	// Specifies whether to use the configuration directly, without reference to a Plan job.

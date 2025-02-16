@@ -14,7 +14,7 @@ import (
 // DeleteRuleRequest wrapper for the DeleteRule operation
 type DeleteRuleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 	RuleId *string `mandatory:"true" contributesTo:"path" name:"ruleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the if-match

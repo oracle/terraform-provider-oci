@@ -14,7 +14,7 @@ import (
 // GetComputeCapacityTopologyRequest wrapper for the GetComputeCapacityTopology operation
 type GetComputeCapacityTopologyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity topology.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity topology.
 	ComputeCapacityTopologyId *string `mandatory:"true" contributesTo:"path" name:"computeCapacityTopologyId"`
 
 	// Unique identifier for the request.

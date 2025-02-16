@@ -14,7 +14,7 @@ import (
 // UpdateFlowLogConfigRequest wrapper for the UpdateFlowLogConfig operation
 type UpdateFlowLogConfigRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the flow log configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the flow log configuration.
 	FlowLogConfigId *string `mandatory:"true" contributesTo:"path" name:"flowLogConfigId"`
 
 	// Flow log configuration details to be updated.

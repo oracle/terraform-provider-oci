@@ -14,7 +14,7 @@ import (
 // DeleteInternalPrivateIpRequest wrapper for the DeleteInternalPrivateIp operation
 type DeleteInternalPrivateIpRequest struct {
 
-	// The internal private IP's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The internal private IP's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalPrivateIpId *string `mandatory:"true" contributesTo:"path" name:"internalPrivateIpId"`
 
 	// Automatically unmap floating private IP from the current VNIC when deleting.

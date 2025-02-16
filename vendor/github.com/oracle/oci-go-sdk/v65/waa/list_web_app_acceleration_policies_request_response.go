@@ -14,7 +14,7 @@ import (
 // ListWebAppAccelerationPoliciesRequest wrapper for the ListWebAppAccelerationPolicies operation
 type ListWebAppAccelerationPoliciesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the given lifecycleState.
@@ -23,7 +23,7 @@ type ListWebAppAccelerationPoliciesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only the WebAppAccelerationPolicy with the given OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// A filter to return only the WebAppAccelerationPolicy with the given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

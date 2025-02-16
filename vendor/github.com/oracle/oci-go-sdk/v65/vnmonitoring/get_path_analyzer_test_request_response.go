@@ -14,7 +14,7 @@ import (
 // GetPathAnalyzerTestRequest wrapper for the GetPathAnalyzerTest operation
 type GetPathAnalyzerTestRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
 	PathAnalyzerTestId *string `mandatory:"true" contributesTo:"path" name:"pathAnalyzerTestId"`
 
 	// Unique identifier for the request.

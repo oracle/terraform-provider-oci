@@ -14,7 +14,7 @@ import (
 // TerminateInstanceRequest wrapper for the TerminateInstance operation
 type TerminateInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

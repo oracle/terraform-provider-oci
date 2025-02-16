@@ -14,7 +14,7 @@ import (
 // GetKnowledgeBaseRequest wrapper for the GetKnowledgeBase operation
 type GetKnowledgeBaseRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledge base.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledge base.
 	KnowledgeBaseId *string `mandatory:"true" contributesTo:"path" name:"knowledgeBaseId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

@@ -20,10 +20,10 @@ import (
 // CreateEndpointDetails The information needed to create a new endpoint and expose to end users.
 type CreateEndpointDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) compartment identifier for the endpoint
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) compartment identifier for the endpoint
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
 	// A user-friendly display name for the resource. It should be unique and can be modified. Avoid entering confidential information.
@@ -74,18 +74,18 @@ type CreateEndpointDetailsComputeTypeEnum string
 
 // Set of constants representing the allowable values for CreateEndpointDetailsComputeTypeEnum
 const (
-	CreateEndpointDetailsComputeTypeCpu CreateEndpointDetailsComputeTypeEnum = "CPU"
-	CreateEndpointDetailsComputeTypeGpu CreateEndpointDetailsComputeTypeEnum = "GPU"
+	CreateEndpointDetailsComputeTypeStandard CreateEndpointDetailsComputeTypeEnum = "STANDARD"
+	CreateEndpointDetailsComputeTypePremium  CreateEndpointDetailsComputeTypeEnum = "PREMIUM"
 )
 
 var mappingCreateEndpointDetailsComputeTypeEnum = map[string]CreateEndpointDetailsComputeTypeEnum{
-	"CPU": CreateEndpointDetailsComputeTypeCpu,
-	"GPU": CreateEndpointDetailsComputeTypeGpu,
+	"STANDARD": CreateEndpointDetailsComputeTypeStandard,
+	"PREMIUM":  CreateEndpointDetailsComputeTypePremium,
 }
 
 var mappingCreateEndpointDetailsComputeTypeEnumLowerCase = map[string]CreateEndpointDetailsComputeTypeEnum{
-	"cpu": CreateEndpointDetailsComputeTypeCpu,
-	"gpu": CreateEndpointDetailsComputeTypeGpu,
+	"standard": CreateEndpointDetailsComputeTypeStandard,
+	"premium":  CreateEndpointDetailsComputeTypePremium,
 }
 
 // GetCreateEndpointDetailsComputeTypeEnumValues Enumerates the set of values for CreateEndpointDetailsComputeTypeEnum
@@ -100,8 +100,8 @@ func GetCreateEndpointDetailsComputeTypeEnumValues() []CreateEndpointDetailsComp
 // GetCreateEndpointDetailsComputeTypeEnumStringValues Enumerates the set of values in String for CreateEndpointDetailsComputeTypeEnum
 func GetCreateEndpointDetailsComputeTypeEnumStringValues() []string {
 	return []string{
-		"CPU",
-		"GPU",
+		"STANDARD",
+		"PREMIUM",
 	}
 }
 

@@ -14,7 +14,7 @@ import (
 // ChangePathAnalyzerTestCompartmentRequest wrapper for the ChangePathAnalyzerTestCompartment operation
 type ChangePathAnalyzerTestCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
 	PathAnalyzerTestId *string `mandatory:"true" contributesTo:"path" name:"pathAnalyzerTestId"`
 
 	// The information to update.

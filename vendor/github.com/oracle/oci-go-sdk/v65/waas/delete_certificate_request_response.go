@@ -14,7 +14,7 @@ import (
 // DeleteCertificateRequest wrapper for the DeleteCertificate operation
 type DeleteCertificateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SSL certificate used in the WAAS policy. This number is generated when the certificate is added to the policy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SSL certificate used in the WAAS policy. This number is generated when the certificate is added to the policy.
 	CertificateId *string `mandatory:"true" contributesTo:"path" name:"certificateId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

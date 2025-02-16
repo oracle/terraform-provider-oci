@@ -20,13 +20,13 @@ import (
 // JobSummary sub set of Job details data which need returns in list API
 type JobSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly display name for the job.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A short description of the job.
@@ -56,7 +56,7 @@ type JobSummary struct {
 	// warnings count
 	WarningsCount *int `mandatory:"false" json:"warningsCount"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the job.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
 	// Job accepted time.

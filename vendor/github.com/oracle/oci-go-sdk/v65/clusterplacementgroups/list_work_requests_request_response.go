@@ -14,7 +14,7 @@ import (
 // ListWorkRequestsRequest wrapper for the ListWorkRequests operation
 type ListWorkRequestsRequest struct {
 
-	// A filter to return only the resources that match the specified compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// A filter to return only the resources that match the specified compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The ID of the asynchronous work request.
@@ -107,7 +107,7 @@ type ListWorkRequestsResponse struct {
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items to get. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items. For information about pagination, see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// subsequent GET request to get the next batch of items. For information about pagination, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

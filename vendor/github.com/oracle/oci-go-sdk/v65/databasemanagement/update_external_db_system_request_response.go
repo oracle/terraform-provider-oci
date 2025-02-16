@@ -14,7 +14,7 @@ import (
 // UpdateExternalDbSystemRequest wrapper for the UpdateExternalDbSystem operation
 type UpdateExternalDbSystemRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
 	// The details required to update an external DB system.

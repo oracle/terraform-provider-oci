@@ -21,10 +21,10 @@ import (
 // CreateWebAppAccelerationDetails The information about new WebAppAcceleration.
 type CreateWebAppAccelerationDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
 	GetWebAppAccelerationPolicyId() *string
 
 	// WebAppAcceleration display name, can be renamed.

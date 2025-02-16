@@ -14,7 +14,7 @@ import (
 // ChangeEmailTrackConfigCompartmentRequest wrapper for the ChangeEmailTrackConfigCompartment operation
 type ChangeEmailTrackConfigCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the email tracking configuration resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email tracking configuration resource.
 	EmailTrackConfigId *string `mandatory:"true" contributesTo:"path" name:"emailTrackConfigId"`
 
 	// Details for the target compartment.

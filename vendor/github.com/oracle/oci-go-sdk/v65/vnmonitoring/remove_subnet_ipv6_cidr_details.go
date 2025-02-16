@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -21,7 +21,7 @@ type RemoveSubnetIpv6CidrDetails struct {
 
 	// This field is not required and should only be specified when removing an IPv6 CIDR
 	// from a subnet's IPv6 address space.
-	// SeeIPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// SeeIPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123::/64`
 	Ipv6CidrBlock *string `mandatory:"true" json:"ipv6CidrBlock"`
 }

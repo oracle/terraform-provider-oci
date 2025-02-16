@@ -4,7 +4,7 @@
 
 // Artifacts and Container Images API
 //
-// API covering the Artifacts and Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
+// API covering the Artifacts and Registry (https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
 // Use this API to manage resources such as generic artifacts and container images.
 //
 
@@ -19,7 +19,7 @@ import (
 // ContainerImageSignature Container image signature metadata.
 type ContainerImageSignature struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the container repository exists.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the container repository exists.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The id of the user or principal that created the resource.
@@ -29,19 +29,19 @@ type ContainerImageSignature struct {
 	// Example: `wrmz22sixa::qdwyc2ptun::SHA_256_RSA_PKCS_PSS::2vwmobasva`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the container image signature.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image signature.
 	// Example: `ocid1.containerimagesignature.oc1..exampleuniqueID`
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the container image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image.
 	// Example: `ocid1.containerimage.oc1..exampleuniqueID`
 	ImageId *string `mandatory:"true" json:"imageId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the kmsKeyId used to sign the container image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the kmsKeyId used to sign the container image.
 	// Example: `ocid1.key.oc1..exampleuniqueID`
 	KmsKeyId *string `mandatory:"true" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the kmsKeyVersionId used to sign the container image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the kmsKeyVersionId used to sign the container image.
 	// Example: `ocid1.keyversion.oc1..exampleuniqueID`
 	KmsKeyVersionId *string `mandatory:"true" json:"kmsKeyVersionId"`
 
@@ -61,12 +61,12 @@ type ContainerImageSignature struct {
 	LifecycleState ContainerImageSignatureLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 

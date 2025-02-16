@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -24,10 +24,10 @@ type InternalVnic struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the VNIC.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the VNIC.
@@ -50,7 +50,7 @@ type InternalVnic struct {
 	// ID of the customer visible upstream resource that the VNIC is associated with. This property is
 	// exposed to customers as part of API to list members of a network security group.
 	// For example, if the VNIC is associated with a loadbalancer or dbsystem instance, then it needs
-	// to be set to corresponding customer visible loadbalancer or dbsystem instance OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// to be set to corresponding customer visible loadbalancer or dbsystem instance OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// Note that the partner team creating/managing the VNIC is owner of this metadata.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
@@ -86,7 +86,7 @@ type InternalVnic struct {
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `bminstance1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
@@ -115,11 +115,11 @@ type InternalVnic struct {
 	// Whether the source/destination check is disabled on the VNIC.
 	// Defaults to `false`, which means the check is performed. For information
 	// about why you would skip the source/destination check, see
-	// Using a Private IP as a Route Target (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
+	// Using a Private IP as a Route Target (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The date and time the VNIC was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -130,7 +130,7 @@ type InternalVnic struct {
 	// Only present if explicitly assigned upon VNIC creation.
 	BypassInternetThrottle *bool `mandatory:"false" json:"bypassInternetThrottle"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN that the VNIC belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN that the VNIC belongs to.
 	VlanId *string `mandatory:"false" json:"vlanId"`
 
 	// Indicates if a floating IP is mapped to the VNIC.

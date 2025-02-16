@@ -14,7 +14,7 @@ import (
 // ListSchedulesRequest wrapper for the ListSchedules operation
 type ListSchedulesRequest struct {
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// This is a filter to return only resources that match the given lifecycle state. The
@@ -24,17 +24,17 @@ type ListSchedulesRequest struct {
 	// This is a filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	ScheduleId *string `mandatory:"false" contributesTo:"query" name:"scheduleId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// This used for list pagination. The value of the opc-next-page response header from the previous
 	// "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// This is the field to sort by. You can provide only one sort order. The default order for `timeCreated`
@@ -115,7 +115,7 @@ type ListSchedulesResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// When this header appears in the list pagination response, there are additional results pages to view. For
-	// important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

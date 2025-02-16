@@ -14,7 +14,7 @@ import (
 // DeleteZprPolicyRequest wrapper for the DeleteZprPolicy operation
 type DeleteZprPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
 	ZprPolicyId *string `mandatory:"true" contributesTo:"path" name:"zprPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

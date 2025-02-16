@@ -14,7 +14,7 @@ import (
 // GetInternalDnsRecordRequest wrapper for the GetInternalDnsRecord operation
 type GetInternalDnsRecordRequest struct {
 
-	// The DNS record's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The DNS record's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalDnsRecordId *string `mandatory:"true" contributesTo:"path" name:"internalDnsRecordId"`
 
 	// Unique identifier for the request.

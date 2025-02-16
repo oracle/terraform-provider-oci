@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -19,7 +19,7 @@ import (
 // BlockVolumeAttachment The details about the attachment of block volume.
 type BlockVolumeAttachment struct {
 
-	// The OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that block volume is attached to.
+	// The OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that block volume is attached to.
 	EsxiHostId *string `mandatory:"true" json:"esxiHostId"`
 
 	// The IP address of block volume attachment.

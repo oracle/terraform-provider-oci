@@ -6,7 +6,7 @@
 //
 // Use the Logging Management API to create, read, list, update, move and delete
 // log groups, log objects, log saved searches, and agent configurations.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// For more information, see Logging Overview (https://docs.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -20,7 +20,7 @@ import (
 // ChangeLogSavedSearchCompartmentDetails Contains details indicating which compartment the resource should move to.
 type ChangeLogSavedSearchCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the resource should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the resource should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

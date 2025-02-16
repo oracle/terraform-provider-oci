@@ -14,7 +14,7 @@ import (
 // DeleteGenericArtifactRequest wrapper for the DeleteGenericArtifact operation
 type DeleteGenericArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
 	// Example: `ocid1.genericartifact.oc1..exampleuniqueID`
 	ArtifactId *string `mandatory:"true" contributesTo:"path" name:"artifactId"`
 

@@ -14,7 +14,7 @@ import (
 // DeleteReplicationTargetRequest wrapper for the DeleteReplicationTarget operation
 type DeleteReplicationTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target.
 	ReplicationTargetId *string `mandatory:"true" contributesTo:"path" name:"replicationTargetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -17,7 +17,7 @@ type ListWorkRequestLogsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
+	// Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// The client request ID for tracing.

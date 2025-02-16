@@ -14,7 +14,7 @@ import (
 // PrivateIpVnicDetachRequest wrapper for the PrivateIpVnicDetach operation
 type PrivateIpVnicDetachRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.
 	PrivateIpId *string `mandatory:"true" contributesTo:"path" name:"privateIpId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

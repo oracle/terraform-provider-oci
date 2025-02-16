@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -21,16 +21,16 @@ import (
 // PrivateEndpointSummary The summary metadata associated with the private endpoint.
 type PrivateEndpointSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN for the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN for the private endpoint.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Description of the private endpoint. Avoid entering confidential information.
@@ -41,7 +41,7 @@ type PrivateEndpointSummary struct {
 
 	// DNS zones to use for accessing private Git servers.
 	// For private Git server instructions, see
-	// Private Git Server (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm#private-git).
+	// Private Git Server (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm#private-git).
 	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 
@@ -60,12 +60,12 @@ type PrivateEndpointSummary struct {
 	LifecycleState PrivateEndpointLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

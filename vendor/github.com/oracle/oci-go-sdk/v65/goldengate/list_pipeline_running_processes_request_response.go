@@ -14,7 +14,7 @@ import (
 // ListPipelineRunningProcessesRequest wrapper for the ListPipelineRunningProcesses operation
 type ListPipelineRunningProcessesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// The maximum number of items to return.

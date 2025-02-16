@@ -17,7 +17,7 @@ type ReorderScheduledActionsRequest struct {
 	// Request to re-order Scheduled Action resources.
 	ReorderScheduledActionsDetails `contributesTo:"body"`
 
-	// The Schedule Plan OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Schedule Plan OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPlanId *string `mandatory:"true" contributesTo:"path" name:"schedulingPlanId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -96,10 +96,10 @@ type ReorderScheduledActionsResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

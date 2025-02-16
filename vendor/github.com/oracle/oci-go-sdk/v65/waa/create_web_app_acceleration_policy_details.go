@@ -20,7 +20,7 @@ import (
 // CreateWebAppAccelerationPolicyDetails The information about new WebAppAccelerationPolicy.
 type CreateWebAppAccelerationPolicyDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// WebAppAccelerationPolicy display name, can be renamed.

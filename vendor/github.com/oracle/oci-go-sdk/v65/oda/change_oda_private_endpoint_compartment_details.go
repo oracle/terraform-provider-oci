@@ -18,7 +18,7 @@ import (
 // ChangeOdaPrivateEndpointCompartmentDetails Properties required to move an ODA Private Endpoint from one compartment to another.
 type ChangeOdaPrivateEndpointCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that the ODA private endpoint belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that the ODA private endpoint belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

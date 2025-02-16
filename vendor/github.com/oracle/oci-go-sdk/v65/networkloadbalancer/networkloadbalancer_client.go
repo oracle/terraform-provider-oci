@@ -164,7 +164,7 @@ func (client NetworkLoadBalancerClient) attachNlbToPod(ctx context.Context, requ
 }
 
 // ChangeNetworkLoadBalancerCompartment Moves a network load balancer into a different compartment within the same tenancy. For information about moving resources
-// between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeNetworkLoadBalancerCompartment()
 func (client NetworkLoadBalancerClient) ChangeNetworkLoadBalancerCompartment(ctx context.Context, request ChangeNetworkLoadBalancerCompartmentRequest) (response ChangeNetworkLoadBalancerCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -17,7 +17,7 @@ type ChangeCloudVmClusterCompartmentRequest struct {
 	// Request to move cloud VM cluster to a different compartment
 	ChangeCloudVmClusterCompartmentDetails `contributesTo:"body"`
 
-	// The cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The cloud VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudVmClusterId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -83,7 +83,7 @@ type ChangeCloudVmClusterCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

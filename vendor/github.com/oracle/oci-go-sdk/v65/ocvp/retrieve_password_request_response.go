@@ -14,7 +14,7 @@ import (
 // RetrievePasswordRequest wrapper for the RetrievePassword operation
 type RetrievePasswordRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC.
 	SddcId *string `mandatory:"true" contributesTo:"path" name:"sddcId"`
 
 	// The SDDC password type.

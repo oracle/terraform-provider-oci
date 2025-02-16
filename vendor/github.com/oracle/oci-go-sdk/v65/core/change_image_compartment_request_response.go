@@ -14,7 +14,7 @@ import (
 // ChangeImageCompartmentRequest wrapper for the ChangeImageCompartment operation
 type ChangeImageCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
 	ImageId *string `mandatory:"true" contributesTo:"path" name:"imageId"`
 
 	// Request to change the compartment of a given image.

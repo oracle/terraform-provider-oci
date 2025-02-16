@@ -18,7 +18,7 @@ import (
 // ChangeServiceCatalogCompartmentDetails The model for the parameters needed move a service catalog from one compartment to another.
 type ChangeServiceCatalogCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the service catalog.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the service catalog.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

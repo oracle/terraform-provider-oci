@@ -14,7 +14,7 @@ import (
 // ListCccInfrastructuresRequest wrapper for the ListCccInfrastructures operation
 type ListCccInfrastructuresRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to
 	// list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -39,7 +39,7 @@ type ListCccInfrastructuresRequest struct {
 	// A filter to return only resources whose display name contains the substring.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// An OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a
 	// Compute Cloud@Customer Infrastructure.
 	CccInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"cccInfrastructureId"`
 
@@ -55,7 +55,7 @@ type ListCccInfrastructuresRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListCccInfrastructuresSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

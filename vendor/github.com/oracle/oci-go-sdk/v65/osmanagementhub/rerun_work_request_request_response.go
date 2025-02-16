@@ -14,10 +14,10 @@ import (
 // RerunWorkRequestRequest wrapper for the RerunWorkRequest operation
 type RerunWorkRequestRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
-	// The resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to rerun the work requests for. If no OCIDs are provided, rerun will apply to all failed work requests associated with the specified work request id.
+	// The resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to rerun the work requests for. If no OCIDs are provided, rerun will apply to all failed work requests associated with the specified work request id.
 	RerunWorkRequestDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

@@ -14,7 +14,7 @@ import (
 // GetAutonomousContainerDatabaseResourceUsageRequest wrapper for the GetAutonomousContainerDatabaseResourceUsage operation
 type GetAutonomousContainerDatabaseResourceUsageRequest struct {
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseId"`
 
 	// Unique identifier for the request.

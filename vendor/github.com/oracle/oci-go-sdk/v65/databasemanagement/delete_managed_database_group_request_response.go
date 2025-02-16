@@ -14,7 +14,7 @@ import (
 // DeleteManagedDatabaseGroupRequest wrapper for the DeleteManagedDatabaseGroup operation
 type DeleteManagedDatabaseGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
 	ManagedDatabaseGroupId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

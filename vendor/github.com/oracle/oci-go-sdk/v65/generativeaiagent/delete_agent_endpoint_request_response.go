@@ -14,7 +14,7 @@ import (
 // DeleteAgentEndpointRequest wrapper for the DeleteAgentEndpoint operation
 type DeleteAgentEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	AgentEndpointId *string `mandatory:"true" contributesTo:"path" name:"agentEndpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -77,7 +77,7 @@ type DeleteAgentEndpointResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

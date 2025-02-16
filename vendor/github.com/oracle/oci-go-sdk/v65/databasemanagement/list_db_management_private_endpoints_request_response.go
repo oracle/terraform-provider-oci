@@ -14,13 +14,13 @@ import (
 // ListDbManagementPrivateEndpointsRequest wrapper for the ListDbManagementPrivateEndpoints operation
 type ListDbManagementPrivateEndpointsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the entire name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"false" contributesTo:"query" name:"vcnId"`
 
 	// The option to filter Database Management private endpoints that can used for Oracle Databases in a cluster. This should be used along with the vcnId query parameter.

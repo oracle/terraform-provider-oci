@@ -14,7 +14,7 @@ import (
 // SaasAdminUserStatusRequest wrapper for the SaasAdminUserStatus operation
 type SaasAdminUserStatusRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
 	// Unique identifier for the request.

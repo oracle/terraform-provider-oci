@@ -14,7 +14,7 @@ import (
 // GetPluggableDatabaseRequest wrapper for the GetPluggableDatabase operation
 type GetPluggableDatabaseRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"pluggableDatabaseId"`
 
 	// Unique Oracle-assigned identifier for the request.

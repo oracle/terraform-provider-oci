@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -151,7 +151,7 @@ func (client LifecycleEnvironmentClient) attachManagedInstancesToLifecycleStage(
 	return response, err
 }
 
-// ChangeLifecycleEnvironmentCompartment Moves a lifecycle environment into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeLifecycleEnvironmentCompartment Moves a lifecycle environment into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeLifecycleEnvironmentCompartment()
 func (client LifecycleEnvironmentClient) ChangeLifecycleEnvironmentCompartment(ctx context.Context, request ChangeLifecycleEnvironmentCompartmentRequest) (response ChangeLifecycleEnvironmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -600,7 +600,7 @@ func (client LifecycleEnvironmentClient) listLifecycleStageInstalledPackages(ctx
 	return response, err
 }
 
-// ListLifecycleStages Lists lifecycle stages that match the specified compartment or lifecycle stage OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against
+// ListLifecycleStages Lists lifecycle stages that match the specified compartment or lifecycle stage OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against
 // A default retry strategy applies to this operation ListLifecycleStages()
 func (client LifecycleEnvironmentClient) ListLifecycleStages(ctx context.Context, request ListLifecycleStagesRequest) (response ListLifecycleStagesResponse, err error) {
 	var ociResponse common.OCIResponse

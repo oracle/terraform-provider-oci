@@ -14,7 +14,7 @@ import (
 // UpdateDbSystemRequest wrapper for the UpdateDbSystem operation
 type UpdateDbSystemRequest struct {
 
-	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB System OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// Request to update a DB System.

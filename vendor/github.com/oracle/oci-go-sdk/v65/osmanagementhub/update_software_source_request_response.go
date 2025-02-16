@@ -14,7 +14,7 @@ import (
 // UpdateSoftwareSourceRequest wrapper for the UpdateSoftwareSource operation
 type UpdateSoftwareSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// The information to be updated.

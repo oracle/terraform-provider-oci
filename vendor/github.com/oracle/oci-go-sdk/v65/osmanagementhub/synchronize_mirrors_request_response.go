@@ -14,7 +14,7 @@ import (
 // SynchronizeMirrorsRequest wrapper for the SynchronizeMirrors operation
 type SynchronizeMirrorsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
 	// Details for syncing mirrors

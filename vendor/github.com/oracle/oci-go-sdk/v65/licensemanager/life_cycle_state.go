@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager

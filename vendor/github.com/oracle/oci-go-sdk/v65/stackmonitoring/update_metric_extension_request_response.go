@@ -14,7 +14,7 @@ import (
 // UpdateMetricExtensionRequest wrapper for the UpdateMetricExtension operation
 type UpdateMetricExtensionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the metric extension resource.
 	MetricExtensionId *string `mandatory:"true" contributesTo:"path" name:"metricExtensionId"`
 
 	// The information to be updated.

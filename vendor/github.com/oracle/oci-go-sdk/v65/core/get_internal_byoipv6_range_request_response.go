@@ -14,10 +14,10 @@ import (
 // GetInternalByoipv6RangeRequest wrapper for the GetInternalByoipv6Range operation
 type GetInternalByoipv6RangeRequest struct {
 
-	// The InternalByoipv6Range's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The InternalByoipv6Range's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Byoipv6RangeId *string `mandatory:"true" contributesTo:"path" name:"byoipv6RangeId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

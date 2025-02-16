@@ -14,7 +14,7 @@ import (
 // GetContainerInstanceRequest wrapper for the GetContainerInstance operation
 type GetContainerInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
 	ContainerInstanceId *string `mandatory:"true" contributesTo:"path" name:"containerInstanceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

@@ -154,7 +154,7 @@ func (client *FunctionsManagementClient) refreshRegion() {
 }
 
 // ChangeApplicationCompartment Moves an application into a different compartment within the same tenancy.
-// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeApplicationCompartment()
 func (client FunctionsManagementClient) ChangeApplicationCompartment(ctx context.Context, request ChangeApplicationCompartmentRequest) (response ChangeApplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

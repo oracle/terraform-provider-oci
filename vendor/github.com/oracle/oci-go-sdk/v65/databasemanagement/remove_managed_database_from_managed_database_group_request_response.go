@@ -14,7 +14,7 @@ import (
 // RemoveManagedDatabaseFromManagedDatabaseGroupRequest wrapper for the RemoveManagedDatabaseFromManagedDatabaseGroup operation
 type RemoveManagedDatabaseFromManagedDatabaseGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
 	ManagedDatabaseGroupId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseGroupId"`
 
 	// The Managed Database details required to remove the Managed Database from a Managed Database Group.

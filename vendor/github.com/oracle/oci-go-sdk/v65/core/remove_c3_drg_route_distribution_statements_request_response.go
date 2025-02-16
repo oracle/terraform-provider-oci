@@ -14,7 +14,7 @@ import (
 // RemoveC3DrgRouteDistributionStatementsRequest wrapper for the RemoveC3DrgRouteDistributionStatements operation
 type RemoveC3DrgRouteDistributionStatementsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
 	DrgRouteDistributionId *string `mandatory:"true" contributesTo:"path" name:"drgRouteDistributionId"`
 
 	// Request with one or more route distribution statements to remove from the route distribution.

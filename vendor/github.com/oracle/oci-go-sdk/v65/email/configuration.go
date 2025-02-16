@@ -5,7 +5,7 @@
 // Email Delivery API
 //
 // Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
-// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+// For more information, see Overview of the Email Delivery Service (https://docs.oracle.com/iaas/Content/Email/Concepts/overview.htm).
 //  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
 //  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
@@ -21,7 +21,7 @@ import (
 // Configuration Tenancy level customer email configuration details.
 type Configuration struct {
 
-	// The root compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (same as the tenancy OCID)
+	// The root compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (same as the tenancy OCID)
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Endpoint used to submit emails via the HTTP email submission API

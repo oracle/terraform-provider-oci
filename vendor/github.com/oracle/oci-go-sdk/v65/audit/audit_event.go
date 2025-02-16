@@ -5,7 +5,7 @@
 // Audit API
 //
 // API for the Audit Service. Use this API for compliance monitoring in your tenancy.
-// For more information, see Overview of Audit (https://docs.cloud.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
+// For more information, see Overview of Audit (https://docs.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
 // **Tip**: This API is good for queries, but not bulk-export operations.
 //
 
@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// AuditEvent All the attributes of an audit event. For more information, see Viewing Audit Log Events (https://docs.cloud.oracle.com/iaas/Content/Audit/Tasks/viewinglogevents.htm).
+// AuditEvent All the attributes of an audit event. For more information, see Viewing Audit Log Events (https://docs.oracle.com/iaas/Content/Audit/Tasks/viewinglogevents.htm).
 type AuditEvent struct {
 
 	// The type of event that happened.

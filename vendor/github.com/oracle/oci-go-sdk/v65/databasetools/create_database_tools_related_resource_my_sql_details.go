@@ -21,7 +21,7 @@ type CreateDatabaseToolsRelatedResourceMySqlDetails struct {
 	// The resource entity type.
 	EntityType RelatedResourceEntityTypeMySqlEnum `mandatory:"true" json:"entityType"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
 	Identifier *string `mandatory:"true" json:"identifier"`
 }
 

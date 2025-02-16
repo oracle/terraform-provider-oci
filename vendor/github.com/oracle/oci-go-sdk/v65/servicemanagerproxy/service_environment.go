@@ -21,17 +21,17 @@ import (
 type ServiceEnvironment struct {
 
 	// Unqiue identifier for the entitlement related to the environment.
-	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// **Note:** Not an OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// The unique subscription ID associated with the service environment ID.
-	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// **Note:** Not an OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SubscriptionId *string `mandatory:"true" json:"subscriptionId"`
 
 	// Status of the entitlement registration for the service.
 	Status ServiceEntitlementRegistrationStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ServiceDefinition *ServiceDefinition `mandatory:"true" json:"serviceDefinition"`

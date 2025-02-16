@@ -14,7 +14,7 @@ import (
 // ChangePipelineRunCompartmentRequest wrapper for the ChangePipelineRunCompartment operation
 type ChangePipelineRunCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
 	PipelineRunId *string `mandatory:"true" contributesTo:"path" name:"pipelineRunId"`
 
 	// Details for the compartment move.

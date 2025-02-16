@@ -14,7 +14,7 @@ import (
 // GetConfigurationRequest wrapper for the GetConfiguration operation
 type GetConfigurationRequest struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

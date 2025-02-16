@@ -14,7 +14,7 @@ import (
 // DetachServiceVnicFromSourceShardRequest wrapper for the DetachServiceVnicFromSourceShard operation
 type DetachServiceVnicFromSourceShardRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Request to detach internal service VNIC from source shard for live migration

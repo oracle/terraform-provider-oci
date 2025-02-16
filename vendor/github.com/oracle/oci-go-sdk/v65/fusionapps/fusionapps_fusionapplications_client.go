@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -1692,6 +1692,60 @@ func (client FusionApplicationsClient) listFusionEnvironments(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/FusionEnvironment/ListFusionEnvironments"
 		err = common.PostProcessServiceError(err, "FusionApplications", "ListFusionEnvironments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMaintenanceSlots Returns a list of maintenanceSlots.
+// A default retry strategy applies to this operation ListMaintenanceSlots()
+func (client FusionApplicationsClient) ListMaintenanceSlots(ctx context.Context, request ListMaintenanceSlotsRequest) (response ListMaintenanceSlotsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaintenanceSlots, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaintenanceSlotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaintenanceSlotsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaintenanceSlotsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaintenanceSlotsResponse")
+	}
+	return
+}
+
+// listMaintenanceSlots implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) listMaintenanceSlots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceSlots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaintenanceSlotsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/MaintenanceSlotCollection/ListMaintenanceSlots"
+		err = common.PostProcessServiceError(err, "FusionApplications", "ListMaintenanceSlots", apiReferenceLink)
 		return response, err
 	}
 

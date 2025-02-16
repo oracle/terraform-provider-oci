@@ -14,7 +14,7 @@ import (
 // UpdateStackRequest wrapper for the UpdateStack operation
 type UpdateStackRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
 	StackId *string `mandatory:"true" contributesTo:"path" name:"stackId"`
 
 	// The details for updating a stack.

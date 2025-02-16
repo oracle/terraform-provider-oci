@@ -14,7 +14,7 @@ import (
 // GetDatabaseToolsPrivateEndpointRequest wrapper for the GetDatabaseToolsPrivateEndpoint operation
 type GetDatabaseToolsPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
 	DatabaseToolsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsPrivateEndpointId"`
 
 	// The client request ID for tracing.

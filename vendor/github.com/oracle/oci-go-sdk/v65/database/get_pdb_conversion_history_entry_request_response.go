@@ -14,10 +14,10 @@ import (
 // GetPdbConversionHistoryEntryRequest wrapper for the GetPdbConversionHistoryEntry operation
 type GetPdbConversionHistoryEntryRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The database conversion history OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database conversion history OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PdbConversionHistoryEntryId *string `mandatory:"true" contributesTo:"path" name:"pdbConversionHistoryEntryId"`
 
 	// Unique identifier for the request.

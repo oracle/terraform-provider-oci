@@ -17,7 +17,7 @@ type ChangeBackupDestinationCompartmentRequest struct {
 	// Request to move backup destination to a different compartment.
 	ChangeCompartmentDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup destination.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 	BackupDestinationId *string `mandatory:"true" contributesTo:"path" name:"backupDestinationId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

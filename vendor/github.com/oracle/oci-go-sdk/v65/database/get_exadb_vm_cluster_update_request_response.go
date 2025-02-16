@@ -14,10 +14,10 @@ import (
 // GetExadbVmClusterUpdateRequest wrapper for the GetExadbVmClusterUpdate operation
 type GetExadbVmClusterUpdateRequest struct {
 
-	// The Exadata VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) on Exascale Infrastructure.
+	// The Exadata VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) on Exascale Infrastructure.
 	ExadbVmClusterId *string `mandatory:"true" contributesTo:"path" name:"exadbVmClusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
 	UpdateId *string `mandatory:"true" contributesTo:"path" name:"updateId"`
 
 	// Unique identifier for the request.

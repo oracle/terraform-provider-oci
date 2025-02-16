@@ -14,7 +14,7 @@ import (
 // UpdateExadataIormConfigRequest wrapper for the UpdateExadataIormConfig operation
 type UpdateExadataIormConfigRequest struct {
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// Request to perform database update.
@@ -79,7 +79,7 @@ type UpdateExadataIormConfigResponse struct {
 	// The ExadataIormConfig instance
 	ExadataIormConfig `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

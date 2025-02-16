@@ -14,7 +14,7 @@ import (
 // UpdateEmailReturnPathRequest wrapper for the UpdateEmailReturnPath operation
 type UpdateEmailReturnPathRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
 	EmailReturnPathId *string `mandatory:"true" contributesTo:"path" name:"emailReturnPathId"`
 
 	// The new email return path attributes to apply.

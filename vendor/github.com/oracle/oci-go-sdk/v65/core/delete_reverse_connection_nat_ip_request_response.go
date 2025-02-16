@@ -17,7 +17,7 @@ type DeleteReverseConnectionNatIpRequest struct {
 	// The customer's IP address that corresponds to the reverse connection NAT IP address.
 	ReverseConnectionCustomerIp *string `mandatory:"true" contributesTo:"path" name:"reverseConnectionCustomerIp"`
 
-	// The private endpoint's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The private endpoint's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Unique identifier for the request.

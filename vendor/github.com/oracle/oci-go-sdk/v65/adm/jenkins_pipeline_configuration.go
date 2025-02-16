@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -22,7 +22,7 @@ type JenkinsPipelineConfiguration struct {
 	// The username that will be used to authenticate with Jenkins.
 	Username *string `mandatory:"true" json:"username"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Private Access Token (PAT) Secret.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Private Access Token (PAT) Secret.
 	// The PAT provides the credentials to access the Jenkins Pipeline.
 	PatSecretId *string `mandatory:"true" json:"patSecretId"`
 

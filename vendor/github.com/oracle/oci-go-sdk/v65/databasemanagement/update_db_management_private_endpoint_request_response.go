@@ -14,7 +14,7 @@ import (
 // UpdateDbManagementPrivateEndpointRequest wrapper for the UpdateDbManagementPrivateEndpoint operation
 type UpdateDbManagementPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 	DbManagementPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"dbManagementPrivateEndpointId"`
 
 	// The details used to update a Database Management private endpoint.

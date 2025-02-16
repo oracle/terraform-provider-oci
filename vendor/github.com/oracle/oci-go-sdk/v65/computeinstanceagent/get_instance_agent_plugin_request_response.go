@@ -14,10 +14,10 @@ import (
 // GetInstanceAgentPluginRequest wrapper for the GetInstanceAgentPlugin operation
 type GetInstanceAgentPluginRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceagentId *string `mandatory:"true" contributesTo:"path" name:"instanceagentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The name of the plugin.

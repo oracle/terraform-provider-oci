@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -18,10 +18,10 @@ import (
 // NetworkConfiguration A network configuration defines the required network characteristics for the remediation run of the recipe to access the source repository and/or verify build services.
 type NetworkConfiguration struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the subnet.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// The list of Oracle Cloud Identifiers (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) corresponding to Network Security Groups.
+	// The list of Oracle Cloud Identifiers (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) corresponding to Network Security Groups.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 

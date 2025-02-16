@@ -14,10 +14,10 @@ import (
 // GetDbServerRequest wrapper for the GetDbServer operation
 type GetDbServerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ExadataInfrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ExadataInfrastructure.
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"query" name:"exadataInfrastructureId"`
 
-	// The DB server OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB server OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbServerId *string `mandatory:"true" contributesTo:"path" name:"dbServerId"`
 
 	// Unique identifier for the request.

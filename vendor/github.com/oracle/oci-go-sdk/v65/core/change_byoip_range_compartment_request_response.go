@@ -14,7 +14,7 @@ import (
 // ChangeByoipRangeCompartmentRequest wrapper for the ChangeByoipRangeCompartment operation
 type ChangeByoipRangeCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource containing the BYOIP CIDR block.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource containing the BYOIP CIDR block.
 	ByoipRangeId *string `mandatory:"true" contributesTo:"path" name:"byoipRangeId"`
 
 	// Request to change the compartment of a BYOIP CIDR block.

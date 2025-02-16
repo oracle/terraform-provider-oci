@@ -14,10 +14,10 @@ import (
 // SetInternalDrgRouteDataRequest wrapper for the SetInternalDrgRouteData operation
 type SetInternalDrgRouteDataRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	InternalDrgId *string `mandatory:"true" contributesTo:"path" name:"internalDrgId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Request to set a DRG's route data.

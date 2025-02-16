@@ -14,7 +14,7 @@ import (
 // DisableModuleStreamOnManagedInstanceGroupRequest wrapper for the DisableModuleStreamOnManagedInstanceGroup operation
 type DisableModuleStreamOnManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// The details used to disable modules on the managed instance group.

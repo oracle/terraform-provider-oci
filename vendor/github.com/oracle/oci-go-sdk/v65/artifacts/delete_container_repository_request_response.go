@@ -14,7 +14,7 @@ import (
 // DeleteContainerRepositoryRequest wrapper for the DeleteContainerRepository operation
 type DeleteContainerRepositoryRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container repository.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container repository.
 	// Example: `ocid1.containerrepo.oc1..exampleuniqueID`
 	RepositoryId *string `mandatory:"true" contributesTo:"path" name:"repositoryId"`
 

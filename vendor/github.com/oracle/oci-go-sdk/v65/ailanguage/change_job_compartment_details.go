@@ -20,7 +20,7 @@ import (
 // ChangeJobCompartmentDetails Details for changing the compartment of a language job.
 type ChangeJobCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// where the resource should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

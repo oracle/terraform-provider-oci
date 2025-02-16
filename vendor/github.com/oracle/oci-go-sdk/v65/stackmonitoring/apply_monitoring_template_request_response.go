@@ -14,7 +14,7 @@ import (
 // ApplyMonitoringTemplateRequest wrapper for the ApplyMonitoringTemplate operation
 type ApplyMonitoringTemplateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" contributesTo:"path" name:"monitoringTemplateId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -14,7 +14,7 @@ import (
 // GetWebAppAccelerationRequest wrapper for the GetWebAppAcceleration operation
 type GetWebAppAccelerationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
 	WebAppAccelerationId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationId"`
 
 	// The client request ID for tracing.

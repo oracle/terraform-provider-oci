@@ -17,7 +17,7 @@ type AddStandbyAutonomousContainerDatabaseRequest struct {
 	// Request to Add Standy Autonomous Container Database Dataguard.
 	AddStandbyAutonomousContainerDatabaseDetails `contributesTo:"body"`
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseId"`
 
 	// Unique identifier for the request.

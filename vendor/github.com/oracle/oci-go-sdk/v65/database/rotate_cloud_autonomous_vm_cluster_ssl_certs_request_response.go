@@ -14,7 +14,7 @@ import (
 // RotateCloudAutonomousVmClusterSslCertsRequest wrapper for the RotateCloudAutonomousVmClusterSslCerts operation
 type RotateCloudAutonomousVmClusterSslCertsRequest struct {
 
-	// The Cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Cloud VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudAutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudAutonomousVmClusterId"`
 
 	// Request to rotate the SSL certificates on Cloud Autonomous Exadata VM cluster.
@@ -83,7 +83,7 @@ type RotateCloudAutonomousVmClusterSslCertsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

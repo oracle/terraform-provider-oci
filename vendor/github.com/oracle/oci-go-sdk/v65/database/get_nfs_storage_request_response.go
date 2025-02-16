@@ -14,7 +14,7 @@ import (
 // GetNfsStorageRequest wrapper for the GetNfsStorage operation
 type GetNfsStorageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NFS Storage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NFS Storage.
 	NfsStorageId *string `mandatory:"true" contributesTo:"path" name:"nfsStorageId"`
 
 	// Unique identifier for the request.

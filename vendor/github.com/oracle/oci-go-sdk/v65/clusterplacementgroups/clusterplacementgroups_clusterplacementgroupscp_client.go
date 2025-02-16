@@ -205,7 +205,7 @@ func (client ClusterPlacementGroupsCPClient) cancelWorkRequest(ctx context.Conte
 }
 
 // ChangeClusterPlacementGroupCompartment Moves a cluster placement group resource from one compartment to another in the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeClusterPlacementGroupCompartment()
 func (client ClusterPlacementGroupsCPClient) ChangeClusterPlacementGroupCompartment(ctx context.Context, request ChangeClusterPlacementGroupCompartmentRequest) (response ChangeClusterPlacementGroupCompartmentResponse, err error) {

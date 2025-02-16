@@ -7,7 +7,7 @@
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
-// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
+// the Monitoring documentation (https://docs.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -22,7 +22,7 @@ import (
 // AlarmSuppressionHistoryItem A summary of properties for the specified alarm suppression history item.
 type AlarmSuppressionHistoryItem struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.
 	SuppressionId *string `mandatory:"true" json:"suppressionId"`
 
 	AlarmSuppressionTarget AlarmSuppressionTarget `mandatory:"true" json:"alarmSuppressionTarget"`

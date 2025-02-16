@@ -14,7 +14,7 @@ import (
 // GetPrivateAccessGatewayRequest wrapper for the GetPrivateAccessGateway operation
 type GetPrivateAccessGatewayRequest struct {
 
-	// The private access gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The private access gateway's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PrivateAccessGatewayId *string `mandatory:"true" contributesTo:"path" name:"privateAccessGatewayId"`
 
 	// Unique identifier for the request.

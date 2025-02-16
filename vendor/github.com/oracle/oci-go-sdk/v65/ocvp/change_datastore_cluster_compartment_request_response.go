@@ -14,7 +14,7 @@ import (
 // ChangeDatastoreClusterCompartmentRequest wrapper for the ChangeDatastoreClusterCompartment operation
 type ChangeDatastoreClusterCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
 	DatastoreClusterId *string `mandatory:"true" contributesTo:"path" name:"datastoreClusterId"`
 
 	// Request to change the compartment of the specified Datastore Cluster.

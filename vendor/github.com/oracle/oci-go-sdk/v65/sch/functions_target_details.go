@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -21,10 +21,10 @@ import (
 
 // FunctionsTargetDetails The destination function for data transferred from the source.
 // For configuration instructions, see
-// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// Creating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type FunctionsTargetDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function.
 	FunctionId *string `mandatory:"true" json:"functionId"`
 
 	// The batch rollover size in kilobytes.

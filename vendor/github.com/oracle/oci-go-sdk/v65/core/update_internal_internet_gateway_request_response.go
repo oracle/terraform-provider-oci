@@ -14,7 +14,7 @@ import (
 // UpdateInternalInternetGatewayRequest wrapper for the UpdateInternalInternetGateway operation
 type UpdateInternalInternetGatewayRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.
 	IgId *string `mandatory:"true" contributesTo:"path" name:"igId"`
 
 	// Details for updating the internet gateway.

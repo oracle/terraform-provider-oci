@@ -14,7 +14,7 @@ import (
 // EnableExternalContainerDatabaseManagementFeatureRequest wrapper for the EnableExternalContainerDatabaseManagementFeature operation
 type EnableExternalContainerDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external container database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external container database.
 	ExternalContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalContainerDatabaseId"`
 
 	// The details required to enable a Database Management feature for an external container database.

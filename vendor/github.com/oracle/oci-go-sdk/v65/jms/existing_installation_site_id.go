@@ -18,7 +18,7 @@ import (
 // ExistingInstallationSiteId The essential properties to identity a Java installation site.
 type ExistingInstallationSiteId struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
 	// The unique identifier for the installation of a Java Runtime at a specific path on a specific operating system.

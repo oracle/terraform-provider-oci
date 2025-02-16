@@ -14,7 +14,7 @@ import (
 // GetSchedulingPolicyRequest wrapper for the GetSchedulingPolicy operation
 type GetSchedulingPolicyRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
 	// Unique identifier for the request.

@@ -14,7 +14,7 @@ import (
 // UpdateDrgRouteTableRequest wrapper for the UpdateDrgRouteTable operation
 type UpdateDrgRouteTableRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Details object used to updating a DRG route table.

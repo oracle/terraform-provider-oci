@@ -14,7 +14,7 @@ import (
 // AttachManagedInstancesToLifecycleStageRequest wrapper for the AttachManagedInstancesToLifecycleStage operation
 type AttachManagedInstancesToLifecycleStageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
 	// Details for managed instances to attach to the lifecycle stage.

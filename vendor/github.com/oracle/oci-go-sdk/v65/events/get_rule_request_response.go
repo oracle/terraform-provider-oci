@@ -14,7 +14,7 @@ import (
 // GetRuleRequest wrapper for the GetRule operation
 type GetRuleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 	RuleId *string `mandatory:"true" contributesTo:"path" name:"ruleId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

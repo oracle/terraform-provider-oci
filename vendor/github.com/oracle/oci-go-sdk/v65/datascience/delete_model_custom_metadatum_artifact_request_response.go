@@ -14,7 +14,7 @@ import (
 // DeleteModelCustomMetadatumArtifactRequest wrapper for the DeleteModelCustomMetadatumArtifact operation
 type DeleteModelCustomMetadatumArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// The name of the model metadatum in the metadata.

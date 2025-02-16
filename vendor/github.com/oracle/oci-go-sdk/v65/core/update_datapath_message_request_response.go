@@ -20,7 +20,7 @@ type UpdateDatapathMessageRequest struct {
 	// The datapath message's type.
 	DatapathMessageType *string `mandatory:"true" contributesTo:"path" name:"datapathMessageType"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Request to update an ad-hoc datapath message

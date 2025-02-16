@@ -14,7 +14,7 @@ import (
 // GetGenericArtifactRequest wrapper for the GetGenericArtifact operation
 type GetGenericArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
 	// Example: `ocid1.genericartifact.oc1..exampleuniqueID`
 	ArtifactId *string `mandatory:"true" contributesTo:"path" name:"artifactId"`
 

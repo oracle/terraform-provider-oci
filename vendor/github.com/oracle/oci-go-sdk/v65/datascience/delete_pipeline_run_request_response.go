@@ -14,7 +14,7 @@ import (
 // DeletePipelineRunRequest wrapper for the DeletePipelineRun operation
 type DeletePipelineRunRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
 	PipelineRunId *string `mandatory:"true" contributesTo:"path" name:"pipelineRunId"`
 
 	// A boolean value to specify whether to delete related jobRuns or not.

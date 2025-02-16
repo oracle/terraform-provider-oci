@@ -14,7 +14,7 @@ import (
 // WithdrawPerAttachmentExportPolicyUpdateRequest wrapper for the WithdrawPerAttachmentExportPolicyUpdate operation
 type WithdrawPerAttachmentExportPolicyUpdateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Details for withdrawing per attachment export policy update.

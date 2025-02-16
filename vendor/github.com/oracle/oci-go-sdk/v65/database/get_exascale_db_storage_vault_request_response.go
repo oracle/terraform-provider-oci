@@ -14,7 +14,7 @@ import (
 // GetExascaleDbStorageVaultRequest wrapper for the GetExascaleDbStorageVault operation
 type GetExascaleDbStorageVaultRequest struct {
 
-	// The Exadata Database Storage Vault OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata Database Storage Vault OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExascaleDbStorageVaultId *string `mandatory:"true" contributesTo:"path" name:"exascaleDbStorageVaultId"`
 
 	// Unique identifier for the request.

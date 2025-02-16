@@ -14,7 +14,7 @@ import (
 // GetOccDemandSignalRequest wrapper for the GetOccDemandSignal operation
 type GetOccDemandSignalRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
 	OccDemandSignalId *string `mandatory:"true" contributesTo:"path" name:"occDemandSignalId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

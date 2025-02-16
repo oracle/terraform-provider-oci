@@ -14,7 +14,7 @@ import (
 // UpdateDbHomeRequest wrapper for the UpdateDbHome operation
 type UpdateDbHomeRequest struct {
 
-	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Database Home OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// Request to update the properties of a Database Home.
@@ -80,7 +80,7 @@ type UpdateDbHomeResponse struct {
 	// The DbHome instance
 	DbHome `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

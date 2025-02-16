@@ -14,7 +14,7 @@ import (
 // ModifyDatabaseManagementFeatureRequest wrapper for the ModifyDatabaseManagementFeature operation
 type ModifyDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// The details required to modify a Database Management feature for an Oracle cloud database.

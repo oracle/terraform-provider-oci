@@ -17,7 +17,7 @@ type ChangeAutonomousExadataInfrastructureCompartmentRequest struct {
 	// Request to move an Autonomous Exadata Infrastructure resource to a different compartment.
 	ChangeCompartmentDetails `contributesTo:"body"`
 
-	// The Autonomous Exadata Infrastructure  OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Exadata Infrastructure  OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"autonomousExadataInfrastructureId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

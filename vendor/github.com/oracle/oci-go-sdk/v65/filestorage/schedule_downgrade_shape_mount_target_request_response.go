@@ -14,7 +14,7 @@ import (
 // ScheduleDowngradeShapeMountTargetRequest wrapper for the ScheduleDowngradeShapeMountTarget operation
 type ScheduleDowngradeShapeMountTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
 	// Details for changing the shape of mount target.

@@ -14,7 +14,7 @@ import (
 // DeleteMonitoredResourceTypeRequest wrapper for the DeleteMonitoredResourceType operation
 type DeleteMonitoredResourceTypeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource type.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource type.
 	MonitoredResourceTypeId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceTypeId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

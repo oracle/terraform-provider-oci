@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons

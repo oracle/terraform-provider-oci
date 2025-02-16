@@ -154,7 +154,7 @@ type ConfigurationVariables struct {
 	// innodbBufferPoolSize corresponds to the MySQL server system variable
 	// innodb_buffer_pool_size (https://dev.mysql.com/doc/refman/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size).
 	// The default and maximum values depend on the amount of RAM provisioned by the shape.
-	// See Default User Variables (https://docs.cloud.oracle.com/mysql-database/doc/configuring-db-system.html#GUID-B5504C19-F6F4-4DAB-8506-189A4E8F4A6A).
+	// See Default User Variables (https://docs.oracle.com/iaas/mysql-database/doc/configuring-db-system.html#GUID-B5504C19-F6F4-4DAB-8506-189A4E8F4A6A).
 	InnodbBufferPoolSize *int64 `mandatory:"false" json:"innodbBufferPoolSize"`
 
 	// ("innodb_ft_result_cache_limit")

@@ -14,7 +14,7 @@ import (
 // GetNetworkingTopologyRequest wrapper for the GetNetworkingTopology operation
 type GetNetworkingTopologyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Valid values are `ANY` and `ACCESSIBLE`. The default is `ANY`.

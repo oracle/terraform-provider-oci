@@ -14,7 +14,7 @@ import (
 // SummarizeExternalClusterMetricsRequest wrapper for the SummarizeExternalClusterMetrics operation
 type SummarizeExternalClusterMetricsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external cluster.
 	ExternalClusterId *string `mandatory:"true" contributesTo:"path" name:"externalClusterId"`
 
 	// The beginning of the time range set to retrieve metric data for the DB system

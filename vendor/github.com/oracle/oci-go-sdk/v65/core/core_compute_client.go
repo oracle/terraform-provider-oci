@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -293,7 +293,7 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 
 // AttachVnic Creates a secondary VNIC and attaches it to the specified instance.
 // For more information about secondary VNICs, see
-// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 func (client ComputeClient) AttachVnic(ctx context.Context, request AttachVnicRequest) (response AttachVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -504,7 +504,7 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 
 // ChangeComputeCapacityReservationCompartment Moves a compute capacity reservation into a different compartment. For information about
 // moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client ComputeClient) ChangeComputeCapacityReservationCompartment(ctx context.Context, request ChangeComputeCapacityReservationCompartmentRequest) (response ChangeComputeCapacityReservationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -570,7 +570,7 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 }
 
 // ChangeComputeCapacityTopologyCompartment Moves a compute capacity topology into a different compartment. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeComputeCapacityTopologyCompartment()
 func (client ComputeClient) ChangeComputeCapacityTopologyCompartment(ctx context.Context, request ChangeComputeCapacityTopologyCompartmentRequest) (response ChangeComputeCapacityTopologyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -637,9 +637,9 @@ func (client ComputeClient) changeComputeCapacityTopologyCompartment(ctx context
 }
 
 // ChangeComputeClusterCompartment Moves a compute cluster into a different compartment within the same tenancy.
-// A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
+// A compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client ComputeClient) ChangeComputeClusterCompartment(ctx context.Context, request ChangeComputeClusterCompartmentRequest) (response ChangeComputeClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -705,7 +705,7 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 }
 
 // ChangeComputeGpuMemoryClusterCompartment Moves a compute GPU memory cluster into a different compartment. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeComputeGpuMemoryClusterCompartment()
 func (client ComputeClient) ChangeComputeGpuMemoryClusterCompartment(ctx context.Context, request ChangeComputeGpuMemoryClusterCompartmentRequest) (response ChangeComputeGpuMemoryClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -772,7 +772,7 @@ func (client ComputeClient) changeComputeGpuMemoryClusterCompartment(ctx context
 }
 
 // ChangeComputeGpuMemoryFabricCompartment Moves a compute GPU memory fabric into a different compartment. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeComputeGpuMemoryFabricCompartment()
 func (client ComputeClient) ChangeComputeGpuMemoryFabricCompartment(ctx context.Context, request ChangeComputeGpuMemoryFabricCompartmentRequest) (response ChangeComputeGpuMemoryFabricCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -839,7 +839,7 @@ func (client ComputeClient) changeComputeGpuMemoryFabricCompartment(ctx context.
 }
 
 // ChangeComputeHostCompartment Moves a compute host into a different compartment. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeComputeHostCompartment()
 func (client ComputeClient) ChangeComputeHostCompartment(ctx context.Context, request ChangeComputeHostCompartmentRequest) (response ChangeComputeHostCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -908,7 +908,7 @@ func (client ComputeClient) changeComputeHostCompartment(ctx context.Context, re
 // ChangeComputeImageCapabilitySchemaCompartment Moves a compute image capability schema into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 //
-//	Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//	Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // A default retry strategy applies to this operation ChangeComputeImageCapabilitySchemaCompartment()
 func (client ComputeClient) ChangeComputeImageCapabilitySchemaCompartment(ctx context.Context, request ChangeComputeImageCapabilitySchemaCompartmentRequest) (response ChangeComputeImageCapabilitySchemaCompartmentResponse, err error) {
@@ -1042,7 +1042,7 @@ func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context
 
 // ChangeImageCompartment Moves an image into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeImageCompartment()
 func (client ComputeClient) ChangeImageCompartment(ctx context.Context, request ChangeImageCompartmentRequest) (response ChangeImageCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1110,7 +1110,7 @@ func (client ComputeClient) changeImageCompartment(ctx context.Context, request 
 
 // ChangeInstanceCompartment Moves an instance into a different compartment within the same tenancy. For information about
 // moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move an instance to a different compartment, associated resources such as boot volumes and VNICs
 // are not moved.
 func (client ComputeClient) ChangeInstanceCompartment(ctx context.Context, request ChangeInstanceCompartmentRequest) (response ChangeInstanceCompartmentResponse, err error) {
@@ -1383,7 +1383,7 @@ func (client ComputeClient) createComputeCapacityReport(ctx context.Context, req
 // Compute capacity reservations let you reserve instances in a compartment.
 // When you launch an instance using this reservation, you are assured that you have enough space for your instance,
 // and you won't get out of capacity errors.
-// For more information, see Reserved Capacity (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
+// For more information, see Reserved Capacity (https://docs.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
 func (client ComputeClient) CreateComputeCapacityReservation(ctx context.Context, request CreateComputeCapacityReservationRequest) (response CreateComputeCapacityReservationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1517,7 +1517,7 @@ func (client ComputeClient) createComputeCapacityTopology(ctx context.Context, r
 	return response, err
 }
 
-// CreateComputeCluster Creates an empty compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
+// CreateComputeCluster Creates an empty compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
 // is a remote direct memory access (RDMA) network group.
 // After the compute cluster is created, you can use the compute cluster's OCID with the
 // LaunchInstance operation to create instances in the compute cluster.
@@ -1725,7 +1725,7 @@ func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Conte
 // CreateDedicatedVmHost Creates a new dedicated virtual machine host in the specified compartment and the specified availability domain.
 // Dedicated virtual machine hosts enable you to run your Compute virtual machine (VM) instances on dedicated servers
 // that are a single tenant and not shared with other customers.
-// For more information, see Dedicated Virtual Machine Hosts (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/dedicatedvmhosts.htm).
+// For more information, see Dedicated Virtual Machine Hosts (https://docs.oracle.com/iaas/Content/Compute/Concepts/dedicatedvmhosts.htm).
 func (client ComputeClient) CreateDedicatedVmHost(ctx context.Context, request CreateDedicatedVmHostRequest) (response CreateDedicatedVmHostResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1861,17 +1861,17 @@ func (client ComputeClient) createFirmwareReport(ctx context.Context, request co
 // CreateImage Creates a boot disk image for the specified instance or imports an exported image from the Oracle Cloud Infrastructure Object Storage service.
 // When creating a new image, you must provide the OCID of the instance you want to use as the basis for the image, and
 // the OCID of the compartment containing that instance. For more information about images,
-// see Managing Custom Images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
+// see Managing Custom Images (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
 // When importing an exported image from Object Storage, you specify the source information
 // in ImageSourceDetails.
 // When importing an image based on the namespace, bucket name, and object name,
 // use ImageSourceViaObjectStorageTupleDetails.
 // When importing an image based on the Object Storage URL, use
 // ImageSourceViaObjectStorageUriDetails.
-// See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
+// See Object Storage URLs (https://docs.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
 // For more information about importing exported images, see
-// Image Import/Export (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
+// Image Import/Export (https://docs.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
 // You may optionally specify a *display name* for the image, which is simply a friendly name or description.
 // It does not have to be unique, and you can change it. See UpdateImage.
 // Avoid entering confidential information.
@@ -1943,7 +1943,7 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 // CreateInstanceConsoleConnection Creates a new console connection to the specified instance.
 // After the console connection has been created and is available,
 // you connect to the console using SSH.
-// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
+// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 func (client ComputeClient) CreateInstanceConsoleConnection(ctx context.Context, request CreateInstanceConsoleConnectionRequest) (response CreateInstanceConsoleConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2261,7 +2261,7 @@ func (client ComputeClient) deleteComputeCapacityTopology(ctx context.Context, r
 	return response, err
 }
 
-// DeleteComputeCluster Deletes a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a
+// DeleteComputeCluster Deletes a compute cluster. A compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a
 // remote direct memory access (RDMA) network group.
 // Before you delete a compute cluster, first delete all instances in the cluster by using
 // the TerminateInstance operation.
@@ -2816,7 +2816,7 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 // and secondary) are automatically detached and deleted.
 // **Important:** If the VNIC has a
 // PrivateIp that is the
-// target of a route rule (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip),
+// target of a route rule (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip),
 // deleting the VNIC causes that route rule to blackhole and the traffic
 // will be dropped.
 func (client ComputeClient) DetachVnic(ctx context.Context, request DetachVnicRequest) (response DetachVnicResponse, err error) {
@@ -2942,10 +2942,10 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 
 // ExportImage Exports the specified image to the Oracle Cloud Infrastructure Object Storage service. You can use the Object Storage URL,
 // or the namespace, bucket name, and object name when specifying the location to export to.
-// For more information about exporting images, see Image Import/Export (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
+// For more information about exporting images, see Image Import/Export (https://docs.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
 // To perform an image export, you need write access to the Object Storage bucket for the image,
-// see Let Users Write Objects to Object Storage Buckets (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/commonpolicies.htm#Let4).
-// See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
+// see Let Users Write Objects to Object Storage Buckets (https://docs.oracle.com/iaas/Content/Identity/Concepts/commonpolicies.htm#Let4).
+// See Object Storage URLs (https://docs.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
 // A default retry strategy applies to this operation ExportImage()
 func (client ComputeClient) ExportImage(ctx context.Context, request ExportImageRequest) (response ExportImageResponse, err error) {
@@ -3437,7 +3437,7 @@ func (client ComputeClient) getComputeCapacityTopology(ctx context.Context, requ
 	return response, err
 }
 
-// GetComputeCluster Gets information about a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm)
+// GetComputeCluster Gets information about a compute cluster. A compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm)
 // is a remote direct memory access (RDMA) network group.
 func (client ComputeClient) GetComputeCluster(ctx context.Context, request GetComputeClusterRequest) (response GetComputeClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4413,7 +4413,7 @@ func (client ComputeClient) getInstanceMaintenanceEvent(ctx context.Context, req
 }
 
 // GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended. For more information, see
-// Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
+// Infrastructure Maintenance (https://docs.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 func (client ComputeClient) GetInstanceMaintenanceReboot(ctx context.Context, request GetInstanceMaintenanceRebootRequest) (response GetInstanceMaintenanceRebootResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4851,22 +4851,22 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // OS to crash and then reboot. Before you send a diagnostic interrupt, you must configure the instance to generate a
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
 // the crash. After the OS restarts, you can analyze the crash dump to diagnose the issue. For more information, see
-// Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
+// Sending a Diagnostic Interrupt (https://docs.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
 //   - **EXTENDSCHEDULEDSTOP** - Extends the scheduled stop time of instance.
 //   - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
 //     Live migrating an instance moves it to a different physical host while the instance is running.
 //
 // - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it, and then powers it back on.
 // Before you send a diagnostic reboot, restart the instance's OS, confirm that the instance and networking settings are configured
-// correctly, and try other troubleshooting steps (https://docs.cloud.oracle.com/iaas/Content/Compute/References/troubleshooting-compute-instances.htm).
+// correctly, and try other troubleshooting steps (https://docs.oracle.com/iaas/Content/Compute/References/troubleshooting-compute-instances.htm).
 // Use diagnostic reboot as a final attempt to troubleshoot an unreachable instance. For virtual machine (VM) instances only.
-// For more information, see Performing a Diagnostic Reboot (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/diagnostic-reboot.htm).
+// For more information, see Performing a Diagnostic Reboot (https://docs.oracle.com/iaas/Content/Compute/Tasks/diagnostic-reboot.htm).
 //
 // - **REBOOTMIGRATE** - Powers off the instance, moves it to new hardware, and then powers it back on. For more information, see
-// Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
+// Infrastructure Maintenance (https://docs.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 //
 // For more information about managing instance lifecycle states, see
-// Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
+// Stopping and Starting an Instance (https://docs.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4933,11 +4933,11 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 
 // LaunchInstance Creates a new instance in the specified compartment and the specified availability domain.
 // For general information about instances, see
-// Overview of the Compute Service (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
+// Overview of the Compute Service (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
 // For information about access control and compartments, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see
-// Regions and Availability Domains (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
+// Regions and Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the `ListAvailabilityDomains` operation
 // in the Identity and Access Management Service API.
 // All Oracle Cloud Infrastructure resources, including instances, get an Oracle-assigned,
@@ -4955,7 +4955,7 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // operation to get the VNIC ID for the instance, and then call
 // GetVnic with the VNIC ID.
 // You can later add secondary VNICs to an instance. For more information, see
-// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 // To launch an instance from a Marketplace image listing, you must provide the image ID of the
 // listing resource version that you want, but you also must subscribe to the listing before you try
 // to launch the instance. To subscribe to the listing, use the GetAppCatalogListingAgreements
@@ -5768,7 +5768,7 @@ func (client ComputeClient) listComputeCapacityTopologyComputeNetworkBlocks(ctx 
 }
 
 // ListComputeClusters Lists the compute clusters in the specified compartment.
-// A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
+// A compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 func (client ComputeClient) ListComputeClusters(ctx context.Context, request ListComputeClustersRequest) (response ListComputeClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6681,8 +6681,8 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 }
 
 // ListImages Lists a subset of images available in the specified compartment, including
-// platform images (https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
-// custom images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
+// platform images (https://docs.oracle.com/iaas/Content/Compute/References/images.htm) and
+// custom images (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
 // The list of platform images includes the three most recently published versions
 // of each major distribution. The list does not support filtering based on image tags.
 // The list of images returned is ordered to first show the recent platform images,
@@ -6750,7 +6750,7 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 }
 
 // ListInstanceConsoleConnections Lists the console connections for the specified compartment or instance.
-// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
+// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 func (client ComputeClient) ListInstanceConsoleConnections(ctx context.Context, request ListInstanceConsoleConnectionsRequest) (response ListInstanceConsoleConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7761,7 +7761,7 @@ func (client ComputeClient) updateComputeCapacityTopology(ctx context.Context, r
 	return response, err
 }
 
-// UpdateComputeCluster Updates a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a
+// UpdateComputeCluster Updates a compute cluster. A compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a
 // remote direct memory access (RDMA) network group.
 // To create instances within a compute cluster, use the LaunchInstance
 // operation.

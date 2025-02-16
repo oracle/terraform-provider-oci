@@ -18,13 +18,13 @@ import (
 // RequestSummarizedMetricExtensionsMetricsDetails Filtering criteria data to be specified in the request. Either metricExtensionId or compartmentId must be passed even when no other filter property is passed.
 type RequestSummarizedMetricExtensionsMetricsDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Metric Extension resource
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Metric Extension resource
 	MetricExtensionId *string `mandatory:"false" json:"metricExtensionId"`
 
 	// Resource type to which Metric Extension applies
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Filter for metric extension resources which contain the given metric name

@@ -14,7 +14,7 @@ import (
 // GetWebAppAccelerationPolicyRequest wrapper for the GetWebAppAccelerationPolicy operation
 type GetWebAppAccelerationPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
 	WebAppAccelerationPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationPolicyId"`
 
 	// The client request ID for tracing.

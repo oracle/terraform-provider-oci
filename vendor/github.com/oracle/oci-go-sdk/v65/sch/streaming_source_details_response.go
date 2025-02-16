@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -20,10 +20,10 @@ import (
 )
 
 // StreamingSourceDetailsResponse The Streaming source response. Private metadata is included when the target is a stream accessed through
-// a private endpoint (https://docs.cloud.oracle.com/iaas/Content/Streaming/Concepts/streamsecurity.htm#private_endpoints).
+// a private endpoint (https://docs.oracle.com/iaas/Content/Streaming/Concepts/streamsecurity.htm#private_endpoints).
 type StreamingSourceDetailsResponse struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.
 	StreamId *string `mandatory:"true" json:"streamId"`
 
 	PrivateEndpointMetadata *PrivateEndpointMetadata `mandatory:"false" json:"privateEndpointMetadata"`

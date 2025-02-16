@@ -14,7 +14,7 @@ import (
 // GetClusterNetworkRequest wrapper for the GetClusterNetwork operation
 type GetClusterNetworkRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	ClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"clusterNetworkId"`
 
 	// Unique Oracle-assigned identifier for the request.

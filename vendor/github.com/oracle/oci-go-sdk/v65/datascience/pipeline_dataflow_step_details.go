@@ -22,7 +22,7 @@ type PipelineDataflowStepDetails struct {
 	// The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	StepName *string `mandatory:"true" json:"stepName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow application to be used as a step.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow application to be used as a step.
 	ApplicationId *string `mandatory:"true" json:"applicationId"`
 
 	// A short description of the step.

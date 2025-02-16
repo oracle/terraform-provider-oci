@@ -14,7 +14,7 @@ import (
 // GetPathRouteSetRequest wrapper for the GetPathRouteSet operation
 type GetPathRouteSetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the specified load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the specified load balancer.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the path route set to retrieve.

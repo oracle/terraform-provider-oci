@@ -14,7 +14,7 @@ import (
 // ChangeServiceGatewayCompartmentRequest wrapper for the ChangeServiceGatewayCompartment operation
 type ChangeServiceGatewayCompartmentRequest struct {
 
-	// The service gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The service gateway's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
 	// Request to change the compartment of a given Service Gateway.

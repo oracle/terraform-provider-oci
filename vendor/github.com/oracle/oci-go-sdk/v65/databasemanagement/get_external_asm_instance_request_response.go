@@ -14,7 +14,7 @@ import (
 // GetExternalAsmInstanceRequest wrapper for the GetExternalAsmInstance operation
 type GetExternalAsmInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external ASM instance.
 	ExternalAsmInstanceId *string `mandatory:"true" contributesTo:"path" name:"externalAsmInstanceId"`
 
 	// The client request ID for tracing.

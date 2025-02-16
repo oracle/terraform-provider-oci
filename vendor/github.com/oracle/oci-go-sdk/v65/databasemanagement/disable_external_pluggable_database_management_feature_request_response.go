@@ -14,7 +14,7 @@ import (
 // DisableExternalPluggableDatabaseManagementFeatureRequest wrapper for the DisableExternalPluggableDatabaseManagementFeature operation
 type DisableExternalPluggableDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external pluggable database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external pluggable database.
 	ExternalPluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalPluggableDatabaseId"`
 
 	// The details required to disable a Database Management feature for an external pluggable database.

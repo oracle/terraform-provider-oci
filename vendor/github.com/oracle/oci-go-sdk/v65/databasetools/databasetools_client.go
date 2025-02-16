@@ -252,7 +252,7 @@ func (client DatabaseToolsClient) addDatabaseToolsPrivateEndpointLock(ctx contex
 
 // ChangeDatabaseToolsConnectionCompartment Moves the specified Database Tools connection to a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client DatabaseToolsClient) ChangeDatabaseToolsConnectionCompartment(ctx context.Context, request ChangeDatabaseToolsConnectionCompartmentRequest) (response ChangeDatabaseToolsConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -307,7 +307,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 
 // ChangeDatabaseToolsIdentityCompartment Moves the specified Database Tools identity to a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client DatabaseToolsClient) ChangeDatabaseToolsIdentityCompartment(ctx context.Context, request ChangeDatabaseToolsIdentityCompartmentRequest) (response ChangeDatabaseToolsIdentityCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -362,7 +362,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsIdentityCompartment(ctx con
 
 // ChangeDatabaseToolsPrivateEndpointCompartment Moves a Database Tools private endpoint into a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client DatabaseToolsClient) ChangeDatabaseToolsPrivateEndpointCompartment(ctx context.Context, request ChangeDatabaseToolsPrivateEndpointCompartmentRequest) (response ChangeDatabaseToolsPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

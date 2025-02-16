@@ -14,7 +14,7 @@ import (
 // UpdateHealthCheckerRequest wrapper for the UpdateHealthChecker operation
 type UpdateHealthCheckerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// The health check policy configuration details.

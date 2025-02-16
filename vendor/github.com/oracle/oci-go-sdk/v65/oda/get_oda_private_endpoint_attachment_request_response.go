@@ -14,7 +14,7 @@ import (
 // GetOdaPrivateEndpointAttachmentRequest wrapper for the GetOdaPrivateEndpointAttachment operation
 type GetOdaPrivateEndpointAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.
 	OdaPrivateEndpointAttachmentId *string `mandatory:"true" contributesTo:"path" name:"odaPrivateEndpointAttachmentId"`
 
 	// The client request ID for tracing. This value is included in the opc-request-id response header.

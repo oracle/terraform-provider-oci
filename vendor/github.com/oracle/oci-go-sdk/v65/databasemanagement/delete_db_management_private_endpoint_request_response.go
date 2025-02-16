@@ -14,7 +14,7 @@ import (
 // DeleteDbManagementPrivateEndpointRequest wrapper for the DeleteDbManagementPrivateEndpoint operation
 type DeleteDbManagementPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 	DbManagementPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"dbManagementPrivateEndpointId"`
 
 	// The client request ID for tracing.

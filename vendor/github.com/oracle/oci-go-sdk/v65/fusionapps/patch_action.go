@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -28,7 +28,7 @@ type PatchAction struct {
 	// patch bundle name
 	Artifact *string `mandatory:"false" json:"artifact"`
 
-	// A string that describeds whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold
 	Mode PatchActionModeEnum `mandatory:"false" json:"mode,omitempty"`
 
 	// patch artifact category

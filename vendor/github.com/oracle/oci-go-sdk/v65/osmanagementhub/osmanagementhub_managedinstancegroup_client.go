@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -210,7 +210,7 @@ func (client ManagedInstanceGroupClient) attachSoftwareSourcesToManagedInstanceG
 	return response, err
 }
 
-// ChangeManagedInstanceGroupCompartment Moves the specified managed instance group to a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeManagedInstanceGroupCompartment Moves the specified managed instance group to a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeManagedInstanceGroupCompartment()
 func (client ManagedInstanceGroupClient) ChangeManagedInstanceGroupCompartment(ctx context.Context, request ChangeManagedInstanceGroupCompartmentRequest) (response ChangeManagedInstanceGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1138,7 +1138,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupModules(ctx con
 	return response, err
 }
 
-// ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but not limited to name, status, architecture, and OS family.
+// ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but not limited to name, status, architecture, and OS family.
 // A default retry strategy applies to this operation ListManagedInstanceGroups()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroups(ctx context.Context, request ListManagedInstanceGroupsRequest) (response ListManagedInstanceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse

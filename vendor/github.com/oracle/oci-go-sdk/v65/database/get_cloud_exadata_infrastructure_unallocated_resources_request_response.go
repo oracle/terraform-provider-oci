@@ -14,13 +14,13 @@ import (
 // GetCloudExadataInfrastructureUnallocatedResourcesRequest wrapper for the GetCloudExadataInfrastructureUnallocatedResources operation
 type GetCloudExadataInfrastructureUnallocatedResourcesRequest struct {
 
-	// The cloud Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The cloud Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"cloudExadataInfrastructureId"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 	DbServers []string `contributesTo:"query" name:"dbServers" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

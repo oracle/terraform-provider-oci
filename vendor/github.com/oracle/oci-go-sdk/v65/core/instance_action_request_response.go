@@ -14,7 +14,7 @@ import (
 // InstanceActionRequest wrapper for the InstanceAction operation
 type InstanceActionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// The action to perform on the instance.

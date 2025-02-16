@@ -14,7 +14,7 @@ import (
 // UpdateGenericGatewayTargetOverridesRequest wrapper for the UpdateGenericGatewayTargetOverrides operation
 type UpdateGenericGatewayTargetOverridesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the generic gateway.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the generic gateway.
 	InternalGenericGatewayId *string `mandatory:"true" contributesTo:"path" name:"internalGenericGatewayId"`
 
 	// Request to update a generic gateway with Target Overrides.

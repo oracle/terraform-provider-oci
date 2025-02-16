@@ -14,10 +14,10 @@ import (
 // AttachManagedInstanceGroupToProfileRequest wrapper for the AttachManagedInstanceGroupToProfile operation
 type AttachManagedInstanceGroupToProfileRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	ProfileId *string `mandatory:"true" contributesTo:"path" name:"profileId"`
 
-	// The managed instance group OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to attach to the profile
+	// The managed instance group OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to attach to the profile
 	AttachManagedInstanceGroupToProfileDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

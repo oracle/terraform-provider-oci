@@ -14,7 +14,7 @@ import (
 // ReplicationTargetGetRequest wrapper for the ReplicationTargetGet operation
 type ReplicationTargetGetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target.
 	ReplicationTargetId *string `mandatory:"true" contributesTo:"query" name:"replicationTargetId"`
 
 	// Unique identifier for the request.

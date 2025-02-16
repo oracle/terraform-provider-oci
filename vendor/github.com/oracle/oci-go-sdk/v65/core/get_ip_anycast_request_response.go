@@ -14,7 +14,7 @@ import (
 // GetIpAnycastRequest wrapper for the GetIpAnycast operation
 type GetIpAnycastRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Anycast Object.
+	// Specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Anycast Object.
 	IpAnycastId *string `mandatory:"true" contributesTo:"path" name:"ipAnycastId"`
 
 	// Unique identifier for the request.

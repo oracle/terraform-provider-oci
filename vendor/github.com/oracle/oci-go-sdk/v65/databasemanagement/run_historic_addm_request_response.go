@@ -14,7 +14,7 @@ import (
 // RunHistoricAddmRequest wrapper for the RunHistoricAddm operation
 type RunHistoricAddmRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The details of the ADDM task, which include the beginning and ending AWR snapshot IDs.

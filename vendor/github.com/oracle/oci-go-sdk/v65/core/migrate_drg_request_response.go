@@ -14,7 +14,7 @@ import (
 // MigrateDrgRequest wrapper for the MigrateDrg operation
 type MigrateDrgRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	InternalDrgId *string `mandatory:"true" contributesTo:"path" name:"internalDrgId"`
 
 	// Details object to update a DrgAttachment and migrate the Drg to the destination Drg Type.

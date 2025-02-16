@@ -14,7 +14,7 @@ import (
 // GetNetworkSecurityGroupRequest wrapper for the GetNetworkSecurityGroup operation
 type GetNetworkSecurityGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
 	NetworkSecurityGroupId *string `mandatory:"true" contributesTo:"path" name:"networkSecurityGroupId"`
 
 	// Unique Oracle-assigned identifier for the request.

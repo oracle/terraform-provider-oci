@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -20,13 +20,13 @@ import (
 )
 
 // ApplyRollbackJobOperationDetailsSummary Job details that are specific to an apply rollback job. For more information about apply rollback jobs, see
-// Creating an Apply Rollback Job (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-apply-rollback.htm).
+// Creating an Apply Rollback Job (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-apply-rollback.htm).
 type ApplyRollbackJobOperationDetailsSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a plan rollback job, for use when specifying `"FROM_PLAN_ROLLBACK_JOB_ID"` as the `executionPlanRollbackStrategy`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a plan rollback job, for use when specifying `"FROM_PLAN_ROLLBACK_JOB_ID"` as the `executionPlanRollbackStrategy`.
 	ExecutionPlanRollbackJobId *string `mandatory:"false" json:"executionPlanRollbackJobId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a successful apply job, for use when specifying `"AUTO_APPROVED"` as the `executionPlanRollbackStrategy`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a successful apply job, for use when specifying `"AUTO_APPROVED"` as the `executionPlanRollbackStrategy`.
 	TargetRollbackJobId *string `mandatory:"false" json:"targetRollbackJobId"`
 
 	// Specifies the source of the execution plan for rollback to apply.

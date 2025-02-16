@@ -14,7 +14,7 @@ import (
 // UpdateReplicationTargetRequest wrapper for the UpdateReplicationTarget operation
 type UpdateReplicationTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target.
 	ReplicationTargetId *string `mandatory:"true" contributesTo:"path" name:"replicationTargetId"`
 
 	// Details object for updating a replication target.

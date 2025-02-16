@@ -14,7 +14,7 @@ import (
 // DisableExternalDatabaseRequest wrapper for the DisableExternalDatabase operation
 type DisableExternalDatabaseRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
 	MonitoredResourceId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

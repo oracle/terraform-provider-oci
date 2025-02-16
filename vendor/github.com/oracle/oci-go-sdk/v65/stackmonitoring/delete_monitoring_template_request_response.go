@@ -14,7 +14,7 @@ import (
 // DeleteMonitoringTemplateRequest wrapper for the DeleteMonitoringTemplate operation
 type DeleteMonitoringTemplateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" contributesTo:"path" name:"monitoringTemplateId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

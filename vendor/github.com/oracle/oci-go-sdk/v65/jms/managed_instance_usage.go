@@ -21,7 +21,7 @@ import (
 // Currently, JMS supports only one kind of managed instance, a Management Agent.
 type ManagedInstanceUsage struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
 	// The type of the source of events.
@@ -30,7 +30,7 @@ type ManagedInstanceUsage struct {
 	// The hostname of the managed instance (if applicable).
 	Hostname *string `mandatory:"false" json:"hostname"`
 
-	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The host OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	HostId *string `mandatory:"false" json:"hostId"`
 
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`

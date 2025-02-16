@@ -14,7 +14,7 @@ import (
 // DeleteOpsiConfigurationRequest wrapper for the DeleteOpsiConfiguration operation
 type DeleteOpsiConfigurationRequest struct {
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.
 	OpsiConfigurationId *string `mandatory:"true" contributesTo:"path" name:"opsiConfigurationId"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`

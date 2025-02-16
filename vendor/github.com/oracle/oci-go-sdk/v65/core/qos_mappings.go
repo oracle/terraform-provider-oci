@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// QosMappings A list of `QosMappings` objects which consist of Differentiated Services Code Point (DSCP) values and a respective `ClassOfService` or priority queue. See the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) documentation.
+// QosMappings A list of `QosMappings` objects which consist of Differentiated Services Code Point (DSCP) values and a respective `ClassOfService` or priority queue. See the Quality of Service (https://docs.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) documentation.
 // Example: `{43 - PREMIUM}`
 type QosMappings struct {
 

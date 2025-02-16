@@ -14,7 +14,7 @@ import (
 // ChangeInstancePoolCompartmentRequest wrapper for the ChangeInstancePoolCompartment operation
 type ChangeInstancePoolCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
 	// Request to change the compartment of given instance pool.

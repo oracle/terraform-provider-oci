@@ -14,7 +14,7 @@ import (
 // ChangeAutoScalingConfigurationCompartmentRequest wrapper for the ChangeAutoScalingConfigurationCompartment operation
 type ChangeAutoScalingConfigurationCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
 	// Request to change the compartment of given autoscaling configuration.

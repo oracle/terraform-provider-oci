@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -18,7 +18,7 @@ import (
 // LicenseRecord License record summary.
 type LicenseRecord struct {
 
-	// The license record OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The license record OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// The license record display name. Avoid entering confidential information.
@@ -33,10 +33,10 @@ type LicenseRecord struct {
 	// The current license record state.
 	LifecycleState LifeCycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The product license OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) with which the license record is associated.
+	// The product license OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) with which the license record is associated.
 	ProductLicenseId *string `mandatory:"false" json:"productLicenseId"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where the license record is created.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where the license record is created.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The license record product ID.

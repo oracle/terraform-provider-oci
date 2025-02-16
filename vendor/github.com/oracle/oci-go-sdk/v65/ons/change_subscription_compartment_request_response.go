@@ -14,7 +14,7 @@ import (
 // ChangeSubscriptionCompartmentRequest wrapper for the ChangeSubscriptionCompartment operation
 type ChangeSubscriptionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to move.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to move.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The configuration details for the move operation.

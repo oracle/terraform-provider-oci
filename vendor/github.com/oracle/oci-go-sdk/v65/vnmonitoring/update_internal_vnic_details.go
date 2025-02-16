@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -18,7 +18,7 @@ import (
 
 // UpdateInternalVnicDetails This structure is used when updating vnic for internal clients.
 // For more information about VNICs, see
-// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 type UpdateInternalVnicDetails struct {
 
 	// Indicates if the VNIC is managed by a internal partner team. And customer is not allowed
@@ -37,7 +37,7 @@ type UpdateInternalVnicDetails struct {
 	// ID of the customer visible upstream resource that the VNIC is associated with. This property is
 	// exposed to customers as part of API to list members of a network security group.
 	// For example, if the VNIC is associated with a loadbalancer or dbsystem instance, then it needs
-	// to be set to corresponding customer visible loadbalancer or dbsystem instance OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// to be set to corresponding customer visible loadbalancer or dbsystem instance OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// Note that the partner team creating/managing the VNIC is owner of this metadata.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
@@ -67,7 +67,7 @@ type UpdateInternalVnicDetails struct {
 	// ListPrivateIps and
 	// GetPrivateIp.
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// When launching an instance, use this `hostnameLabel` instead
 	// of the deprecated `hostnameLabel` in
 	// LaunchInstanceDetails.
@@ -83,7 +83,7 @@ type UpdateInternalVnicDetails struct {
 	// Whether the source/destination check is disabled on the VNIC.
 	// Defaults to `false`, which means the check is performed. For information
 	// about why you would skip the source/destination check, see
-	// Using a Private IP as a Route Target (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
+	// Using a Private IP as a Route Target (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 

@@ -14,7 +14,7 @@ import (
 // AddNetworkSecurityGroupSecurityRulesRequest wrapper for the AddNetworkSecurityGroupSecurityRules operation
 type AddNetworkSecurityGroupSecurityRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
 	NetworkSecurityGroupId *string `mandatory:"true" contributesTo:"path" name:"networkSecurityGroupId"`
 
 	// Request with one or more security rules to be associated with the network security group.

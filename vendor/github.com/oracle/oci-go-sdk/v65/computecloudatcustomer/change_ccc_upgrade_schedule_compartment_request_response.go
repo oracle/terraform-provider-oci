@@ -15,11 +15,11 @@ import (
 type ChangeCccUpgradeScheduleCompartmentRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CccUpgradeScheduleId *string `mandatory:"true" contributesTo:"path" name:"cccUpgradeScheduleId"`
 
 	// Details about the compartment change operation including the destination compartment
-	// specified by the resource OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// specified by the resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ChangeCccUpgradeScheduleCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -36,7 +36,7 @@ type ChangeCccUpgradeScheduleCompartmentRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

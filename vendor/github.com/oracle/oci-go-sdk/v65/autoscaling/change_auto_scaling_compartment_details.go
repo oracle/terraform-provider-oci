@@ -5,8 +5,8 @@
 // Autoscaling API
 //
 // Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
-// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
+// autoscaling, see Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Compute (https://docs.oracle.com/iaas/Content/Compute/home.htm).
 //
 
 package autoscaling
@@ -20,7 +20,7 @@ import (
 // ChangeAutoScalingCompartmentDetails The configuration details for the move operation.
 type ChangeAutoScalingCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the autoscaling configuration to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the autoscaling configuration to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

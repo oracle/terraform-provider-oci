@@ -14,7 +14,7 @@ import (
 // CloneSqlTuningTaskRequest wrapper for the CloneSqlTuningTask operation
 type CloneSqlTuningTaskRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The detailed inputs required to clone a SQL tuning task.

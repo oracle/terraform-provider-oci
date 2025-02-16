@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -23,7 +23,7 @@ type InternalDrgRouteTable struct {
 	// The label of the drg attachment.
 	DrgAttachmentLabel *int64 `mandatory:"true" json:"drgAttachmentLabel"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG which contains this route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG which contains this route table.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
 	// The collection of rules which will be used by VCN Dataplane to route DRG traffic.

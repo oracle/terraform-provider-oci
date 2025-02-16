@@ -14,7 +14,7 @@ import (
 // RemoveModuleStreamProfileFromManagedInstanceGroupRequest wrapper for the RemoveModuleStreamProfileFromManagedInstanceGroup operation
 type RemoveModuleStreamProfileFromManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// The details used to remove profiles from the managed instance group. Providing the module stream name (without specifying a profile name) removes all profiles that have been installed for the module stream.

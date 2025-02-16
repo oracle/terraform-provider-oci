@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -19,7 +19,7 @@ import (
 // OciDevOpsBuildConfiguration OCI DevOps configuration extends a Verify Configuration with necessary data to reach and use the OCI DevOps Build Service.
 type OciDevOpsBuildConfiguration struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the user's DevOps Build Pipeline.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the user's DevOps Build Pipeline.
 	PipelineId *string `mandatory:"true" json:"pipelineId"`
 
 	// Additional key-value pairs passed as parameters to the build service when running an experiment.

@@ -14,7 +14,7 @@ import (
 // GetMonitoredResourceTaskRequest wrapper for the GetMonitoredResourceTask operation
 type GetMonitoredResourceTaskRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of stack monitoring resource task.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of stack monitoring resource task.
 	MonitoredResourceTaskId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceTaskId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -14,7 +14,7 @@ import (
 // DeleteCccInfrastructureRequest wrapper for the DeleteCccInfrastructure operation
 type DeleteCccInfrastructureRequest struct {
 
-	// An OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a
 	// Compute Cloud@Customer Infrastructure.
 	CccInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"cccInfrastructureId"`
 
@@ -25,7 +25,7 @@ type DeleteCccInfrastructureRequest struct {
 	// provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

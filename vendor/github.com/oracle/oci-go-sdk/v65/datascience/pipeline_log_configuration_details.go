@@ -24,10 +24,10 @@ type PipelineLogConfigurationDetails struct {
 	// If automatic on-behalf-of log object creation is enabled for pipeline runs.
 	EnableAutoLogCreation *bool `mandatory:"false" json:"enableAutoLogCreation"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 	LogId *string `mandatory:"false" json:"logId"`
 }
 

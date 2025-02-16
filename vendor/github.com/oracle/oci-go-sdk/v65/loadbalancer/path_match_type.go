@@ -5,7 +5,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -27,7 +27,7 @@ type PathMatchType struct {
 	// *  **PREFIX_MATCH** - Looks for a `path` string that matches the beginning portion of the incoming URI path.
 	// *  **SUFFIX_MATCH** - Looks for a `path` string that matches the ending portion of the incoming URI path.
 	// For a full description of how the system handles `matchType` in a path route set containing multiple rules, see
-	// Managing Request Routing (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrequest.htm).
+	// Managing Request Routing (https://docs.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm).
 	MatchType PathMatchTypeMatchTypeEnum `mandatory:"true" json:"matchType"`
 }
 

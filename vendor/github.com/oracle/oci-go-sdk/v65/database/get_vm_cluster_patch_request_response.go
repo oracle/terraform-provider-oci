@@ -14,10 +14,10 @@ import (
 // GetVmClusterPatchRequest wrapper for the GetVmClusterPatch operation
 type GetVmClusterPatchRequest struct {
 
-	// The VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	VmClusterId *string `mandatory:"true" contributesTo:"path" name:"vmClusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -14,7 +14,7 @@ import (
 // DeleteIpv6Request wrapper for the DeleteIpv6 operation
 type DeleteIpv6Request struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6.
 	Ipv6Id *string `mandatory:"true" contributesTo:"path" name:"ipv6Id"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

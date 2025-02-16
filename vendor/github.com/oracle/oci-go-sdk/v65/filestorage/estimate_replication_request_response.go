@@ -14,7 +14,7 @@ import (
 // EstimateReplicationRequest wrapper for the EstimateReplication operation
 type EstimateReplicationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

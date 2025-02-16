@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -578,7 +578,7 @@ func (client FileStorageClient) cancelDowngradeShapeMountTarget(ctx context.Cont
 	return response, err
 }
 
-// ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context, request ChangeFileSystemCompartmentRequest) (response ChangeFileSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -638,7 +638,7 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 	return response, err
 }
 
-// ChangeFilesystemSnapshotPolicyCompartment Moves a file system snapshot policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeFilesystemSnapshotPolicyCompartment Moves a file system snapshot policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client FileStorageClient) ChangeFilesystemSnapshotPolicyCompartment(ctx context.Context, request ChangeFilesystemSnapshotPolicyCompartmentRequest) (response ChangeFilesystemSnapshotPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -698,7 +698,7 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 	return response, err
 }
 
-// ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context, request ChangeMountTargetCompartmentRequest) (response ChangeMountTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -760,7 +760,7 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 
 // ChangeOutboundConnectorCompartment Moves an outbound connector into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeOutboundConnectorCompartment(ctx context.Context, request ChangeOutboundConnectorCompartmentRequest) (response ChangeOutboundConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -821,7 +821,7 @@ func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.C
 }
 
 // ChangeReplicationCompartment Moves a replication and its replication target into a different compartment within the same tenancy.
-// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client FileStorageClient) ChangeReplicationCompartment(ctx context.Context, request ChangeReplicationCompartmentRequest) (response ChangeReplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1078,17 +1078,17 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 // mount target's IP address. You can associate a file system with
 // more than one mount target at a time.
 // For information about access control and compartments, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about Network Security Groups access control, see
-// Network Security Groups (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm).
+// Network Security Groups (https://docs.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure resources, including
 // file systems, get an Oracle-assigned, unique ID called an Oracle
-// Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type or by viewing the resource in the Console.
@@ -1240,15 +1240,15 @@ func (client FileStorageClient) createFilesystemSnapshotPolicy(ctx context.Conte
 // Allow at least three IP addresses for each mount target.
 // For information about access control and compartments, see
 // Overview of the IAM
-// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure Services resources, including
 // mount targets, get an Oracle-assigned, unique ID called an
-// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
@@ -1321,15 +1321,15 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 // they exist in the same availability domain.
 // For information about access control and compartments, see
 // Overview of the IAM
-// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure Services resources, including
 // outbound connectors, get an Oracle-assigned, unique ID called an
-// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
@@ -1472,18 +1472,18 @@ func (client FileStorageClient) createQuotaRule(ctx context.Context, request com
 // and sends it to the associated `ReplicationTarget`, which retrieves the delta and applies it to the target
 // file system.
 // Only unexported file systems can be used as target file systems.
-// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
+// For more information, see Using Replication (https://docs.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 // For information about access control and compartments, see
 // Overview of the IAM
-// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure Services resources, including
 // replications, get an Oracle-assigned, unique ID called an
-// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.

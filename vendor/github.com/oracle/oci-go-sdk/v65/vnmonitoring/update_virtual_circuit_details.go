@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -34,7 +34,7 @@ type UpdateVirtualCircuitDetails struct {
 
 	// The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit.
 	// Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`.
-	// See Route Filtering (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
+	// See Route Filtering (https://docs.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
 	// By default, routing information is shared for all routes in the same market.
 	RoutingPolicy []UpdateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
 
@@ -74,7 +74,7 @@ type UpdateVirtualCircuitDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
 	// that this private virtual circuit uses.
 	// To be updated only by the customer who owns the virtual circuit.
 	GatewayId *string `mandatory:"false" json:"gatewayId"`

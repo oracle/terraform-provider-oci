@@ -19,18 +19,21 @@ type CollectionTypesEnum string
 
 // Set of constants representing the allowable values for CollectionTypesEnum
 const (
-	CollectionTypesDb CollectionTypesEnum = "DB"
-	CollectionTypesGi CollectionTypesEnum = "GI"
+	CollectionTypesDb      CollectionTypesEnum = "DB"
+	CollectionTypesGi      CollectionTypesEnum = "GI"
+	CollectionTypesGuestOs CollectionTypesEnum = "GUEST_OS"
 )
 
 var mappingCollectionTypesEnum = map[string]CollectionTypesEnum{
-	"DB": CollectionTypesDb,
-	"GI": CollectionTypesGi,
+	"DB":       CollectionTypesDb,
+	"GI":       CollectionTypesGi,
+	"GUEST_OS": CollectionTypesGuestOs,
 }
 
 var mappingCollectionTypesEnumLowerCase = map[string]CollectionTypesEnum{
-	"db": CollectionTypesDb,
-	"gi": CollectionTypesGi,
+	"db":       CollectionTypesDb,
+	"gi":       CollectionTypesGi,
+	"guest_os": CollectionTypesGuestOs,
 }
 
 // GetCollectionTypesEnumValues Enumerates the set of values for CollectionTypesEnum
@@ -47,6 +50,7 @@ func GetCollectionTypesEnumStringValues() []string {
 	return []string{
 		"DB",
 		"GI",
+		"GUEST_OS",
 	}
 }
 

@@ -14,7 +14,7 @@ import (
 // ChangeDatabaseToolsIdentityCompartmentRequest wrapper for the ChangeDatabaseToolsIdentityCompartment operation
 type ChangeDatabaseToolsIdentityCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
 	DatabaseToolsIdentityId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsIdentityId"`
 
 	// Request to change the compartment of the DatabaseToolsIdentity.

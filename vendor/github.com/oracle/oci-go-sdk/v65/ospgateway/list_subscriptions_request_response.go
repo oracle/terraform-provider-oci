@@ -17,7 +17,7 @@ type ListSubscriptionsRequest struct {
 	// The home region's public name of the logged in user.
 	OspHomeRegion *string `mandatory:"true" contributesTo:"query" name:"ospHomeRegion"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

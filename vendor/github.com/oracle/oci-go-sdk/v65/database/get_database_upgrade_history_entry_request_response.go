@@ -14,10 +14,10 @@ import (
 // GetDatabaseUpgradeHistoryEntryRequest wrapper for the GetDatabaseUpgradeHistoryEntry operation
 type GetDatabaseUpgradeHistoryEntryRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The database/db system upgrade History OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database/db system upgrade History OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	UpgradeHistoryEntryId *string `mandatory:"true" contributesTo:"path" name:"upgradeHistoryEntryId"`
 
 	// Unique identifier for the request.

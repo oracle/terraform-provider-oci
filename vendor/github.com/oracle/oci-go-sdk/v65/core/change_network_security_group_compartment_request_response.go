@@ -14,7 +14,7 @@ import (
 // ChangeNetworkSecurityGroupCompartmentRequest wrapper for the ChangeNetworkSecurityGroupCompartment operation
 type ChangeNetworkSecurityGroupCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
 	NetworkSecurityGroupId *string `mandatory:"true" contributesTo:"path" name:"networkSecurityGroupId"`
 
 	// Request to change the compartment of a network security group.

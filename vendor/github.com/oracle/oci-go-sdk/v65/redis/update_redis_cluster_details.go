@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -33,9 +33,9 @@ type UpdateRedisClusterDetails struct {
 	// The OCI Cache engine version that the cluster is running.
 	SoftwareVersion RedisClusterSoftwareVersionEnum `mandatory:"false" json:"softwareVersion,omitempty"`
 
-	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// A list of Network Security Group (NSG) OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// associated with this cluster. For more information,
-	// see Using an NSG for Clusters (https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
+	// see Using an NSG for Clusters (https://docs.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

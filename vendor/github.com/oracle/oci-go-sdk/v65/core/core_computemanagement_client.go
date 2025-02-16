@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -105,7 +105,7 @@ func (client *ComputeManagementClient) EnableDualStackEndpoints(enableDualStack 
 
 // AttachInstancePoolInstance Attaches an instance to an instance pool. For information about the prerequisites
 // that an instance must meet before you can attach it to a pool, see
-// Attaching an Instance to an Instance Pool (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/updatinginstancepool.htm#attach-instance).
+// Attaching an Instance to an Instance Pool (https://docs.oracle.com/iaas/Content/Compute/Tasks/updatinginstancepool.htm#attach-instance).
 func (client ComputeManagementClient) AttachInstancePoolInstance(ctx context.Context, request AttachInstancePoolInstanceRequest) (response AttachInstancePoolInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -235,10 +235,10 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
-// ChangeClusterNetworkCompartment Moves a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm)
+// ChangeClusterNetworkCompartment Moves a cluster network with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm)
 // into a different compartment within the same tenancy. For
 // information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move a cluster network to a different compartment, associated resources such as the instances
 // in the cluster network, boot volumes, and VNICs are not moved.
 func (client ComputeManagementClient) ChangeClusterNetworkCompartment(ctx context.Context, request ChangeClusterNetworkCompartmentRequest) (response ChangeClusterNetworkCompartmentResponse, err error) {
@@ -307,7 +307,7 @@ func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx contex
 
 // ChangeInstanceConfigurationCompartment Moves an instance configuration into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move an instance configuration to a different compartment, associated resources such as
 // instance pools are not moved.
 // **Important:** Most of the properties for an existing instance configuration, including the compartment,
@@ -315,7 +315,7 @@ func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx contex
 // to a different compartment, you will not be able to use the instance configuration to manage instance pools
 // in the new compartment. If you want to update an instance configuration to point to a different compartment,
 // you should instead create a new instance configuration in the target compartment using
-// CreateInstanceConfiguration (https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
+// CreateInstanceConfiguration (https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
 func (client ComputeManagementClient) ChangeInstanceConfigurationCompartment(ctx context.Context, request ChangeInstanceConfigurationCompartmentRequest) (response ChangeInstanceConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -382,7 +382,7 @@ func (client ComputeManagementClient) changeInstanceConfigurationCompartment(ctx
 
 // ChangeInstancePoolCompartment Moves an instance pool into a different compartment within the same tenancy. For
 // information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move an instance pool to a different compartment, associated resources such as the instances in
 // the pool, boot volumes, VNICs, and autoscaling configurations are not moved.
 func (client ComputeManagementClient) ChangeInstancePoolCompartment(ctx context.Context, request ChangeInstancePoolCompartmentRequest) (response ChangeInstancePoolCompartmentResponse, err error) {
@@ -449,7 +449,7 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 	return response, err
 }
 
-// CreateClusterNetwork Creates a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// CreateClusterNetwork Creates a cluster network with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 // A cluster network is a group of high performance computing (HPC), GPU, or optimized bare metal
 // instances that are connected with an ultra low-latency remote direct memory access (RDMA) network.
 // Cluster networks with instance pools use instance pools to manage groups of identical instances.
@@ -849,7 +849,7 @@ func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
-// GetClusterNetwork Gets information about a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// GetClusterNetwork Gets information about a cluster network with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 func (client ComputeManagementClient) GetClusterNetwork(ctx context.Context, request GetClusterNetworkRequest) (response GetClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1222,7 +1222,7 @@ func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
-// ListClusterNetworkInstances Lists the instances in a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// ListClusterNetworkInstances Lists the instances in a cluster network with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 func (client ComputeManagementClient) ListClusterNetworkInstances(ctx context.Context, request ListClusterNetworkInstancesRequest) (response ListClusterNetworkInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1282,7 +1282,7 @@ func (client ComputeManagementClient) listClusterNetworkInstances(ctx context.Co
 	return response, err
 }
 
-// ListClusterNetworks Lists the cluster networks with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm)
+// ListClusterNetworks Lists the cluster networks with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm)
 // in the specified compartment.
 func (client ComputeManagementClient) ListClusterNetworks(ctx context.Context, request ListClusterNetworksRequest) (response ListClusterNetworksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1857,7 +1857,7 @@ func (client ComputeManagementClient) stopInstancePool(ctx context.Context, requ
 	return response, err
 }
 
-// TerminateClusterNetwork Deletes (terminates) a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// TerminateClusterNetwork Deletes (terminates) a cluster network with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 // When you delete a cluster network, all of its resources are permanently deleted,
 // including associated instances and instance pools.
 func (client ComputeManagementClient) TerminateClusterNetwork(ctx context.Context, request TerminateClusterNetworkRequest) (response TerminateClusterNetworkResponse, err error) {
@@ -1984,7 +1984,7 @@ func (client ComputeManagementClient) terminateInstancePool(ctx context.Context,
 	return response, err
 }
 
-// UpdateClusterNetwork Updates a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// UpdateClusterNetwork Updates a cluster network with instance pools (https://docs.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 // The OCID of the cluster network remains the same.
 func (client ComputeManagementClient) UpdateClusterNetwork(ctx context.Context, request UpdateClusterNetworkRequest) (response UpdateClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse

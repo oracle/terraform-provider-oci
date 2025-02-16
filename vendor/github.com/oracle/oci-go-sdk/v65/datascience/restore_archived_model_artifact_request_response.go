@@ -14,7 +14,7 @@ import (
 // RestoreArchivedModelArtifactRequest wrapper for the RestoreArchivedModelArtifact operation
 type RestoreArchivedModelArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// Duration in hours for which the archived model is available for access.

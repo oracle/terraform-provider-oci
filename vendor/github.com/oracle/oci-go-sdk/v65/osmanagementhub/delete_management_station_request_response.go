@@ -14,7 +14,7 @@ import (
 // DeleteManagementStationRequest wrapper for the DeleteManagementStation operation
 type DeleteManagementStationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -20,16 +20,16 @@ import (
 // WebAppFirewallSummary Summary of the WebAppFirewall.
 type WebAppFirewallSummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
 	GetId() *string
 
 	// WebAppFirewall display name, can be renamed.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
 	GetWebAppFirewallPolicyId() *string
 
 	// The time the WebAppFirewall was created. An RFC3339 formatted datetime string.

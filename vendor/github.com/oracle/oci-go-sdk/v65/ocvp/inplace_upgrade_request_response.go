@@ -14,7 +14,7 @@ import (
 // InplaceUpgradeRequest wrapper for the InplaceUpgrade operation
 type InplaceUpgradeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

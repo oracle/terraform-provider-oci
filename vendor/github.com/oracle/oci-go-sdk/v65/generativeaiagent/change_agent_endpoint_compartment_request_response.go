@@ -14,7 +14,7 @@ import (
 // ChangeAgentEndpointCompartmentRequest wrapper for the ChangeAgentEndpointCompartment operation
 type ChangeAgentEndpointCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	AgentEndpointId *string `mandatory:"true" contributesTo:"path" name:"agentEndpointId"`
 
 	// The information to be updated.
@@ -87,7 +87,7 @@ type ChangeAgentEndpointCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

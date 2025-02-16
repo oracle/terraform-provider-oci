@@ -4,7 +4,7 @@
 
 // Artifacts and Container Images API
 //
-// API covering the Artifacts and Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
+// API covering the Artifacts and Registry (https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
 // Use this API to manage resources such as generic artifacts and container images.
 //
 
@@ -19,7 +19,7 @@ import (
 // ChangeRepositoryCompartmentDetails Details for changing a repository's compartment.
 type ChangeRepositoryCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the repository should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the repository should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

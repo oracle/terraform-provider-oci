@@ -14,7 +14,7 @@ import (
 // DeleteAssetSourceRequest wrapper for the DeleteAssetSource operation
 type DeleteAssetSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asset source.
 	AssetSourceId *string `mandatory:"true" contributesTo:"path" name:"assetSourceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

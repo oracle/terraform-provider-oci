@@ -14,7 +14,7 @@ import (
 // GetInternalInternetGatewayRequest wrapper for the GetInternalInternetGateway operation
 type GetInternalInternetGatewayRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.
 	IgId *string `mandatory:"true" contributesTo:"path" name:"igId"`
 
 	// Unique Oracle-assigned identifier for the request.

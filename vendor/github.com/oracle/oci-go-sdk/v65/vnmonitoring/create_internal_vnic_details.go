@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -18,7 +18,7 @@ import (
 
 // CreateInternalVnicDetails This structure is used when creating vnic for internal clients.
 // For more information about VNICs, see
-// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 type CreateInternalVnicDetails struct {
 
 	// Whether the VNIC should be assigned IPv6 on compute instance launch or secondary VNIC creation.
@@ -37,13 +37,13 @@ type CreateInternalVnicDetails struct {
 	// `prohibitPublicIpOnVnic` = true, an error is returned.
 	// **Note:** This public IP address is associated with the primary private IP
 	// on the VNIC. For more information, see
-	// IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
+	// IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
 	// **Note:** There's a limit to the number of PublicIp
 	// a VNIC or instance can have. If you try to create a secondary VNIC
 	// with an assigned public IP for an instance that has already
 	// reached its public IP limit, an error is returned. For information
 	// about the public IP limits, see
-	// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
+	// Public IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 	// Example: `false`
 	AssignPublicIp *bool `mandatory:"false" json:"assignPublicIp"`
 
@@ -82,7 +82,7 @@ type CreateInternalVnicDetails struct {
 	// ListPrivateIps and
 	// GetPrivateIp.
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// When launching an instance, use this `hostnameLabel` instead
 	// of the deprecated `hostnameLabel` in
 	// LaunchInstanceDetails.
@@ -141,13 +141,13 @@ type CreateInternalVnicDetails struct {
 	// Example: `10.0.3.3`
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pool object created by the current tenancy
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pool object created by the current tenancy
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 
 	// ID of the customer visible upstream resource that the VNIC is associated with. This property is
 	// exposed to customers as part of API to list members of a network security group.
 	// For example, if the VNIC is associated with a loadbalancer or dbsystem instance, then it needs
-	// to be set to corresponding customer visible loadbalancer or dbsystem instance OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// to be set to corresponding customer visible loadbalancer or dbsystem instance OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// Note that the partner team creating/managing the VNIC is owner of this metadata.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
@@ -162,11 +162,11 @@ type CreateInternalVnicDetails struct {
 	// Whether the source/destination check is disabled on the VNIC.
 	// Defaults to `false`, which means the check is performed. For information
 	// about why you would skip the source/destination check, see
-	// Using a Private IP as a Route Target (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
+	// Using a Private IP as a Route Target (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create the VNIC in. When launching an instance,
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create the VNIC in. When launching an instance,
 	// use this `subnetId` instead of the deprecated `subnetId` in
 	// LaunchInstanceDetails.
 	// At least one of them is required; if you provide both, the values must match.
@@ -176,7 +176,7 @@ type CreateInternalVnicDetails struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN that the VNIC belongs to
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN that the VNIC belongs to
 	VlanId *string `mandatory:"false" json:"vlanId"`
 
 	// ID of the compartment

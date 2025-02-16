@@ -31,7 +31,7 @@ type ModelSummary struct {
 	// The version of the model.
 	ModelVersion *string `mandatory:"true" json:"modelVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// When the model was created, as an RFC3339 datetime string.

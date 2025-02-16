@@ -17,7 +17,7 @@ import (
 
 // CreateListenerDetails The configuration of the listener.
 // For more information about listener configuration, see
-// Listeners for Network Load Balancers (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
+// Listeners for Network Load Balancers (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
 type CreateListenerDetails struct {
 
 	// A friendly name for the listener. It must be unique and it cannot be changed.

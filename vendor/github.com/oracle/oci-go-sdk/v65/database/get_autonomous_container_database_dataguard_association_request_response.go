@@ -14,10 +14,10 @@ import (
 // GetAutonomousContainerDatabaseDataguardAssociationRequest wrapper for the GetAutonomousContainerDatabaseDataguardAssociation operation
 type GetAutonomousContainerDatabaseDataguardAssociationRequest struct {
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseId"`
 
-	// The Autonomous Container Database-Autonomous Data Guard association OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database-Autonomous Data Guard association OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseDataguardAssociationId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseDataguardAssociationId"`
 
 	// Unique Oracle-assigned identifier for the request.

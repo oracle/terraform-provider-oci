@@ -14,7 +14,7 @@ import (
 // EnableExternalDbSystemDatabaseManagementRequest wrapper for the EnableExternalDbSystemDatabaseManagement operation
 type EnableExternalDbSystemDatabaseManagementRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
 	// The details required to enable Database Management for an external DB system.

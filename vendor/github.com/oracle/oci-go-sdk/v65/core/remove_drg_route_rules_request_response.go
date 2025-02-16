@@ -14,7 +14,7 @@ import (
 // RemoveDrgRouteRulesRequest wrapper for the RemoveDrgRouteRules operation
 type RemoveDrgRouteRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Request to remove one or more route rules in the DRG route table.

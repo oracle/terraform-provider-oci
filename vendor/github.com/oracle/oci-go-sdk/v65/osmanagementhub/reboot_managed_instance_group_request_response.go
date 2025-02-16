@@ -14,7 +14,7 @@ import (
 // RebootManagedInstanceGroupRequest wrapper for the RebootManagedInstanceGroup operation
 type RebootManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// Provides the information used to reboot managed instances in a group.

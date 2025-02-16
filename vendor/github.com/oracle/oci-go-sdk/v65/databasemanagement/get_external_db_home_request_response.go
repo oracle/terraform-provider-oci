@@ -14,7 +14,7 @@ import (
 // GetExternalDbHomeRequest wrapper for the GetExternalDbHome operation
 type GetExternalDbHomeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database home.
 	ExternalDbHomeId *string `mandatory:"true" contributesTo:"path" name:"externalDbHomeId"`
 
 	// The client request ID for tracing.

@@ -14,7 +14,7 @@ import (
 // PatchOccDemandSignalRequest wrapper for the PatchOccDemandSignal operation
 type PatchOccDemandSignalRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
 	OccDemandSignalId *string `mandatory:"true" contributesTo:"path" name:"occDemandSignalId"`
 
 	// The information to be updated.

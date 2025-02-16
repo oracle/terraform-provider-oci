@@ -14,7 +14,7 @@ import (
 // GetQuotaRuleRequest wrapper for the GetQuotaRule operation
 type GetQuotaRuleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.

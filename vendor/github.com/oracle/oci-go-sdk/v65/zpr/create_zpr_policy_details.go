@@ -4,7 +4,7 @@
 
 // Zero Trust Packet Routing Control Plane API
 //
-// Use the Zero Trust Packet Routing Control Plane API to manage ZPR configuration and policy. See the Zero Trust Packet Routing (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/home.htm) documentation for more information.
+// Use the Zero Trust Packet Routing Control Plane API to manage ZPR configuration and policy. See the Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/home.htm) documentation for more information.
 //
 
 package zpr
@@ -18,7 +18,7 @@ import (
 // CreateZprPolicyDetails The data to create a ZprPolicy.
 type CreateZprPolicyDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the ZprPolicy in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the ZprPolicy in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The description you assign to the ZprPolicy during creation. Does not have to be unique, and it's changeable.
@@ -31,12 +31,12 @@ type CreateZprPolicyDetails struct {
 	Statements []string `mandatory:"true" json:"statements"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

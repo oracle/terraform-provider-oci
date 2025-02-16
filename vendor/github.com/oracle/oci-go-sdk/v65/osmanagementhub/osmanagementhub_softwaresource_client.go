@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -217,7 +217,7 @@ func (client SoftwareSourceClient) changeAvailabilityOfSoftwareSources(ctx conte
 }
 
 // ChangeSoftwareSourceCompartment Moves the specified software sources to a different compartment within the same tenancy.
-// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeSoftwareSourceCompartment()
 func (client SoftwareSourceClient) ChangeSoftwareSourceCompartment(ctx context.Context, request ChangeSoftwareSourceCompartmentRequest) (response ChangeSoftwareSourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -989,7 +989,7 @@ func (client SoftwareSourceClient) listAvailableSoftwarePackages(ctx context.Con
 	return response, err
 }
 
-// ListEntitlements Lists entitlements in the specified tenancy OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but
+// ListEntitlements Lists entitlements in the specified tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but
 // not limited to its Customer Support Identifier (CSI), and vendor name.
 // A default retry strategy applies to this operation ListEntitlements()
 func (client SoftwareSourceClient) ListEntitlements(ctx context.Context, request ListEntitlementsRequest) (response ListEntitlementsResponse, err error) {
@@ -1099,7 +1099,7 @@ func (client SoftwareSourceClient) listErrata(ctx context.Context, request commo
 	return response, err
 }
 
-// ListModuleStreamProfiles Lists module stream profiles from the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of
+// ListModuleStreamProfiles Lists module stream profiles from the specified software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of
 // criteria including but not limited to its module name, stream name, and profile name.
 // A default retry strategy applies to this operation ListModuleStreamProfiles()
 func (client SoftwareSourceClient) ListModuleStreamProfiles(ctx context.Context, request ListModuleStreamProfilesRequest) (response ListModuleStreamProfilesResponse, err error) {
@@ -1154,7 +1154,7 @@ func (client SoftwareSourceClient) listModuleStreamProfiles(ctx context.Context,
 	return response, err
 }
 
-// ListModuleStreams Lists module streams from the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// ListModuleStreams Lists module streams from the specified software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Filter the list against a variety of criteria including but not limited to its module name and (stream) name.
 // A default retry strategy applies to this operation ListModuleStreams()
 func (client SoftwareSourceClient) ListModuleStreams(ctx context.Context, request ListModuleStreamsRequest) (response ListModuleStreamsResponse, err error) {
@@ -1209,7 +1209,7 @@ func (client SoftwareSourceClient) listModuleStreams(ctx context.Context, reques
 	return response, err
 }
 
-// ListPackageGroups Lists package groups that are associated with the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
+// ListPackageGroups Lists package groups that are associated with the specified software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
 // variety of criteria including but not limited to its name, and package group type.
 // A default retry strategy applies to this operation ListPackageGroups()
 func (client SoftwareSourceClient) ListPackageGroups(ctx context.Context, request ListPackageGroupsRequest) (response ListPackageGroupsResponse, err error) {
@@ -1429,7 +1429,7 @@ func (client SoftwareSourceClient) listSoftwareSourceVendors(ctx context.Context
 	return response, err
 }
 
-// ListSoftwareSources Lists software sources that match the specified tenancy or software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
+// ListSoftwareSources Lists software sources that match the specified tenancy or software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
 // variety of criteria including but not limited to its name, status, architecture, and OS family.
 // A default retry strategy applies to this operation ListSoftwareSources()
 func (client SoftwareSourceClient) ListSoftwareSources(ctx context.Context, request ListSoftwareSourcesRequest) (response ListSoftwareSourcesResponse, err error) {

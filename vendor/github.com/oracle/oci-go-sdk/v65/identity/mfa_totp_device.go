@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/home.htm).
+// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.oracle.com/iaas/Content/Identity/home.htm).
 //
 
 package identity
@@ -20,7 +20,7 @@ import (
 // Console. To enable multi-factor authentication, the user must register a mobile device with a TOTP authenticator app
 // installed. The registration process creates the `MfaTotpDevice` object. The registration process requires
 // interaction with the Console and cannot be completed programmatically. For more information, see
-// Managing Multi-Factor Authentication (https://docs.cloud.oracle.com/Content/Identity/mfa/understand-multi-factor-authentication.htm).
+// Managing Multi-Factor Authentication (https://docs.oracle.com/iaas/Content/Identity/mfa/understand-multi-factor-authentication.htm).
 type MfaTotpDevice struct {
 
 	// The OCID of the MFA TOTP device.

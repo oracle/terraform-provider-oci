@@ -14,7 +14,7 @@ import (
 // UpdateNetworkFirewallRequest wrapper for the UpdateNetworkFirewall operation
 type UpdateNetworkFirewallRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
 	NetworkFirewallId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallId"`
 
 	// The information to be updated.

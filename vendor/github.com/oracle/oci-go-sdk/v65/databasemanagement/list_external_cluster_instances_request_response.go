@@ -14,10 +14,10 @@ import (
 // ListExternalClusterInstancesRequest wrapper for the ListExternalClusterInstances operation
 type ListExternalClusterInstancesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external cluster.
 	ExternalClusterId *string `mandatory:"false" contributesTo:"query" name:"externalClusterId"`
 
 	// A filter to only return the resources that match the entire display name.

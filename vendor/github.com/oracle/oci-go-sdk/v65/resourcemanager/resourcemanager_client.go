@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -214,7 +214,7 @@ func (client ResourceManagerClient) cancelJob(ctx context.Context, request commo
 
 // ChangeConfigurationSourceProviderCompartment Moves a configuration source provider into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeConfigurationSourceProviderCompartment()
 func (client ResourceManagerClient) ChangeConfigurationSourceProviderCompartment(ctx context.Context, request ChangeConfigurationSourceProviderCompartmentRequest) (response ChangeConfigurationSourceProviderCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -275,7 +275,7 @@ func (client ResourceManagerClient) changeConfigurationSourceProviderCompartment
 
 // ChangePrivateEndpointCompartment Moves a private endpoint to a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangePrivateEndpointCompartment()
 func (client ResourceManagerClient) ChangePrivateEndpointCompartment(ctx context.Context, request ChangePrivateEndpointCompartmentRequest) (response ChangePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -336,7 +336,7 @@ func (client ResourceManagerClient) changePrivateEndpointCompartment(ctx context
 
 // ChangeStackCompartment Moves a stack (and its associated jobs) into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeStackCompartment()
 func (client ResourceManagerClient) ChangeStackCompartment(ctx context.Context, request ChangeStackCompartmentRequest) (response ChangeStackCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -397,7 +397,7 @@ func (client ResourceManagerClient) changeStackCompartment(ctx context.Context, 
 
 // ChangeTemplateCompartment Moves a template into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeTemplateCompartment()
 func (client ResourceManagerClient) ChangeTemplateCompartment(ctx context.Context, request ChangeTemplateCompartmentRequest) (response ChangeTemplateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -458,7 +458,7 @@ func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Contex
 
 // CreateConfigurationSourceProvider Creates a configuration source provider in the specified compartment.
 // For more information, see
-// Creating a Configuration Source Provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-csp.htm).
+// Creating a Configuration Source Provider (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-csp.htm).
 // A default retry strategy applies to this operation CreateConfigurationSourceProvider()
 func (client ResourceManagerClient) CreateConfigurationSourceProvider(ctx context.Context, request CreateConfigurationSourceProviderRequest) (response CreateConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -641,7 +641,7 @@ func (client ResourceManagerClient) createPrivateEndpoint(ctx context.Context, r
 // You can also create a stack from an existing compartment, which generates a Terraform configuration.
 // You can also upload the Terraform configuration from an Object Storage bucket.
 // For more information, see
-// Creating a Stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
+// Creating a Stack (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
 // A default retry strategy applies to this operation CreateStack()
 func (client ResourceManagerClient) CreateStack(ctx context.Context, request CreateStackRequest) (response CreateStackResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1361,7 +1361,7 @@ func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request 
 
 // GetJobTfPlan Returns the output of the specified Terraform plan job in binary or JSON format.
 // For information about running Terraform plan jobs, see
-// Creating a Plan Job (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-plan.htm).
+// Creating a Plan Job (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-plan.htm).
 // A default retry strategy applies to this operation GetJobTfPlan()
 func (client ResourceManagerClient) GetJobTfPlan(ctx context.Context, request GetJobTfPlanRequest) (response GetJobTfPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2123,9 +2123,9 @@ func (client ResourceManagerClient) listJobOutputs(ctx context.Context, request 
 }
 
 // ListJobs Lists jobs according to the specified filter. By default, the list is ordered by time created.
-// - To list all jobs in a stack, provide the stack OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-// - To list all jobs in a compartment, provide the compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-// - To return a specific job, provide the job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). (Equivalent to GetStack.)
+// - To list all jobs in a stack, provide the stack OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// - To list all jobs in a compartment, provide the compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// - To return a specific job, provide the job OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). (Equivalent to GetStack.)
 // A default retry strategy applies to this operation ListJobs()
 func (client ResourceManagerClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2235,7 +2235,7 @@ func (client ResourceManagerClient) listPrivateEndpoints(ctx context.Context, re
 	return response, err
 }
 
-// ListResourceDiscoveryServices Returns a list of supported services for Resource Discovery (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm).
+// ListResourceDiscoveryServices Returns a list of supported services for Resource Discovery (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm).
 // For reference on service names, see the Terraform provider documentation (https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services).
 // A default retry strategy applies to this operation ListResourceDiscoveryServices()
 func (client ResourceManagerClient) ListResourceDiscoveryServices(ctx context.Context, request ListResourceDiscoveryServicesRequest) (response ListResourceDiscoveryServicesResponse, err error) {
@@ -2844,7 +2844,7 @@ func (client ResourceManagerClient) removeStackLock(ctx context.Context, request
 
 // UpdateConfigurationSourceProvider Updates the properties of the specified configuration source provider.
 // For more information, see
-// Updating a Configuration Source Provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-csp.htm).
+// Updating a Configuration Source Provider (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-csp.htm).
 // A default retry strategy applies to this operation UpdateConfigurationSourceProvider()
 func (client ResourceManagerClient) UpdateConfigurationSourceProvider(ctx context.Context, request UpdateConfigurationSourceProviderRequest) (response UpdateConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3010,7 +3010,7 @@ func (client ResourceManagerClient) updatePrivateEndpoint(ctx context.Context, r
 // Use `UpdateStack` when you update your Terraform configuration
 // and want your changes to be reflected in the execution plan.
 // For more information, see
-// Updating a Stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
+// Updating a Stack (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
 // A default retry strategy applies to this operation UpdateStack()
 func (client ResourceManagerClient) UpdateStack(ctx context.Context, request UpdateStackRequest) (response UpdateStackResponse, err error) {
 	var ociResponse common.OCIResponse

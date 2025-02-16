@@ -14,7 +14,7 @@ import (
 // RemoveDrgPeeringConnectionRequest wrapper for the RemoveDrgPeeringConnection operation
 type RemoveDrgPeeringConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	DrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"drgAttachmentId"`
 
 	// Unique Oracle-assigned identifier for the request.

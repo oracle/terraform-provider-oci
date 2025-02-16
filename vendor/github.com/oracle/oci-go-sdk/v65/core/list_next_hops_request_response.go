@@ -14,7 +14,7 @@ import (
 // ListNextHopsRequest wrapper for the ListNextHops operation
 type ListNextHopsRequest struct {
 
-	// The endpoint service's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The endpoint service's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	EndpointServiceId *string `mandatory:"true" contributesTo:"path" name:"endpointServiceId"`
 
 	// Unique identifier for the request.

@@ -7,7 +7,7 @@
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
-// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
+// the Monitoring documentation (https://docs.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -27,7 +27,7 @@ type MetricDataDetails struct {
 	// Example: `my_namespace`
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to use for metrics.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to use for metrics.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name of the metric.

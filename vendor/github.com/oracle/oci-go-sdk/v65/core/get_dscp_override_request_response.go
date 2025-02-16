@@ -14,7 +14,7 @@ import (
 // GetDscpOverrideRequest wrapper for the GetDscpOverride operation
 type GetDscpOverrideRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DSCP override.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DSCP override.
 	DscpOverrideId *string `mandatory:"true" contributesTo:"path" name:"dscpOverrideId"`
 
 	// Unique identifier for the request.

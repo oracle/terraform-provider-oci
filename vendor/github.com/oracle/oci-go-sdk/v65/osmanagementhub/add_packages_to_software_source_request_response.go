@@ -14,7 +14,7 @@ import (
 // AddPackagesToSoftwareSourceRequest wrapper for the AddPackagesToSoftwareSource operation
 type AddPackagesToSoftwareSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// A list of packages to be added to the software source.

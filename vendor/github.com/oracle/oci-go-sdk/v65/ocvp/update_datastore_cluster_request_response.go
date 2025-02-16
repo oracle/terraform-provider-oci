@@ -14,7 +14,7 @@ import (
 // UpdateDatastoreClusterRequest wrapper for the UpdateDatastoreCluster operation
 type UpdateDatastoreClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
 	DatastoreClusterId *string `mandatory:"true" contributesTo:"path" name:"datastoreClusterId"`
 
 	// The information to be updated.

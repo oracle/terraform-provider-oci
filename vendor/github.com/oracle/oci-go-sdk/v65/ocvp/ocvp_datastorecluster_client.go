@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -275,7 +275,7 @@ func (client DatastoreClusterClient) attachDatastoreClusterToEsxiHost(ctx contex
 
 // ChangeDatastoreClusterCompartment Moves an Datastore Cluster into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDatastoreClusterCompartment()
 func (client DatastoreClusterClient) ChangeDatastoreClusterCompartment(ctx context.Context, request ChangeDatastoreClusterCompartmentRequest) (response ChangeDatastoreClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

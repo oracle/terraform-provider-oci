@@ -19,10 +19,10 @@ import (
 // CreateDiagnosticActionDetails Diagnostic request model.
 type CreateDiagnosticActionDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The primary OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that will be used for the diagnostic action.
+	// The primary OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that will be used for the diagnostic action.
 	GetMonitoredResourceId() *string
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

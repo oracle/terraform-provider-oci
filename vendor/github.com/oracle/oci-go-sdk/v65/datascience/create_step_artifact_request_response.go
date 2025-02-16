@@ -15,7 +15,7 @@ import (
 // CreateStepArtifactRequest wrapper for the CreateStepArtifact operation
 type CreateStepArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// Unique Step identifier in a pipeline.

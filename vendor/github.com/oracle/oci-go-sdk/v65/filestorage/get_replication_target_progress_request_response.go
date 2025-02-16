@@ -14,7 +14,7 @@ import (
 // GetReplicationTargetProgressRequest wrapper for the GetReplicationTargetProgress operation
 type GetReplicationTargetProgressRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target.
 	ReplicationTargetId *string `mandatory:"true" contributesTo:"query" name:"replicationTargetId"`
 
 	// The `progressPercentage` of the associated replication source job.

@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,7 +18,7 @@ import (
 // RotateAutonomousContainerDatabaseEncryptionKeyDetails Key details provided by the user for rotate key operation for Autonomous Database.
 type RotateAutonomousContainerDatabaseEncryptionKeyDetails struct {
 
-	// Key version ocid of the key provided by the user for rotate operation. OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Key version ocid of the key provided by the user for rotate operation. OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	KeyVersionId *string `mandatory:"false" json:"keyVersionId"`
 }
 

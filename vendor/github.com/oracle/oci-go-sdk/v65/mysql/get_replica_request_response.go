@@ -14,7 +14,7 @@ import (
 // GetReplicaRequest wrapper for the GetReplica operation
 type GetReplicaRequest struct {
 
-	// The Replica OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Replica OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ReplicaId *string `mandatory:"true" contributesTo:"path" name:"replicaId"`
 
 	// Customer-defined unique identifier for the request. If you need to

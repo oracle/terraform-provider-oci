@@ -4,7 +4,7 @@
 
 // Vault Key Management API
 //
-// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -217,7 +217,7 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 }
 
 // ChangeVaultCompartment Moves a vault into a different compartment within the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the resource.
 // As a provisioning operation, this call is subject to a Key Management limit that applies to
 // the total number of requests across all provisioning write operations. Key Management might

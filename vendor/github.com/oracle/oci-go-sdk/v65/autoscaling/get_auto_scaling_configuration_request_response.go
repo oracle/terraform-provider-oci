@@ -14,7 +14,7 @@ import (
 // GetAutoScalingConfigurationRequest wrapper for the GetAutoScalingConfiguration operation
 type GetAutoScalingConfigurationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

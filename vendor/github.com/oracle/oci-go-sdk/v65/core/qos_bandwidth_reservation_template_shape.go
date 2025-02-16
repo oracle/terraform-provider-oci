@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// QosBandwidthReservationTemplateShape An individual Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template to associate with virtual circuits.
+// QosBandwidthReservationTemplateShape An individual Quality of Service (https://docs.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template to associate with virtual circuits.
 type QosBandwidthReservationTemplateShape struct {
 
-	// The name of the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template.
+	// The name of the Quality of Service (https://docs.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template.
 	// The template naming convention reflects the percentage of bandwidth to allocate to each queue: FC_QoS_\<premium bandwidth\>_\<default bandwidth\>_\<bulk bandwidth\>_\<scavenger bandwidth\>.
 	// Example: `FC_QoS_25_25_25_20`.
 	Name *string `mandatory:"true" json:"name"`

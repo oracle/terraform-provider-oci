@@ -14,7 +14,7 @@ import (
 // GetExternalContainerDatabaseRequest wrapper for the GetExternalContainerDatabase operation
 type GetExternalContainerDatabaseRequest struct {
 
-	// The ExternalContainerDatabase OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ExternalContainerDatabase OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExternalContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalContainerDatabaseId"`
 
 	// Unique identifier for the request.

@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -22,11 +22,11 @@ type DeniedSecurityActionDetails struct {
 	// If true, the evaluated security list and network security group ID details are incomplete.
 	IsRestrictedOrPartial *bool `mandatory:"true" json:"isRestrictedOrPartial"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of evaluated security lists associcated
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of evaluated security lists associcated
 	// with the OCI resource's subnet.
 	EvaluatedSecurityListIds []string `mandatory:"false" json:"evaluatedSecurityListIds"`
 
-	// List of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of evaluated network security groups
+	// List of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of evaluated network security groups
 	// associated with the OCI resource's VNIC.
 	EvaluatedNsgIds []string `mandatory:"false" json:"evaluatedNsgIds"`
 }

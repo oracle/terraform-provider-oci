@@ -5,7 +5,7 @@
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -28,7 +28,7 @@ type WorkRequestSummary struct {
 	// The ID of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work requests should be scoped to
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
 	// resource whose compartment should be used

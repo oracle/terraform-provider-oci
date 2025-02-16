@@ -22,7 +22,7 @@ type Certificate struct {
 	// It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
 	Key *string `mandatory:"true" json:"key"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
 	// The base64 encoded content of the PEM file containing the SSL certificate.

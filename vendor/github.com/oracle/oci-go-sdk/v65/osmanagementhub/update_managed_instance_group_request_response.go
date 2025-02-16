@@ -14,7 +14,7 @@ import (
 // UpdateManagedInstanceGroupRequest wrapper for the UpdateManagedInstanceGroup operation
 type UpdateManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// Provides the details used to update the managed instance group.

@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -62,7 +62,7 @@ type ReverseConnectionConfiguration struct {
 	// List of DNS zones to exclude from the default DNS resolution context.
 	ExcludedDnsZones []string `mandatory:"false" json:"excludedDnsZones"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service's subnet where
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service's subnet where
 	// the DNS proxy endpoint will be created.
 	ServiceSubnetId *string `mandatory:"false" json:"serviceSubnetId"`
 

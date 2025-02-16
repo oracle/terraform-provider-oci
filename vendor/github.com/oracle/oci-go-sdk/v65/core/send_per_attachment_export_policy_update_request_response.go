@@ -14,7 +14,7 @@ import (
 // SendPerAttachmentExportPolicyUpdateRequest wrapper for the SendPerAttachmentExportPolicyUpdate operation
 type SendPerAttachmentExportPolicyUpdateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Details for sending per attachment export policy update.

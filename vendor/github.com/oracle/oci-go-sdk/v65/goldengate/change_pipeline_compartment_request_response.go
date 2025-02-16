@@ -14,7 +14,7 @@ import (
 // ChangePipelineCompartmentRequest wrapper for the ChangePipelineCompartment operation
 type ChangePipelineCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// Properties to change the compartment of a Pipeline.

@@ -14,7 +14,7 @@ import (
 // GetComputeTargetRequest wrapper for the GetComputeTarget operation
 type GetComputeTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	ComputeTargetId *string `mandatory:"true" contributesTo:"path" name:"computeTargetId"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
@@ -71,7 +71,7 @@ type GetComputeTargetResponse struct {
 	// The ComputeTarget instance
 	ComputeTarget `presentIn:"body"`
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

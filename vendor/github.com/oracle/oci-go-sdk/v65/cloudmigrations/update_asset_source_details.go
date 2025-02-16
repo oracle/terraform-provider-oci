@@ -23,7 +23,7 @@ type UpdateAssetSourceDetails interface {
 	// Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	GetAssetsCompartmentId() *string
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.

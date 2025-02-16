@@ -17,7 +17,7 @@ type GetReachableIpRequest struct {
 	// The IP address of the resource in the private subnet.
 	PrivateIp *string `mandatory:"true" contributesTo:"query" name:"privateIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -5,7 +5,7 @@
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -19,7 +19,7 @@ import (
 // UpdateNetworkDetails Network details for the database system.
 type UpdateNetworkDetails struct {
 
-	// List of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the database system.
+	// List of Network Security Group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Specifies if the reader endpoint is enabled on the dbSystem.

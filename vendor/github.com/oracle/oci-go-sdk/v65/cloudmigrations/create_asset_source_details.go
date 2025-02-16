@@ -19,16 +19,16 @@ import (
 // CreateAssetSourceDetails Asset source creation request.
 type CreateAssetSourceDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the environment.
 	GetEnvironmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
 	GetInventoryId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	GetAssetsCompartmentId() *string
 
 	// A user-friendly name for the asset source. Does not have to be unique, and it's mutable.
@@ -36,7 +36,7 @@ type CreateAssetSourceDetails interface {
 	// explicitly provided.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be attached to the created asset.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be attached to the created asset.
 	GetDiscoveryScheduleId() *string
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.

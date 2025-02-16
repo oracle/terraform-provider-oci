@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,10 +19,10 @@ import (
 // ManagedInstanceGroup An object that defines the managed instance group.
 type ManagedInstanceGroup struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the managed instance group.
@@ -49,13 +49,13 @@ type ManagedInstanceGroup struct {
 	// The vendor of the operating system used by the managed instances in the group.
 	VendorName VendorNameEnum `mandatory:"false" json:"vendorName,omitempty"`
 
-	// The list of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the managed instance group will use.
+	// The list of software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the managed instance group will use.
 	SoftwareSourceIds []SoftwareSourceDetails `mandatory:"false" json:"softwareSourceIds"`
 
 	// The list of software sources that the managed instance group will use.
 	SoftwareSources []SoftwareSourceDetails `mandatory:"false" json:"softwareSources"`
 
-	// The list of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) attached to the managed instance group.
+	// The list of managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) attached to the managed instance group.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
 	// The number of managed instances in the group.
@@ -67,7 +67,7 @@ type ManagedInstanceGroup struct {
 	// The number of scheduled jobs pending against the managed instance group.
 	PendingJobCount *int `mandatory:"false" json:"pendingJobCount"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
 	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
 
 	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
@@ -76,12 +76,12 @@ type ManagedInstanceGroup struct {
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 

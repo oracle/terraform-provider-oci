@@ -14,7 +14,7 @@ import (
 // CancelWorkRequestRequest wrapper for the CancelWorkRequest operation
 type CancelWorkRequestRequest struct {
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// This is used for optimistic concurrency control. In the PUT or DELETE call for a resource, set the

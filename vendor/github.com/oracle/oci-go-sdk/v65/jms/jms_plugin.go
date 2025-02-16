@@ -18,10 +18,10 @@ import (
 // JmsPlugin Information about a JmsPlugin that has been registered.
 type JmsPlugin struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to identify this JmsPlugin.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to identify this JmsPlugin.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Management Agent (OMA) or the Oracle Cloud Agent (OCA) instance where the JMS plugin is deployed.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent (OMA) or the Oracle Cloud Agent (OCA) instance where the JMS plugin is deployed.
 	AgentId *string `mandatory:"true" json:"agentId"`
 
 	// The agent type.
@@ -36,10 +36,10 @@ type JmsPlugin struct {
 	// The date and time the plugin was registered.
 	TimeRegistered *common.SDKTime `mandatory:"true" json:"timeRegistered"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet.
 	FleetId *string `mandatory:"false" json:"fleetId"`
 
-	// The OMA/OCA agent's compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The OMA/OCA agent's compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The hostname of the agent.
@@ -64,15 +64,15 @@ type JmsPlugin struct {
 	TimeLastSeen *common.SDKTime `mandatory:"false" json:"timeLastSeen"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Concepts/understandingfreeformtags.htm).)
+	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm).)
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// System tags can be viewed by users, but can only be created by the system.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

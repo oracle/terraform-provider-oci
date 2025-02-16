@@ -14,7 +14,7 @@ import (
 // GetAwrDbReportRequest wrapper for the GetAwrDbReport operation
 type GetAwrDbReportRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The parameter to filter the database by internal ID.

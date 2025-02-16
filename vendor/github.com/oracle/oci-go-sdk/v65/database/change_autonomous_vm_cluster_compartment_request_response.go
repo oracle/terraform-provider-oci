@@ -17,7 +17,7 @@ type ChangeAutonomousVmClusterCompartmentRequest struct {
 	// Request to move Autonomous VM cluster to a different compartment
 	ChangeAutonomousVmClusterCompartmentDetails `contributesTo:"body"`
 
-	// The autonomous VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The autonomous VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"autonomousVmClusterId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

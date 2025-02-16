@@ -19,10 +19,10 @@ import (
 // InstanceAgentCommandSummary Summary information for a command.
 type InstanceAgentCommandSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the command.
 	InstanceAgentCommandId *string `mandatory:"true" json:"instanceAgentCommandId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the command.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time the command was created, in the format defined by

@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,7 +19,7 @@ import (
 // InternalByoipv6RangeAllocations Details containing the ipv6 prefixes allocation under an InternalByoipv6Range.
 type InternalByoipv6RangeAllocations struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `InternalByoipv6Range` resource to which the ipv6 CIDR block belongs.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `InternalByoipv6Range` resource to which the ipv6 CIDR block belongs.
 	Byoipv6RangeId *string `mandatory:"false" json:"byoipv6RangeId"`
 
 	// The ipv6 CIDR block to be used in the vcn under a ByoipRange. It could be all of the CIDR block identified in `byoipv6RangeId`, or a subrange.

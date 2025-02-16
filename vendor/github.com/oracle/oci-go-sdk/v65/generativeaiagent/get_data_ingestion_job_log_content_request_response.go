@@ -15,7 +15,7 @@ import (
 // GetDataIngestionJobLogContentRequest wrapper for the GetDataIngestionJobLogContent operation
 type GetDataIngestionJobLogContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data ingestion job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data ingestion job.
 	DataIngestionJobId *string `mandatory:"true" contributesTo:"path" name:"dataIngestionJobId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

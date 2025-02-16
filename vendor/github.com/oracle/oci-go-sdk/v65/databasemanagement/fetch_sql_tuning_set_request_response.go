@@ -14,7 +14,7 @@ import (
 // FetchSqlTuningSetRequest wrapper for the FetchSqlTuningSet operation
 type FetchSqlTuningSetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The unique identifier of the Sql tuning set. This is not OCID.

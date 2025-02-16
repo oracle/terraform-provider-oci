@@ -14,7 +14,7 @@ import (
 // TestPipelineConnectionRequest wrapper for the TestPipelineConnection operation
 type TestPipelineConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// Additional metadata required to test the connection assigned to the pipeline.

@@ -14,7 +14,7 @@ import (
 // GetPluggableDatabaseSnapshotRequest wrapper for the GetPluggableDatabaseSnapshot operation
 type GetPluggableDatabaseSnapshotRequest struct {
 
-	// The Exadata Pluggable Database Snapshot OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata Pluggable Database Snapshot OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PluggableDatabaseSnapshotId *string `mandatory:"true" contributesTo:"path" name:"pluggableDatabaseSnapshotId"`
 
 	// Unique identifier for the request.

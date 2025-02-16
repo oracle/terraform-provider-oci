@@ -14,7 +14,7 @@ import (
 // ListVersionsRequest wrapper for the ListVersions operation
 type ListVersionsRequest struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Customer-defined unique identifier for the request. If you need to

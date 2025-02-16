@@ -14,10 +14,10 @@ import (
 // AssociateManagedInstancesWithManagementStationRequest wrapper for the AssociateManagedInstancesWithManagementStation operation
 type AssociateManagedInstancesWithManagementStationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
-	// The managed instances OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to associate to the management station.
+	// The managed instances OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to associate to the management station.
 	AssociateManagedInstancesWithManagementStationDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

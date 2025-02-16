@@ -15,7 +15,7 @@ import (
 // UpdateModelCustomMetadatumArtifactRequest wrapper for the UpdateModelCustomMetadatumArtifact operation
 type UpdateModelCustomMetadatumArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// The name of the model metadatum in the metadata.
@@ -96,7 +96,7 @@ type UpdateModelCustomMetadatumArtifactResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

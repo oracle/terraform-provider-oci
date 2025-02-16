@@ -14,7 +14,7 @@ import (
 // DeleteVlanRequest wrapper for the DeleteVlan operation
 type DeleteVlanRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
 	VlanId *string `mandatory:"true" contributesTo:"path" name:"vlanId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

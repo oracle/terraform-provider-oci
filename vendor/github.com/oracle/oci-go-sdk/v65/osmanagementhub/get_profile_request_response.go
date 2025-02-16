@@ -14,7 +14,7 @@ import (
 // GetProfileRequest wrapper for the GetProfile operation
 type GetProfileRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	ProfileId *string `mandatory:"true" contributesTo:"path" name:"profileId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

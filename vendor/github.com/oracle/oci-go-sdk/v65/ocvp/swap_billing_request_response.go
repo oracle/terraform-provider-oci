@@ -14,10 +14,10 @@ import (
 // SwapBillingRequest wrapper for the SwapBilling operation
 type SwapBillingRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
 	SwapBillingHostId *string `mandatory:"true" contributesTo:"query" name:"swapBillingHostId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

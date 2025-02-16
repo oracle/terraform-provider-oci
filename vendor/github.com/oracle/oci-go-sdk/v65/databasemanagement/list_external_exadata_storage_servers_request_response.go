@@ -14,10 +14,10 @@ import (
 // ListExternalExadataStorageServersRequest wrapper for the ListExternalExadataStorageServers operation
 type ListExternalExadataStorageServersRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExternalExadataInfrastructureId *string `mandatory:"true" contributesTo:"query" name:"externalExadataInfrastructureId"`
 
 	// The optional single value query filter parameter on the entity display name.

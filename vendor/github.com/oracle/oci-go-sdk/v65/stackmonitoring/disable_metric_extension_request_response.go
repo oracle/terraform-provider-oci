@@ -14,7 +14,7 @@ import (
 // DisableMetricExtensionRequest wrapper for the DisableMetricExtension operation
 type DisableMetricExtensionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the metric extension resource.
 	MetricExtensionId *string `mandatory:"true" contributesTo:"path" name:"metricExtensionId"`
 
 	// The list of Resource IDs for which given metric extension needs to be disabled

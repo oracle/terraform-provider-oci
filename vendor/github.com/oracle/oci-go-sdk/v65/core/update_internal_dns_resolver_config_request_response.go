@@ -14,7 +14,7 @@ import (
 // UpdateInternalDnsResolverConfigRequest wrapper for the UpdateInternalDnsResolverConfig operation
 type UpdateInternalDnsResolverConfigRequest struct {
 
-	// The DNS resolver's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// The DNS resolver's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	InternalDnsResolverId *string `mandatory:"true" contributesTo:"path" name:"internalDnsResolverId"`
 
 	// Requesting to update an internal dns resolver config.

@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CreateRedisClusterDetails The configuration details for a new OCI Cache cluster. An OCI Cache cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// CreateRedisClusterDetails The configuration details for a new OCI Cache cluster. An OCI Cache cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 type CreateRedisClusterDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
@@ -33,7 +33,7 @@ type CreateRedisClusterDetails struct {
 	// The amount of memory allocated to the cluster's nodes, in gigabytes.
 	NodeMemoryInGBs *float32 `mandatory:"true" json:"nodeMemoryInGBs"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// Specifies whether the cluster is sharded or non-sharded.
@@ -42,9 +42,9 @@ type CreateRedisClusterDetails struct {
 	// The number of shards in sharded cluster. Only applicable when clusterMode is SHARDED.
 	ShardCount *int `mandatory:"false" json:"shardCount"`
 
-	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// A list of Network Security Group (NSG) OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// associated with this cluster. For more information,
-	// see Using an NSG for Clusters (https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
+	// see Using an NSG for Clusters (https://docs.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

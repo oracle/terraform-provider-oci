@@ -14,7 +14,7 @@ import (
 // DisableCompartmentRequest wrapper for the DisableCompartment operation
 type DisableCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"path" name:"compartmentId"`
 
 	// Unique identifier for the request.

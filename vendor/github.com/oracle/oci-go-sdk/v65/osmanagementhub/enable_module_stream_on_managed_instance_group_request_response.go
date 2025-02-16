@@ -14,7 +14,7 @@ import (
 // EnableModuleStreamOnManagedInstanceGroupRequest wrapper for the EnableModuleStreamOnManagedInstanceGroup operation
 type EnableModuleStreamOnManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// The details used to enable the module stream on the managed instance group.

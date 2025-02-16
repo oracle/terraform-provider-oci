@@ -18,13 +18,13 @@ import (
 // ScheduledTaskSummary Summary information about a scheduled task.
 type ScheduledTaskSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Task type.
 	TaskType TaskTypeEnum `mandatory:"true" json:"taskType"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time the schedule task was created, in the format defined by RFC3339.
@@ -51,7 +51,7 @@ type ScheduledTaskSummary struct {
 	// reason for taskStatus PAUSED.
 	PauseReason ScheduledTaskPauseReasonEnum `mandatory:"false" json:"pauseReason,omitempty"`
 
-	// most recent Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
+	// most recent Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

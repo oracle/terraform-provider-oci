@@ -14,7 +14,7 @@ import (
 // ChangeCustomProtectionRuleCompartmentRequest wrapper for the ChangeCustomProtectionRuleCompartment operation
 type ChangeCustomProtectionRuleCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the custom protection rule. This number is generated when the custom protection rule is added to the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom protection rule. This number is generated when the custom protection rule is added to the compartment.
 	CustomProtectionRuleId *string `mandatory:"true" contributesTo:"path" name:"customProtectionRuleId"`
 
 	ChangeCustomProtectionRuleCompartmentDetails `contributesTo:"body"`

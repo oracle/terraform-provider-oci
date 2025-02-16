@@ -15,7 +15,7 @@ import (
 // ExportMetricExtensionRequest wrapper for the ExportMetricExtension operation
 type ExportMetricExtensionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the metric extension resource.
 	MetricExtensionId *string `mandatory:"true" contributesTo:"path" name:"metricExtensionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

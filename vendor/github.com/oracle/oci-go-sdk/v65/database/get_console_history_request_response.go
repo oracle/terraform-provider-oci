@@ -14,7 +14,7 @@ import (
 // GetConsoleHistoryRequest wrapper for the GetConsoleHistory operation
 type GetConsoleHistoryRequest struct {
 
-	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// The OCID of the console history.

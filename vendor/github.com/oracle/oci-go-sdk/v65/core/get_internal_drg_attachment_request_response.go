@@ -14,7 +14,7 @@ import (
 // GetInternalDrgAttachmentRequest wrapper for the GetInternalDrgAttachment operation
 type GetInternalDrgAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	InternalDrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"internalDrgAttachmentId"`
 
 	// Unique Oracle-assigned identifier for the request.

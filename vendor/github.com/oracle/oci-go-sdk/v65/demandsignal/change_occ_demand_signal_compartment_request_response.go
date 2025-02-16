@@ -14,7 +14,7 @@ import (
 // ChangeOccDemandSignalCompartmentRequest wrapper for the ChangeOccDemandSignalCompartment operation
 type ChangeOccDemandSignalCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
 	OccDemandSignalId *string `mandatory:"true" contributesTo:"path" name:"occDemandSignalId"`
 
 	// The information to be updated.
@@ -80,7 +80,7 @@ type ChangeOccDemandSignalCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

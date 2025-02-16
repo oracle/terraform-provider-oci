@@ -14,13 +14,13 @@ import (
 // ListMySqlDatabaseConnectorsRequest wrapper for the ListMySqlDatabaseConnectors operation
 type ListMySqlDatabaseConnectorsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database.
 	ExternalDatabaseId *string `mandatory:"false" contributesTo:"query" name:"externalDatabaseId"`
 
 	// The parameter to filter by MySQL Database System type.

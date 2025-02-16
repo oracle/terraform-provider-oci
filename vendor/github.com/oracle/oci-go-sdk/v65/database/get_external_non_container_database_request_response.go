@@ -14,7 +14,7 @@ import (
 // GetExternalNonContainerDatabaseRequest wrapper for the GetExternalNonContainerDatabase operation
 type GetExternalNonContainerDatabaseRequest struct {
 
-	// The external non-container database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The external non-container database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExternalNonContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalNonContainerDatabaseId"`
 
 	// Unique identifier for the request.

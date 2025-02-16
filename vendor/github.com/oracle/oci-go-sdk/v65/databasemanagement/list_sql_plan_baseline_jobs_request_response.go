@@ -14,7 +14,7 @@ import (
 // ListSqlPlanBaselineJobsRequest wrapper for the ListSqlPlanBaselineJobs operation
 type ListSqlPlanBaselineJobsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// A filter to return the SQL plan baseline jobs that match the name.

@@ -14,7 +14,7 @@ import (
 // ListPerformanceTuningAnalysisResultsRequest wrapper for the ListPerformanceTuningAnalysisResults operation
 type ListPerformanceTuningAnalysisResultsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The Fleet-unique identifier of the related managed instance.
@@ -26,7 +26,7 @@ type ListPerformanceTuningAnalysisResultsRequest struct {
 	// The name of the application.
 	ApplicationName *string `mandatory:"false" contributesTo:"query" name:"applicationName"`
 
-	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The host OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	HostName *string `mandatory:"false" contributesTo:"query" name:"hostName"`
 
 	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
@@ -116,7 +116,7 @@ type ListPerformanceTuningAnalysisResultsResponse struct {
 
 	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

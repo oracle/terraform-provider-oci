@@ -19,7 +19,7 @@ import (
 // UpdateAgentReceiverTaskDetails Request details for enabling/disabling the metric receiver on the management agent.
 type UpdateAgentReceiverTaskDetails struct {
 
-	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Management Agent Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AgentId *string `mandatory:"true" json:"agentId"`
 
 	// True to enable the receiver and false to disable the receiver on the agent.

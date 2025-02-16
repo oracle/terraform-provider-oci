@@ -14,7 +14,7 @@ import (
 // GetNetworkLoadBalancerHealthRequest wrapper for the GetNetworkLoadBalancerHealth operation
 type GetNetworkLoadBalancerHealthRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// The unique Oracle-assigned identifier for the request. If you must contact Oracle about a

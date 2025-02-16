@@ -14,16 +14,16 @@ import (
 // GetExecutionPlanStatsComparisionRequest wrapper for the GetExecutionPlanStatsComparision operation
 type GetExecutionPlanStatsComparisionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The SQL tuning task identifier. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The SQL tuning task identifier. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SqlTuningAdvisorTaskId *int64 `mandatory:"true" contributesTo:"path" name:"sqlTuningAdvisorTaskId"`
 
-	// The SQL object ID for the SQL tuning task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The SQL object ID for the SQL tuning task. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SqlObjectId *int64 `mandatory:"true" contributesTo:"query" name:"sqlObjectId"`
 
-	// The execution ID for an execution of a SQL tuning task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution ID for an execution of a SQL tuning task. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionId *int64 `mandatory:"true" contributesTo:"query" name:"executionId"`
 
 	// The client request ID for tracing.

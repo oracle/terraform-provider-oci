@@ -14,7 +14,7 @@ import (
 // ChangeComputeTargetCompartmentRequest wrapper for the ChangeComputeTargetCompartment operation
 type ChangeComputeTargetCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	ComputeTargetId *string `mandatory:"true" contributesTo:"path" name:"computeTargetId"`
 
 	// Details for changing the compartment of a compute target.

@@ -14,7 +14,7 @@ import (
 // UpdateBackupDestinationRequest wrapper for the UpdateBackupDestination operation
 type UpdateBackupDestinationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup destination.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 	BackupDestinationId *string `mandatory:"true" contributesTo:"path" name:"backupDestinationId"`
 
 	// For a RECOVERY_APPLIANCE backup destination, request to update the connection string and/or the list of VPC users.

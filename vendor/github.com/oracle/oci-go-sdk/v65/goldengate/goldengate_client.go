@@ -492,7 +492,7 @@ func (client GoldenGateClient) cancelSnoozeDeploymentUpgrade(ctx context.Context
 // ChangeConnectionCompartment Moves the Connection into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeConnectionCompartment()
 func (client GoldenGateClient) ChangeConnectionCompartment(ctx context.Context, request ChangeConnectionCompartmentRequest) (response ChangeConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -550,7 +550,7 @@ func (client GoldenGateClient) changeConnectionCompartment(ctx context.Context, 
 // Moves the DatabaseRegistration into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDatabaseRegistrationCompartment()
 func (client GoldenGateClient) ChangeDatabaseRegistrationCompartment(ctx context.Context, request ChangeDatabaseRegistrationCompartmentRequest) (response ChangeDatabaseRegistrationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -612,7 +612,7 @@ func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context
 // ChangeDeploymentBackupCompartment Moves a DeploymentBackup into a different compartment within the same tenancy.  When provided,
 // If-Match is checked against ETag values of the resource.  For information about moving
 // resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDeploymentBackupCompartment()
 func (client GoldenGateClient) ChangeDeploymentBackupCompartment(ctx context.Context, request ChangeDeploymentBackupCompartmentRequest) (response ChangeDeploymentBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -674,7 +674,7 @@ func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Con
 // ChangeDeploymentCompartment Moves the Deployment into a different compartment within the same tenancy.  When provided,
 // If-Match is checked against ETag values of the resource.  For information about moving
 // resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDeploymentCompartment()
 func (client GoldenGateClient) ChangeDeploymentCompartment(ctx context.Context, request ChangeDeploymentCompartmentRequest) (response ChangeDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -736,7 +736,7 @@ func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, 
 // ChangePipelineCompartment Moves the Pipeline into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangePipelineCompartment()
 func (client GoldenGateClient) ChangePipelineCompartment(ctx context.Context, request ChangePipelineCompartmentRequest) (response ChangePipelineCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

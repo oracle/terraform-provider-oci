@@ -14,13 +14,13 @@ import (
 // ListWebAppFirewallsRequest wrapper for the ListWebAppFirewalls operation
 type ListWebAppFirewallsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only the WebAppFirewall with the given OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// A filter to return only the WebAppFirewall with the given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// A filter to return only the WebAppFirewall with the given OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of related WebAppFirewallPolicy.
+	// A filter to return only the WebAppFirewall with the given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of related WebAppFirewallPolicy.
 	WebAppFirewallPolicyId *string `mandatory:"false" contributesTo:"query" name:"webAppFirewallPolicyId"`
 
 	// A filter to return only resources that match the given lifecycleState.

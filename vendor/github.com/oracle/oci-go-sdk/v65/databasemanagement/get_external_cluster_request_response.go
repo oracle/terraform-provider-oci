@@ -14,7 +14,7 @@ import (
 // GetExternalClusterRequest wrapper for the GetExternalCluster operation
 type GetExternalClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external cluster.
 	ExternalClusterId *string `mandatory:"true" contributesTo:"path" name:"externalClusterId"`
 
 	// The client request ID for tracing.

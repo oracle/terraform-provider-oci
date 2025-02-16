@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,7 +20,7 @@ import (
 // OptimizerDatabase The subset information of the Managed Database resource, which is used by Optimizer Statistics.
 type OptimizerDatabase struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the Managed Database.
@@ -39,7 +39,7 @@ type OptimizerDatabase struct {
 	// The version of the Oracle Database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the Managed Database resides.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the Managed Database resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

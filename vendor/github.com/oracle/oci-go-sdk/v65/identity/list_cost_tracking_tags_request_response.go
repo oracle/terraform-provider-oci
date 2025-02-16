@@ -100,7 +100,7 @@ type ListCostTrackingTagsResponse struct {
 	// For pagination of a list of cost tracking tag. When paging through a list, if this header appears in the response,
 	// then a partial list might have been returned. Include this value as the `page` parameter for the
 	// subsequent GET request to get the next batch of items. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

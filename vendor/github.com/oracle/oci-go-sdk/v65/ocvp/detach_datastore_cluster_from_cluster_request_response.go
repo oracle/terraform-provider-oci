@@ -14,7 +14,7 @@ import (
 // DetachDatastoreClusterFromClusterRequest wrapper for the DetachDatastoreClusterFromCluster operation
 type DetachDatastoreClusterFromClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore Cluster.
 	DatastoreClusterId *string `mandatory:"true" contributesTo:"path" name:"datastoreClusterId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

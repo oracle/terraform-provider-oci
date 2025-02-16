@@ -15,7 +15,7 @@ import (
 // GetTemplateLogoRequest wrapper for the GetTemplateLogo operation
 type GetTemplateLogoRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.
 	TemplateId *string `mandatory:"true" contributesTo:"path" name:"templateId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -14,7 +14,7 @@ import (
 // AddmTasksRequest wrapper for the AddmTasks operation
 type AddmTasksRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The beginning of the time range to search for ADDM tasks as defined by date-time RFC3339 format.

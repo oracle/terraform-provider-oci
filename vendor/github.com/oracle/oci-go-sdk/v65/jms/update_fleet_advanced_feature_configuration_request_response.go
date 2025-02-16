@@ -14,7 +14,7 @@ import (
 // UpdateFleetAdvancedFeatureConfigurationRequest wrapper for the UpdateFleetAdvancedFeatureConfiguration operation
 type UpdateFleetAdvancedFeatureConfigurationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// Update advanced feature configurations with new fields.

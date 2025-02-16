@@ -14,7 +14,7 @@ import (
 // UpdateContainerRequest wrapper for the UpdateContainer operation
 type UpdateContainerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container.
 	ContainerId *string `mandatory:"true" contributesTo:"path" name:"containerId"`
 
 	// The information to be updated.

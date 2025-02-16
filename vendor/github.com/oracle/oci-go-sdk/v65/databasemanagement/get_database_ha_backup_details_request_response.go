@@ -14,7 +14,7 @@ import (
 // GetDatabaseHaBackupDetailsRequest wrapper for the GetDatabaseHaBackupDetails operation
 type GetDatabaseHaBackupDetailsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The client request ID for tracing.

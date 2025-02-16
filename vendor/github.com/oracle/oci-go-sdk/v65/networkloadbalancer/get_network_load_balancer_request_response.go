@@ -14,7 +14,7 @@ import (
 // GetNetworkLoadBalancerRequest wrapper for the GetNetworkLoadBalancer operation
 type GetNetworkLoadBalancerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// The system returns the requested resource, with a 200 status, only if the resource has no etag

@@ -14,7 +14,7 @@ import (
 // ReplacePackagesInSoftwareSourceRequest wrapper for the ReplacePackagesInSoftwareSource operation
 type ReplacePackagesInSoftwareSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// A list of packages that will replace the existing packages in the software source.

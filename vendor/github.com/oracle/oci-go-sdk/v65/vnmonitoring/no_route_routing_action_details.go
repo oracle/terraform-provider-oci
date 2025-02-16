@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -22,10 +22,10 @@ type NoRouteRoutingActionDetails struct {
 	// If true, the evaluated route table details are incomplete.
 	IsRestrictedOrPartial *bool `mandatory:"true" json:"isRestrictedOrPartial"`
 
-	// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the evaluated VCN route table.
+	// OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the evaluated VCN route table.
 	EvaluatedVcnRouteTableId *string `mandatory:"false" json:"evaluatedVcnRouteTableId"`
 
-	// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of evaluated DRG route table.
+	// OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of evaluated DRG route table.
 	EvaluatedDrgRouteTableId *string `mandatory:"false" json:"evaluatedDrgRouteTableId"`
 }
 

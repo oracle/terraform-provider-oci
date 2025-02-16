@@ -18,7 +18,7 @@ import (
 // ChangeDatabaseToolsIdentityCompartmentDetails Contains the details for the compartment to move the `DatabaseToolsIdentity` to.
 type ChangeDatabaseToolsIdentityCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the `DatabaseToolsIdentity` to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the `DatabaseToolsIdentity` to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

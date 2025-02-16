@@ -14,7 +14,7 @@ import (
 // GetDatabaseRequest wrapper for the GetDatabase operation
 type GetDatabaseRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -19,7 +19,7 @@ import (
 // OkeJobInfrastructureConfigurationDetails The job infrastructure configuration for OKE as compute target
 type OkeJobInfrastructureConfigurationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target to create a run for.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target to create a run for.
 	ComputeTargetId *string `mandatory:"true" json:"computeTargetId"`
 }
 

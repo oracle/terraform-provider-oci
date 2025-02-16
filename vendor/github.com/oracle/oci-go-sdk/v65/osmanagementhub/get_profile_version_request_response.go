@@ -14,7 +14,7 @@ import (
 // GetProfileVersionRequest wrapper for the GetProfileVersion operation
 type GetProfileVersionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	ProfileId *string `mandatory:"true" contributesTo:"path" name:"profileId"`
 
 	// The version of the registration profile.

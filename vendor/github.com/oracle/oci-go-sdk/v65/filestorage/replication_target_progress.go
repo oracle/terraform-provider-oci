@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -31,10 +31,10 @@ type ReplicationTargetProgress struct {
 	// The num of the new snapshot which is currently being applied to the target file system.
 	NewSnapshotNum *string `mandatory:"true" json:"newSnapshotNum"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of replication.
 	ReplicationId *string `mandatory:"true" json:"replicationId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of replicationTarget.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of replicationTarget.
 	ReplicationTargetId *string `mandatory:"true" json:"replicationTargetId"`
 }
 

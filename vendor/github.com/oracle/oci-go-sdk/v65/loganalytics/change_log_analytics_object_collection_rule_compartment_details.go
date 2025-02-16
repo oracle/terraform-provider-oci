@@ -18,7 +18,7 @@ import (
 // ChangeLogAnalyticsObjectCollectionRuleCompartmentDetails New compartment details.
 type ChangeLogAnalyticsObjectCollectionRuleCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to which the rule have to be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which the rule have to be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

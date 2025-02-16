@@ -14,7 +14,7 @@ import (
 // GetDatabaseSoftwareImageRequest wrapper for the GetDatabaseSoftwareImage operation
 type GetDatabaseSoftwareImageRequest struct {
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"databaseSoftwareImageId"`
 
 	// Unique Oracle-assigned identifier for the request.

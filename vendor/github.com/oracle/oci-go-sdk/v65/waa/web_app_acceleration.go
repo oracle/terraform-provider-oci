@@ -21,16 +21,16 @@ import (
 // WebAppAcceleration A resource connecting a WebAppAccelerationPolicy to a backend of particular type, applying that policy's coverage to the backend.
 type WebAppAcceleration interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
 	GetId() *string
 
 	// WebAppAcceleration display name, can be renamed.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
 	GetWebAppAccelerationPolicyId() *string
 
 	// The time the WebAppAcceleration was created. An RFC3339 formatted datetime string.

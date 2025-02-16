@@ -31,7 +31,7 @@ type PipelineDataflowStepRun struct {
 	// Details of the state of the step run.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow run triggered for this step run.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow run triggered for this step run.
 	DataflowRunId *string `mandatory:"false" json:"dataflowRunId"`
 
 	// The state of the step run.

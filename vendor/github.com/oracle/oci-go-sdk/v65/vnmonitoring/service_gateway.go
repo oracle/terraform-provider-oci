@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -22,10 +22,10 @@ import (
 // routed through the service gateway and does not traverse the internet. The instances in the VCN
 // do not need to have public IP addresses nor be in a public subnet. The VCN does not need an internet gateway
 // for this traffic. For more information, see
-// Access to Oracle Services: Service Gateway (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm).
+// Access to Oracle Services: Service Gateway (https://docs.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type ServiceGateway struct {
 
 	// Whether the service gateway blocks all traffic through it. The default is `false`. When
@@ -33,11 +33,11 @@ type ServiceGateway struct {
 	// Example: `true`
 	BlockTraffic *bool `mandatory:"true" json:"blockTraffic"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the
 	// service gateway.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service gateway.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service gateway.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The service gateway's current state.
@@ -49,7 +49,7 @@ type ServiceGateway struct {
 	// UpdateServiceGateway.
 	Services []ServiceIdResponseDetails `mandatory:"true" json:"services"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the service gateway
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the service gateway
 	// belongs to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
@@ -65,9 +65,9 @@ type ServiceGateway struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway is using.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway is using.
 	// For information about why you would associate a route table with a service gateway, see
-	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
+	// Transit Routing: Private Access to Oracle Services (https://docs.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// The date and time the service gateway was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).

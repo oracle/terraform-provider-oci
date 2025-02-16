@@ -14,7 +14,7 @@ import (
 // GetSnapshotRequest wrapper for the GetSnapshot operation
 type GetSnapshotRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the snapshot.
 	SnapshotId *string `mandatory:"true" contributesTo:"path" name:"snapshotId"`
 
 	// Unique identifier for the request.

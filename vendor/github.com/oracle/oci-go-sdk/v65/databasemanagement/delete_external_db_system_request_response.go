@@ -14,7 +14,7 @@ import (
 // DeleteExternalDbSystemRequest wrapper for the DeleteExternalDbSystem operation
 type DeleteExternalDbSystemRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
 	// The client request ID for tracing.

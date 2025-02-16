@@ -19,18 +19,21 @@ type DiscoveryTypesEnum string
 
 // Set of constants representing the allowable values for DiscoveryTypesEnum
 const (
-	DiscoveryTypesDb DiscoveryTypesEnum = "DB"
-	DiscoveryTypesGi DiscoveryTypesEnum = "GI"
+	DiscoveryTypesDb      DiscoveryTypesEnum = "DB"
+	DiscoveryTypesGi      DiscoveryTypesEnum = "GI"
+	DiscoveryTypesGuestOs DiscoveryTypesEnum = "GUEST_OS"
 )
 
 var mappingDiscoveryTypesEnum = map[string]DiscoveryTypesEnum{
-	"DB": DiscoveryTypesDb,
-	"GI": DiscoveryTypesGi,
+	"DB":       DiscoveryTypesDb,
+	"GI":       DiscoveryTypesGi,
+	"GUEST_OS": DiscoveryTypesGuestOs,
 }
 
 var mappingDiscoveryTypesEnumLowerCase = map[string]DiscoveryTypesEnum{
-	"db": DiscoveryTypesDb,
-	"gi": DiscoveryTypesGi,
+	"db":       DiscoveryTypesDb,
+	"gi":       DiscoveryTypesGi,
+	"guest_os": DiscoveryTypesGuestOs,
 }
 
 // GetDiscoveryTypesEnumValues Enumerates the set of values for DiscoveryTypesEnum
@@ -47,6 +50,7 @@ func GetDiscoveryTypesEnumStringValues() []string {
 	return []string{
 		"DB",
 		"GI",
+		"GUEST_OS",
 	}
 }
 

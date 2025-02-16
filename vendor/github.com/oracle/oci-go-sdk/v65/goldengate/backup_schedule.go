@@ -28,7 +28,7 @@ type BackupSchedule struct {
 	// Name of the bucket where the object is to be uploaded in the object storage
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Name of namespace that serves as a container for all of your buckets

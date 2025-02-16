@@ -14,7 +14,7 @@ import (
 // SummarizeSqlPlanBaselinesRequest wrapper for the SummarizeSqlPlanBaselines operation
 type SummarizeSqlPlanBaselinesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The page token representing the page from where the next set of paginated results

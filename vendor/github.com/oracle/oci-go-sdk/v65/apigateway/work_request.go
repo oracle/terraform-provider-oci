@@ -6,7 +6,7 @@
 //
 // API for the API Gateway service. Use this API to manage gateways, deployments, and related items.
 // For more information, see
-// Overview of API Gateway (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
+// Overview of API Gateway (https://docs.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
 //
 
 package apigateway
@@ -20,7 +20,7 @@ import (
 // WorkRequest A description of the work request status.
 type WorkRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The type of the work request.
@@ -29,7 +29,7 @@ type WorkRequest struct {
 	// The status of the work request.
 	Status WorkRequestStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the
 	// resource is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

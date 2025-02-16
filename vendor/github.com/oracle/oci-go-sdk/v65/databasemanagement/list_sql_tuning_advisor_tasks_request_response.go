@@ -14,7 +14,7 @@ import (
 // ListSqlTuningAdvisorTasksRequest wrapper for the ListSqlTuningAdvisorTasks operation
 type ListSqlTuningAdvisorTasksRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The optional query parameter to filter the SQL Tuning Advisor task list by name.

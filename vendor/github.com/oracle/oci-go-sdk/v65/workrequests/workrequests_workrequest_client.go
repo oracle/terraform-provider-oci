@@ -8,7 +8,7 @@
 // immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the request.
 // Work requests provide visibility into the status of these in-progress, long-running workflows.
 // For more information about work requests and the operations that spawn work requests, see
-// Work Requests (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
+// Work Requests (https://docs.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
 //
 
 package workrequests

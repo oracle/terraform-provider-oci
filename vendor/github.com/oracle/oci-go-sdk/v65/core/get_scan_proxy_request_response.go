@@ -17,7 +17,7 @@ type GetScanProxyRequest struct {
 	// A unique ID that identifies a scanProxy within a privateEndpoint.
 	ScanProxyId *string `mandatory:"true" contributesTo:"path" name:"scanProxyId"`
 
-	// The private endpoint's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The private endpoint's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Unique identifier for the request.

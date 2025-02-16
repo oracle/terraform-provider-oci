@@ -14,7 +14,7 @@ import (
 // UpdateCloudVmClusterRequest wrapper for the UpdateCloudVmCluster operation
 type UpdateCloudVmClusterRequest struct {
 
-	// The cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The cloud VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudVmClusterId"`
 
 	// Request to update the attributes of a cloud VM cluster.
@@ -79,7 +79,7 @@ type UpdateCloudVmClusterResponse struct {
 	// The CloudVmCluster instance
 	CloudVmCluster `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

@@ -19,13 +19,13 @@ import (
 // CreateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails Details for the new Database Tools identity for the Oracle Database Resource Principal Identity type.
 type CreateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools identity.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools identity.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" json:"databaseToolsConnectionId"`
 
 	// The name of the credential object created in the Oracle database.

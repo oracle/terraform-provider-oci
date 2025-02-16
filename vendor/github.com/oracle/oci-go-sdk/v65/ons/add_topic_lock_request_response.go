@@ -14,7 +14,7 @@ import (
 // AddTopicLockRequest wrapper for the AddTopicLock operation
 type AddTopicLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a topic.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a topic.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// AddResourceLockDetails body parameter

@@ -14,10 +14,10 @@ import (
 // UpdateSchedulingWindowRequest wrapper for the UpdateSchedulingWindow operation
 type UpdateSchedulingWindowRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
-	// The Scheduling Window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingWindowId *string `mandatory:"true" contributesTo:"path" name:"schedulingWindowId"`
 
 	// Request to update the properties of a Scheduling Window.
@@ -82,7 +82,7 @@ type UpdateSchedulingWindowResponse struct {
 	// The SchedulingWindow instance
 	SchedulingWindow `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

@@ -19,10 +19,10 @@ import (
 // PrivateApplicationStackPackage A stack package for private applications.
 type PrivateApplicationStackPackage struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private application package.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private application package.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private application where the package is hosted.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private application where the package is hosted.
 	PrivateApplicationId *string `mandatory:"true" json:"privateApplicationId"`
 
 	// The package version.

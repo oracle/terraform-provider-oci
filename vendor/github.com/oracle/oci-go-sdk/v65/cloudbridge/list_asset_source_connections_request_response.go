@@ -14,7 +14,7 @@ import (
 // ListAssetSourceConnectionsRequest wrapper for the ListAssetSourceConnections operation
 type ListAssetSourceConnectionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asset source.
 	AssetSourceId *string `mandatory:"true" contributesTo:"path" name:"assetSourceId"`
 
 	// The maximum number of items to return.

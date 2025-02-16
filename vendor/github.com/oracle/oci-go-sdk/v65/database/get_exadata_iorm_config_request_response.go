@@ -14,7 +14,7 @@ import (
 // GetExadataIormConfigRequest wrapper for the GetExadataIormConfig operation
 type GetExadataIormConfigRequest struct {
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// Unique identifier for the request.

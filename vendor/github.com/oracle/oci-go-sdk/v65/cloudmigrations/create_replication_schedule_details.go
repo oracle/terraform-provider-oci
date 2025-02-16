@@ -18,7 +18,7 @@ import (
 // CreateReplicationScheduleDetails Information about replication schedule to be created.
 type CreateReplicationScheduleDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the replication schedule should be created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the replication schedule should be created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Recurrence specification for replication schedule execution.

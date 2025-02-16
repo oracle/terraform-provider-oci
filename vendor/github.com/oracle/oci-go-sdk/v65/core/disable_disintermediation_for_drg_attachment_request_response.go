@@ -14,7 +14,7 @@ import (
 // DisableDisintermediationForDrgAttachmentRequest wrapper for the DisableDisintermediationForDrgAttachment operation
 type DisableDisintermediationForDrgAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	DrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"drgAttachmentId"`
 
 	// Unique identifier for the request.

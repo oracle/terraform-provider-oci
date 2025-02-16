@@ -14,7 +14,7 @@ import (
 // UpdateAddressListRequest wrapper for the UpdateAddressList operation
 type UpdateAddressListRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the address list. This number is generated when the address list is added to the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the address list. This number is generated when the address list is added to the compartment.
 	AddressListId *string `mandatory:"true" contributesTo:"path" name:"addressListId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

@@ -14,7 +14,7 @@ import (
 // EnableHtModeRequest wrapper for the EnableHtMode operation
 type EnableHtModeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Unique identifier for the request.

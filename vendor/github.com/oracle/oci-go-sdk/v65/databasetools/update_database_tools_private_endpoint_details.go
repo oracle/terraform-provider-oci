@@ -32,7 +32,7 @@ type UpdateDatabaseToolsPrivateEndpointDetails struct {
 	// A description of the Database Tools private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups
 	// that the private endpoint's VNIC belongs to.  For more information about NSGs, see
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`

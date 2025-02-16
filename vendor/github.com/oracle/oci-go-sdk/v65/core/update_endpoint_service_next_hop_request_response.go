@@ -14,7 +14,7 @@ import (
 // UpdateEndpointServiceNextHopRequest wrapper for the UpdateEndpointServiceNextHop operation
 type UpdateEndpointServiceNextHopRequest struct {
 
-	// The endpoint service's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The endpoint service's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	EndpointServiceId *string `mandatory:"true" contributesTo:"path" name:"endpointServiceId"`
 
 	// An IP address that handles requests to the endpoint service.

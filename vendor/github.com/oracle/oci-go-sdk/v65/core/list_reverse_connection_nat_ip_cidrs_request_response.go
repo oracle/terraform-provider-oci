@@ -14,7 +14,7 @@ import (
 // ListReverseConnectionNatIpCidrsRequest wrapper for the ListReverseConnectionNatIpCidrs operation
 type ListReverseConnectionNatIpCidrsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"query" name:"vcnId"`
 
 	// Unique identifier for the request.

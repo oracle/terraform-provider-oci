@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -22,18 +22,18 @@ import (
 // Job The properties of a job.
 // A job performs the actions that are defined in your Terraform configuration.
 // For instructions on managing jobs, see
-// Managing Jobs (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/jobs.htm).
+// Managing Jobs (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/jobs.htm).
 // For more information about jobs, see
-// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__jobdefinition).
+// Key Concepts (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__jobdefinition).
 type Job struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack that is associated with the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack that is associated with the job.
 	StackId *string `mandatory:"false" json:"stackId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the job's associated stack resides.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the job's associated stack resides.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The job's display name.
@@ -46,7 +46,7 @@ type Job struct {
 	// Terraform Registry (https://registry.terraform.io/browse/providers) and allows
 	// CustomTerraformProvider.
 	// For more information about stack sourcing of third-party Terraform providers, see
-	// Third-party Provider Configuration (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
+	// Third-party Provider Configuration (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
 	IsThirdPartyProviderExperienceEnabled *bool `mandatory:"false" json:"isThirdPartyProviderExperienceEnabled"`
 
 	// Specifies whether or not to upgrade provider versions.
@@ -59,7 +59,7 @@ type Job struct {
 	ApplyJobPlanResolution *ApplyJobPlanResolution `mandatory:"false" json:"applyJobPlanResolution"`
 
 	// Deprecated. Use the property `executionPlanJobId` in `jobOperationDetails` instead.
-	// The plan job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that was used (if this was an apply job and was not auto-approved).
+	// The plan job OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that was used (if this was an apply job and was not auto-approved).
 	ResolvedPlanJobId *string `mandatory:"false" json:"resolvedPlanJobId"`
 
 	// The date and time when the job was created.
@@ -74,7 +74,7 @@ type Job struct {
 
 	// Current state of the specified job.
 	// For more information about job lifecycle states in Resource Manager, see
-	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__JobStates).
+	// Key Concepts (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__JobStates).
 	LifecycleState JobLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	FailureDetails *FailureDetails `mandatory:"false" json:"failureDetails"`
@@ -86,7 +86,7 @@ type Job struct {
 	// Required when using a zip Terraform configuration (`configSourceType` value of `ZIP_UPLOAD`) that contains folders.
 	// Ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
 	// For more information about required and recommended file structure, see
-	// File Structure (Terraform Configurations for Resource Manager) (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
+	// File Structure (Terraform Configurations for Resource Manager) (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 
 	// Terraform variables associated with this resource.
@@ -98,12 +98,12 @@ type Job struct {
 	ConfigSource ConfigSourceRecord `mandatory:"false" json:"configSource"`
 
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

@@ -14,7 +14,7 @@ import (
 // RemoveOutboundConnectorLockRequest wrapper for the RemoveOutboundConnectorLock operation
 type RemoveOutboundConnectorLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the outbound connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the outbound connector.
 	OutboundConnectorId *string `mandatory:"true" contributesTo:"path" name:"outboundConnectorId"`
 
 	// The details to be updated for the RemoveLock.

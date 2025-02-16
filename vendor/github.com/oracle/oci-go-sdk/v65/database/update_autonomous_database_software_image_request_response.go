@@ -14,7 +14,7 @@ import (
 // UpdateAutonomousDatabaseSoftwareImageRequest wrapper for the UpdateAutonomousDatabaseSoftwareImage operation
 type UpdateAutonomousDatabaseSoftwareImageRequest struct {
 
-	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseSoftwareImageId"`
 
 	// Request to update the properties of an Autonomous Database Software Image.

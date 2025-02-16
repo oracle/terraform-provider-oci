@@ -14,7 +14,7 @@ import (
 // DeleteC3DrgRouteDistributionRequest wrapper for the DeleteC3DrgRouteDistribution operation
 type DeleteC3DrgRouteDistributionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
 	DrgRouteDistributionId *string `mandatory:"true" contributesTo:"path" name:"drgRouteDistributionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

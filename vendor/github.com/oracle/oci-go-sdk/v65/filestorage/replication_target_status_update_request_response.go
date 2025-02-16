@@ -15,7 +15,7 @@ import (
 // ReplicationTargetStatusUpdateRequest wrapper for the ReplicationTargetStatusUpdate operation
 type ReplicationTargetStatusUpdateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target.
 	ReplicationTargetId *string `mandatory:"true" contributesTo:"query" name:"replicationTargetId"`
 
 	// The `deltaStatus` of the snapshot during replication operations.

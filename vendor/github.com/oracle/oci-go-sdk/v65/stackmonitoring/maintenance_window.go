@@ -20,13 +20,13 @@ import (
 // Used in the Create and Get operations.
 type MaintenanceWindow struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of maintenance window.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Maintenance Window name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Maintenance Window description.

@@ -14,7 +14,7 @@ import (
 // GetCloudExadataInfrastructureRequest wrapper for the GetCloudExadataInfrastructure operation
 type GetCloudExadataInfrastructureRequest struct {
 
-	// The cloud Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The cloud Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"cloudExadataInfrastructureId"`
 
 	// Unique identifier for the request.

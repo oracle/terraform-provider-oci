@@ -14,7 +14,7 @@ import (
 // UpdateServiceGatewayRequest wrapper for the UpdateServiceGateway operation
 type UpdateServiceGatewayRequest struct {
 
-	// The service gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The service gateway's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
 	// Details object for updating a service gateway.

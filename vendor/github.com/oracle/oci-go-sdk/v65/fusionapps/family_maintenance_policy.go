@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// FamilyMaintenancePolicy The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see Understanding Environment Maintenance (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance).
+// FamilyMaintenancePolicy The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see Understanding Environment Maintenance (https://docs.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance).
 type FamilyMaintenancePolicy struct {
 
 	// The quarterly maintenance month group schedule of the Fusion environment family.
@@ -26,6 +26,8 @@ type FamilyMaintenancePolicy struct {
 
 	// Option to upgrade both production and non-production environments at the same time. When set to PROD both types of environnments are upgraded on the production schedule. When set to NON_PROD both types of environments are upgraded on the non-production schedule.
 	ConcurrentMaintenance FamilyMaintenancePolicyConcurrentMaintenanceEnum `mandatory:"false" json:"concurrentMaintenance,omitempty"`
+
+	MaintenanceStartTimeRule *MaintenanceStartTimeRule `mandatory:"false" json:"maintenanceStartTimeRule"`
 }
 
 func (m FamilyMaintenancePolicy) String() string {

@@ -14,7 +14,7 @@ import (
 // DeleteSnapshotRequest wrapper for the DeleteSnapshot operation
 type DeleteSnapshotRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the snapshot.
 	SnapshotId *string `mandatory:"true" contributesTo:"path" name:"snapshotId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

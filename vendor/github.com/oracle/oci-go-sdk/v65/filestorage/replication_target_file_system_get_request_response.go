@@ -14,7 +14,7 @@ import (
 // ReplicationTargetFileSystemGetRequest wrapper for the ReplicationTargetFileSystemGet operation
 type ReplicationTargetFileSystemGetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"query" name:"fileSystemId"`
 
 	// Unique identifier for the request.

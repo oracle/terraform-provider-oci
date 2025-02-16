@@ -14,7 +14,7 @@ import (
 // ReconcileAutonomousDatabaseRequest wrapper for the ReconcileAutonomousDatabase operation
 type ReconcileAutonomousDatabaseRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
 	// Reconciles the specified objects within the Autonomous Database.

@@ -14,7 +14,7 @@ import (
 // GetAgentEndpointRequest wrapper for the GetAgentEndpoint operation
 type GetAgentEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	AgentEndpointId *string `mandatory:"true" contributesTo:"path" name:"agentEndpointId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

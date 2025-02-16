@@ -14,7 +14,7 @@ import (
 // GetFirmwareReportRequest wrapper for the GetFirmwareReport operation
 type GetFirmwareReportRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FirmwareReport.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FirmwareReport.
 	FirmwareReportId *string `mandatory:"true" contributesTo:"path" name:"firmwareReportId"`
 
 	// Unique identifier for the request.

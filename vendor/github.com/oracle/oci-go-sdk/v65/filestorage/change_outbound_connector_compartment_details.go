@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -19,7 +19,7 @@ import (
 // ChangeOutboundConnectorCompartmentDetails Details for changing the compartment of the outbound connector.
 type ChangeOutboundConnectorCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// to move the outbound connector to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

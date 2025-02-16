@@ -14,7 +14,7 @@ import (
 // UpdateEndpointRequest wrapper for the UpdateEndpoint operation
 type UpdateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
 	// The information to be updated.
@@ -83,7 +83,7 @@ type UpdateEndpointResponse struct {
 	// The Endpoint instance
 	Endpoint `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

@@ -14,7 +14,7 @@ import (
 // ListManagedDatabasesRequest wrapper for the ListManagedDatabases operation
 type ListManagedDatabasesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.
@@ -32,7 +32,7 @@ type ListManagedDatabasesRequest struct {
 	// A filter to return Managed Databases of the specified deployment type.
 	DeploymentType ListManagedDatabasesDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExternalExadataInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"externalExadataInfrastructureId"`
 
 	// The page token representing the page from where the next set of paginated results

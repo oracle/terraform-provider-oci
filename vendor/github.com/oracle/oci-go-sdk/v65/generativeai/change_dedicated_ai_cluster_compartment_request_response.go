@@ -14,7 +14,7 @@ import (
 // ChangeDedicatedAiClusterCompartmentRequest wrapper for the ChangeDedicatedAiClusterCompartment operation
 type ChangeDedicatedAiClusterCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
 	DedicatedAiClusterId *string `mandatory:"true" contributesTo:"path" name:"dedicatedAiClusterId"`
 
 	// The information to be updated.

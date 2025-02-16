@@ -14,7 +14,7 @@ import (
 // ChangeJobRunCompartmentRequest wrapper for the ChangeJobRunCompartment operation
 type ChangeJobRunCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run.
 	JobRunId *string `mandatory:"true" contributesTo:"path" name:"jobRunId"`
 
 	// Details for changing the compartment of a job.

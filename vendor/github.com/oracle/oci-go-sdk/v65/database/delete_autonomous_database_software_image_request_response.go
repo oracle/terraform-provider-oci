@@ -14,7 +14,7 @@ import (
 // DeleteAutonomousDatabaseSoftwareImageRequest wrapper for the DeleteAutonomousDatabaseSoftwareImage operation
 type DeleteAutonomousDatabaseSoftwareImageRequest struct {
 
-	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseSoftwareImageId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -73,7 +73,7 @@ type DeleteAutonomousDatabaseSoftwareImageResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

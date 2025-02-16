@@ -14,7 +14,7 @@ import (
 // UpdateInternalDrgAttachmentRequest wrapper for the UpdateInternalDrgAttachment operation
 type UpdateInternalDrgAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	InternalDrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"internalDrgAttachmentId"`
 
 	// Details object for updating a `DrgAttachment`.

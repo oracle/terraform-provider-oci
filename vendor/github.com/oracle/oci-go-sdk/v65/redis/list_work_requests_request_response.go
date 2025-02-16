@@ -23,7 +23,7 @@ type ListWorkRequestsRequest struct {
 	// A filter to return only resources their lifecycleState matches the given OperationStatus.
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the resource affected by the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the resource affected by the work request.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// The client request ID for tracing.

@@ -17,13 +17,13 @@ type IngestSqlPlanLinesRequest struct {
 	// Collection of SQL plan line objects for a particular database.
 	IngestSqlPlanLinesDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
+	// Optional OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
 	DatabaseId *string `mandatory:"false" contributesTo:"query" name:"databaseId"`
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

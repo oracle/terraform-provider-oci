@@ -14,7 +14,7 @@ import (
 // ModifyAutonomousDatabaseManagementFeatureRequest wrapper for the ModifyAutonomousDatabaseManagementFeature operation
 type ModifyAutonomousDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
 	// The details required to modify a Database Management feature for an Autonomous Database.

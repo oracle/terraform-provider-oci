@@ -14,7 +14,7 @@ import (
 // DeleteBackupDestinationRequest wrapper for the DeleteBackupDestination operation
 type DeleteBackupDestinationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup destination.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 	BackupDestinationId *string `mandatory:"true" contributesTo:"path" name:"backupDestinationId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

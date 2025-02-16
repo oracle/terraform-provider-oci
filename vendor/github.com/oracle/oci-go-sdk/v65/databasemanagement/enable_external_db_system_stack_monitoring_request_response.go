@@ -14,7 +14,7 @@ import (
 // EnableExternalDbSystemStackMonitoringRequest wrapper for the EnableExternalDbSystemStackMonitoring operation
 type EnableExternalDbSystemStackMonitoringRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
 	// The details required to enable Stack Monitoring for an external DB system.

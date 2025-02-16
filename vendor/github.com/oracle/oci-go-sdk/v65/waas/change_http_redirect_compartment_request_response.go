@@ -14,7 +14,7 @@ import (
 // ChangeHttpRedirectCompartmentRequest wrapper for the ChangeHttpRedirectCompartment operation
 type ChangeHttpRedirectCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.
 	HttpRedirectId *string `mandatory:"true" contributesTo:"path" name:"httpRedirectId"`
 
 	ChangeHttpRedirectCompartmentDetails `contributesTo:"body"`

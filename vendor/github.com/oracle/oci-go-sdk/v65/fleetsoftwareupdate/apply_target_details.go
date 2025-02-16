@@ -19,13 +19,13 @@ import (
 // ApplyTargetDetails Move database details
 type ApplyTargetDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) in which the related FSU Job will be created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) in which the related FSU Job will be created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the FSU Home previously created
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FSU Home previously created
 	SourceFsuHomeId *string `mandatory:"true" json:"sourceFsuHomeId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the FSU Home previously created
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FSU Home previously created
 	TargetFsuHomeId *string `mandatory:"true" json:"targetFsuHomeId"`
 
 	// Ignore all patches between the source and target homes during patching.

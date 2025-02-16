@@ -14,7 +14,7 @@ import (
 // DeleteProfileRequest wrapper for the DeleteProfile operation
 type DeleteProfileRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	ProfileId *string `mandatory:"true" contributesTo:"path" name:"profileId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

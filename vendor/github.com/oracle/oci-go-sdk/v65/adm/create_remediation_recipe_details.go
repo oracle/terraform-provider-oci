@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -19,7 +19,7 @@ import (
 // CreateRemediationRecipeDetails Details to create a new Remediation Recipe.
 type CreateRemediationRecipeDetails struct {
 
-	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the remediation recipe.
+	// The compartment Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the remediation recipe.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ScmConfiguration ScmConfiguration `mandatory:"true" json:"scmConfiguration"`
@@ -30,7 +30,7 @@ type CreateRemediationRecipeDetails struct {
 
 	NetworkConfiguration *NetworkConfiguration `mandatory:"true" json:"networkConfiguration"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the knowledge base.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 	KnowledgeBaseId *string `mandatory:"true" json:"knowledgeBaseId"`
 
 	// Boolean indicating if a run should be automatically triggered once the knowledge base is updated.

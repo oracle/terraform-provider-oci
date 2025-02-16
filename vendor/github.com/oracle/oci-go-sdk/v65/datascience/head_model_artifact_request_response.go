@@ -14,7 +14,7 @@ import (
 // HeadModelArtifactRequest wrapper for the HeadModelArtifact operation
 type HeadModelArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
@@ -68,7 +68,7 @@ type HeadModelArtifactResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

@@ -14,7 +14,7 @@ import (
 // UpdateChannelRequest wrapper for the UpdateChannel operation
 type UpdateChannelRequest struct {
 
-	// The Channel OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Channel OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ChannelId *string `mandatory:"true" contributesTo:"path" name:"channelId"`
 
 	// The parameters of the request to update the Channel.

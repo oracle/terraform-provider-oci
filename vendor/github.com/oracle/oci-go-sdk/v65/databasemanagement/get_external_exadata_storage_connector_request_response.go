@@ -14,7 +14,7 @@ import (
 // GetExternalExadataStorageConnectorRequest wrapper for the GetExternalExadataStorageConnector operation
 type GetExternalExadataStorageConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.
 	ExternalExadataStorageConnectorId *string `mandatory:"true" contributesTo:"path" name:"externalExadataStorageConnectorId"`
 
 	// The client request ID for tracing.

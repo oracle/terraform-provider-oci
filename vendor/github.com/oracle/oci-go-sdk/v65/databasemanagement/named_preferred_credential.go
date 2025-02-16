@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -27,7 +27,7 @@ type NamedPreferredCredential struct {
 	// Indicates whether the preferred credential is accessible.
 	IsAccessible *bool `mandatory:"false" json:"isAccessible"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential that contains the database user password metadata.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Named Credential that contains the database user password metadata.
 	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
 
 	// The status of the preferred credential.

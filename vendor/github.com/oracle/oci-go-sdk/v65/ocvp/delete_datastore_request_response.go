@@ -14,7 +14,7 @@ import (
 // DeleteDatastoreRequest wrapper for the DeleteDatastore operation
 type DeleteDatastoreRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore.
 	DatastoreId *string `mandatory:"true" contributesTo:"path" name:"datastoreId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

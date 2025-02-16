@@ -14,7 +14,7 @@ import (
 // SetDrgPeeringConnectionRequest wrapper for the SetDrgPeeringConnection operation
 type SetDrgPeeringConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	DrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"drgAttachmentId"`
 
 	// Details to set an RPC attachment's peering info.

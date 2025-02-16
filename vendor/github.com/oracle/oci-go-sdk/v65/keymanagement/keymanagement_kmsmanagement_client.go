@@ -4,7 +4,7 @@
 
 // Vault Key Management API
 //
-// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -267,7 +267,7 @@ func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, 
 }
 
 // ChangeKeyCompartment Moves a key into a different compartment within the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the key.
 // As a provisioning operation, this call is subject to a Key Management limit that applies to
 // the total number of requests across all provisioning write operations. Key Management might
@@ -392,7 +392,7 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateKeyVersion Generates a new KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/latest/KeyVersion/) resource that provides new cryptographic
+// CreateKeyVersion Generates a new KeyVersion (https://docs.oracle.com/iaas/api/#/en/key/latest/KeyVersion/) resource that provides new cryptographic
 // material for a master encryption key. The key must be in an `ENABLED` state to be rotated.
 // As a management operation, this call is subject to a Key Management limit that applies to the total number
 // of requests across all  management write operations. Key Management might throttle this call to reject an
@@ -931,7 +931,7 @@ func (client KmsManagementClient) importKeyVersion(ctx context.Context, request 
 	return response, err
 }
 
-// ListKeyVersions Lists all KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/latest/KeyVersion/) resources for the specified
+// ListKeyVersions Lists all KeyVersion (https://docs.oracle.com/iaas/api/#/en/key/latest/KeyVersion/) resources for the specified
 // master encryption key.
 // As a management operation, this call is subject to a Key Management limit that applies to the total number
 // of requests across all management read operations. Key Management might throttle this call to reject an

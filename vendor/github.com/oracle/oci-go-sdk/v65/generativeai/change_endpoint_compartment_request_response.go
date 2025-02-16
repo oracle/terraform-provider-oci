@@ -14,7 +14,7 @@ import (
 // ChangeEndpointCompartmentRequest wrapper for the ChangeEndpointCompartment operation
 type ChangeEndpointCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
 	// The endpoint information to be updated.

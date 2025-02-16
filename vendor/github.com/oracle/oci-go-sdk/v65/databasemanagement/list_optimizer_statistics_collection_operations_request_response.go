@@ -14,7 +14,7 @@ import (
 // ListOptimizerStatisticsCollectionOperationsRequest wrapper for the ListOptimizerStatisticsCollectionOperations operation
 type ListOptimizerStatisticsCollectionOperationsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The start time of the time range to retrieve the optimizer statistics of a Managed Database

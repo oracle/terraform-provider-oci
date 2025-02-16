@@ -14,7 +14,7 @@ import (
 // WithdrawCommonExportPolicyUpdateRequest wrapper for the WithdrawCommonExportPolicyUpdate operation
 type WithdrawCommonExportPolicyUpdateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Details for withdrawing common export policy update.

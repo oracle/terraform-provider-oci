@@ -19,7 +19,7 @@ import (
 // MetricExtension Detailed information of the Metric Extension resource
 type MetricExtension struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Metric Extension resource
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Metric Extension resource
 	Id *string `mandatory:"true" json:"id"`
 
 	// Metric Extension resource name
@@ -31,10 +31,10 @@ type MetricExtension struct {
 	// Resource type to which Metric Extension applies
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Tenant Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Tenant Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
 	// Collection Method  Metric Extension applies

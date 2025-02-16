@@ -14,7 +14,7 @@ import (
 // ChangeAssetSourceCompartmentRequest wrapper for the ChangeAssetSourceCompartment operation
 type ChangeAssetSourceCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asset source.
 	AssetSourceId *string `mandatory:"true" contributesTo:"path" name:"assetSourceId"`
 
 	// Details for the compartment move.

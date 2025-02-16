@@ -14,7 +14,7 @@ import (
 // UpdateWaasPolicyRequest wrapper for the UpdateWaasPolicy operation
 type UpdateWaasPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 	WaasPolicyId *string `mandatory:"true" contributesTo:"path" name:"waasPolicyId"`
 
 	// The details of the WAAS policy to update.
@@ -81,7 +81,7 @@ type UpdateWaasPolicyResponse struct {
 	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

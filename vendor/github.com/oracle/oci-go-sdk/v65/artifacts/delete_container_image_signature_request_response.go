@@ -14,7 +14,7 @@ import (
 // DeleteContainerImageSignatureRequest wrapper for the DeleteContainerImageSignature operation
 type DeleteContainerImageSignatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image signature.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image signature.
 	// Example: `ocid1.containersignature.oc1..exampleuniqueID`
 	ImageSignatureId *string `mandatory:"true" contributesTo:"path" name:"imageSignatureId"`
 

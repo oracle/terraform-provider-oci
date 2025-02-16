@@ -14,7 +14,7 @@ import (
 // ListPipelineSchemaTablesRequest wrapper for the ListPipelineSchemaTables operation
 type ListPipelineSchemaTablesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// Name of the source schema obtained from get schema endpoint of the created pipeline.

@@ -17,7 +17,7 @@ type ChangeDatabaseSoftwareImageCompartmentRequest struct {
 	// Request to move Database Software Image to a different compartment
 	ChangeCompartmentDetails `contributesTo:"body"`
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"databaseSoftwareImageId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

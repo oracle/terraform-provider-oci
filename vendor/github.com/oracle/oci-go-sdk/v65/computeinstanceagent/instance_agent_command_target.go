@@ -19,7 +19,7 @@ import (
 // InstanceAgentCommandTarget The target instance that the command runs on.
 type InstanceAgentCommandTarget struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target instance.
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 }
 

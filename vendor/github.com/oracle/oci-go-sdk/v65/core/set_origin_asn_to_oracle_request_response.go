@@ -14,7 +14,7 @@ import (
 // SetOriginAsnToOracleRequest wrapper for the SetOriginAsnToOracle operation
 type SetOriginAsnToOracleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource containing the BYOIP CIDR block.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource containing the BYOIP CIDR block.
 	ByoipRangeId *string `mandatory:"true" contributesTo:"path" name:"byoipRangeId"`
 
 	// Unique identifier for the request.

@@ -14,10 +14,10 @@ import (
 // CheckReconciliationRequest wrapper for the CheckReconciliation operation
 type CheckReconciliationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target filesystem's snapshot's `provenanceId`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target filesystem's snapshot's `provenanceId`.
 	ProvenanceId *string `mandatory:"true" contributesTo:"query" name:"provenanceId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source file system.
 	FileSystemId *string `mandatory:"false" contributesTo:"query" name:"fileSystemId"`
 
 	// Unique identifier for the request.

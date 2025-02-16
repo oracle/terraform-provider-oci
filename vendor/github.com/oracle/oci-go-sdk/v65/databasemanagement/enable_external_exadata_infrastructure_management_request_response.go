@@ -14,7 +14,7 @@ import (
 // EnableExternalExadataInfrastructureManagementRequest wrapper for the EnableExternalExadataInfrastructureManagement operation
 type EnableExternalExadataInfrastructureManagementRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExternalExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"externalExadataInfrastructureId"`
 
 	// The details required to enable management for the Exadata infrastructure.

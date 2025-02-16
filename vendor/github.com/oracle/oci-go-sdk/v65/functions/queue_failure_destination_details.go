@@ -20,7 +20,7 @@ import (
 // Example: `{"kind": "QUEUE", "queueId": "queue_OCID", "channelId": "channel_Id"}`
 type QueueFailureDestinationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue.
 	QueueId *string `mandatory:"true" json:"queueId"`
 
 	// The ID of the channel in the queue.

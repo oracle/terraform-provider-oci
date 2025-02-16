@@ -21,7 +21,7 @@ type AssetSourceConnection struct {
 	// The type of connection for an asset source.
 	ConnectionType AssetSourceConnectionTypeEnum `mandatory:"true" json:"connectionType"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cloud bridge connector used for migration operations.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud bridge connector used for migration operations.
 	ConnectorId *string `mandatory:"true" json:"connectorId"`
 
 	// Type-specific identifier for an asset source.

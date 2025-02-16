@@ -14,7 +14,7 @@ import (
 // GetApplicationVipRequest wrapper for the GetApplicationVip operation
 type GetApplicationVipRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the application virtual IP (VIP) address.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application virtual IP (VIP) address.
 	ApplicationVipId *string `mandatory:"true" contributesTo:"path" name:"applicationVipId"`
 
 	// Unique identifier for the request.

@@ -14,7 +14,7 @@ import (
 // UpdateJobRequest wrapper for the UpdateJob operation
 type UpdateJobRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	JobId *string `mandatory:"true" contributesTo:"path" name:"jobId"`
 
 	// Updates properties for the specified job.

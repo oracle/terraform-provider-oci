@@ -20,19 +20,19 @@ import (
 // FsuCycleSummary Exadata Fleet Update Cycle Summary.
 type FsuCycleSummary struct {
 
-	// OCID identifier for the Exadata Fleet Update Cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Cycle.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Type of Exadata Fleet Update Cycle.
 	Type CycleTypesEnum `mandatory:"true" json:"type"`
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle is assigned to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.
 	FsuCollectionId *string `mandatory:"true" json:"fsuCollectionId"`
 
-	// Type of Collection this Exadata Fleet Update Cycle belongs to.
+	// Type of Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.
 	CollectionType CollectionTypesEnum `mandatory:"true" json:"collectionType"`
 
 	GoalVersionDetails FsuGoalVersionDetails `mandatory:"true" json:"goalVersionDetails"`
@@ -44,10 +44,10 @@ type FsuCycleSummary struct {
 	// The current state of the Exadata Fleet Update Cycle.
 	LifecycleState CycleLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// OCID identifier for the Action that is currently in execution, if applicable.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Action that is currently in progress, if applicable.
 	ExecutingFsuActionId *string `mandatory:"false" json:"executingFsuActionId"`
 
 	// In this array all the possible actions will be listed. The first element is the suggested Action.

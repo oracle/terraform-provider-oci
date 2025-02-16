@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -22,7 +22,7 @@ type ReinstateDataGuardDetails struct {
 	// **The password MUST be the same as the primary admin password.**
 	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source (primary) database in the Data Guard group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source (primary) database in the Data Guard group.
 	SourceDatabaseId *string `mandatory:"true" json:"sourceDatabaseId"`
 }
 

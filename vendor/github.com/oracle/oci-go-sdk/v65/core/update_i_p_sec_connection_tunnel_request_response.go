@@ -14,10 +14,10 @@ import (
 // UpdateIPSecConnectionTunnelRequest wrapper for the UpdateIPSecConnectionTunnel operation
 type UpdateIPSecConnectionTunnelRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.
 	TunnelId *string `mandatory:"true" contributesTo:"path" name:"tunnelId"`
 
 	// Details object for updating a IPSecConnection tunnel's details.

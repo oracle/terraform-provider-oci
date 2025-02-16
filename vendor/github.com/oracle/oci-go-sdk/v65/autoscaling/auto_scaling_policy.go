@@ -5,8 +5,8 @@
 // Autoscaling API
 //
 // Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
-// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
+// autoscaling, see Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Compute (https://docs.oracle.com/iaas/Content/Compute/home.htm).
 //
 
 package autoscaling
@@ -20,7 +20,7 @@ import (
 
 // AutoScalingPolicy Autoscaling policies define the criteria that trigger autoscaling actions and the actions to take.
 // An autoscaling policy is part of an autoscaling configuration. For more information, see
-// Autoscaling (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
+// Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
 // You can create the following types of autoscaling policies:
 //
 //   - **Schedule-based:** Autoscaling events take place at the specific times that you schedule.

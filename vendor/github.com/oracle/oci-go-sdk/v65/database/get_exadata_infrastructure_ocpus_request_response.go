@@ -14,7 +14,7 @@ import (
 // GetExadataInfrastructureOcpusRequest wrapper for the GetExadataInfrastructureOcpus operation
 type GetExadataInfrastructureOcpusRequest struct {
 
-	// The Autonomous Exadata Infrastructure  OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Exadata Infrastructure  OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"autonomousExadataInfrastructureId"`
 
 	// Unique identifier for the request.

@@ -14,7 +14,7 @@ import (
 // SummarizeExternalListenerMetricsRequest wrapper for the SummarizeExternalListenerMetrics operation
 type SummarizeExternalListenerMetricsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external listener.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external listener.
 	ExternalListenerId *string `mandatory:"true" contributesTo:"path" name:"externalListenerId"`
 
 	// The beginning of the time range set to retrieve metric data for the DB system

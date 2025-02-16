@@ -14,7 +14,7 @@ import (
 // AddStackLockRequest wrapper for the AddStackLock operation
 type AddStackLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
 	StackId *string `mandatory:"true" contributesTo:"path" name:"stackId"`
 
 	// AddResourceLockDetails body parameter

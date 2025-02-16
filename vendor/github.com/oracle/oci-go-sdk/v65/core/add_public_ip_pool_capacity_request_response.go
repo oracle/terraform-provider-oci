@@ -14,7 +14,7 @@ import (
 // AddPublicIpPoolCapacityRequest wrapper for the AddPublicIpPoolCapacity operation
 type AddPublicIpPoolCapacityRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP pool.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP pool.
 	PublicIpPoolId *string `mandatory:"true" contributesTo:"path" name:"publicIpPoolId"`
 
 	// Byoip Range prefix and a cidr from it

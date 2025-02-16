@@ -18,7 +18,7 @@ import (
 // ExportStatus Attributes of fleet's export status.
 type ExportStatus struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 
 	// The date and time of the last export run.

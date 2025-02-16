@@ -18,7 +18,7 @@ import (
 // CreateDiscoveryScheduleDetails Information about discovery schedule to be created.
 type CreateDiscoveryScheduleDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the discovery schedule is created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the discovery schedule is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Recurrence specification for the discovery schedule execution.

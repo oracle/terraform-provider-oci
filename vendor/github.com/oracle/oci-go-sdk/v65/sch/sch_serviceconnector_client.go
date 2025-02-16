@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -99,7 +99,7 @@ func (client *ServiceConnectorClient) ConfigurationProvider() *common.Configurat
 // UPDATING. When the state changes to ACTIVE, data begins transferring from the
 // source service to the target service.
 // For more information, see
-// Activating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm).
+// Activating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm).
 // A default retry strategy applies to this operation ActivateServiceConnector()
 func (client ServiceConnectorClient) ActivateServiceConnector(ctx context.Context, request ActivateServiceConnectorRequest) (response ActivateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -160,7 +160,7 @@ func (client ServiceConnectorClient) activateServiceConnector(ctx context.Contex
 
 // ChangeServiceConnectorCompartment Moves a connector into a different compartment within the same tenancy.
 // For more information, see
-// Moving a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/change-compartment-service-connector.htm).
+// Moving a Connector (https://docs.oracle.com/iaas/Content/connector-hub/change-compartment-service-connector.htm).
 // When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeServiceConnectorCompartment()
 func (client ServiceConnectorClient) ChangeServiceConnectorCompartment(ctx context.Context, request ChangeServiceConnectorCompartmentRequest) (response ChangeServiceConnectorCompartmentResponse, err error) {
@@ -219,20 +219,20 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 // A connector is a logically defined flow for moving data from
 // a source service to a destination service in Oracle Cloud Infrastructure.
 // For more information, see
-// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// Creating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 // For general information about connectors, see
-// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
+// Overview of Connector Hub (https://docs.oracle.com/iaas/Content/connector-hub/overview.htm).
 // For purposes of access control, you must provide the
-// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
+// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
 // you want the connector to reside. Notice that the connector
 // doesn't have to be in the same compartment as the source or target services.
 // For information about access control and compartments, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // After you send your request, the new connector's state is temporarily
 // CREATING. When the state changes to ACTIVE, data begins transferring from the
 // source service to the target service. For instructions on deactivating and
 // activating connectors, see
-// Activating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm).
+// Activating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm).
 // A default retry strategy applies to this operation CreateServiceConnector()
 func (client ServiceConnectorClient) CreateServiceConnector(ctx context.Context, request CreateServiceConnectorRequest) (response CreateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -295,7 +295,7 @@ func (client ServiceConnectorClient) createServiceConnector(ctx context.Context,
 // After you send your request, the connector's state is temporarily
 // UPDATING and any data transfer stops. The state then changes to INACTIVE.
 // For more information, see
-// Deactivating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/deactivate-service-connector.htm).
+// Deactivating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/deactivate-service-connector.htm).
 // A default retry strategy applies to this operation DeactivateServiceConnector()
 func (client ServiceConnectorClient) DeactivateServiceConnector(ctx context.Context, request DeactivateServiceConnectorRequest) (response DeactivateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -356,7 +356,7 @@ func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Cont
 
 // DeleteServiceConnector Deletes the specified connector.
 // For more information, see
-// Deleting a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/delete-service-connector.htm).
+// Deleting a Connector (https://docs.oracle.com/iaas/Content/connector-hub/delete-service-connector.htm).
 // After you send your request, the connector's state is temporarily
 // DELETING and any data transfer stops. The state then changes to DELETED.
 // A default retry strategy applies to this operation DeleteServiceConnector()
@@ -414,7 +414,7 @@ func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context,
 
 // GetServiceConnector Gets the specified connector's configuration information.
 // For more information, see
-// Getting a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/get-service-connector.htm).
+// Getting a Connector (https://docs.oracle.com/iaas/Content/connector-hub/get-service-connector.htm).
 // A default retry strategy applies to this operation GetServiceConnector()
 func (client ServiceConnectorClient) GetServiceConnector(ctx context.Context, request GetServiceConnectorRequest) (response GetServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -470,7 +470,7 @@ func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, re
 
 // GetWorkRequest Gets the details of the specified work request.
 // For more information, see
-// Getting a Work Request's Details (https://docs.cloud.oracle.com/iaas/Content/connector-hub/get-work-request.htm).
+// Getting a Work Request's Details (https://docs.oracle.com/iaas/Content/connector-hub/get-work-request.htm).
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ServiceConnectorClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -526,7 +526,7 @@ func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request
 
 // ListServiceConnectors Lists connectors in the specified compartment.
 // For more information, see
-// Listing Connectors (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-service-connector.htm).
+// Listing Connectors (https://docs.oracle.com/iaas/Content/connector-hub/list-service-connector.htm).
 // A default retry strategy applies to this operation ListServiceConnectors()
 func (client ServiceConnectorClient) ListServiceConnectors(ctx context.Context, request ListServiceConnectorsRequest) (response ListServiceConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -582,7 +582,7 @@ func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, 
 
 // ListWorkRequestErrors Lists work request errors for the specified work request. Results are paginated.
 // For more information, see
-// Listing Work Request Errors (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request-error.htm).
+// Listing Work Request Errors (https://docs.oracle.com/iaas/Content/connector-hub/list-work-request-error.htm).
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ServiceConnectorClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -638,7 +638,7 @@ func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, 
 
 // ListWorkRequestLogs Lists logs for the specified work request. Results are paginated.
 // For more information, see
-// Listing Work Request Log Entries (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request-log-entry.htm).
+// Listing Work Request Log Entries (https://docs.oracle.com/iaas/Content/connector-hub/list-work-request-log-entry.htm).
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ServiceConnectorClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -694,7 +694,7 @@ func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, re
 
 // ListWorkRequests Lists the work requests in the specified compartment.
 // For more information, see
-// Listing Work Requests (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request.htm).
+// Listing Work Requests (https://docs.oracle.com/iaas/Content/connector-hub/list-work-request.htm).
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ServiceConnectorClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -750,7 +750,7 @@ func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, reque
 
 // UpdateServiceConnector Updates the configuration information for the specified connector.
 // For more information, see
-// Updating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/update-service-connector.htm).
+// Updating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/update-service-connector.htm).
 // After you send your request, the connector's state is temporarily
 // UPDATING and any data transfer pauses. The state then changes back to its
 // original value: if ACTIVE, then data transfer resumes.

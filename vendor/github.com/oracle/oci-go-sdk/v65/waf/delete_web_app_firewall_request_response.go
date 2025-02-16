@@ -14,7 +14,7 @@ import (
 // DeleteWebAppFirewallRequest wrapper for the DeleteWebAppFirewall operation
 type DeleteWebAppFirewallRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
 	WebAppFirewallId *string `mandatory:"true" contributesTo:"path" name:"webAppFirewallId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource,

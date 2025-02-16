@@ -14,7 +14,7 @@ import (
 // DeleteNatGatewayRequest wrapper for the DeleteNatGateway operation
 type DeleteNatGatewayRequest struct {
 
-	// The NAT gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The NAT gateway's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	NatGatewayId *string `mandatory:"true" contributesTo:"path" name:"natGatewayId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

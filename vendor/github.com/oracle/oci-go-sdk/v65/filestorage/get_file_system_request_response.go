@@ -14,7 +14,7 @@ import (
 // GetFileSystemRequest wrapper for the GetFileSystem operation
 type GetFileSystemRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// Unique identifier for the request.

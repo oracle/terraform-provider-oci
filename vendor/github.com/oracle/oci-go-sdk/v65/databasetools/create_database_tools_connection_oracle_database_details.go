@@ -22,7 +22,7 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The connect descriptor or Easy Connect Naming method use to connect to the database.
@@ -53,7 +53,7 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreDetails `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
 	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientDetails `mandatory:"false" json:"proxyClient"`

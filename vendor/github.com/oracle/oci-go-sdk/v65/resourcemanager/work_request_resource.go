@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -30,7 +30,7 @@ type WorkRequestResource struct {
 	// The resource type the work request affects.
 	EntityType *string `mandatory:"true" json:"entityType"`
 
-	// An OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or other unique identifier for the resource.
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or other unique identifier for the resource.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The URI path that you can use for a GET request to access the resource metadata.

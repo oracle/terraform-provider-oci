@@ -14,7 +14,7 @@ import (
 // DeleteInternalEcmpGroupRequest wrapper for the DeleteInternalEcmpGroup operation
 type DeleteInternalEcmpGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal ECMP Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal ECMP Group.
 	InternalEcmpGroupId *string `mandatory:"true" contributesTo:"path" name:"internalEcmpGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

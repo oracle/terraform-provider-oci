@@ -14,7 +14,7 @@ import (
 // GetSSLCipherSuiteRequest wrapper for the GetSSLCipherSuite operation
 type GetSSLCipherSuiteRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the SSL cipher suite to retrieve.

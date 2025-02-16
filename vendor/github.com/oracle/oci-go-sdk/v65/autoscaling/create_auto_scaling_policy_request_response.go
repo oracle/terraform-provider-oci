@@ -14,7 +14,7 @@ import (
 // CreateAutoScalingPolicyRequest wrapper for the CreateAutoScalingPolicy operation
 type CreateAutoScalingPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
 	// Creation details for an autoscaling policy.

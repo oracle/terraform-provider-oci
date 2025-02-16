@@ -14,7 +14,7 @@ import (
 // UpdateInternalDnsRecordRequest wrapper for the UpdateInternalDnsRecord operation
 type UpdateInternalDnsRecordRequest struct {
 
-	// The DNS record's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The DNS record's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalDnsRecordId *string `mandatory:"true" contributesTo:"path" name:"internalDnsRecordId"`
 
 	// Details for updating `DnsRecord`.

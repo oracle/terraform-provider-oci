@@ -14,7 +14,7 @@ import (
 // UpdateOdaPrivateEndpointRequest wrapper for the UpdateOdaPrivateEndpoint operation
 type UpdateOdaPrivateEndpointRequest struct {
 
-	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OdaPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"odaPrivateEndpointId"`
 
 	// The information to update.

@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons
@@ -100,7 +100,7 @@ func (client *NotificationDataPlaneClient) EnableDualStackEndpoints(enableDualSt
 
 // ChangeSubscriptionCompartment Moves a subscription into a different compartment within the same tenancy.
 // For instructions, see
-// Moving a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/change-compartment-subscription.htm).
+// Moving a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/change-compartment-subscription.htm).
 // The topic API endpoint is required for this operation.
 // To get the topic API endpoint, use GetTopic
 // and review the `apiEndpoint` value in the response (NotificationTopic).
@@ -171,10 +171,10 @@ func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx cont
 
 // CreateSubscription Creates a subscription for the specified topic and sends a subscription confirmation URL to the endpoint.
 // For instructions, see
-// Creating a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/create-subscription.htm).
+// Creating a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/create-subscription.htm).
 // The subscription remains in "Pending" status until it has been confirmed.
 // For information about confirming subscriptions, see
-// Confirming a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/confirm-subscription.htm).
+// Confirming a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/confirm-subscription.htm).
 // The topic API endpoint is required for this operation.
 // To get the topic API endpoint, use GetTopic
 // and review the `apiEndpoint` value in the response (NotificationTopic).
@@ -249,7 +249,7 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Deleting a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/delete-subscription.htm).
+// Deleting a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/delete-subscription.htm).
 func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context, request DeleteSubscriptionRequest) (response DeleteSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -315,7 +315,7 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Getting Confirmation Results for a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/get-confirm-subscription.htm).
+// Getting Confirmation Results for a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/get-confirm-subscription.htm).
 func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Context, request GetConfirmSubscriptionRequest) (response GetConfirmSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -381,7 +381,7 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Getting a Subscription's Details (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/get-subscription.htm).
+// Getting a Subscription's Details (https://docs.oracle.com/iaas/Content/Notification/Tasks/get-subscription.htm).
 func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -447,7 +447,7 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Unsubscribing a Subscription from a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/unsubscribe-subscription.htm).
+// Unsubscribing a Subscription from a Topic (https://docs.oracle.com/iaas/Content/Notification/Tasks/unsubscribe-subscription.htm).
 func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context, request GetUnsubscriptionRequest) (response GetUnsubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -513,7 +513,7 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Listing Subscriptions (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/list-subscription.htm).
+// Listing Subscriptions (https://docs.oracle.com/iaas/Content/Notification/Tasks/list-subscription.htm).
 func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -583,9 +583,9 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 // HTTP-based protocols use URL endpoints that begin with "http:" or "https:".
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60 per topic. (This TPM limit represents messages per minute.)
 // For more information about publishing messages, see
-// Publishing a Message to a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
+// Publishing a Message to a Topic (https://docs.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
 // For steps to request a limit increase, see
-// Requesting a Service Limit Increase (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm#three).
+// Requesting a Service Limit Increase (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm#three).
 func (client NotificationDataPlaneClient) PublishMessage(ctx context.Context, request PublishMessageRequest) (response PublishMessageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -651,7 +651,7 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Resending the Confirmation URL for a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/resend-confirmation-subscription.htm).
+// Resending the Confirmation URL for a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/resend-confirmation-subscription.htm).
 func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx context.Context, request ResendSubscriptionConfirmationRequest) (response ResendSubscriptionConfirmationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -717,7 +717,7 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 // For instructions, see
-// Updating a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/update-subscription.htm).
+// Updating a Subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/update-subscription.htm).
 func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

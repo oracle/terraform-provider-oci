@@ -19,7 +19,7 @@ import (
 // DatabaseToolsKeyStoreContentSecretIdGenericJdbc The key store content.
 type DatabaseToolsKeyStoreContentSecretIdGenericJdbc struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the key store.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the key store.
 	SecretId *string `mandatory:"false" json:"secretId"`
 }
 

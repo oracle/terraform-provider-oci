@@ -14,7 +14,7 @@ import (
 // ActivateScheduleRequest wrapper for the ActivateSchedule operation
 type ActivateScheduleRequest struct {
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	ScheduleId *string `mandatory:"true" contributesTo:"path" name:"scheduleId"`
 
 	// This is used for optimistic concurrency control. In the PUT or DELETE call for a resource, set the

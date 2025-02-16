@@ -14,7 +14,7 @@ import (
 // UpdateSubscriptionRequest wrapper for the UpdateSubscription operation
 type UpdateSubscriptionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to update.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The configuration details for updating the subscription.

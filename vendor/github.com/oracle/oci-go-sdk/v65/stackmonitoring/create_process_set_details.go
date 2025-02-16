@@ -18,7 +18,7 @@ import (
 // CreateProcessSetDetails Process Set create payload model.
 type CreateProcessSetDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Name of the Process Set.

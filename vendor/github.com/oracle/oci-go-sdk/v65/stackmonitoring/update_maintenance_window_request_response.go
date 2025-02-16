@@ -14,7 +14,7 @@ import (
 // UpdateMaintenanceWindowRequest wrapper for the UpdateMaintenanceWindow operation
 type UpdateMaintenanceWindowRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of maintenance window.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window.
 	MaintenanceWindowId *string `mandatory:"true" contributesTo:"path" name:"maintenanceWindowId"`
 
 	// The information to be updated.

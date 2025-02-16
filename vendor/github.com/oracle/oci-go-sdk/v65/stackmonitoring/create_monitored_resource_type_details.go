@@ -25,7 +25,7 @@ type CreateMonitoredResourceTypeDetails struct {
 	// Name can not be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Monitored resource type display name.

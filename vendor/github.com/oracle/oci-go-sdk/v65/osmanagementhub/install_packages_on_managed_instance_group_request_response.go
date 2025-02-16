@@ -14,7 +14,7 @@ import (
 // InstallPackagesOnManagedInstanceGroupRequest wrapper for the InstallPackagesOnManagedInstanceGroup operation
 type InstallPackagesOnManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// The names of packages to install on the specified managed instance group.

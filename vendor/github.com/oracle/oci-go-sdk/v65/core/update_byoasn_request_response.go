@@ -14,7 +14,7 @@ import (
 // UpdateByoasnRequest wrapper for the UpdateByoasn operation
 type UpdateByoasnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource.
 	ByoasnId *string `mandatory:"true" contributesTo:"path" name:"byoasnId"`
 
 	// Byoasn Range details.

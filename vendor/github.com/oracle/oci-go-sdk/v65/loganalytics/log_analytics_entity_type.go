@@ -39,7 +39,7 @@ type LogAnalyticsEntityType struct {
 	// Time the log analytics entity type was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The parameters used in file patterns specified in log sources for this log analytics entity type.

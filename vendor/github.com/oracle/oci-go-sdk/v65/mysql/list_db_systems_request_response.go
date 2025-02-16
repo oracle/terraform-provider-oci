@@ -14,7 +14,7 @@ import (
 // ListDbSystemsRequest wrapper for the ListDbSystems operation
 type ListDbSystemsRequest struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Customer-defined unique identifier for the request. If you need to
@@ -27,7 +27,7 @@ type ListDbSystemsRequest struct {
 	// present, return all DB Systems.
 	IsHeatWaveClusterAttached *bool `mandatory:"false" contributesTo:"query" name:"isHeatWaveClusterAttached"`
 
-	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB System OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
 
 	// A filter to return only the resource matching the given display name exactly.
@@ -53,12 +53,12 @@ type ListDbSystemsRequest struct {
 	SortOrder ListDbSystemsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The maximum number of items to return in a paginated list call. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.comAPI/Concepts/usingapi.htm#List_Pagination).
+	// List Pagination (https://docs.oracle.com/iaasAPI/Concepts/usingapi.htm#List_Pagination).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` or `opc-prev-page` response header from
 	// the previous list call. For information about pagination, see List
-	// Pagination (https://docs.cloud.oracle.comAPI/Concepts/usingapi.htm#List_Pagination).
+	// Pagination (https://docs.oracle.com/iaasAPI/Concepts/usingapi.htm#List_Pagination).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -14,7 +14,7 @@ import (
 // RemovePackagesFromManagedInstanceGroupRequest wrapper for the RemovePackagesFromManagedInstanceGroup operation
 type RemovePackagesFromManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// The names of packages to remove from the specified managed instance group.

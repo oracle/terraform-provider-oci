@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,10 +19,10 @@ import (
 // CreateSubnetDetails The representation of CreateSubnetDetails
 type CreateSubnetDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the subnet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the subnet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN to contain the subnet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN to contain the subnet.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Controls whether the subnet is regional or specific to an availability domain. Oracle
@@ -47,7 +47,7 @@ type CreateSubnetDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the set of DHCP options the subnet will use. If you don't
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the set of DHCP options the subnet will use. If you don't
 	// provide a value, the subnet uses the VCN's default set of DHCP options.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
@@ -64,7 +64,7 @@ type CreateSubnetDetails struct {
 	// hostnames of instances in the subnet. It can only be set if the VCN itself
 	// was created with a DNS label.
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `subnet123`
 	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
 
@@ -75,7 +75,7 @@ type CreateSubnetDetails struct {
 	// Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6.
 	// You can't change this subnet characteristic later. All subnets are /64 in size. The subnet
 	// portion of the IPv6 address is the fourth hextet from the left (1111 in the following example).
-	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
@@ -117,7 +117,7 @@ type CreateSubnetDetails struct {
 	// Example: `true`
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the subnet will use. If you don't provide a value,
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the subnet will use. If you don't provide a value,
 	// the subnet uses the VCN's default route table.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 

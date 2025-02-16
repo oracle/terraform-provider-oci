@@ -14,7 +14,7 @@ import (
 // BackfillFawInstanceIdOnAdbDetailsRequest wrapper for the BackfillFawInstanceIdOnAdbDetails operation
 type BackfillFawInstanceIdOnAdbDetailsRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
 	// Backfills the specified Autonomous Database with FAW instance Id.

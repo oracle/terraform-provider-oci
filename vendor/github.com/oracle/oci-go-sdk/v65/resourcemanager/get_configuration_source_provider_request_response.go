@@ -14,7 +14,7 @@ import (
 // GetConfigurationSourceProviderRequest wrapper for the GetConfigurationSourceProvider operation
 type GetConfigurationSourceProviderRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
 	ConfigurationSourceProviderId *string `mandatory:"true" contributesTo:"path" name:"configurationSourceProviderId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

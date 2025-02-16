@@ -14,7 +14,7 @@ import (
 // UpdateInternalEcmpGroupRequest wrapper for the UpdateInternalEcmpGroup operation
 type UpdateInternalEcmpGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal ECMP Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal ECMP Group.
 	InternalEcmpGroupId *string `mandatory:"true" contributesTo:"path" name:"internalEcmpGroupId"`
 
 	// Request to update an internal ecmp group

@@ -14,7 +14,7 @@ import (
 // CreateSqlTuningSetRequest wrapper for the CreateSqlTuningSet operation
 type CreateSqlTuningSetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The details required to create a Sql tuning set.

@@ -14,7 +14,7 @@ import (
 // CreateCloudExadataInfrastructureRequest wrapper for the CreateCloudExadataInfrastructure operation
 type CreateCloudExadataInfrastructureRequest struct {
 
-	// Request to create a cloud Exadata infrastructure resource in an Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) instance.
+	// Request to create a cloud Exadata infrastructure resource in an Exadata Cloud Service (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance.
 	CreateCloudExadataInfrastructureDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -82,7 +82,7 @@ type CreateCloudExadataInfrastructureResponse struct {
 	// The CloudExadataInfrastructure instance
 	CloudExadataInfrastructure `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

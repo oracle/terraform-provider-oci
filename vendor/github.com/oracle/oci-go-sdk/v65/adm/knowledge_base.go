@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -18,7 +18,7 @@ import (
 // KnowledgeBase A knowledge base is a component of Application Dependency Management (ADM) service that provides access to vulnerabilities.
 type KnowledgeBase struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the knowledge base.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the knowledge base.
@@ -33,7 +33,7 @@ type KnowledgeBase struct {
 	// The current lifecycle state of the knowledge base.
 	LifecycleState KnowledgeBaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the knowledge base.
+	// The compartment Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

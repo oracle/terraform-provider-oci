@@ -14,7 +14,7 @@ import (
 // UpdateNotebookSessionRequest wrapper for the UpdateNotebookSession operation
 type UpdateNotebookSessionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the notebook session.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the notebook session.
 	NotebookSessionId *string `mandatory:"true" contributesTo:"path" name:"notebookSessionId"`
 
 	// Details for updating a notebook session. `notebookSessionConfigurationDetails` can only be updated while the notebook session is in the `INACTIVE` state.
@@ -82,7 +82,7 @@ type UpdateNotebookSessionResponse struct {
 	// The NotebookSession instance
 	NotebookSession `presentIn:"body"`
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

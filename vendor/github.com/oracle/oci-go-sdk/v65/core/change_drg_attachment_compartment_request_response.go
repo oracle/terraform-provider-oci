@@ -14,7 +14,7 @@ import (
 // ChangeDrgAttachmentCompartmentRequest wrapper for the ChangeDrgAttachmentCompartment operation
 type ChangeDrgAttachmentCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	DrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"drgAttachmentId"`
 
 	// Request to change the compartment of a given DRG attachment.

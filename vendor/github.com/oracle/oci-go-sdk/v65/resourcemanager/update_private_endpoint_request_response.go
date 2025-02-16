@@ -14,7 +14,7 @@ import (
 // UpdatePrivateEndpointRequest wrapper for the UpdatePrivateEndpoint operation
 type UpdatePrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Update details for a private endpoint.

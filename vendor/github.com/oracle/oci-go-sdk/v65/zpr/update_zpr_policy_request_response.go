@@ -14,7 +14,7 @@ import (
 // UpdateZprPolicyRequest wrapper for the UpdateZprPolicy operation
 type UpdateZprPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
 	ZprPolicyId *string `mandatory:"true" contributesTo:"path" name:"zprPolicyId"`
 
 	// The information to be updated.

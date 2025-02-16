@@ -14,7 +14,7 @@ import (
 // ChangeInternalEcmpGroupCompartmentRequest wrapper for the ChangeInternalEcmpGroupCompartment operation
 type ChangeInternalEcmpGroupCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal ECMP Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal ECMP Group.
 	InternalEcmpGroupId *string `mandatory:"true" contributesTo:"path" name:"internalEcmpGroupId"`
 
 	// Request to change the compartment of a Internal Ecmp Group.

@@ -20,10 +20,10 @@ import (
 // DbHomeFsuHome Exadata Fleet Update Home using a VmCluster or CloudVmCluster resource as source.
 type DbHomeFsuHome struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image.
 	FsuImageId *string `mandatory:"true" json:"fsuImageId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
 	// resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -39,7 +39,7 @@ type DbHomeFsuHome struct {
 	// The time the Exadata Fleet Update Home was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	DbHomeId *string `mandatory:"true" json:"dbHomeId"`
 
 	// ORACLE_BASE path for provisioning Oracle database home or Oracle Grid

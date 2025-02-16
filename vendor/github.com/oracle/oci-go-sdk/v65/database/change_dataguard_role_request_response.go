@@ -17,7 +17,7 @@ type ChangeDataguardRoleRequest struct {
 	// Request to Change the Autonomous Container Database Dataguard role.
 	ChangeDataguardRoleDetails `contributesTo:"body"`
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseId"`
 
 	// Unique identifier for the request.

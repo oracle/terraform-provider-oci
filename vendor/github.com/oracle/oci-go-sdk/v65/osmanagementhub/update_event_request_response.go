@@ -14,7 +14,7 @@ import (
 // UpdateEventRequest wrapper for the UpdateEvent operation
 type UpdateEventRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	EventId *string `mandatory:"true" contributesTo:"path" name:"eventId"`
 
 	// Provides the information used to update the event tags.

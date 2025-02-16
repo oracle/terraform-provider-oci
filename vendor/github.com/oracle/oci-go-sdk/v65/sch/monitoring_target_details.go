@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -21,10 +21,10 @@ import (
 
 // MonitoringTargetDetails The destination metric for data transferred from the source.
 // For configuration instructions, see
-// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// Creating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type MonitoringTargetDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The namespace of the metric.

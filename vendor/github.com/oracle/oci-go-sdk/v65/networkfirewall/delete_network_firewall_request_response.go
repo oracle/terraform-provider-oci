@@ -14,7 +14,7 @@ import (
 // DeleteNetworkFirewallRequest wrapper for the DeleteNetworkFirewall operation
 type DeleteNetworkFirewallRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
 	NetworkFirewallId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

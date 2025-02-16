@@ -14,7 +14,7 @@ import (
 // DeleteFirmwareReportRequest wrapper for the DeleteFirmwareReport operation
 type DeleteFirmwareReportRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FirmwareReport.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FirmwareReport.
 	FirmwareReportId *string `mandatory:"true" contributesTo:"path" name:"firmwareReportId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

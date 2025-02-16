@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -24,13 +24,13 @@ import (
 // BackfillDetails Request details for DRG backfill from VCN to EP-DB
 type BackfillDetails struct {
 
-	// The tenancy OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of drgs to be backfilled
+	// The tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of drgs to be backfilled
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of drgs to be backfilled
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of drgs to be backfilled
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a specific drg to be mirrored
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a specific drg to be mirrored
 	DrgId *string `mandatory:"false" json:"drgId"`
 }
 

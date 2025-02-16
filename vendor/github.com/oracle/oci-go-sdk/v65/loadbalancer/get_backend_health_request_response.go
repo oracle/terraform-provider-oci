@@ -14,7 +14,7 @@ import (
 // GetBackendHealthRequest wrapper for the GetBackendHealth operation
 type GetBackendHealthRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend server health status to be retrieved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend server health status to be retrieved.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the backend set associated with the backend server to retrieve the health status for.

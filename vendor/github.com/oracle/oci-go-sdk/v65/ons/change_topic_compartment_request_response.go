@@ -14,7 +14,7 @@ import (
 // ChangeTopicCompartmentRequest wrapper for the ChangeTopicCompartment operation
 type ChangeTopicCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to move.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to move.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// The configuration details for the move operation.

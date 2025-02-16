@@ -14,7 +14,7 @@ import (
 // EnableAutomaticInitialPlanCaptureRequest wrapper for the EnableAutomaticInitialPlanCapture operation
 type EnableAutomaticInitialPlanCaptureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The details required to enable automatic initial plan capture.

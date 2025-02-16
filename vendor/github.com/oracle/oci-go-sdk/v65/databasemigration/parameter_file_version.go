@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ParameterFileVersion A parameter file detatails
+// ParameterFileVersion Details of a parameter file
 type ParameterFileVersion struct {
 
 	// A unique name associated with the current migration/job and extract/replicat name

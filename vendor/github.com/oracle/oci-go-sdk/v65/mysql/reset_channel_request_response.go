@@ -14,7 +14,7 @@ import (
 // ResetChannelRequest wrapper for the ResetChannel operation
 type ResetChannelRequest struct {
 
-	// The Channel OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Channel OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ChannelId *string `mandatory:"true" contributesTo:"path" name:"channelId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

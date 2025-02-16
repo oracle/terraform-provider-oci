@@ -14,7 +14,7 @@ import (
 // AddDrgRouteDistributionStatementsRequest wrapper for the AddDrgRouteDistributionStatements operation
 type AddDrgRouteDistributionStatementsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
 	DrgRouteDistributionId *string `mandatory:"true" contributesTo:"path" name:"drgRouteDistributionId"`
 
 	// Request with one or more route distribution statements to be inserted into the route distribution.

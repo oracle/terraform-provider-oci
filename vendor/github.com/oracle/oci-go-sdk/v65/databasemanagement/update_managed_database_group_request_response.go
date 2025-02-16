@@ -14,7 +14,7 @@ import (
 // UpdateManagedDatabaseGroupRequest wrapper for the UpdateManagedDatabaseGroup operation
 type UpdateManagedDatabaseGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
 	ManagedDatabaseGroupId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseGroupId"`
 
 	// The details required to update a Managed Database Group.

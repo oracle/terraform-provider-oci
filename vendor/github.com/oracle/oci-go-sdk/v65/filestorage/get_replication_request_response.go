@@ -14,7 +14,7 @@ import (
 // GetReplicationRequest wrapper for the GetReplication operation
 type GetReplicationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	ReplicationId *string `mandatory:"true" contributesTo:"path" name:"replicationId"`
 
 	// Unique identifier for the request.

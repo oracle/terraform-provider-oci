@@ -14,7 +14,7 @@ import (
 // GetInternalDrgRequest wrapper for the GetInternalDrg operation
 type GetInternalDrgRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	InternalDrgId *string `mandatory:"true" contributesTo:"path" name:"internalDrgId"`
 
 	// Unique Oracle-assigned identifier for the request.

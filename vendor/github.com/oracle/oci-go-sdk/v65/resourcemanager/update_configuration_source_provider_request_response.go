@@ -14,7 +14,7 @@ import (
 // UpdateConfigurationSourceProviderRequest wrapper for the UpdateConfigurationSourceProvider operation
 type UpdateConfigurationSourceProviderRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
 	ConfigurationSourceProviderId *string `mandatory:"true" contributesTo:"path" name:"configurationSourceProviderId"`
 
 	// Updated information provided for the ConfigurationSourceProvider.

@@ -14,7 +14,7 @@ import (
 // SearchMonitoredResourceMembersRequest wrapper for the SearchMonitoredResourceMembers operation
 type SearchMonitoredResourceMembersRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
 	MonitoredResourceId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceId"`
 
 	// Search criteria for listing member monitored resources.
@@ -28,12 +28,12 @@ type SearchMonitoredResourceMembersRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from the
 	// previous "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -15,7 +15,7 @@ import (
 // GetModelCustomMetadatumArtifactContentRequest wrapper for the GetModelCustomMetadatumArtifactContent operation
 type GetModelCustomMetadatumArtifactContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// The name of the model metadatum in the metadata.
@@ -79,7 +79,7 @@ type GetModelCustomMetadatumArtifactContentResponse struct {
 	// The io.ReadCloser instance
 	Content io.ReadCloser `presentIn:"body" encoding:"binary"`
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

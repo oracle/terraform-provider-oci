@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/home.htm).
+// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.oracle.com/iaas/Content/Identity/home.htm).
 //
 
 package identity
@@ -22,8 +22,8 @@ type UpdatePolicyDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// An array of policy statements written in the policy language. See
-	// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm) and
-	// Common Policies (https://docs.cloud.oracle.com/Content/Identity/policiescommon/commonpolicies.htm).
+	// How Policies Work (https://docs.oracle.com/iaas/Content/Identity/policieshow/how-policies-work.htm) and
+	// Common Policies (https://docs.oracle.com/iaas/Content/Identity/policiescommon/commonpolicies.htm).
 	Statements []string `mandatory:"false" json:"statements"`
 
 	// The version of the policy. If null or set to an empty string, when a request comes in for authorization, the
@@ -32,12 +32,12 @@ type UpdatePolicyDetails struct {
 	VersionDate *common.SDKDate `mandatory:"false" json:"versionDate"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

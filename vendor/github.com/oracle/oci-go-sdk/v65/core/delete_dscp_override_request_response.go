@@ -14,7 +14,7 @@ import (
 // DeleteDscpOverrideRequest wrapper for the DeleteDscpOverride operation
 type DeleteDscpOverrideRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DSCP override.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DSCP override.
 	DscpOverrideId *string `mandatory:"true" contributesTo:"path" name:"dscpOverrideId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

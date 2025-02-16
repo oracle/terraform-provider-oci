@@ -14,7 +14,7 @@ import (
 // GetExecutionActionRequest wrapper for the GetExecutionAction operation
 type GetExecutionActionRequest struct {
 
-	// The execution action OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution action OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionActionId *string `mandatory:"true" contributesTo:"path" name:"executionActionId"`
 
 	// Unique identifier for the request.

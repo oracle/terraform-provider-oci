@@ -17,7 +17,7 @@ type GetAwrDatabaseReportRequest struct {
 	// Unique Awr Hub identifier
 	AwrHubId *string `mandatory:"true" contributesTo:"path" name:"awrHubId"`
 
-	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /awrHubs/{awrHubId}/awrDatabases
 	AwrSourceDatabaseIdentifier *string `mandatory:"true" contributesTo:"query" name:"awrSourceDatabaseIdentifier"`

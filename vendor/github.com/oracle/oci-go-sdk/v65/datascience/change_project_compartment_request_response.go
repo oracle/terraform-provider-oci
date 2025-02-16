@@ -14,7 +14,7 @@ import (
 // ChangeProjectCompartmentRequest wrapper for the ChangeProjectCompartment operation
 type ChangeProjectCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
 	ProjectId *string `mandatory:"true" contributesTo:"path" name:"projectId"`
 
 	// Details for changing the compartment of a project.

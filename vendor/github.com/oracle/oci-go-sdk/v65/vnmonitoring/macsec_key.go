@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,10 +19,10 @@ import (
 // MacsecKey An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
 type MacsecKey struct {
 
-	// Secret OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity association Key Name (CKN) of this MACsec key.
+	// Secret OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity association Key Name (CKN) of this MACsec key.
 	ConnectivityAssociationNameSecretId *string `mandatory:"true" json:"connectivityAssociationNameSecretId"`
 
-	// Secret OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity Association Key (CAK) of this MACsec key.
+	// Secret OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity Association Key (CAK) of this MACsec key.
 	ConnectivityAssociationKeySecretId *string `mandatory:"true" json:"connectivityAssociationKeySecretId"`
 
 	// The secret version of the connectivity association name secret in Vault.

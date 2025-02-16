@@ -14,10 +14,10 @@ import (
 // DetachSoftwareSourcesFromProfileRequest wrapper for the DetachSoftwareSourcesFromProfile operation
 type DetachSoftwareSourcesFromProfileRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	ProfileId *string `mandatory:"true" contributesTo:"path" name:"profileId"`
 
-	// The software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to detach from the profile
+	// The software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to detach from the profile
 	DetachSoftwareSourcesFromProfileDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

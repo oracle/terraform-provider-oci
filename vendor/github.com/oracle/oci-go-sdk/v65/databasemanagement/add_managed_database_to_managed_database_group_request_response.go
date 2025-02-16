@@ -14,7 +14,7 @@ import (
 // AddManagedDatabaseToManagedDatabaseGroupRequest wrapper for the AddManagedDatabaseToManagedDatabaseGroup operation
 type AddManagedDatabaseToManagedDatabaseGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
 	ManagedDatabaseGroupId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseGroupId"`
 
 	// The Managed Database details required to add the Managed Database to a Managed Database Group.

@@ -14,7 +14,7 @@ import (
 // DetachProfileFromManagedInstanceRequest wrapper for the DetachProfileFromManagedInstance operation
 type DetachProfileFromManagedInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

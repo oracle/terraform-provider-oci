@@ -14,7 +14,7 @@ import (
 // GenerateRecommendedVmClusterNetworkRequest wrapper for the GenerateRecommendedVmClusterNetwork operation
 type GenerateRecommendedVmClusterNetworkRequest struct {
 
-	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
 	// Request to generate a recommended Cloud@Customer VM cluster network configuration.

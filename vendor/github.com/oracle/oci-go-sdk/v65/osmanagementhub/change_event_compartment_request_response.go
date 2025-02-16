@@ -17,7 +17,7 @@ type ChangeEventCompartmentRequest struct {
 	// Specifies the compartment to move the event to.
 	ChangeEventCompartmentDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	EventId *string `mandatory:"true" contributesTo:"path" name:"eventId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

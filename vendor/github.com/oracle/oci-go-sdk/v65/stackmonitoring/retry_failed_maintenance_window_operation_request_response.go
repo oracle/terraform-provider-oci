@@ -14,7 +14,7 @@ import (
 // RetryFailedMaintenanceWindowOperationRequest wrapper for the RetryFailedMaintenanceWindowOperation operation
 type RetryFailedMaintenanceWindowOperationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of maintenance window.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window.
 	MaintenanceWindowId *string `mandatory:"true" contributesTo:"path" name:"maintenanceWindowId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

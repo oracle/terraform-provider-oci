@@ -14,7 +14,7 @@ import (
 // UpdateTopicRequest wrapper for the UpdateTopic operation
 type UpdateTopicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to update.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// TopicAttributes

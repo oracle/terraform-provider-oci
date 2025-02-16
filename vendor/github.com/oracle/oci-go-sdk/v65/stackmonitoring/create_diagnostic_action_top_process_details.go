@@ -19,10 +19,10 @@ import (
 // CreateDiagnosticActionTopProcessDetails Create Diagnostic request model for the topProcess
 type CreateDiagnosticActionTopProcessDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The primary OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that will be used for the diagnostic action.
+	// The primary OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that will be used for the diagnostic action.
 	MonitoredResourceId *string `mandatory:"true" json:"monitoredResourceId"`
 
 	// number of process to return

@@ -14,7 +14,7 @@ import (
 // GetServiceGatewayRequest wrapper for the GetServiceGateway operation
 type GetServiceGatewayRequest struct {
 
-	// The service gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The service gateway's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
 	// Unique Oracle-assigned identifier for the request.

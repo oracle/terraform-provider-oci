@@ -17,10 +17,10 @@ type IngestMySqlSqlStatsRequest struct {
 	// Collection of MySql SQL stats objects for a particular database.
 	IngestMySqlSqlStatsDetails `contributesTo:"body"`
 
-	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
+	// Optional OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
 	DatabaseId *string `mandatory:"false" contributesTo:"query" name:"databaseId"`
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

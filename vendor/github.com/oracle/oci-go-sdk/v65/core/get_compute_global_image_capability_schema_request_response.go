@@ -14,7 +14,7 @@ import (
 // GetComputeGlobalImageCapabilitySchemaRequest wrapper for the GetComputeGlobalImageCapabilitySchema operation
 type GetComputeGlobalImageCapabilitySchemaRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute global image capability schema
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute global image capability schema
 	ComputeGlobalImageCapabilitySchemaId *string `mandatory:"true" contributesTo:"path" name:"computeGlobalImageCapabilitySchemaId"`
 
 	// Unique Oracle-assigned identifier for the request.

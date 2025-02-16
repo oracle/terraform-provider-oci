@@ -14,7 +14,7 @@ import (
 // UpdateOpsiConfigurationRequest wrapper for the UpdateOpsiConfiguration operation
 type UpdateOpsiConfigurationRequest struct {
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.
 	OpsiConfigurationId *string `mandatory:"true" contributesTo:"path" name:"opsiConfigurationId"`
 
 	// The OPSI configuration resource details to be updated.

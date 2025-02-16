@@ -14,7 +14,7 @@ import (
 // DeleteFunctionRequest wrapper for the DeleteFunction operation
 type DeleteFunctionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this function.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this function.
 	FunctionId *string `mandatory:"true" contributesTo:"path" name:"functionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

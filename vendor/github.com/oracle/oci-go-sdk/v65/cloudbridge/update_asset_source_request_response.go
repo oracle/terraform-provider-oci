@@ -14,7 +14,7 @@ import (
 // UpdateAssetSourceRequest wrapper for the UpdateAssetSource operation
 type UpdateAssetSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asset source.
 	AssetSourceId *string `mandatory:"true" contributesTo:"path" name:"assetSourceId"`
 
 	// Asset source information to be updated.

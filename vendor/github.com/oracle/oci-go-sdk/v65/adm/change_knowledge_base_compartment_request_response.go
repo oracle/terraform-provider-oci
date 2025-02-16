@@ -14,7 +14,7 @@ import (
 // ChangeKnowledgeBaseCompartmentRequest wrapper for the ChangeKnowledgeBaseCompartment operation
 type ChangeKnowledgeBaseCompartmentRequest struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.
 	KnowledgeBaseId *string `mandatory:"true" contributesTo:"path" name:"knowledgeBaseId"`
 
 	// The information to be updated.

@@ -14,7 +14,7 @@ import (
 // GetTargetDbHomeRequest wrapper for the GetTargetDbHome operation
 type GetTargetDbHomeRequest struct {
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -14,7 +14,7 @@ import (
 // ChangeNotebookSessionCompartmentRequest wrapper for the ChangeNotebookSessionCompartment operation
 type ChangeNotebookSessionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the notebook session.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the notebook session.
 	NotebookSessionId *string `mandatory:"true" contributesTo:"path" name:"notebookSessionId"`
 
 	// Details for changing the compartment of a notebook session.

@@ -14,7 +14,7 @@ import (
 // GetInstanceScreenshotRequest wrapper for the GetInstanceScreenshot operation
 type GetInstanceScreenshotRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// The OCID of the screenshot capture.

@@ -14,7 +14,7 @@ import (
 // SummarizeExternalDbNodeMetricsRequest wrapper for the SummarizeExternalDbNodeMetrics operation
 type SummarizeExternalDbNodeMetricsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database node.
 	ExternalDbNodeId *string `mandatory:"true" contributesTo:"path" name:"externalDbNodeId"`
 
 	// The beginning of the time range set to retrieve metric data for the DB system

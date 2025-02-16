@@ -14,7 +14,7 @@ import (
 // RemovePackagesFromSoftwareSourceRequest wrapper for the RemovePackagesFromSoftwareSource operation
 type RemovePackagesFromSoftwareSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// A list of packages to be removed from the software source.

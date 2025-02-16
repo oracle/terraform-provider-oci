@@ -26,7 +26,7 @@ type UpdateMonitorDetails struct {
 	// Use /publicVantagePoints to fetch public vantage points, and /dedicatedVantagePoints to fetch dedicated vantage points.
 	VantagePoints []string `mandatory:"false" json:"vantagePoints"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the script.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script.
 	// scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null.
 	ScriptId *string `mandatory:"false" json:"scriptId"`
 

@@ -14,7 +14,7 @@ import (
 // UpdateHttpRedirectRequest wrapper for the UpdateHttpRedirect operation
 type UpdateHttpRedirectRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.
 	HttpRedirectId *string `mandatory:"true" contributesTo:"path" name:"httpRedirectId"`
 
 	// The details of the HTTP Redirect to update.
@@ -81,7 +81,7 @@ type UpdateHttpRedirectResponse struct {
 	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

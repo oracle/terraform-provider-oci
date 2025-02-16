@@ -14,7 +14,7 @@ import (
 // ListOdaPrivateEndpointScanProxiesRequest wrapper for the ListOdaPrivateEndpointScanProxies operation
 type ListOdaPrivateEndpointScanProxiesRequest struct {
 
-	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OdaPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"odaPrivateEndpointId"`
 
 	// List only the ODA Private Endpoint Scan Proxies that are in this lifecycle state.

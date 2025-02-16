@@ -14,10 +14,10 @@ import (
 // GetInstanceAgentCommandExecutionRequest wrapper for the GetInstanceAgentCommandExecution operation
 type GetInstanceAgentCommandExecutionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the command.
 	InstanceAgentCommandId *string `mandatory:"true" contributesTo:"path" name:"instanceAgentCommandId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"query" name:"instanceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,

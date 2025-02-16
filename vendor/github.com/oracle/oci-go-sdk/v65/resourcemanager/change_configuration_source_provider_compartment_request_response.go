@@ -14,7 +14,7 @@ import (
 // ChangeConfigurationSourceProviderCompartmentRequest wrapper for the ChangeConfigurationSourceProviderCompartment operation
 type ChangeConfigurationSourceProviderCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
 	ConfigurationSourceProviderId *string `mandatory:"true" contributesTo:"path" name:"configurationSourceProviderId"`
 
 	// Defines the properties of changeConfigurationSourceProviderCompartment operation.

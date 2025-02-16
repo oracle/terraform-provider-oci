@@ -14,7 +14,7 @@ import (
 // GetComputeHostRequest wrapper for the GetComputeHost operation
 type GetComputeHostRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host.
 	ComputeHostId *string `mandatory:"true" contributesTo:"path" name:"computeHostId"`
 
 	// Unique identifier for the request.

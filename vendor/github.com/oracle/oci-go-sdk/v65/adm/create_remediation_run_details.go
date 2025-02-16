@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -18,7 +18,7 @@ import (
 // CreateRemediationRunDetails Details to create a new remediation run.
 type CreateRemediationRunDetails struct {
 
-	// The Oracle Cloud identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Remediation Recipe.
+	// The Oracle Cloud identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Remediation Recipe.
 	RemediationRecipeId *string `mandatory:"true" json:"remediationRecipeId"`
 
 	// The name of the remediation run.

@@ -14,7 +14,7 @@ import (
 // DeleteImageRequest wrapper for the DeleteImage operation
 type DeleteImageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
 	ImageId *string `mandatory:"true" contributesTo:"path" name:"imageId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

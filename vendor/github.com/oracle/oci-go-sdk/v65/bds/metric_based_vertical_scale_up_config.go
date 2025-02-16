@@ -19,16 +19,16 @@ import (
 type MetricBasedVerticalScaleUpConfig struct {
 	Metric *AutoScalePolicyMetricRule `mandatory:"false" json:"metric"`
 
-	// For nodes with flexible compute shapes (https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the maximum number of OCPUs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.
+	// For nodes with flexible compute shapes (https://docs.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the maximum number of OCPUs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.
 	MaxOcpusPerNode *int `mandatory:"false" json:"maxOcpusPerNode"`
 
-	// For nodes with flexible compute shapes (https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the maximum memory in GBs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.
+	// For nodes with flexible compute shapes (https://docs.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the maximum memory in GBs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.
 	MaxMemoryPerNode *int `mandatory:"false" json:"maxMemoryPerNode"`
 
-	// For nodes with flexible compute shapes (https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
+	// For nodes with flexible compute shapes (https://docs.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
 	OcpuStepSize *int `mandatory:"false" json:"ocpuStepSize"`
 
-	// For nodes with flexible compute shapes (https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the size of memory in GBs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
+	// For nodes with flexible compute shapes (https://docs.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the size of memory in GBs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
 	MemoryStepSize *int `mandatory:"false" json:"memoryStepSize"`
 }
 

@@ -14,7 +14,7 @@ import (
 // UpdateScheduledActionRequest wrapper for the UpdateScheduledAction operation
 type UpdateScheduledActionRequest struct {
 
-	// The Scheduled Action OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduled Action OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ScheduledActionId *string `mandatory:"true" contributesTo:"path" name:"scheduledActionId"`
 
 	// Request to update the properties of a Scheduled Action.
@@ -79,7 +79,7 @@ type UpdateScheduledActionResponse struct {
 	// The ScheduledAction instance
 	ScheduledAction `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

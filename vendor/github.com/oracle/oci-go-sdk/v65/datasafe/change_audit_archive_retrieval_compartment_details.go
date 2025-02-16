@@ -18,7 +18,7 @@ import (
 // ChangeAuditArchiveRetrievalCompartmentDetails The description of the achieve retrieval change compartment.
 type ChangeAuditArchiveRetrievalCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the new compartment were
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the new compartment were
 	// achieve retrieval resource would move.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

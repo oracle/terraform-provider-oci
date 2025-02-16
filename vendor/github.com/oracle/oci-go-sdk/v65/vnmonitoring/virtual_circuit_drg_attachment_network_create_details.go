@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -20,13 +20,13 @@ import (
 // VirtualCircuitDrgAttachmentNetworkCreateDetails The representation of VirtualCircuitDrgAttachmentNetworkCreateDetails
 type VirtualCircuitDrgAttachmentNetworkCreateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of compartment that contains the Virtual Circuit.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of compartment that contains the Virtual Circuit.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The BGP ASN to use for the Virtual Circuit's route target
 	RegionalOciAsn *string `mandatory:"true" json:"regionalOciAsn"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
 
 	// Whether the Fast Connect exists through an edge pop region.

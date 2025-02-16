@@ -14,7 +14,7 @@ import (
 // DeleteFleetRequest wrapper for the DeleteFleet operation
 type DeleteFleetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

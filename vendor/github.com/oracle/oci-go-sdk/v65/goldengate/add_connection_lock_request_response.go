@@ -14,7 +14,7 @@ import (
 // AddConnectionLockRequest wrapper for the AddConnectionLock operation
 type AddConnectionLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// AddResourceLockDetails body parameter

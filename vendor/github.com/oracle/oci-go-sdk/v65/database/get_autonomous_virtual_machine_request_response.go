@@ -14,7 +14,7 @@ import (
 // GetAutonomousVirtualMachineRequest wrapper for the GetAutonomousVirtualMachine operation
 type GetAutonomousVirtualMachineRequest struct {
 
-	// The Autonomous Virtual machine OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Virtual machine OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousVirtualMachineId *string `mandatory:"true" contributesTo:"path" name:"autonomousVirtualMachineId"`
 
 	// Unique identifier for the request.

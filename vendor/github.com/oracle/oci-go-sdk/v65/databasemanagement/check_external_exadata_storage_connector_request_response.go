@@ -14,7 +14,7 @@ import (
 // CheckExternalExadataStorageConnectorRequest wrapper for the CheckExternalExadataStorageConnector operation
 type CheckExternalExadataStorageConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.
 	ExternalExadataStorageConnectorId *string `mandatory:"true" contributesTo:"path" name:"externalExadataStorageConnectorId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -14,7 +14,7 @@ import (
 // GetExternalPluggableDatabaseRequest wrapper for the GetExternalPluggableDatabase operation
 type GetExternalPluggableDatabaseRequest struct {
 
-	// The ExternalPluggableDatabaseId OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ExternalPluggableDatabaseId OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExternalPluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalPluggableDatabaseId"`
 
 	// Unique identifier for the request.

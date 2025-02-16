@@ -14,7 +14,7 @@ import (
 // GetChannelRequest wrapper for the GetChannel operation
 type GetChannelRequest struct {
 
-	// The Channel OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Channel OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ChannelId *string `mandatory:"true" contributesTo:"path" name:"channelId"`
 
 	// Customer-defined unique identifier for the request. If you need to

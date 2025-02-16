@@ -14,7 +14,7 @@ import (
 // GetAutonomousVmClusterRequest wrapper for the GetAutonomousVmCluster operation
 type GetAutonomousVmClusterRequest struct {
 
-	// The autonomous VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The autonomous VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"autonomousVmClusterId"`
 
 	// Unique identifier for the request.

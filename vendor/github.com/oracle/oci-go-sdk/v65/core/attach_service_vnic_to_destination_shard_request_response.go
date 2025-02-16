@@ -14,7 +14,7 @@ import (
 // AttachServiceVnicToDestinationShardRequest wrapper for the AttachServiceVnicToDestinationShard operation
 type AttachServiceVnicToDestinationShardRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Request to attach internal service VNIC to destination shard for live migration

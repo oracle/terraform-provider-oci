@@ -14,10 +14,10 @@ import (
 // GetWorkflowOrReplicationTargetRequest wrapper for the GetWorkflowOrReplicationTarget operation
 type GetWorkflowOrReplicationTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	ReplicationId *string `mandatory:"true" contributesTo:"query" name:"replicationId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"query" name:"fileSystemId"`
 
 	// The type of replication target workflow

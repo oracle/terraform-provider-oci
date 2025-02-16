@@ -14,7 +14,7 @@ import (
 // GetInstanceMaintenanceRebootRequest wrapper for the GetInstanceMaintenanceReboot operation
 type GetInstanceMaintenanceRebootRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// Unique identifier for the request.

@@ -14,7 +14,7 @@ import (
 // GetConsoleConnectionRequest wrapper for the GetConsoleConnection operation
 type GetConsoleConnectionRequest struct {
 
-	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// The OCID of the console connection.

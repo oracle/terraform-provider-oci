@@ -20,10 +20,10 @@ import (
 // CreateDbHomeFsuHomeDetails The information about the new Exadata Fleet Update Home using a DBaaS DBHome resource as source.
 type CreateDbHomeFsuHomeDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image for the Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Image for the Home.
 	FsuImageId *string `mandatory:"true" json:"fsuImageId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
 	// resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -31,7 +31,7 @@ type CreateDbHomeFsuHomeDetails struct {
 	// It cannot be the same as an existing Exadata Fleet Update Home resource.
 	HomeName *string `mandatory:"true" json:"homeName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DBaaS DBHome resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBaaS DBHome resource.
 	DbHomeId *string `mandatory:"true" json:"dbHomeId"`
 
 	// ORACLE_BASE path for provisioning Oracle database home or Oracle Grid Infrastructure home

@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -20,10 +20,10 @@ import (
 // A Run can be triggered manually or when a new CVE is discovered.
 type RemediationRun struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the remediation run.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the remediation run.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Remediation Recipe.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Remediation Recipe.
 	RemediationRecipeId *string `mandatory:"true" json:"remediationRecipeId"`
 
 	// The source that triggered the Remediation Recipe.
@@ -35,7 +35,7 @@ type RemediationRun struct {
 	// The date and time the remediation run was last updated (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the remediation run.
+	// The compartment Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the remediation run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current lifecycle state of the remediation run.

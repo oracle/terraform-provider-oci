@@ -14,7 +14,7 @@ import (
 // RemoveDatabaseToolsPrivateEndpointLockRequest wrapper for the RemoveDatabaseToolsPrivateEndpointLock operation
 type RemoveDatabaseToolsPrivateEndpointLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
 	DatabaseToolsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsPrivateEndpointId"`
 
 	// RemoveResourceLockDetails body parameter

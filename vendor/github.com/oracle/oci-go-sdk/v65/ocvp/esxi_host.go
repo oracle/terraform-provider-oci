@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -24,18 +24,18 @@ import (
 // attribute for the OCID of the Compute instance (`computeInstanceId`).
 type EsxiHost struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A descriptive name for the ESXi host. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC that the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC that the
 	// ESXi host belongs to.
 	SddcId *string `mandatory:"true" json:"sddcId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster that the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster that the
 	// ESXi host belongs to.
 	ClusterId *string `mandatory:"true" json:"clusterId"`
 
@@ -64,22 +64,22 @@ type EsxiHost struct {
 	HostShapeName *string `mandatory:"true" json:"hostShapeName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that
 	// contains the Cluster.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// In terms of implementation, an ESXi host is a Compute instance that
 	// is configured with the chosen bundle of VMware software. The `computeInstanceId`
-	// is the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of that Compute instance.
+	// is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that Compute instance.
 	ComputeInstanceId *string `mandatory:"false" json:"computeInstanceId"`
 
 	// The date and time the ESXi host was created, in the format defined by
@@ -94,10 +94,10 @@ type EsxiHost struct {
 	// The current state of the ESXi host.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
 	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
 	SwapBillingHostId *string `mandatory:"false" json:"swapBillingHostId"`
 
 	// Indicates whether this host is in the progress of billing continuation.
@@ -106,10 +106,10 @@ type EsxiHost struct {
 	// Indicates whether this host is in the progress of swapping billing.
 	IsBillingSwappingInProgress *bool `mandatory:"false" json:"isBillingSwappingInProgress"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that failed.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that failed.
 	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that
 	// is created to replace the failed host.
 	ReplacementEsxiHostId *string `mandatory:"false" json:"replacementEsxiHostId"`
 
@@ -121,18 +121,18 @@ type EsxiHost struct {
 	// The version of ESXi software that Oracle Cloud VMware Solution installed on the ESXi hosts.
 	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that
 	// will be upgraded.
 	NonUpgradedEsxiHostId *string `mandatory:"false" json:"nonUpgradedEsxiHostId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that
 	// is newly created to upgrade the original host.
 	UpgradedReplacementEsxiHostId *string `mandatory:"false" json:"upgradedReplacementEsxiHostId"`
 
 	// The OCPU count of the ESXi host.
 	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.

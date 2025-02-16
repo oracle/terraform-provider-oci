@@ -19,14 +19,14 @@ import (
 // KafkaSchemaRegistryConnection Represents the metadata of a Kafka (e.g. Confluent) Schema Registry Connection.
 type KafkaSchemaRegistryConnection struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection being
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
 	// referenced.
 	Id *string `mandatory:"true" json:"id"`
 
 	// An object's Display Name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time the resource was created. The format is defined by
@@ -55,7 +55,7 @@ type KafkaSchemaRegistryConnection struct {
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle
 	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
-	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
@@ -82,7 +82,7 @@ type KafkaSchemaRegistryConnection struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Indicates that sensitive attributes are provided via Secrets.
@@ -101,29 +101,29 @@ type KafkaSchemaRegistryConnection struct {
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the Kafka Schema Registry password is stored,
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Kafka Schema Registry password is stored,
 	// The password to access Schema Registry using basic authentication.
 	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
 	// Note: When provided, 'password' field must not be provided.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the TrustStore file.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the TrustStore file.
 	// Note: When provided, 'trustStore' field must not be provided.
 	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl TrustStore password is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl TrustStore password is stored.
 	// Note: When provided, 'trustStorePassword' field must not be provided.
 	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the KeyStore file.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the KeyStore file.
 	// Note: When provided, 'keyStore' field must not be provided.
 	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl KeyStore password is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl KeyStore password is stored.
 	// Note: When provided, 'keyStorePassword' field must not be provided.
 	KeyStorePasswordSecretId *string `mandatory:"false" json:"keyStorePasswordSecretId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the cert inside the KeyStore.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the cert inside the KeyStore.
 	// In case it differs from the KeyStore password, it should be provided.
 	// Note: When provided, 'sslKeyPassword' field must not be provided.
 	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`

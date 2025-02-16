@@ -14,7 +14,7 @@ import (
 // GetEmailReturnPathRequest wrapper for the GetEmailReturnPath operation
 type GetEmailReturnPathRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
 	EmailReturnPathId *string `mandatory:"true" contributesTo:"path" name:"emailReturnPathId"`
 
 	// The request ID for tracing from the system

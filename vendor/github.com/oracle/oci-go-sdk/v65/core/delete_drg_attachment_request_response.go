@@ -14,7 +14,7 @@ import (
 // DeleteDrgAttachmentRequest wrapper for the DeleteDrgAttachment operation
 type DeleteDrgAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.
 	DrgAttachmentId *string `mandatory:"true" contributesTo:"path" name:"drgAttachmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

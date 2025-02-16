@@ -14,7 +14,7 @@ import (
 // GetManagedDatabaseGroupRequest wrapper for the GetManagedDatabaseGroup operation
 type GetManagedDatabaseGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
 	ManagedDatabaseGroupId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseGroupId"`
 
 	// The client request ID for tracing.

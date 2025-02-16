@@ -14,7 +14,7 @@ import (
 // DeleteModelVersionSetRequest wrapper for the DeleteModelVersionSet operation
 type DeleteModelVersionSetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model version set.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model version set.
 	ModelVersionSetId *string `mandatory:"true" contributesTo:"path" name:"modelVersionSetId"`
 
 	// By default, this parameter is false. A model version set can only be deleted if all the models associate with it are already in the DELETED state.
@@ -79,7 +79,7 @@ type DeleteModelVersionSetResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// The OCID (https://docs.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

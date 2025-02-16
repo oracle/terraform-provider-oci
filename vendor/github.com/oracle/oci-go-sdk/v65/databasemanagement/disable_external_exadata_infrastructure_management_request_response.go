@@ -14,7 +14,7 @@ import (
 // DisableExternalExadataInfrastructureManagementRequest wrapper for the DisableExternalExadataInfrastructureManagement operation
 type DisableExternalExadataInfrastructureManagementRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExternalExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"externalExadataInfrastructureId"`
 
 	// The client request ID for tracing.

@@ -14,7 +14,7 @@ import (
 // GetDrgRouteDistributionRequest wrapper for the GetDrgRouteDistribution operation
 type GetDrgRouteDistributionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.
 	DrgRouteDistributionId *string `mandatory:"true" contributesTo:"path" name:"drgRouteDistributionId"`
 
 	// Unique Oracle-assigned identifier for the request.

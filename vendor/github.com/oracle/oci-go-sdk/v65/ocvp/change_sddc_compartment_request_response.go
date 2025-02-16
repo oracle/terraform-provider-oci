@@ -14,7 +14,7 @@ import (
 // ChangeSddcCompartmentRequest wrapper for the ChangeSddcCompartment operation
 type ChangeSddcCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC.
 	SddcId *string `mandatory:"true" contributesTo:"path" name:"sddcId"`
 
 	// Request to change the compartment of the specified SDDC

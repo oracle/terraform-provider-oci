@@ -14,7 +14,7 @@ import (
 // GetOneoffPatchRequest wrapper for the GetOneoffPatch operation
 type GetOneoffPatchRequest struct {
 
-	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The one-off patch OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
 
 	// Unique identifier for the request.

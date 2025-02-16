@@ -14,7 +14,7 @@ import (
 // DeleteEmailTrackConfigRequest wrapper for the DeleteEmailTrackConfig operation
 type DeleteEmailTrackConfigRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the email tracking configuration resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email tracking configuration resource.
 	EmailTrackConfigId *string `mandatory:"true" contributesTo:"path" name:"emailTrackConfigId"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`

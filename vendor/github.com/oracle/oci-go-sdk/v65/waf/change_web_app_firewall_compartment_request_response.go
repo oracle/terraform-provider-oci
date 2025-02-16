@@ -14,7 +14,7 @@ import (
 // ChangeWebAppFirewallCompartmentRequest wrapper for the ChangeWebAppFirewallCompartment operation
 type ChangeWebAppFirewallCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
 	WebAppFirewallId *string `mandatory:"true" contributesTo:"path" name:"webAppFirewallId"`
 
 	// The information to be updated.

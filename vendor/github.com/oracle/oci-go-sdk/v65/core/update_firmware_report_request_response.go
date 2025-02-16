@@ -14,7 +14,7 @@ import (
 // UpdateFirmwareReportRequest wrapper for the UpdateFirmwareReport operation
 type UpdateFirmwareReportRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FirmwareReport.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the FirmwareReport.
 	FirmwareReportId *string `mandatory:"true" contributesTo:"path" name:"firmwareReportId"`
 
 	// The information to be updated.

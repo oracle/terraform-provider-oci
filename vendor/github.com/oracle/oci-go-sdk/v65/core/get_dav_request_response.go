@@ -14,7 +14,7 @@ import (
 // GetDavRequest wrapper for the GetDav operation
 type GetDavRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the direct attached VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the direct attached VNIC.
 	DavId *string `mandatory:"true" contributesTo:"path" name:"davId"`
 
 	// Unique identifier for the request.

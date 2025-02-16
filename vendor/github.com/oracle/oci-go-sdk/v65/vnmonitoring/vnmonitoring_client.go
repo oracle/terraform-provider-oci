@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -256,7 +256,7 @@ func (client VnMonitoringClient) deletePathAnalyzerTest(ctx context.Context, req
 	return response, err
 }
 
-// GetPathAnalysis Use this method to initiate a Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) analysis. This method returns
+// GetPathAnalysis Use this method to initiate a Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) analysis. This method returns
 // an opc-work-request-id, and you can poll the status of the work request until it either fails or succeeds.
 // If the work request status is successful, use ListWorkRequestResults
 // with the work request ID to ask for the successful analysis results. If the work request status is failed, use

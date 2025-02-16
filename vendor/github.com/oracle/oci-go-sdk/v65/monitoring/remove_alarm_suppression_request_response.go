@@ -14,7 +14,7 @@ import (
 // RemoveAlarmSuppressionRequest wrapper for the RemoveAlarmSuppression operation
 type RemoveAlarmSuppressionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

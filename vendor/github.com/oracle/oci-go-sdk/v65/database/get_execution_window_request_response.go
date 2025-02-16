@@ -14,7 +14,7 @@ import (
 // GetExecutionWindowRequest wrapper for the GetExecutionWindow operation
 type GetExecutionWindowRequest struct {
 
-	// The execution window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionWindowId *string `mandatory:"true" contributesTo:"path" name:"executionWindowId"`
 
 	// Unique identifier for the request.

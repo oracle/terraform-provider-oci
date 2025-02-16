@@ -14,7 +14,7 @@ import (
 // ListPluggableDatabaseSnapshotsRequest wrapper for the ListPluggableDatabaseSnapshots operation
 type ListPluggableDatabaseSnapshotsRequest struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return per page.
@@ -38,7 +38,7 @@ type ListPluggableDatabaseSnapshotsRequest struct {
 	// A filter to return only Exadata Database Node Snapshots that match the given VM cluster.
 	ClusterId *string `mandatory:"false" contributesTo:"query" name:"clusterId"`
 
-	// A filter to return only Exadata Pluggable Database Snapshots that match the given database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// A filter to return only Exadata Pluggable Database Snapshots that match the given database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	PluggableDatabaseId *string `mandatory:"false" contributesTo:"query" name:"pluggableDatabaseId"`
 
 	// Unique identifier for the request.
@@ -111,7 +111,7 @@ type ListPluggableDatabaseSnapshotsResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

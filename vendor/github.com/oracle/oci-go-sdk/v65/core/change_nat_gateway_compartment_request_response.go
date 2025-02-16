@@ -14,7 +14,7 @@ import (
 // ChangeNatGatewayCompartmentRequest wrapper for the ChangeNatGatewayCompartment operation
 type ChangeNatGatewayCompartmentRequest struct {
 
-	// The NAT gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The NAT gateway's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	NatGatewayId *string `mandatory:"true" contributesTo:"path" name:"natGatewayId"`
 
 	// Request to change the compartment of a given NAT Gateway.

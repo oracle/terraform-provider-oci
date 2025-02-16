@@ -14,7 +14,7 @@ import (
 // GetExternalDbNodeRequest wrapper for the GetExternalDbNode operation
 type GetExternalDbNodeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database node.
 	ExternalDbNodeId *string `mandatory:"true" contributesTo:"path" name:"externalDbNodeId"`
 
 	// The client request ID for tracing.

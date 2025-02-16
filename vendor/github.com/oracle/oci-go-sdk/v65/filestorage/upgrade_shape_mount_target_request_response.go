@@ -14,7 +14,7 @@ import (
 // UpgradeShapeMountTargetRequest wrapper for the UpgradeShapeMountTarget operation
 type UpgradeShapeMountTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
 	// Details for changing the shape of mount target.

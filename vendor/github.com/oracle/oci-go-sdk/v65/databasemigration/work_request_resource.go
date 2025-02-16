@@ -26,7 +26,7 @@ type WorkRequestResource struct {
 	// The resource type the work request affects.
 	EntityType *string `mandatory:"true" json:"entityType"`
 
-	// An OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or other unique identifier for the
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or other unique identifier for the
 	// resource.
 	Identifier *string `mandatory:"true" json:"identifier"`
 

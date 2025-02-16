@@ -14,10 +14,10 @@ import (
 // GetInstancePoolInstanceRequest wrapper for the GetInstancePoolInstance operation
 type GetInstancePoolInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -14,7 +14,7 @@ import (
 // ChangeDiscoveryScheduleCompartmentRequest wrapper for the ChangeDiscoveryScheduleCompartment operation
 type ChangeDiscoveryScheduleCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule.
 	DiscoveryScheduleId *string `mandatory:"true" contributesTo:"path" name:"discoveryScheduleId"`
 
 	// Information about the compartment in to which the discovery schedule should be moved.

@@ -18,7 +18,7 @@ import (
 // OdaPrivateEndpointScanProxy Details pertaining to a scan proxy instance created for a scan listener FQDN/IPs
 type OdaPrivateEndpointScanProxy struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ODA Private Endpoint Scan Proxy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ODA Private Endpoint Scan Proxy.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Type indicating whether Scan listener is specified by its FQDN or list of IPs

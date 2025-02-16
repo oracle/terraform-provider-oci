@@ -14,7 +14,7 @@ import (
 // GetCloudVmClusterIormConfigRequest wrapper for the GetCloudVmClusterIormConfig operation
 type GetCloudVmClusterIormConfigRequest struct {
 
-	// The cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The cloud VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudVmClusterId"`
 
 	// Unique identifier for the request.

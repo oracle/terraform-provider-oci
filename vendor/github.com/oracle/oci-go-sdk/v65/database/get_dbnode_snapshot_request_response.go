@@ -14,7 +14,7 @@ import (
 // GetDbnodeSnapshotRequest wrapper for the GetDbnodeSnapshot operation
 type GetDbnodeSnapshotRequest struct {
 
-	// The Exadata Database Node Snapshot OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata Database Node Snapshot OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbnodeSnapshotId *string `mandatory:"true" contributesTo:"path" name:"dbnodeSnapshotId"`
 
 	// Unique identifier for the request.

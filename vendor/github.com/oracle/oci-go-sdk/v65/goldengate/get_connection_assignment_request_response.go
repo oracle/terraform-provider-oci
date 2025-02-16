@@ -14,7 +14,7 @@ import (
 // GetConnectionAssignmentRequest wrapper for the GetConnectionAssignment operation
 type GetConnectionAssignmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
 	ConnectionAssignmentId *string `mandatory:"true" contributesTo:"path" name:"connectionAssignmentId"`
 
 	// The client request ID for tracing.

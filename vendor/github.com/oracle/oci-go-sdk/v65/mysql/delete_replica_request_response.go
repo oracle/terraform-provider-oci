@@ -14,7 +14,7 @@ import (
 // DeleteReplicaRequest wrapper for the DeleteReplica operation
 type DeleteReplicaRequest struct {
 
-	// The Replica OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Replica OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ReplicaId *string `mandatory:"true" contributesTo:"path" name:"replicaId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

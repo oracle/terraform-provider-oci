@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -25,7 +25,7 @@ type CreateInternalByoipv6RangeDetails struct {
 	// The CIDR IPv6 address block of the Imported ByoipRange. The CIDR length is always /64.
 	Byoipv6RangeCidrBlock *string `mandatory:"true" json:"byoipv6RangeCidrBlock"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Byoipv6Range.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Byoipv6Range.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

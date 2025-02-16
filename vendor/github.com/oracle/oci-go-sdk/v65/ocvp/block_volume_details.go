@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -19,7 +19,7 @@ import (
 // BlockVolumeDetails Block volume that is part of the Datastore.
 type BlockVolumeDetails struct {
 
-	// An OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)s of the Block Storage Volume.
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Block Storage Volume.
 	Id *string `mandatory:"true" json:"id"`
 
 	// An IQN of the Block Storage Volume.

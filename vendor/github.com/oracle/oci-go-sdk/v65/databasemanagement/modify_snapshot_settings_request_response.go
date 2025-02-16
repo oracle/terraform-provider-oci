@@ -14,7 +14,7 @@ import (
 // ModifySnapshotSettingsRequest wrapper for the ModifySnapshotSettings operation
 type ModifySnapshotSettingsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// Request to modify snapshot settings for a Database.

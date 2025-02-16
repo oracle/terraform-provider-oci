@@ -14,7 +14,7 @@ import (
 // DeleteEmailReturnPathRequest wrapper for the DeleteEmailReturnPath operation
 type DeleteEmailReturnPathRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
 	EmailReturnPathId *string `mandatory:"true" contributesTo:"path" name:"emailReturnPathId"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`

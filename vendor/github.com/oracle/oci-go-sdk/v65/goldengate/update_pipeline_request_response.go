@@ -14,7 +14,7 @@ import (
 // UpdatePipelineRequest wrapper for the UpdatePipeline operation
 type UpdatePipelineRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// The existing pipeline specifications to apply.

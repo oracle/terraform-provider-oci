@@ -14,13 +14,13 @@ import (
 // PromoteSoftwareSourceToLifecycleStageRequest wrapper for the PromoteSoftwareSourceToLifecycleStage operation
 type PromoteSoftwareSourceToLifecycleStageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
 	// Details for the software source promotion job.
 	PromoteSoftwareSourceToLifecycleStageDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

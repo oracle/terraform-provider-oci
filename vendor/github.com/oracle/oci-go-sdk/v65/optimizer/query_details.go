@@ -6,7 +6,7 @@
 //
 // Use the Cloud Advisor API to find potential inefficiencies in your tenancy and address them.
 // Cloud Advisor can help you save money, improve performance, strengthen system resilience, and improve security.
-// For more information, see Cloud Advisor (https://docs.cloud.oracle.com/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
+// For more information, see Cloud Advisor (https://docs.oracle.com/iaas/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
 //
 
 package optimizer
@@ -21,7 +21,7 @@ import (
 type QueryDetails struct {
 
 	// The query describing which resources to search for.
-	// For more information, see Query Language Syntax (https://docs.cloud.oracle.com/iaas/Content/CloudAdvisor/Reference/query-syntax.htm).
+	// For more information, see Query Language Syntax (https://docs.oracle.com/iaas/Content/CloudAdvisor/Reference/query-syntax.htm).
 	Query *string `mandatory:"false" json:"query"`
 }
 

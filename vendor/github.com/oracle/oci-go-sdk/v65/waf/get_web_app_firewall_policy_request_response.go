@@ -14,7 +14,7 @@ import (
 // GetWebAppFirewallPolicyRequest wrapper for the GetWebAppFirewallPolicy operation
 type GetWebAppFirewallPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.
 	WebAppFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppFirewallPolicyId"`
 
 	// The client request ID for tracing.

@@ -4,7 +4,7 @@
 
 // Artifacts and Container Images API
 //
-// API covering the Artifacts and Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
+// API covering the Artifacts and Registry (https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
 // Use this API to manage resources such as generic artifacts and container images.
 //
 
@@ -94,7 +94,7 @@ func (client *ArtifactsClient) ConfigurationProvider() *common.ConfigurationProv
 
 // ChangeContainerRepositoryCompartment Moves a container repository into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeContainerRepositoryCompartment()
 func (client ArtifactsClient) ChangeContainerRepositoryCompartment(ctx context.Context, request ChangeContainerRepositoryCompartmentRequest) (response ChangeContainerRepositoryCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,7 +155,7 @@ func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.C
 
 // ChangeRepositoryCompartment Moves a repository into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeRepositoryCompartment()
 func (client ArtifactsClient) ChangeRepositoryCompartment(ctx context.Context, request ChangeRepositoryCompartmentRequest) (response ChangeRepositoryCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -552,7 +552,7 @@ func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, req
 	return response, err
 }
 
-// DeleteGenericArtifact Deletes an artifact with a specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// DeleteGenericArtifact Deletes an artifact with a specified OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation DeleteGenericArtifact()
 func (client ArtifactsClient) DeleteGenericArtifact(ctx context.Context, request DeleteGenericArtifactRequest) (response DeleteGenericArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -930,7 +930,7 @@ func (client ArtifactsClient) getContainerRepository(ctx context.Context, reques
 	return response, err
 }
 
-// GetGenericArtifact Gets information about an artifact with a specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetGenericArtifact Gets information about an artifact with a specified OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetGenericArtifact()
 func (client ArtifactsClient) GetGenericArtifact(ctx context.Context, request GetGenericArtifactRequest) (response GetGenericArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1696,7 +1696,7 @@ func (client ArtifactsClient) updateContainerRepository(ctx context.Context, req
 	return response, err
 }
 
-// UpdateGenericArtifact Updates the artifact with the specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can only update the tags of an artifact.
+// UpdateGenericArtifact Updates the artifact with the specified OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can only update the tags of an artifact.
 // A default retry strategy applies to this operation UpdateGenericArtifact()
 func (client ArtifactsClient) UpdateGenericArtifact(ctx context.Context, request UpdateGenericArtifactRequest) (response UpdateGenericArtifactResponse, err error) {
 	var ociResponse common.OCIResponse

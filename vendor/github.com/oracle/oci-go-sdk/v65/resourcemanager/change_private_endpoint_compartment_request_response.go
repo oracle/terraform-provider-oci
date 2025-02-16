@@ -14,7 +14,7 @@ import (
 // ChangePrivateEndpointCompartmentRequest wrapper for the ChangePrivateEndpointCompartment operation
 type ChangePrivateEndpointCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Defines the properties of changePrivateEndpointCompartment operation.

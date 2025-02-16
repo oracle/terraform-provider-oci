@@ -14,7 +14,7 @@ import (
 // LoadSqlPlanBaselinesFromCursorCacheRequest wrapper for the LoadSqlPlanBaselinesFromCursorCache operation
 type LoadSqlPlanBaselinesFromCursorCacheRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The details of SQL statements and plans to be loaded from cursor cache.

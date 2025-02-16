@@ -14,7 +14,7 @@ import (
 // ChangeTemplateCompartmentRequest wrapper for the ChangeTemplateCompartment operation
 type ChangeTemplateCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.
 	TemplateId *string `mandatory:"true" contributesTo:"path" name:"templateId"`
 
 	// The details for moving a template to a different compartment.

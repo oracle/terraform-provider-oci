@@ -14,7 +14,7 @@ import (
 // DeleteConnectionAssignmentRequest wrapper for the DeleteConnectionAssignment operation
 type DeleteConnectionAssignmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
 	ConnectionAssignmentId *string `mandatory:"true" contributesTo:"path" name:"connectionAssignmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

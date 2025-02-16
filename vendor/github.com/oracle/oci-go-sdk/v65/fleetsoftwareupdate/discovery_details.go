@@ -64,6 +64,10 @@ func (m *discoverydetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := DbDiscoveryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GUEST_OS":
+		mm := GuestOsDiscoveryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for DiscoveryDetails: %s.", m.Type)
 		return *m, nil

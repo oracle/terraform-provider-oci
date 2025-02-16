@@ -14,7 +14,7 @@ import (
 // GetAutonomousPatchRequest wrapper for the GetAutonomousPatch operation
 type GetAutonomousPatchRequest struct {
 
-	// The autonomous patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The autonomous patch OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousPatchId *string `mandatory:"true" contributesTo:"path" name:"autonomousPatchId"`
 
 	// Unique Oracle-assigned identifier for the request.

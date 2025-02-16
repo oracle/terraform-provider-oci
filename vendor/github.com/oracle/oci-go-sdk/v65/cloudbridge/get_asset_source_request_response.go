@@ -14,7 +14,7 @@ import (
 // GetAssetSourceRequest wrapper for the GetAssetSource operation
 type GetAssetSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asset source.
 	AssetSourceId *string `mandatory:"true" contributesTo:"path" name:"assetSourceId"`
 
 	// The client request ID for tracing.

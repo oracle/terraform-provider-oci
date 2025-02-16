@@ -17,7 +17,7 @@ type ChangeNfsStorageCompartmentRequest struct {
 	// Request to move NFS storage to a different compartment.
 	ChangeNfsStorageCompartmentDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NFS Storage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NFS Storage.
 	NfsStorageId *string `mandatory:"true" contributesTo:"path" name:"nfsStorageId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

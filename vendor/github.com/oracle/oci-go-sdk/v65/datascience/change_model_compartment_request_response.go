@@ -14,7 +14,7 @@ import (
 // ChangeModelCompartmentRequest wrapper for the ChangeModelCompartment operation
 type ChangeModelCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// Details for changing the compartment of a model.

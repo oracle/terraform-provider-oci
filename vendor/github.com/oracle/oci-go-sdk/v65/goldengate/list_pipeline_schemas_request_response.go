@@ -14,7 +14,7 @@ import (
 // ListPipelineSchemasRequest wrapper for the ListPipelineSchemas operation
 type ListPipelineSchemasRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pipeline created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// A filter to return only the resources that match the entire 'displayName' given.

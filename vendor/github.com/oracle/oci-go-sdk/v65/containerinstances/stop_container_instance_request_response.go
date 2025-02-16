@@ -14,7 +14,7 @@ import (
 // StopContainerInstanceRequest wrapper for the StopContainerInstance operation
 type StopContainerInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
 	ContainerInstanceId *string `mandatory:"true" contributesTo:"path" name:"containerInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

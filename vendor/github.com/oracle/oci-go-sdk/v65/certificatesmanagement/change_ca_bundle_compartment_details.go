@@ -18,7 +18,7 @@ import (
 // ChangeCaBundleCompartmentDetails The details of the request to change compartments for the CA bundle.
 type ChangeCaBundleCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// into which the CA bundle should move.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

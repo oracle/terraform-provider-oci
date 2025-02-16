@@ -14,7 +14,7 @@ import (
 // RemoveFilesystemSnapshotPolicyLockRequest wrapper for the RemoveFilesystemSnapshotPolicyLock operation
 type RemoveFilesystemSnapshotPolicyLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	FilesystemSnapshotPolicyId *string `mandatory:"true" contributesTo:"path" name:"filesystemSnapshotPolicyId"`
 
 	// The details to be updated for the RemoveLock.

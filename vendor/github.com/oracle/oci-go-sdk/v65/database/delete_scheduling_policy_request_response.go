@@ -14,7 +14,7 @@ import (
 // DeleteSchedulingPolicyRequest wrapper for the DeleteSchedulingPolicy operation
 type DeleteSchedulingPolicyRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

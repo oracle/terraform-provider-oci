@@ -14,7 +14,7 @@ import (
 // DisableExternalNonContainerDatabaseManagementFeatureRequest wrapper for the DisableExternalNonContainerDatabaseManagementFeature operation
 type DisableExternalNonContainerDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external non-container database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external non-container database.
 	ExternalNonContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalNonContainerDatabaseId"`
 
 	// The details required to disable a Database Management feature for an external non-container database.

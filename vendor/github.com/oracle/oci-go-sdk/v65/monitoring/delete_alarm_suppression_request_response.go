@@ -14,7 +14,7 @@ import (
 // DeleteAlarmSuppressionRequest wrapper for the DeleteAlarmSuppression operation
 type DeleteAlarmSuppressionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.
 	AlarmSuppressionId *string `mandatory:"true" contributesTo:"path" name:"alarmSuppressionId"`
 
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular

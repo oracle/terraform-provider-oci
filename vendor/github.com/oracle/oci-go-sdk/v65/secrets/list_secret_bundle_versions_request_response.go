@@ -21,11 +21,11 @@ type ListSecretBundleVersionsRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// The maximum number of items to return in a paginated "List" call. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.comAPI/Concepts/usingapi.htm#List_Pagination).
+	// List Pagination (https://docs.oracle.com/iaasAPI/Concepts/usingapi.htm#List_Pagination).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call. For information about
-	// pagination, see List Pagination (https://docs.cloud.oracle.comAPI/Concepts/usingapi.htm#List_Pagination).
+	// pagination, see List Pagination (https://docs.oracle.com/iaasAPI/Concepts/usingapi.htm#List_Pagination).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The field to sort by. You can specify only one sort order. The default
@@ -98,7 +98,7 @@ type ListSecretBundleVersionsResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#List_Pagination).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#List_Pagination).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

@@ -14,7 +14,7 @@ import (
 // CheckExternalDbSystemConnectorConnectionStatusRequest wrapper for the CheckExternalDbSystemConnectorConnectionStatus operation
 type CheckExternalDbSystemConnectorConnectionStatusRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external connector.
 	ExternalDbSystemConnectorId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemConnectorId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

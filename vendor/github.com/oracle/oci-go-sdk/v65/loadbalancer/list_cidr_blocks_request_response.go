@@ -14,7 +14,7 @@ import (
 // ListCidrBlocksRequest wrapper for the ListCidrBlocks operation
 type ListCidrBlocksRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the CidrBlocks
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the CidrBlocks
 	// to be listed.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 

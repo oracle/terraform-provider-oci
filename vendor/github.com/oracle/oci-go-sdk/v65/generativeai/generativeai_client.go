@@ -6,8 +6,8 @@
 //
 // OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation, summarization, and text embeddings.
 // Use the Generative AI service management API to create and manage DedicatedAiCluster, Endpoint, Model, and WorkRequest in the Generative AI service. For example, create a custom model by fine-tuning an out-of-the-box model using your own data, on a fine-tuning dedicated AI cluster. Then, create a hosting dedicated AI cluster with an endpoint to host your custom model.
-// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.cloud.oracle.com/iaas/api/#/en/generative-ai-inference/latest/).
-// To learn more about the service, see the Generative AI documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai/home.htm).
+// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.oracle.com/iaas/api/#/en/generative-ai-inference/latest/).
+// To learn more about the service, see the Generative AI documentation (https://docs.oracle.com/iaas/Content/generative-ai/home.htm).
 //
 
 package generativeai
@@ -94,7 +94,7 @@ func (client *GenerativeAiClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ChangeDedicatedAiClusterCompartment Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeDedicatedAiClusterCompartment Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDedicatedAiClusterCompartment()
 func (client GenerativeAiClient) ChangeDedicatedAiClusterCompartment(ctx context.Context, request ChangeDedicatedAiClusterCompartmentRequest) (response ChangeDedicatedAiClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client GenerativeAiClient) changeDedicatedAiClusterCompartment(ctx context
 	return response, err
 }
 
-// ChangeEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeEndpointCompartment()
 func (client GenerativeAiClient) ChangeEndpointCompartment(ctx context.Context, request ChangeEndpointCompartmentRequest) (response ChangeEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -212,7 +212,7 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeModelCompartment()
 func (client GenerativeAiClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

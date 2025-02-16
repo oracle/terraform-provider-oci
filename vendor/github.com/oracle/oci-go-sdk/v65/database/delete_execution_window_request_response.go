@@ -14,7 +14,7 @@ import (
 // DeleteExecutionWindowRequest wrapper for the DeleteExecutionWindow operation
 type DeleteExecutionWindowRequest struct {
 
-	// The execution window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionWindowId *string `mandatory:"true" contributesTo:"path" name:"executionWindowId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

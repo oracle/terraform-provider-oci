@@ -14,7 +14,7 @@ import (
 // GetBackupDestinationRequest wrapper for the GetBackupDestination operation
 type GetBackupDestinationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup destination.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 	BackupDestinationId *string `mandatory:"true" contributesTo:"path" name:"backupDestinationId"`
 
 	// Unique identifier for the request.

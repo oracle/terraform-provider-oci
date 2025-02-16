@@ -14,7 +14,7 @@ import (
 // GetDbHomeRequest wrapper for the GetDbHome operation
 type GetDbHomeRequest struct {
 
-	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Database Home OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// Unique Oracle-assigned identifier for the request.

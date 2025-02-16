@@ -24,7 +24,7 @@ type CreateApplicationDetails struct {
 	// The display name of the application. The display name must be unique within the compartment containing the application. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application.
 	SubnetIds []string `mandatory:"true" json:"subnetIds"`
 
 	// Application configuration. These values are passed on to the function as environment variables, functions may override application configuration.
@@ -40,7 +40,7 @@ type CreateApplicationDetails struct {
 	// `GENERIC_X86`, `GENERIC_ARM`, `GENERIC_X86_ARM`
 	Shape CreateApplicationDetailsShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 
 	// A syslog URL to which to send all function logs. Supports tcp, udp, and tcp+tls.
@@ -52,11 +52,11 @@ type CreateApplicationDetails struct {
 	TraceConfig *ApplicationTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 

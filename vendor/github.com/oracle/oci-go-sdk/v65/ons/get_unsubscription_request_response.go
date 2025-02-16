@@ -14,7 +14,7 @@ import (
 // GetUnsubscriptionRequest wrapper for the GetUnsubscription operation
 type GetUnsubscriptionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to unsubscribe from.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to unsubscribe from.
 	Id *string `mandatory:"true" contributesTo:"path" name:"id"`
 
 	// The subscription confirmation token.
@@ -30,7 +30,7 @@ type GetUnsubscriptionRequest struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// Supported subscription protocols (on the overview page) (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
+	// Supported subscription protocols (on the overview page) (https://docs.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
 	Protocol *string `mandatory:"true" contributesTo:"query" name:"protocol"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

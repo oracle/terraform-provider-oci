@@ -14,7 +14,7 @@ import (
 // DeleteWebAppAccelerationPolicyRequest wrapper for the DeleteWebAppAccelerationPolicy operation
 type DeleteWebAppAccelerationPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
 	WebAppAccelerationPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource,

@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -18,7 +18,7 @@ import (
 // BulkUploadLicenseRecordsDetails Details required for bulk uploading of license records.
 type BulkUploadLicenseRecordsDetails struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where license records are created.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where license records are created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Name of the file that is being uploaded.

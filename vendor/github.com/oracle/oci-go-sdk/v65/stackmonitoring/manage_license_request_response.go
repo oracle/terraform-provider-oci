@@ -14,7 +14,7 @@ import (
 // ManageLicenseRequest wrapper for the ManageLicense operation
 type ManageLicenseRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
 	MonitoredResourceId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceId"`
 
 	// New license information.

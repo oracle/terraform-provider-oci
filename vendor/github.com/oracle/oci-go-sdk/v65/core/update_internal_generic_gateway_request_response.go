@@ -14,7 +14,7 @@ import (
 // UpdateInternalGenericGatewayRequest wrapper for the UpdateInternalGenericGateway operation
 type UpdateInternalGenericGatewayRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the generic gateway.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the generic gateway.
 	InternalGenericGatewayId *string `mandatory:"true" contributesTo:"path" name:"internalGenericGatewayId"`
 
 	// Request to update an internal generic gateway

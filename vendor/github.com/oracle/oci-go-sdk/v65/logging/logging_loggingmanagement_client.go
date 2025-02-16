@@ -6,7 +6,7 @@
 //
 // Use the Logging Management API to create, read, list, update, move and delete
 // log groups, log objects, log saved searches, and agent configurations.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// For more information, see Logging Overview (https://docs.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -156,7 +156,7 @@ func (client *LoggingManagementClient) refreshRegion() {
 }
 
 // ChangeContinuousQueryCompartment Moves a continuous query into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
-// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeContinuousQueryCompartment(ctx context.Context, request ChangeContinuousQueryCompartmentRequest) (response ChangeContinuousQueryCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -284,7 +284,7 @@ func (client LoggingManagementClient) changeLogDataModelCompartment(ctx context.
 }
 
 // ChangeLogGroupCompartment Moves a log group into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
-// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeLogGroupCompartment(ctx context.Context, request ChangeLogGroupCompartmentRequest) (response ChangeLogGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -407,7 +407,7 @@ func (client LoggingManagementClient) changeLogLogGroup(ctx context.Context, req
 }
 
 // ChangeLogPipelineCompartment Moves a log pipeline into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
-// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeLogPipelineCompartment(ctx context.Context, request ChangeLogPipelineCompartmentRequest) (response ChangeLogPipelineCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -474,7 +474,7 @@ func (client LoggingManagementClient) changeLogPipelineCompartment(ctx context.C
 }
 
 // ChangeLogRuleCompartment Moves a log rule into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
-// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeLogRuleCompartment(ctx context.Context, request ChangeLogRuleCompartmentRequest) (response ChangeLogRuleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -541,7 +541,7 @@ func (client LoggingManagementClient) changeLogRuleCompartment(ctx context.Conte
 }
 
 // ChangeLogSavedSearchCompartment Moves a saved search into a different compartment within the same tenancy. For information about moving
-// resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeLogSavedSearchCompartment(ctx context.Context, request ChangeLogSavedSearchCompartmentRequest) (response ChangeLogSavedSearchCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -608,7 +608,7 @@ func (client LoggingManagementClient) changeLogSavedSearchCompartment(ctx contex
 }
 
 // ChangeUnifiedAgentConfigurationCompartment Moves the unified agent configuration into a different compartment within the same tenancy.  When provided, the If-Match is checked against the ETag values of the resource.
-// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeUnifiedAgentConfigurationCompartment(ctx context.Context, request ChangeUnifiedAgentConfigurationCompartmentRequest) (response ChangeUnifiedAgentConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

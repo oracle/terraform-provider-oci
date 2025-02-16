@@ -14,7 +14,7 @@ import (
 // GetFunctionRequest wrapper for the GetFunction operation
 type GetFunctionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this function.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this function.
 	FunctionId *string `mandatory:"true" contributesTo:"path" name:"functionId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

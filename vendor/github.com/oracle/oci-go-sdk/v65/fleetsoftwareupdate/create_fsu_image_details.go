@@ -20,7 +20,7 @@ import (
 // CreateFsuImageDetails The information about the new Exadata Fleet Update Image
 type CreateFsuImageDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
 	// resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

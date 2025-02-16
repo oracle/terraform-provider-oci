@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -25,9 +25,9 @@ import (
 // packets to (a target). This is used only by a large route table.
 type AdditionalRouteRule struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the route rule's target. For information about the type of
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the route rule's target. For information about the type of
 	// targets you can specify, see
-	// Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
+	// Route Tables (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 	NetworkEntityId *string `mandatory:"true" json:"networkEntityId"`
 
 	// An identifier for the route rule. You specify this identifier when you want to delete the rule.
@@ -47,7 +47,7 @@ type AdditionalRouteRule struct {
 	//   * IP address range in CIDR notation. Can be an IPv4 CIDR block or IPv6 prefix. For example: `192.168.1.0/24`
 	//   or `2001:0db8:0123:45::/56`. If you set this to an IPv6 prefix, the route rule's target
 	//   can only be a DRG or internet gateway. IPv6 addressing is supported for all commercial and government regions.
-	//   See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	//   See IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	//   * The `cidrBlock` value for a Service, if you're
 	//   setting up a route rule for traffic destined for a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.

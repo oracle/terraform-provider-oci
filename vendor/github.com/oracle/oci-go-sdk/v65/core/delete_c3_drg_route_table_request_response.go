@@ -14,7 +14,7 @@ import (
 // DeleteC3DrgRouteTableRequest wrapper for the DeleteC3DrgRouteTable operation
 type DeleteC3DrgRouteTableRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -14,7 +14,7 @@ import (
 // GetEmailDomainRequest wrapper for the GetEmailDomain operation
 type GetEmailDomainRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email domain.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email domain.
 	EmailDomainId *string `mandatory:"true" contributesTo:"path" name:"emailDomainId"`
 
 	// The request ID for tracing from the system

@@ -14,7 +14,7 @@ import (
 // UpdateReplicaRequest wrapper for the UpdateReplica operation
 type UpdateReplicaRequest struct {
 
-	// The Replica OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Replica OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ReplicaId *string `mandatory:"true" contributesTo:"path" name:"replicaId"`
 
 	// The parameters of the request to update the read replica.

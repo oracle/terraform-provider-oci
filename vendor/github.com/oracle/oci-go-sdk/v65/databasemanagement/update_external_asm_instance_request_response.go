@@ -14,7 +14,7 @@ import (
 // UpdateExternalAsmInstanceRequest wrapper for the UpdateExternalAsmInstance operation
 type UpdateExternalAsmInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external ASM instance.
 	ExternalAsmInstanceId *string `mandatory:"true" contributesTo:"path" name:"externalAsmInstanceId"`
 
 	// The details required to update an external ASM instance.

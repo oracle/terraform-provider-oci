@@ -19,7 +19,7 @@ import (
 // DbaasTargetWorkRequestDetails Details for an Exadata Fleet Software Update WorkRequest associated with a Database service (DBaaS) target resource.
 type DbaasTargetWorkRequestDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Software Update WorkRequest.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Software Update WorkRequest.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
 	// The current status of the Exadata Fleet Software Update WorkRequest.

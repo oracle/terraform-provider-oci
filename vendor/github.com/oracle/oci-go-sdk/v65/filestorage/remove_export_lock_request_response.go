@@ -14,7 +14,7 @@ import (
 // RemoveExportLockRequest wrapper for the RemoveExportLock operation
 type RemoveExportLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the export.
 	ExportId *string `mandatory:"true" contributesTo:"path" name:"exportId"`
 
 	// The details to be updated for the RemoveLock.

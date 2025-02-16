@@ -18,10 +18,10 @@ import (
 // SearchMonitoredResourceAssociationsDetails The information required to search monitored resource associations.
 type SearchMonitoredResourceAssociationsDetails struct {
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Source Monitored Resource Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"false" json:"sourceResourceId"`
 
 	// Source Monitored Resource Name.
@@ -30,7 +30,7 @@ type SearchMonitoredResourceAssociationsDetails struct {
 	// Source Monitored Resource Type.
 	SourceResourceType *string `mandatory:"false" json:"sourceResourceType"`
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Destination Monitored Resource Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"false" json:"destinationResourceId"`
 
 	// Source Monitored Resource Name.

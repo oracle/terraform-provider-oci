@@ -17,7 +17,7 @@ type ListStorageWorkRequestErrorsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
+	// Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// The Logging Analytics namespace used for the request.

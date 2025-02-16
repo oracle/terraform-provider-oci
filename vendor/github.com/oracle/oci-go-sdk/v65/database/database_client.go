@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -786,7 +786,7 @@ func (client DatabaseClient) cascadingDeleteSchedulingPlan(ctx context.Context, 
 
 // ChangeAutonomousContainerDatabaseCompartment Move the Autonomous Container Database and its dependent resources to the specified compartment.
 // For more information about moving Autonomous Container Databases, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeAutonomousContainerDatabaseCompartment(ctx context.Context, request ChangeAutonomousContainerDatabaseCompartmentRequest) (response ChangeAutonomousContainerDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -846,7 +846,7 @@ func (client DatabaseClient) changeAutonomousContainerDatabaseCompartment(ctx co
 
 // ChangeAutonomousDatabaseCompartment Move the Autonomous Database and its dependent resources to the specified compartment.
 // For more information about moving Autonomous Databases, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeAutonomousDatabaseCompartment(ctx context.Context, request ChangeAutonomousDatabaseCompartmentRequest) (response ChangeAutonomousDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1022,7 +1022,7 @@ func (client DatabaseClient) changeAutonomousDatabaseSubscription(ctx context.Co
 
 // ChangeAutonomousExadataInfrastructureCompartment **Deprecated.** Use the ChangeCloudExadataInfrastructureCompartment operation to move an Exadata infrastructure resource to a different compartment and  ChangeCloudAutonomousVmClusterCompartment operation to move an Autonomous Exadata VM cluster to a different compartment.
 // For more information, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeAutonomousExadataInfrastructureCompartment(ctx context.Context, request ChangeAutonomousExadataInfrastructureCompartmentRequest) (response ChangeAutonomousExadataInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1140,7 +1140,7 @@ func (client DatabaseClient) changeAutonomousVmClusterCompartment(ctx context.Co
 
 // ChangeBackupDestinationCompartment Move the backup destination and its dependent resources to the specified compartment.
 // For more information, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeBackupDestinationCompartment(ctx context.Context, request ChangeBackupDestinationCompartmentRequest) (response ChangeBackupDestinationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1314,7 +1314,7 @@ func (client DatabaseClient) changeCloudAutonomousVmClusterSubscription(ctx cont
 	return response, err
 }
 
-// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeCloudExadataInfrastructureCompartment(ctx context.Context, request ChangeCloudExadataInfrastructureCompartmentRequest) (response ChangeCloudExadataInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1548,7 +1548,7 @@ func (client DatabaseClient) changeCloudVmClusterSubscription(ctx context.Contex
 
 // ChangeDatabaseSoftwareImageCompartment Move the Database Software Image and its dependent resources to the specified compartment.
 // For more information about moving Databse Software Images, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeDatabaseSoftwareImageCompartment(ctx context.Context, request ChangeDatabaseSoftwareImageCompartmentRequest) (response ChangeDatabaseSoftwareImageCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1668,7 +1668,7 @@ func (client DatabaseClient) changeDataguardRole(ctx context.Context, request co
 
 // ChangeDbSystemCompartment Moves the DB system and its dependent resources to the specified compartment.
 // For more information about moving DB systems, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeDbSystemCompartment(ctx context.Context, request ChangeDbSystemCompartmentRequest) (response ChangeDbSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2131,7 +2131,7 @@ func (client DatabaseClient) changeExascaleDbStorageVaultSubscription(ctx contex
 // ChangeExternalContainerDatabaseCompartment Move the CreateExternalContainerDatabaseDetails
 // and its dependent resources to the specified compartment.
 // For more information about moving external container databases, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeExternalContainerDatabaseCompartment(ctx context.Context, request ChangeExternalContainerDatabaseCompartmentRequest) (response ChangeExternalContainerDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2191,7 +2191,7 @@ func (client DatabaseClient) changeExternalContainerDatabaseCompartment(ctx cont
 
 // ChangeExternalNonContainerDatabaseCompartment Move the external non-container database and its dependent resources to the specified compartment.
 // For more information about moving external non-container databases, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeExternalNonContainerDatabaseCompartment(ctx context.Context, request ChangeExternalNonContainerDatabaseCompartmentRequest) (response ChangeExternalNonContainerDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2252,7 +2252,7 @@ func (client DatabaseClient) changeExternalNonContainerDatabaseCompartment(ctx c
 // ChangeExternalPluggableDatabaseCompartment Move the CreateExternalPluggableDatabaseDetails and
 // its dependent resources to the specified compartment.
 // For more information about moving external pluggable databases, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeExternalPluggableDatabaseCompartment(ctx context.Context, request ChangeExternalPluggableDatabaseCompartmentRequest) (response ChangeExternalPluggableDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2312,7 +2312,7 @@ func (client DatabaseClient) changeExternalPluggableDatabaseCompartment(ctx cont
 
 // ChangeKeyStoreCompartment Move the key store resource to the specified compartment.
 // For more information about moving key stores, see
-// Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeKeyStoreCompartment(ctx context.Context, request ChangeKeyStoreCompartmentRequest) (response ChangeKeyStoreCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2779,7 +2779,7 @@ func (client DatabaseClient) checkExternalDatabaseConnectorConnectionStatus(ctx 
 }
 
 // CompleteExternalBackupJob Changes the status of the standalone backup resource to `ACTIVE` after the backup is created from the on-premises database and placed in Oracle Cloud Infrastructure Object Storage.
-// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.cloud.oracle.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
+// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.oracle.com/iaas/Content/Database/Tasks/mig-onprembackup.htm) for more information.
 func (client DatabaseClient) CompleteExternalBackupJob(ctx context.Context, request CompleteExternalBackupJobRequest) (response CompleteExternalBackupJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2837,7 +2837,7 @@ func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, requ
 	return response, err
 }
 
-// ConfigureAutonomousDatabaseVaultKey Configures the Autonomous Database Vault service key (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+// ConfigureAutonomousDatabaseVaultKey Configures the Autonomous Database Vault service key (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 func (client DatabaseClient) ConfigureAutonomousDatabaseVaultKey(ctx context.Context, request ConfigureAutonomousDatabaseVaultKeyRequest) (response ConfigureAutonomousDatabaseVaultKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3532,12 +3532,12 @@ func (client DatabaseClient) createAutonomousContainerDatabase(ctx context.Conte
 }
 
 // CreateAutonomousContainerDatabaseDataguardAssociation Create a new Autonomous Data Guard association. An Autonomous Data Guard association represents the replication relationship between the
-// specified Autonomous Container database and a peer Autonomous Container database. For more information, see Using Oracle Data Guard (https://docs.cloud.oracle.com/Content/Database/Tasks/usingdataguard.htm).
+// specified Autonomous Container database and a peer Autonomous Container database. For more information, see Using Oracle Data Guard (https://docs.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm).
 // All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
 // called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
 // resource in the Console. For more information, see
-// Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client DatabaseClient) CreateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request CreateAutonomousContainerDatabaseDataguardAssociationRequest) (response CreateAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4001,7 +4001,7 @@ func (client DatabaseClient) createCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create either an Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous Database on dedicated Exadata infrastructure.
+// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create either an Exadata Cloud Service (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous Database on dedicated Exadata infrastructure.
 func (client DatabaseClient) CreateCloudExadataInfrastructure(ctx context.Context, request CreateCloudExadataInfrastructureRequest) (response CreateCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4236,12 +4236,12 @@ func (client DatabaseClient) createConsoleHistory(ctx context.Context, request c
 }
 
 // CreateDataGuardAssociation Creates a new Data Guard association.  A Data Guard association represents the replication relationship between the
-// specified database and a peer database. For more information, see Using Oracle Data Guard (https://docs.cloud.oracle.com/Content/Database/Tasks/usingdataguard.htm).
+// specified database and a peer database. For more information, see Using Oracle Data Guard (https://docs.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm).
 // All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
 // called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
 // resource in the Console. For more information, see
-// Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client DatabaseClient) CreateDataGuardAssociation(ctx context.Context, request CreateDataGuardAssociationRequest) (response CreateDataGuardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4765,7 +4765,7 @@ func (client DatabaseClient) createExecutionWindow(ctx context.Context, request 
 }
 
 // CreateExternalBackupJob Creates a new backup resource and returns the information the caller needs to back up an on-premises Oracle Database to Oracle Cloud Infrastructure.
-// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.cloud.oracle.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
+// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.oracle.com/iaas/Content/Database/Tasks/mig-onprembackup.htm) for more information.
 func (client DatabaseClient) CreateExternalBackupJob(ctx context.Context, request CreateExternalBackupJobRequest) (response CreateExternalBackupJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8078,7 +8078,7 @@ func (client DatabaseClient) disableExternalContainerDatabaseStackMonitoring(ctx
 
 // DisableExternalNonContainerDatabaseDatabaseManagement Disable Database Management Service for the external non-container database.
 // For more information about the Database Management Service, see
-// Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
+// Database Management Service (https://docs.oracle.com/iaas/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
 func (client DatabaseClient) DisableExternalNonContainerDatabaseDatabaseManagement(ctx context.Context, request DisableExternalNonContainerDatabaseDatabaseManagementRequest) (response DisableExternalNonContainerDatabaseDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8254,7 +8254,7 @@ func (client DatabaseClient) disableExternalNonContainerDatabaseStackMonitoring(
 
 // DisableExternalPluggableDatabaseDatabaseManagement Disable Database Management Service for the external pluggable database.
 // For more information about the Database Management Service, see
-// Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
+// Database Management Service (https://docs.oracle.com/iaas/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
 func (client DatabaseClient) DisableExternalPluggableDatabaseDatabaseManagement(ctx context.Context, request DisableExternalPluggableDatabaseDatabaseManagementRequest) (response DisableExternalPluggableDatabaseDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8941,7 +8941,7 @@ func (client DatabaseClient) enableDatabaseManagement(ctx context.Context, reque
 
 // EnableExternalContainerDatabaseDatabaseManagement Enables Database Management Service for the external container database.
 // For more information about the Database Management Service, see
-// Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
+// Database Management Service (https://docs.oracle.com/iaas/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
 func (client DatabaseClient) EnableExternalContainerDatabaseDatabaseManagement(ctx context.Context, request EnableExternalContainerDatabaseDatabaseManagementRequest) (response EnableExternalContainerDatabaseDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9059,7 +9059,7 @@ func (client DatabaseClient) enableExternalContainerDatabaseStackMonitoring(ctx 
 
 // EnableExternalNonContainerDatabaseDatabaseManagement Enable Database Management Service for the external non-container database.
 // For more information about the Database Management Service, see
-// Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
+// Database Management Service (https://docs.oracle.com/iaas/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
 func (client DatabaseClient) EnableExternalNonContainerDatabaseDatabaseManagement(ctx context.Context, request EnableExternalNonContainerDatabaseDatabaseManagementRequest) (response EnableExternalNonContainerDatabaseDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9235,7 +9235,7 @@ func (client DatabaseClient) enableExternalNonContainerDatabaseStackMonitoring(c
 
 // EnableExternalPluggableDatabaseDatabaseManagement Enable Database Management Service for the external pluggable database.
 // For more information about the Database Management Service, see
-// Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
+// Database Management Service (https://docs.oracle.com/iaas/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
 func (client DatabaseClient) EnableExternalPluggableDatabaseDatabaseManagement(ctx context.Context, request EnableExternalPluggableDatabaseDatabaseManagementRequest) (response EnableExternalPluggableDatabaseDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11832,8 +11832,8 @@ func (client DatabaseClient) getDbServer(ctx context.Context, request common.OCI
 }
 
 // GetDbSystem Gets information about the specified DB system.
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 func (client DatabaseClient) GetDbSystem(ctx context.Context, request GetDbSystemRequest) (response GetDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12260,8 +12260,8 @@ func (client DatabaseClient) getExadataInfrastructureUnAllocatedResources(ctx co
 
 // GetExadataIormConfig Gets the IORM configuration settings for the specified cloud Exadata DB system.
 // All Exadata service instances have default IORM settings.
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 // The GetCloudVmClusterIormConfig API is used for this operation with Exadata systems using the
 // new resource model.
 func (client DatabaseClient) GetExadataIormConfig(ctx context.Context, request GetExadataIormConfigRequest) (response GetExadataIormConfigResponse, err error) {
@@ -12635,7 +12635,7 @@ func (client DatabaseClient) getExecutionWindow(ctx context.Context, request com
 }
 
 // GetExternalBackupJob Gets information about the specified external backup job.
-// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.cloud.oracle.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
+// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.oracle.com/iaas/Content/Database/Tasks/mig-onprembackup.htm) for more information.
 func (client DatabaseClient) GetExternalBackupJob(ctx context.Context, request GetExternalBackupJobRequest) (response GetExternalBackupJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14140,9 +14140,9 @@ func (client DatabaseClient) launchAutonomousExadataInfrastructure(ctx context.C
 // LaunchDbSystem Creates a new DB system in the specified compartment and availability domain. The Oracle
 // Database edition that you specify applies to all the databases on that DB system. The selected edition cannot be changed.
 // An initial database is created on the DB system based on the request parameters you provide and some default
-// options. For detailed information about default options, see Bare metal and virtual machine DB system default options. (https://docs.cloud.oracle.com/Content/Database/Tasks/creatingDBsystem.htm#Default)
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// options. For detailed information about default options, see Bare metal and virtual machine DB system default options. (https://docs.oracle.com/iaas/Content/Database/Tasks/creatingDBsystem.htm#Default)
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 // Use the CreateCloudExadataInfrastructure and CreateCloudVmCluster APIs to provision a new Exadata Cloud Service instance.
 func (client DatabaseClient) LaunchDbSystem(ctx context.Context, request LaunchDbSystemRequest) (response LaunchDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -16695,8 +16695,8 @@ func (client DatabaseClient) listDbSystemUpgrades(ctx context.Context, request c
 }
 
 // ListDbSystems Lists the DB systems in the specified compartment. You can specify a `backupId` to list only the DB systems that support creating a database using this backup in this compartment.
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 func (client DatabaseClient) ListDbSystems(ctx context.Context, request ListDbSystemsRequest) (response ListDbSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -18953,7 +18953,7 @@ func (client DatabaseClient) migrateDataGuardAssociationToMultiDataGuards(ctx co
 	return response, err
 }
 
-// MigrateExadataDbSystemResourceModel Migrates the Exadata DB system to the new Exadata resource model (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
+// MigrateExadataDbSystemResourceModel Migrates the Exadata DB system to the new Exadata resource model (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
 // All related resources will be migrated.
 func (client DatabaseClient) MigrateExadataDbSystemResourceModel(ctx context.Context, request MigrateExadataDbSystemResourceModelRequest) (response MigrateExadataDbSystemResourceModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -19012,7 +19012,7 @@ func (client DatabaseClient) migrateExadataDbSystemResourceModel(ctx context.Con
 	return response, err
 }
 
-// MigrateVaultKey Changes encryption key management from customer-managed, using the Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm), to Oracle-managed.
+// MigrateVaultKey Changes encryption key management from customer-managed, using the Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm), to Oracle-managed.
 func (client DatabaseClient) MigrateVaultKey(ctx context.Context, request MigrateVaultKeyRequest) (response MigrateVaultKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20474,7 +20474,7 @@ func (client DatabaseClient) restoreDatabase(ctx context.Context, request common
 	return response, err
 }
 
-// RotateAutonomousContainerDatabaseEncryptionKey Creates a new version of an existing Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+// RotateAutonomousContainerDatabaseEncryptionKey Creates a new version of an existing Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
 func (client DatabaseClient) RotateAutonomousContainerDatabaseEncryptionKey(ctx context.Context, request RotateAutonomousContainerDatabaseEncryptionKeyRequest) (response RotateAutonomousContainerDatabaseEncryptionKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20532,7 +20532,7 @@ func (client DatabaseClient) rotateAutonomousContainerDatabaseEncryptionKey(ctx 
 	return response, err
 }
 
-// RotateAutonomousDatabaseEncryptionKey Rotate existing AutonomousDatabase Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+// RotateAutonomousDatabaseEncryptionKey Rotate existing AutonomousDatabase Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
 func (client DatabaseClient) RotateAutonomousDatabaseEncryptionKey(ctx context.Context, request RotateAutonomousDatabaseEncryptionKeyRequest) (response RotateAutonomousDatabaseEncryptionKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20996,7 +20996,7 @@ func (client DatabaseClient) rotateSslCerts(ctx context.Context, request common.
 	return response, err
 }
 
-// RotateVaultKey Creates a new version of an existing Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+// RotateVaultKey Creates a new version of an existing Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
 func (client DatabaseClient) RotateVaultKey(ctx context.Context, request RotateVaultKeyRequest) (response RotateVaultKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21166,7 +21166,7 @@ func (client DatabaseClient) scanExternalContainerDatabasePluggableDatabases(ctx
 	return response, err
 }
 
-// SetDbKeyVersion Sets a new version of an existing Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+// SetDbKeyVersion Sets a new version of an existing Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
 func (client DatabaseClient) SetDbKeyVersion(ctx context.Context, request SetDbKeyVersionRequest) (response SetDbKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21224,7 +21224,7 @@ func (client DatabaseClient) setDbKeyVersion(ctx context.Context, request common
 	return response, err
 }
 
-// SetPdbKeyVersion Sets a new version of an existing Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+// SetPdbKeyVersion Sets a new version of an existing Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
 func (client DatabaseClient) SetPdbKeyVersion(ctx context.Context, request SetPdbKeyVersionRequest) (response SetPdbKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21950,8 +21950,8 @@ func (client DatabaseClient) terminateAutonomousExadataInfrastructure(ctx contex
 }
 
 // TerminateDbSystem Terminates a DB system and permanently deletes it and any databases running on it, and any storage volumes attached to it. The database data is local to the DB system and will be lost when the system is terminated. Oracle recommends that you back up any data in the DB system prior to terminating it.
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 func (client DatabaseClient) TerminateDbSystem(ctx context.Context, request TerminateDbSystemRequest) (response TerminateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22966,7 +22966,7 @@ func (client DatabaseClient) updateConsoleHistory(ctx context.Context, request c
 }
 
 // UpdateDataGuard Update an existing Data Guard member. A Data Guard member represents the replication relationship between the
-// specified database and a standby database. For more information, see Using Oracle Data Guard (https://docs.cloud.oracle.com/Content/Database/Tasks/usingdataguard.htm).
+// specified database and a standby database. For more information, see Using Oracle Data Guard (https://docs.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm).
 func (client DatabaseClient) UpdateDataGuard(ctx context.Context, request UpdateDataGuardRequest) (response UpdateDataGuardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23290,8 +23290,8 @@ func (client DatabaseClient) updateDbNode(ctx context.Context, request common.OC
 }
 
 // UpdateDbSystem Updates the properties of the specified DB system.
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 func (client DatabaseClient) UpdateDbSystem(ctx context.Context, request UpdateDbSystemRequest) (response UpdateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23399,8 +23399,8 @@ func (client DatabaseClient) updateExadataInfrastructure(ctx context.Context, re
 }
 
 // UpdateExadataIormConfig Updates IORM settings for the specified Exadata DB system.
-// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 // The UpdateCloudVmClusterIormConfig API is used for Exadata systems using the
 // new resource model.
 func (client DatabaseClient) UpdateExadataIormConfig(ctx context.Context, request UpdateExadataIormConfigRequest) (response UpdateExadataIormConfigResponse, err error) {

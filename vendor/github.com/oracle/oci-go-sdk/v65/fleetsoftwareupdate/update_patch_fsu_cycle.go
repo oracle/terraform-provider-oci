@@ -18,6 +18,7 @@ import (
 )
 
 // UpdatePatchFsuCycle Update Patch Exadata Fleet Update Cycle resource details.
+// If automated maintenance is enabled for the associated Exadata Fleet Update Collection, updating Exadata Fleet Update Cycle will not affect the Exadata Fleet Update Collection.
 type UpdatePatchFsuCycle struct {
 
 	// Exadata Fleet Update Cycle display name.
@@ -37,18 +38,19 @@ type UpdatePatchFsuCycle struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Ignore all patches between the source and target homes during patching.
+	// Ignore patch conflicts or missing patches between the source and goal homes.
+	// This attribute will be ignored for Exadata Image (Guest OS) maintenance update.
 	IsIgnorePatches *bool `mandatory:"false" json:"isIgnorePatches"`
 
-	// List of patch IDs to ignore.
-	// An empty array removes the previously stored patch IDs in the Maintenance Cycle properties.
+	// List of identifiers of patches to ignore.
+	// Specify an empty array to unset the field.
+	// This attribute will be ignored for Exadata Image (Guest OS) maintenance update.
 	IsIgnoreMissingPatches []string `mandatory:"false" json:"isIgnoreMissingPatches"`
 
-	// Service drain timeout specified in seconds.
+	// Timeout for session draining for database services specified in seconds.
 	MaxDrainTimeoutInSeconds *int `mandatory:"false" json:"maxDrainTimeoutInSeconds"`
 
-	// Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same
-	// instances before and after the move operation.
+	// Ensure that database services are online on the same VMs before and after the maintenance update.
 	IsKeepPlacement *bool `mandatory:"false" json:"isKeepPlacement"`
 }
 

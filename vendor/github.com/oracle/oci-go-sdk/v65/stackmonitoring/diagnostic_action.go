@@ -19,10 +19,10 @@ import (
 // DiagnosticAction Diagnostic request model.
 type DiagnosticAction interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Diagnostic Action
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Diagnostic Action
 	GetId() *string
 
 	// The current state of the Resource.

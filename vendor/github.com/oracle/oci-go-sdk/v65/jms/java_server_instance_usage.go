@@ -21,7 +21,7 @@ type JavaServerInstanceUsage struct {
 	// The internal identifier of the Java Server instance.
 	ServerInstanceKey *string `mandatory:"true" json:"serverInstanceKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Fleet.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 
 	// The name of the Java Server instance.
@@ -30,7 +30,7 @@ type JavaServerInstanceUsage struct {
 	// The internal identifier of the related Java Server.
 	ServerKey *string `mandatory:"true" json:"serverKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
 	// The port of the Java Server instance.

@@ -14,7 +14,7 @@ import (
 // GetNetworkAddressListRequest wrapper for the GetNetworkAddressList operation
 type GetNetworkAddressListRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.
 	NetworkAddressListId *string `mandatory:"true" contributesTo:"path" name:"networkAddressListId"`
 
 	// The client request ID for tracing.

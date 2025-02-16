@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.oracle.com/iaas/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -18,7 +18,7 @@ import (
 // ChangePublicationCompartmentDetails The model for the parameters needed move a publication from one compartment to another.
 type ChangePublicationCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the publication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the publication.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
