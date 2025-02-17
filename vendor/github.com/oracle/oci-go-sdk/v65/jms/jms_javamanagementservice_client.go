@@ -2340,6 +2340,64 @@ func (client JavaManagementServiceClient) listFleetDiagnoses(ctx context.Context
 	return response, err
 }
 
+// ListFleetErrors Returns a list of fleet errors that describe all detected errors.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListFleetErrors.go.html to see an example of how to use ListFleetErrors API.
+// A default retry strategy applies to this operation ListFleetErrors()
+func (client JavaManagementServiceClient) ListFleetErrors(ctx context.Context, request ListFleetErrorsRequest) (response ListFleetErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFleetErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFleetErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFleetErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFleetErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFleetErrorsResponse")
+	}
+	return
+}
+
+// listFleetErrors implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listFleetErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleetErrors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFleetErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetErrorSummary/ListFleetErrors"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListFleetErrors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListFleets Returns a list of all the Fleets contained by a compartment. The query parameter `compartmentId`
 // is required unless the query parameter `id` is specified.
 //
@@ -2799,6 +2857,64 @@ func (client JavaManagementServiceClient) listPerformanceTuningAnalysisResults(c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/ListPerformanceTuningAnalysisResults"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListPerformanceTuningAnalysisResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPluginErrors Returns a list of plugin errors that describe all detected errors.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListPluginErrors.go.html to see an example of how to use ListPluginErrors API.
+// A default retry strategy applies to this operation ListPluginErrors()
+func (client JavaManagementServiceClient) ListPluginErrors(ctx context.Context, request ListPluginErrorsRequest) (response ListPluginErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPluginErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPluginErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPluginErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPluginErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPluginErrorsResponse")
+	}
+	return
+}
+
+// listPluginErrors implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listPluginErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluginErrors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPluginErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PluginErrorSummary/ListPluginErrors"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListPluginErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -3752,6 +3868,64 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationUsage(ctx 
 	return response, err
 }
 
+// SummarizeFleetErrors Returns a high level summary of FleetErrors.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeFleetErrors.go.html to see an example of how to use SummarizeFleetErrors API.
+// A default retry strategy applies to this operation SummarizeFleetErrors()
+func (client JavaManagementServiceClient) SummarizeFleetErrors(ctx context.Context, request SummarizeFleetErrorsRequest) (response SummarizeFleetErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeFleetErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeFleetErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeFleetErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeFleetErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeFleetErrorsResponse")
+	}
+	return
+}
+
+// summarizeFleetErrors implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) summarizeFleetErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleetErrorAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeFleetErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetErrorAggregation/SummarizeFleetErrors"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeFleetErrors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeInstallationUsage List Java installation usage in a Fleet filtered by query parameters.
 //
 // # See also
@@ -4093,6 +4267,64 @@ func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ManagedInstanceUsage/SummarizeManagedInstanceUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeManagedInstanceUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizePluginErrors Returns a high level summary of PluginErrors.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizePluginErrors.go.html to see an example of how to use SummarizePluginErrors API.
+// A default retry strategy applies to this operation SummarizePluginErrors()
+func (client JavaManagementServiceClient) SummarizePluginErrors(ctx context.Context, request SummarizePluginErrorsRequest) (response SummarizePluginErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizePluginErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizePluginErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizePluginErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizePluginErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizePluginErrorsResponse")
+	}
+	return
+}
+
+// summarizePluginErrors implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) summarizePluginErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluginErrorAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizePluginErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PluginErrorAggregation/SummarizePluginErrors"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizePluginErrors", apiReferenceLink)
 		return response, err
 	}
 

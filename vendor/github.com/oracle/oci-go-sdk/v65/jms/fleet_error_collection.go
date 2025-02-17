@@ -15,24 +15,21 @@ import (
 	"strings"
 )
 
-// GenerateAgentInstallerConfigurationDetails Attributes to generate agent installer parameters for a fleet.
-type GenerateAgentInstallerConfigurationDetails struct {
+// FleetErrorCollection Results of a Fleet Error search.
+type FleetErrorCollection struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management agent install key for which to generate the configuration file.
-	InstallKeyId *string `mandatory:"true" json:"installKeyId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet for which to generate the configuration file.
-	FleetId *string `mandatory:"true" json:"fleetId"`
+	// A list of FleetErrorSummary.
+	Items []FleetErrorSummary `mandatory:"true" json:"items"`
 }
 
-func (m GenerateAgentInstallerConfigurationDetails) String() string {
+func (m FleetErrorCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m GenerateAgentInstallerConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m FleetErrorCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
