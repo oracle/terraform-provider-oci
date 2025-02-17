@@ -1,3 +1,10 @@
+## 6.27.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Maintenance Window Enhancements
+- Support for Java Management Service 9.1
+- Provider changes to support Terraform Plugin Framework and migrating vault_secret_version_data_source to use framework
+
 ## 6.26.0 (February 12, 2025)
 
 ### Added
