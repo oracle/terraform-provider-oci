@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -324,7 +324,7 @@ func meshWaitForWorkRequest(wId *string, entityType string, action oci_service_m
 	retryPolicy.ShouldRetryOperation = meshWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_service_mesh.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_service_mesh.OperationStatusInProgress),
 			string(oci_service_mesh.OperationStatusAccepted),

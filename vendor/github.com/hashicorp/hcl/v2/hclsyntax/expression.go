@@ -6,6 +6,7 @@ package hclsyntax
 import (
 	"fmt"
 	"sort"
+	"strings"
 	"sync"
 
 	"github.com/hashicorp/hcl/v2"
@@ -251,6 +252,76 @@ func (e *FunctionCallExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnosti
 			}
 		}
 
+		extraUnknown := &functionCallUnknown{
+			name: e.Name,
+		}
+
+		// For historical reasons, we represent namespaced function names
+		// as strings with :: separating the names. If this was an attempt
+		// to call a namespaced function then we'll try to distinguish
+		// between an invalid namespace or an invalid name within a valid
+		// namespace in order to give the user better feedback about what
+		// is wrong.
+		//
+		// The parser guarantees that a function name will always
+		// be a series of valid identifiers separated by "::" with no
+		// other content, so we can be relatively unforgiving in our processing
+		// here.
+		if sepIdx := strings.LastIndex(e.Name, "::"); sepIdx != -1 {
+			namespace := e.Name[:sepIdx+2]
+			name := e.Name[sepIdx+2:]
+
+			avail := make([]string, 0, len(ctx.Functions))
+			for availName := range ctx.Functions {
+				if strings.HasPrefix(availName, namespace) {
+					avail = append(avail, availName)
+				}
+			}
+
+			extraUnknown.name = name
+			extraUnknown.namespace = namespace
+
+			if len(avail) == 0 {
+				// TODO: Maybe use nameSuggestion for the other available
+				// namespaces? But that'd require us to go scan the function
+				// table again, so we'll wait to see if it's really warranted.
+				// For now, we're assuming people are more likely to misremember
+				// the function names than the namespaces, because in many
+				// applications there will be relatively few namespaces compared
+				// to the number of distinct functions.
+				return cty.DynamicVal, hcl.Diagnostics{
+					{
+						Severity:    hcl.DiagError,
+						Summary:     "Call to unknown function",
+						Detail:      fmt.Sprintf("There are no functions in namespace %q.", namespace),
+						Subject:     &e.NameRange,
+						Context:     e.Range().Ptr(),
+						Expression:  e,
+						EvalContext: ctx,
+						Extra:       extraUnknown,
+					},
+				}
+			} else {
+				suggestion := nameSuggestion(name, avail)
+				if suggestion != "" {
+					suggestion = fmt.Sprintf(" Did you mean %s%s?", namespace, suggestion)
+				}
+
+				return cty.DynamicVal, hcl.Diagnostics{
+					{
+						Severity:    hcl.DiagError,
+						Summary:     "Call to unknown function",
+						Detail:      fmt.Sprintf("There is no function named %q in namespace %s.%s", name, namespace, suggestion),
+						Subject:     &e.NameRange,
+						Context:     e.Range().Ptr(),
+						Expression:  e,
+						EvalContext: ctx,
+						Extra:       extraUnknown,
+					},
+				}
+			}
+		}
+
 		avail := make([]string, 0, len(ctx.Functions))
 		for name := range ctx.Functions {
 			avail = append(avail, name)
@@ -269,6 +340,7 @@ func (e *FunctionCallExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnosti
 				Context:     e.Range().Ptr(),
 				Expression:  e,
 				EvalContext: ctx,
+				Extra:       extraUnknown,
 			},
 		}
 	}
@@ -614,6 +686,27 @@ func (e *functionCallDiagExtra) CalledFunctionName() string {
 
 func (e *functionCallDiagExtra) FunctionCallError() error {
 	return e.functionCallError
+}
+
+// FunctionCallUnknownDiagExtra is an interface implemented by a value in the Extra
+// field of some diagnostics to indicate when the error was caused by a call to
+// an unknown function.
+type FunctionCallUnknownDiagExtra interface {
+	CalledFunctionName() string
+	CalledFunctionNamespace() string
+}
+
+type functionCallUnknown struct {
+	name      string
+	namespace string
+}
+
+func (e *functionCallUnknown) CalledFunctionName() string {
+	return e.name
+}
+
+func (e *functionCallUnknown) CalledFunctionNamespace() string {
+	return e.namespace
 }
 
 type ConditionalExpr struct {
@@ -1687,7 +1780,7 @@ func (e *SplatExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnostics) {
 
 	if sourceVal.IsNull() {
 		if autoUpgrade {
-			return cty.EmptyTupleVal, diags
+			return cty.EmptyTupleVal.WithSameMarks(sourceVal), diags
 		}
 		diags = append(diags, &hcl.Diagnostic{
 			Severity:    hcl.DiagError,
@@ -1705,7 +1798,7 @@ func (e *SplatExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnostics) {
 		// If we don't even know the _type_ of our source value yet then
 		// we'll need to defer all processing, since we can't decide our
 		// result type either.
-		return cty.DynamicVal, diags
+		return cty.DynamicVal.WithSameMarks(sourceVal), diags
 	}
 
 	upgradedUnknown := false
@@ -1720,13 +1813,14 @@ func (e *SplatExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnostics) {
 		// list of a single attribute, but we still need to check if that
 		// attribute actually exists.
 		if !sourceVal.IsKnown() {
-			sourceRng := sourceVal.Range()
+			unmarkedVal, _ := sourceVal.Unmark()
+			sourceRng := unmarkedVal.Range()
 			if sourceRng.CouldBeNull() {
 				upgradedUnknown = true
 			}
 		}
 
-		sourceVal = cty.TupleVal([]cty.Value{sourceVal})
+		sourceVal = cty.TupleVal([]cty.Value{sourceVal}).WithSameMarks(sourceVal)
 		sourceTy = sourceVal.Type()
 	}
 
@@ -1807,14 +1901,14 @@ func (e *SplatExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnostics) {
 	e.Item.clearValue(ctx) // clean up our temporary value
 
 	if upgradedUnknown {
-		return cty.DynamicVal, diags
+		return cty.DynamicVal.WithMarks(marks), diags
 	}
 
 	if !isKnown {
 		// We'll ingore the resultTy diagnostics in this case since they
 		// will just be the same errors we saw while iterating above.
 		ty, _ := resultTy()
-		return cty.UnknownVal(ty), diags
+		return cty.UnknownVal(ty).WithMarks(marks), diags
 	}
 
 	switch {
@@ -1822,7 +1916,7 @@ func (e *SplatExpr) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnostics) {
 		if len(vals) == 0 {
 			ty, tyDiags := resultTy()
 			diags = append(diags, tyDiags...)
-			return cty.ListValEmpty(ty.ElementType()), diags
+			return cty.ListValEmpty(ty.ElementType()).WithMarks(marks), diags
 		}
 		return cty.ListVal(vals).WithMarks(marks), diags
 	default:
@@ -1918,5 +2012,29 @@ func (e *AnonSymbolExpr) Range() hcl.Range {
 }
 
 func (e *AnonSymbolExpr) StartRange() hcl.Range {
+	return e.SrcRange
+}
+
+// ExprSyntaxError is a placeholder for an invalid expression that could not
+// be parsed due to syntax errors.
+type ExprSyntaxError struct {
+	Placeholder cty.Value
+	ParseDiags  hcl.Diagnostics
+	SrcRange    hcl.Range
+}
+
+func (e *ExprSyntaxError) Value(ctx *hcl.EvalContext) (cty.Value, hcl.Diagnostics) {
+	return e.Placeholder, e.ParseDiags
+}
+
+func (e *ExprSyntaxError) walkChildNodes(w internalWalkFunc) {
+	// ExprSyntaxError is a leaf node in the tree
+}
+
+func (e *ExprSyntaxError) Range() hcl.Range {
+	return e.SrcRange
+}
+
+func (e *ExprSyntaxError) StartRange() hcl.Range {
 	return e.SrcRange
 }

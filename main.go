@@ -4,14 +4,18 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"log"
 	"os"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov5"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov5/tf5server"
+
 	"github.com/fatih/color"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"github.com/hashicorp/terraform-plugin-mux/tf5muxserver"
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 	"github.com/oracle/terraform-provider-oci/internal/provider"
@@ -54,12 +58,35 @@ func main() {
 	}
 
 	if command == nil || *command == "" {
-		log.Println("Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.")
-		plugin.Serve(&plugin.ServeOpts{
-			ProviderFunc: func() *schema.Provider {
-				return provider.Provider()
-			},
-		})
+		log.Println("=== Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.")
+
+		ctx := context.Background()
+
+		providers := []func() tfprotov5.ProviderServer{
+			provider.Provider().GRPCProvider,
+			providerserver.NewProtocol5(provider.New()),
+		}
+
+		log.Println("Initializing Mux server....")
+		muxServer, err := tf5muxserver.NewMuxServer(ctx, providers...)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var serveOpts []tf5server.ServeOpt
+
+		//serveOpts = append(serveOpts, tf5server.WithManagedDebug())
+
+		log.Println("Starting Mux server....")
+		err = tf5server.Serve(
+			"registry.terraform.io/hashicorp/oci",
+			muxServer.ProviderServer,
+			serveOpts...,
+		)
+		if err != nil {
+			log.Println("Error while starting mux server", err)
+		}
+		log.Println("Started Mux server....")
 	} else {
 		switch *command {
 		case "export":
