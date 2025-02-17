@@ -78,6 +78,10 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"masking_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"masking_work_request_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -127,6 +131,14 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"total_masked_values": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"total_post_masking_script_errors": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"total_pre_masking_script_errors": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -317,6 +329,8 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 		result["masking_policy_id"] = string(*obj.MaskingPolicyId)
 	}
 
+	result["masking_status"] = string(obj.MaskingStatus)
+
 	if obj.MaskingWorkRequestId != nil {
 		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
 	}
@@ -365,6 +379,14 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 
 	if obj.TotalMaskedValues != nil {
 		result["total_masked_values"] = strconv.FormatInt(*obj.TotalMaskedValues, 10)
+	}
+
+	if obj.TotalPostMaskingScriptErrors != nil {
+		result["total_post_masking_script_errors"] = strconv.FormatInt(*obj.TotalPostMaskingScriptErrors, 10)
+	}
+
+	if obj.TotalPreMaskingScriptErrors != nil {
+		result["total_pre_masking_script_errors"] = strconv.FormatInt(*obj.TotalPreMaskingScriptErrors, 10)
 	}
 
 	return result

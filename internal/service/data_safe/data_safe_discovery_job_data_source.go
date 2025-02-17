@@ -105,6 +105,8 @@ func (s *DataSafeDiscoveryJobDataSourceCrud) SetData() error {
 		s.D.Set("sensitive_data_model_id", *s.Res.SensitiveDataModelId)
 	}
 
+	s.D.Set("sensitive_type_group_ids_for_discovery", s.Res.SensitiveTypeGroupIdsForDiscovery)
+
 	s.D.Set("sensitive_type_ids_for_discovery", s.Res.SensitiveTypeIdsForDiscovery)
 
 	s.D.Set("state", s.Res.LifecycleState)

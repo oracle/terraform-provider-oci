@@ -49,6 +49,10 @@ variable "sensitive_data_model_sensitive_type_ids_for_discovery" {
   default = []
 }
 
+variable "sensitive_data_model_sensitive_type_group_ids_for_discovery" {
+  default = []
+}
+
 variable "sensitive_data_model_state" {
   default = "ACTIVE"
 }
@@ -80,6 +84,7 @@ resource "oci_data_safe_sensitive_data_model" "test_sensitive_data_model" {
   is_sample_data_collection_enabled         = var.sensitive_data_model_is_sample_data_collection_enabled
   schemas_for_discovery                     = var.sensitive_data_model_schemas_for_discovery
   sensitive_type_ids_for_discovery          = var.sensitive_data_model_sensitive_type_ids_for_discovery
+  sensitive_type_group_ids_for_discovery    = var.sensitive_data_model_sensitive_type_group_ids_for_discovery
 }
 
 data "oci_data_safe_sensitive_data_models" "test_sensitive_data_models" {

@@ -35,6 +35,7 @@ resource "oci_data_safe_discovery_job" "test_discovery_job" {
 	is_include_all_sensitive_types = var.discovery_job_is_include_all_sensitive_types
 	is_sample_data_collection_enabled = var.discovery_job_is_sample_data_collection_enabled
 	schemas_for_discovery = var.discovery_job_schemas_for_discovery
+	sensitive_type_group_ids_for_discovery = var.discovery_job_sensitive_type_group_ids_for_discovery
 	sensitive_type_ids_for_discovery = var.discovery_job_sensitive_type_ids_for_discovery
 	tables_for_discovery {
 		#Required
@@ -61,6 +62,7 @@ The following arguments are supported:
 * `is_sample_data_collection_enabled` - (Optional) Indicates if the discovery job should collect and store sample data values for the discovered columns. Sample data helps review the discovered columns and ensure that they actually contain sensitive data. As it collects original data from the target database, it's disabled by default and should be used only if it's acceptable to store sample data in Data Safe's repository in Oracle Cloud. Note that sample data values are not collected for columns with the following data types: LONG, LOB, RAW, XMLTYPE and BFILE. 
 * `schemas_for_discovery` - (Optional) The schemas to be scanned by the discovery job. If not provided, the schemasForDiscovery attribute of the sensitive data model is used to get the list of schemas. 
 * `sensitive_data_model_id` - (Required) The OCID of the sensitive data model.
+* `sensitive_type_group_ids_for_discovery` - (Optional) The OCIDs of the sensitive type groups to be used by the discovery job. All the sensitive types present in sensitive type group will be used for discovery. 
 * `sensitive_type_ids_for_discovery` - (Optional) The OCIDs of the sensitive types to be used by the discovery job. If not provided, the sensitiveTypeIdsForDiscovery attribute of the sensitive data model is used to get the list of sensitive types. 
 * `tables_for_discovery` - (Optional) The data discovery jobs will scan the tables specified here, including both schemas and tables. In the absence  of explicit input, the list of tables is obtained from the tablesForDiscovery attribute of the sensitive data model. 
 	* `schema_name` - (Required) This contains the name of the schema.
@@ -86,6 +88,7 @@ The following attributes are exported:
 * `is_sample_data_collection_enabled` - Indicates if the discovery job should collect and store sample data values for the discovered columns. Sample data helps review the discovered columns and ensure that they actually contain sensitive data. As it collects original data from the target database, it's disabled by default and should be used only if it's acceptable to store sample data in Data Safe's repository in Oracle Cloud. Note that sample data values are not collected for columns with the following data types: LONG, LOB, RAW, XMLTYPE and BFILE. 
 * `schemas_for_discovery` - The schemas used for data discovery.
 * `sensitive_data_model_id` - The OCID of the sensitive data model associated with the discovery job.
+* `sensitive_type_group_ids_for_discovery` - The OCIDs of the sensitive type groups to be used by data discovery jobs. 
 * `sensitive_type_ids_for_discovery` - The OCIDs of the sensitive types used for data discovery.
 * `state` - The current state of the discovery job.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
