@@ -43,6 +43,10 @@ func DataSafeMaskingReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"masking_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"masking_work_request_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -92,6 +96,14 @@ func DataSafeMaskingReportDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"total_masked_values": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_post_masking_script_errors": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_pre_masking_script_errors": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -163,6 +175,8 @@ func (s *DataSafeMaskingReportDataSourceCrud) SetData() error {
 		s.D.Set("masking_policy_id", *s.Res.MaskingPolicyId)
 	}
 
+	s.D.Set("masking_status", s.Res.MaskingStatus)
+
 	if s.Res.MaskingWorkRequestId != nil {
 		s.D.Set("masking_work_request_id", *s.Res.MaskingWorkRequestId)
 	}
@@ -211,6 +225,14 @@ func (s *DataSafeMaskingReportDataSourceCrud) SetData() error {
 
 	if s.Res.TotalMaskedValues != nil {
 		s.D.Set("total_masked_values", strconv.FormatInt(*s.Res.TotalMaskedValues, 10))
+	}
+
+	if s.Res.TotalPostMaskingScriptErrors != nil {
+		s.D.Set("total_post_masking_script_errors", strconv.FormatInt(*s.Res.TotalPostMaskingScriptErrors, 10))
+	}
+
+	if s.Res.TotalPreMaskingScriptErrors != nil {
+		s.D.Set("total_pre_masking_script_errors", strconv.FormatInt(*s.Res.TotalPreMaskingScriptErrors, 10))
 	}
 
 	return nil

@@ -100,6 +100,14 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"sensitive_type_group_ids_for_discovery": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"sensitive_type_ids_for_discovery": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -290,6 +298,19 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("schemas_for_discovery") {
 			request.SchemasForDiscovery = tmp
+		}
+	}
+
+	if sensitiveTypeGroupIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_group_ids_for_discovery"); ok {
+		interfaces := sensitiveTypeGroupIdsForDiscovery.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("sensitive_type_group_ids_for_discovery") {
+			request.SensitiveTypeGroupIdsForDiscovery = tmp
 		}
 	}
 
@@ -552,6 +573,19 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SensitiveDataModelId = &tmp
 
+	if sensitiveTypeGroupIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_group_ids_for_discovery"); ok {
+		interfaces := sensitiveTypeGroupIdsForDiscovery.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("sensitive_type_group_ids_for_discovery") {
+			request.SensitiveTypeGroupIdsForDiscovery = tmp
+		}
+	}
+
 	if sensitiveTypeIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_ids_for_discovery"); ok {
 		interfaces := sensitiveTypeIdsForDiscovery.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -658,6 +692,8 @@ func (s *DataSafeSensitiveDataModelResourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas_for_discovery", s.Res.SchemasForDiscovery)
+
+	s.D.Set("sensitive_type_group_ids_for_discovery", s.Res.SensitiveTypeGroupIdsForDiscovery)
 
 	s.D.Set("sensitive_type_ids_for_discovery", s.Res.SensitiveTypeIdsForDiscovery)
 

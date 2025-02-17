@@ -54,6 +54,7 @@ The following attributes are exported:
 * `is_redo_logging_enabled` - Indicates if redo logging was enabled during the masking operation. 
 * `is_refresh_stats_enabled` - Indicates if statistics gathering was enabled during the masking operation. 
 * `masking_policy_id` - The OCID of the masking policy used.
+* `masking_status` - The status of the masking job.
 * `masking_work_request_id` - The OCID of the masking work request that resulted in this masking report.
 * `parallel_degree` - Indicates if parallel execution was enabled during the masking operation. 
 * `recompile` - Indicates how invalid objects were recompiled post the masking operation. 
@@ -67,4 +68,6 @@ The following attributes are exported:
 * `total_masked_schemas` - The total number of unique schemas that contain the masked columns.
 * `total_masked_sensitive_types` - The total number of unique sensitive types associated with the masked columns.
 * `total_masked_values` - The total number of masked values.
+* `total_post_masking_script_errors` - The total number of errors in post-masking script.
+* `total_pre_masking_script_errors` - The total number of errors in pre-masking script.
 

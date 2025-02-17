@@ -592,6 +592,8 @@ data_safe
 * oci\_data\_safe\_target\_database\_peer\_target\_database
 * oci\_data\_safe\_sensitive\_types\_export
 * oci\_data\_safe\_sensitive\_data\_model\_referential\_relation
+* oci\_data\_safe\_sensitive\_type\_group\_grouped\_sensitive\_type
+* oci\_data\_safe\_sensitive\_type\_group
 * oci\_data\_safe\_calculate\_audit\_volume\_available
 * oci\_data\_safe\_calculate\_audit\_volume\_collected
 
