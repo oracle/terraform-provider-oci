@@ -15,25 +15,34 @@ import (
 	"strings"
 )
 
-// GenerateAgentInstallerConfigurationDetails Attributes to generate agent installer parameters for a fleet.
-type GenerateAgentInstallerConfigurationDetails struct {
+// PluginErrorDetails Details of a plugin error.
+type PluginErrorDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management agent install key for which to generate the configuration file.
-	InstallKeyId *string `mandatory:"true" json:"installKeyId"`
+	// The plugin error reason.
+	Reason PluginErrorReasonEnum `mandatory:"true" json:"reason"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet for which to generate the configuration file.
-	FleetId *string `mandatory:"true" json:"fleetId"`
+	// The date and time the resource was _last_ reported to JMS.
+	// This is potentially _after_ the specified time period provided by the filters.
+	// For example, a resource can be last reported to JMS before the start of a specified time period,
+	// if it is also reported during the time period.
+	TimeLastSeen *common.SDKTime `mandatory:"true" json:"timeLastSeen"`
+
+	// Optional string containing additional details.
+	Details *string `mandatory:"false" json:"details"`
 }
 
-func (m GenerateAgentInstallerConfigurationDetails) String() string {
+func (m PluginErrorDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m GenerateAgentInstallerConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m PluginErrorDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingPluginErrorReasonEnum(string(m.Reason)); !ok && m.Reason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Reason: %s. Supported values are: %s.", m.Reason, strings.Join(GetPluginErrorReasonEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

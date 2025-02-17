@@ -33,6 +33,15 @@ type AutonomousDatabaseStandbySummary struct {
 	// The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
 
+	// The date and time when maintenance will begin.
+	TimeMaintenanceBegin *common.SDKTime `mandatory:"false" json:"timeMaintenanceBegin"`
+
+	// The date and time when maintenance will end.
+	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
+
+	// The component chosen for maintenance.
+	MaintenanceTargetComponent *string `mandatory:"false" json:"maintenanceTargetComponent"`
+
 	// The availability domain of a local Autonomous Data Guard standby database of an Autonomous Database Serverless instance.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 }

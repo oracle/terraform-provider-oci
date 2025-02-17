@@ -36,6 +36,9 @@ type ListMaintenanceRunsRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// A filter to return the maintenance history results for the local standby Autonomous Database Serverless only.
+	IsLocalAdg *bool `mandatory:"false" contributesTo:"query" name:"isLocalAdg"`
+
 	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIME_SCHEDULED and TIME_ENDED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
 	// **Note:** If you do not include the availability domain filter, the resources are grouped by availability domain, then sorted.
 	SortBy ListMaintenanceRunsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
