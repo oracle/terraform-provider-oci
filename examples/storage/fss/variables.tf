@@ -62,6 +62,10 @@ variable "clone_attach_status_value" {
     default= "DETACH"
 }
 
+variable "quota_rule_enabled" {
+  default = "false"
+}
+
 variable "file_system_with_snapshot_policy_display_name" {
   default = "my_fs_with_snapshot_policy"
 }
@@ -314,4 +318,24 @@ variable "locks_message" {
 
 variable "is_lock_override" {
   default = true
+}
+
+variable "file_system_simple_qr_display_name" {
+  default= "my_fs_simple_quota_rule"
+}
+
+variable "my_simple_quota_rule_is_hard_quota" {
+  default = "false"
+}
+
+variable "my_simple_quota_rule_principal_type" {
+  default = "FILE_SYSTEM_LEVEL"
+}
+
+variable "my_simple_quota_rule_quota_limit_in_gigabytes" {
+  default = "10"
+}
+
+variable "my_simple_quota_rule_display_name" {
+  default = "my_simple_quota_rule"
 }

@@ -8,6 +8,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_file_storage_export_sets", FileStorageExportSetsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_exports", FileStorageExportsDataSource())
+	tfresource.RegisterDatasource("oci_file_storage_file_system_quota_rule", FileStorageFileSystemQuotaRuleDataSource())
+	tfresource.RegisterDatasource("oci_file_storage_file_system_quota_rules", FileStorageFileSystemQuotaRulesDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_file_systems", FileStorageFileSystemsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_filesystem_snapshot_policies", FileStorageFilesystemSnapshotPoliciesDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_filesystem_snapshot_policy", FileStorageFilesystemSnapshotPolicyDataSource())

@@ -199,6 +199,12 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 			fileSystem["metered_bytes"] = strconv.FormatInt(*r.MeteredBytes, 10)
 		}
 
+		fileSystem["quota_enforcement_state"] = r.QuotaEnforcementState
+
+		if r.ReplicationSourceCount != nil {
+			fileSystem["replication_source_count"] = *r.ReplicationSourceCount
+		}
+
 		if r.SourceDetails != nil {
 			fileSystem["source_details"] = []interface{}{FileSystemSourceDetailsToMap(r.SourceDetails)}
 		} else {
