@@ -1268,6 +1268,21 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 		if v.DataTransferMediumDetails != nil {
 			dataTransferMediumDetailsArray := []interface{}{}
 			if dataTransferMediumDetailsMap := OracleDataTransferMediumDetailsToMap(&v.DataTransferMediumDetails); dataTransferMediumDetailsMap != nil {
+				// before setting the data replace the null secret_access_key with the one currently saved in state
+				// why? when we do the Read operation, the s.Res returned by the API will always be null,
+				// since this value is in a schema.TypeList (data_transfer_medium_details) the NULL is transformed into an ""
+				// terraform sees this and thinks there is state drift, this is to prevent that
+				if dataTransferMediumDetailsInState, ok := s.D.GetOkExists("data_transfer_medium_details"); ok {
+					dataTransferMediumDetailsArrayInState, isArray := dataTransferMediumDetailsInState.([]interface{})
+					if isArray && len(dataTransferMediumDetailsArrayInState) > 0 {
+						if dataTransferMediumDetailsMapInState, isMap := dataTransferMediumDetailsArrayInState[0].(map[string]interface{}); isMap {
+							if secretAccessKeyInState, keyExists := dataTransferMediumDetailsMapInState["secret_access_key"].(string); keyExists {
+								dataTransferMediumDetailsMap["secret_access_key"] = secretAccessKeyInState
+							}
+						}
+					}
+				}
+
 				dataTransferMediumDetailsArray = append(dataTransferMediumDetailsArray, dataTransferMediumDetailsMap)
 			}
 			s.D.Set("data_transfer_medium_details", dataTransferMediumDetailsArray)
