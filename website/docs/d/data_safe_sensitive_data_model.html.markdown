@@ -44,6 +44,7 @@ The following attributes are exported:
 * `is_include_all_sensitive_types` - Indicates if all the existing sensitive types should be used by data discovery jobs.If it's set to true, the sensitiveTypeIdsForDiscovery attribute is ignored and all sensitive types are used for data discovery. 
 * `is_sample_data_collection_enabled` - Indicates if data discovery jobs should collect and store sample data values for the discovered columns. Sample data helps review the discovered columns and ensure that they actually contain sensitive data. As it collects original data from the target database, it's disabled by default and should be used only if it's acceptable to store sample data in Data Safe's repository in Oracle Cloud. Note that sample data values are not collected for columns with the following data types: LONG, LOB, RAW, XMLTYPE and BFILE. 
 * `schemas_for_discovery` - The schemas to be scanned by data discovery jobs.
+* `sensitive_type_group_ids_for_discovery` - The OCIDs of the sensitive type groups to be used by data discovery jobs. 
 * `sensitive_type_ids_for_discovery` - The OCIDs of the sensitive types to be used by data discovery jobs.
 * `state` - The current state of the sensitive data model.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

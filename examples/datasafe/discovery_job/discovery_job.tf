@@ -38,6 +38,10 @@ variable "discovery_job_is_include_all_sensitive_types" {
   default = true
 }
 
+variable "sensitive_data_model_sensitive_type_group_ids_for_discovery" {
+  default = []
+}
+
 variable "discovery_job_state" {
   default = "ACTIVE"
 }
@@ -70,6 +74,7 @@ resource "oci_data_safe_sensitive_data_model" "test_sensitive_data_model" {
   display_name                              = var.sensitive_data_model_display_name
   schemas_for_discovery                     = var.sensitive_data_model_schemas_for_discovery
   sensitive_type_ids_for_discovery          = var.sensitive_data_model_sensitive_type_ids_for_discovery
+  sensitive_type_group_ids_for_discovery    = var.sensitive_data_model_sensitive_type_group_ids_for_discovery
 }
 
 resource "oci_data_safe_discovery_job" "test_discovery_job" {
@@ -83,6 +88,7 @@ resource "oci_data_safe_discovery_job" "test_discovery_job" {
   is_app_defined_relation_discovery_enabled = var.discovery_job_is_app_defined_relation_discovery_enabled
   is_include_all_schemas                    = var.discovery_job_is_include_all_schemas
   is_include_all_sensitive_types            = var.discovery_job_is_include_all_sensitive_types
+  sensitive_type_group_ids_for_discovery    = var.sensitive_data_model_sensitive_type_group_ids_for_discovery
 }
 
 data "oci_data_safe_discovery_jobs" "test_discovery_jobs" {
