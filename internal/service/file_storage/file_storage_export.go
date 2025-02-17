@@ -1,12 +1,16 @@
 package file_storage
 
 import (
+	"fmt"
+
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
 
 func init() {
+
+	exportFileStorageFileSystemQuotaRuleHints.GetIdFn = getFileStorageFileSystemQuotaRuleId
 	exportFileStorageMountTargetHints.RequireResourceRefresh = true
 	tf_export.RegisterCompartmentGraphs("file_storage", fileStorageResourceGraph)
 	tf_export.BuildAvailabilityResourceGraph("oci_identity_availability_domain", customAssociationFileStorageIdentityAvailabilityDomain)
@@ -14,6 +18,16 @@ func init() {
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
+
+func getFileStorageFileSystemQuotaRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	fileSystemId := resource.Parent.Id
+	quotaRuleId, ok := resource.SourceAttributes["quota_rule_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find quotaRuleId for FileStorage FileSystemQuotaRule")
+	}
+	return GetFileSystemQuotaRuleCompositeId(fileSystemId, quotaRuleId), nil
+}
 
 // Hints for discovering and exporting this resource to configuration and state files
 var exportFileStorageFileSystemHints = &tf_export.TerraformResourceHints{
@@ -93,6 +107,13 @@ var exportFileStorageOutboundConnectorHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportFileStorageFileSystemQuotaRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_file_storage_file_system_quota_rule",
+	DatasourceClass:      "oci_file_storage_file_system_quota_rules",
+	DatasourceItemsAttr:  "quota_rules",
+	ResourceAbbreviation: "file_system_quota_rule",
+}
+
 var fileStorageResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFileStorageExportHints},
@@ -137,6 +158,7 @@ var customAssociationFileStorageFileSystem = []tf_export.TerraformResourceAssoci
 		TerraformResourceHints: exportFileStorageSnapshotHints,
 		DatasourceQueryParams: map[string]string{
 			"file_system_id": "id",
+			"quota_rule_id":  "id",
 		},
 	},
 }
