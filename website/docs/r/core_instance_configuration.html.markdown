@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_instance_configuration"
 sidebar_current: "docs-oci-resource-core-instance_configuration"
 description: |-
-Provides the Instance Configuration resource in Oracle Cloud Infrastructure Core service
+  Provides the Instance Configuration resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_instance_configuration
