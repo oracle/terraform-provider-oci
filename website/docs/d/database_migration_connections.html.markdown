@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_migration_connections"
 sidebar_current: "docs-oci-datasource-database_migration-connections"
 description: |-
-Provides the list of Connections in Oracle Cloud Infrastructure Database Migration service
+   Provides the list of Connections in Oracle Cloud Infrastructure Database Migration service
 ---
 
 # Data Source: oci_database_migration_connections

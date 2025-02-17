@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_migration_migration"
 sidebar_current: "docs-oci-datasource-database_migration-migration"
 description: |-
-Provides details about a specific Migration in Oracle Cloud Infrastructure Database Migration service
+  Provides details about a specific Migration in Oracle Cloud Infrastructure Database Migration service
 ---
 
 # Data Source: oci_database_migration_migration

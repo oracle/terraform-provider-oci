@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_management_external_db_node"
 sidebar_current: "docs-oci-datasource-database_management-external_db_node"
 description: |-
-Provides details about a specific External Db Node in Oracle Cloud Infrastructure Database Management service
+  Provides details about a specific External Db Node in Oracle Cloud Infrastructure Database Management service
 ---
 
 # Data Source: oci_database_management_external_db_node
