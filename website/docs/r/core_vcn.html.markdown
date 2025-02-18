@@ -36,7 +36,7 @@ You may optionally specify a *display name* for the VCN, otherwise a default is 
 be unique, and you can change it. Avoid entering confidential information.
 
 You can also add a DNS label for the VCN, which is required if you want the instances to use the
-Interent and VCN Resolver option for DNS in the VCN. For more information, see
+Internet and VCN Resolver option for DNS in the VCN. For more information, see
 [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
 The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
