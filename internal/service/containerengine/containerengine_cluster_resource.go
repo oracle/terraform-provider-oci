@@ -293,6 +293,11 @@ func ContainerengineClusterResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"configuration_file": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"groups_claim": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -1847,6 +1852,11 @@ func (s *ContainerengineClusterResourceCrud) mapToOpenIdConnectTokenAuthenticati
 		result.ClientId = &tmp
 	}
 
+	if configurationFile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration_file")); ok {
+		tmp := configurationFile.(string)
+		result.ConfigurationFile = &tmp
+	}
+
 	if groupsClaim, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "groups_claim")); ok {
 		tmp := groupsClaim.(string)
 		result.GroupsClaim = &tmp
@@ -1919,6 +1929,10 @@ func OpenIdConnectTokenAuthenticationConfigToMap(obj *oci_containerengine.OpenId
 
 	if obj.ClientId != nil {
 		result["client_id"] = string(*obj.ClientId)
+	}
+
+	if obj.ConfigurationFile != nil {
+		result["configuration_file"] = string(*obj.ConfigurationFile)
 	}
 
 	if obj.GroupsClaim != nil {
