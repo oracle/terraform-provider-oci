@@ -72,51 +72,12 @@ variable "cluster_options_kubernetes_network_config_services_cidr" {
   default = "10.2.0.0/16"
 }
 
-variable "cluster_options_open_id_connect_token_authentication_config_client_id" {
-  default = "client_id"
-}
-
 variable "cluster_options_open_id_connect_token_authentication_config_is_open_id_connect_auth_enabled" {
   default = true
 }
 
-variable "cluster_options_open_id_connect_token_authentication_config_ca_certificate" {
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_groups_claim" {
-  default = "groupsClaim"
-}
-
 variable "cluster_options_open_id_connect_token_authentication_config_configuration_file" {
-  default = ""
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_groups_prefix" {
-  default = "groupsPrefix"
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_issuer_url" {
-  default = "https://url1.com"
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_required_claims_key" {
-  default = "key"
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_required_claims_value" {
-  default = "value"
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_signing_algorithms" {
-  default = ["RS256"]
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_username_claim" {
-  default = "sub"
-}
-
-variable "cluster_options_open_id_connect_token_authentication_config_username_prefix" {
-  default = "oidc:"
+  default = "YXBpVmVyc2lvbjogYXBpc2VydmVyLmNvbmZpZy5rOHMuaW8vdjFiZXRhMQpraW5kOiBBdXRoZW50aWNhdGlvbkNvbmZpZ3VyYXRpb24Kand0OgogIC0gaXNzdWVyOgogICAgICB1cmw6IGh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbQogICAgICBhdWRpZW5jZXM6CiAgICAgICAgLSA3OTc3NjQ0NDY1NjctMjZycTVrdDMzMTYyMWozdXJzdGQwZDVyODFkNnJkZDAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20KICAgICAgYXVkaWVuY2VNYXRjaFBvbGljeTogTWF0Y2hBbnkKICAgIGNsYWltTWFwcGluZ3M6CiAgICAgIHVzZXJuYW1lOgogICAgICAgIGNsYWltOiAic3ViIgogICAgICAgIHByZWZpeDogIiIKICAgICAgZ3JvdXBzOgogICAgICAgIGNsYWltOiAiZ3JvdXBzIgogICAgICAgIHByZWZpeDogIiIKICAgICAgdWlkOgogICAgICAgIGNsYWltOiAic3ViIgogIC0gaXNzdWVyOgogICAgICB1cmw6IGh0dHBzOi8vZGV2LWQ4Y21qeXcydm1rMm1qY24udXMuYXV0aDAuY29tLwogICAgICBhdWRpZW5jZXM6CiAgICAgICAgLSBWM2YxeTJ4WVFvTFdXYmhUcXY4SGE3azltQ1FwSDg0aAogICAgICBhdWRpZW5jZU1hdGNoUG9saWN5OiBNYXRjaEFueQogICAgY2xhaW1NYXBwaW5nczoKICAgICAgdXNlcm5hbWU6CiAgICAgICAgY2xhaW06ICJzdWIiCiAgICAgICAgcHJlZml4OiAiIgogICAgICBncm91cHM6CiAgICAgICAgY2xhaW06ICJncm91cHMiCiAgICAgICAgcHJlZml4OiAiIgogICAgICB1aWQ6CiAgICAgICAgY2xhaW06ICJzdWIiCg=="
 }
 
 variable "cluster_options_persistent_volume_config_defined_tags_value" {
@@ -155,9 +116,9 @@ provider "oci" {
   config_file_profile = "terraform-federation-test"
 }
 
-variable defined_tag_namespace_name {
-  default = "test"
-}
+#variable defined_tag_namespace_name {
+#  default = "test"
+#}
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
@@ -171,14 +132,14 @@ resource "oci_core_internet_gateway" "test_ig" {
   vcn_id         = oci_core_vcn.test_vcn.id
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description = "example tag namespace"
-  name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
-
-  is_retired = false
-}
+#resource "oci_identity_tag_namespace" "tag-namespace1" {
+#  #Required
+#  compartment_id = var.tenancy_ocid
+#  description = "example tag namespace"
+#  name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
+#
+#  is_retired = false
+#}
 
 resource "oci_core_route_table" "test_route_table" {
   compartment_id = var.compartment_ocid
@@ -219,11 +180,11 @@ resource "oci_core_subnet" "clusterSubnet_2" {
   route_table_id    = oci_core_route_table.test_route_table.id
 }
 
-resource "oci_containerengine_cluster" "test_cluster" {
+resource "oci_containerengine_cluster" "test_cluster_multi_issuer" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = "v1.28.2"
-  name               = "tfTestCluster"
+  kubernetes_version = "v1.30.1"
+  name               = "tfTestMultiIssuer"
   vcn_id             = oci_core_vcn.test_vcn.id
 
   #Optional
@@ -255,22 +216,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
       is_open_id_connect_auth_enabled = var.cluster_options_open_id_connect_token_authentication_config_is_open_id_connect_auth_enabled
 
       #Optional
-      client_id  = var.cluster_options_open_id_connect_token_authentication_config_client_id
-      issuer_url = var.cluster_options_open_id_connect_token_authentication_config_issuer_url
-      ca_certificate = var.cluster_options_open_id_connect_token_authentication_config_ca_certificate
-      groups_claim   = var.cluster_options_open_id_connect_token_authentication_config_groups_claim
-      groups_prefix  = var.cluster_options_open_id_connect_token_authentication_config_groups_prefix
-      #Optional
       configuration_file = var.cluster_options_open_id_connect_token_authentication_config_configuration_file
-      required_claims {
-
-        #Optional
-        key   = var.cluster_options_open_id_connect_token_authentication_config_required_claims_key
-        value = var.cluster_options_open_id_connect_token_authentication_config_required_claims_value
-      }
-      signing_algorithms = var.cluster_options_open_id_connect_token_authentication_config_signing_algorithms
-      username_claim     = var.cluster_options_open_id_connect_token_authentication_config_username_claim
-      username_prefix    = var.cluster_options_open_id_connect_token_authentication_config_username_prefix
     }
   }
   type = var.cluster_type
