@@ -75,6 +75,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 			#Optional
 			ca_certificate = var.cluster_options_open_id_connect_token_authentication_config_ca_certificate
 			client_id = oci_containerengine_client.test_client.id
+			configuration_file = var.cluster_options_open_id_connect_token_authentication_config_configuration_file
 			groups_claim = var.cluster_options_open_id_connect_token_authentication_config_groups_claim
 			groups_prefix = var.cluster_options_open_id_connect_token_authentication_config_groups_prefix
 			issuer_url = var.cluster_options_open_id_connect_token_authentication_config_issuer_url
@@ -144,6 +145,7 @@ The following arguments are supported:
 	* `open_id_connect_token_authentication_config` - (Optional) (Updatable) The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 
 		* `ca_certificate` - (Optional) (Updatable) A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate. 
 		* `client_id` - (Optional) (Updatable) A client id that all tokens must be issued for. 
+		* `configuration_file` - (Optional) (Updatable) A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info [here](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration) 
 		* `groups_claim` - (Optional) (Updatable) JWT claim to use as the user's group. If the claim is present it must be an array of strings. 
 		* `groups_prefix` - (Optional) (Updatable) Prefix prepended to group claims to prevent clashes with existing names (such as system:groups). 
 		* `is_open_id_connect_auth_enabled` - (Required) (Updatable) Whether the cluster has OIDC Auth Config enabled. Defaults to false. 
@@ -224,6 +226,7 @@ The following attributes are exported:
 	* `open_id_connect_token_authentication_config` - The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 
 		* `ca_certificate` - A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate. 
 		* `client_id` - A client id that all tokens must be issued for. 
+		* `configuration_file` - A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info [here](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration) 
 		* `groups_claim` - JWT claim to use as the user's group. If the claim is present it must be an array of strings. 
 		* `groups_prefix` - Prefix prepended to group claims to prevent clashes with existing names (such as system:groups). 
 		* `is_open_id_connect_auth_enabled` - Whether the cluster has OIDC Auth Config enabled. Defaults to false. 
