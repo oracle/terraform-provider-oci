@@ -954,6 +954,30 @@ var exportCoreInstanceMaintenanceEventHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreComputeGpuMemoryClusterHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_gpu_memory_cluster",
+	DatasourceClass:        "oci_core_compute_gpu_memory_clusters",
+	DatasourceItemsAttr:    "compute_gpu_memory_cluster_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compute_gpu_memory_cluster",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeGpuMemoryClusterLifecycleStateActive),
+	},
+}
+
+var exportCoreComputeGpuMemoryFabricHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_gpu_memory_fabric",
+	DatasourceClass:        "oci_core_compute_gpu_memory_fabrics",
+	DatasourceItemsAttr:    "compute_gpu_memory_fabric_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compute_gpu_memory_fabric",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeGpuMemoryFabricLifecycleStateAvailable),
+	},
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
@@ -1006,6 +1030,8 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreInstanceMaintenanceEventHints},
 		{TerraformResourceHints: exportCoreComputeCapacityTopologyHints},
 		{TerraformResourceHints: exportCoreByoasnHints},
+		{TerraformResourceHints: exportCoreComputeGpuMemoryClusterHints},
+		{TerraformResourceHints: exportCoreComputeGpuMemoryFabricHints},
 	},
 	"oci_core_boot_volume": {
 		{
