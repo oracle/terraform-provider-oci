@@ -557,6 +557,8 @@ core
 * oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
 * oci\_core\_byoasn
+* oci\_core\_compute\_gpu\_memory\_cluster
+* oci\_core\_compute\_gpu\_memory\_fabric
 
 data_labeling_service
     
