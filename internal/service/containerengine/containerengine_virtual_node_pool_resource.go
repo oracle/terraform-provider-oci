@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -510,7 +510,7 @@ func virtualNodePoolWaitForWorkRequest(wId *string, entityType string, action oc
 	retryPolicy.ShouldRetryOperation = virtualNodePoolWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_containerengine.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_containerengine.WorkRequestStatusInProgress),
 			string(oci_containerengine.WorkRequestStatusAccepted),

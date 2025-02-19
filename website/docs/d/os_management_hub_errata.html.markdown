@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_os_management_hub_errata"
 sidebar_current: "docs-oci-datasource-os_management_hub-errata"
 description: |-
-	Provides the list of Errata in Oracle Cloud Infrastructure Os Management Hub service
+  Provides the list of Errata in Oracle Cloud Infrastructure Os Management Hub service
 ---
 
 # Data Source: oci_os_management_hub_errata

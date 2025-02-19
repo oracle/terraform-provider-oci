@@ -19,7 +19,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -414,7 +414,7 @@ func nlbBackendSetWaitForWorkRequest(wId *string, action oci_network_load_balanc
 	retryPolicy.ShouldRetryOperation = networkLoadBalancerWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_network_load_balancer.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_network_load_balancer.OperationStatusInProgress),
 			string(oci_network_load_balancer.OperationStatusAccepted),

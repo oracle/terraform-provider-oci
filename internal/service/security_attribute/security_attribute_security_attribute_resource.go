@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -269,7 +269,7 @@ func securityAttributeWaitForWorkRequest(wId *string, entityType string, action 
 	retryPolicy.ShouldRetryOperation = securityAttributeWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_security_attribute.GetSecurityAttributeWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_security_attribute.WorkRequestStatusInProgress),
 			string(oci_security_attribute.WorkRequestStatusAccepted),

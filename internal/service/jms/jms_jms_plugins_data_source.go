@@ -24,6 +24,10 @@ func JmsJmsPluginsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"agent_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"availability_status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -102,6 +106,10 @@ func (s *JmsJmsPluginsDataSourceCrud) Get() error {
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
 		tmp := agentId.(string)
 		request.AgentId = &tmp
+	}
+
+	if agentType, ok := s.D.GetOkExists("agent_type"); ok {
+		request.AgentType = oci_jms.ListJmsPluginsAgentTypeEnum(agentType.(string))
 	}
 
 	if availabilityStatus, ok := s.D.GetOkExists("availability_status"); ok {

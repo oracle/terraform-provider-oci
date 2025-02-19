@@ -184,6 +184,10 @@ func JmsFleetInstallationSitesDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"distribution": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"version": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -448,6 +452,10 @@ func OperatingSystemToMap(obj *oci_jms.OperatingSystem) map[string]interface{} {
 
 	if obj.Architecture != nil {
 		result["architecture"] = string(*obj.Architecture)
+	}
+
+	if obj.Distribution != nil {
+		result["distribution"] = string(*obj.Distribution)
 	}
 
 	result["family"] = string(obj.Family)

@@ -39,6 +39,9 @@ type ListJmsPluginsRequest struct {
 	// Filter JmsPlugin with its availability status.
 	AvailabilityStatus ListJmsPluginsAvailabilityStatusEnum `mandatory:"false" contributesTo:"query" name:"availabilityStatus" omitEmpty:"true"`
 
+	// Filter JmsPlugin with agent type.
+	AgentType ListJmsPluginsAgentTypeEnum `mandatory:"false" contributesTo:"query" name:"agentType" omitEmpty:"true"`
+
 	// If present, only plugins with a registration time before this parameter are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeRegisteredLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeRegisteredLessThanOrEqualTo"`
 
@@ -106,6 +109,9 @@ func (request ListJmsPluginsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListJmsPluginsAvailabilityStatusEnum(string(request.AvailabilityStatus)); !ok && request.AvailabilityStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityStatus: %s. Supported values are: %s.", request.AvailabilityStatus, strings.Join(GetListJmsPluginsAvailabilityStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListJmsPluginsAgentTypeEnum(string(request.AgentType)); !ok && request.AgentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AgentType: %s. Supported values are: %s.", request.AgentType, strings.Join(GetListJmsPluginsAgentTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListJmsPluginsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJmsPluginsSortOrderEnumStringValues(), ",")))
@@ -240,6 +246,48 @@ func GetListJmsPluginsAvailabilityStatusEnumStringValues() []string {
 // GetMappingListJmsPluginsAvailabilityStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListJmsPluginsAvailabilityStatusEnum(val string) (ListJmsPluginsAvailabilityStatusEnum, bool) {
 	enum, ok := mappingListJmsPluginsAvailabilityStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListJmsPluginsAgentTypeEnum Enum with underlying type: string
+type ListJmsPluginsAgentTypeEnum string
+
+// Set of constants representing the allowable values for ListJmsPluginsAgentTypeEnum
+const (
+	ListJmsPluginsAgentTypeOma ListJmsPluginsAgentTypeEnum = "OMA"
+	ListJmsPluginsAgentTypeOca ListJmsPluginsAgentTypeEnum = "OCA"
+)
+
+var mappingListJmsPluginsAgentTypeEnum = map[string]ListJmsPluginsAgentTypeEnum{
+	"OMA": ListJmsPluginsAgentTypeOma,
+	"OCA": ListJmsPluginsAgentTypeOca,
+}
+
+var mappingListJmsPluginsAgentTypeEnumLowerCase = map[string]ListJmsPluginsAgentTypeEnum{
+	"oma": ListJmsPluginsAgentTypeOma,
+	"oca": ListJmsPluginsAgentTypeOca,
+}
+
+// GetListJmsPluginsAgentTypeEnumValues Enumerates the set of values for ListJmsPluginsAgentTypeEnum
+func GetListJmsPluginsAgentTypeEnumValues() []ListJmsPluginsAgentTypeEnum {
+	values := make([]ListJmsPluginsAgentTypeEnum, 0)
+	for _, v := range mappingListJmsPluginsAgentTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListJmsPluginsAgentTypeEnumStringValues Enumerates the set of values in String for ListJmsPluginsAgentTypeEnum
+func GetListJmsPluginsAgentTypeEnumStringValues() []string {
+	return []string{
+		"OMA",
+		"OCA",
+	}
+}
+
+// GetMappingListJmsPluginsAgentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListJmsPluginsAgentTypeEnum(val string) (ListJmsPluginsAgentTypeEnum, bool) {
+	enum, ok := mappingListJmsPluginsAgentTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
