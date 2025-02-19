@@ -1,4 +1,4 @@
-## 6.27.0 (Unreleased)
+## 6.27.0 (February 19, 2025)
 
 ### Added
 - Support for ADB-S: Maintenance Window Enhancements
