@@ -62,6 +62,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	db_servers = var.cloud_vm_cluster_db_servers
 	defined_tags = var.cloud_vm_cluster_defined_tags
 	domain = var.cloud_vm_cluster_domain
+	exascale_db_storage_vault_id = oci_database_exascale_db_storage_vault.test_exascale_db_storage_vault.id
 	file_system_configuration_details {
 
 		#Optional
@@ -123,6 +124,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The user-friendly name for the cloud VM cluster. The name does not need to be unique.
 * `domain` - (Optional) A domain name used for the cloud VM cluster. If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. Applies to Exadata Cloud Service instances only. 
+* `exascale_db_storage_vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 * `file_system_configuration_details` - (Optional) (Updatable) Details of the file system configuration of the VM cluster.
 	* `file_system_size_gb` - (Optional) (Updatable) The file system size to be allocated in GBs.
 	* `mount_point` - (Optional) (Updatable) The mount point of file system.
@@ -191,6 +193,7 @@ The following attributes are exported:
 * `disk_redundancy` - The type of redundancy configured for the cloud Vm cluster. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. 
 * `display_name` - The user-friendly name for the cloud VM cluster. The name does not need to be unique.
 * `domain` - The domain name for the cloud VM cluster.
+* `exascale_db_storage_vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 * `file_system_configuration_details` - Details of the file system configuration of the VM cluster.
 	* `file_system_size_gb` - The file system size to be allocated in GBs.
 	* `mount_point` - The mount point of file system.
@@ -234,6 +237,7 @@ The following attributes are exported:
 * `shape` - The model name of the Exadata hardware running the cloud VM cluster. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `state` - The current state of the cloud VM cluster.
+* `storage_management_type` - Specifies the type of storage management for the Cloud VM Cluster if its ASM or Exascale.
 * `storage_size_in_gbs` - The storage allocation for the disk group, in gigabytes (GB).
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the cloud VM cluster.
 

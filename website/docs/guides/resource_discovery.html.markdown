@@ -667,6 +667,14 @@ database
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 * oci\_database\_autonomous\_database\_software\_image
+* oci\_database\_cloud\_exadata\_infrastructure\_configure\_exascale\_management
+* oci\_database\_scheduling\_plan
+* oci\_database\_scheduling\_policy\_scheduling\_window
+* oci\_database\_scheduling\_policy
+* oci\_database\_execution\_action
+* oci\_database\_execution\_window
+* oci\_database\_scheduled\_action
+* oci\_database\_exadata\_infrastructure\_configure\_exascale\_management
 * oci\_database\_autonomous\_container\_database\_snapshot\_standby
 * oci\_database\_autonomous\_container\_database\_add\_standby
 * oci\_database\_pluggable\_database\_snapshot

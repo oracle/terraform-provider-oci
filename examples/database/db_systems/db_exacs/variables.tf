@@ -158,3 +158,7 @@ variable "cloud_vm_cluster_db_node_storage_size_in_gbs" {
 variable "cloud_vm_cluster_db_servers" {
   default = []
 }
+
+variable "cloud_exadata_infrastructure_configure_exascale_management_total_storage_in_gbs" {
+  default = 4096
+}
