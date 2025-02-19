@@ -207,3 +207,42 @@ resource "oci_database_pluggable_database" "test_pluggable_database" {
         pdb_name = "SalesPdb"
         tde_wallet_password = "BEstrO0ng_#11"
 }
+
+resource "oci_database_cloud_exadata_infrastructure_configure_exascale_management" "test_cloud_exadata_infrastructure_configure_exascale_management" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+  total_storage_in_gbs            = var.cloud_exadata_infrastructure_configure_exascale_management_total_storage_in_gbs
+}
+
+resource "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_exacs_vault" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "ExampleExascaleDbStorageVault"
+  high_capacity_database_storage {
+    total_size_in_gbs = 2048
+  }
+  exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure_configure_exascale_management.test_cloud_exadata_infrastructure_configure_exascale_management.id
+}
+
+resource "oci_database_cloud_vm_cluster" "test_exascale_cloud_vm_cluster" {
+  #Required
+  backup_subnet_id                = oci_core_subnet.subnet_backup.id
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+  compartment_id                  = var.compartment_ocid
+  cpu_core_count                  = var.cloud_vm_cluster_cpu_core_count
+  display_name                    = "MyTFExascaleVmClusterExaCs"
+  gi_version                      = var.cloud_vm_cluster_gi_version
+  hostname                        = var.cloud_vm_cluster_hostname
+  ssh_public_keys                 = [var.ssh_public_key]
+  subnet_id                       = oci_core_subnet.subnet.id
+
+  #Optional
+  exascale_db_storage_vault_id    = oci_database_exascale_db_storage_vault.test_exascale_db_storage_exacs_vault.id
+  db_node_storage_size_in_gbs     = var.cloud_vm_cluster_db_node_storage_size_in_gbs
+  db_servers                      = [data.oci_database_db_servers.test_cloud_db_servers.db_servers.0.id, data.oci_database_db_servers.test_cloud_db_servers.db_servers.1.id]
+  memory_size_in_gbs              = var.cloud_vm_cluster_memory_size_in_gbs
+  ocpu_count                      = var.cloud_vm_cluster_ocpu_count
+  scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp
+  scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+  subscription_id                 = var.tenant_subscription_id
+}
