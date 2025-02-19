@@ -185,6 +185,12 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["display_name"] = *r.DisplayName
 		}
 
+		if r.ExascaleConfig != nil {
+			cloudExadataInfrastructure["exascale_config"] = []interface{}{ExascaleConfigDetailsToMap(r.ExascaleConfig)}
+		} else {
+			cloudExadataInfrastructure["exascale_config"] = nil
+		}
+
 		cloudExadataInfrastructure["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

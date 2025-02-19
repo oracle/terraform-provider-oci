@@ -125,6 +125,9 @@ The following attributes are exported:
 	* `mount_point` - The mount point of file system.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the cloud Exadata infrastructure resource. The name does not need to be unique.
+* `exascale_config` - The exascale config response details for the Exadata Cloud@Customer infrastructure or cloud Exadata infrastructure . Applies to both Exadata Cloud@Customer instances and Exadata Cloud Service instances. 
+	* `available_storage_in_gbs` - Available storage size for Exascale in GBs.
+	* `total_storage_in_gbs` - Storage size needed for Exascale in GBs.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure resource.
 * `is_scheduling_policy_associated` - If true, the infrastructure is using granular maintenance scheduling preference.

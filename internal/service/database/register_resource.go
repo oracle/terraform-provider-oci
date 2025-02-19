@@ -28,6 +28,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_cloud_autonomous_vm_cluster", DatabaseCloudAutonomousVmClusterResource())
 	tfresource.RegisterResource("oci_database_cloud_database_management", DatabaseCloudDatabaseManagementResource())
 	tfresource.RegisterResource("oci_database_cloud_exadata_infrastructure", DatabaseCloudExadataInfrastructureResource())
+	tfresource.RegisterResource("oci_database_cloud_exadata_infrastructure_configure_exascale_management", DatabaseCloudExadataInfrastructureConfigureExascaleManagementResource())
 	tfresource.RegisterResource("oci_database_cloud_vm_cluster", DatabaseCloudVmClusterResource())
 	tfresource.RegisterResource("oci_database_cloud_vm_cluster_iorm_config", DatabaseCloudVmClusterIormConfigResource())
 	tfresource.RegisterResource("oci_database_data_guard_association", DatabaseDataGuardAssociationResource())
