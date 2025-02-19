@@ -19,7 +19,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
@@ -438,7 +438,7 @@ func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.D
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "object_storage")
 	retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(timeout)
 
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_object_storage.WorkRequestStatusAccepted),
 			string(oci_object_storage.WorkRequestStatusInProgress),

@@ -12,7 +12,7 @@ import (
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -152,7 +152,7 @@ func importStandardTagsManagementWaitForWorkRequest(wId *string, entityType stri
 	retryPolicy.ShouldRetryOperation = importStandardTagsManagementWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_identity.GetTaggingWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_identity.TaggingWorkRequestStatusInProgress),
 			string(oci_identity.TaggingWorkRequestStatusAccepted),

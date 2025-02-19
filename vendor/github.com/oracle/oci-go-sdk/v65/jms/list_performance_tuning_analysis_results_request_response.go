@@ -27,6 +27,9 @@ type ListPerformanceTuningAnalysisResultsRequest struct {
 	// The Fleet-unique identifier of the related application.
 	ApplicationId *string `mandatory:"false" contributesTo:"query" name:"applicationId"`
 
+	// The name of the application.
+	ApplicationName *string `mandatory:"false" contributesTo:"query" name:"applicationName"`
+
 	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the managed instance.
 	HostName *string `mandatory:"false" contributesTo:"query" name:"hostName"`
 

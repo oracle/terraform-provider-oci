@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -814,7 +814,7 @@ func cascadingDeleteApplicationWaitForWorkRequest(wId *string, entityType string
 	retryPolicy.ShouldRetryOperation = applicationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_dataflow.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_dataflow.WorkRequestStatusInprogress),
 			string(oci_dataflow.WorkRequestStatusAccepted),

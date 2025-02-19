@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v65/aianomalydetection"
@@ -449,7 +449,7 @@ func modelWaitForWorkRequest(wId *string, entityType string, action oci_ai_anoma
 	retryPolicy.ShouldRetryOperation = modelWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_ai_anomaly_detection.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_ai_anomaly_detection.OperationStatusInProgress),
 			string(oci_ai_anomaly_detection.OperationStatusAccepted),

@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -1298,7 +1298,7 @@ func TestUnitWaitForStateRefresh(t *testing.T) {
 			args:     args{sync: &ResourceCrud{D: &mockResourceData{}, id: "1"}, timeout: time.Second, operationName: "", pending: []string{}, target: []string{"SUCCEEDED"}},
 			gotError: false,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "SUCCEEDED", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1311,7 +1311,7 @@ func TestUnitWaitForStateRefresh(t *testing.T) {
 			args:     args{sync: &ResourceCrud{D: &mockResourceData{}}, timeout: time.Second, operationName: "", pending: []string{}, target: []string{"FAILED"}},
 			gotError: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "FAILED", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1324,7 +1324,7 @@ func TestUnitWaitForStateRefresh(t *testing.T) {
 			args:     args{sync: &ResourceCrud{D: &mockResourceData{}}, timeout: time.Second, operationName: "", pending: []string{"A"}, target: []string{"A"}},
 			gotError: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "ABC", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1337,7 +1337,7 @@ func TestUnitWaitForStateRefresh(t *testing.T) {
 			args:     args{sync: &ResourceCrud{D: &mockResourceData{}}, timeout: time.Second, operationName: "", pending: []string{"A"}, target: []string{}},
 			gotError: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "ABC", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1350,7 +1350,7 @@ func TestUnitWaitForStateRefresh(t *testing.T) {
 			args:     args{sync: &ResourceCrud{D: &mockResourceData{}}, timeout: 0, operationName: "", pending: []string{}, target: []string{}},
 			gotError: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "ABC", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1613,7 +1613,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 			args:   args{workRequestClient: nil, workRequestIds: &workReqIds, entityType: "", action: "CREATED", disableFoundRetries: false, sync: &ResourceCrud{id: "1"}, timeout: time.Second, operationName: "default", pending: []string{}, target: []string{"SUCCEEDED"}},
 			output: false,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "SUCCEEDED", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1629,7 +1629,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 			args:   args{workRequestClient: nil, workRequestIds: &workReqIds, entityType: "", action: "CREATED", disableFoundRetries: false, sync: &ResourceCrud{}, timeout: time.Second, operationName: "default", pending: []string{}, target: []string{"FAILED"}},
 			output: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "FAILED", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1645,7 +1645,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 			args:   args{workRequestClient: nil, workRequestIds: &workReqIds, entityType: "", action: "CREATED", disableFoundRetries: false, sync: &ResourceCrud{}, timeout: time.Second, operationName: "default", pending: []string{"A"}, target: []string{"A"}},
 			output: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "ABC", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil
@@ -1661,7 +1661,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 			args:   args{workRequestClient: nil, workRequestIds: &workReqIds, entityType: "", action: "CREATED", disableFoundRetries: false, sync: &ResourceCrud{}, timeout: 0, operationName: "default", pending: []string{}, target: []string{}},
 			output: true,
 			mockFunc: func() {
-				stateRefreshFuncVar = func(sync StatefulResource) resource.StateRefreshFunc {
+				stateRefreshFuncVar = func(sync StatefulResource) retry.StateRefreshFunc {
 					return func() (res interface{}, s string, e error) {
 						wr := oci_work_requests.WorkRequest{Status: "ABC", Resources: []oci_work_requests.WorkRequestResource{{EntityType: nil, Identifier: nil, ActionType: "CREATED"}}}
 						return wr, string(wr.Status), nil

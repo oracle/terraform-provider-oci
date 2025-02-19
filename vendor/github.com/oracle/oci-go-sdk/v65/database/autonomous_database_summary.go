@@ -307,6 +307,9 @@ type AutonomousDatabaseSummary struct {
 	// The date and time when maintenance will end.
 	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
 
+	// The component chosen for maintenance.
+	MaintenanceTargetComponent *string `mandatory:"false" json:"maintenanceTargetComponent"`
+
 	// Indicates if the Autonomous Database is a refreshable clone.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	IsRefreshableClone *bool `mandatory:"false" json:"isRefreshableClone"`
@@ -620,6 +623,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		DatabaseManagementStatus                AutonomousDatabaseSummaryDatabaseManagementStatusEnum          `json:"databaseManagementStatus"`
 		TimeMaintenanceBegin                    *common.SDKTime                                                `json:"timeMaintenanceBegin"`
 		TimeMaintenanceEnd                      *common.SDKTime                                                `json:"timeMaintenanceEnd"`
+		MaintenanceTargetComponent              *string                                                        `json:"maintenanceTargetComponent"`
 		IsRefreshableClone                      *bool                                                          `json:"isRefreshableClone"`
 		TimeOfLastRefresh                       *common.SDKTime                                                `json:"timeOfLastRefresh"`
 		TimeOfLastRefreshPoint                  *common.SDKTime                                                `json:"timeOfLastRefreshPoint"`
@@ -828,6 +832,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeMaintenanceBegin = model.TimeMaintenanceBegin
 
 	m.TimeMaintenanceEnd = model.TimeMaintenanceEnd
+
+	m.MaintenanceTargetComponent = model.MaintenanceTargetComponent
 
 	m.IsRefreshableClone = model.IsRefreshableClone
 
