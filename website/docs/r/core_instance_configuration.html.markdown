@@ -70,6 +70,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				display_name = var.instance_configuration_instance_details_block_volumes_create_details_display_name
 				freeform_tags = {"Department"= "Finance"}
 				is_auto_tune_enabled = var.instance_configuration_instance_details_block_volumes_create_details_is_auto_tune_enabled
+				is_reservations_enabled = var.instance_configuration_instance_details_block_volumes_create_details_is_reservations_enabled
 				kms_key_id = oci_kms_key.test_key.id
 				size_in_gbs = var.instance_configuration_instance_details_block_volumes_create_details_size_in_gbs
 				source_details {
@@ -259,6 +260,8 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					defined_tags = {"Operations.CostCenter"= "42"}
 					display_name = var.instance_configuration_instance_details_options_block_volumes_create_details_display_name
 					freeform_tags = {"Department"= "Finance"}
+					is_auto_tune_enabled = var.instance_configuration_instance_details_options_block_volumes_create_details_is_auto_tune_enabled
+					is_reservations_enabled = var.instance_configuration_instance_details_options_block_volumes_create_details_is_reservations_enabled
 					kms_key_id = oci_kms_key.test_key.id
 					size_in_gbs = var.instance_configuration_instance_details_options_block_volumes_create_details_size_in_gbs
 					source_details {
@@ -498,6 +501,7 @@ The following arguments are supported:
 			* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - (Applicable when instance_type=compute) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 			* `is_auto_tune_enabled` - (Applicable when instance_type=compute) Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+			* `is_reservations_enabled` - (Applicable when instance_type=compute) Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 			* `kms_key_id` - (Applicable when instance_type=compute) The OCID of the Vault service key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - (Applicable when instance_type=compute) The size of the volume in GBs.
 			* `source_details` - (Applicable when instance_type=compute) 
@@ -733,9 +737,11 @@ The following arguments are supported:
 				* `backup_policy_id` - (Applicable when instance_type=instance_options) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
 				* `cluster_placement_group_id` - (Applicable when instance_type=instance_options) The clusterPlacementGroup Id of the volume for volume placement.
 				* `compartment_id` - (Applicable when instance_type=instance_options) (Updatable) The OCID of the compartment that contains the volume.
-				* `defined_tags` - (Applicable when instance_type=instance_options) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-				* `display_name` - (Applicable when instance_type=instance_options) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-				* `freeform_tags` - (Applicable when instance_type=instance_options) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+				* `defined_tags` - (Applicable when instance_type=instance_options) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+				* `display_name` - (Applicable when instance_type=instance_options) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+				* `freeform_tags` - (Applicable when instance_type=instance_options) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+				* `is_auto_tune_enabled` - (Applicable when instance_type=instance_options) Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+				* `is_reservations_enabled` - (Applicable when instance_type=instance_options) Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 				* `kms_key_id` - (Applicable when instance_type=instance_options) The OCID of the Vault service key to assign as the master encryption key for the volume.
 				* `size_in_gbs` - (Applicable when instance_type=instance_options) The size of the volume in GBs.
 				* `source_details` - (Applicable when instance_type=instance_options)
@@ -1034,6 +1040,7 @@ The following attributes are exported:
 			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 			* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+			* `is_reservations_enabled` - Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 			* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - The size of the volume in GBs.
 			* `source_details` - 
@@ -1261,9 +1268,11 @@ The following attributes are exported:
 				* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
 				* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 				* `compartment_id` - The OCID of the compartment that contains the volume.
-				* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-				* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-				* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+				* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+				* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+				* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+				* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+				* `is_reservations_enabled` - Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 				* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the volume.
 				* `size_in_gbs` - The size of the volume in GBs.
 				* `source_details` -
