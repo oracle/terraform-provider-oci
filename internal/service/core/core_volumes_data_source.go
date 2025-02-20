@@ -186,6 +186,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			volume["is_hydrated"] = *r.IsHydrated
 		}
 
+		if r.IsReservationsEnabled != nil {
+			volume["is_reservations_enabled"] = *r.IsReservationsEnabled
+		}
+
 		if r.KmsKeyId != nil {
 			volume["kms_key_id"] = *r.KmsKeyId
 		}
