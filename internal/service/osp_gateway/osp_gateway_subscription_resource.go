@@ -230,6 +230,11 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_corporate_conversion_allowed": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_intent_to_pay": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -590,6 +595,10 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 			},
 			"gsi_org_code": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_corporate_conversion_allowed": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"is_intent_to_pay": {
@@ -960,6 +969,10 @@ func (s *OspGatewaySubscriptionResourceCrud) SetData() error {
 
 	if s.Res.GsiOrgCode != nil {
 		s.D.Set("gsi_org_code", *s.Res.GsiOrgCode)
+	}
+
+	if s.Res.IsCorporateConversionAllowed != nil {
+		s.D.Set("is_corporate_conversion_allowed", *s.Res.IsCorporateConversionAllowed)
 	}
 
 	if s.Res.IsIntentToPay != nil {
@@ -1502,6 +1515,11 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToSubscription(fieldKeyFormat st
 		result.Id = &tmp
 	}
 
+	if isCorporateConversionAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_corporate_conversion_allowed")); ok {
+		tmp := isCorporateConversionAllowed.(bool)
+		result.IsCorporateConversionAllowed = &tmp
+	}
+
 	if isIntentToPay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_intent_to_pay")); ok {
 		tmp := isIntentToPay.(bool)
 		result.IsIntentToPay = &tmp
@@ -1666,6 +1684,10 @@ func SubscriptionToMap(obj *oci_osp_gateway.Subscription) map[string]interface{}
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsCorporateConversionAllowed != nil {
+		result["is_corporate_conversion_allowed"] = bool(*obj.IsCorporateConversionAllowed)
+	}
+
 	if obj.IsIntentToPay != nil {
 		result["is_intent_to_pay"] = bool(*obj.IsIntentToPay)
 	}
@@ -1748,6 +1770,10 @@ func SubscriptionSummaryToMap(obj oci_osp_gateway.SubscriptionSummary) map[strin
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsCorporateConversionAllowed != nil {
+		result["is_corporate_conversion_allowed"] = bool(*obj.IsCorporateConversionAllowed)
 	}
 
 	if obj.IsIntentToPay != nil {
