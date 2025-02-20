@@ -559,6 +559,10 @@ func ContainerengineClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"open_id_connect_discovery_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1181,6 +1185,10 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 
 	if s.Res.OpenIdConnectDiscoveryEndpoint != nil {
 		s.D.Set("open_id_connect_discovery_endpoint", *s.Res.OpenIdConnectDiscoveryEndpoint)
+	}
+
+	if s.Res.OpenIdConnectDiscoveryKey != nil {
+		s.D.Set("open_id_connect_discovery_key", *s.Res.OpenIdConnectDiscoveryKey)
 	}
 
 	if s.Res.Options != nil {
