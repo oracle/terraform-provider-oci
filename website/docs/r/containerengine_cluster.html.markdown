@@ -213,6 +213,7 @@ The following attributes are exported:
 	* `updated_by_work_request_id` - The OCID of the work request which updated the cluster.
 * `name` - The name of the cluster.
 * `open_id_connect_discovery_endpoint` - The cluster-specific OpenID Connect Discovery endpoint 
+* `open_id_connect_discovery_key` - The cluster-specific OpenID Connect Discovery Key to derive the DiscoveryEndpoint 
 * `options` - Optional attributes for the cluster.
 	* `add_ons` - Configurable cluster add-ons
 		* `is_kubernetes_dashboard_enabled` - Whether or not to enable the Kubernetes Dashboard add-on.
