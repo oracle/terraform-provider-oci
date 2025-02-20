@@ -81,6 +81,7 @@ func TestOspGatewaySubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "currency_code"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gsi_org_code"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_corporate_conversion_allowed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_intent_to_pay"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "language_code"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "organization_id"),
