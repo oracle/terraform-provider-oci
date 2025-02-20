@@ -403,6 +403,8 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_id_connect_discovery_endpoint"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_id_connect_discovery_key"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.add_ons.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),

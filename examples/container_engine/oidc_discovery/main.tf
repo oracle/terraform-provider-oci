@@ -236,3 +236,7 @@ data "oci_containerengine_cluster" "test_cluster" {
 output "oidc_discovery_endpoint" {
   value = data.oci_containerengine_cluster.test_cluster.open_id_connect_discovery_endpoint
 }
+
+output "oidc_discovery_key" {
+  value = data.oci_containerengine_cluster.test_cluster.open_id_connect_discovery_key
+}
