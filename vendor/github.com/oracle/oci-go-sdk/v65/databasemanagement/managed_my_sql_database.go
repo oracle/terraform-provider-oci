@@ -38,6 +38,9 @@ type ManagedMySqlDatabase struct {
 	// The name of the Managed MySQL Database.
 	Name *string `mandatory:"true" json:"name"`
 
+	// The customer's selected type for HeatWave management.
+	HeatWaveManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"false" json:"heatWaveManagementType,omitempty"`
+
 	// The name of the HeatWave cluster.
 	HeatWaveClusterDisplayName *string `mandatory:"false" json:"heatWaveClusterDisplayName"`
 
@@ -86,6 +89,9 @@ func (m ManagedMySqlDatabase) String() string {
 func (m ManagedMySqlDatabase) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingManagedMySqlDatabaseHeatWaveManagementTypeEnum(string(m.HeatWaveManagementType)); !ok && m.HeatWaveManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HeatWaveManagementType: %s. Supported values are: %s.", m.HeatWaveManagementType, strings.Join(GetManagedMySqlDatabaseHeatWaveManagementTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingMySqlTypeEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetMySqlTypeEnumStringValues(), ",")))
 	}
@@ -99,4 +105,46 @@ func (m ManagedMySqlDatabase) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ManagedMySqlDatabaseHeatWaveManagementTypeEnum Enum with underlying type: string
+type ManagedMySqlDatabaseHeatWaveManagementTypeEnum string
+
+// Set of constants representing the allowable values for ManagedMySqlDatabaseHeatWaveManagementTypeEnum
+const (
+	ManagedMySqlDatabaseHeatWaveManagementTypeBasic ManagedMySqlDatabaseHeatWaveManagementTypeEnum = "BASIC"
+	ManagedMySqlDatabaseHeatWaveManagementTypeFull  ManagedMySqlDatabaseHeatWaveManagementTypeEnum = "FULL"
+)
+
+var mappingManagedMySqlDatabaseHeatWaveManagementTypeEnum = map[string]ManagedMySqlDatabaseHeatWaveManagementTypeEnum{
+	"BASIC": ManagedMySqlDatabaseHeatWaveManagementTypeBasic,
+	"FULL":  ManagedMySqlDatabaseHeatWaveManagementTypeFull,
+}
+
+var mappingManagedMySqlDatabaseHeatWaveManagementTypeEnumLowerCase = map[string]ManagedMySqlDatabaseHeatWaveManagementTypeEnum{
+	"basic": ManagedMySqlDatabaseHeatWaveManagementTypeBasic,
+	"full":  ManagedMySqlDatabaseHeatWaveManagementTypeFull,
+}
+
+// GetManagedMySqlDatabaseHeatWaveManagementTypeEnumValues Enumerates the set of values for ManagedMySqlDatabaseHeatWaveManagementTypeEnum
+func GetManagedMySqlDatabaseHeatWaveManagementTypeEnumValues() []ManagedMySqlDatabaseHeatWaveManagementTypeEnum {
+	values := make([]ManagedMySqlDatabaseHeatWaveManagementTypeEnum, 0)
+	for _, v := range mappingManagedMySqlDatabaseHeatWaveManagementTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetManagedMySqlDatabaseHeatWaveManagementTypeEnumStringValues Enumerates the set of values in String for ManagedMySqlDatabaseHeatWaveManagementTypeEnum
+func GetManagedMySqlDatabaseHeatWaveManagementTypeEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"FULL",
+	}
+}
+
+// GetMappingManagedMySqlDatabaseHeatWaveManagementTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingManagedMySqlDatabaseHeatWaveManagementTypeEnum(val string) (ManagedMySqlDatabaseHeatWaveManagementTypeEnum, bool) {
+	enum, ok := mappingManagedMySqlDatabaseHeatWaveManagementTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

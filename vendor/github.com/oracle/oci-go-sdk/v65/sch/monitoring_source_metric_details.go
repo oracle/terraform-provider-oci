@@ -53,6 +53,10 @@ func (m *monitoringsourcemetricdetails) UnmarshalPolymorphicJSON(data []byte) (i
 
 	var err error
 	switch m.Kind {
+	case "selected":
+		mm := MonitoringSourceSelectedMetrics{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "all":
 		mm := MonitoringSourceAllMetrics{}
 		err = json.Unmarshal(data, &mm)
@@ -84,15 +88,18 @@ type MonitoringSourceMetricDetailsKindEnum string
 
 // Set of constants representing the allowable values for MonitoringSourceMetricDetailsKindEnum
 const (
-	MonitoringSourceMetricDetailsKindAll MonitoringSourceMetricDetailsKindEnum = "all"
+	MonitoringSourceMetricDetailsKindAll      MonitoringSourceMetricDetailsKindEnum = "all"
+	MonitoringSourceMetricDetailsKindSelected MonitoringSourceMetricDetailsKindEnum = "selected"
 )
 
 var mappingMonitoringSourceMetricDetailsKindEnum = map[string]MonitoringSourceMetricDetailsKindEnum{
-	"all": MonitoringSourceMetricDetailsKindAll,
+	"all":      MonitoringSourceMetricDetailsKindAll,
+	"selected": MonitoringSourceMetricDetailsKindSelected,
 }
 
 var mappingMonitoringSourceMetricDetailsKindEnumLowerCase = map[string]MonitoringSourceMetricDetailsKindEnum{
-	"all": MonitoringSourceMetricDetailsKindAll,
+	"all":      MonitoringSourceMetricDetailsKindAll,
+	"selected": MonitoringSourceMetricDetailsKindSelected,
 }
 
 // GetMonitoringSourceMetricDetailsKindEnumValues Enumerates the set of values for MonitoringSourceMetricDetailsKindEnum
@@ -108,6 +115,7 @@ func GetMonitoringSourceMetricDetailsKindEnumValues() []MonitoringSourceMetricDe
 func GetMonitoringSourceMetricDetailsKindEnumStringValues() []string {
 	return []string{
 		"all",
+		"selected",
 	}
 }
 

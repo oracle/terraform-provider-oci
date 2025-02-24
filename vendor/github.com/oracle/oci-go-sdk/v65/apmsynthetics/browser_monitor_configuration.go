@@ -38,6 +38,9 @@ type BrowserMonitorConfiguration struct {
 	VerifyResponseCodes []string `mandatory:"false" json:"verifyResponseCodes"`
 
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
+
+	// Custom list of URLs to ignore (regex or exact match).
+	ExcludePaths []string `mandatory:"false" json:"excludePaths"`
 }
 
 // GetIsFailureRetried returns IsFailureRetried

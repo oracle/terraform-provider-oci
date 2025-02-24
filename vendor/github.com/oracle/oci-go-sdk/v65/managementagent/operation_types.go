@@ -27,7 +27,8 @@ const (
 	OperationTypesCreateDataSource       OperationTypesEnum = "CREATE_DATA_SOURCE"
 	OperationTypesUpdateDataSource       OperationTypesEnum = "UPDATE_DATA_SOURCE"
 	OperationTypesDeleteDataSource       OperationTypesEnum = "DELETE_DATA_SOURCE"
-	OperationTypesUpsertNamedcredentials OperationTypesEnum = "UPSERT_NAMEDCREDENTIALS"
+	OperationTypesCreateNamedcredentials OperationTypesEnum = "CREATE_NAMEDCREDENTIALS"
+	OperationTypesUpdateNamedcredentials OperationTypesEnum = "UPDATE_NAMEDCREDENTIALS"
 	OperationTypesDeleteNamedcredentials OperationTypesEnum = "DELETE_NAMEDCREDENTIALS"
 	OperationTypesAgentUpgrade           OperationTypesEnum = "AGENT_UPGRADE"
 )
@@ -41,7 +42,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_DATA_SOURCE":      OperationTypesCreateDataSource,
 	"UPDATE_DATA_SOURCE":      OperationTypesUpdateDataSource,
 	"DELETE_DATA_SOURCE":      OperationTypesDeleteDataSource,
-	"UPSERT_NAMEDCREDENTIALS": OperationTypesUpsertNamedcredentials,
+	"CREATE_NAMEDCREDENTIALS": OperationTypesCreateNamedcredentials,
+	"UPDATE_NAMEDCREDENTIALS": OperationTypesUpdateNamedcredentials,
 	"DELETE_NAMEDCREDENTIALS": OperationTypesDeleteNamedcredentials,
 	"AGENT_UPGRADE":           OperationTypesAgentUpgrade,
 }
@@ -55,7 +57,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"create_data_source":      OperationTypesCreateDataSource,
 	"update_data_source":      OperationTypesUpdateDataSource,
 	"delete_data_source":      OperationTypesDeleteDataSource,
-	"upsert_namedcredentials": OperationTypesUpsertNamedcredentials,
+	"create_namedcredentials": OperationTypesCreateNamedcredentials,
+	"update_namedcredentials": OperationTypesUpdateNamedcredentials,
 	"delete_namedcredentials": OperationTypesDeleteNamedcredentials,
 	"agent_upgrade":           OperationTypesAgentUpgrade,
 }
@@ -80,7 +83,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"CREATE_DATA_SOURCE",
 		"UPDATE_DATA_SOURCE",
 		"DELETE_DATA_SOURCE",
-		"UPSERT_NAMEDCREDENTIALS",
+		"CREATE_NAMEDCREDENTIALS",
+		"UPDATE_NAMEDCREDENTIALS",
 		"DELETE_NAMEDCREDENTIALS",
 		"AGENT_UPGRADE",
 	}

@@ -1457,6 +1457,73 @@ func (client VirtualNetworkClient) backfill(ctx context.Context, request common.
 	return response, err
 }
 
+// BootstrapV2 Starts or continues a bootstrap request.
+// If no `sequenceToken` is provided, starts a new bootstrap request.
+// This should be the first request made by `panamaagent` when it starts
+// up, or after it has received a `BootstrapRequired` error code.
+// If a `sequenceToken` is provided, it must have been returned from a
+// prior `Bootstrap` request, and this request continues the bootstrap
+// requests from the point where the prior request had left off.
+// A default retry strategy applies to this operation BootstrapV2()
+func (client VirtualNetworkClient) BootstrapV2(ctx context.Context, request BootstrapV2Request) (response BootstrapV2Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.bootstrapV2, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BootstrapV2Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BootstrapV2Response{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BootstrapV2Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BootstrapV2Response")
+	}
+	return
+}
+
+// bootstrapV2 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) bootstrapV2(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/distributionServiceBootstrap", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response BootstrapV2Response
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootstrapOrGetUpdatesResponse/BootstrapV2"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "BootstrapV2", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkAddVirtualCircuitPublicPrefixes Adds one or more customer public IP prefixes to the specified public virtual circuit.
 // Use this operation (and not UpdateVirtualCircuit)
 // to add prefixes to the virtual circuit. Oracle must verify the customer's ownership
@@ -14670,6 +14737,67 @@ func (client VirtualNetworkClient) generateLocalPeeringToken(ctx context.Context
 	return response, err
 }
 
+// GetAdminCredentialsInternal Get admin credentials for edgePOP devices
+// A default retry strategy applies to this operation GetAdminCredentialsInternal()
+func (client VirtualNetworkClient) GetAdminCredentialsInternal(ctx context.Context, request GetAdminCredentialsInternalRequest) (response GetAdminCredentialsInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdminCredentialsInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdminCredentialsInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdminCredentialsInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdminCredentialsInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdminCredentialsInternalResponse")
+	}
+	return
+}
+
+// getAdminCredentialsInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getAdminCredentialsInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgePop/adminCredentialsInternal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetAdminCredentialsInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AdminCredentialsInternal/GetAdminCredentialsInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAdminCredentialsInternal", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAllC3DrgAttachments Returns a complete list of DRG attachments that belong to a particular DRG.
 func (client VirtualNetworkClient) GetAllC3DrgAttachments(ctx context.Context, request GetAllC3DrgAttachmentsRequest) (response GetAllC3DrgAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -21649,6 +21777,72 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfigContent(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/TunnelCpeDeviceConfig/GetTunnelCpeDeviceConfigContent"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetTunnelCpeDeviceConfigContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetUpdatesV2 Polls for updates since the state represented by the provided
+// `sequenceToken`, which must have been returned from a prior
+// `GetUpdates` request or (terminal) `Bootstrap` request.
+// After completing a bootstrap process, data plane agents should make this
+// request periodically to learn the latest state of routing information
+// from control plane.
+// A default retry strategy applies to this operation GetUpdatesV2()
+func (client VirtualNetworkClient) GetUpdatesV2(ctx context.Context, request GetUpdatesV2Request) (response GetUpdatesV2Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getUpdatesV2, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetUpdatesV2Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetUpdatesV2Response{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetUpdatesV2Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetUpdatesV2Response")
+	}
+	return
+}
+
+// getUpdatesV2 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getUpdatesV2(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/distributionServiceUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetUpdatesV2Response
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootstrapOrGetUpdatesResponse/GetUpdatesV2"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetUpdatesV2", apiReferenceLink)
 		return response, err
 	}
 
@@ -33215,6 +33409,67 @@ func (client VirtualNetworkClient) updateDscpOverride(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DscpOverride/UpdateDscpOverride"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDscpOverride", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEdgePopDeviceAuthInternal Update device credentials for edgePop devices
+// A default retry strategy applies to this operation UpdateEdgePopDeviceAuthInternal()
+func (client VirtualNetworkClient) UpdateEdgePopDeviceAuthInternal(ctx context.Context, request UpdateEdgePopDeviceAuthInternalRequest) (response UpdateEdgePopDeviceAuthInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEdgePopDeviceAuthInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEdgePopDeviceAuthInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEdgePopDeviceAuthInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEdgePopDeviceAuthInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEdgePopDeviceAuthInternalResponse")
+	}
+	return
+}
+
+// updateEdgePopDeviceAuthInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateEdgePopDeviceAuthInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/edgePop/updateEdgePopDeviceAuthInternal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateEdgePopDeviceAuthInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/UpdateEdgePopDeviceAuthInternalDetails/UpdateEdgePopDeviceAuthInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateEdgePopDeviceAuthInternal", apiReferenceLink)
 		return response, err
 	}
 

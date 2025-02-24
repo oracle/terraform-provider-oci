@@ -18,18 +18,33 @@ type RequestMethodsEnum string
 
 // Set of constants representing the allowable values for RequestMethodsEnum
 const (
-	RequestMethodsGet  RequestMethodsEnum = "GET"
-	RequestMethodsPost RequestMethodsEnum = "POST"
+	RequestMethodsGet     RequestMethodsEnum = "GET"
+	RequestMethodsPost    RequestMethodsEnum = "POST"
+	RequestMethodsPut     RequestMethodsEnum = "PUT"
+	RequestMethodsPatch   RequestMethodsEnum = "PATCH"
+	RequestMethodsDelete  RequestMethodsEnum = "DELETE"
+	RequestMethodsHead    RequestMethodsEnum = "HEAD"
+	RequestMethodsOptions RequestMethodsEnum = "OPTIONS"
 )
 
 var mappingRequestMethodsEnum = map[string]RequestMethodsEnum{
-	"GET":  RequestMethodsGet,
-	"POST": RequestMethodsPost,
+	"GET":     RequestMethodsGet,
+	"POST":    RequestMethodsPost,
+	"PUT":     RequestMethodsPut,
+	"PATCH":   RequestMethodsPatch,
+	"DELETE":  RequestMethodsDelete,
+	"HEAD":    RequestMethodsHead,
+	"OPTIONS": RequestMethodsOptions,
 }
 
 var mappingRequestMethodsEnumLowerCase = map[string]RequestMethodsEnum{
-	"get":  RequestMethodsGet,
-	"post": RequestMethodsPost,
+	"get":     RequestMethodsGet,
+	"post":    RequestMethodsPost,
+	"put":     RequestMethodsPut,
+	"patch":   RequestMethodsPatch,
+	"delete":  RequestMethodsDelete,
+	"head":    RequestMethodsHead,
+	"options": RequestMethodsOptions,
 }
 
 // GetRequestMethodsEnumValues Enumerates the set of values for RequestMethodsEnum
@@ -46,6 +61,11 @@ func GetRequestMethodsEnumStringValues() []string {
 	return []string{
 		"GET",
 		"POST",
+		"PUT",
+		"PATCH",
+		"DELETE",
+		"HEAD",
+		"OPTIONS",
 	}
 }
 

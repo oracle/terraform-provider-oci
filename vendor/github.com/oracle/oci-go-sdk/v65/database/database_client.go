@@ -3243,6 +3243,61 @@ func (client DatabaseClient) convertStandbyDatabaseType(ctx context.Context, req
 	return response, err
 }
 
+// ConvertStandbyType Performs transition from standby database into a snapshot standby and vice versa.
+// The transition performed is based on the current role of the database, if the current role is standby then this operation will convert it to snapshot standby and if the current role is snapshot standby then this operation will convert it to standby.
+// This operation should be performed on respective standby/snapshot standby database.
+func (client DatabaseClient) ConvertStandbyType(ctx context.Context, request ConvertStandbyTypeRequest) (response ConvertStandbyTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.convertStandbyType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConvertStandbyTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConvertStandbyTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConvertStandbyTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConvertStandbyTypeResponse")
+	}
+	return
+}
+
+// convertStandbyType implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) convertStandbyType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/convertStandbyType", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConvertStandbyTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/ConvertStandbyType"
+		err = common.PostProcessServiceError(err, "Database", "ConvertStandbyType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConvertToPdb Converts a non-container database to a pluggable database.
 func (client DatabaseClient) ConvertToPdb(ctx context.Context, request ConvertToPdbRequest) (response ConvertToPdbResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -31,6 +31,9 @@ type ScriptedBrowserMonitorConfiguration struct {
 	IsDefaultSnapshotEnabled *bool `mandatory:"false" json:"isDefaultSnapshotEnabled"`
 
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
+
+	// Custom list of URLs to ignore (regex or exact match).
+	ExcludePaths []string `mandatory:"false" json:"excludePaths"`
 }
 
 // GetIsFailureRetried returns IsFailureRetried

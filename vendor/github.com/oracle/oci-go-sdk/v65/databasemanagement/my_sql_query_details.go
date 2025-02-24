@@ -17,31 +17,25 @@ import (
 	"strings"
 )
 
-// EnableExternalMysqlAssociatedServiceDetails Details to enable an eMysql Associated Service.
-type EnableExternalMysqlAssociatedServiceDetails struct {
+// MySqlQueryDetails The details of a given MySQL query, it consists of the query sample details, the explain plan and potential warnings.
+type MySqlQueryDetails struct {
+	QuerySampleDetails *MySqlQuerySampleDetails `mandatory:"true" json:"querySampleDetails"`
 
-	// OCID of the Service Resource.
-	ServiceResourceId *string `mandatory:"true" json:"serviceResourceId"`
+	QueryExplainPlan *MySqlQueryExplainPlan `mandatory:"false" json:"queryExplainPlan"`
 
-	// OCID of the External MySQL Database connector.
-	ConnectorId *string `mandatory:"true" json:"connectorId"`
-
-	// Name of the Associated Service.
-	ServiceName ExternalMysqlAssociatedServiceNameEnum `mandatory:"true" json:"serviceName"`
+	// The errors, warnings and notes that could be raised by the execution of the query.
+	QueryMessages []MySqlQueryMessage `mandatory:"false" json:"queryMessages"`
 }
 
-func (m EnableExternalMysqlAssociatedServiceDetails) String() string {
+func (m MySqlQueryDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m EnableExternalMysqlAssociatedServiceDetails) ValidateEnumValue() (bool, error) {
+func (m MySqlQueryDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingExternalMysqlAssociatedServiceNameEnum(string(m.ServiceName)); !ok && m.ServiceName != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceName: %s. Supported values are: %s.", m.ServiceName, strings.Join(GetExternalMysqlAssociatedServiceNameEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

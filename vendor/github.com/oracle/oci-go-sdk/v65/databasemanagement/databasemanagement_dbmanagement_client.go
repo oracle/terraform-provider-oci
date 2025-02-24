@@ -6224,9 +6224,10 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 }
 
 // GetNamedCredential Gets the details for the named credential specified by namedCredentialId.
+// A default retry strategy applies to this operation GetNamedCredential()
 func (client DbManagementClient) GetNamedCredential(ctx context.Context, request GetNamedCredentialRequest) (response GetNamedCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8826,9 +8827,10 @@ func (client DbManagementClient) listMySqlDatabaseConnectors(ctx context.Context
 }
 
 // ListNamedCredentials Gets a single named credential specified by the name or all the named credentials in a specific compartment.
+// A default retry strategy applies to this operation ListNamedCredentials()
 func (client DbManagementClient) ListNamedCredentials(ctx context.Context, request ListNamedCredentialsRequest) (response ListNamedCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

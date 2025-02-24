@@ -25,6 +25,9 @@ type MaintenanceWindowSchedule struct {
 	// End time of the maintenance window, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2020-02-12T22:47:12.613Z`
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
+
+	// Brief summary or note explaining the reason and details of the maintenance window.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m MaintenanceWindowSchedule) String() string {

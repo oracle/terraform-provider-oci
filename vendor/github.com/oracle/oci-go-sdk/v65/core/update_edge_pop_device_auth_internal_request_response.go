@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package opensearch
+package core
 
 import (
 	"fmt"
@@ -11,20 +11,19 @@ import (
 	"strings"
 )
 
-// StopPipelineRequest wrapper for the StopPipeline operation
-type StopPipelineRequest struct {
+// UpdateEdgePopDeviceAuthInternalRequest wrapper for the UpdateEdgePopDeviceAuthInternal operation
+type UpdateEdgePopDeviceAuthInternalRequest struct {
 
-	// unique OpensearchClusterPipeline identifier
-	OpensearchClusterPipelineId *string `mandatory:"true" contributesTo:"path" name:"opensearchClusterPipelineId"`
+	// Internal request to update the credentials for edgePop devices
+	UpdateEdgePopDeviceAuthInternalDetails `contributesTo:"body"`
 
-	// For optimistic concurrency control. In the PUT or DELETE call
-	// for a resource, set the `if-match` parameter to the value of the
-	// etag from a previous GET or POST response for that resource.
-	// The resource will be updated or deleted only if the etag you
-	// provide matches the resource's current etag value.
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The client request ID for tracing.
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -32,12 +31,12 @@ type StopPipelineRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request StopPipelineRequest) String() string {
+func (request UpdateEdgePopDeviceAuthInternalRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request StopPipelineRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request UpdateEdgePopDeviceAuthInternalRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -47,21 +46,26 @@ func (request StopPipelineRequest) HTTPRequest(method, path string, binaryReques
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request StopPipelineRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request UpdateEdgePopDeviceAuthInternalRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateEdgePopDeviceAuthInternalRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request StopPipelineRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateEdgePopDeviceAuthInternalRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request StopPipelineRequest) ValidateEnumValue() (bool, error) {
+func (request UpdateEdgePopDeviceAuthInternalRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -69,25 +73,22 @@ func (request StopPipelineRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// StopPipelineResponse wrapper for the StopPipeline operation
-type StopPipelineResponse struct {
+// UpdateEdgePopDeviceAuthInternalResponse wrapper for the UpdateEdgePopDeviceAuthInternal operation
+type UpdateEdgePopDeviceAuthInternalResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
-
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response StopPipelineResponse) String() string {
+func (response UpdateEdgePopDeviceAuthInternalResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response StopPipelineResponse) HTTPResponse() *http.Response {
+func (response UpdateEdgePopDeviceAuthInternalResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

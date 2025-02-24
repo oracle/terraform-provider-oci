@@ -17,31 +17,23 @@ import (
 	"strings"
 )
 
-// DisableExternalMysqlAssociatedServiceDetails Details to disable an eMysql Associated Service.
-type DisableExternalMysqlAssociatedServiceDetails struct {
+// MySqlChannelApplyError MySQL server replication Channel name and error from its apply operation.
+type MySqlChannelApplyError struct {
+	ApplyError *MySqlApplyError `mandatory:"true" json:"applyError"`
 
-	// OCID of the Service Resource.
-	ServiceResourceId *string `mandatory:"true" json:"serviceResourceId"`
-
-	// OCID of the External MySQL Database connector.
-	ConnectorId *string `mandatory:"true" json:"connectorId"`
-
-	// Name of the Associated Service.
-	ServiceName ExternalMysqlAssociatedServiceNameEnum `mandatory:"true" json:"serviceName"`
+	// The name of the replication channel
+	ChannelName *string `mandatory:"false" json:"channelName"`
 }
 
-func (m DisableExternalMysqlAssociatedServiceDetails) String() string {
+func (m MySqlChannelApplyError) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DisableExternalMysqlAssociatedServiceDetails) ValidateEnumValue() (bool, error) {
+func (m MySqlChannelApplyError) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingExternalMysqlAssociatedServiceNameEnum(string(m.ServiceName)); !ok && m.ServiceName != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceName: %s. Supported values are: %s.", m.ServiceName, strings.Join(GetExternalMysqlAssociatedServiceNameEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
