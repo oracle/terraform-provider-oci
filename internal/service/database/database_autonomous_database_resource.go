@@ -4801,7 +4801,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.PrivateEndpointLabel = &tmp
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
@@ -5914,7 +5915,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
