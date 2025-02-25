@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListRecommendedScheduledActions.go.html to see an example of how to use ListRecommendedScheduledActionsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListRecommendedScheduledActions.go.html to see an example of how to use ListRecommendedScheduledActionsRequest.
 type ListRecommendedScheduledActionsRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
-	// The target resource OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) the scheduled actions will be for.
+	// The target resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) the scheduled actions will be for.
 	SchedulingPolicyTargetResourceId *string `mandatory:"true" contributesTo:"query" name:"schedulingPolicyTargetResourceId"`
 
 	// The scheduling plan intent the scheduled actions will be for.
@@ -97,7 +97,7 @@ type ListRecommendedScheduledActionsResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

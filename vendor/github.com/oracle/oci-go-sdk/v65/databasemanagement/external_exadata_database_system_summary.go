@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -21,7 +21,7 @@ import (
 // ExternalExadataDatabaseSystemSummary The DB systems of the Exadata infrastructure.
 type ExternalExadataDatabaseSystemSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
@@ -49,7 +49,7 @@ type ExternalExadataDatabaseSystemSummary struct {
 	// Example: `{"bar-key": "value"}`
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The Oracle license model that applies to the database management resources.

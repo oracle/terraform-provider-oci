@@ -7,7 +7,7 @@
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
-// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
+// the Monitoring documentation (https://docs.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -21,7 +21,7 @@ import (
 // Suppression The configuration details for an alarm-wide suppression.
 // For dimension-specific suppressions, see AlarmSuppression.
 // For information about alarms, see
-// Alarms Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#AlarmsOverview).
+// Alarms Overview (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#AlarmsOverview).
 type Suppression struct {
 
 	// The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.

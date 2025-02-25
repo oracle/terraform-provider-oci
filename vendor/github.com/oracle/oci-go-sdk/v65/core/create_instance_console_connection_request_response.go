@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateInstanceConsoleConnection.go.html to see an example of how to use CreateInstanceConsoleConnectionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateInstanceConsoleConnection.go.html to see an example of how to use CreateInstanceConsoleConnectionRequest.
 type CreateInstanceConsoleConnectionRequest struct {
 
 	// Request object for creating an InstanceConsoleConnection

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ChangeFusionEnvironmentFamilyCompartment.go.html to see an example of how to use ChangeFusionEnvironmentFamilyCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ChangeFusionEnvironmentFamilyCompartment.go.html to see an example of how to use ChangeFusionEnvironmentFamilyCompartmentRequest.
 type ChangeFusionEnvironmentFamilyCompartmentRequest struct {
 
 	// The unique identifier (OCID) of the FusionEnvironmentFamily.
@@ -93,7 +93,7 @@ type ChangeFusionEnvironmentFamilyCompartmentResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

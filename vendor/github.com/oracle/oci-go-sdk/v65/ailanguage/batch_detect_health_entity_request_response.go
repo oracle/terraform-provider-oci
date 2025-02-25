@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectHealthEntity.go.html to see an example of how to use BatchDetectHealthEntityRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectHealthEntity.go.html to see an example of how to use BatchDetectHealthEntityRequest.
 type BatchDetectHealthEntityRequest struct {
 
 	// The details to make a health entity detect call.

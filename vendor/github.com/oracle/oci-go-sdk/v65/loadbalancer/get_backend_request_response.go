@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetBackend.go.html to see an example of how to use GetBackendRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetBackend.go.html to see an example of how to use GetBackendRequest.
 type GetBackendRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and server.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and server.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the backend set that includes the backend server.

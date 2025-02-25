@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayCompartment.go.html to see an example of how to use ChangeIngressGatewayCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayCompartment.go.html to see an example of how to use ChangeIngressGatewayCompartmentRequest.
 type ChangeIngressGatewayCompartmentRequest struct {
 
 	// Unique IngressGateway identifier.

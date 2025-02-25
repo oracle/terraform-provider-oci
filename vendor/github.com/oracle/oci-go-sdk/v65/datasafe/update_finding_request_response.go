@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateFinding.go.html to see an example of how to use UpdateFindingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateFinding.go.html to see an example of how to use UpdateFindingRequest.
 type UpdateFindingRequest struct {
 
 	// The OCID of the security assessment.

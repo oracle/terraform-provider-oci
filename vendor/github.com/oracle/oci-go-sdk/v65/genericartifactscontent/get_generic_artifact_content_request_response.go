@@ -16,14 +16,14 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContent.go.html to see an example of how to use GetGenericArtifactContentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContent.go.html to see an example of how to use GetGenericArtifactContentRequest.
 type GetGenericArtifactContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
 	// Example: `ocid1.genericartifact.oc1..exampleuniqueID`
 	ArtifactId *string `mandatory:"true" contributesTo:"path" name:"artifactId"`
 
-	// Unique Oracle-assigned request ID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm)
+	// Unique Oracle-assigned request ID (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm)
 	// Example: `bxxxxxxx-fxxx-4xxx-9xxx-bxxxxxxxxxxx`
 	// If you contact Oracle about a request, provide this request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

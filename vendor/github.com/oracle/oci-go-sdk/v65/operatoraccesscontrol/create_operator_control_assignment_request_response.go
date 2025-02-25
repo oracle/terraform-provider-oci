@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControlAssignment.go.html to see an example of how to use CreateOperatorControlAssignmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControlAssignment.go.html to see an example of how to use CreateOperatorControlAssignmentRequest.
 type CreateOperatorControlAssignmentRequest struct {
 
 	// Details of the Operator Control Assignment.

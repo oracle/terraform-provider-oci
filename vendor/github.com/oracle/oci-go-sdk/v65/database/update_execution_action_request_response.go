@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExecutionAction.go.html to see an example of how to use UpdateExecutionActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExecutionAction.go.html to see an example of how to use UpdateExecutionActionRequest.
 type UpdateExecutionActionRequest struct {
 
-	// The execution action OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution action OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionActionId *string `mandatory:"true" contributesTo:"path" name:"executionActionId"`
 
 	// Request to update the properties of a execution action.
@@ -83,7 +83,7 @@ type UpdateExecutionActionResponse struct {
 	// The ExecutionAction instance
 	ExecutionAction `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

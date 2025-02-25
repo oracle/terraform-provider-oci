@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateOnPremiseVantagePoint.go.html to see an example of how to use UpdateOnPremiseVantagePointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateOnPremiseVantagePoint.go.html to see an example of how to use UpdateOnPremiseVantagePointRequest.
 type UpdateOnPremiseVantagePointRequest struct {
 
 	// The APM domain ID the request is intended for.

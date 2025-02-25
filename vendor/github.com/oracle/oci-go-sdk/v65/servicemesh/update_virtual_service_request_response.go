@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualService.go.html to see an example of how to use UpdateVirtualServiceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualService.go.html to see an example of how to use UpdateVirtualServiceRequest.
 type UpdateVirtualServiceRequest struct {
 
 	// Unique VirtualService identifier.

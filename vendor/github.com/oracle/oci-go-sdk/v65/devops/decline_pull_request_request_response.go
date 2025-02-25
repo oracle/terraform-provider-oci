@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeclinePullRequest.go.html to see an example of how to use DeclinePullRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeclinePullRequest.go.html to see an example of how to use DeclinePullRequestRequest.
 type DeclinePullRequestRequest struct {
 
 	// unique PullRequest identifier

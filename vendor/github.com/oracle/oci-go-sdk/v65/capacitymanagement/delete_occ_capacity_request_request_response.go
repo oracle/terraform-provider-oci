@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCapacityRequest.go.html to see an example of how to use DeleteOccCapacityRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCapacityRequest.go.html to see an example of how to use DeleteOccCapacityRequestRequest.
 type DeleteOccCapacityRequestRequest struct {
 
 	// The OCID of the capacity request.

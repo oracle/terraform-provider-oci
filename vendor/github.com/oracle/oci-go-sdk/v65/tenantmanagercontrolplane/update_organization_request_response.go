@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateOrganization.go.html to see an example of how to use UpdateOrganizationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateOrganization.go.html to see an example of how to use UpdateOrganizationRequest.
 type UpdateOrganizationRequest struct {
 
 	// OCID of the organization.

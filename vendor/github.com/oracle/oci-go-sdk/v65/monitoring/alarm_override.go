@@ -7,7 +7,7 @@
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
-// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
+// the Monitoring documentation (https://docs.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -43,7 +43,7 @@ type AlarmOverride struct {
 	Severity AlarmSeverityEnum `mandatory:"false" json:"severity,omitempty"`
 
 	// The human-readable content of the delivered alarm notification.
-	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// Optionally include dynamic variables (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
 	// Oracle recommends providing guidance
 	// to operators for resolving the alarm condition. Consider adding links to standard runbook
 	// practices. Avoid entering confidential information.
@@ -61,14 +61,14 @@ type AlarmOverride struct {
 	// interval values are supported for smaller time ranges. You can optionally
 	// specify dimensions and grouping functions.
 	// Also, you can customize the
-	// absence detection period (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm).
+	// absence detection period (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm).
 	// Supported grouping functions: `grouping()`, `groupBy()`.
 	// For information about writing MQL expressions, see
-	// Editing the MQL Expression for a Query (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm).
+	// Editing the MQL Expression for a Query (https://docs.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm).
 	// For details about MQL, see
-	// Monitoring Query Language (MQL) Reference (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
+	// Monitoring Query Language (MQL) Reference (https://docs.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
 	// For available dimensions, review the metric definition for the supported service. See
-	// Supported Services (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
+	// Supported Services (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
 	// Example of threshold alarm:
 	//   -----
 	//     CpuUtilization[1m]{availabilityDomain="cumS:PHX-AD-1"}.groupBy(availabilityDomain).percentile(0.9) > 85

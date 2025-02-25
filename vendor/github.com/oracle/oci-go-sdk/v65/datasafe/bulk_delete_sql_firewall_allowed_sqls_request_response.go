@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkDeleteSqlFirewallAllowedSqls.go.html to see an example of how to use BulkDeleteSqlFirewallAllowedSqlsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkDeleteSqlFirewallAllowedSqls.go.html to see an example of how to use BulkDeleteSqlFirewallAllowedSqlsRequest.
 type BulkDeleteSqlFirewallAllowedSqlsRequest struct {
 
 	// Details of the allowed sql to be deleted from the SQL firewall policy.

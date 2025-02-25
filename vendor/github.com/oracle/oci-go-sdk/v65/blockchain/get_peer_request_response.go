@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/GetPeer.go.html to see an example of how to use GetPeerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/GetPeer.go.html to see an example of how to use GetPeerRequest.
 type GetPeerRequest struct {
 
 	// Unique service identifier.

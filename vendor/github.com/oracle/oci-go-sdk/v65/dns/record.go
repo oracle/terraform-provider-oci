@@ -5,7 +5,7 @@
 // DNS API
 //
 // API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
-// For more information, see Overview of the DNS Service (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// For more information, see Overview of the DNS Service (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -17,7 +17,7 @@ import (
 )
 
 // Record A DNS resource record. For more information, see
-// Supported DNS Resource Record Types (https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm).
+// Supported DNS Resource Record Types (https://docs.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm).
 type Record struct {
 
 	// The fully qualified domain name where the record can be located.
@@ -33,7 +33,7 @@ type Record struct {
 	// The record's data, as whitespace-delimited tokens in
 	// type-specific presentation format. All RDATA is normalized and the
 	// returned presentation of your RDATA may differ from its initial input.
-	// For more information about RDATA, see Supported DNS Resource Record Types (https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)
+	// For more information about RDATA, see Supported DNS Resource Record Types (https://docs.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)
 	Rdata *string `mandatory:"false" json:"rdata"`
 
 	// The latest version of the record's zone in which its RRSet differs

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeAddressListCompartment.go.html to see an example of how to use ChangeAddressListCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeAddressListCompartment.go.html to see an example of how to use ChangeAddressListCompartmentRequest.
 type ChangeAddressListCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the address list. This number is generated when the address list is added to the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the address list. This number is generated when the address list is added to the compartment.
 	AddressListId *string `mandatory:"true" contributesTo:"path" name:"addressListId"`
 
 	ChangeAddressListCompartmentDetails `contributesTo:"body"`

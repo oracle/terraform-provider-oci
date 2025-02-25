@@ -59,7 +59,7 @@ func (m *pausedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PauseDetails: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for PauseDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

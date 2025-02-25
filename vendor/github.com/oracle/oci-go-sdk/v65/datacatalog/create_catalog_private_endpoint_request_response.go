@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCatalogPrivateEndpoint.go.html to see an example of how to use CreateCatalogPrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCatalogPrivateEndpoint.go.html to see an example of how to use CreateCatalogPrivateEndpointRequest.
 type CreateCatalogPrivateEndpointRequest struct {
 
 	// The information used to create the private reverse connection.
@@ -83,7 +83,7 @@ type CreateCatalogPrivateEndpointResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID of the asynchronous request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest) with this OCID to track the status of the asynchronous request.
+	// The OCID of the asynchronous request. Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest) with this OCID to track the status of the asynchronous request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCycle.go.html to see an example of how to use DeleteFsuCycleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCycle.go.html to see an example of how to use DeleteFsuCycleRequest.
 type DeleteFsuCycleRequest struct {
 
 	// Unique Exadata Fleet Update Cycle identifier.

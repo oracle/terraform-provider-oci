@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CopyObject.go.html to see an example of how to use CopyObjectRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CopyObject.go.html to see an example of how to use CopyObjectRequest.
 type CopyObjectRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -32,36 +32,36 @@ type CopyObjectRequest struct {
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
 	// The optional header that specifies "AES256" as the encryption algorithm. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerAlgorithm *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-algorithm"`
 
 	// The optional header that specifies the base64-encoded 256-bit encryption key to use to encrypt or
 	// decrypt the data. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKey *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key"`
 
 	// The optional header that specifies the base64-encoded SHA256 hash of the encryption key. This
 	// value is used to check the integrity of the encryption key. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
 	// The optional header that specifies "AES256" as the encryption algorithm to use to decrypt the source
 	// object. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSourceSseCustomerAlgorithm *string `mandatory:"false" contributesTo:"header" name:"opc-source-sse-customer-algorithm"`
 
 	// The optional header that specifies the base64-encoded 256-bit encryption key to use to decrypt
 	// the source object. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSourceSseCustomerKey *string `mandatory:"false" contributesTo:"header" name:"opc-source-sse-customer-key"`
 
 	// The optional header that specifies the base64-encoded SHA256 hash of the encryption key used to
 	// decrypt the source object. This value is used to check the integrity of the encryption key. For
 	// more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSourceSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-source-sse-customer-key-sha256"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
 	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	OpcSseKmsKeyId *string `mandatory:"false" contributesTo:"header" name:"opc-sse-kms-key-id"`
 

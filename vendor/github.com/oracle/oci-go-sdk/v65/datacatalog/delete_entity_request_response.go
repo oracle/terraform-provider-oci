@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteEntity.go.html to see an example of how to use DeleteEntityRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteEntity.go.html to see an example of how to use DeleteEntityRequest.
 type DeleteEntityRequest struct {
 
 	// Unique catalog identifier.

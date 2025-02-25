@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystemsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystemsRequest.
 type ListFileSystemsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The name of the availability domain.
@@ -29,14 +29,14 @@ type ListFileSystemsRequest struct {
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 4096 is the maximum.
 	// For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `500`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response
 	// header from the previous "List" call.
 	// For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -47,17 +47,17 @@ type ListFileSystemsRequest struct {
 	// state for the resource type.
 	LifecycleState ListFileSystemsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
+	// Filter results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
 	// the resouce type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See Cloning a File System (https://docs.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	SourceSnapshotId *string `mandatory:"false" contributesTo:"query" name:"sourceSnapshotId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See Cloning a File System (https://docs.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	ParentFileSystemId *string `mandatory:"false" contributesTo:"query" name:"parentFileSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system snapshot policy
 	// that is associated with the file systems.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" contributesTo:"query" name:"filesystemSnapshotPolicyId"`
 
@@ -139,7 +139,7 @@ type ListFileSystemsResponse struct {
 	// For list pagination. When this header appears in the response,
 	// additional pages of results remain.
 	// For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If

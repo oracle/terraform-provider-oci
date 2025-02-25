@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDrgRouteRules.go.html to see an example of how to use UpdateDrgRouteRulesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDrgRouteRules.go.html to see an example of how to use UpdateDrgRouteRulesRequest.
 type UpdateDrgRouteRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
 
 	// Request to update one or more route rules in the DRG route table.

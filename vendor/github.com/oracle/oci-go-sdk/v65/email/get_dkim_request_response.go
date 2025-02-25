@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetDkim.go.html to see an example of how to use GetDkimRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetDkim.go.html to see an example of how to use GetDkimRequest.
 type GetDkimRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DKIM.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DKIM.
 	DkimId *string `mandatory:"true" contributesTo:"path" name:"dkimId"`
 
 	// The request ID for tracing from the system

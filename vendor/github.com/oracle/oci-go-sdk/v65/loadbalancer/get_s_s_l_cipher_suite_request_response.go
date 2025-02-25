@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetSSLCipherSuite.go.html to see an example of how to use GetSSLCipherSuiteRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetSSLCipherSuite.go.html to see an example of how to use GetSSLCipherSuiteRequest.
 type GetSSLCipherSuiteRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the SSL cipher suite to retrieve.

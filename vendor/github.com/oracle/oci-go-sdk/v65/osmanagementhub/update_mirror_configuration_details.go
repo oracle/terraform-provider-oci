@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -30,6 +30,9 @@ type UpdateMirrorConfigurationDetails struct {
 
 	// Path to the SSL cerfificate.
 	Sslcert *string `mandatory:"false" json:"sslcert"`
+
+	// When enabled, the SSL certificate is verified whenever an instance installs or updates a package from a software source that is mirrored on the management station.
+	IsSslverifyEnabled *bool `mandatory:"false" json:"isSslverifyEnabled"`
 }
 
 func (m UpdateMirrorConfigurationDetails) String() string {

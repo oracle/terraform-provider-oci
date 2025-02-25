@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateReplica.go.html to see an example of how to use UpdateReplicaRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateReplica.go.html to see an example of how to use UpdateReplicaRequest.
 type UpdateReplicaRequest struct {
 
-	// The Replica OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Replica OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ReplicaId *string `mandatory:"true" contributesTo:"path" name:"replicaId"`
 
 	// The parameters of the request to update the read replica.

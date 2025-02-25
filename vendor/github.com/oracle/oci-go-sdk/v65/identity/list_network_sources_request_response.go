@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListNetworkSources.go.html to see an example of how to use ListNetworkSourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListNetworkSources.go.html to see an example of how to use ListNetworkSourcesRequest.
 type ListNetworkSourcesRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).

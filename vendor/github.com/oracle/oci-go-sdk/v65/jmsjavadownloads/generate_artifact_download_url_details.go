@@ -21,7 +21,7 @@ type GenerateArtifactDownloadUrlDetails struct {
 	// Unique identifier for the Java runtime artifact.
 	ArtifactId *int64 `mandatory:"true" json:"artifactId"`
 
-	// The tenancy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the user initiating the download.
+	// The tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user initiating the download.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

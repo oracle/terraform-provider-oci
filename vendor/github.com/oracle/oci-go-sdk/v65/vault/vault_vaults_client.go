@@ -4,7 +4,7 @@
 
 // Vault Secret Management API
 //
-// Use the Secret Management API to manage secrets and secret versions. For more information, see Managing Secrets (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingsecrets.htm).
+// Use the Secret Management API to manage secrets and secret versions. For more information, see Managing Secrets (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingsecrets.htm).
 //
 
 package vault
@@ -97,7 +97,7 @@ func (client *VaultsClient) ConfigurationProvider() *common.ConfigurationProvide
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretDeletion.go.html to see an example of how to use CancelSecretDeletion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretDeletion.go.html to see an example of how to use CancelSecretDeletion API.
 func (client VaultsClient) CancelSecretDeletion(ctx context.Context, request CancelSecretDeletionRequest) (response CancelSecretDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -156,7 +156,7 @@ func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretRotation.go.html to see an example of how to use CancelSecretRotation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretRotation.go.html to see an example of how to use CancelSecretRotation API.
 // A default retry strategy applies to this operation CancelSecretRotation()
 func (client VaultsClient) CancelSecretRotation(ctx context.Context, request CancelSecretRotationRequest) (response CancelSecretRotationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -214,7 +214,7 @@ func (client VaultsClient) cancelSecretRotation(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretVersionDeletion.go.html to see an example of how to use CancelSecretVersionDeletion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretVersionDeletion.go.html to see an example of how to use CancelSecretVersionDeletion API.
 func (client VaultsClient) CancelSecretVersionDeletion(ctx context.Context, request CancelSecretVersionDeletionRequest) (response CancelSecretVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -268,12 +268,12 @@ func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, requ
 }
 
 // ChangeSecretCompartment Moves a secret into a different compartment within the same tenancy. For information about
-// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the secret.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ChangeSecretCompartment.go.html to see an example of how to use ChangeSecretCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ChangeSecretCompartment.go.html to see an example of how to use ChangeSecretCompartment API.
 func (client VaultsClient) ChangeSecretCompartment(ctx context.Context, request ChangeSecretCompartmentRequest) (response ChangeSecretCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -336,7 +336,7 @@ func (client VaultsClient) changeSecretCompartment(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CreateSecret.go.html to see an example of how to use CreateSecret API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CreateSecret.go.html to see an example of how to use CreateSecret API.
 // A default retry strategy applies to this operation CreateSecret()
 func (client VaultsClient) CreateSecret(ctx context.Context, request CreateSecretRequest) (response CreateSecretResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -399,7 +399,7 @@ func (client VaultsClient) createSecret(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecret.go.html to see an example of how to use GetSecret API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecret.go.html to see an example of how to use GetSecret API.
 // A default retry strategy applies to this operation GetSecret()
 func (client VaultsClient) GetSecret(ctx context.Context, request GetSecretRequest) (response GetSecretResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -457,7 +457,7 @@ func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecretVersion.go.html to see an example of how to use GetSecretVersion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecretVersion.go.html to see an example of how to use GetSecretVersion API.
 // A default retry strategy applies to this operation GetSecretVersion()
 func (client VaultsClient) GetSecretVersion(ctx context.Context, request GetSecretVersionRequest) (response GetSecretVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -515,7 +515,7 @@ func (client VaultsClient) getSecretVersion(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecretVersions.go.html to see an example of how to use ListSecretVersions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecretVersions.go.html to see an example of how to use ListSecretVersions API.
 // A default retry strategy applies to this operation ListSecretVersions()
 func (client VaultsClient) ListSecretVersions(ctx context.Context, request ListSecretVersionsRequest) (response ListSecretVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -573,7 +573,7 @@ func (client VaultsClient) listSecretVersions(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecrets.go.html to see an example of how to use ListSecrets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecrets.go.html to see an example of how to use ListSecrets API.
 // A default retry strategy applies to this operation ListSecrets()
 func (client VaultsClient) ListSecrets(ctx context.Context, request ListSecretsRequest) (response ListSecretsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -631,7 +631,7 @@ func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/RotateSecret.go.html to see an example of how to use RotateSecret API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/RotateSecret.go.html to see an example of how to use RotateSecret API.
 // A default retry strategy applies to this operation RotateSecret()
 func (client VaultsClient) RotateSecret(ctx context.Context, request RotateSecretRequest) (response RotateSecretResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -695,7 +695,7 @@ func (client VaultsClient) rotateSecret(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretDeletion.go.html to see an example of how to use ScheduleSecretDeletion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretDeletion.go.html to see an example of how to use ScheduleSecretDeletion API.
 func (client VaultsClient) ScheduleSecretDeletion(ctx context.Context, request ScheduleSecretDeletionRequest) (response ScheduleSecretDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -753,7 +753,7 @@ func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretVersionDeletion.go.html to see an example of how to use ScheduleSecretVersionDeletion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretVersionDeletion.go.html to see an example of how to use ScheduleSecretVersionDeletion API.
 func (client VaultsClient) ScheduleSecretVersionDeletion(ctx context.Context, request ScheduleSecretVersionDeletionRequest) (response ScheduleSecretVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -814,7 +814,7 @@ func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/UpdateSecret.go.html to see an example of how to use UpdateSecret API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/UpdateSecret.go.html to see an example of how to use UpdateSecret API.
 func (client VaultsClient) UpdateSecret(ctx context.Context, request UpdateSecretRequest) (response UpdateSecretResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

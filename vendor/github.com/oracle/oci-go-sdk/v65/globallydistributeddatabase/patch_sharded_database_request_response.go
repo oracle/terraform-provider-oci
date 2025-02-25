@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/PatchShardedDatabase.go.html to see an example of how to use PatchShardedDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/PatchShardedDatabase.go.html to see an example of how to use PatchShardedDatabaseRequest.
 type PatchShardedDatabaseRequest struct {
 
 	// Sharded Database identifier

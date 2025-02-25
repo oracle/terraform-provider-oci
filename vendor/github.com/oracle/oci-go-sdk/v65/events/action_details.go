@@ -5,7 +5,7 @@
 // Events API
 //
 // API for the Events Service. Use this API to manage rules and actions that create automation
-// in your tenancy. For more information, see Overview of Events (https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm).
+// in your tenancy. For more information, see Overview of Events (https://docs.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm).
 //
 
 package events
@@ -76,7 +76,7 @@ func (m *actiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ActionDetails: %s.", m.ActionType)
+		common.Logf("Received unsupported enum value for ActionDetails: %s.", m.ActionType)
 		return *m, nil
 	}
 }

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/CreatePathAnalyzerTest.go.html to see an example of how to use CreatePathAnalyzerTestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/CreatePathAnalyzerTest.go.html to see an example of how to use CreatePathAnalyzerTestRequest.
 type CreatePathAnalyzerTestRequest struct {
 
 	// Details for creating a new PathAnalyzerTest.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCloudGateMapping.go.html to see an example of how to use PatchCloudGateMappingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCloudGateMapping.go.html to see an example of how to use PatchCloudGateMappingRequest.
 type PatchCloudGateMappingRequest struct {
 
 	// ID of the resource

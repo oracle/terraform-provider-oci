@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateVideoJob.go.html to see an example of how to use CreateVideoJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateVideoJob.go.html to see an example of how to use CreateVideoJobRequest.
 type CreateVideoJobRequest struct {
 
 	// Details about the video analysis.

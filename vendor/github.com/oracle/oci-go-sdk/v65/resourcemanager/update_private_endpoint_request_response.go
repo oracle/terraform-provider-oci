@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpointRequest.
 type UpdatePrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Update details for a private endpoint.

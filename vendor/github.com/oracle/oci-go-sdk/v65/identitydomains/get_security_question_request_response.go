@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSecurityQuestion.go.html to see an example of how to use GetSecurityQuestionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSecurityQuestion.go.html to see an example of how to use GetSecurityQuestionRequest.
 type GetSecurityQuestionRequest struct {
 
 	// ID of the resource

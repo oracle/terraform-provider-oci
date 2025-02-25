@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,10 +19,10 @@ import (
 // LifecycleEnvironment Defines the lifecycle environment, including the associated versioned software sources, lifecycle stages, and managed instances.
 type LifecycleEnvironment struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the lifecycle environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the lifecycle environment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The user-friendly name for the lifecycle environment.
@@ -49,7 +49,7 @@ type LifecycleEnvironment struct {
 	// User-specified information about the lifecycle environment.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) assigned to the lifecycle stage.
+	// List of managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) assigned to the lifecycle stage.
 	ManagedInstanceIds []ManagedInstanceDetails `mandatory:"false" json:"managedInstanceIds"`
 
 	// The location of managed instances attached to the lifecycle environment.
@@ -59,12 +59,12 @@ type LifecycleEnvironment struct {
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 

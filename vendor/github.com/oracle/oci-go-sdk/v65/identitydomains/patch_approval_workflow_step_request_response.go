@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApprovalWorkflowStep.go.html to see an example of how to use PatchApprovalWorkflowStepRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApprovalWorkflowStep.go.html to see an example of how to use PatchApprovalWorkflowStepRequest.
 type PatchApprovalWorkflowStepRequest struct {
 
 	// ID of the resource

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAuditLogReport.go.html to see an example of how to use GetAuditLogReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAuditLogReport.go.html to see an example of how to use GetAuditLogReportRequest.
 type GetAuditLogReportRequest struct {
 
 	// unique AccessRequest identifier

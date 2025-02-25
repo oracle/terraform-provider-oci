@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/LikePullRequestComment.go.html to see an example of how to use LikePullRequestCommentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/LikePullRequestComment.go.html to see an example of how to use LikePullRequestCommentRequest.
 type LikePullRequestCommentRequest struct {
 
 	// unique PullRequest identifier

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaReleases.go.html to see an example of how to use ListJavaReleasesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaReleases.go.html to see an example of how to use ListJavaReleasesRequest.
 type ListJavaReleasesRequest struct {
 
 	// Unique Java release version identifier
@@ -120,7 +120,7 @@ type ListJavaReleasesResponse struct {
 
 	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveReplicationLock.go.html to see an example of how to use RemoveReplicationLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveReplicationLock.go.html to see an example of how to use RemoveReplicationLockRequest.
 type RemoveReplicationLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	ReplicationId *string `mandatory:"true" contributesTo:"path" name:"replicationId"`
 
 	// The details to be updated for the RemoveLock.

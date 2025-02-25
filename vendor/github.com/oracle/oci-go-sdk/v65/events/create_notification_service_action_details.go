@@ -5,7 +5,7 @@
 // Events API
 //
 // API for the Events Service. Use this API to manage rules and actions that create automation
-// in your tenancy. For more information, see Overview of Events (https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm).
+// in your tenancy. For more information, see Overview of Events (https://docs.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm).
 //
 
 package events
@@ -28,7 +28,7 @@ type CreateNotificationServiceActionDetails struct {
 	// confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to which messages are delivered.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to which messages are delivered.
 	TopicId *string `mandatory:"false" json:"topicId"`
 }
 

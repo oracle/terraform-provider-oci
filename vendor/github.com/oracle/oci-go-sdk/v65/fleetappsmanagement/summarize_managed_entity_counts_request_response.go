@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeManagedEntityCounts.go.html to see an example of how to use SummarizeManagedEntityCountsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeManagedEntityCounts.go.html to see an example of how to use SummarizeManagedEntityCountsRequest.
 type SummarizeManagedEntityCountsRequest struct {
 
 	// The ID of the compartment in which to list resources.

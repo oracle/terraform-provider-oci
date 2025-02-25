@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateNewsReport.go.html to see an example of how to use CreateNewsReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateNewsReport.go.html to see an example of how to use CreateNewsReportRequest.
 type CreateNewsReportRequest struct {
 
 	// Details for the news report that will be created in Ops Insights.

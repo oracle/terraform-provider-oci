@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -21,7 +21,7 @@ import (
 // DatabaseNamedCredentialDetails User provides a named credential OCID, which will be used to retrieve the password to connect to the database.
 type DatabaseNamedCredentialDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential
 	// where the database password metadata is stored.
 	NamedCredentialId *string `mandatory:"true" json:"namedCredentialId"`
 }

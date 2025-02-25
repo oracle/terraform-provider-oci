@@ -15,14 +15,14 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ListCccUpgradeSchedules.go.html to see an example of how to use ListCccUpgradeSchedulesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ListCccUpgradeSchedules.go.html to see an example of how to use ListCccUpgradeSchedulesRequest.
 type ListCccUpgradeSchedulesRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CccUpgradeScheduleId *string `mandatory:"false" contributesTo:"query" name:"cccUpgradeScheduleId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to
 	// list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -59,7 +59,7 @@ type ListCccUpgradeSchedulesRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListCccUpgradeSchedulesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -15,16 +15,16 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestDatabaseConfiguration.go.html to see an example of how to use IngestDatabaseConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestDatabaseConfiguration.go.html to see an example of how to use IngestDatabaseConfigurationRequest.
 type IngestDatabaseConfigurationRequest struct {
 
 	// Payload for one or more database configuration metrics for a particular database.
 	IngestDatabaseConfigurationDetails `contributesTo:"body"`
 
-	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
+	// Optional OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
 	DatabaseId *string `mandatory:"false" contributesTo:"query" name:"databaseId"`
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

@@ -5,7 +5,7 @@
 // DNS API
 //
 // API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
-// For more information, see Overview of the DNS Service (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// For more information, see Overview of the DNS Service (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -23,7 +23,7 @@ import (
 // A rule may optionally include a sequence of cases, each with an optional `caseCondition`
 // expression. Cases allow a sequence of conditions to be defined that will apply different
 // parameters to the rule when the conditions are met. For more information about cases,
-// see Traffic Management API Guide (https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
+// see Traffic Management API Guide (https://docs.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
 //
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type SteeringPolicyRule interface {
@@ -85,7 +85,7 @@ func (m *steeringpolicyrule) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SteeringPolicyRule: %s.", m.RuleType)
+		common.Logf("Received unsupported enum value for SteeringPolicyRule: %s.", m.RuleType)
 		return *m, nil
 	}
 }

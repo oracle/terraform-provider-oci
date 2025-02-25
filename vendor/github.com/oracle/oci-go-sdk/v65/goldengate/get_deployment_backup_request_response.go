@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentBackup.go.html to see an example of how to use GetDeploymentBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentBackup.go.html to see an example of how to use GetDeploymentBackupRequest.
 type GetDeploymentBackupRequest struct {
 
 	// A unique DeploymentBackup identifier.

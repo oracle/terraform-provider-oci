@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExistsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExistsRequest.
 type DeploymentWalletExistsRequest struct {
 
 	// A unique Deployment identifier.

@@ -95,7 +95,7 @@ func (client *ManagementClient) ConfigurationProvider() *common.ConfigurationPro
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/BulkCreateSkillEntities.go.html to see an example of how to use BulkCreateSkillEntities API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/BulkCreateSkillEntities.go.html to see an example of how to use BulkCreateSkillEntities API.
 // A default retry strategy applies to this operation BulkCreateSkillEntities()
 func (client ManagementClient) BulkCreateSkillEntities(ctx context.Context, request BulkCreateSkillEntitiesRequest) (response BulkCreateSkillEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client ManagementClient) bulkCreateSkillEntities(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CascadingDeleteSkillCustomEntities.go.html to see an example of how to use CascadingDeleteSkillCustomEntities API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CascadingDeleteSkillCustomEntities.go.html to see an example of how to use CascadingDeleteSkillCustomEntities API.
 // A default retry strategy applies to this operation CascadingDeleteSkillCustomEntities()
 func (client ManagementClient) CascadingDeleteSkillCustomEntities(ctx context.Context, request CascadingDeleteSkillCustomEntitiesRequest) (response CascadingDeleteSkillCustomEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -224,7 +224,7 @@ func (client ManagementClient) cascadingDeleteSkillCustomEntities(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ChangeOdaPrivateEndpointCompartment.go.html to see an example of how to use ChangeOdaPrivateEndpointCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ChangeOdaPrivateEndpointCompartment.go.html to see an example of how to use ChangeOdaPrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeOdaPrivateEndpointCompartment()
 func (client ManagementClient) ChangeOdaPrivateEndpointCompartment(ctx context.Context, request ChangeOdaPrivateEndpointCompartmentRequest) (response ChangeOdaPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -287,7 +287,7 @@ func (client ManagementClient) changeOdaPrivateEndpointCompartment(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ConfigureDigitalAssistantParameters.go.html to see an example of how to use ConfigureDigitalAssistantParameters API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ConfigureDigitalAssistantParameters.go.html to see an example of how to use ConfigureDigitalAssistantParameters API.
 // A default retry strategy applies to this operation ConfigureDigitalAssistantParameters()
 func (client ManagementClient) ConfigureDigitalAssistantParameters(ctx context.Context, request ConfigureDigitalAssistantParametersRequest) (response ConfigureDigitalAssistantParametersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -345,7 +345,7 @@ func (client ManagementClient) configureDigitalAssistantParameters(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateAuthenticationProvider.go.html to see an example of how to use CreateAuthenticationProvider API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateAuthenticationProvider.go.html to see an example of how to use CreateAuthenticationProvider API.
 // A default retry strategy applies to this operation CreateAuthenticationProvider()
 func (client ManagementClient) CreateAuthenticationProvider(ctx context.Context, request CreateAuthenticationProviderRequest) (response CreateAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -408,7 +408,7 @@ func (client ManagementClient) createAuthenticationProvider(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateChannel.go.html to see an example of how to use CreateChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateChannel.go.html to see an example of how to use CreateChannel API.
 // A default retry strategy applies to this operation CreateChannel()
 func (client ManagementClient) CreateChannel(ctx context.Context, request CreateChannelRequest) (response CreateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -471,7 +471,7 @@ func (client ManagementClient) createChannel(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateDigitalAssistant.go.html to see an example of how to use CreateDigitalAssistant API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateDigitalAssistant.go.html to see an example of how to use CreateDigitalAssistant API.
 // A default retry strategy applies to this operation CreateDigitalAssistant()
 func (client ManagementClient) CreateDigitalAssistant(ctx context.Context, request CreateDigitalAssistantRequest) (response CreateDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -536,7 +536,7 @@ func (client ManagementClient) createDigitalAssistant(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpoint.go.html to see an example of how to use CreateOdaPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpoint.go.html to see an example of how to use CreateOdaPrivateEndpoint API.
 // A default retry strategy applies to this operation CreateOdaPrivateEndpoint()
 func (client ManagementClient) CreateOdaPrivateEndpoint(ctx context.Context, request CreateOdaPrivateEndpointRequest) (response CreateOdaPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -601,7 +601,7 @@ func (client ManagementClient) createOdaPrivateEndpoint(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpointAttachment.go.html to see an example of how to use CreateOdaPrivateEndpointAttachment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpointAttachment.go.html to see an example of how to use CreateOdaPrivateEndpointAttachment API.
 // A default retry strategy applies to this operation CreateOdaPrivateEndpointAttachment()
 func (client ManagementClient) CreateOdaPrivateEndpointAttachment(ctx context.Context, request CreateOdaPrivateEndpointAttachmentRequest) (response CreateOdaPrivateEndpointAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -666,7 +666,7 @@ func (client ManagementClient) createOdaPrivateEndpointAttachment(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpointScanProxy.go.html to see an example of how to use CreateOdaPrivateEndpointScanProxy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpointScanProxy.go.html to see an example of how to use CreateOdaPrivateEndpointScanProxy API.
 // A default retry strategy applies to this operation CreateOdaPrivateEndpointScanProxy()
 func (client ManagementClient) CreateOdaPrivateEndpointScanProxy(ctx context.Context, request CreateOdaPrivateEndpointScanProxyRequest) (response CreateOdaPrivateEndpointScanProxyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -729,7 +729,7 @@ func (client ManagementClient) createOdaPrivateEndpointScanProxy(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkill.go.html to see an example of how to use CreateSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkill.go.html to see an example of how to use CreateSkill API.
 // A default retry strategy applies to this operation CreateSkill()
 func (client ManagementClient) CreateSkill(ctx context.Context, request CreateSkillRequest) (response CreateSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -792,7 +792,7 @@ func (client ManagementClient) createSkill(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkillParameter.go.html to see an example of how to use CreateSkillParameter API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkillParameter.go.html to see an example of how to use CreateSkillParameter API.
 // A default retry strategy applies to this operation CreateSkillParameter()
 func (client ManagementClient) CreateSkillParameter(ctx context.Context, request CreateSkillParameterRequest) (response CreateSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -855,7 +855,7 @@ func (client ManagementClient) createSkillParameter(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateTranslator.go.html to see an example of how to use CreateTranslator API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateTranslator.go.html to see an example of how to use CreateTranslator API.
 // A default retry strategy applies to this operation CreateTranslator()
 func (client ManagementClient) CreateTranslator(ctx context.Context, request CreateTranslatorRequest) (response CreateTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -918,7 +918,7 @@ func (client ManagementClient) createTranslator(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteAuthenticationProvider.go.html to see an example of how to use DeleteAuthenticationProvider API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteAuthenticationProvider.go.html to see an example of how to use DeleteAuthenticationProvider API.
 // A default retry strategy applies to this operation DeleteAuthenticationProvider()
 func (client ManagementClient) DeleteAuthenticationProvider(ctx context.Context, request DeleteAuthenticationProviderRequest) (response DeleteAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -976,7 +976,7 @@ func (client ManagementClient) deleteAuthenticationProvider(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteChannel.go.html to see an example of how to use DeleteChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteChannel.go.html to see an example of how to use DeleteChannel API.
 // A default retry strategy applies to this operation DeleteChannel()
 func (client ManagementClient) DeleteChannel(ctx context.Context, request DeleteChannelRequest) (response DeleteChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1034,7 +1034,7 @@ func (client ManagementClient) deleteChannel(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteDigitalAssistant.go.html to see an example of how to use DeleteDigitalAssistant API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteDigitalAssistant.go.html to see an example of how to use DeleteDigitalAssistant API.
 // A default retry strategy applies to this operation DeleteDigitalAssistant()
 func (client ManagementClient) DeleteDigitalAssistant(ctx context.Context, request DeleteDigitalAssistantRequest) (response DeleteDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1093,7 +1093,7 @@ func (client ManagementClient) deleteDigitalAssistant(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpoint.go.html to see an example of how to use DeleteOdaPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpoint.go.html to see an example of how to use DeleteOdaPrivateEndpoint API.
 // A default retry strategy applies to this operation DeleteOdaPrivateEndpoint()
 func (client ManagementClient) DeleteOdaPrivateEndpoint(ctx context.Context, request DeleteOdaPrivateEndpointRequest) (response DeleteOdaPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1152,7 +1152,7 @@ func (client ManagementClient) deleteOdaPrivateEndpoint(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointAttachment.go.html to see an example of how to use DeleteOdaPrivateEndpointAttachment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointAttachment.go.html to see an example of how to use DeleteOdaPrivateEndpointAttachment API.
 // A default retry strategy applies to this operation DeleteOdaPrivateEndpointAttachment()
 func (client ManagementClient) DeleteOdaPrivateEndpointAttachment(ctx context.Context, request DeleteOdaPrivateEndpointAttachmentRequest) (response DeleteOdaPrivateEndpointAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1211,7 +1211,7 @@ func (client ManagementClient) deleteOdaPrivateEndpointAttachment(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointScanProxy.go.html to see an example of how to use DeleteOdaPrivateEndpointScanProxy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointScanProxy.go.html to see an example of how to use DeleteOdaPrivateEndpointScanProxy API.
 // A default retry strategy applies to this operation DeleteOdaPrivateEndpointScanProxy()
 func (client ManagementClient) DeleteOdaPrivateEndpointScanProxy(ctx context.Context, request DeleteOdaPrivateEndpointScanProxyRequest) (response DeleteOdaPrivateEndpointScanProxyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1269,7 +1269,7 @@ func (client ManagementClient) deleteOdaPrivateEndpointScanProxy(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteSkill.go.html to see an example of how to use DeleteSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteSkill.go.html to see an example of how to use DeleteSkill API.
 // A default retry strategy applies to this operation DeleteSkill()
 func (client ManagementClient) DeleteSkill(ctx context.Context, request DeleteSkillRequest) (response DeleteSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1327,7 +1327,7 @@ func (client ManagementClient) deleteSkill(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteSkillParameter.go.html to see an example of how to use DeleteSkillParameter API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteSkillParameter.go.html to see an example of how to use DeleteSkillParameter API.
 // A default retry strategy applies to this operation DeleteSkillParameter()
 func (client ManagementClient) DeleteSkillParameter(ctx context.Context, request DeleteSkillParameterRequest) (response DeleteSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1385,7 +1385,7 @@ func (client ManagementClient) deleteSkillParameter(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteTranslator.go.html to see an example of how to use DeleteTranslator API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteTranslator.go.html to see an example of how to use DeleteTranslator API.
 // A default retry strategy applies to this operation DeleteTranslator()
 func (client ManagementClient) DeleteTranslator(ctx context.Context, request DeleteTranslatorRequest) (response DeleteTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1443,7 +1443,7 @@ func (client ManagementClient) deleteTranslator(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportDigitalAssistant.go.html to see an example of how to use ExportDigitalAssistant API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportDigitalAssistant.go.html to see an example of how to use ExportDigitalAssistant API.
 // A default retry strategy applies to this operation ExportDigitalAssistant()
 func (client ManagementClient) ExportDigitalAssistant(ctx context.Context, request ExportDigitalAssistantRequest) (response ExportDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1501,7 +1501,7 @@ func (client ManagementClient) exportDigitalAssistant(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportSkill.go.html to see an example of how to use ExportSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportSkill.go.html to see an example of how to use ExportSkill API.
 // A default retry strategy applies to this operation ExportSkill()
 func (client ManagementClient) ExportSkill(ctx context.Context, request ExportSkillRequest) (response ExportSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1559,7 +1559,7 @@ func (client ManagementClient) exportSkill(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetAuthenticationProvider.go.html to see an example of how to use GetAuthenticationProvider API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetAuthenticationProvider.go.html to see an example of how to use GetAuthenticationProvider API.
 // A default retry strategy applies to this operation GetAuthenticationProvider()
 func (client ManagementClient) GetAuthenticationProvider(ctx context.Context, request GetAuthenticationProviderRequest) (response GetAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1617,7 +1617,7 @@ func (client ManagementClient) getAuthenticationProvider(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetChannel.go.html to see an example of how to use GetChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetChannel.go.html to see an example of how to use GetChannel API.
 // A default retry strategy applies to this operation GetChannel()
 func (client ManagementClient) GetChannel(ctx context.Context, request GetChannelRequest) (response GetChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1675,7 +1675,7 @@ func (client ManagementClient) getChannel(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetDigitalAssistant.go.html to see an example of how to use GetDigitalAssistant API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetDigitalAssistant.go.html to see an example of how to use GetDigitalAssistant API.
 // A default retry strategy applies to this operation GetDigitalAssistant()
 func (client ManagementClient) GetDigitalAssistant(ctx context.Context, request GetDigitalAssistantRequest) (response GetDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1733,7 +1733,7 @@ func (client ManagementClient) getDigitalAssistant(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetDigitalAssistantParameter.go.html to see an example of how to use GetDigitalAssistantParameter API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetDigitalAssistantParameter.go.html to see an example of how to use GetDigitalAssistantParameter API.
 // A default retry strategy applies to this operation GetDigitalAssistantParameter()
 func (client ManagementClient) GetDigitalAssistantParameter(ctx context.Context, request GetDigitalAssistantParameterRequest) (response GetDigitalAssistantParameterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1791,7 +1791,7 @@ func (client ManagementClient) getDigitalAssistantParameter(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpoint.go.html to see an example of how to use GetOdaPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpoint.go.html to see an example of how to use GetOdaPrivateEndpoint API.
 // A default retry strategy applies to this operation GetOdaPrivateEndpoint()
 func (client ManagementClient) GetOdaPrivateEndpoint(ctx context.Context, request GetOdaPrivateEndpointRequest) (response GetOdaPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1849,7 +1849,7 @@ func (client ManagementClient) getOdaPrivateEndpoint(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpointAttachment.go.html to see an example of how to use GetOdaPrivateEndpointAttachment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpointAttachment.go.html to see an example of how to use GetOdaPrivateEndpointAttachment API.
 // A default retry strategy applies to this operation GetOdaPrivateEndpointAttachment()
 func (client ManagementClient) GetOdaPrivateEndpointAttachment(ctx context.Context, request GetOdaPrivateEndpointAttachmentRequest) (response GetOdaPrivateEndpointAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1907,7 +1907,7 @@ func (client ManagementClient) getOdaPrivateEndpointAttachment(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpointScanProxy.go.html to see an example of how to use GetOdaPrivateEndpointScanProxy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpointScanProxy.go.html to see an example of how to use GetOdaPrivateEndpointScanProxy API.
 // A default retry strategy applies to this operation GetOdaPrivateEndpointScanProxy()
 func (client ManagementClient) GetOdaPrivateEndpointScanProxy(ctx context.Context, request GetOdaPrivateEndpointScanProxyRequest) (response GetOdaPrivateEndpointScanProxyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1965,7 +1965,7 @@ func (client ManagementClient) getOdaPrivateEndpointScanProxy(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetSkill.go.html to see an example of how to use GetSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetSkill.go.html to see an example of how to use GetSkill API.
 // A default retry strategy applies to this operation GetSkill()
 func (client ManagementClient) GetSkill(ctx context.Context, request GetSkillRequest) (response GetSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2023,7 +2023,7 @@ func (client ManagementClient) getSkill(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetSkillParameter.go.html to see an example of how to use GetSkillParameter API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetSkillParameter.go.html to see an example of how to use GetSkillParameter API.
 // A default retry strategy applies to this operation GetSkillParameter()
 func (client ManagementClient) GetSkillParameter(ctx context.Context, request GetSkillParameterRequest) (response GetSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2081,7 +2081,7 @@ func (client ManagementClient) getSkillParameter(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetTranslator.go.html to see an example of how to use GetTranslator API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetTranslator.go.html to see an example of how to use GetTranslator API.
 // A default retry strategy applies to this operation GetTranslator()
 func (client ManagementClient) GetTranslator(ctx context.Context, request GetTranslatorRequest) (response GetTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2139,7 +2139,7 @@ func (client ManagementClient) getTranslator(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ImportBot.go.html to see an example of how to use ImportBot API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ImportBot.go.html to see an example of how to use ImportBot API.
 // A default retry strategy applies to this operation ImportBot()
 func (client ManagementClient) ImportBot(ctx context.Context, request ImportBotRequest) (response ImportBotResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2205,7 +2205,7 @@ func (client ManagementClient) importBot(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListAuthenticationProviders.go.html to see an example of how to use ListAuthenticationProviders API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListAuthenticationProviders.go.html to see an example of how to use ListAuthenticationProviders API.
 // A default retry strategy applies to this operation ListAuthenticationProviders()
 func (client ManagementClient) ListAuthenticationProviders(ctx context.Context, request ListAuthenticationProvidersRequest) (response ListAuthenticationProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2266,7 +2266,7 @@ func (client ManagementClient) listAuthenticationProviders(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListChannels.go.html to see an example of how to use ListChannels API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListChannels.go.html to see an example of how to use ListChannels API.
 // A default retry strategy applies to this operation ListChannels()
 func (client ManagementClient) ListChannels(ctx context.Context, request ListChannelsRequest) (response ListChannelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2327,7 +2327,7 @@ func (client ManagementClient) listChannels(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListDigitalAssistantParameters.go.html to see an example of how to use ListDigitalAssistantParameters API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListDigitalAssistantParameters.go.html to see an example of how to use ListDigitalAssistantParameters API.
 // A default retry strategy applies to this operation ListDigitalAssistantParameters()
 func (client ManagementClient) ListDigitalAssistantParameters(ctx context.Context, request ListDigitalAssistantParametersRequest) (response ListDigitalAssistantParametersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2388,7 +2388,7 @@ func (client ManagementClient) listDigitalAssistantParameters(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListDigitalAssistants.go.html to see an example of how to use ListDigitalAssistants API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListDigitalAssistants.go.html to see an example of how to use ListDigitalAssistants API.
 // A default retry strategy applies to this operation ListDigitalAssistants()
 func (client ManagementClient) ListDigitalAssistants(ctx context.Context, request ListDigitalAssistantsRequest) (response ListDigitalAssistantsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2449,7 +2449,7 @@ func (client ManagementClient) listDigitalAssistants(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointAttachments.go.html to see an example of how to use ListOdaPrivateEndpointAttachments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointAttachments.go.html to see an example of how to use ListOdaPrivateEndpointAttachments API.
 // A default retry strategy applies to this operation ListOdaPrivateEndpointAttachments()
 func (client ManagementClient) ListOdaPrivateEndpointAttachments(ctx context.Context, request ListOdaPrivateEndpointAttachmentsRequest) (response ListOdaPrivateEndpointAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2511,7 +2511,7 @@ func (client ManagementClient) listOdaPrivateEndpointAttachments(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointScanProxies.go.html to see an example of how to use ListOdaPrivateEndpointScanProxies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointScanProxies.go.html to see an example of how to use ListOdaPrivateEndpointScanProxies API.
 // A default retry strategy applies to this operation ListOdaPrivateEndpointScanProxies()
 func (client ManagementClient) ListOdaPrivateEndpointScanProxies(ctx context.Context, request ListOdaPrivateEndpointScanProxiesRequest) (response ListOdaPrivateEndpointScanProxiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2573,7 +2573,7 @@ func (client ManagementClient) listOdaPrivateEndpointScanProxies(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpoints.go.html to see an example of how to use ListOdaPrivateEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpoints.go.html to see an example of how to use ListOdaPrivateEndpoints API.
 // A default retry strategy applies to this operation ListOdaPrivateEndpoints()
 func (client ManagementClient) ListOdaPrivateEndpoints(ctx context.Context, request ListOdaPrivateEndpointsRequest) (response ListOdaPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2634,7 +2634,7 @@ func (client ManagementClient) listOdaPrivateEndpoints(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListSkillParameters.go.html to see an example of how to use ListSkillParameters API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListSkillParameters.go.html to see an example of how to use ListSkillParameters API.
 // A default retry strategy applies to this operation ListSkillParameters()
 func (client ManagementClient) ListSkillParameters(ctx context.Context, request ListSkillParametersRequest) (response ListSkillParametersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2695,7 +2695,7 @@ func (client ManagementClient) listSkillParameters(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListSkills.go.html to see an example of how to use ListSkills API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListSkills.go.html to see an example of how to use ListSkills API.
 // A default retry strategy applies to this operation ListSkills()
 func (client ManagementClient) ListSkills(ctx context.Context, request ListSkillsRequest) (response ListSkillsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2756,7 +2756,7 @@ func (client ManagementClient) listSkills(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListTranslators.go.html to see an example of how to use ListTranslators API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListTranslators.go.html to see an example of how to use ListTranslators API.
 // A default retry strategy applies to this operation ListTranslators()
 func (client ManagementClient) ListTranslators(ctx context.Context, request ListTranslatorsRequest) (response ListTranslatorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2815,7 +2815,7 @@ func (client ManagementClient) listTranslators(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/PublishDigitalAssistant.go.html to see an example of how to use PublishDigitalAssistant API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/PublishDigitalAssistant.go.html to see an example of how to use PublishDigitalAssistant API.
 // A default retry strategy applies to this operation PublishDigitalAssistant()
 func (client ManagementClient) PublishDigitalAssistant(ctx context.Context, request PublishDigitalAssistantRequest) (response PublishDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2874,7 +2874,7 @@ func (client ManagementClient) publishDigitalAssistant(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/PublishSkill.go.html to see an example of how to use PublishSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/PublishSkill.go.html to see an example of how to use PublishSkill API.
 // A default retry strategy applies to this operation PublishSkill()
 func (client ManagementClient) PublishSkill(ctx context.Context, request PublishSkillRequest) (response PublishSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2934,7 +2934,7 @@ func (client ManagementClient) publishSkill(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/RotateChannelKeys.go.html to see an example of how to use RotateChannelKeys API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/RotateChannelKeys.go.html to see an example of how to use RotateChannelKeys API.
 // A default retry strategy applies to this operation RotateChannelKeys()
 func (client ManagementClient) RotateChannelKeys(ctx context.Context, request RotateChannelKeysRequest) (response RotateChannelKeysResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2992,7 +2992,7 @@ func (client ManagementClient) rotateChannelKeys(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StartChannel.go.html to see an example of how to use StartChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StartChannel.go.html to see an example of how to use StartChannel API.
 // A default retry strategy applies to this operation StartChannel()
 func (client ManagementClient) StartChannel(ctx context.Context, request StartChannelRequest) (response StartChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3050,7 +3050,7 @@ func (client ManagementClient) startChannel(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopChannel.go.html to see an example of how to use StopChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopChannel.go.html to see an example of how to use StopChannel API.
 // A default retry strategy applies to this operation StopChannel()
 func (client ManagementClient) StopChannel(ctx context.Context, request StopChannelRequest) (response StopChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3108,7 +3108,7 @@ func (client ManagementClient) stopChannel(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/TrainSkill.go.html to see an example of how to use TrainSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/TrainSkill.go.html to see an example of how to use TrainSkill API.
 // A default retry strategy applies to this operation TrainSkill()
 func (client ManagementClient) TrainSkill(ctx context.Context, request TrainSkillRequest) (response TrainSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3171,7 +3171,7 @@ func (client ManagementClient) trainSkill(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateAuthenticationProvider.go.html to see an example of how to use UpdateAuthenticationProvider API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateAuthenticationProvider.go.html to see an example of how to use UpdateAuthenticationProvider API.
 // A default retry strategy applies to this operation UpdateAuthenticationProvider()
 func (client ManagementClient) UpdateAuthenticationProvider(ctx context.Context, request UpdateAuthenticationProviderRequest) (response UpdateAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3229,7 +3229,7 @@ func (client ManagementClient) updateAuthenticationProvider(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateChannel.go.html to see an example of how to use UpdateChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateChannel.go.html to see an example of how to use UpdateChannel API.
 // A default retry strategy applies to this operation UpdateChannel()
 func (client ManagementClient) UpdateChannel(ctx context.Context, request UpdateChannelRequest) (response UpdateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3287,7 +3287,7 @@ func (client ManagementClient) updateChannel(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateDigitalAssistant.go.html to see an example of how to use UpdateDigitalAssistant API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateDigitalAssistant.go.html to see an example of how to use UpdateDigitalAssistant API.
 // A default retry strategy applies to this operation UpdateDigitalAssistant()
 func (client ManagementClient) UpdateDigitalAssistant(ctx context.Context, request UpdateDigitalAssistantRequest) (response UpdateDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3345,7 +3345,7 @@ func (client ManagementClient) updateDigitalAssistant(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateDigitalAssistantParameter.go.html to see an example of how to use UpdateDigitalAssistantParameter API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateDigitalAssistantParameter.go.html to see an example of how to use UpdateDigitalAssistantParameter API.
 // A default retry strategy applies to this operation UpdateDigitalAssistantParameter()
 func (client ManagementClient) UpdateDigitalAssistantParameter(ctx context.Context, request UpdateDigitalAssistantParameterRequest) (response UpdateDigitalAssistantParameterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3403,7 +3403,7 @@ func (client ManagementClient) updateDigitalAssistantParameter(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaPrivateEndpoint.go.html to see an example of how to use UpdateOdaPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaPrivateEndpoint.go.html to see an example of how to use UpdateOdaPrivateEndpoint API.
 // A default retry strategy applies to this operation UpdateOdaPrivateEndpoint()
 func (client ManagementClient) UpdateOdaPrivateEndpoint(ctx context.Context, request UpdateOdaPrivateEndpointRequest) (response UpdateOdaPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3461,7 +3461,7 @@ func (client ManagementClient) updateOdaPrivateEndpoint(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateSkill.go.html to see an example of how to use UpdateSkill API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateSkill.go.html to see an example of how to use UpdateSkill API.
 // A default retry strategy applies to this operation UpdateSkill()
 func (client ManagementClient) UpdateSkill(ctx context.Context, request UpdateSkillRequest) (response UpdateSkillResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3519,7 +3519,7 @@ func (client ManagementClient) updateSkill(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateSkillParameter.go.html to see an example of how to use UpdateSkillParameter API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateSkillParameter.go.html to see an example of how to use UpdateSkillParameter API.
 // A default retry strategy applies to this operation UpdateSkillParameter()
 func (client ManagementClient) UpdateSkillParameter(ctx context.Context, request UpdateSkillParameterRequest) (response UpdateSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3577,7 +3577,7 @@ func (client ManagementClient) updateSkillParameter(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateTranslator.go.html to see an example of how to use UpdateTranslator API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateTranslator.go.html to see an example of how to use UpdateTranslator API.
 // A default retry strategy applies to this operation UpdateTranslator()
 func (client ManagementClient) UpdateTranslator(ctx context.Context, request UpdateTranslatorRequest) (response UpdateTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse

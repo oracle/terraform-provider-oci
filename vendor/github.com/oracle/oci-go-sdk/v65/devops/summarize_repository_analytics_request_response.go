@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/SummarizeRepositoryAnalytics.go.html to see an example of how to use SummarizeRepositoryAnalyticsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/SummarizeRepositoryAnalytics.go.html to see an example of how to use SummarizeRepositoryAnalyticsRequest.
 type SummarizeRepositoryAnalyticsRequest struct {
 
 	// Unique repository identifier.

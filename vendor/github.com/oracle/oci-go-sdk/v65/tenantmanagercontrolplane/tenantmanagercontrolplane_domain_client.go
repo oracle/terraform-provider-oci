@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -95,7 +95,7 @@ func (client *DomainClient) ConfigurationProvider() *common.ConfigurationProvide
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomain.go.html to see an example of how to use CreateDomain API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomain.go.html to see an example of how to use CreateDomain API.
 func (client DomainClient) CreateDomain(ctx context.Context, request CreateDomainRequest) (response CreateDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client DomainClient) createDomain(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteDomain.go.html to see an example of how to use DeleteDomain API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteDomain.go.html to see an example of how to use DeleteDomain API.
 func (client DomainClient) DeleteDomain(ctx context.Context, request DeleteDomainRequest) (response DeleteDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client DomainClient) deleteDomain(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetDomain.go.html to see an example of how to use GetDomain API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetDomain.go.html to see an example of how to use GetDomain API.
 func (client DomainClient) GetDomain(ctx context.Context, request GetDomainRequest) (response GetDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -271,7 +271,7 @@ func (client DomainClient) getDomain(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListDomains.go.html to see an example of how to use ListDomains API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListDomains.go.html to see an example of how to use ListDomains API.
 func (client DomainClient) ListDomains(ctx context.Context, request ListDomainsRequest) (response ListDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -328,7 +328,7 @@ func (client DomainClient) listDomains(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateDomain.go.html to see an example of how to use UpdateDomain API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateDomain.go.html to see an example of how to use UpdateDomain API.
 func (client DomainClient) UpdateDomain(ctx context.Context, request UpdateDomainRequest) (response UpdateDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

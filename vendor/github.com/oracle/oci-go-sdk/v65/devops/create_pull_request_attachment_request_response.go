@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreatePullRequestAttachment.go.html to see an example of how to use CreatePullRequestAttachmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreatePullRequestAttachment.go.html to see an example of how to use CreatePullRequestAttachmentRequest.
 type CreatePullRequestAttachmentRequest struct {
 
 	// unique PullRequest identifier

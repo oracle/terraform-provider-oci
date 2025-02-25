@@ -96,7 +96,7 @@ func (client *ServiceManagerProxyClient) ConfigurationProvider() *common.Configu
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/GetServiceEnvironment.go.html to see an example of how to use GetServiceEnvironment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/GetServiceEnvironment.go.html to see an example of how to use GetServiceEnvironment API.
 func (client ServiceManagerProxyClient) GetServiceEnvironment(ctx context.Context, request GetServiceEnvironmentRequest) (response GetServiceEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -154,7 +154,7 @@ func (client ServiceManagerProxyClient) getServiceEnvironment(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/ListServiceEnvironments.go.html to see an example of how to use ListServiceEnvironments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/ListServiceEnvironments.go.html to see an example of how to use ListServiceEnvironments API.
 func (client ServiceManagerProxyClient) ListServiceEnvironments(ctx context.Context, request ListServiceEnvironmentsRequest) (response ListServiceEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

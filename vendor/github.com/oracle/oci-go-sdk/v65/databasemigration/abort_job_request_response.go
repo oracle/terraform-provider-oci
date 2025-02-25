@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/AbortJob.go.html to see an example of how to use AbortJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/AbortJob.go.html to see an example of how to use AbortJobRequest.
 type AbortJobRequest struct {
 
 	// The OCID of the job

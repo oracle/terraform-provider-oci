@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateJmsPlugin.go.html to see an example of how to use UpdateJmsPluginRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateJmsPlugin.go.html to see an example of how to use UpdateJmsPluginRequest.
 type UpdateJmsPluginRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the JmsPlugin.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the JmsPlugin.
 	JmsPluginId *string `mandatory:"true" contributesTo:"path" name:"jmsPluginId"`
 
 	// The new details for the JmsPlugin.

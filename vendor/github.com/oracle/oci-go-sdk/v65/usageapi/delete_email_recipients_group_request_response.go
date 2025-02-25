@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteEmailRecipientsGroup.go.html to see an example of how to use DeleteEmailRecipientsGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteEmailRecipientsGroup.go.html to see an example of how to use DeleteEmailRecipientsGroupRequest.
 type DeleteEmailRecipientsGroupRequest struct {
 
 	// The email recipient group OCID.

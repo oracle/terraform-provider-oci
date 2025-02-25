@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// RedisCluster An OCI Cache cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// RedisCluster An OCI Cache cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 type RedisCluster struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
@@ -48,7 +48,7 @@ type RedisCluster struct {
 	// The OCI Cache engine version that the cluster is running.
 	SoftwareVersion RedisClusterSoftwareVersionEnum `mandatory:"true" json:"softwareVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	NodeCollection *NodeCollection `mandatory:"true" json:"nodeCollection"`
@@ -71,9 +71,9 @@ type RedisCluster struct {
 	// The number of shards in a sharded cluster. Only applicable when clusterMode is SHARDED.
 	ShardCount *int `mandatory:"false" json:"shardCount"`
 
-	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// A list of Network Security Group (NSG) OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// associated with this cluster. For more information,
-	// see Using an NSG for Clusters (https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
+	// see Using an NSG for Clusters (https://docs.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -177,18 +177,21 @@ type RedisClusterSoftwareVersionEnum string
 
 // Set of constants representing the allowable values for RedisClusterSoftwareVersionEnum
 const (
-	RedisClusterSoftwareVersionV705    RedisClusterSoftwareVersionEnum = "V7_0_5"
-	RedisClusterSoftwareVersionRedis70 RedisClusterSoftwareVersionEnum = "REDIS_7_0"
+	RedisClusterSoftwareVersionV705     RedisClusterSoftwareVersionEnum = "V7_0_5"
+	RedisClusterSoftwareVersionRedis70  RedisClusterSoftwareVersionEnum = "REDIS_7_0"
+	RedisClusterSoftwareVersionValkey72 RedisClusterSoftwareVersionEnum = "VALKEY_7_2"
 )
 
 var mappingRedisClusterSoftwareVersionEnum = map[string]RedisClusterSoftwareVersionEnum{
-	"V7_0_5":    RedisClusterSoftwareVersionV705,
-	"REDIS_7_0": RedisClusterSoftwareVersionRedis70,
+	"V7_0_5":     RedisClusterSoftwareVersionV705,
+	"REDIS_7_0":  RedisClusterSoftwareVersionRedis70,
+	"VALKEY_7_2": RedisClusterSoftwareVersionValkey72,
 }
 
 var mappingRedisClusterSoftwareVersionEnumLowerCase = map[string]RedisClusterSoftwareVersionEnum{
-	"v7_0_5":    RedisClusterSoftwareVersionV705,
-	"redis_7_0": RedisClusterSoftwareVersionRedis70,
+	"v7_0_5":     RedisClusterSoftwareVersionV705,
+	"redis_7_0":  RedisClusterSoftwareVersionRedis70,
+	"valkey_7_2": RedisClusterSoftwareVersionValkey72,
 }
 
 // GetRedisClusterSoftwareVersionEnumValues Enumerates the set of values for RedisClusterSoftwareVersionEnum
@@ -205,6 +208,7 @@ func GetRedisClusterSoftwareVersionEnumStringValues() []string {
 	return []string{
 		"V7_0_5",
 		"REDIS_7_0",
+		"VALKEY_7_2",
 	}
 }
 

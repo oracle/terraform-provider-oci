@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RefreshConfidentialApplication.go.html to see an example of how to use RefreshConfidentialApplicationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RefreshConfidentialApplication.go.html to see an example of how to use RefreshConfidentialApplicationRequest.
 type RefreshConfidentialApplicationRequest struct {
 
 	// The OCID of the cluster.

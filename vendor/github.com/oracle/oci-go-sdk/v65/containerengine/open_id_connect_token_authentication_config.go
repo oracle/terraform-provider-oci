@@ -6,7 +6,7 @@
 //
 // API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
 // and manage cloud-native applications. For more information, see
-// Overview of Kubernetes Engine (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
+// Overview of Kubernetes Engine (https://docs.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
 package containerengine
@@ -58,6 +58,9 @@ type OpenIdConnectTokenAuthenticationConfig struct {
 
 	// The signing algorithms accepted. Default is ["RS256"].
 	SigningAlgorithms []string `mandatory:"false" json:"signingAlgorithms"`
+
+	// A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info here (https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration)
+	ConfigurationFile *string `mandatory:"false" json:"configurationFile"`
 }
 
 func (m OpenIdConnectTokenAuthenticationConfig) String() string {

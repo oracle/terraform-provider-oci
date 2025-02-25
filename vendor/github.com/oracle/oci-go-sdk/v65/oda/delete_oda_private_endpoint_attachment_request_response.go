@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointAttachment.go.html to see an example of how to use DeleteOdaPrivateEndpointAttachmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointAttachment.go.html to see an example of how to use DeleteOdaPrivateEndpointAttachmentRequest.
 type DeleteOdaPrivateEndpointAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.
 	OdaPrivateEndpointAttachmentId *string `mandatory:"true" contributesTo:"path" name:"odaPrivateEndpointAttachmentId"`
 
 	// For optimistic concurrency control in a PUT or DELETE call for

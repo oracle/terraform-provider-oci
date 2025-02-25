@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutPasswordPolicy.go.html to see an example of how to use PutPasswordPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutPasswordPolicy.go.html to see an example of how to use PutPasswordPolicyRequest.
 type PutPasswordPolicyRequest struct {
 
 	// ID of the resource

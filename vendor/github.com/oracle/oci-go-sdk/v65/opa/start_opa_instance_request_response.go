@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StartOpaInstance.go.html to see an example of how to use StartOpaInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StartOpaInstance.go.html to see an example of how to use StartOpaInstanceRequest.
 type StartOpaInstanceRequest struct {
 
 	// unique OpaInstance identifier

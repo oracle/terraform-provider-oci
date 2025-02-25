@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDetectAnomalyJob.go.html to see an example of how to use DeleteDetectAnomalyJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDetectAnomalyJob.go.html to see an example of how to use DeleteDetectAnomalyJobRequest.
 type DeleteDetectAnomalyJobRequest struct {
 
 	// Unique asynchronous job identifier.

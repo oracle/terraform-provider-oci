@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlFirewallPolicy.go.html to see an example of how to use DeleteSqlFirewallPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlFirewallPolicy.go.html to see an example of how to use DeleteSqlFirewallPolicyRequest.
 type DeleteSqlFirewallPolicyRequest struct {
 
 	// The OCID of the SQL Firewall policy resource.

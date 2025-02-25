@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailSequences.go.html to see an example of how to use ListTrailSequencesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailSequences.go.html to see an example of how to use ListTrailSequencesRequest.
 type ListTrailSequencesRequest struct {
 
 	// A unique Deployment identifier.

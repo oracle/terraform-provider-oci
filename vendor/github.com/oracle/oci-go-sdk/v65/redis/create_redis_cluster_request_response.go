@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/CreateRedisCluster.go.html to see an example of how to use CreateRedisClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/CreateRedisCluster.go.html to see an example of how to use CreateRedisClusterRequest.
 type CreateRedisClusterRequest struct {
 
 	// Details for the new cluster.

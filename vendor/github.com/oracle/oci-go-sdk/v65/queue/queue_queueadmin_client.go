@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -95,7 +95,7 @@ func (client *QueueAdminClient) ConfigurationProvider() *common.ConfigurationPro
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ChangeQueueCompartment.go.html to see an example of how to use ChangeQueueCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ChangeQueueCompartment.go.html to see an example of how to use ChangeQueueCompartment API.
 // A default retry strategy applies to this operation ChangeQueueCompartment()
 func (client QueueAdminClient) ChangeQueueCompartment(ctx context.Context, request ChangeQueueCompartmentRequest) (response ChangeQueueCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client QueueAdminClient) changeQueueCompartment(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/CreateQueue.go.html to see an example of how to use CreateQueue API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/CreateQueue.go.html to see an example of how to use CreateQueue API.
 // A default retry strategy applies to this operation CreateQueue()
 func (client QueueAdminClient) CreateQueue(ctx context.Context, request CreateQueueRequest) (response CreateQueueResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -216,7 +216,7 @@ func (client QueueAdminClient) createQueue(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteQueue.go.html to see an example of how to use DeleteQueue API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteQueue.go.html to see an example of how to use DeleteQueue API.
 // A default retry strategy applies to this operation DeleteQueue()
 func (client QueueAdminClient) DeleteQueue(ctx context.Context, request DeleteQueueRequest) (response DeleteQueueResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -274,7 +274,7 @@ func (client QueueAdminClient) deleteQueue(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetQueue.go.html to see an example of how to use GetQueue API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetQueue.go.html to see an example of how to use GetQueue API.
 // A default retry strategy applies to this operation GetQueue()
 func (client QueueAdminClient) GetQueue(ctx context.Context, request GetQueueRequest) (response GetQueueResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -332,7 +332,7 @@ func (client QueueAdminClient) getQueue(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client QueueAdminClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -390,7 +390,7 @@ func (client QueueAdminClient) getWorkRequest(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListQueues.go.html to see an example of how to use ListQueues API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListQueues.go.html to see an example of how to use ListQueues API.
 // A default retry strategy applies to this operation ListQueues()
 func (client QueueAdminClient) ListQueues(ctx context.Context, request ListQueuesRequest) (response ListQueuesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -448,7 +448,7 @@ func (client QueueAdminClient) listQueues(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client QueueAdminClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -506,7 +506,7 @@ func (client QueueAdminClient) listWorkRequestErrors(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client QueueAdminClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -564,7 +564,7 @@ func (client QueueAdminClient) listWorkRequestLogs(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client QueueAdminClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -624,7 +624,7 @@ func (client QueueAdminClient) listWorkRequests(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/PurgeQueue.go.html to see an example of how to use PurgeQueue API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/PurgeQueue.go.html to see an example of how to use PurgeQueue API.
 // A default retry strategy applies to this operation PurgeQueue()
 func (client QueueAdminClient) PurgeQueue(ctx context.Context, request PurgeQueueRequest) (response PurgeQueueResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -682,7 +682,7 @@ func (client QueueAdminClient) purgeQueue(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/UpdateQueue.go.html to see an example of how to use UpdateQueue API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/UpdateQueue.go.html to see an example of how to use UpdateQueue API.
 // A default retry strategy applies to this operation UpdateQueue()
 func (client QueueAdminClient) UpdateQueue(ctx context.Context, request UpdateQueueRequest) (response UpdateQueueResponse, err error) {
 	var ociResponse common.OCIResponse

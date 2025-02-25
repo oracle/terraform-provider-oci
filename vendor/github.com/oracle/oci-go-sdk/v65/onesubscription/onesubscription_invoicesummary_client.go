@@ -95,7 +95,7 @@ func (client *InvoiceSummaryClient) ConfigurationProvider() *common.Configuratio
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoicelineComputedUsages.go.html to see an example of how to use ListInvoicelineComputedUsages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoicelineComputedUsages.go.html to see an example of how to use ListInvoicelineComputedUsages API.
 func (client InvoiceSummaryClient) ListInvoicelineComputedUsages(ctx context.Context, request ListInvoicelineComputedUsagesRequest) (response ListInvoicelineComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,7 +152,7 @@ func (client InvoiceSummaryClient) listInvoicelineComputedUsages(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoices.go.html to see an example of how to use ListInvoices API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoices.go.html to see an example of how to use ListInvoices API.
 func (client InvoiceSummaryClient) ListInvoices(ctx context.Context, request ListInvoicesRequest) (response ListInvoicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

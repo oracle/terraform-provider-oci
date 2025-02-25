@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,7 +19,7 @@ import (
 // CreateVcnDetails The representation of CreateVcnDetails
 type CreateVcnDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the VCN.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// **Deprecated.** Do *not* set this value. Use `cidrBlocks` instead.
@@ -65,7 +65,7 @@ type CreateVcnDetails struct {
 	// resolve other instances in the VCN. Otherwise the Internet and VCN Resolver
 	// will not work.
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `vcn1`
 	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
 
@@ -76,7 +76,7 @@ type CreateVcnDetails struct {
 	// Whether IPv6 is enabled for the VCN. Default is `false`.
 	// If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block.
 	// You may skip having Oracle allocate the VCN a IPv6 /56 CIDR block by setting isOracleGuaAllocationEnabled to `false`.
-	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `true`
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
 }

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuJob.go.html to see an example of how to use DeleteFsuJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuJob.go.html to see an example of how to use DeleteFsuJobRequest.
 type DeleteFsuJobRequest struct {
 
 	// The OCID of the Exadata Fleet Update Job.

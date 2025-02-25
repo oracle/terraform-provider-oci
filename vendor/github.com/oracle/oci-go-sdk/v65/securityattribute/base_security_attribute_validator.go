@@ -4,7 +4,7 @@
 
 // Security Attribute API
 //
-// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
+// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 //
 
 package securityattribute
@@ -18,13 +18,13 @@ import (
 
 // BaseSecurityAttributeValidator Validates a security attribute value. Each validator performs validation steps in addition to the standard
 // validation for security attribute values. For more information, see
-// Limits on Security Attributes (https://docs.cloud.oracle.com/Content/zero-trust-packet-routing/overview.htm).
+// Limits on Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm).
 // If you define a validator after a value has been set for a security attribute, then any updates that
 // attempt to change the value must pass the additional validation defined by the current rule.
 // Previously set values (even those that would fail the current validation) are not updated. You can
 // still update other attributes to resources that contain a non-valid security attribute.
 // To clear the validator call UpdateSecurityAttribute with
-// DefaultSecuirtyAttributeValidator (https://docs.cloud.oracle.com/api/#/en/securityattribute/latest/datatypes/DefaultTagDefinitionValidator).
+// DefaultSecuirtyAttributeValidator (https://docs.oracle.com/iaas/api/#/en/securityattribute/latest/datatypes/DefaultTagDefinitionValidator).
 type BaseSecurityAttributeValidator interface {
 }
 
@@ -67,7 +67,7 @@ func (m *basesecurityattributevalidator) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BaseSecurityAttributeValidator: %s.", m.ValidatorType)
+		common.Logf("Received unsupported enum value for BaseSecurityAttributeValidator: %s.", m.ValidatorType)
 		return *m, nil
 	}
 }

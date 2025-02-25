@@ -27,7 +27,7 @@ type CreateModelDetails struct {
 
 	TrainingDataset Dataset `mandatory:"true" json:"trainingDataset"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// A human-friendly name for the model, which can be changed.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ConfigureOutboundCluster.go.html to see an example of how to use ConfigureOutboundClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ConfigureOutboundCluster.go.html to see an example of how to use ConfigureOutboundClusterRequest.
 type ConfigureOutboundClusterRequest struct {
 
 	// unique OpensearchCluster identifier

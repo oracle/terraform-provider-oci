@@ -96,7 +96,7 @@ func (client *RatecardClient) ConfigurationProvider() *common.ConfigurationProvi
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListRateCards.go.html to see an example of how to use ListRateCards API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListRateCards.go.html to see an example of how to use ListRateCards API.
 func (client RatecardClient) ListRateCards(ctx context.Context, request ListRateCardsRequest) (response ListRateCardsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListComplianceRecords.go.html to see an example of how to use ListComplianceRecordsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListComplianceRecords.go.html to see an example of how to use ListComplianceRecordsRequest.
 type ListComplianceRecordsRequest struct {
 
 	// The ID of the compartment in which to list resources.

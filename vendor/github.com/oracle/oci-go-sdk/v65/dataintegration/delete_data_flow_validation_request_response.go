@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataFlowValidation.go.html to see an example of how to use DeleteDataFlowValidationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataFlowValidation.go.html to see an example of how to use DeleteDataFlowValidationRequest.
 type DeleteDataFlowValidationRequest struct {
 
 	// The workspace ID.

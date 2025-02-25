@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationActionDownloadLogo.go.html to see an example of how to use GetPrivateApplicationActionDownloadLogoRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationActionDownloadLogo.go.html to see an example of how to use GetPrivateApplicationActionDownloadLogoRequest.
 type GetPrivateApplicationActionDownloadLogoRequest struct {
 
 	// The unique identifier for the private application.

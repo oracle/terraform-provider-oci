@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use DisableAutonomousDatabaseInsightAdvancedFeaturesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use DisableAutonomousDatabaseInsightAdvancedFeaturesRequest.
 type DisableAutonomousDatabaseInsightAdvancedFeaturesRequest struct {
 
 	// Unique database insight identifier

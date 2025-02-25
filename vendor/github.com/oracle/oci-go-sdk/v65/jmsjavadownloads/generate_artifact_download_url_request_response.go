@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GenerateArtifactDownloadUrl.go.html to see an example of how to use GenerateArtifactDownloadUrlRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GenerateArtifactDownloadUrl.go.html to see an example of how to use GenerateArtifactDownloadUrlRequest.
 type GenerateArtifactDownloadUrlRequest struct {
 
 	// Details for generating download URL for a Java artifact.

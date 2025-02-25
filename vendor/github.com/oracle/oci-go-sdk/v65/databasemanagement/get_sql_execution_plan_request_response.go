@@ -15,16 +15,16 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlExecutionPlan.go.html to see an example of how to use GetSqlExecutionPlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlExecutionPlan.go.html to see an example of how to use GetSqlExecutionPlanRequest.
 type GetSqlExecutionPlanRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The SQL tuning task identifier. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The SQL tuning task identifier. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SqlTuningAdvisorTaskId *int64 `mandatory:"true" contributesTo:"path" name:"sqlTuningAdvisorTaskId"`
 
-	// The SQL object ID for the SQL tuning task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The SQL object ID for the SQL tuning task. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SqlObjectId *int64 `mandatory:"true" contributesTo:"query" name:"sqlObjectId"`
 
 	// The attribute of the SQL execution plan.

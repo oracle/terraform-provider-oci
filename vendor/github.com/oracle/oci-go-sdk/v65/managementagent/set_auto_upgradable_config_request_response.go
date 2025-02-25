@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SetAutoUpgradableConfig.go.html to see an example of how to use SetAutoUpgradableConfigRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SetAutoUpgradableConfig.go.html to see an example of how to use SetAutoUpgradableConfigRequest.
 type SetAutoUpgradableConfigRequest struct {
 
 	// Details of the AutoUpgradable configuration for agents of the tenancy.

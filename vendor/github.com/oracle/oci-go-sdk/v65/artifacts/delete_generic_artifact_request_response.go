@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteGenericArtifact.go.html to see an example of how to use DeleteGenericArtifactRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteGenericArtifact.go.html to see an example of how to use DeleteGenericArtifactRequest.
 type DeleteGenericArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
 	// Example: `ocid1.genericartifact.oc1..exampleuniqueID`
 	ArtifactId *string `mandatory:"true" contributesTo:"path" name:"artifactId"`
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteDiscoveryJob.go.html to see an example of how to use DeleteDiscoveryJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteDiscoveryJob.go.html to see an example of how to use DeleteDiscoveryJobRequest.
 type DeleteDiscoveryJobRequest struct {
 
 	// The OCID of the discovery job.

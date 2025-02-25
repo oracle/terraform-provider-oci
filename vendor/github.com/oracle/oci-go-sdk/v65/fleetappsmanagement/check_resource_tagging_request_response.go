@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CheckResourceTagging.go.html to see an example of how to use CheckResourceTaggingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CheckResourceTagging.go.html to see an example of how to use CheckResourceTaggingRequest.
 type CheckResourceTaggingRequest struct {
 
 	// Details for checking if Fleet Application Management tags can be added to the resources.

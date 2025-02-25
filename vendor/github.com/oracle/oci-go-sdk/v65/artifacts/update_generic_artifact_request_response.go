@@ -15,14 +15,14 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateGenericArtifact.go.html to see an example of how to use UpdateGenericArtifactRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateGenericArtifact.go.html to see an example of how to use UpdateGenericArtifactRequest.
 type UpdateGenericArtifactRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.
 	// Example: `ocid1.genericartifact.oc1..exampleuniqueID`
 	ArtifactId *string `mandatory:"true" contributesTo:"path" name:"artifactId"`
 
-	// Updates the artifact with the specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can only update the tags of an artifact.
+	// Updates the artifact with the specified OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can only update the tags of an artifact.
 	UpdateGenericArtifactDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

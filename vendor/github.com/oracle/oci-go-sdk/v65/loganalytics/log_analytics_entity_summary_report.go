@@ -27,7 +27,7 @@ type LogAnalyticsEntitySummaryReport struct {
 	// Entities with management agent
 	EntitiesWithManagementAgentCount *int `mandatory:"true" json:"entitiesWithManagementAgentCount"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

@@ -20,7 +20,7 @@ import (
 // ModelSummary Summary of the Model.
 type ModelSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
@@ -35,7 +35,7 @@ type ModelSummary struct {
 	// The state of the model.
 	LifecycleState ModelLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// A short description of the Model.

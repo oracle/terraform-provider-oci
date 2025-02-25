@@ -15,16 +15,16 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetCloudExadataInfrastructureUnallocatedResources.go.html to see an example of how to use GetCloudExadataInfrastructureUnallocatedResourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetCloudExadataInfrastructureUnallocatedResources.go.html to see an example of how to use GetCloudExadataInfrastructureUnallocatedResourcesRequest.
 type GetCloudExadataInfrastructureUnallocatedResourcesRequest struct {
 
-	// The cloud Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The cloud Exadata infrastructure OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"cloudExadataInfrastructureId"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 	DbServers []string `contributesTo:"query" name:"dbServers" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

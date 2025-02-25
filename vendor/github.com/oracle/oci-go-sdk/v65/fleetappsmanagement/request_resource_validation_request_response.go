@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestResourceValidation.go.html to see an example of how to use RequestResourceValidationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestResourceValidation.go.html to see an example of how to use RequestResourceValidationRequest.
 type RequestResourceValidationRequest struct {
 
 	// Details for requesting resource validation.

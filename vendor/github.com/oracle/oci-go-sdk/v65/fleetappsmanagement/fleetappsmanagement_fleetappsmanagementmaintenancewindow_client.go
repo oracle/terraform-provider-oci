@@ -95,7 +95,7 @@ func (client *FleetAppsManagementMaintenanceWindowClient) ConfigurationProvider(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateMaintenanceWindow.go.html to see an example of how to use CreateMaintenanceWindow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateMaintenanceWindow.go.html to see an example of how to use CreateMaintenanceWindow API.
 // A default retry strategy applies to this operation CreateMaintenanceWindow()
 func (client FleetAppsManagementMaintenanceWindowClient) CreateMaintenanceWindow(ctx context.Context, request CreateMaintenanceWindowRequest) (response CreateMaintenanceWindowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) createMaintenanceWindow
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteMaintenanceWindow.go.html to see an example of how to use DeleteMaintenanceWindow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteMaintenanceWindow.go.html to see an example of how to use DeleteMaintenanceWindow API.
 // A default retry strategy applies to this operation DeleteMaintenanceWindow()
 func (client FleetAppsManagementMaintenanceWindowClient) DeleteMaintenanceWindow(ctx context.Context, request DeleteMaintenanceWindowRequest) (response DeleteMaintenanceWindowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -216,7 +216,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) deleteMaintenanceWindow
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetMaintenanceWindow.go.html to see an example of how to use GetMaintenanceWindow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetMaintenanceWindow.go.html to see an example of how to use GetMaintenanceWindow API.
 // A default retry strategy applies to this operation GetMaintenanceWindow()
 func (client FleetAppsManagementMaintenanceWindowClient) GetMaintenanceWindow(ctx context.Context, request GetMaintenanceWindowRequest) (response GetMaintenanceWindowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -274,7 +274,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) getMaintenanceWindow(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListMaintenanceWindows.go.html to see an example of how to use ListMaintenanceWindows API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListMaintenanceWindows.go.html to see an example of how to use ListMaintenanceWindows API.
 // A default retry strategy applies to this operation ListMaintenanceWindows()
 func (client FleetAppsManagementMaintenanceWindowClient) ListMaintenanceWindows(ctx context.Context, request ListMaintenanceWindowsRequest) (response ListMaintenanceWindowsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -332,7 +332,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) listMaintenanceWindows(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindow API.
 // A default retry strategy applies to this operation UpdateMaintenanceWindow()
 func (client FleetAppsManagementMaintenanceWindowClient) UpdateMaintenanceWindow(ctx context.Context, request UpdateMaintenanceWindowRequest) (response UpdateMaintenanceWindowResponse, err error) {
 	var ociResponse common.OCIResponse

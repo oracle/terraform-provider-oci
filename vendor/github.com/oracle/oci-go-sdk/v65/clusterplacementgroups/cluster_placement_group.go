@@ -18,7 +18,7 @@ import (
 // ClusterPlacementGroup A cluster placement group, which is a logical grouping of resources that offer low latency within an availability domain by being placed in close physical proximity.
 type ClusterPlacementGroup struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The user-friendly name of the cluster placement group. The display name for a cluster placement must be unique and you cannot change it. Avoid entering confidential information.
@@ -27,7 +27,7 @@ type ClusterPlacementGroup struct {
 	// A description of the cluster placement group.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the cluster placement group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the cluster placement group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The availability domain of the cluster placement group.

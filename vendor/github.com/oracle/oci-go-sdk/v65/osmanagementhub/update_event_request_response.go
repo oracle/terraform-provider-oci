@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateEvent.go.html to see an example of how to use UpdateEventRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateEvent.go.html to see an example of how to use UpdateEventRequest.
 type UpdateEventRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	EventId *string `mandatory:"true" contributesTo:"path" name:"eventId"`
 
 	// Provides the information used to update the event tags.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/EnableLatestPolicy.go.html to see an example of how to use EnableLatestPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/EnableLatestPolicy.go.html to see an example of how to use EnableLatestPolicyRequest.
 type EnableLatestPolicyRequest struct {
 
 	// A filter to return resources whose Onboarding identifier matches the given identifier.

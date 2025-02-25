@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteAwrHubObject.go.html to see an example of how to use DeleteAwrHubObjectRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteAwrHubObject.go.html to see an example of how to use DeleteAwrHubObjectRequest.
 type DeleteAwrHubObjectRequest struct {
 
 	// Unique Awr Hub Source identifier

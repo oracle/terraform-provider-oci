@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CascadingDeleteSecurityAttributeNamespace.go.html to see an example of how to use CascadingDeleteSecurityAttributeNamespaceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CascadingDeleteSecurityAttributeNamespace.go.html to see an example of how to use CascadingDeleteSecurityAttributeNamespaceRequest.
 type CascadingDeleteSecurityAttributeNamespaceRequest struct {
 
 	// The OCID of the security attribute namespace.
@@ -92,7 +92,7 @@ type CascadingDeleteSecurityAttributeNamespaceResponse struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

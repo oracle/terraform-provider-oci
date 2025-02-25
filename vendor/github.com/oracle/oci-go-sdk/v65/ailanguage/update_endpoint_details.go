@@ -29,7 +29,7 @@ type UpdateEndpointDetails struct {
 	// A short description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
 	ModelId *string `mandatory:"false" json:"modelId"`
 
 	// Number of replicas required for this endpoint. This will be optional parameter.

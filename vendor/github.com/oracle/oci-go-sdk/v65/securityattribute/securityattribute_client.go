@@ -4,7 +4,7 @@
 
 // Security Attribute API
 //
-// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
+// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 //
 
 package securityattribute
@@ -110,7 +110,7 @@ func (client *SecurityAttributeClient) ConfigurationProvider() *common.Configura
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/BulkDeleteSecurityAttributes.go.html to see an example of how to use BulkDeleteSecurityAttributes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/BulkDeleteSecurityAttributes.go.html to see an example of how to use BulkDeleteSecurityAttributes API.
 // A default retry strategy applies to this operation BulkDeleteSecurityAttributes()
 func (client SecurityAttributeClient) BulkDeleteSecurityAttributes(ctx context.Context, request BulkDeleteSecurityAttributesRequest) (response BulkDeleteSecurityAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -181,7 +181,7 @@ func (client SecurityAttributeClient) bulkDeleteSecurityAttributes(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/BulkEditSecurityAttributes.go.html to see an example of how to use BulkEditSecurityAttributes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/BulkEditSecurityAttributes.go.html to see an example of how to use BulkEditSecurityAttributes API.
 // A default retry strategy applies to this operation BulkEditSecurityAttributes()
 func (client SecurityAttributeClient) BulkEditSecurityAttributes(ctx context.Context, request BulkEditSecurityAttributesRequest) (response BulkEditSecurityAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -257,7 +257,7 @@ func (client SecurityAttributeClient) bulkEditSecurityAttributes(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CascadingDeleteSecurityAttributeNamespace.go.html to see an example of how to use CascadingDeleteSecurityAttributeNamespace API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CascadingDeleteSecurityAttributeNamespace.go.html to see an example of how to use CascadingDeleteSecurityAttributeNamespace API.
 // A default retry strategy applies to this operation CascadingDeleteSecurityAttributeNamespace()
 func (client SecurityAttributeClient) CascadingDeleteSecurityAttributeNamespace(ctx context.Context, request CascadingDeleteSecurityAttributeNamespaceRequest) (response CascadingDeleteSecurityAttributeNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -318,12 +318,12 @@ func (client SecurityAttributeClient) cascadingDeleteSecurityAttributeNamespace(
 
 // ChangeSecurityAttributeNamespaceCompartment Moves the specified security attribute namespace to the specified compartment within the same tenancy.
 // To move the security attribute namespace, you must have the manage security-attributes permission on both compartments.
-// For more information about IAM policies, see Details for IAM (https://docs.cloud.oracle.com/Content/Identity/policyreference/iampolicyreference.htm).
+// For more information about IAM policies, see Details for IAM (https://docs.oracle.com/iaas/Content/Identity/policyreference/iampolicyreference.htm).
 // Moving a security attribute namespace moves all the security attributes contained in the security attribute namespace.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ChangeSecurityAttributeNamespaceCompartment.go.html to see an example of how to use ChangeSecurityAttributeNamespaceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ChangeSecurityAttributeNamespaceCompartment.go.html to see an example of how to use ChangeSecurityAttributeNamespaceCompartment API.
 // A default retry strategy applies to this operation ChangeSecurityAttributeNamespaceCompartment()
 func (client SecurityAttributeClient) ChangeSecurityAttributeNamespaceCompartment(ctx context.Context, request ChangeSecurityAttributeNamespaceCompartmentRequest) (response ChangeSecurityAttributeNamespaceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -398,7 +398,7 @@ func (client SecurityAttributeClient) changeSecurityAttributeNamespaceCompartmen
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CreateSecurityAttribute.go.html to see an example of how to use CreateSecurityAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CreateSecurityAttribute.go.html to see an example of how to use CreateSecurityAttribute API.
 // A default retry strategy applies to this operation CreateSecurityAttribute()
 func (client SecurityAttributeClient) CreateSecurityAttribute(ctx context.Context, request CreateSecurityAttributeRequest) (response CreateSecurityAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -471,7 +471,7 @@ func (client SecurityAttributeClient) createSecurityAttribute(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CreateSecurityAttributeNamespace.go.html to see an example of how to use CreateSecurityAttributeNamespace API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CreateSecurityAttributeNamespace.go.html to see an example of how to use CreateSecurityAttributeNamespace API.
 // A default retry strategy applies to this operation CreateSecurityAttributeNamespace()
 func (client SecurityAttributeClient) CreateSecurityAttributeNamespace(ctx context.Context, request CreateSecurityAttributeNamespaceRequest) (response CreateSecurityAttributeNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -543,7 +543,7 @@ func (client SecurityAttributeClient) createSecurityAttributeNamespace(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/DeleteSecurityAttribute.go.html to see an example of how to use DeleteSecurityAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/DeleteSecurityAttribute.go.html to see an example of how to use DeleteSecurityAttribute API.
 // A default retry strategy applies to this operation DeleteSecurityAttribute()
 func (client SecurityAttributeClient) DeleteSecurityAttribute(ctx context.Context, request DeleteSecurityAttributeRequest) (response DeleteSecurityAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -608,7 +608,7 @@ func (client SecurityAttributeClient) deleteSecurityAttribute(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/DeleteSecurityAttributeNamespace.go.html to see an example of how to use DeleteSecurityAttributeNamespace API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/DeleteSecurityAttributeNamespace.go.html to see an example of how to use DeleteSecurityAttributeNamespace API.
 // A default retry strategy applies to this operation DeleteSecurityAttributeNamespace()
 func (client SecurityAttributeClient) DeleteSecurityAttributeNamespace(ctx context.Context, request DeleteSecurityAttributeNamespaceRequest) (response DeleteSecurityAttributeNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -671,7 +671,7 @@ func (client SecurityAttributeClient) deleteSecurityAttributeNamespace(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttribute.go.html to see an example of how to use GetSecurityAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttribute.go.html to see an example of how to use GetSecurityAttribute API.
 // A default retry strategy applies to this operation GetSecurityAttribute()
 func (client SecurityAttributeClient) GetSecurityAttribute(ctx context.Context, request GetSecurityAttributeRequest) (response GetSecurityAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -729,7 +729,7 @@ func (client SecurityAttributeClient) getSecurityAttribute(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttributeNamespace.go.html to see an example of how to use GetSecurityAttributeNamespace API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttributeNamespace.go.html to see an example of how to use GetSecurityAttributeNamespace API.
 // A default retry strategy applies to this operation GetSecurityAttributeNamespace()
 func (client SecurityAttributeClient) GetSecurityAttributeNamespace(ctx context.Context, request GetSecurityAttributeNamespaceRequest) (response GetSecurityAttributeNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -788,7 +788,7 @@ func (client SecurityAttributeClient) getSecurityAttributeNamespace(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttributeWorkRequest.go.html to see an example of how to use GetSecurityAttributeWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttributeWorkRequest.go.html to see an example of how to use GetSecurityAttributeWorkRequest API.
 // A default retry strategy applies to this operation GetSecurityAttributeWorkRequest()
 func (client SecurityAttributeClient) GetSecurityAttributeWorkRequest(ctx context.Context, request GetSecurityAttributeWorkRequestRequest) (response GetSecurityAttributeWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -846,7 +846,7 @@ func (client SecurityAttributeClient) getSecurityAttributeWorkRequest(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeNamespaces.go.html to see an example of how to use ListSecurityAttributeNamespaces API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeNamespaces.go.html to see an example of how to use ListSecurityAttributeNamespaces API.
 // A default retry strategy applies to this operation ListSecurityAttributeNamespaces()
 func (client SecurityAttributeClient) ListSecurityAttributeNamespaces(ctx context.Context, request ListSecurityAttributeNamespacesRequest) (response ListSecurityAttributeNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -904,7 +904,7 @@ func (client SecurityAttributeClient) listSecurityAttributeNamespaces(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequestErrors.go.html to see an example of how to use ListSecurityAttributeWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequestErrors.go.html to see an example of how to use ListSecurityAttributeWorkRequestErrors API.
 // A default retry strategy applies to this operation ListSecurityAttributeWorkRequestErrors()
 func (client SecurityAttributeClient) ListSecurityAttributeWorkRequestErrors(ctx context.Context, request ListSecurityAttributeWorkRequestErrorsRequest) (response ListSecurityAttributeWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -962,7 +962,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestErrors(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequestLogs.go.html to see an example of how to use ListSecurityAttributeWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequestLogs.go.html to see an example of how to use ListSecurityAttributeWorkRequestLogs API.
 // A default retry strategy applies to this operation ListSecurityAttributeWorkRequestLogs()
 func (client SecurityAttributeClient) ListSecurityAttributeWorkRequestLogs(ctx context.Context, request ListSecurityAttributeWorkRequestLogsRequest) (response ListSecurityAttributeWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1020,7 +1020,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestLogs(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequests.go.html to see an example of how to use ListSecurityAttributeWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequests.go.html to see an example of how to use ListSecurityAttributeWorkRequests API.
 // A default retry strategy applies to this operation ListSecurityAttributeWorkRequests()
 func (client SecurityAttributeClient) ListSecurityAttributeWorkRequests(ctx context.Context, request ListSecurityAttributeWorkRequestsRequest) (response ListSecurityAttributeWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1078,7 +1078,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequests(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributes.go.html to see an example of how to use ListSecurityAttributes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributes.go.html to see an example of how to use ListSecurityAttributes API.
 // A default retry strategy applies to this operation ListSecurityAttributes()
 func (client SecurityAttributeClient) ListSecurityAttributes(ctx context.Context, request ListSecurityAttributesRequest) (response ListSecurityAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1136,7 +1136,7 @@ func (client SecurityAttributeClient) listSecurityAttributes(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/UpdateSecurityAttribute.go.html to see an example of how to use UpdateSecurityAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/UpdateSecurityAttribute.go.html to see an example of how to use UpdateSecurityAttribute API.
 // A default retry strategy applies to this operation UpdateSecurityAttribute()
 func (client SecurityAttributeClient) UpdateSecurityAttribute(ctx context.Context, request UpdateSecurityAttributeRequest) (response UpdateSecurityAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1200,12 +1200,12 @@ func (client SecurityAttributeClient) updateSecurityAttribute(ctx context.Contex
 // namespace (changing `isRetired` from 'true' to 'false') does not reactivate security attributes.
 // To reactivate the security attributes, you must reactivate each one individually *after* you reactivate the namespace,
 // using UpdateTag. For more information about retiring security attribute namespaces, see
-// Managing Security Attribute Namespaces (https://docs.cloud.oracle.com/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
+// Managing Security Attribute Namespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 // You can't add a namespace with the same name as a retired namespace in the same tenancy.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/UpdateSecurityAttributeNamespace.go.html to see an example of how to use UpdateSecurityAttributeNamespace API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/UpdateSecurityAttributeNamespace.go.html to see an example of how to use UpdateSecurityAttributeNamespace API.
 // A default retry strategy applies to this operation UpdateSecurityAttributeNamespace()
 func (client SecurityAttributeClient) UpdateSecurityAttributeNamespace(ctx context.Context, request UpdateSecurityAttributeNamespaceRequest) (response UpdateSecurityAttributeNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse

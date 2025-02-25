@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorAction.go.html to see an example of how to use GetOperatorActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorAction.go.html to see an example of how to use GetOperatorActionRequest.
 type GetOperatorActionRequest struct {
 
 	// Unique Oracle supplied identifier associated with the operator action.

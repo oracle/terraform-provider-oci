@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateScheduledJob.go.html to see an example of how to use CreateScheduledJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateScheduledJob.go.html to see an example of how to use CreateScheduledJobRequest.
 type CreateScheduledJobRequest struct {
 
 	// Provides the information used to create the scheduled job.

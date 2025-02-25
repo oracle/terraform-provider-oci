@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuDiscovery.go.html to see an example of how to use DeleteFsuDiscoveryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuDiscovery.go.html to see an example of how to use DeleteFsuDiscoveryRequest.
 type DeleteFsuDiscoveryRequest struct {
 
 	// Unique Exadata Fleet Update Discovery identifier.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateConfiguration.go.html to see an example of how to use UpdateConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateConfiguration.go.html to see an example of how to use UpdateConfigurationRequest.
 type UpdateConfigurationRequest struct {
 
 	// The OCID of the Configuration.

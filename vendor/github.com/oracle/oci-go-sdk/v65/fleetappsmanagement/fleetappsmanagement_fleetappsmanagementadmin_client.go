@@ -95,7 +95,7 @@ func (client *FleetAppsManagementAdminClient) ConfigurationProvider() *common.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateCompliancePolicyRule.go.html to see an example of how to use CreateCompliancePolicyRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateCompliancePolicyRule.go.html to see an example of how to use CreateCompliancePolicyRule API.
 // A default retry strategy applies to this operation CreateCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) CreateCompliancePolicyRule(ctx context.Context, request CreateCompliancePolicyRuleRequest) (response CreateCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,7 +159,7 @@ func (client FleetAppsManagementAdminClient) createCompliancePolicyRule(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateOnboarding.go.html to see an example of how to use CreateOnboarding API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateOnboarding.go.html to see an example of how to use CreateOnboarding API.
 // A default retry strategy applies to this operation CreateOnboarding()
 func (client FleetAppsManagementAdminClient) CreateOnboarding(ctx context.Context, request CreateOnboardingRequest) (response CreateOnboardingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,7 +222,7 @@ func (client FleetAppsManagementAdminClient) createOnboarding(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePlatformConfiguration.go.html to see an example of how to use CreatePlatformConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePlatformConfiguration.go.html to see an example of how to use CreatePlatformConfiguration API.
 // A default retry strategy applies to this operation CreatePlatformConfiguration()
 func (client FleetAppsManagementAdminClient) CreatePlatformConfiguration(ctx context.Context, request CreatePlatformConfigurationRequest) (response CreatePlatformConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -285,7 +285,7 @@ func (client FleetAppsManagementAdminClient) createPlatformConfiguration(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateProperty.go.html to see an example of how to use CreateProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateProperty.go.html to see an example of how to use CreateProperty API.
 // A default retry strategy applies to this operation CreateProperty()
 func (client FleetAppsManagementAdminClient) CreateProperty(ctx context.Context, request CreatePropertyRequest) (response CreatePropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -348,7 +348,7 @@ func (client FleetAppsManagementAdminClient) createProperty(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteCompliancePolicyRule.go.html to see an example of how to use DeleteCompliancePolicyRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteCompliancePolicyRule.go.html to see an example of how to use DeleteCompliancePolicyRule API.
 // A default retry strategy applies to this operation DeleteCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) DeleteCompliancePolicyRule(ctx context.Context, request DeleteCompliancePolicyRuleRequest) (response DeleteCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -406,7 +406,7 @@ func (client FleetAppsManagementAdminClient) deleteCompliancePolicyRule(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteOnboarding.go.html to see an example of how to use DeleteOnboarding API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteOnboarding.go.html to see an example of how to use DeleteOnboarding API.
 // A default retry strategy applies to this operation DeleteOnboarding()
 func (client FleetAppsManagementAdminClient) DeleteOnboarding(ctx context.Context, request DeleteOnboardingRequest) (response DeleteOnboardingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -464,7 +464,7 @@ func (client FleetAppsManagementAdminClient) deleteOnboarding(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePlatformConfiguration.go.html to see an example of how to use DeletePlatformConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePlatformConfiguration.go.html to see an example of how to use DeletePlatformConfiguration API.
 // A default retry strategy applies to this operation DeletePlatformConfiguration()
 func (client FleetAppsManagementAdminClient) DeletePlatformConfiguration(ctx context.Context, request DeletePlatformConfigurationRequest) (response DeletePlatformConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -522,7 +522,7 @@ func (client FleetAppsManagementAdminClient) deletePlatformConfiguration(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteProperty.go.html to see an example of how to use DeleteProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteProperty.go.html to see an example of how to use DeleteProperty API.
 // A default retry strategy applies to this operation DeleteProperty()
 func (client FleetAppsManagementAdminClient) DeleteProperty(ctx context.Context, request DeletePropertyRequest) (response DeletePropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -580,7 +580,7 @@ func (client FleetAppsManagementAdminClient) deleteProperty(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/EnableLatestPolicy.go.html to see an example of how to use EnableLatestPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/EnableLatestPolicy.go.html to see an example of how to use EnableLatestPolicy API.
 // A default retry strategy applies to this operation EnableLatestPolicy()
 func (client FleetAppsManagementAdminClient) EnableLatestPolicy(ctx context.Context, request EnableLatestPolicyRequest) (response EnableLatestPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -643,7 +643,7 @@ func (client FleetAppsManagementAdminClient) enableLatestPolicy(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetCompliancePolicy.go.html to see an example of how to use GetCompliancePolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetCompliancePolicy.go.html to see an example of how to use GetCompliancePolicy API.
 // A default retry strategy applies to this operation GetCompliancePolicy()
 func (client FleetAppsManagementAdminClient) GetCompliancePolicy(ctx context.Context, request GetCompliancePolicyRequest) (response GetCompliancePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -701,7 +701,7 @@ func (client FleetAppsManagementAdminClient) getCompliancePolicy(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetCompliancePolicyRule.go.html to see an example of how to use GetCompliancePolicyRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetCompliancePolicyRule.go.html to see an example of how to use GetCompliancePolicyRule API.
 // A default retry strategy applies to this operation GetCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) GetCompliancePolicyRule(ctx context.Context, request GetCompliancePolicyRuleRequest) (response GetCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -759,7 +759,7 @@ func (client FleetAppsManagementAdminClient) getCompliancePolicyRule(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetOnboarding.go.html to see an example of how to use GetOnboarding API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetOnboarding.go.html to see an example of how to use GetOnboarding API.
 // A default retry strategy applies to this operation GetOnboarding()
 func (client FleetAppsManagementAdminClient) GetOnboarding(ctx context.Context, request GetOnboardingRequest) (response GetOnboardingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -817,7 +817,7 @@ func (client FleetAppsManagementAdminClient) getOnboarding(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetPlatformConfiguration.go.html to see an example of how to use GetPlatformConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetPlatformConfiguration.go.html to see an example of how to use GetPlatformConfiguration API.
 // A default retry strategy applies to this operation GetPlatformConfiguration()
 func (client FleetAppsManagementAdminClient) GetPlatformConfiguration(ctx context.Context, request GetPlatformConfigurationRequest) (response GetPlatformConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -875,7 +875,7 @@ func (client FleetAppsManagementAdminClient) getPlatformConfiguration(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetProperty.go.html to see an example of how to use GetProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetProperty.go.html to see an example of how to use GetProperty API.
 // A default retry strategy applies to this operation GetProperty()
 func (client FleetAppsManagementAdminClient) GetProperty(ctx context.Context, request GetPropertyRequest) (response GetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -933,7 +933,7 @@ func (client FleetAppsManagementAdminClient) getProperty(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListCompliancePolicies.go.html to see an example of how to use ListCompliancePolicies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListCompliancePolicies.go.html to see an example of how to use ListCompliancePolicies API.
 // A default retry strategy applies to this operation ListCompliancePolicies()
 func (client FleetAppsManagementAdminClient) ListCompliancePolicies(ctx context.Context, request ListCompliancePoliciesRequest) (response ListCompliancePoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -991,7 +991,7 @@ func (client FleetAppsManagementAdminClient) listCompliancePolicies(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListCompliancePolicyRules.go.html to see an example of how to use ListCompliancePolicyRules API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListCompliancePolicyRules.go.html to see an example of how to use ListCompliancePolicyRules API.
 // A default retry strategy applies to this operation ListCompliancePolicyRules()
 func (client FleetAppsManagementAdminClient) ListCompliancePolicyRules(ctx context.Context, request ListCompliancePolicyRulesRequest) (response ListCompliancePolicyRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1049,7 +1049,7 @@ func (client FleetAppsManagementAdminClient) listCompliancePolicyRules(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListOnboardingPolicies.go.html to see an example of how to use ListOnboardingPolicies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListOnboardingPolicies.go.html to see an example of how to use ListOnboardingPolicies API.
 // A default retry strategy applies to this operation ListOnboardingPolicies()
 func (client FleetAppsManagementAdminClient) ListOnboardingPolicies(ctx context.Context, request ListOnboardingPoliciesRequest) (response ListOnboardingPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1107,7 +1107,7 @@ func (client FleetAppsManagementAdminClient) listOnboardingPolicies(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListOnboardings.go.html to see an example of how to use ListOnboardings API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListOnboardings.go.html to see an example of how to use ListOnboardings API.
 // A default retry strategy applies to this operation ListOnboardings()
 func (client FleetAppsManagementAdminClient) ListOnboardings(ctx context.Context, request ListOnboardingsRequest) (response ListOnboardingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1165,7 +1165,7 @@ func (client FleetAppsManagementAdminClient) listOnboardings(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListPlatformConfigurations.go.html to see an example of how to use ListPlatformConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListPlatformConfigurations.go.html to see an example of how to use ListPlatformConfigurations API.
 // A default retry strategy applies to this operation ListPlatformConfigurations()
 func (client FleetAppsManagementAdminClient) ListPlatformConfigurations(ctx context.Context, request ListPlatformConfigurationsRequest) (response ListPlatformConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1223,7 +1223,7 @@ func (client FleetAppsManagementAdminClient) listPlatformConfigurations(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListProperties.go.html to see an example of how to use ListProperties API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListProperties.go.html to see an example of how to use ListProperties API.
 // A default retry strategy applies to this operation ListProperties()
 func (client FleetAppsManagementAdminClient) ListProperties(ctx context.Context, request ListPropertiesRequest) (response ListPropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1281,7 +1281,7 @@ func (client FleetAppsManagementAdminClient) listProperties(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageSettings.go.html to see an example of how to use ManageSettings API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageSettings.go.html to see an example of how to use ManageSettings API.
 // A default retry strategy applies to this operation ManageSettings()
 func (client FleetAppsManagementAdminClient) ManageSettings(ctx context.Context, request ManageSettingsRequest) (response ManageSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1344,7 +1344,7 @@ func (client FleetAppsManagementAdminClient) manageSettings(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateCompliancePolicyRule.go.html to see an example of how to use UpdateCompliancePolicyRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateCompliancePolicyRule.go.html to see an example of how to use UpdateCompliancePolicyRule API.
 // A default retry strategy applies to this operation UpdateCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) UpdateCompliancePolicyRule(ctx context.Context, request UpdateCompliancePolicyRuleRequest) (response UpdateCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1402,7 +1402,7 @@ func (client FleetAppsManagementAdminClient) updateCompliancePolicyRule(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateOnboarding.go.html to see an example of how to use UpdateOnboarding API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateOnboarding.go.html to see an example of how to use UpdateOnboarding API.
 // A default retry strategy applies to this operation UpdateOnboarding()
 func (client FleetAppsManagementAdminClient) UpdateOnboarding(ctx context.Context, request UpdateOnboardingRequest) (response UpdateOnboardingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1460,7 +1460,7 @@ func (client FleetAppsManagementAdminClient) updateOnboarding(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdatePlatformConfiguration.go.html to see an example of how to use UpdatePlatformConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdatePlatformConfiguration.go.html to see an example of how to use UpdatePlatformConfiguration API.
 // A default retry strategy applies to this operation UpdatePlatformConfiguration()
 func (client FleetAppsManagementAdminClient) UpdatePlatformConfiguration(ctx context.Context, request UpdatePlatformConfigurationRequest) (response UpdatePlatformConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1518,7 +1518,7 @@ func (client FleetAppsManagementAdminClient) updatePlatformConfiguration(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateProperty.go.html to see an example of how to use UpdateProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateProperty.go.html to see an example of how to use UpdateProperty API.
 // A default retry strategy applies to this operation UpdateProperty()
 func (client FleetAppsManagementAdminClient) UpdateProperty(ctx context.Context, request UpdatePropertyRequest) (response UpdatePropertyResponse, err error) {
 	var ociResponse common.OCIResponse

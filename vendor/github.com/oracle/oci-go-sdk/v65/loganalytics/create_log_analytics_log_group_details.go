@@ -24,7 +24,7 @@ type CreateLogAnalyticsLogGroupDetails struct {
 	// No trailing spaces allowed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Description for this resource.

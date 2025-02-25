@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ReconfigurePrivateEndpointVbInstance.go.html to see an example of how to use ReconfigurePrivateEndpointVbInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ReconfigurePrivateEndpointVbInstance.go.html to see an example of how to use ReconfigurePrivateEndpointVbInstanceRequest.
 type ReconfigurePrivateEndpointVbInstanceRequest struct {
 
 	// Unique Vb Instance identifier.

@@ -18,7 +18,7 @@ import (
 // ChangePrivateApplicationCompartmentDetails All the parameters required to make the move.
 type ChangePrivateApplicationCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the private application.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the private application.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServiceRouteTables.go.html to see an example of how to use ListVirtualServiceRouteTablesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServiceRouteTables.go.html to see an example of how to use ListVirtualServiceRouteTablesRequest.
 type ListVirtualServiceRouteTablesRequest struct {
 
 	// The ID of the compartment in which to list resources.

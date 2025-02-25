@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ChangeOpaInstanceCompartment.go.html to see an example of how to use ChangeOpaInstanceCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ChangeOpaInstanceCompartment.go.html to see an example of how to use ChangeOpaInstanceCompartmentRequest.
 type ChangeOpaInstanceCompartmentRequest struct {
 
 	// unique OpaInstance identifier

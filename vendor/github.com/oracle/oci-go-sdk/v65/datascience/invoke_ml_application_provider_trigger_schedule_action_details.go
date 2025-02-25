@@ -19,7 +19,7 @@ import (
 // InvokeMlApplicationProviderTriggerScheduleActionDetails invoke ml application trigger details
 type InvokeMlApplicationProviderTriggerScheduleActionDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	MlApplicationInstanceViewId *string `mandatory:"true" json:"mlApplicationInstanceViewId"`
 
 	TriggerMlApplicationInstanceViewFlowDetails *TriggerMlApplicationInstanceViewFlowDetails `mandatory:"true" json:"triggerMlApplicationInstanceViewFlowDetails"`

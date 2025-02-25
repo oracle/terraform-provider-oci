@@ -95,7 +95,7 @@ func (client *OpaInstanceClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client OpaInstanceClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client OpaInstanceClient) cancelWorkRequest(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ChangeOpaInstanceCompartment.go.html to see an example of how to use ChangeOpaInstanceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ChangeOpaInstanceCompartment.go.html to see an example of how to use ChangeOpaInstanceCompartment API.
 // A default retry strategy applies to this operation ChangeOpaInstanceCompartment()
 func (client OpaInstanceClient) ChangeOpaInstanceCompartment(ctx context.Context, request ChangeOpaInstanceCompartmentRequest) (response ChangeOpaInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -211,7 +211,7 @@ func (client OpaInstanceClient) changeOpaInstanceCompartment(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CreateOpaInstance.go.html to see an example of how to use CreateOpaInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CreateOpaInstance.go.html to see an example of how to use CreateOpaInstance API.
 // A default retry strategy applies to this operation CreateOpaInstance()
 func (client OpaInstanceClient) CreateOpaInstance(ctx context.Context, request CreateOpaInstanceRequest) (response CreateOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -274,7 +274,7 @@ func (client OpaInstanceClient) createOpaInstance(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/DeleteOpaInstance.go.html to see an example of how to use DeleteOpaInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/DeleteOpaInstance.go.html to see an example of how to use DeleteOpaInstance API.
 // A default retry strategy applies to this operation DeleteOpaInstance()
 func (client OpaInstanceClient) DeleteOpaInstance(ctx context.Context, request DeleteOpaInstanceRequest) (response DeleteOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -332,7 +332,7 @@ func (client OpaInstanceClient) deleteOpaInstance(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetOpaInstance.go.html to see an example of how to use GetOpaInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetOpaInstance.go.html to see an example of how to use GetOpaInstance API.
 // A default retry strategy applies to this operation GetOpaInstance()
 func (client OpaInstanceClient) GetOpaInstance(ctx context.Context, request GetOpaInstanceRequest) (response GetOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -390,7 +390,7 @@ func (client OpaInstanceClient) getOpaInstance(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client OpaInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -448,7 +448,7 @@ func (client OpaInstanceClient) getWorkRequest(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListOpaInstances.go.html to see an example of how to use ListOpaInstances API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListOpaInstances.go.html to see an example of how to use ListOpaInstances API.
 // A default retry strategy applies to this operation ListOpaInstances()
 func (client OpaInstanceClient) ListOpaInstances(ctx context.Context, request ListOpaInstancesRequest) (response ListOpaInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -506,7 +506,7 @@ func (client OpaInstanceClient) listOpaInstances(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OpaInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -564,7 +564,7 @@ func (client OpaInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client OpaInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -622,7 +622,7 @@ func (client OpaInstanceClient) listWorkRequestLogs(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client OpaInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -680,7 +680,7 @@ func (client OpaInstanceClient) listWorkRequests(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StartOpaInstance.go.html to see an example of how to use StartOpaInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StartOpaInstance.go.html to see an example of how to use StartOpaInstance API.
 // A default retry strategy applies to this operation StartOpaInstance()
 func (client OpaInstanceClient) StartOpaInstance(ctx context.Context, request StartOpaInstanceRequest) (response StartOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -738,7 +738,7 @@ func (client OpaInstanceClient) startOpaInstance(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StopOpaInstance.go.html to see an example of how to use StopOpaInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StopOpaInstance.go.html to see an example of how to use StopOpaInstance API.
 // A default retry strategy applies to this operation StopOpaInstance()
 func (client OpaInstanceClient) StopOpaInstance(ctx context.Context, request StopOpaInstanceRequest) (response StopOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -796,7 +796,7 @@ func (client OpaInstanceClient) stopOpaInstance(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/UpdateOpaInstance.go.html to see an example of how to use UpdateOpaInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/UpdateOpaInstance.go.html to see an example of how to use UpdateOpaInstance API.
 // A default retry strategy applies to this operation UpdateOpaInstance()
 func (client OpaInstanceClient) UpdateOpaInstance(ctx context.Context, request UpdateOpaInstanceRequest) (response UpdateOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

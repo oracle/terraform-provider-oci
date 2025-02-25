@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/RemoveModelLock.go.html to see an example of how to use RemoveModelLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/RemoveModelLock.go.html to see an example of how to use RemoveModelLockRequest.
 type RemoveModelLockRequest struct {
 
 	// A unique model identifier.

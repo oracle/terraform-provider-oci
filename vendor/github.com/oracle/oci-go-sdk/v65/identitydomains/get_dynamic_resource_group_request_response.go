@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetDynamicResourceGroup.go.html to see an example of how to use GetDynamicResourceGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetDynamicResourceGroup.go.html to see an example of how to use GetDynamicResourceGroupRequest.
 type GetDynamicResourceGroupRequest struct {
 
 	// ID of the resource

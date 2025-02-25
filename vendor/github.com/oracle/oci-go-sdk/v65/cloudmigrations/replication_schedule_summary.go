@@ -18,13 +18,13 @@ import (
 // ReplicationScheduleSummary Sumarized information about a replication schedule.
 type ReplicationScheduleSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication schedule.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A name of the replication schedule.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the replication schedule exists.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the replication schedule exists.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Recurrence specification for replication schedule execution.

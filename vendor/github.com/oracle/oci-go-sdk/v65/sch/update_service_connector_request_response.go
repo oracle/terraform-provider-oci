@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/UpdateServiceConnector.go.html to see an example of how to use UpdateServiceConnectorRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/UpdateServiceConnector.go.html to see an example of how to use UpdateServiceConnectorRequest.
 type UpdateServiceConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	ServiceConnectorId *string `mandatory:"true" contributesTo:"path" name:"serviceConnectorId"`
 
 	// The information to be updated.

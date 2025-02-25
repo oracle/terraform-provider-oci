@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ServiceProviderInteractionRequest.go.html to see an example of how to use ServiceProviderInteractionRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ServiceProviderInteractionRequest.go.html to see an example of how to use ServiceProviderInteractionRequestRequest.
 type ServiceProviderInteractionRequestRequest struct {
 
 	// Unique Delegated Resource Access Request identifier

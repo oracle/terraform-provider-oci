@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateAwrHubSource.go.html to see an example of how to use CreateAwrHubSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateAwrHubSource.go.html to see an example of how to use CreateAwrHubSourceRequest.
 type CreateAwrHubSourceRequest struct {
 
 	// Payload containing details to register the source database

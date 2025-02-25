@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListPingProbeResults.go.html to see an example of how to use ListPingProbeResultsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListPingProbeResults.go.html to see an example of how to use ListPingProbeResultsRequest.
 type ListPingProbeResultsRequest struct {
 
 	// The OCID of a monitor or on-demand probe.
@@ -108,7 +108,7 @@ type ListPingProbeResultsResponse struct {
 	// additional items still to get. Include this value as the `page`
 	// parameter for the subsequent GET request. For information about
 	// pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#List_Pagination).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#List_Pagination).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

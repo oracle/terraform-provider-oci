@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExternalBackupJob.go.html to see an example of how to use GetExternalBackupJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExternalBackupJob.go.html to see an example of how to use GetExternalBackupJobRequest.
 type GetExternalBackupJobRequest struct {
 
-	// The backup OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The backup OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// Unique Oracle-assigned identifier for the request.

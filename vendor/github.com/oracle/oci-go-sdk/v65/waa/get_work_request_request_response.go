@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWorkRequest.go.html to see an example of how to use GetWorkRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWorkRequest.go.html to see an example of how to use GetWorkRequestRequest.
 type GetWorkRequestRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asynchronous request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// The client request ID for tracing.

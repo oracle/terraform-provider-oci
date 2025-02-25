@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationParameters.go.html to see an example of how to use ListMigrationParametersRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationParameters.go.html to see an example of how to use ListMigrationParametersRequest.
 type ListMigrationParametersRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

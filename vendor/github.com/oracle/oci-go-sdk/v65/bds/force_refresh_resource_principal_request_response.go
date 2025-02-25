@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ForceRefreshResourcePrincipal.go.html to see an example of how to use ForceRefreshResourcePrincipalRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ForceRefreshResourcePrincipal.go.html to see an example of how to use ForceRefreshResourcePrincipalRequest.
 type ForceRefreshResourcePrincipalRequest struct {
 
 	// The OCID of the cluster.

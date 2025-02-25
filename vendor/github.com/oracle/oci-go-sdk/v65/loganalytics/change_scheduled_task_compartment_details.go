@@ -18,7 +18,7 @@ import (
 // ChangeScheduledTaskCompartmentDetails The details for changing the compartment of a scheduled task.
 type ChangeScheduledTaskCompartmentDetails struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

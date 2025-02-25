@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ReinstateProxyInstance.go.html to see an example of how to use ReinstateProxyInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ReinstateProxyInstance.go.html to see an example of how to use ReinstateProxyInstanceRequest.
 type ReinstateProxyInstanceRequest struct {
 
 	// Oracle Sharded Database PrivateEndpoint identifier

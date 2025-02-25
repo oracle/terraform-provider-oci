@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAgentDependency.go.html to see an example of how to use GetAgentDependencyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAgentDependency.go.html to see an example of how to use GetAgentDependencyRequest.
 type GetAgentDependencyRequest struct {
 
 	// A unique AgentDependency identifier.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironment.go.html to see an example of how to use GetFusionEnvironmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironment.go.html to see an example of how to use GetFusionEnvironmentRequest.
 type GetFusionEnvironmentRequest struct {
 
 	// unique FusionEnvironment identifier

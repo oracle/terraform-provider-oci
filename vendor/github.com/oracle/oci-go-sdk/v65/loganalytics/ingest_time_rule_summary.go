@@ -22,7 +22,7 @@ type IngestTimeRuleSummary struct {
 	// a resource that is provisioned and managed by the customer on their premises or on the cloud.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The ingest time rule display name.

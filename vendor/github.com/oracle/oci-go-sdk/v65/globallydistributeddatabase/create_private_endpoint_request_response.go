@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpointRequest.
 type CreatePrivateEndpointRequest struct {
 
 	// Details of PrivateEndpoint to be created.

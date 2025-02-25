@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/OpensearchClusterRestore.go.html to see an example of how to use OpensearchClusterRestoreRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/OpensearchClusterRestore.go.html to see an example of how to use OpensearchClusterRestoreRequest.
 type OpensearchClusterRestoreRequest struct {
 
 	// unique OpensearchCluster identifier

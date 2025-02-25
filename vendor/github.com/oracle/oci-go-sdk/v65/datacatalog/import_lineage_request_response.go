@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportLineage.go.html to see an example of how to use ImportLineageRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportLineage.go.html to see an example of how to use ImportLineageRequest.
 type ImportLineageRequest struct {
 
 	// Unique catalog identifier.

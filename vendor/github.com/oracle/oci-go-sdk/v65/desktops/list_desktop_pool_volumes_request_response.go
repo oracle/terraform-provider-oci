@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolVolumes.go.html to see an example of how to use ListDesktopPoolVolumesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolVolumes.go.html to see an example of how to use ListDesktopPoolVolumesRequest.
 type ListDesktopPoolVolumesRequest struct {
 
 	// The OCID of the desktop pool.

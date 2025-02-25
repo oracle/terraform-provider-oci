@@ -5,7 +5,7 @@
 // DNS API
 //
 // API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
-// For more information, see Overview of the DNS Service (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// For more information, see Overview of the DNS Service (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -19,7 +19,7 @@ import (
 // ChangeResolverCompartmentDetails The representation of ChangeResolverCompartmentDetails
 type ChangeResolverCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the resolver, along with
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the resolver, along with
 	// its protected default view and resolver endpoints, should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

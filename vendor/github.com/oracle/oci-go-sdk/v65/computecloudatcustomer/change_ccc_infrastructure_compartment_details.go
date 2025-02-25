@@ -5,7 +5,7 @@
 // Compute Cloud@Customer API
 //
 // Use the Compute Cloud@Customer API to manage Compute Cloud@Customer infrastructures and upgrade schedules.
-// For more information see Compute Cloud@Customer documentation (https://docs.cloud.oracle.com/iaas/compute-cloud-at-customer/home.htm).
+// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/compute-cloud-at-customer/home.htm).
 //
 
 package computecloudatcustomer
@@ -19,7 +19,7 @@ import (
 // ChangeCccInfrastructureCompartmentDetails Information required for the compartment change operation.
 type ChangeCccInfrastructureCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// into which the resource should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

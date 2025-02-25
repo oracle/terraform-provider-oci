@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDataSource.go.html to see an example of how to use GetDataSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDataSource.go.html to see an example of how to use GetDataSourceRequest.
 type GetDataSourceRequest struct {
 
 	// Data source OCID.

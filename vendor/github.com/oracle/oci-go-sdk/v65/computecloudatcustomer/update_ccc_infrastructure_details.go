@@ -5,7 +5,7 @@
 // Compute Cloud@Customer API
 //
 // Use the Compute Cloud@Customer API to manage Compute Cloud@Customer infrastructures and upgrade schedules.
-// For more information see Compute Cloud@Customer documentation (https://docs.cloud.oracle.com/iaas/compute-cloud-at-customer/home.htm).
+// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/compute-cloud-at-customer/home.htm).
 //
 
 package computecloudatcustomer
@@ -28,7 +28,7 @@ type UpdateCccInfrastructureDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network subnet that is
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network subnet that is
 	// used to communicate with Compute Cloud@Customer infrastructure.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 

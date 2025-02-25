@@ -99,7 +99,7 @@ func (client *DelegateAccessControlClient) ConfigurationProvider() *common.Confi
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ApproveDelegatedResourceAccessRequest.go.html to see an example of how to use ApproveDelegatedResourceAccessRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ApproveDelegatedResourceAccessRequest.go.html to see an example of how to use ApproveDelegatedResourceAccessRequest API.
 // A default retry strategy applies to this operation ApproveDelegatedResourceAccessRequest()
 func (client DelegateAccessControlClient) ApproveDelegatedResourceAccessRequest(ctx context.Context, request ApproveDelegatedResourceAccessRequestRequest) (response ApproveDelegatedResourceAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -162,7 +162,7 @@ func (client DelegateAccessControlClient) approveDelegatedResourceAccessRequest(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ChangeDelegationControlCompartment.go.html to see an example of how to use ChangeDelegationControlCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ChangeDelegationControlCompartment.go.html to see an example of how to use ChangeDelegationControlCompartment API.
 // A default retry strategy applies to this operation ChangeDelegationControlCompartment()
 func (client DelegateAccessControlClient) ChangeDelegationControlCompartment(ctx context.Context, request ChangeDelegationControlCompartmentRequest) (response ChangeDelegationControlCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -225,7 +225,7 @@ func (client DelegateAccessControlClient) changeDelegationControlCompartment(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ChangeDelegationSubscriptionCompartment.go.html to see an example of how to use ChangeDelegationSubscriptionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ChangeDelegationSubscriptionCompartment.go.html to see an example of how to use ChangeDelegationSubscriptionCompartment API.
 // A default retry strategy applies to this operation ChangeDelegationSubscriptionCompartment()
 func (client DelegateAccessControlClient) ChangeDelegationSubscriptionCompartment(ctx context.Context, request ChangeDelegationSubscriptionCompartmentRequest) (response ChangeDelegationSubscriptionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -288,7 +288,7 @@ func (client DelegateAccessControlClient) changeDelegationSubscriptionCompartmen
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationControl.go.html to see an example of how to use CreateDelegationControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationControl.go.html to see an example of how to use CreateDelegationControl API.
 // A default retry strategy applies to this operation CreateDelegationControl()
 func (client DelegateAccessControlClient) CreateDelegationControl(ctx context.Context, request CreateDelegationControlRequest) (response CreateDelegationControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -351,7 +351,7 @@ func (client DelegateAccessControlClient) createDelegationControl(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationSubscription.go.html to see an example of how to use CreateDelegationSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationSubscription.go.html to see an example of how to use CreateDelegationSubscription API.
 // A default retry strategy applies to this operation CreateDelegationSubscription()
 func (client DelegateAccessControlClient) CreateDelegationSubscription(ctx context.Context, request CreateDelegationSubscriptionRequest) (response CreateDelegationSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -418,7 +418,7 @@ func (client DelegateAccessControlClient) createDelegationSubscription(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/DeleteDelegationControl.go.html to see an example of how to use DeleteDelegationControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/DeleteDelegationControl.go.html to see an example of how to use DeleteDelegationControl API.
 // A default retry strategy applies to this operation DeleteDelegationControl()
 func (client DelegateAccessControlClient) DeleteDelegationControl(ctx context.Context, request DeleteDelegationControlRequest) (response DeleteDelegationControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -476,7 +476,7 @@ func (client DelegateAccessControlClient) deleteDelegationControl(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/DeleteDelegationSubscription.go.html to see an example of how to use DeleteDelegationSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/DeleteDelegationSubscription.go.html to see an example of how to use DeleteDelegationSubscription API.
 // A default retry strategy applies to this operation DeleteDelegationSubscription()
 func (client DelegateAccessControlClient) DeleteDelegationSubscription(ctx context.Context, request DeleteDelegationSubscriptionRequest) (response DeleteDelegationSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -534,7 +534,7 @@ func (client DelegateAccessControlClient) deleteDelegationSubscription(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegatedResourceAccessRequest.go.html to see an example of how to use GetDelegatedResourceAccessRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegatedResourceAccessRequest.go.html to see an example of how to use GetDelegatedResourceAccessRequest API.
 // A default retry strategy applies to this operation GetDelegatedResourceAccessRequest()
 func (client DelegateAccessControlClient) GetDelegatedResourceAccessRequest(ctx context.Context, request GetDelegatedResourceAccessRequestRequest) (response GetDelegatedResourceAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -592,7 +592,7 @@ func (client DelegateAccessControlClient) getDelegatedResourceAccessRequest(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegatedResourceAccessRequestAuditLogReport.go.html to see an example of how to use GetDelegatedResourceAccessRequestAuditLogReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegatedResourceAccessRequestAuditLogReport.go.html to see an example of how to use GetDelegatedResourceAccessRequestAuditLogReport API.
 // A default retry strategy applies to this operation GetDelegatedResourceAccessRequestAuditLogReport()
 func (client DelegateAccessControlClient) GetDelegatedResourceAccessRequestAuditLogReport(ctx context.Context, request GetDelegatedResourceAccessRequestAuditLogReportRequest) (response GetDelegatedResourceAccessRequestAuditLogReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -650,7 +650,7 @@ func (client DelegateAccessControlClient) getDelegatedResourceAccessRequestAudit
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationControl.go.html to see an example of how to use GetDelegationControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationControl.go.html to see an example of how to use GetDelegationControl API.
 // A default retry strategy applies to this operation GetDelegationControl()
 func (client DelegateAccessControlClient) GetDelegationControl(ctx context.Context, request GetDelegationControlRequest) (response GetDelegationControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -708,7 +708,7 @@ func (client DelegateAccessControlClient) getDelegationControl(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationSubscription.go.html to see an example of how to use GetDelegationSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationSubscription.go.html to see an example of how to use GetDelegationSubscription API.
 // A default retry strategy applies to this operation GetDelegationSubscription()
 func (client DelegateAccessControlClient) GetDelegationSubscription(ctx context.Context, request GetDelegationSubscriptionRequest) (response GetDelegationSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -766,7 +766,7 @@ func (client DelegateAccessControlClient) getDelegationSubscription(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetServiceProvider.go.html to see an example of how to use GetServiceProvider API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetServiceProvider.go.html to see an example of how to use GetServiceProvider API.
 // A default retry strategy applies to this operation GetServiceProvider()
 func (client DelegateAccessControlClient) GetServiceProvider(ctx context.Context, request GetServiceProviderRequest) (response GetServiceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -824,7 +824,7 @@ func (client DelegateAccessControlClient) getServiceProvider(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetServiceProviderAction.go.html to see an example of how to use GetServiceProviderAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetServiceProviderAction.go.html to see an example of how to use GetServiceProviderAction API.
 // A default retry strategy applies to this operation GetServiceProviderAction()
 func (client DelegateAccessControlClient) GetServiceProviderAction(ctx context.Context, request GetServiceProviderActionRequest) (response GetServiceProviderActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -882,7 +882,7 @@ func (client DelegateAccessControlClient) getServiceProviderAction(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegatedResourceAccessRequestHistories.go.html to see an example of how to use ListDelegatedResourceAccessRequestHistories API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegatedResourceAccessRequestHistories.go.html to see an example of how to use ListDelegatedResourceAccessRequestHistories API.
 // A default retry strategy applies to this operation ListDelegatedResourceAccessRequestHistories()
 func (client DelegateAccessControlClient) ListDelegatedResourceAccessRequestHistories(ctx context.Context, request ListDelegatedResourceAccessRequestHistoriesRequest) (response ListDelegatedResourceAccessRequestHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -940,7 +940,7 @@ func (client DelegateAccessControlClient) listDelegatedResourceAccessRequestHist
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegatedResourceAccessRequests.go.html to see an example of how to use ListDelegatedResourceAccessRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegatedResourceAccessRequests.go.html to see an example of how to use ListDelegatedResourceAccessRequests API.
 // A default retry strategy applies to this operation ListDelegatedResourceAccessRequests()
 func (client DelegateAccessControlClient) ListDelegatedResourceAccessRequests(ctx context.Context, request ListDelegatedResourceAccessRequestsRequest) (response ListDelegatedResourceAccessRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -998,7 +998,7 @@ func (client DelegateAccessControlClient) listDelegatedResourceAccessRequests(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationControlResources.go.html to see an example of how to use ListDelegationControlResources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationControlResources.go.html to see an example of how to use ListDelegationControlResources API.
 // A default retry strategy applies to this operation ListDelegationControlResources()
 func (client DelegateAccessControlClient) ListDelegationControlResources(ctx context.Context, request ListDelegationControlResourcesRequest) (response ListDelegationControlResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1056,7 +1056,7 @@ func (client DelegateAccessControlClient) listDelegationControlResources(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationControls.go.html to see an example of how to use ListDelegationControls API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationControls.go.html to see an example of how to use ListDelegationControls API.
 // A default retry strategy applies to this operation ListDelegationControls()
 func (client DelegateAccessControlClient) ListDelegationControls(ctx context.Context, request ListDelegationControlsRequest) (response ListDelegationControlsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1114,7 +1114,7 @@ func (client DelegateAccessControlClient) listDelegationControls(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationSubscriptions.go.html to see an example of how to use ListDelegationSubscriptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationSubscriptions.go.html to see an example of how to use ListDelegationSubscriptions API.
 // A default retry strategy applies to this operation ListDelegationSubscriptions()
 func (client DelegateAccessControlClient) ListDelegationSubscriptions(ctx context.Context, request ListDelegationSubscriptionsRequest) (response ListDelegationSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1172,7 +1172,7 @@ func (client DelegateAccessControlClient) listDelegationSubscriptions(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviderActions.go.html to see an example of how to use ListServiceProviderActions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviderActions.go.html to see an example of how to use ListServiceProviderActions API.
 // A default retry strategy applies to this operation ListServiceProviderActions()
 func (client DelegateAccessControlClient) ListServiceProviderActions(ctx context.Context, request ListServiceProviderActionsRequest) (response ListServiceProviderActionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1230,7 +1230,7 @@ func (client DelegateAccessControlClient) listServiceProviderActions(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviderInteractions.go.html to see an example of how to use ListServiceProviderInteractions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviderInteractions.go.html to see an example of how to use ListServiceProviderInteractions API.
 // A default retry strategy applies to this operation ListServiceProviderInteractions()
 func (client DelegateAccessControlClient) ListServiceProviderInteractions(ctx context.Context, request ListServiceProviderInteractionsRequest) (response ListServiceProviderInteractionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1288,7 +1288,7 @@ func (client DelegateAccessControlClient) listServiceProviderInteractions(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviders.go.html to see an example of how to use ListServiceProviders API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviders.go.html to see an example of how to use ListServiceProviders API.
 // A default retry strategy applies to this operation ListServiceProviders()
 func (client DelegateAccessControlClient) ListServiceProviders(ctx context.Context, request ListServiceProvidersRequest) (response ListServiceProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1346,7 +1346,7 @@ func (client DelegateAccessControlClient) listServiceProviders(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RejectDelegatedResourceAccessRequest.go.html to see an example of how to use RejectDelegatedResourceAccessRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RejectDelegatedResourceAccessRequest.go.html to see an example of how to use RejectDelegatedResourceAccessRequest API.
 // A default retry strategy applies to this operation RejectDelegatedResourceAccessRequest()
 func (client DelegateAccessControlClient) RejectDelegatedResourceAccessRequest(ctx context.Context, request RejectDelegatedResourceAccessRequestRequest) (response RejectDelegatedResourceAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1409,7 +1409,7 @@ func (client DelegateAccessControlClient) rejectDelegatedResourceAccessRequest(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RevokeDelegatedResourceAccessRequest.go.html to see an example of how to use RevokeDelegatedResourceAccessRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RevokeDelegatedResourceAccessRequest.go.html to see an example of how to use RevokeDelegatedResourceAccessRequest API.
 // A default retry strategy applies to this operation RevokeDelegatedResourceAccessRequest()
 func (client DelegateAccessControlClient) RevokeDelegatedResourceAccessRequest(ctx context.Context, request RevokeDelegatedResourceAccessRequestRequest) (response RevokeDelegatedResourceAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1472,7 +1472,7 @@ func (client DelegateAccessControlClient) revokeDelegatedResourceAccessRequest(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ServiceProviderInteractionRequest.go.html to see an example of how to use ServiceProviderInteractionRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ServiceProviderInteractionRequest.go.html to see an example of how to use ServiceProviderInteractionRequest API.
 // A default retry strategy applies to this operation ServiceProviderInteractionRequest()
 func (client DelegateAccessControlClient) ServiceProviderInteractionRequest(ctx context.Context, request ServiceProviderInteractionRequestRequest) (response ServiceProviderInteractionRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1535,7 +1535,7 @@ func (client DelegateAccessControlClient) serviceProviderInteractionRequest(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/UpdateDelegationControl.go.html to see an example of how to use UpdateDelegationControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/UpdateDelegationControl.go.html to see an example of how to use UpdateDelegationControl API.
 // A default retry strategy applies to this operation UpdateDelegationControl()
 func (client DelegateAccessControlClient) UpdateDelegationControl(ctx context.Context, request UpdateDelegationControlRequest) (response UpdateDelegationControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1593,7 +1593,7 @@ func (client DelegateAccessControlClient) updateDelegationControl(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/UpdateDelegationSubscription.go.html to see an example of how to use UpdateDelegationSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/UpdateDelegationSubscription.go.html to see an example of how to use UpdateDelegationSubscription API.
 // A default retry strategy applies to this operation UpdateDelegationSubscription()
 func (client DelegateAccessControlClient) UpdateDelegationSubscription(ctx context.Context, request UpdateDelegationSubscriptionRequest) (response UpdateDelegationSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse

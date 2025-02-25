@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/CreateManagementAgentInstallKey.go.html to see an example of how to use CreateManagementAgentInstallKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/CreateManagementAgentInstallKey.go.html to see an example of how to use CreateManagementAgentInstallKeyRequest.
 type CreateManagementAgentInstallKeyRequest struct {
 
 	// Details of the Agent install Key

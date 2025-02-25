@@ -20,7 +20,7 @@ import (
 // CreateNetworkAddressListVcnAddressesDetails The information about new NetworkAddressListVcnAddresses.
 type CreateNetworkAddressListVcnAddressesDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A list of private address prefixes, each associated with a particular VCN.

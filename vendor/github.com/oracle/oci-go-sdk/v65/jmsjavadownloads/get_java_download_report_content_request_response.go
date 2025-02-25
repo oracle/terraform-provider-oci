@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReportContent.go.html to see an example of how to use GetJavaDownloadReportContentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReportContent.go.html to see an example of how to use GetJavaDownloadReportContentRequest.
 type GetJavaDownloadReportContentRequest struct {
 
 	// Unique Java download report identifier.

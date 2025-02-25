@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApprovalWorkflowAssignment.go.html to see an example of how to use DeleteApprovalWorkflowAssignmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApprovalWorkflowAssignment.go.html to see an example of how to use DeleteApprovalWorkflowAssignmentRequest.
 type DeleteApprovalWorkflowAssignmentRequest struct {
 
 	// ID of the resource

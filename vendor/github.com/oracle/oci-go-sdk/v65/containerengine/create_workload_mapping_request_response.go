@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateWorkloadMapping.go.html to see an example of how to use CreateWorkloadMappingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateWorkloadMapping.go.html to see an example of how to use CreateWorkloadMappingRequest.
 type CreateWorkloadMappingRequest struct {
 
 	// The OCID of the cluster.

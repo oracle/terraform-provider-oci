@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.oracle.com/iaas/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -31,7 +31,7 @@ type CreatePublicationDetails struct {
 	// Contact information for getting support from the publisher for the listing.
 	SupportContacts []SupportContact `mandatory:"true" json:"supportContacts"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the publication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the publication.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	PackageDetails CreatePublicationPackage `mandatory:"true" json:"packageDetails"`
@@ -43,12 +43,12 @@ type CreatePublicationDetails struct {
 	LongDescription *string `mandatory:"false" json:"longDescription"`
 
 	// The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }

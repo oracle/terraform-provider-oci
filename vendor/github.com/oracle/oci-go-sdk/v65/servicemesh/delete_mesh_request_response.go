@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteMesh.go.html to see an example of how to use DeleteMeshRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteMesh.go.html to see an example of how to use DeleteMeshRequest.
 type DeleteMeshRequest struct {
 
 	// Unique Mesh identifier.

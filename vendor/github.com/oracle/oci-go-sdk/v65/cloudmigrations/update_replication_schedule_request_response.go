@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/UpdateReplicationSchedule.go.html to see an example of how to use UpdateReplicationScheduleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/UpdateReplicationSchedule.go.html to see an example of how to use UpdateReplicationScheduleRequest.
 type UpdateReplicationScheduleRequest struct {
 
 	// Unique replication schedule identifier in path

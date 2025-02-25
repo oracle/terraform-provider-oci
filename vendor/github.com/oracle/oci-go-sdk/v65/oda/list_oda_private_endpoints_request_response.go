@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpoints.go.html to see an example of how to use ListOdaPrivateEndpointsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpoints.go.html to see an example of how to use ListOdaPrivateEndpointsRequest.
 type ListOdaPrivateEndpointsRequest struct {
 
 	// List the ODA Private Endpoints that belong to this compartment.

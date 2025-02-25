@@ -83,7 +83,7 @@ func (m *updatenetworkaddresslistdetails) UnmarshalPolymorphicJSON(data []byte) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateNetworkAddressListDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for UpdateNetworkAddressListDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

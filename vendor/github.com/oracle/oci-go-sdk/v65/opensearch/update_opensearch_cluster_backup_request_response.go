@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/UpdateOpensearchClusterBackup.go.html to see an example of how to use UpdateOpensearchClusterBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/UpdateOpensearchClusterBackup.go.html to see an example of how to use UpdateOpensearchClusterBackupRequest.
 type UpdateOpensearchClusterBackupRequest struct {
 
 	// unique OpensearchClusterBackup identifier

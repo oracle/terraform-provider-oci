@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetComplianceReport.go.html to see an example of how to use GetComplianceReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetComplianceReport.go.html to see an example of how to use GetComplianceReportRequest.
 type GetComplianceReportRequest struct {
 
 	// Unique Fleet identifier.

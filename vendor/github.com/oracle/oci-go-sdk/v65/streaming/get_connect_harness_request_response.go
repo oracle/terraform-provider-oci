@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetConnectHarness.go.html to see an example of how to use GetConnectHarnessRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetConnectHarness.go.html to see an example of how to use GetConnectHarnessRequest.
 type GetConnectHarnessRequest struct {
 
 	// The OCID of the connect harness.

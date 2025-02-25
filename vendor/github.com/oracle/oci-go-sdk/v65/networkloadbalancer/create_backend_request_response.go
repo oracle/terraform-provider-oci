@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateBackend.go.html to see an example of how to use CreateBackendRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateBackend.go.html to see an example of how to use CreateBackendRequest.
 type CreateBackendRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 	NetworkLoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"networkLoadBalancerId"`
 
 	// The details to add a backend server to a backend set.

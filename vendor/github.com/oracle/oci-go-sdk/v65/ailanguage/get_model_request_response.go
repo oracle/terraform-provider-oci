@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetModel.go.html to see an example of how to use GetModelRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetModel.go.html to see an example of how to use GetModelRequest.
 type GetModelRequest struct {
 
 	// unique model OCID.

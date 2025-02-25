@@ -63,7 +63,7 @@ func (m *patchingconfigs) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PatchingConfigs: %s.", m.PatchingConfigStrategy)
+		common.Logf("Received unsupported enum value for PatchingConfigs: %s.", m.PatchingConfigStrategy)
 		return *m, nil
 	}
 }

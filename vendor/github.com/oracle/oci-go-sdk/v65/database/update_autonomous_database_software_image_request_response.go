@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateAutonomousDatabaseSoftwareImage.go.html to see an example of how to use UpdateAutonomousDatabaseSoftwareImageRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateAutonomousDatabaseSoftwareImage.go.html to see an example of how to use UpdateAutonomousDatabaseSoftwareImageRequest.
 type UpdateAutonomousDatabaseSoftwareImageRequest struct {
 
-	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseSoftwareImageId"`
 
 	// Request to update the properties of an Autonomous Database Software Image.

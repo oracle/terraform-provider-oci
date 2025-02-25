@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListInventoryResources.go.html to see an example of how to use ListInventoryResourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListInventoryResources.go.html to see an example of how to use ListInventoryResourcesRequest.
 type ListInventoryResourcesRequest struct {
 
 	// A filter to return only resources whose base Compartment ID(TenancyId) matches the given base Compartment ID.

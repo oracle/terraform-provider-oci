@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceForecastTrendAggregated.go.html to see an example of how to use SummarizeExadataInsightResourceForecastTrendAggregatedRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceForecastTrendAggregated.go.html to see an example of how to use SummarizeExadataInsightResourceForecastTrendAggregatedRequest.
 type SummarizeExadataInsightResourceForecastTrendAggregatedRequest struct {
 
 	// Filter by resource.
@@ -26,7 +26,7 @@ type SummarizeExadataInsightResourceForecastTrendAggregatedRequest struct {
 	// Supported values are CPU , STORAGE, MEMORY, IO, IOPS, THROUGHPUT
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Specify time period in ISO 8601 format with respect to current time.
@@ -48,7 +48,7 @@ type SummarizeExadataInsightResourceForecastTrendAggregatedRequest struct {
 	// If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
 	TimeIntervalEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeIntervalEnd"`
 
-	// Optional list of exadata insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of exadata insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
 
 	// Filter by one or more Exadata types.
@@ -86,7 +86,7 @@ type SummarizeExadataInsightResourceForecastTrendAggregatedRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from
 	// the previous "List" call. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.

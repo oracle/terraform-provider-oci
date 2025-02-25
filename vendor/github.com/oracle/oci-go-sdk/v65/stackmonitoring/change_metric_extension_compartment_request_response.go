@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMetricExtensionCompartment.go.html to see an example of how to use ChangeMetricExtensionCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMetricExtensionCompartment.go.html to see an example of how to use ChangeMetricExtensionCompartmentRequest.
 type ChangeMetricExtensionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the metric extension resource.
 	MetricExtensionId *string `mandatory:"true" contributesTo:"path" name:"metricExtensionId"`
 
 	// The information required to change compartment of given Metric Extension resource

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/DeleteWebAppAcceleration.go.html to see an example of how to use DeleteWebAppAccelerationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/DeleteWebAppAcceleration.go.html to see an example of how to use DeleteWebAppAccelerationRequest.
 type DeleteWebAppAccelerationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
 	WebAppAccelerationId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource,

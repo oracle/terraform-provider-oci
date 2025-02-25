@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetAssociation.go.html to see an example of how to use GetAssociationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetAssociation.go.html to see an example of how to use GetAssociationRequest.
 type GetAssociationRequest struct {
 
 	// The OCID of an association between a certificate-related resource and another Oracle Cloud Infrastructure resource.

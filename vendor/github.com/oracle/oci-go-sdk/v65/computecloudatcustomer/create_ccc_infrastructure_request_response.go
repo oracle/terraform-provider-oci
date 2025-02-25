@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/CreateCccInfrastructure.go.html to see an example of how to use CreateCccInfrastructureRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/CreateCccInfrastructure.go.html to see an example of how to use CreateCccInfrastructureRequest.
 type CreateCccInfrastructureRequest struct {
 
 	// Details for the new CccInfrastructure.
@@ -28,7 +28,7 @@ type CreateCccInfrastructureRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

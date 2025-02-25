@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangeShardedDatabaseCompartment.go.html to see an example of how to use ChangeShardedDatabaseCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangeShardedDatabaseCompartment.go.html to see an example of how to use ChangeShardedDatabaseCompartmentRequest.
 type ChangeShardedDatabaseCompartmentRequest struct {
 
 	// Request to move the sharded database to a different compartment.

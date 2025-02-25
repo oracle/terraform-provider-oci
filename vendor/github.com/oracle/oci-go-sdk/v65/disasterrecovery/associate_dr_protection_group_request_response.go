@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/AssociateDrProtectionGroup.go.html to see an example of how to use AssociateDrProtectionGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/AssociateDrProtectionGroup.go.html to see an example of how to use AssociateDrProtectionGroupRequest.
 type AssociateDrProtectionGroupRequest struct {
 
 	// Details for creating an association between two DR protection groups.

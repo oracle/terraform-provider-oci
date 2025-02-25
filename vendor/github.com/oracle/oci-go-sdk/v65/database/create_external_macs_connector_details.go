@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -17,7 +17,7 @@ import (
 )
 
 // CreateExternalMacsConnectorDetails Details for creating a resource used to connect to an external Oracle Database using
-// the Management Agent cloud service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
+// the Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html).
 type CreateExternalMacsConnectorDetails struct {
 
 	// The user-friendly name for the
@@ -25,7 +25,7 @@ type CreateExternalMacsConnectorDetails struct {
 	// The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database resource.
 	ExternalDatabaseId *string `mandatory:"true" json:"externalDatabaseId"`
 
 	ConnectionString *DatabaseConnectionString `mandatory:"true" json:"connectionString"`
@@ -37,12 +37,12 @@ type CreateExternalMacsConnectorDetails struct {
 	ConnectorAgentId *string `mandatory:"true" json:"connectorAgentId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleHsmClusterDeletion.go.html to see an example of how to use ScheduleHsmClusterDeletionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleHsmClusterDeletion.go.html to see an example of how to use ScheduleHsmClusterDeletionRequest.
 type ScheduleHsmClusterDeletionRequest struct {
 
 	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.

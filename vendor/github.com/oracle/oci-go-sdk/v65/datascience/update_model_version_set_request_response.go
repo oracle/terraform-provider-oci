@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelVersionSet.go.html to see an example of how to use UpdateModelVersionSetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelVersionSet.go.html to see an example of how to use UpdateModelVersionSetRequest.
 type UpdateModelVersionSetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model version set.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model version set.
 	ModelVersionSetId *string `mandatory:"true" contributesTo:"path" name:"modelVersionSetId"`
 
 	// Details for updating a model version set. You can update `description` property only.
@@ -85,7 +85,7 @@ type UpdateModelVersionSetResponse struct {
 	// The ModelVersionSet instance
 	ModelVersionSet `presentIn:"body"`
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact

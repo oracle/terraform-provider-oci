@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureShardedDatabaseGsms.go.html to see an example of how to use ConfigureShardedDatabaseGsmsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureShardedDatabaseGsms.go.html to see an example of how to use ConfigureShardedDatabaseGsmsRequest.
 type ConfigureShardedDatabaseGsmsRequest struct {
 
 	// Details to configure the new GSM instances for the sharded database.

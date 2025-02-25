@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowJobCompartment.go.html to see an example of how to use ChangeMediaWorkflowJobCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowJobCompartment.go.html to see an example of how to use ChangeMediaWorkflowJobCompartmentRequest.
 type ChangeMediaWorkflowJobCompartmentRequest struct {
 
 	// Unique MediaWorkflowJob identifier.

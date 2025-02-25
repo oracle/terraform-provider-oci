@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StopHeatWaveCluster.go.html to see an example of how to use StopHeatWaveClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StopHeatWaveCluster.go.html to see an example of how to use StopHeatWaveClusterRequest.
 type StopHeatWaveClusterRequest struct {
 
-	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB System OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

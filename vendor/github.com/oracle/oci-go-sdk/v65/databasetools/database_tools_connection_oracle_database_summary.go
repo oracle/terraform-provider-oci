@@ -19,13 +19,13 @@ import (
 // DatabaseToolsConnectionOracleDatabaseSummary DatabaseToolsConnectionSummary of an Oracle Database.
 type DatabaseToolsConnectionOracleDatabaseSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time the Database Tools connection was created. An RFC3339 formatted datetime string.
@@ -69,7 +69,7 @@ type DatabaseToolsConnectionOracleDatabaseSummary struct {
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreSummary `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsPrivateEndpoint` used to access the database in the customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsPrivateEndpoint` used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
 	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientSummary `mandatory:"false" json:"proxyClient"`

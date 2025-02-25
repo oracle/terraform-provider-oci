@@ -16,7 +16,7 @@ import (
 )
 
 // OpensearchClusterPipeline An OpenSearch cluster Pipeline resource. An cluster is set of instances that provide OpenSearch functionality in OCI Search Service with OpenSearch.
-// For more information, see Cluster Pipelines (https://docs.cloud.oracle.com/iaas/Content/search-opensearch/Concepts/ociopensearchpipeline.htm).
+// For more information, see Cluster Pipelines (https://docs.oracle.com/iaas/Content/search-opensearch/Concepts/ociopensearchpipeline.htm).
 type OpensearchClusterPipeline struct {
 
 	// The OCID of the cluster pipeline.

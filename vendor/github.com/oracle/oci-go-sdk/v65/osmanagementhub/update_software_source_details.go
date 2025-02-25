@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -20,7 +20,7 @@ import (
 // UpdateSoftwareSourceDetails Provides the information used to update a software source.
 type UpdateSoftwareSourceDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
 	// User-friendly name for the software source.
@@ -30,12 +30,12 @@ type UpdateSoftwareSourceDetails interface {
 	GetDescription() *string
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 }
@@ -84,6 +84,10 @@ func (m *updatesoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := UpdateCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRIVATE":
+		mm := UpdatePrivateSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERSIONED":
 		mm := UpdateVersionedCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -92,8 +96,12 @@ func (m *updatesoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := UpdateVendorSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "THIRD_PARTY":
+		mm := UpdateThirdPartySoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateSoftwareSourceDetails: %s.", m.SoftwareSourceType)
+		common.Logf("Received unsupported enum value for UpdateSoftwareSourceDetails: %s.", m.SoftwareSourceType)
 		return *m, nil
 	}
 }

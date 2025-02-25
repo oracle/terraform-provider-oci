@@ -18,7 +18,7 @@ import (
 // ReplicationSchedule Replication schedule.
 type ReplicationSchedule struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication schedule.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A name of the replication schedule.
@@ -27,7 +27,7 @@ type ReplicationSchedule struct {
 	// Recurrence specification for the replication schedule execution.
 	ExecutionRecurrences *string `mandatory:"true" json:"executionRecurrences"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the replication schedule exists.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the replication schedule exists.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Current state of the replication schedule.

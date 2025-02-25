@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyCustomerSecretKey.go.html to see an example of how to use PatchMyCustomerSecretKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyCustomerSecretKey.go.html to see an example of how to use PatchMyCustomerSecretKeyRequest.
 type PatchMyCustomerSecretKeyRequest struct {
 
 	// ID of the resource

@@ -18,13 +18,13 @@ import (
 // FleetErrorSummary The summary of a fleet error.
 type FleetErrorSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 
 	// The display name of the Fleet.
 	FleetName *string `mandatory:"true" json:"fleetName"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of fleet error details.

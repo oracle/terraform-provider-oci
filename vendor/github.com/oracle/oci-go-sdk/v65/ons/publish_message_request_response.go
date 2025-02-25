@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessageRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessageRequest.
 type PublishMessageRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// The message to publish.

@@ -5,7 +5,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -18,7 +18,7 @@ import (
 
 // BackendSet The configuration of a load balancer backend set.
 // For more information on backend set configuration, see
-// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
+// Managing Backend Sets (https://docs.oracle.com/iaas/Content/Balance/Tasks/managingbackendsets.htm).
 // **Note:** The `sessionPersistenceConfiguration` (application cookie stickiness) and `lbCookieSessionPersistenceConfiguration`
 // (LB cookie stickiness) attributes are mutually exclusive. To avoid returning an error, configure only one of these two
 // attributes per backend set.

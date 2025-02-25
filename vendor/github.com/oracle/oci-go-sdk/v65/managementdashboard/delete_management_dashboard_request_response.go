@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/DeleteManagementDashboard.go.html to see an example of how to use DeleteManagementDashboardRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/DeleteManagementDashboard.go.html to see an example of how to use DeleteManagementDashboardRequest.
 type DeleteManagementDashboardRequest struct {
 
 	// A unique dashboard identifier.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/BulkCreateSkillEntities.go.html to see an example of how to use BulkCreateSkillEntitiesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/BulkCreateSkillEntities.go.html to see an example of how to use BulkCreateSkillEntitiesRequest.
 type BulkCreateSkillEntitiesRequest struct {
 
 	// Unique Digital Assistant instance identifier.

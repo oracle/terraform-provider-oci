@@ -63,7 +63,7 @@ func (m *schedulehttpactiondetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ScheduleHttpActionDetails: %s.", m.HttpActionType)
+		common.Logf("Received unsupported enum value for ScheduleHttpActionDetails: %s.", m.HttpActionType)
 		return *m, nil
 	}
 }

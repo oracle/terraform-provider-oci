@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateUsagePlan.go.html to see an example of how to use CreateUsagePlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateUsagePlan.go.html to see an example of how to use CreateUsagePlanRequest.
 type CreateUsagePlanRequest struct {
 
 	// Details for the new usage plan.

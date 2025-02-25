@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataFlow.go.html to see an example of how to use DeleteDataFlowRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataFlow.go.html to see an example of how to use DeleteDataFlowRequest.
 type DeleteDataFlowRequest struct {
 
 	// The workspace ID.

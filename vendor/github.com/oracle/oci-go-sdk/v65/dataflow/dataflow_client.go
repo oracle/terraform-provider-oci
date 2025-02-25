@@ -95,7 +95,7 @@ func (client *DataFlowClient) ConfigurationProvider() *common.ConfigurationProvi
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CascadingDeleteApplication.go.html to see an example of how to use CascadingDeleteApplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CascadingDeleteApplication.go.html to see an example of how to use CascadingDeleteApplication API.
 func (client DataFlowClient) CascadingDeleteApplication(ctx context.Context, request CascadingDeleteApplicationRequest) (response CascadingDeleteApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -153,7 +153,7 @@ func (client DataFlowClient) cascadingDeleteApplication(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeApplicationCompartment.go.html to see an example of how to use ChangeApplicationCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeApplicationCompartment.go.html to see an example of how to use ChangeApplicationCompartment API.
 func (client DataFlowClient) ChangeApplicationCompartment(ctx context.Context, request ChangeApplicationCompartmentRequest) (response ChangeApplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -218,7 +218,7 @@ func (client DataFlowClient) changeApplicationCompartment(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangePoolCompartment.go.html to see an example of how to use ChangePoolCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangePoolCompartment.go.html to see an example of how to use ChangePoolCompartment API.
 // A default retry strategy applies to this operation ChangePoolCompartment()
 func (client DataFlowClient) ChangePoolCompartment(ctx context.Context, request ChangePoolCompartmentRequest) (response ChangePoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -281,7 +281,7 @@ func (client DataFlowClient) changePoolCompartment(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartment API.
 func (client DataFlowClient) ChangePrivateEndpointCompartment(ctx context.Context, request ChangePrivateEndpointCompartmentRequest) (response ChangePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -341,7 +341,7 @@ func (client DataFlowClient) changePrivateEndpointCompartment(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeRunCompartment.go.html to see an example of how to use ChangeRunCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeRunCompartment.go.html to see an example of how to use ChangeRunCompartment API.
 func (client DataFlowClient) ChangeRunCompartment(ctx context.Context, request ChangeRunCompartmentRequest) (response ChangeRunCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -403,7 +403,7 @@ func (client DataFlowClient) changeRunCompartment(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeSqlEndpointCompartment.go.html to see an example of how to use ChangeSqlEndpointCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeSqlEndpointCompartment.go.html to see an example of how to use ChangeSqlEndpointCompartment API.
 func (client DataFlowClient) ChangeSqlEndpointCompartment(ctx context.Context, request ChangeSqlEndpointCompartmentRequest) (response ChangeSqlEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -465,7 +465,7 @@ func (client DataFlowClient) changeSqlEndpointCompartment(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateApplication.go.html to see an example of how to use CreateApplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateApplication.go.html to see an example of how to use CreateApplication API.
 func (client DataFlowClient) CreateApplication(ctx context.Context, request CreateApplicationRequest) (response CreateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -527,7 +527,7 @@ func (client DataFlowClient) createApplication(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePool.go.html to see an example of how to use CreatePool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePool.go.html to see an example of how to use CreatePool API.
 // A default retry strategy applies to this operation CreatePool()
 func (client DataFlowClient) CreatePool(ctx context.Context, request CreatePoolRequest) (response CreatePoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -590,7 +590,7 @@ func (client DataFlowClient) createPool(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpoint API.
 func (client DataFlowClient) CreatePrivateEndpoint(ctx context.Context, request CreatePrivateEndpointRequest) (response CreatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -652,7 +652,7 @@ func (client DataFlowClient) createPrivateEndpoint(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateRun.go.html to see an example of how to use CreateRun API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateRun.go.html to see an example of how to use CreateRun API.
 func (client DataFlowClient) CreateRun(ctx context.Context, request CreateRunRequest) (response CreateRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -714,7 +714,7 @@ func (client DataFlowClient) createRun(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateSqlEndpoint.go.html to see an example of how to use CreateSqlEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateSqlEndpoint.go.html to see an example of how to use CreateSqlEndpoint API.
 func (client DataFlowClient) CreateSqlEndpoint(ctx context.Context, request CreateSqlEndpointRequest) (response CreateSqlEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -776,7 +776,7 @@ func (client DataFlowClient) createSqlEndpoint(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateStatement.go.html to see an example of how to use CreateStatement API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateStatement.go.html to see an example of how to use CreateStatement API.
 func (client DataFlowClient) CreateStatement(ctx context.Context, request CreateStatementRequest) (response CreateStatementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -833,7 +833,7 @@ func (client DataFlowClient) createStatement(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteApplication.go.html to see an example of how to use DeleteApplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteApplication.go.html to see an example of how to use DeleteApplication API.
 func (client DataFlowClient) DeleteApplication(ctx context.Context, request DeleteApplicationRequest) (response DeleteApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -890,7 +890,7 @@ func (client DataFlowClient) deleteApplication(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeletePool.go.html to see an example of how to use DeletePool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeletePool.go.html to see an example of how to use DeletePool API.
 func (client DataFlowClient) DeletePool(ctx context.Context, request DeletePoolRequest) (response DeletePoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -947,7 +947,7 @@ func (client DataFlowClient) deletePool(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeletePrivateEndpoint.go.html to see an example of how to use DeletePrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeletePrivateEndpoint.go.html to see an example of how to use DeletePrivateEndpoint API.
 func (client DataFlowClient) DeletePrivateEndpoint(ctx context.Context, request DeletePrivateEndpointRequest) (response DeletePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1005,7 +1005,7 @@ func (client DataFlowClient) deletePrivateEndpoint(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteRun.go.html to see an example of how to use DeleteRun API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteRun.go.html to see an example of how to use DeleteRun API.
 func (client DataFlowClient) DeleteRun(ctx context.Context, request DeleteRunRequest) (response DeleteRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1062,7 +1062,7 @@ func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteSqlEndpoint.go.html to see an example of how to use DeleteSqlEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteSqlEndpoint.go.html to see an example of how to use DeleteSqlEndpoint API.
 func (client DataFlowClient) DeleteSqlEndpoint(ctx context.Context, request DeleteSqlEndpointRequest) (response DeleteSqlEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1119,7 +1119,7 @@ func (client DataFlowClient) deleteSqlEndpoint(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteStatement.go.html to see an example of how to use DeleteStatement API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteStatement.go.html to see an example of how to use DeleteStatement API.
 // A default retry strategy applies to this operation DeleteStatement()
 func (client DataFlowClient) DeleteStatement(ctx context.Context, request DeleteStatementRequest) (response DeleteStatementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1177,7 +1177,7 @@ func (client DataFlowClient) deleteStatement(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetApplication.go.html to see an example of how to use GetApplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetApplication.go.html to see an example of how to use GetApplication API.
 // A default retry strategy applies to this operation GetApplication()
 func (client DataFlowClient) GetApplication(ctx context.Context, request GetApplicationRequest) (response GetApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1235,7 +1235,7 @@ func (client DataFlowClient) getApplication(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetPool.go.html to see an example of how to use GetPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetPool.go.html to see an example of how to use GetPool API.
 // A default retry strategy applies to this operation GetPool()
 func (client DataFlowClient) GetPool(ctx context.Context, request GetPoolRequest) (response GetPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1293,7 +1293,7 @@ func (client DataFlowClient) getPool(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetPrivateEndpoint.go.html to see an example of how to use GetPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetPrivateEndpoint.go.html to see an example of how to use GetPrivateEndpoint API.
 // A default retry strategy applies to this operation GetPrivateEndpoint()
 func (client DataFlowClient) GetPrivateEndpoint(ctx context.Context, request GetPrivateEndpointRequest) (response GetPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1351,7 +1351,7 @@ func (client DataFlowClient) getPrivateEndpoint(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetRun.go.html to see an example of how to use GetRun API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetRun.go.html to see an example of how to use GetRun API.
 // A default retry strategy applies to this operation GetRun()
 func (client DataFlowClient) GetRun(ctx context.Context, request GetRunRequest) (response GetRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1409,7 +1409,7 @@ func (client DataFlowClient) getRun(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetRunLog.go.html to see an example of how to use GetRunLog API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetRunLog.go.html to see an example of how to use GetRunLog API.
 // A default retry strategy applies to this operation GetRunLog()
 func (client DataFlowClient) GetRunLog(ctx context.Context, request GetRunLogRequest) (response GetRunLogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1466,7 +1466,7 @@ func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetSqlEndpoint.go.html to see an example of how to use GetSqlEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetSqlEndpoint.go.html to see an example of how to use GetSqlEndpoint API.
 // A default retry strategy applies to this operation GetSqlEndpoint()
 func (client DataFlowClient) GetSqlEndpoint(ctx context.Context, request GetSqlEndpointRequest) (response GetSqlEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1524,7 +1524,7 @@ func (client DataFlowClient) getSqlEndpoint(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetStatement.go.html to see an example of how to use GetStatement API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetStatement.go.html to see an example of how to use GetStatement API.
 // A default retry strategy applies to this operation GetStatement()
 func (client DataFlowClient) GetStatement(ctx context.Context, request GetStatementRequest) (response GetStatementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1582,7 +1582,7 @@ func (client DataFlowClient) getStatement(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DataFlowClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1640,7 +1640,7 @@ func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListApplications.go.html to see an example of how to use ListApplications API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListApplications.go.html to see an example of how to use ListApplications API.
 // A default retry strategy applies to this operation ListApplications()
 func (client DataFlowClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1698,7 +1698,7 @@ func (client DataFlowClient) listApplications(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListPools.go.html to see an example of how to use ListPools API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListPools.go.html to see an example of how to use ListPools API.
 // A default retry strategy applies to this operation ListPools()
 func (client DataFlowClient) ListPools(ctx context.Context, request ListPoolsRequest) (response ListPoolsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1756,7 +1756,7 @@ func (client DataFlowClient) listPools(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpoints API.
 // A default retry strategy applies to this operation ListPrivateEndpoints()
 func (client DataFlowClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1814,7 +1814,7 @@ func (client DataFlowClient) listPrivateEndpoints(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListRunLogs.go.html to see an example of how to use ListRunLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListRunLogs.go.html to see an example of how to use ListRunLogs API.
 // A default retry strategy applies to this operation ListRunLogs()
 func (client DataFlowClient) ListRunLogs(ctx context.Context, request ListRunLogsRequest) (response ListRunLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1872,7 +1872,7 @@ func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListRuns.go.html to see an example of how to use ListRuns API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListRuns.go.html to see an example of how to use ListRuns API.
 // A default retry strategy applies to this operation ListRuns()
 func (client DataFlowClient) ListRuns(ctx context.Context, request ListRunsRequest) (response ListRunsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1932,7 +1932,7 @@ func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListSqlEndpoints.go.html to see an example of how to use ListSqlEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListSqlEndpoints.go.html to see an example of how to use ListSqlEndpoints API.
 // A default retry strategy applies to this operation ListSqlEndpoints()
 func (client DataFlowClient) ListSqlEndpoints(ctx context.Context, request ListSqlEndpointsRequest) (response ListSqlEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1990,7 +1990,7 @@ func (client DataFlowClient) listSqlEndpoints(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListStatements.go.html to see an example of how to use ListStatements API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListStatements.go.html to see an example of how to use ListStatements API.
 // A default retry strategy applies to this operation ListStatements()
 func (client DataFlowClient) ListStatements(ctx context.Context, request ListStatementsRequest) (response ListStatementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2048,7 +2048,7 @@ func (client DataFlowClient) listStatements(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataFlowClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2106,7 +2106,7 @@ func (client DataFlowClient) listWorkRequestErrors(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataFlowClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2164,7 +2164,7 @@ func (client DataFlowClient) listWorkRequestLogs(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DataFlowClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2222,7 +2222,7 @@ func (client DataFlowClient) listWorkRequests(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StartPool.go.html to see an example of how to use StartPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StartPool.go.html to see an example of how to use StartPool API.
 // A default retry strategy applies to this operation StartPool()
 func (client DataFlowClient) StartPool(ctx context.Context, request StartPoolRequest) (response StartPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2285,7 +2285,7 @@ func (client DataFlowClient) startPool(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StartSqlEndpoint.go.html to see an example of how to use StartSqlEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StartSqlEndpoint.go.html to see an example of how to use StartSqlEndpoint API.
 // A default retry strategy applies to this operation StartSqlEndpoint()
 func (client DataFlowClient) StartSqlEndpoint(ctx context.Context, request StartSqlEndpointRequest) (response StartSqlEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2348,7 +2348,7 @@ func (client DataFlowClient) startSqlEndpoint(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StopPool.go.html to see an example of how to use StopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StopPool.go.html to see an example of how to use StopPool API.
 // A default retry strategy applies to this operation StopPool()
 func (client DataFlowClient) StopPool(ctx context.Context, request StopPoolRequest) (response StopPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2411,7 +2411,7 @@ func (client DataFlowClient) stopPool(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StopSqlEndpoint.go.html to see an example of how to use StopSqlEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StopSqlEndpoint.go.html to see an example of how to use StopSqlEndpoint API.
 // A default retry strategy applies to this operation StopSqlEndpoint()
 func (client DataFlowClient) StopSqlEndpoint(ctx context.Context, request StopSqlEndpointRequest) (response StopSqlEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2474,7 +2474,7 @@ func (client DataFlowClient) stopSqlEndpoint(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateApplication.go.html to see an example of how to use UpdateApplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateApplication.go.html to see an example of how to use UpdateApplication API.
 func (client DataFlowClient) UpdateApplication(ctx context.Context, request UpdateApplicationRequest) (response UpdateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2533,7 +2533,7 @@ func (client DataFlowClient) updateApplication(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdatePool.go.html to see an example of how to use UpdatePool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdatePool.go.html to see an example of how to use UpdatePool API.
 func (client DataFlowClient) UpdatePool(ctx context.Context, request UpdatePoolRequest) (response UpdatePoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2592,7 +2592,7 @@ func (client DataFlowClient) updatePool(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpoint API.
 func (client DataFlowClient) UpdatePrivateEndpoint(ctx context.Context, request UpdatePrivateEndpointRequest) (response UpdatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2649,7 +2649,7 @@ func (client DataFlowClient) updatePrivateEndpoint(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateRun.go.html to see an example of how to use UpdateRun API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateRun.go.html to see an example of how to use UpdateRun API.
 func (client DataFlowClient) UpdateRun(ctx context.Context, request UpdateRunRequest) (response UpdateRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2706,7 +2706,7 @@ func (client DataFlowClient) updateRun(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateSqlEndpoint.go.html to see an example of how to use UpdateSqlEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateSqlEndpoint.go.html to see an example of how to use UpdateSqlEndpoint API.
 func (client DataFlowClient) UpdateSqlEndpoint(ctx context.Context, request UpdateSqlEndpointRequest) (response UpdateSqlEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

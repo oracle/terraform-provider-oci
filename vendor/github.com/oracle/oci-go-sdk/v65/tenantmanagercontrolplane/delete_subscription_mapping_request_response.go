@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteSubscriptionMapping.go.html to see an example of how to use DeleteSubscriptionMappingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteSubscriptionMapping.go.html to see an example of how to use DeleteSubscriptionMappingRequest.
 type DeleteSubscriptionMappingRequest struct {
 
 	// OCID of the subscription mapping ID.

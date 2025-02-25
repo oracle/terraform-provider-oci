@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWebAppAccelerationPolicy.go.html to see an example of how to use GetWebAppAccelerationPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWebAppAccelerationPolicy.go.html to see an example of how to use GetWebAppAccelerationPolicyRequest.
 type GetWebAppAccelerationPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
 	WebAppAccelerationPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationPolicyId"`
 
 	// The client request ID for tracing.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProperties.go.html to see an example of how to use ListFleetPropertiesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProperties.go.html to see an example of how to use ListFleetPropertiesRequest.
 type ListFleetPropertiesRequest struct {
 
 	// Unique Fleet identifier.

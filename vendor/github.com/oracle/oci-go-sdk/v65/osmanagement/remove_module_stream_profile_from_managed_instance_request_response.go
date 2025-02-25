@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemoveModuleStreamProfileFromManagedInstance.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemoveModuleStreamProfileFromManagedInstance.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstanceRequest.
 type RemoveModuleStreamProfileFromManagedInstanceRequest struct {
 
 	// OCID for the managed instance

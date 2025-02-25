@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -18,13 +18,13 @@ import (
 // TopUtilizedResourceSummary A summary of a top utlized resource.
 type TopUtilizedResourceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
 	// Resource canonical name.
 	ResourceName *string `mandatory:"true" json:"resourceName"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that contains the resource.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that contains the resource.
 	ResourceCompartmentId *string `mandatory:"true" json:"resourceCompartmentId"`
 
 	// The display name of the compartment that contains the resource.

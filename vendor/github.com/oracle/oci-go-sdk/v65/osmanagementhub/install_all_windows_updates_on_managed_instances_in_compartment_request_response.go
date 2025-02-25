@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallAllWindowsUpdatesOnManagedInstancesInCompartment.go.html to see an example of how to use InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallAllWindowsUpdatesOnManagedInstancesInCompartment.go.html to see an example of how to use InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest.
 type InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest struct {
 
 	// The details about Windows update types to be installed on all managed instances in a compartment.

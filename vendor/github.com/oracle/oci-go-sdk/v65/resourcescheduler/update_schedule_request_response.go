@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcescheduler/UpdateSchedule.go.html to see an example of how to use UpdateScheduleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcescheduler/UpdateSchedule.go.html to see an example of how to use UpdateScheduleRequest.
 type UpdateScheduleRequest struct {
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	ScheduleId *string `mandatory:"true" contributesTo:"path" name:"scheduleId"`
 
 	// The information about a schedule that will be updated.
@@ -84,7 +84,7 @@ type UpdateScheduleResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/DeleteRedeemableUser.go.html to see an example of how to use DeleteRedeemableUserRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/DeleteRedeemableUser.go.html to see an example of how to use DeleteRedeemableUserRequest.
 type DeleteRedeemableUserRequest struct {
 
 	// The email ID that needs to be deleted.

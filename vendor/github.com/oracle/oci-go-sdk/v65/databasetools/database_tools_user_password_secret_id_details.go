@@ -19,7 +19,7 @@ import (
 // DatabaseToolsUserPasswordSecretIdDetails The user password.
 type DatabaseToolsUserPasswordSecretIdDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	SecretId *string `mandatory:"true" json:"secretId"`
 }
 

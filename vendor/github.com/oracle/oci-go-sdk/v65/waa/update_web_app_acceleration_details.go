@@ -23,7 +23,7 @@ type UpdateWebAppAccelerationDetails struct {
 	// WebAppAcceleration display name, can be renamed.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
 	// This update guarantees that the resource always has WebAppAccelerationPolicy attached at any time.
 	WebAppAccelerationPolicyId *string `mandatory:"false" json:"webAppAccelerationPolicyId"`
 

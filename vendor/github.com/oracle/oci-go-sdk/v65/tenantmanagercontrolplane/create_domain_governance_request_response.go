@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomainGovernance.go.html to see an example of how to use CreateDomainGovernanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomainGovernance.go.html to see an example of how to use CreateDomainGovernanceRequest.
 type CreateDomainGovernanceRequest struct {
 
 	// Parameters for adding domain governance to a claimed domain.

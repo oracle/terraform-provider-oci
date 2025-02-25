@@ -42,7 +42,7 @@ type PatchFsuCycle struct {
 	// In this array all the possible actions will be listed. The first element is the suggested Action.
 	NextActionToExecute []NextActionToExecuteDetails `mandatory:"false" json:"nextActionToExecute"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the latest Action
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action
 	// in the Exadata Fleet Update Cycle.
 	LastCompletedActionId *string `mandatory:"false" json:"lastCompletedActionId"`
 

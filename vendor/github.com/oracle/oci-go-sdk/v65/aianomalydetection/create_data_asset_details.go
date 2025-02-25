@@ -24,7 +24,7 @@ type CreateDataAssetDetails struct {
 	// The OCID for the data asset's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the data asset.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the data asset.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	DataSourceDetails DataSourceDetails `mandatory:"true" json:"dataSourceDetails"`

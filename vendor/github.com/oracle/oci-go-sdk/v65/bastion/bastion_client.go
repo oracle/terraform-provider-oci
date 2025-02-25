@@ -4,7 +4,7 @@
 
 // Bastion API
 //
-// Use the Bastion API to provide restricted and time-limited access to target resources that don't have public endpoints. Bastions let authorized users connect from specific IP addresses to target resources using Secure Shell (SSH) sessions. For more information, see the Bastion documentation (https://docs.cloud.oracle.com/iaas/Content/Bastion/home.htm).
+// Use the Bastion API to provide restricted and time-limited access to target resources that don't have public endpoints. Bastions let authorized users connect from specific IP addresses to target resources using Secure Shell (SSH) sessions. For more information, see the Bastion documentation (https://docs.oracle.com/iaas/Content/Bastion/home.htm).
 //
 
 package bastion
@@ -95,7 +95,7 @@ func (client *BastionClient) ConfigurationProvider() *common.ConfigurationProvid
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ChangeBastionCompartment.go.html to see an example of how to use ChangeBastionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ChangeBastionCompartment.go.html to see an example of how to use ChangeBastionCompartment API.
 func (client BastionClient) ChangeBastionCompartment(ctx context.Context, request ChangeBastionCompartmentRequest) (response ChangeBastionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,7 +152,7 @@ func (client BastionClient) changeBastionCompartment(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateBastion.go.html to see an example of how to use CreateBastion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateBastion.go.html to see an example of how to use CreateBastion API.
 func (client BastionClient) CreateBastion(ctx context.Context, request CreateBastionRequest) (response CreateBastionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client BastionClient) createBastion(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateSession.go.html to see an example of how to use CreateSession API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateSession.go.html to see an example of how to use CreateSession API.
 func (client BastionClient) CreateSession(ctx context.Context, request CreateSessionRequest) (response CreateSessionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -276,7 +276,7 @@ func (client BastionClient) createSession(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteBastion.go.html to see an example of how to use DeleteBastion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteBastion.go.html to see an example of how to use DeleteBastion API.
 func (client BastionClient) DeleteBastion(ctx context.Context, request DeleteBastionRequest) (response DeleteBastionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -333,7 +333,7 @@ func (client BastionClient) deleteBastion(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteSession.go.html to see an example of how to use DeleteSession API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteSession.go.html to see an example of how to use DeleteSession API.
 func (client BastionClient) DeleteSession(ctx context.Context, request DeleteSessionRequest) (response DeleteSessionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -390,7 +390,7 @@ func (client BastionClient) deleteSession(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetBastion.go.html to see an example of how to use GetBastion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetBastion.go.html to see an example of how to use GetBastion API.
 // A default retry strategy applies to this operation GetBastion()
 func (client BastionClient) GetBastion(ctx context.Context, request GetBastionRequest) (response GetBastionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -448,7 +448,7 @@ func (client BastionClient) getBastion(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetSession.go.html to see an example of how to use GetSession API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetSession.go.html to see an example of how to use GetSession API.
 // A default retry strategy applies to this operation GetSession()
 func (client BastionClient) GetSession(ctx context.Context, request GetSessionRequest) (response GetSessionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -506,7 +506,7 @@ func (client BastionClient) getSession(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client BastionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -563,7 +563,7 @@ func (client BastionClient) getWorkRequest(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListBastions.go.html to see an example of how to use ListBastions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListBastions.go.html to see an example of how to use ListBastions API.
 func (client BastionClient) ListBastions(ctx context.Context, request ListBastionsRequest) (response ListBastionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -620,7 +620,7 @@ func (client BastionClient) listBastions(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListSessions.go.html to see an example of how to use ListSessions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListSessions.go.html to see an example of how to use ListSessions API.
 func (client BastionClient) ListSessions(ctx context.Context, request ListSessionsRequest) (response ListSessionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -677,7 +677,7 @@ func (client BastionClient) listSessions(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client BastionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -734,7 +734,7 @@ func (client BastionClient) listWorkRequestErrors(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client BastionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -791,7 +791,7 @@ func (client BastionClient) listWorkRequestLogs(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client BastionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -848,7 +848,7 @@ func (client BastionClient) listWorkRequests(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateBastion.go.html to see an example of how to use UpdateBastion API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateBastion.go.html to see an example of how to use UpdateBastion API.
 // A default retry strategy applies to this operation UpdateBastion()
 func (client BastionClient) UpdateBastion(ctx context.Context, request UpdateBastionRequest) (response UpdateBastionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -906,7 +906,7 @@ func (client BastionClient) updateBastion(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateSession.go.html to see an example of how to use UpdateSession API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateSession.go.html to see an example of how to use UpdateSession API.
 // A default retry strategy applies to this operation UpdateSession()
 func (client BastionClient) UpdateSession(ctx context.Context, request UpdateSessionRequest) (response UpdateSessionResponse, err error) {
 	var ociResponse common.OCIResponse

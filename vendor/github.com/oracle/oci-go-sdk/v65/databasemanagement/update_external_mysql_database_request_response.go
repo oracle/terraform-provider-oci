@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalMysqlDatabase.go.html to see an example of how to use UpdateExternalMysqlDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalMysqlDatabase.go.html to see an example of how to use UpdateExternalMysqlDatabaseRequest.
 type UpdateExternalMysqlDatabaseRequest struct {
 
 	// The OCID of the External MySQL Database.

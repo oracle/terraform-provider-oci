@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExascaleDbStorageVault.go.html to see an example of how to use GetExascaleDbStorageVaultRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExascaleDbStorageVault.go.html to see an example of how to use GetExascaleDbStorageVaultRequest.
 type GetExascaleDbStorageVaultRequest struct {
 
-	// The Exadata Database Storage Vault OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata Database Storage Vault OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExascaleDbStorageVaultId *string `mandatory:"true" contributesTo:"path" name:"exascaleDbStorageVaultId"`
 
 	// Unique identifier for the request.

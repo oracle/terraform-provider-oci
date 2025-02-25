@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,16 +19,16 @@ import (
 // ManagedInstance An object that defines the instance being managed by the service.
 type ManagedInstance struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	Id *string `mandatory:"true" json:"id"`
 
 	// User-friendly name for the managed instance.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
 	TenancyId *string `mandatory:"true" json:"tenancyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Current status of the managed instance.
@@ -67,13 +67,16 @@ type ManagedInstance struct {
 	// The profile that was used to register this instance with the service.
 	Profile *string `mandatory:"false" json:"profile"`
 
+	// The version of the profile that was used to register this instance with the service.
+	ProfileVersion *string `mandatory:"false" json:"profileVersion"`
+
 	// Indicates whether this managed instance is acting as an on-premises management station.
 	IsManagementStation *bool `mandatory:"false" json:"isManagementStation"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station.
 	PrimaryManagementStationId *string `mandatory:"false" json:"primaryManagementStationId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary managment station.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary management station.
 	SecondaryManagementStationId *string `mandatory:"false" json:"secondaryManagementStationId"`
 
 	// The list of software sources currently attached to the managed instance.
@@ -121,13 +124,16 @@ type ManagedInstance struct {
 	// The date and time the instance was last updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
 	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
 
 	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
 
 	// Indicates whether the Autonomous Linux service manages the instance.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The version of osmh-agent running on the managed instance
+	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 }
 
 func (m ManagedInstance) String() string {

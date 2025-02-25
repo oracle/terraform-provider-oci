@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteNetworkAddressList.go.html to see an example of how to use DeleteNetworkAddressListRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteNetworkAddressList.go.html to see an example of how to use DeleteNetworkAddressListRequest.
 type DeleteNetworkAddressListRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.
 	NetworkAddressListId *string `mandatory:"true" contributesTo:"path" name:"networkAddressListId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource,

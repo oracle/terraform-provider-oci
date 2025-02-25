@@ -4,7 +4,7 @@
 
 // Usage Proxy API
 //
-// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
+// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
 //
 
 package usage
@@ -95,7 +95,7 @@ func (client *UsagelimitsClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListUsageLimits.go.html to see an example of how to use ListUsageLimits API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListUsageLimits.go.html to see an example of how to use ListUsageLimits API.
 // A default retry strategy applies to this operation ListUsageLimits()
 func (client UsagelimitsClient) ListUsageLimits(ctx context.Context, request ListUsageLimitsRequest) (response ListUsageLimitsResponse, err error) {
 	var ociResponse common.OCIResponse

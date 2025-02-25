@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartmentRequest.
 type ChangeDeploymentCompartmentRequest struct {
 
 	// The ocid of the deployment.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetManagementDashboard.go.html to see an example of how to use GetManagementDashboardRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetManagementDashboard.go.html to see an example of how to use GetManagementDashboardRequest.
 type GetManagementDashboardRequest struct {
 
 	// A unique dashboard identifier.

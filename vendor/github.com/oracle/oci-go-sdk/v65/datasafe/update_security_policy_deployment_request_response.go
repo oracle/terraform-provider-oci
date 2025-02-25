@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicyDeployment.go.html to see an example of how to use UpdateSecurityPolicyDeploymentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicyDeployment.go.html to see an example of how to use UpdateSecurityPolicyDeploymentRequest.
 type UpdateSecurityPolicyDeploymentRequest struct {
 
 	// The OCID of the security policy deployment resource.
