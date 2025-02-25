@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/GetConnectorPlugin.go.html to see an example of how to use GetConnectorPluginRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/GetConnectorPlugin.go.html to see an example of how to use GetConnectorPluginRequest.
 type GetConnectorPluginRequest struct {
 
 	// The name of the connector plugin. This name indicates the service to be called by the connector plugin. For example, `QueueSource` indicates the Queue service.

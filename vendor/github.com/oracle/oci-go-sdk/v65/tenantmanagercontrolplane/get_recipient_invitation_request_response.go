@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetRecipientInvitation.go.html to see an example of how to use GetRecipientInvitationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetRecipientInvitation.go.html to see an example of how to use GetRecipientInvitationRequest.
 type GetRecipientInvitationRequest struct {
 
 	// OCID of the recipient invitation to retrieve.

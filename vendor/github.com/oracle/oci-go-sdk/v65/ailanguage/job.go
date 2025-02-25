@@ -21,7 +21,7 @@ import (
 // Job Job details which contain input document details on which prediction need to run, features (which and all language services ) need to run and where to store results
 type Job struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	Id *string `mandatory:"true" json:"id"`
 
 	InputLocation InputLocation `mandatory:"true" json:"inputLocation"`
@@ -31,7 +31,7 @@ type Job struct {
 	// One of the three modelType, ModelId, endpointId should be given other wise error will be thrown from API
 	ModelMetadataDetails []ModelMetadataDetails `mandatory:"true" json:"modelMetadataDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	OutputLocation *ObjectPrefixOutputLocation `mandatory:"true" json:"outputLocation"`
@@ -71,7 +71,7 @@ type Job struct {
 	// Time to live duration in days for Job. Job will be available till max 90 days.
 	TtlInDays *int `mandatory:"false" json:"ttlInDays"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the job.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
 	// Job accepted time.

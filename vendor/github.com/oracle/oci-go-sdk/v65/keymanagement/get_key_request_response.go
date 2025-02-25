@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetKey.go.html to see an example of how to use GetKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetKey.go.html to see an example of how to use GetKeyRequest.
 type GetKeyRequest struct {
 
 	// The OCID of the key.

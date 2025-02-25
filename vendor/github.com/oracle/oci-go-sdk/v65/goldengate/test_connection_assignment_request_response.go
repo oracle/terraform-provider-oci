@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestConnectionAssignment.go.html to see an example of how to use TestConnectionAssignmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestConnectionAssignment.go.html to see an example of how to use TestConnectionAssignmentRequest.
 type TestConnectionAssignmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
 	ConnectionAssignmentId *string `mandatory:"true" contributesTo:"path" name:"connectionAssignmentId"`
 
 	// A placeholder for any additional metadata to describe the requested tests of the assigned connection.

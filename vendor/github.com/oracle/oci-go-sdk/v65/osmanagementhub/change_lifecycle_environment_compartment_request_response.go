@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeLifecycleEnvironmentCompartment.go.html to see an example of how to use ChangeLifecycleEnvironmentCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeLifecycleEnvironmentCompartment.go.html to see an example of how to use ChangeLifecycleEnvironmentCompartmentRequest.
 type ChangeLifecycleEnvironmentCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"true" contributesTo:"path" name:"lifecycleEnvironmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the lifecycle environment into.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the lifecycle environment into.
 	ChangeLifecycleEnvironmentCompartmentDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

@@ -26,7 +26,7 @@ type BatchDetectLanguageEntitiesDetails struct {
 	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
 	Alias *string `mandatory:"false" json:"alias"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The endpoint which have to be used for inferencing. If endpointId and compartmentId is provided, then inference will be served from custom model which is mapped to this Endpoint.

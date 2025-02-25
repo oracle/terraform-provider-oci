@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSqlFirewallAllowedSql.go.html to see an example of how to use PatchSqlFirewallAllowedSqlRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSqlFirewallAllowedSql.go.html to see an example of how to use PatchSqlFirewallAllowedSqlRequest.
 type PatchSqlFirewallAllowedSqlRequest struct {
 
 	// The details used to patch the allowed sqls.

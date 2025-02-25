@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateProperty.go.html to see an example of how to use UpdatePropertyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateProperty.go.html to see an example of how to use UpdatePropertyRequest.
 type UpdatePropertyRequest struct {
 
 	// unique Property identifier

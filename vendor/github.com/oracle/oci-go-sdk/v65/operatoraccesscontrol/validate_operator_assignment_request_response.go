@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ValidateOperatorAssignment.go.html to see an example of how to use ValidateOperatorAssignmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ValidateOperatorAssignment.go.html to see an example of how to use ValidateOperatorAssignmentRequest.
 type ValidateOperatorAssignmentRequest struct {
 
 	// unique OperatorControl identifier

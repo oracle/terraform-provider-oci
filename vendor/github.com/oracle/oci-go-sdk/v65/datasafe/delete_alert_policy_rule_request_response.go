@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteAlertPolicyRule.go.html to see an example of how to use DeleteAlertPolicyRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteAlertPolicyRule.go.html to see an example of how to use DeleteAlertPolicyRuleRequest.
 type DeleteAlertPolicyRuleRequest struct {
 
 	// The OCID of the alert policy.

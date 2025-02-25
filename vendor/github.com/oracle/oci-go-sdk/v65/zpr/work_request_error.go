@@ -4,7 +4,7 @@
 
 // Zero Trust Packet Routing Control Plane API
 //
-// Use the Zero Trust Packet Routing Control Plane API to manage ZPR configuration and policy. See the Zero Trust Packet Routing (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/home.htm) documentation for more information.
+// Use the Zero Trust Packet Routing Control Plane API to manage ZPR configuration and policy. See the Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/home.htm) documentation for more information.
 //
 
 package zpr
@@ -19,7 +19,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occurred. For a list of error codes, see
-	// API Errors (https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
+	// API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable error message.

@@ -18,7 +18,7 @@ import (
 // WorkRequestError An error related to a work request.
 type WorkRequestError struct {
 
-	// A machine-usable error code. For a list of common errors, see API Errors (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
+	// A machine-usable error code. For a list of common errors, see API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable error string.

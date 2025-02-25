@@ -19,7 +19,7 @@ import (
 // then shouldIncludeColumns and shouldIncludeFields can be overwritten when retrieving the results.
 type QueryDetails struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Query to perform. Must conform to logging analytic querylanguage syntax. Syntax errors will be returned if present.

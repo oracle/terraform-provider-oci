@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuJobOutputs.go.html to see an example of how to use ListFsuJobOutputsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuJobOutputs.go.html to see an example of how to use ListFsuJobOutputsRequest.
 type ListFsuJobOutputsRequest struct {
 
 	// The OCID of the Exadata Fleet Update Job.

@@ -19,16 +19,16 @@ import (
 // CreateVmWareAssetSourceDetails Description of an asset source.
 type CreateVmWareAssetSourceDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the environment.
 	EnvironmentId *string `mandatory:"true" json:"environmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
 	InventoryId *string `mandatory:"true" json:"inventoryId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	AssetsCompartmentId *string `mandatory:"true" json:"assetsCompartmentId"`
 
 	// Endpoint for VMware asset discovery and replication in the form of ```https://<host>:<port>/sdk```
@@ -41,7 +41,7 @@ type CreateVmWareAssetSourceDetails struct {
 	// explicitly provided.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be attached to the created asset.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be attached to the created asset.
 	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.

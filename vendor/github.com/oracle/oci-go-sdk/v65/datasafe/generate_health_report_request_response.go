@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateHealthReport.go.html to see an example of how to use GenerateHealthReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateHealthReport.go.html to see an example of how to use GenerateHealthReportRequest.
 type GenerateHealthReportRequest struct {
 
 	// The OCID of the masking policy.

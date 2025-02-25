@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveColumn.go.html to see an example of how to use DeleteSensitiveColumnRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveColumn.go.html to see an example of how to use DeleteSensitiveColumnRequest.
 type DeleteSensitiveColumnRequest struct {
 
 	// The OCID of the sensitive data model.

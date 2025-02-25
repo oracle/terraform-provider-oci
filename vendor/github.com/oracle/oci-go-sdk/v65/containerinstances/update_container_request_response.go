@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/UpdateContainer.go.html to see an example of how to use UpdateContainerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/UpdateContainer.go.html to see an example of how to use UpdateContainerRequest.
 type UpdateContainerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container.
 	ContainerId *string `mandatory:"true" contributesTo:"path" name:"containerId"`
 
 	// The information to be updated.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamCdnConfig.go.html to see an example of how to use DeleteStreamCdnConfigRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamCdnConfig.go.html to see an example of how to use DeleteStreamCdnConfigRequest.
 type DeleteStreamCdnConfigRequest struct {
 
 	// Unique StreamCdnConfig identifier.

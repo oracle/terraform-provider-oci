@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -25,7 +25,7 @@ type CloneSqlTuningTaskDetails struct {
 	// The name of the SQL tuning task. The name is unique per user in a database, and it is case-sensitive.
 	TaskName *string `mandatory:"true" json:"taskName"`
 
-	// The identifier of the SQL tuning task being cloned. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The identifier of the SQL tuning task being cloned. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint
 	// ListSqlTuningAdvisorTasks.
 	OriginalTaskId *int64 `mandatory:"true" json:"originalTaskId"`

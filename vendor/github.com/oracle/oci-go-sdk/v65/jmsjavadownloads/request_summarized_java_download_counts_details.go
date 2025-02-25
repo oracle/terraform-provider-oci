@@ -18,7 +18,7 @@ import (
 // RequestSummarizedJavaDownloadCountsDetails Attributes to summarize the Java download counts in a tenancy.
 type RequestSummarizedJavaDownloadCountsDetails struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) here should be the tenancy OCID.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) here should be the tenancy OCID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The property that specifies the aggregation type for the download counts.

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusterNodes.go.html to see an example of how to use ListRedisClusterNodesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusterNodes.go.html to see an example of how to use ListRedisClusterNodesRequest.
 type ListRedisClusterNodesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	RedisClusterId *string `mandatory:"true" contributesTo:"path" name:"redisClusterId"`
 
 	// A filter to return only resources that match the entire display name given.

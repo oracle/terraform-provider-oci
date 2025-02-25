@@ -19,7 +19,7 @@ import (
 // DatabaseToolsKeyStorePasswordSecretIdMySqlDetails The key store password.
 type DatabaseToolsKeyStorePasswordSecretIdMySqlDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the key store password.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the key store password.
 	SecretId *string `mandatory:"false" json:"secretId"`
 }
 

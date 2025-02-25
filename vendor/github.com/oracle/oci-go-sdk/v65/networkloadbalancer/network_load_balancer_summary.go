@@ -18,10 +18,10 @@ import (
 // NetworkLoadBalancerSummary Network load balancer object to be used for list operations.
 type NetworkLoadBalancerSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the network load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the network load balancer.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name, which does not have to be unique, and can be changed.
@@ -38,7 +38,7 @@ type NetworkLoadBalancerSummary struct {
 	// An array of IP addresses.
 	IpAddresses []IpAddress `mandatory:"true" json:"ipAddresses"`
 
-	// The subnet in which the network load balancer is spawned OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The subnet in which the network load balancer is spawned OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// A message describing the current state in more detail.
@@ -56,9 +56,9 @@ type NetworkLoadBalancerSummary struct {
 	// If "true", then the service assigns a private IP address to the network load balancer.
 	// If "false", then the service assigns a public IP address to the network load balancer.
 	// A public network load balancer is accessible from the internet, depending the
-	// security list rules (https://docs.cloud.oracle.com/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and
+	// security list rules (https://docs.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and
 	// private network load balancers,
-	// see Network Load Balancer Types (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#NetworkLoadBalancerTypes).
+	// see Network Load Balancer Types (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#NetworkLoadBalancerTypes).
 	// This value is true by default.
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
@@ -71,7 +71,7 @@ type NetworkLoadBalancerSummary struct {
 	// This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
 	IsSymmetricHashEnabled *bool `mandatory:"false" json:"isSymmetricHashEnabled"`
 
-	// An array of network security groups OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the network load
+	// An array of network security groups OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load
 	// balancer.
 	// During the creation of the network load balancer, the service adds the new load balancer to the specified network security groups.
 	// The benefits of associating the network load balancer with network security groups include:
@@ -88,17 +88,17 @@ type NetworkLoadBalancerSummary struct {
 	BackendSets map[string]BackendSet `mandatory:"false" json:"backendSets"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{ "oracle-zpr": { "td": { "value": "42", "mode": "audit" } } }`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 

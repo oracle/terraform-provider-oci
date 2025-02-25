@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ResizeOpensearchClusterHorizontalDetails The node count configuration to update on an existing OpenSearch cluster for horizontal resizing (https://docs.cloud.oracle.com/iaas/Content/search-opensearch/Tasks/resizingacluster.htm#horizontalresize).
+// ResizeOpensearchClusterHorizontalDetails The node count configuration to update on an existing OpenSearch cluster for horizontal resizing (https://docs.oracle.com/iaas/Content/search-opensearch/Tasks/resizingacluster.htm#horizontalresize).
 type ResizeOpensearchClusterHorizontalDetails struct {
 
 	// The number of master nodes to configure for the cluster.

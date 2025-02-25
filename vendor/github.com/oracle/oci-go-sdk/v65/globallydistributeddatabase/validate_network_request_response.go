@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ValidateNetwork.go.html to see an example of how to use ValidateNetworkRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ValidateNetwork.go.html to see an example of how to use ValidateNetworkRequest.
 type ValidateNetworkRequest struct {
 
 	// Sharded Database identifier

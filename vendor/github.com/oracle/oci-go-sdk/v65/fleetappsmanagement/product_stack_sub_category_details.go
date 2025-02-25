@@ -59,7 +59,7 @@ func (m *productstacksubcategorydetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ProductStackSubCategoryDetails: %s.", m.SubCategory)
+		common.Logf("Received unsupported enum value for ProductStackSubCategoryDetails: %s.", m.SubCategory)
 		return *m, nil
 	}
 }

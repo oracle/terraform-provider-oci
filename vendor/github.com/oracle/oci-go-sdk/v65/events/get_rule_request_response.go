@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/GetRule.go.html to see an example of how to use GetRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/GetRule.go.html to see an example of how to use GetRuleRequest.
 type GetRuleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 	RuleId *string `mandatory:"true" contributesTo:"path" name:"ruleId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

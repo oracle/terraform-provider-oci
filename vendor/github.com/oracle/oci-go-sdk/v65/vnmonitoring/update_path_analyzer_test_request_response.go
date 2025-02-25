@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/UpdatePathAnalyzerTest.go.html to see an example of how to use UpdatePathAnalyzerTestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/UpdatePathAnalyzerTest.go.html to see an example of how to use UpdatePathAnalyzerTestRequest.
 type UpdatePathAnalyzerTestRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.
 	PathAnalyzerTestId *string `mandatory:"true" contributesTo:"path" name:"pathAnalyzerTestId"`
 
 	// The information to update.

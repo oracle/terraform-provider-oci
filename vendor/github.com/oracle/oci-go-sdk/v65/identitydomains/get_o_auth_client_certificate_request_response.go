@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuthClientCertificate.go.html to see an example of how to use GetOAuthClientCertificateRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuthClientCertificate.go.html to see an example of how to use GetOAuthClientCertificateRequest.
 type GetOAuthClientCertificateRequest struct {
 
 	// ID of the resource

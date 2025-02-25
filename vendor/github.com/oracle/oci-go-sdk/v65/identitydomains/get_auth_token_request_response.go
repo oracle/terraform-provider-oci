@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAuthToken.go.html to see an example of how to use GetAuthTokenRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAuthToken.go.html to see an example of how to use GetAuthTokenRequest.
 type GetAuthTokenRequest struct {
 
 	// ID of the resource

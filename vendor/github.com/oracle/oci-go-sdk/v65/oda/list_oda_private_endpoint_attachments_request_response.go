@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointAttachments.go.html to see an example of how to use ListOdaPrivateEndpointAttachmentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointAttachments.go.html to see an example of how to use ListOdaPrivateEndpointAttachmentsRequest.
 type ListOdaPrivateEndpointAttachmentsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint.
 	OdaPrivateEndpointId *string `mandatory:"true" contributesTo:"query" name:"odaPrivateEndpointId"`
 
 	// List the ODA Private Endpoint Attachments that belong to this compartment.

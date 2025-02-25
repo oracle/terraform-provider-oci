@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/InitiateExtract.go.html to see an example of how to use InitiateExtractRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/InitiateExtract.go.html to see an example of how to use InitiateExtractRequest.
 type InitiateExtractRequest struct {
 
 	// unique FusionEnvironment identifier

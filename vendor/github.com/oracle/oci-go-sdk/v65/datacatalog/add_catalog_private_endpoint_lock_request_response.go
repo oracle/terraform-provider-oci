@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AddCatalogPrivateEndpointLock.go.html to see an example of how to use AddCatalogPrivateEndpointLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AddCatalogPrivateEndpointLock.go.html to see an example of how to use AddCatalogPrivateEndpointLockRequest.
 type AddCatalogPrivateEndpointLockRequest struct {
 
 	// Unique private reverse connection identifier.

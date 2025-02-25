@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateAccessPolicy.go.html to see an example of how to use CreateAccessPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateAccessPolicy.go.html to see an example of how to use CreateAccessPolicyRequest.
 type CreateAccessPolicyRequest struct {
 
 	// Details for the new AccessPolicy.

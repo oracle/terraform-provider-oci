@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeleteServiceCatalogAssociation.go.html to see an example of how to use DeleteServiceCatalogAssociationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeleteServiceCatalogAssociation.go.html to see an example of how to use DeleteServiceCatalogAssociationRequest.
 type DeleteServiceCatalogAssociationRequest struct {
 
 	// The unique identifier of the service catalog association.

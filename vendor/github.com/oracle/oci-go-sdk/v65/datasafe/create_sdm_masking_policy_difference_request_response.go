@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSdmMaskingPolicyDifference.go.html to see an example of how to use CreateSdmMaskingPolicyDifferenceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSdmMaskingPolicyDifference.go.html to see an example of how to use CreateSdmMaskingPolicyDifferenceRequest.
 type CreateSdmMaskingPolicyDifferenceRequest struct {
 
 	// The details used to create a SDM masking policy difference resource
@@ -81,7 +81,7 @@ type CreateSdmMaskingPolicyDifferenceResponse struct {
 	// The SdmMaskingPolicyDifference instance
 	SdmMaskingPolicyDifference `presentIn:"body"`
 
-	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// The OCID of the work request. Use GetWorkRequest with this OCID to track the status of the request.

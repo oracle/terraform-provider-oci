@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,13 +19,13 @@ import (
 // ScheduledJobSummary Provides summary information for a scheduled job.
 type ScheduledJobSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 	Id *string `mandatory:"true" json:"id"`
 
 	// User-friendly name for the scheduled job.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the scheduled job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the scheduled job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of scheduling this scheduled job follows.
@@ -56,12 +56,12 @@ type ScheduledJobSummary struct {
 	LifecycleState ScheduledJobLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
@@ -71,22 +71,22 @@ type ScheduledJobSummary struct {
 	// The time of the last execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).b.
 	TimeLastExecution *common.SDKTime `mandatory:"false" json:"timeLastExecution"`
 
-	// The managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
 	// managedInstanceGroupIds, managedCompartmentIds, and lifecycleStageIds.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
-	// The managed instance group OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// The managed instance group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
 	// managedInstanceIds, managedCompartmentIds, and lifecycleStageIds.
 	ManagedInstanceGroupIds []string `mandatory:"false" json:"managedInstanceGroupIds"`
 
-	// The compartment OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// The compartment OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
 	// managedInstanceIds, managedInstanceGroupIds, and lifecycleStageIds.
 	ManagedCompartmentIds []string `mandatory:"false" json:"managedCompartmentIds"`
 
-	// The lifecycle stage OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// The lifecycle stage OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
 	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
@@ -107,6 +107,9 @@ type ScheduledJobSummary struct {
 	// initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service waits
 	// 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries.
 	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
+	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 }
 
 func (m ScheduledJobSummary) String() string {

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/InplaceUpgrade.go.html to see an example of how to use InplaceUpgradeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/InplaceUpgrade.go.html to see an example of how to use InplaceUpgradeRequest.
 type InplaceUpgradeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

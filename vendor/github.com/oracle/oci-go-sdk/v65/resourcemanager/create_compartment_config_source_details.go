@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -22,7 +22,7 @@ import (
 // CreateCompartmentConfigSourceDetails Creation details for a configuration source based on the specified compartment.
 type CreateCompartmentConfigSourceDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to use for creating the stack.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to use for creating the stack.
 	// The new stack will include definitions for supported resource types in scope of the specified compartment OCID (tenancy level for root compartment, compartment level otherwise).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -35,7 +35,7 @@ type CreateCompartmentConfigSourceDetails struct {
 	// Required when using a zip Terraform configuration (`configSourceType` value of `ZIP_UPLOAD`) that contains folders.
 	// Ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
 	// For more information about required and recommended file structure, see
-	// File Structure (Terraform Configurations for Resource Manager) (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
+	// File Structure (Terraform Configurations for Resource Manager) (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 
 	// Filter for services to use with Resource Discovery (https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services).

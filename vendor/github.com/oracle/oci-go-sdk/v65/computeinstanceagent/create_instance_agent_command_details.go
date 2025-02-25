@@ -19,7 +19,7 @@ import (
 // CreateInstanceAgentCommandDetails Creation details for an Oracle Cloud Agent command.
 type CreateInstanceAgentCommandDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to create the command in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the command in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The amount of time that Oracle Cloud Agent is given to run the command on the instance before timing

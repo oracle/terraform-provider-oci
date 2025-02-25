@@ -4,7 +4,7 @@
 
 // Usage Proxy API
 //
-// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
+// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
 //
 
 package usage
@@ -96,7 +96,7 @@ func (client *ResourcesClient) ConfigurationProvider() *common.ConfigurationProv
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResourceQuota.go.html to see an example of how to use ListResourceQuota API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResourceQuota.go.html to see an example of how to use ListResourceQuota API.
 // A default retry strategy applies to this operation ListResourceQuota()
 func (client ResourcesClient) ListResourceQuota(ctx context.Context, request ListResourceQuotaRequest) (response ListResourceQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,7 +155,7 @@ func (client ResourcesClient) listResourceQuota(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResources.go.html to see an example of how to use ListResources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResources.go.html to see an example of how to use ListResources API.
 // A default retry strategy applies to this operation ListResources()
 func (client ResourcesClient) ListResources(ctx context.Context, request ListResourcesRequest) (response ListResourcesResponse, err error) {
 	var ociResponse common.OCIResponse

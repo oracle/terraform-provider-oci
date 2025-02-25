@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalMySqlDatabaseConnector.go.html to see an example of how to use GetExternalMySqlDatabaseConnectorRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalMySqlDatabaseConnector.go.html to see an example of how to use GetExternalMySqlDatabaseConnectorRequest.
 type GetExternalMySqlDatabaseConnectorRequest struct {
 
 	// The OCID of the External MySQL Database Connector.

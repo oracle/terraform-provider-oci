@@ -95,7 +95,7 @@ func (client *GoldenGateClient) ConfigurationProvider() *common.ConfigurationPro
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddConnectionLock.go.html to see an example of how to use AddConnectionLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddConnectionLock.go.html to see an example of how to use AddConnectionLock API.
 // A default retry strategy applies to this operation AddConnectionLock()
 func (client GoldenGateClient) AddConnectionLock(ctx context.Context, request AddConnectionLockRequest) (response AddConnectionLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client GoldenGateClient) addConnectionLock(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddDeploymentBackupLock.go.html to see an example of how to use AddDeploymentBackupLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddDeploymentBackupLock.go.html to see an example of how to use AddDeploymentBackupLock API.
 // A default retry strategy applies to this operation AddDeploymentBackupLock()
 func (client GoldenGateClient) AddDeploymentBackupLock(ctx context.Context, request AddDeploymentBackupLockRequest) (response AddDeploymentBackupLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -211,7 +211,7 @@ func (client GoldenGateClient) addDeploymentBackupLock(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddDeploymentLock.go.html to see an example of how to use AddDeploymentLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddDeploymentLock.go.html to see an example of how to use AddDeploymentLock API.
 // A default retry strategy applies to this operation AddDeploymentLock()
 func (client GoldenGateClient) AddDeploymentLock(ctx context.Context, request AddDeploymentLockRequest) (response AddDeploymentLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -269,7 +269,7 @@ func (client GoldenGateClient) addDeploymentLock(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentBackup.go.html to see an example of how to use CancelDeploymentBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentBackup.go.html to see an example of how to use CancelDeploymentBackup API.
 // A default retry strategy applies to this operation CancelDeploymentBackup()
 func (client GoldenGateClient) CancelDeploymentBackup(ctx context.Context, request CancelDeploymentBackupRequest) (response CancelDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -332,7 +332,7 @@ func (client GoldenGateClient) cancelDeploymentBackup(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentUpgrade.go.html to see an example of how to use CancelDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentUpgrade.go.html to see an example of how to use CancelDeploymentUpgrade API.
 // A default retry strategy applies to this operation CancelDeploymentUpgrade()
 func (client GoldenGateClient) CancelDeploymentUpgrade(ctx context.Context, request CancelDeploymentUpgradeRequest) (response CancelDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client GoldenGateClient) cancelDeploymentUpgrade(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelSnoozeDeploymentUpgrade.go.html to see an example of how to use CancelSnoozeDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelSnoozeDeploymentUpgrade.go.html to see an example of how to use CancelSnoozeDeploymentUpgrade API.
 // A default retry strategy applies to this operation CancelSnoozeDeploymentUpgrade()
 func (client GoldenGateClient) CancelSnoozeDeploymentUpgrade(ctx context.Context, request CancelSnoozeDeploymentUpgradeRequest) (response CancelSnoozeDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -457,11 +457,11 @@ func (client GoldenGateClient) cancelSnoozeDeploymentUpgrade(ctx context.Context
 // ChangeConnectionCompartment Moves the Connection into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeConnectionCompartment.go.html to see an example of how to use ChangeConnectionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeConnectionCompartment.go.html to see an example of how to use ChangeConnectionCompartment API.
 // A default retry strategy applies to this operation ChangeConnectionCompartment()
 func (client GoldenGateClient) ChangeConnectionCompartment(ctx context.Context, request ChangeConnectionCompartmentRequest) (response ChangeConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -519,11 +519,11 @@ func (client GoldenGateClient) changeConnectionCompartment(ctx context.Context, 
 // Moves the DatabaseRegistration into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDatabaseRegistrationCompartment.go.html to see an example of how to use ChangeDatabaseRegistrationCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDatabaseRegistrationCompartment.go.html to see an example of how to use ChangeDatabaseRegistrationCompartment API.
 // A default retry strategy applies to this operation ChangeDatabaseRegistrationCompartment()
 func (client GoldenGateClient) ChangeDatabaseRegistrationCompartment(ctx context.Context, request ChangeDatabaseRegistrationCompartmentRequest) (response ChangeDatabaseRegistrationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -585,11 +585,11 @@ func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context
 // ChangeDeploymentBackupCompartment Moves a DeploymentBackup into a different compartment within the same tenancy.  When provided,
 // If-Match is checked against ETag values of the resource.  For information about moving
 // resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentBackupCompartment.go.html to see an example of how to use ChangeDeploymentBackupCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentBackupCompartment.go.html to see an example of how to use ChangeDeploymentBackupCompartment API.
 // A default retry strategy applies to this operation ChangeDeploymentBackupCompartment()
 func (client GoldenGateClient) ChangeDeploymentBackupCompartment(ctx context.Context, request ChangeDeploymentBackupCompartmentRequest) (response ChangeDeploymentBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -651,11 +651,11 @@ func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Con
 // ChangeDeploymentCompartment Moves the Deployment into a different compartment within the same tenancy.  When provided,
 // If-Match is checked against ETag values of the resource.  For information about moving
 // resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartment API.
 // A default retry strategy applies to this operation ChangeDeploymentCompartment()
 func (client GoldenGateClient) ChangeDeploymentCompartment(ctx context.Context, request ChangeDeploymentCompartmentRequest) (response ChangeDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -717,11 +717,11 @@ func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, 
 // ChangePipelineCompartment Moves the Pipeline into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangePipelineCompartment.go.html to see an example of how to use ChangePipelineCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangePipelineCompartment.go.html to see an example of how to use ChangePipelineCompartment API.
 // A default retry strategy applies to this operation ChangePipelineCompartment()
 func (client GoldenGateClient) ChangePipelineCompartment(ctx context.Context, request ChangePipelineCompartmentRequest) (response ChangePipelineCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -784,7 +784,7 @@ func (client GoldenGateClient) changePipelineCompartment(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CollectDeploymentDiagnostic.go.html to see an example of how to use CollectDeploymentDiagnostic API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CollectDeploymentDiagnostic.go.html to see an example of how to use CollectDeploymentDiagnostic API.
 // A default retry strategy applies to this operation CollectDeploymentDiagnostic()
 func (client GoldenGateClient) CollectDeploymentDiagnostic(ctx context.Context, request CollectDeploymentDiagnosticRequest) (response CollectDeploymentDiagnosticResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -847,7 +847,7 @@ func (client GoldenGateClient) collectDeploymentDiagnostic(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CopyDeploymentBackup.go.html to see an example of how to use CopyDeploymentBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CopyDeploymentBackup.go.html to see an example of how to use CopyDeploymentBackup API.
 // A default retry strategy applies to this operation CopyDeploymentBackup()
 func (client GoldenGateClient) CopyDeploymentBackup(ctx context.Context, request CopyDeploymentBackupRequest) (response CopyDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -910,7 +910,7 @@ func (client GoldenGateClient) copyDeploymentBackup(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateCertificate.go.html to see an example of how to use CreateCertificate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateCertificate.go.html to see an example of how to use CreateCertificate API.
 // A default retry strategy applies to this operation CreateCertificate()
 func (client GoldenGateClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -973,7 +973,7 @@ func (client GoldenGateClient) createCertificate(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnection.go.html to see an example of how to use CreateConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnection.go.html to see an example of how to use CreateConnection API.
 // A default retry strategy applies to this operation CreateConnection()
 func (client GoldenGateClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1036,7 +1036,7 @@ func (client GoldenGateClient) createConnection(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnectionAssignment.go.html to see an example of how to use CreateConnectionAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnectionAssignment.go.html to see an example of how to use CreateConnectionAssignment API.
 // A default retry strategy applies to this operation CreateConnectionAssignment()
 func (client GoldenGateClient) CreateConnectionAssignment(ctx context.Context, request CreateConnectionAssignmentRequest) (response CreateConnectionAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1100,7 +1100,7 @@ func (client GoldenGateClient) createConnectionAssignment(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDatabaseRegistration.go.html to see an example of how to use CreateDatabaseRegistration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDatabaseRegistration.go.html to see an example of how to use CreateDatabaseRegistration API.
 // A default retry strategy applies to this operation CreateDatabaseRegistration()
 func (client GoldenGateClient) CreateDatabaseRegistration(ctx context.Context, request CreateDatabaseRegistrationRequest) (response CreateDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1163,7 +1163,7 @@ func (client GoldenGateClient) createDatabaseRegistration(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
 // A default retry strategy applies to this operation CreateDeployment()
 func (client GoldenGateClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1226,7 +1226,7 @@ func (client GoldenGateClient) createDeployment(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeploymentBackup.go.html to see an example of how to use CreateDeploymentBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeploymentBackup.go.html to see an example of how to use CreateDeploymentBackup API.
 // A default retry strategy applies to this operation CreateDeploymentBackup()
 func (client GoldenGateClient) CreateDeploymentBackup(ctx context.Context, request CreateDeploymentBackupRequest) (response CreateDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1289,7 +1289,7 @@ func (client GoldenGateClient) createDeploymentBackup(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreatePipeline.go.html to see an example of how to use CreatePipeline API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreatePipeline.go.html to see an example of how to use CreatePipeline API.
 // A default retry strategy applies to this operation CreatePipeline()
 func (client GoldenGateClient) CreatePipeline(ctx context.Context, request CreatePipelineRequest) (response CreatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1352,7 +1352,7 @@ func (client GoldenGateClient) createPipeline(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteCertificate.go.html to see an example of how to use DeleteCertificate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteCertificate.go.html to see an example of how to use DeleteCertificate API.
 // A default retry strategy applies to this operation DeleteCertificate()
 func (client GoldenGateClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest) (response DeleteCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1410,7 +1410,7 @@ func (client GoldenGateClient) deleteCertificate(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 // A default retry strategy applies to this operation DeleteConnection()
 func (client GoldenGateClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1468,7 +1468,7 @@ func (client GoldenGateClient) deleteConnection(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnectionAssignment.go.html to see an example of how to use DeleteConnectionAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnectionAssignment.go.html to see an example of how to use DeleteConnectionAssignment API.
 // A default retry strategy applies to this operation DeleteConnectionAssignment()
 func (client GoldenGateClient) DeleteConnectionAssignment(ctx context.Context, request DeleteConnectionAssignmentRequest) (response DeleteConnectionAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1527,7 +1527,7 @@ func (client GoldenGateClient) deleteConnectionAssignment(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDatabaseRegistration.go.html to see an example of how to use DeleteDatabaseRegistration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDatabaseRegistration.go.html to see an example of how to use DeleteDatabaseRegistration API.
 // A default retry strategy applies to this operation DeleteDatabaseRegistration()
 func (client GoldenGateClient) DeleteDatabaseRegistration(ctx context.Context, request DeleteDatabaseRegistrationRequest) (response DeleteDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1585,7 +1585,7 @@ func (client GoldenGateClient) deleteDatabaseRegistration(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDeployment.go.html to see an example of how to use DeleteDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDeployment.go.html to see an example of how to use DeleteDeployment API.
 // A default retry strategy applies to this operation DeleteDeployment()
 func (client GoldenGateClient) DeleteDeployment(ctx context.Context, request DeleteDeploymentRequest) (response DeleteDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1643,7 +1643,7 @@ func (client GoldenGateClient) deleteDeployment(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDeploymentBackup.go.html to see an example of how to use DeleteDeploymentBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDeploymentBackup.go.html to see an example of how to use DeleteDeploymentBackup API.
 // A default retry strategy applies to this operation DeleteDeploymentBackup()
 func (client GoldenGateClient) DeleteDeploymentBackup(ctx context.Context, request DeleteDeploymentBackupRequest) (response DeleteDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1701,7 +1701,7 @@ func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeletePipeline.go.html to see an example of how to use DeletePipeline API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeletePipeline.go.html to see an example of how to use DeletePipeline API.
 // A default retry strategy applies to this operation DeletePipeline()
 func (client GoldenGateClient) DeletePipeline(ctx context.Context, request DeletePipelineRequest) (response DeletePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1759,7 +1759,7 @@ func (client GoldenGateClient) deletePipeline(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExists API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExists API.
 // A default retry strategy applies to this operation DeploymentWalletExists()
 func (client GoldenGateClient) DeploymentWalletExists(ctx context.Context, request DeploymentWalletExistsRequest) (response DeploymentWalletExistsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1822,7 +1822,7 @@ func (client GoldenGateClient) deploymentWalletExists(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ExportDeploymentWallet.go.html to see an example of how to use ExportDeploymentWallet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ExportDeploymentWallet.go.html to see an example of how to use ExportDeploymentWallet API.
 // A default retry strategy applies to this operation ExportDeploymentWallet()
 func (client GoldenGateClient) ExportDeploymentWallet(ctx context.Context, request ExportDeploymentWalletRequest) (response ExportDeploymentWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1885,7 +1885,7 @@ func (client GoldenGateClient) exportDeploymentWallet(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GenerateLibraryUrl.go.html to see an example of how to use GenerateLibraryUrl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GenerateLibraryUrl.go.html to see an example of how to use GenerateLibraryUrl API.
 // A default retry strategy applies to this operation GenerateLibraryUrl()
 func (client GoldenGateClient) GenerateLibraryUrl(ctx context.Context, request GenerateLibraryUrlRequest) (response GenerateLibraryUrlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1948,7 +1948,7 @@ func (client GoldenGateClient) generateLibraryUrl(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetCertificate.go.html to see an example of how to use GetCertificate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetCertificate.go.html to see an example of how to use GetCertificate API.
 // A default retry strategy applies to this operation GetCertificate()
 func (client GoldenGateClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2006,7 +2006,7 @@ func (client GoldenGateClient) getCertificate(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnection.go.html to see an example of how to use GetConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnection.go.html to see an example of how to use GetConnection API.
 // A default retry strategy applies to this operation GetConnection()
 func (client GoldenGateClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2064,7 +2064,7 @@ func (client GoldenGateClient) getConnection(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnectionAssignment.go.html to see an example of how to use GetConnectionAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnectionAssignment.go.html to see an example of how to use GetConnectionAssignment API.
 // A default retry strategy applies to this operation GetConnectionAssignment()
 func (client GoldenGateClient) GetConnectionAssignment(ctx context.Context, request GetConnectionAssignmentRequest) (response GetConnectionAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2123,7 +2123,7 @@ func (client GoldenGateClient) getConnectionAssignment(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDatabaseRegistration.go.html to see an example of how to use GetDatabaseRegistration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDatabaseRegistration.go.html to see an example of how to use GetDatabaseRegistration API.
 // A default retry strategy applies to this operation GetDatabaseRegistration()
 func (client GoldenGateClient) GetDatabaseRegistration(ctx context.Context, request GetDatabaseRegistrationRequest) (response GetDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2181,7 +2181,7 @@ func (client GoldenGateClient) getDatabaseRegistration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeployment.go.html to see an example of how to use GetDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeployment.go.html to see an example of how to use GetDeployment API.
 // A default retry strategy applies to this operation GetDeployment()
 func (client GoldenGateClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2239,7 +2239,7 @@ func (client GoldenGateClient) getDeployment(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentBackup.go.html to see an example of how to use GetDeploymentBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentBackup.go.html to see an example of how to use GetDeploymentBackup API.
 // A default retry strategy applies to this operation GetDeploymentBackup()
 func (client GoldenGateClient) GetDeploymentBackup(ctx context.Context, request GetDeploymentBackupRequest) (response GetDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2297,7 +2297,7 @@ func (client GoldenGateClient) getDeploymentBackup(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentUpgrade.go.html to see an example of how to use GetDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentUpgrade.go.html to see an example of how to use GetDeploymentUpgrade API.
 // A default retry strategy applies to this operation GetDeploymentUpgrade()
 func (client GoldenGateClient) GetDeploymentUpgrade(ctx context.Context, request GetDeploymentUpgradeRequest) (response GetDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2355,7 +2355,7 @@ func (client GoldenGateClient) getDeploymentUpgrade(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetPipeline.go.html to see an example of how to use GetPipeline API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetPipeline.go.html to see an example of how to use GetPipeline API.
 // A default retry strategy applies to this operation GetPipeline()
 func (client GoldenGateClient) GetPipeline(ctx context.Context, request GetPipelineRequest) (response GetPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2413,7 +2413,7 @@ func (client GoldenGateClient) getPipeline(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client GoldenGateClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2471,7 +2471,7 @@ func (client GoldenGateClient) getWorkRequest(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ImportDeploymentWallet.go.html to see an example of how to use ImportDeploymentWallet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ImportDeploymentWallet.go.html to see an example of how to use ImportDeploymentWallet API.
 // A default retry strategy applies to this operation ImportDeploymentWallet()
 func (client GoldenGateClient) ImportDeploymentWallet(ctx context.Context, request ImportDeploymentWalletRequest) (response ImportDeploymentWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2534,7 +2534,7 @@ func (client GoldenGateClient) importDeploymentWallet(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListCertificates.go.html to see an example of how to use ListCertificates API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListCertificates.go.html to see an example of how to use ListCertificates API.
 // A default retry strategy applies to this operation ListCertificates()
 func (client GoldenGateClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2592,7 +2592,7 @@ func (client GoldenGateClient) listCertificates(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnectionAssignments.go.html to see an example of how to use ListConnectionAssignments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnectionAssignments.go.html to see an example of how to use ListConnectionAssignments API.
 // A default retry strategy applies to this operation ListConnectionAssignments()
 func (client GoldenGateClient) ListConnectionAssignments(ctx context.Context, request ListConnectionAssignmentsRequest) (response ListConnectionAssignmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2650,7 +2650,7 @@ func (client GoldenGateClient) listConnectionAssignments(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnections.go.html to see an example of how to use ListConnections API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnections.go.html to see an example of how to use ListConnections API.
 // A default retry strategy applies to this operation ListConnections()
 func (client GoldenGateClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2709,7 +2709,7 @@ func (client GoldenGateClient) listConnections(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDatabaseRegistrations.go.html to see an example of how to use ListDatabaseRegistrations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDatabaseRegistrations.go.html to see an example of how to use ListDatabaseRegistrations API.
 // A default retry strategy applies to this operation ListDatabaseRegistrations()
 func (client GoldenGateClient) ListDatabaseRegistrations(ctx context.Context, request ListDatabaseRegistrationsRequest) (response ListDatabaseRegistrationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2767,7 +2767,7 @@ func (client GoldenGateClient) listDatabaseRegistrations(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentBackups.go.html to see an example of how to use ListDeploymentBackups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentBackups.go.html to see an example of how to use ListDeploymentBackups API.
 // A default retry strategy applies to this operation ListDeploymentBackups()
 func (client GoldenGateClient) ListDeploymentBackups(ctx context.Context, request ListDeploymentBackupsRequest) (response ListDeploymentBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2825,7 +2825,7 @@ func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentEnvironments.go.html to see an example of how to use ListDeploymentEnvironments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentEnvironments.go.html to see an example of how to use ListDeploymentEnvironments API.
 // A default retry strategy applies to this operation ListDeploymentEnvironments()
 func (client GoldenGateClient) ListDeploymentEnvironments(ctx context.Context, request ListDeploymentEnvironmentsRequest) (response ListDeploymentEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2883,7 +2883,7 @@ func (client GoldenGateClient) listDeploymentEnvironments(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentTypes.go.html to see an example of how to use ListDeploymentTypes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentTypes.go.html to see an example of how to use ListDeploymentTypes API.
 // A default retry strategy applies to this operation ListDeploymentTypes()
 func (client GoldenGateClient) ListDeploymentTypes(ctx context.Context, request ListDeploymentTypesRequest) (response ListDeploymentTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2941,7 +2941,7 @@ func (client GoldenGateClient) listDeploymentTypes(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentUpgrades.go.html to see an example of how to use ListDeploymentUpgrades API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentUpgrades.go.html to see an example of how to use ListDeploymentUpgrades API.
 // A default retry strategy applies to this operation ListDeploymentUpgrades()
 func (client GoldenGateClient) ListDeploymentUpgrades(ctx context.Context, request ListDeploymentUpgradesRequest) (response ListDeploymentUpgradesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2999,7 +2999,7 @@ func (client GoldenGateClient) listDeploymentUpgrades(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentVersions.go.html to see an example of how to use ListDeploymentVersions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentVersions.go.html to see an example of how to use ListDeploymentVersions API.
 // A default retry strategy applies to this operation ListDeploymentVersions()
 func (client GoldenGateClient) ListDeploymentVersions(ctx context.Context, request ListDeploymentVersionsRequest) (response ListDeploymentVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3057,7 +3057,7 @@ func (client GoldenGateClient) listDeploymentVersions(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentWalletsOperations.go.html to see an example of how to use ListDeploymentWalletsOperations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentWalletsOperations.go.html to see an example of how to use ListDeploymentWalletsOperations API.
 // A default retry strategy applies to this operation ListDeploymentWalletsOperations()
 func (client GoldenGateClient) ListDeploymentWalletsOperations(ctx context.Context, request ListDeploymentWalletsOperationsRequest) (response ListDeploymentWalletsOperationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3115,7 +3115,7 @@ func (client GoldenGateClient) listDeploymentWalletsOperations(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeployments.go.html to see an example of how to use ListDeployments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeployments.go.html to see an example of how to use ListDeployments API.
 // A default retry strategy applies to this operation ListDeployments()
 func (client GoldenGateClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3173,7 +3173,7 @@ func (client GoldenGateClient) listDeployments(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListMessages.go.html to see an example of how to use ListMessages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListMessages.go.html to see an example of how to use ListMessages API.
 // A default retry strategy applies to this operation ListMessages()
 func (client GoldenGateClient) ListMessages(ctx context.Context, request ListMessagesRequest) (response ListMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3231,7 +3231,7 @@ func (client GoldenGateClient) listMessages(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineInitializationSteps.go.html to see an example of how to use ListPipelineInitializationSteps API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineInitializationSteps.go.html to see an example of how to use ListPipelineInitializationSteps API.
 // A default retry strategy applies to this operation ListPipelineInitializationSteps()
 func (client GoldenGateClient) ListPipelineInitializationSteps(ctx context.Context, request ListPipelineInitializationStepsRequest) (response ListPipelineInitializationStepsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3289,7 +3289,7 @@ func (client GoldenGateClient) listPipelineInitializationSteps(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineRunningProcesses.go.html to see an example of how to use ListPipelineRunningProcesses API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineRunningProcesses.go.html to see an example of how to use ListPipelineRunningProcesses API.
 // A default retry strategy applies to this operation ListPipelineRunningProcesses()
 func (client GoldenGateClient) ListPipelineRunningProcesses(ctx context.Context, request ListPipelineRunningProcessesRequest) (response ListPipelineRunningProcessesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3347,7 +3347,7 @@ func (client GoldenGateClient) listPipelineRunningProcesses(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineSchemaTables.go.html to see an example of how to use ListPipelineSchemaTables API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineSchemaTables.go.html to see an example of how to use ListPipelineSchemaTables API.
 // A default retry strategy applies to this operation ListPipelineSchemaTables()
 func (client GoldenGateClient) ListPipelineSchemaTables(ctx context.Context, request ListPipelineSchemaTablesRequest) (response ListPipelineSchemaTablesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3405,7 +3405,7 @@ func (client GoldenGateClient) listPipelineSchemaTables(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineSchemas.go.html to see an example of how to use ListPipelineSchemas API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelineSchemas.go.html to see an example of how to use ListPipelineSchemas API.
 // A default retry strategy applies to this operation ListPipelineSchemas()
 func (client GoldenGateClient) ListPipelineSchemas(ctx context.Context, request ListPipelineSchemasRequest) (response ListPipelineSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3463,7 +3463,7 @@ func (client GoldenGateClient) listPipelineSchemas(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelines.go.html to see an example of how to use ListPipelines API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListPipelines.go.html to see an example of how to use ListPipelines API.
 // A default retry strategy applies to this operation ListPipelines()
 func (client GoldenGateClient) ListPipelines(ctx context.Context, request ListPipelinesRequest) (response ListPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3521,7 +3521,7 @@ func (client GoldenGateClient) listPipelines(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListRecipes.go.html to see an example of how to use ListRecipes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListRecipes.go.html to see an example of how to use ListRecipes API.
 // A default retry strategy applies to this operation ListRecipes()
 func (client GoldenGateClient) ListRecipes(ctx context.Context, request ListRecipesRequest) (response ListRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3580,7 +3580,7 @@ func (client GoldenGateClient) listRecipes(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailFiles.go.html to see an example of how to use ListTrailFiles API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailFiles.go.html to see an example of how to use ListTrailFiles API.
 // A default retry strategy applies to this operation ListTrailFiles()
 func (client GoldenGateClient) ListTrailFiles(ctx context.Context, request ListTrailFilesRequest) (response ListTrailFilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3639,7 +3639,7 @@ func (client GoldenGateClient) listTrailFiles(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailSequences.go.html to see an example of how to use ListTrailSequences API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailSequences.go.html to see an example of how to use ListTrailSequences API.
 // A default retry strategy applies to this operation ListTrailSequences()
 func (client GoldenGateClient) ListTrailSequences(ctx context.Context, request ListTrailSequencesRequest) (response ListTrailSequencesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3697,7 +3697,7 @@ func (client GoldenGateClient) listTrailSequences(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client GoldenGateClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3755,7 +3755,7 @@ func (client GoldenGateClient) listWorkRequestErrors(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client GoldenGateClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3813,7 +3813,7 @@ func (client GoldenGateClient) listWorkRequestLogs(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client GoldenGateClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3871,7 +3871,7 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RefreshConnection.go.html to see an example of how to use RefreshConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RefreshConnection.go.html to see an example of how to use RefreshConnection API.
 // A default retry strategy applies to this operation RefreshConnection()
 func (client GoldenGateClient) RefreshConnection(ctx context.Context, request RefreshConnectionRequest) (response RefreshConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3929,7 +3929,7 @@ func (client GoldenGateClient) refreshConnection(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveConnectionLock.go.html to see an example of how to use RemoveConnectionLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveConnectionLock.go.html to see an example of how to use RemoveConnectionLock API.
 // A default retry strategy applies to this operation RemoveConnectionLock()
 func (client GoldenGateClient) RemoveConnectionLock(ctx context.Context, request RemoveConnectionLockRequest) (response RemoveConnectionLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3987,7 +3987,7 @@ func (client GoldenGateClient) removeConnectionLock(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveDeploymentBackupLock.go.html to see an example of how to use RemoveDeploymentBackupLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveDeploymentBackupLock.go.html to see an example of how to use RemoveDeploymentBackupLock API.
 // A default retry strategy applies to this operation RemoveDeploymentBackupLock()
 func (client GoldenGateClient) RemoveDeploymentBackupLock(ctx context.Context, request RemoveDeploymentBackupLockRequest) (response RemoveDeploymentBackupLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4045,7 +4045,7 @@ func (client GoldenGateClient) removeDeploymentBackupLock(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveDeploymentLock.go.html to see an example of how to use RemoveDeploymentLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveDeploymentLock.go.html to see an example of how to use RemoveDeploymentLock API.
 // A default retry strategy applies to this operation RemoveDeploymentLock()
 func (client GoldenGateClient) RemoveDeploymentLock(ctx context.Context, request RemoveDeploymentLockRequest) (response RemoveDeploymentLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4103,7 +4103,7 @@ func (client GoldenGateClient) removeDeploymentLock(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RescheduleDeploymentUpgrade.go.html to see an example of how to use RescheduleDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RescheduleDeploymentUpgrade.go.html to see an example of how to use RescheduleDeploymentUpgrade API.
 // A default retry strategy applies to this operation RescheduleDeploymentUpgrade()
 func (client GoldenGateClient) RescheduleDeploymentUpgrade(ctx context.Context, request RescheduleDeploymentUpgradeRequest) (response RescheduleDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4166,7 +4166,7 @@ func (client GoldenGateClient) rescheduleDeploymentUpgrade(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RestoreDeployment.go.html to see an example of how to use RestoreDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RestoreDeployment.go.html to see an example of how to use RestoreDeployment API.
 // A default retry strategy applies to this operation RestoreDeployment()
 func (client GoldenGateClient) RestoreDeployment(ctx context.Context, request RestoreDeploymentRequest) (response RestoreDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4229,7 +4229,7 @@ func (client GoldenGateClient) restoreDeployment(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RollbackDeploymentUpgrade.go.html to see an example of how to use RollbackDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RollbackDeploymentUpgrade.go.html to see an example of how to use RollbackDeploymentUpgrade API.
 // A default retry strategy applies to this operation RollbackDeploymentUpgrade()
 func (client GoldenGateClient) RollbackDeploymentUpgrade(ctx context.Context, request RollbackDeploymentUpgradeRequest) (response RollbackDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4292,7 +4292,7 @@ func (client GoldenGateClient) rollbackDeploymentUpgrade(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/SnoozeDeploymentUpgrade.go.html to see an example of how to use SnoozeDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/SnoozeDeploymentUpgrade.go.html to see an example of how to use SnoozeDeploymentUpgrade API.
 // A default retry strategy applies to this operation SnoozeDeploymentUpgrade()
 func (client GoldenGateClient) SnoozeDeploymentUpgrade(ctx context.Context, request SnoozeDeploymentUpgradeRequest) (response SnoozeDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4355,7 +4355,7 @@ func (client GoldenGateClient) snoozeDeploymentUpgrade(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StartDeployment.go.html to see an example of how to use StartDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StartDeployment.go.html to see an example of how to use StartDeployment API.
 // A default retry strategy applies to this operation StartDeployment()
 func (client GoldenGateClient) StartDeployment(ctx context.Context, request StartDeploymentRequest) (response StartDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4418,7 +4418,7 @@ func (client GoldenGateClient) startDeployment(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StartPipeline.go.html to see an example of how to use StartPipeline API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StartPipeline.go.html to see an example of how to use StartPipeline API.
 // A default retry strategy applies to this operation StartPipeline()
 func (client GoldenGateClient) StartPipeline(ctx context.Context, request StartPipelineRequest) (response StartPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4481,7 +4481,7 @@ func (client GoldenGateClient) startPipeline(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StopDeployment.go.html to see an example of how to use StopDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StopDeployment.go.html to see an example of how to use StopDeployment API.
 // A default retry strategy applies to this operation StopDeployment()
 func (client GoldenGateClient) StopDeployment(ctx context.Context, request StopDeploymentRequest) (response StopDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4544,7 +4544,7 @@ func (client GoldenGateClient) stopDeployment(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StopPipeline.go.html to see an example of how to use StopPipeline API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StopPipeline.go.html to see an example of how to use StopPipeline API.
 // A default retry strategy applies to this operation StopPipeline()
 func (client GoldenGateClient) StopPipeline(ctx context.Context, request StopPipelineRequest) (response StopPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4608,7 +4608,7 @@ func (client GoldenGateClient) stopPipeline(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestConnectionAssignment.go.html to see an example of how to use TestConnectionAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestConnectionAssignment.go.html to see an example of how to use TestConnectionAssignment API.
 // A default retry strategy applies to this operation TestConnectionAssignment()
 func (client GoldenGateClient) TestConnectionAssignment(ctx context.Context, request TestConnectionAssignmentRequest) (response TestConnectionAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4672,7 +4672,7 @@ func (client GoldenGateClient) testConnectionAssignment(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestPipelineConnection.go.html to see an example of how to use TestPipelineConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestPipelineConnection.go.html to see an example of how to use TestPipelineConnection API.
 // A default retry strategy applies to this operation TestPipelineConnection()
 func (client GoldenGateClient) TestPipelineConnection(ctx context.Context, request TestPipelineConnectionRequest) (response TestPipelineConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4735,7 +4735,7 @@ func (client GoldenGateClient) testPipelineConnection(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 // A default retry strategy applies to this operation UpdateConnection()
 func (client GoldenGateClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4794,7 +4794,7 @@ func (client GoldenGateClient) updateConnection(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDatabaseRegistration.go.html to see an example of how to use UpdateDatabaseRegistration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDatabaseRegistration.go.html to see an example of how to use UpdateDatabaseRegistration API.
 // A default retry strategy applies to this operation UpdateDatabaseRegistration()
 func (client GoldenGateClient) UpdateDatabaseRegistration(ctx context.Context, request UpdateDatabaseRegistrationRequest) (response UpdateDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4852,7 +4852,7 @@ func (client GoldenGateClient) updateDatabaseRegistration(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
 // A default retry strategy applies to this operation UpdateDeployment()
 func (client GoldenGateClient) UpdateDeployment(ctx context.Context, request UpdateDeploymentRequest) (response UpdateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4910,7 +4910,7 @@ func (client GoldenGateClient) updateDeployment(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeploymentBackup.go.html to see an example of how to use UpdateDeploymentBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeploymentBackup.go.html to see an example of how to use UpdateDeploymentBackup API.
 // A default retry strategy applies to this operation UpdateDeploymentBackup()
 func (client GoldenGateClient) UpdateDeploymentBackup(ctx context.Context, request UpdateDeploymentBackupRequest) (response UpdateDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4968,7 +4968,7 @@ func (client GoldenGateClient) updateDeploymentBackup(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdatePipeline.go.html to see an example of how to use UpdatePipeline API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdatePipeline.go.html to see an example of how to use UpdatePipeline API.
 // A default retry strategy applies to this operation UpdatePipeline()
 func (client GoldenGateClient) UpdatePipeline(ctx context.Context, request UpdatePipelineRequest) (response UpdatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5026,7 +5026,7 @@ func (client GoldenGateClient) updatePipeline(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeployment.go.html to see an example of how to use UpgradeDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeployment.go.html to see an example of how to use UpgradeDeployment API.
 // A default retry strategy applies to this operation UpgradeDeployment()
 func (client GoldenGateClient) UpgradeDeployment(ctx context.Context, request UpgradeDeploymentRequest) (response UpgradeDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5089,7 +5089,7 @@ func (client GoldenGateClient) upgradeDeployment(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeploymentUpgrade.go.html to see an example of how to use UpgradeDeploymentUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeploymentUpgrade.go.html to see an example of how to use UpgradeDeploymentUpgrade API.
 // A default retry strategy applies to this operation UpgradeDeploymentUpgrade()
 func (client GoldenGateClient) UpgradeDeploymentUpgrade(ctx context.Context, request UpgradeDeploymentUpgradeRequest) (response UpgradeDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse

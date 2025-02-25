@@ -18,10 +18,10 @@ import (
 // AlarmCondition The information about template condition in the same monitoringTemplate in a compartment.
 type AlarmCondition struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Alarm Condition.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Alarm Condition.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" json:"monitoringTemplateId"`
 
 	// The stack monitoring service or application emitting the metric that is evaluated by the alarm.

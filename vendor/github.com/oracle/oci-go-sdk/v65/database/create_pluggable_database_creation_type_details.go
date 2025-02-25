@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -76,7 +76,7 @@ func (m *createpluggabledatabasecreationtypedetails) UnmarshalPolymorphicJSON(da
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreatePluggableDatabaseCreationTypeDetails: %s.", m.CreationType)
+		common.Logf("Received unsupported enum value for CreatePluggableDatabaseCreationTypeDetails: %s.", m.CreationType)
 		return *m, nil
 	}
 }

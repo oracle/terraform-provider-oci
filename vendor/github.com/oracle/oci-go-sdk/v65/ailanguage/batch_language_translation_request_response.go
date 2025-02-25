@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchLanguageTranslation.go.html to see an example of how to use BatchLanguageTranslationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchLanguageTranslation.go.html to see an example of how to use BatchLanguageTranslationRequest.
 type BatchLanguageTranslationRequest struct {
 
 	// The details to make language translation call.

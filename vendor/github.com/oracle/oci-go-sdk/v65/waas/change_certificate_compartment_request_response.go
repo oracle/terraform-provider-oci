@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeCertificateCompartment.go.html to see an example of how to use ChangeCertificateCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeCertificateCompartment.go.html to see an example of how to use ChangeCertificateCompartmentRequest.
 type ChangeCertificateCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SSL certificate used in the WAAS policy. This number is generated when the certificate is added to the policy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SSL certificate used in the WAAS policy. This number is generated when the certificate is added to the policy.
 	CertificateId *string `mandatory:"true" contributesTo:"path" name:"certificateId"`
 
 	ChangeCertificateCompartmentDetails `contributesTo:"body"`

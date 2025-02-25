@@ -15,16 +15,16 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateAlarmCondition.go.html to see an example of how to use UpdateAlarmConditionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateAlarmCondition.go.html to see an example of how to use UpdateAlarmConditionRequest.
 type UpdateAlarmConditionRequest struct {
 
 	// Details required for updating a new alarm condition
 	UpdateAlarmConditionDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the alarm condition.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm condition.
 	AlarmConditionId *string `mandatory:"true" contributesTo:"path" name:"alarmConditionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" contributesTo:"path" name:"monitoringTemplateId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

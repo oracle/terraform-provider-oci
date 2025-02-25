@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetNetworkFirewall.go.html to see an example of how to use GetNetworkFirewallRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetNetworkFirewall.go.html to see an example of how to use GetNetworkFirewallRequest.
 type GetNetworkFirewallRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
 	NetworkFirewallId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallId"`
 
 	// The client request ID for tracing.

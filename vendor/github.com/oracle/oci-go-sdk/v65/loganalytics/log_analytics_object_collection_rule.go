@@ -18,13 +18,13 @@ import (
 // LogAnalyticsObjectCollectionRule The configuration details of an Object Storage based collection rule.
 type LogAnalyticsObjectCollectionRule struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A unique name to the rule. The name must be unique, within the tenancy, and cannot be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Object Storage namespace.

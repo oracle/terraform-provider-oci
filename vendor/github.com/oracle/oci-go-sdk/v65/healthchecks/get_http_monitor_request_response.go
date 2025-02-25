@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/GetHttpMonitor.go.html to see an example of how to use GetHttpMonitorRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/GetHttpMonitor.go.html to see an example of how to use GetHttpMonitorRequest.
 type GetHttpMonitorRequest struct {
 
 	// The OCID of a monitor.

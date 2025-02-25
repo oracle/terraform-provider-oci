@@ -38,12 +38,12 @@ type CreateAssetDetails interface {
 	GetAssetSourceIds() []string
 
 	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	GetFreeformTags() map[string]string
 
 	// The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 }
@@ -99,7 +99,7 @@ func (m *createassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateAssetDetails: %s.", m.AssetType)
+		common.Logf("Received unsupported enum value for CreateAssetDetails: %s.", m.AssetType)
 		return *m, nil
 	}
 }

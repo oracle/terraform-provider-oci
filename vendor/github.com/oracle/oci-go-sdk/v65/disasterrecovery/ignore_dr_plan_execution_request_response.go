@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/IgnoreDrPlanExecution.go.html to see an example of how to use IgnoreDrPlanExecutionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/IgnoreDrPlanExecution.go.html to see an example of how to use IgnoreDrPlanExecutionRequest.
 type IgnoreDrPlanExecutionRequest struct {
 
 	// Details for ignoring the failed group or step and resuming execution.

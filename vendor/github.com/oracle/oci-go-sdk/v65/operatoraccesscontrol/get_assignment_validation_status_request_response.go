@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAssignmentValidationStatus.go.html to see an example of how to use GetAssignmentValidationStatusRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAssignmentValidationStatus.go.html to see an example of how to use GetAssignmentValidationStatusRequest.
 type GetAssignmentValidationStatusRequest struct {
 
 	// unique OperatorControl identifier

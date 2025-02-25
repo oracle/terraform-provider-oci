@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualDeployment.go.html to see an example of how to use UpdateVirtualDeploymentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualDeployment.go.html to see an example of how to use UpdateVirtualDeploymentRequest.
 type UpdateVirtualDeploymentRequest struct {
 
 	// Unique VirtualDeployment identifier.

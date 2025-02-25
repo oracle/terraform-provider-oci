@@ -21,13 +21,13 @@ import (
 // CreateWebAppAccelerationLoadBalancerDetails The information about new WebAppAccelerationLoadBalancer.
 type CreateWebAppAccelerationLoadBalancerDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
 	WebAppAccelerationPolicyId *string `mandatory:"true" json:"webAppAccelerationPolicyId"`
 
-	// LoadBalancer OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to which the WebAppAccelerationPolicy is attached to.
+	// LoadBalancer OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the WebAppAccelerationPolicy is attached to.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// WebAppAcceleration display name, can be renamed.

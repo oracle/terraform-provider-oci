@@ -19,7 +19,7 @@ import (
 // MonitoredResourceTaskSummary The summary details for the task.
 type MonitoredResourceTaskSummary struct {
 
-	// Task identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Task identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Name of the task.
@@ -27,7 +27,7 @@ type MonitoredResourceTaskSummary struct {
 
 	TaskDetails MonitoredResourceTaskDetails `mandatory:"true" json:"taskDetails"`
 
-	// Identifiers OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
+	// Identifiers OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
 	WorkRequestIds []string `mandatory:"false" json:"workRequestIds"`
 
 	// The date and time when the stack monitoring resource task was created, expressed in

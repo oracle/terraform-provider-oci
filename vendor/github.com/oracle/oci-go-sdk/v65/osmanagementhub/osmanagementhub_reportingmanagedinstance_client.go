@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -96,7 +96,7 @@ func (client *ReportingManagedInstanceClient) ConfigurationProvider() *common.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceAnalyticContent.go.html to see an example of how to use GetManagedInstanceAnalyticContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceAnalyticContent.go.html to see an example of how to use GetManagedInstanceAnalyticContent API.
 // A default retry strategy applies to this operation GetManagedInstanceAnalyticContent()
 func (client ReportingManagedInstanceClient) GetManagedInstanceAnalyticContent(ctx context.Context, request GetManagedInstanceAnalyticContentRequest) (response GetManagedInstanceAnalyticContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client ReportingManagedInstanceClient) getManagedInstanceAnalyticContent(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceContent.go.html to see an example of how to use GetManagedInstanceContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceContent.go.html to see an example of how to use GetManagedInstanceContent API.
 // A default retry strategy applies to this operation GetManagedInstanceContent()
 func (client ReportingManagedInstanceClient) GetManagedInstanceContent(ctx context.Context, request GetManagedInstanceContentRequest) (response GetManagedInstanceContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -210,7 +210,7 @@ func (client ReportingManagedInstanceClient) getManagedInstanceContent(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SummarizeManagedInstanceAnalytics.go.html to see an example of how to use SummarizeManagedInstanceAnalytics API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SummarizeManagedInstanceAnalytics.go.html to see an example of how to use SummarizeManagedInstanceAnalytics API.
 // A default retry strategy applies to this operation SummarizeManagedInstanceAnalytics()
 func (client ReportingManagedInstanceClient) SummarizeManagedInstanceAnalytics(ctx context.Context, request SummarizeManagedInstanceAnalyticsRequest) (response SummarizeManagedInstanceAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse

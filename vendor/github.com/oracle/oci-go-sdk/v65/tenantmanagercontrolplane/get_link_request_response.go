@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetLink.go.html to see an example of how to use GetLinkRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetLink.go.html to see an example of how to use GetLinkRequest.
 type GetLinkRequest struct {
 
 	// OCID of the link to retrieve.

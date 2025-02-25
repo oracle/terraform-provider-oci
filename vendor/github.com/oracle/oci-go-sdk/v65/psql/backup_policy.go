@@ -5,7 +5,7 @@
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -73,7 +73,7 @@ func (m *backuppolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BackupPolicy: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for BackupPolicy: %s.", m.Kind)
 		return *m, nil
 	}
 }

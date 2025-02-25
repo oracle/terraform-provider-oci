@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelVideoJob.go.html to see an example of how to use CancelVideoJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelVideoJob.go.html to see an example of how to use CancelVideoJobRequest.
 type CancelVideoJobRequest struct {
 
 	// Video job id.

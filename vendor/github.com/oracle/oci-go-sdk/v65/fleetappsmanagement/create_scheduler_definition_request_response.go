@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateSchedulerDefinition.go.html to see an example of how to use CreateSchedulerDefinitionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateSchedulerDefinition.go.html to see an example of how to use CreateSchedulerDefinitionRequest.
 type CreateSchedulerDefinitionRequest struct {
 
 	// Details for the new SchedulerDefinition.

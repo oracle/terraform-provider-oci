@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchConnectionString.go.html to see an example of how to use FetchConnectionStringRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchConnectionString.go.html to see an example of how to use FetchConnectionStringRequest.
 type FetchConnectionStringRequest struct {
 
 	// Sharded Database identifier

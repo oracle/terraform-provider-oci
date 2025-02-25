@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -20,13 +20,13 @@ import (
 // and VCN. The `Cpe` is a virtual representation of your customer-premises equipment,
 // which is the actual router on-premises at your site at your end of the Site-to-Site VPN IPSec connection.
 // For more information,
-// see Overview of the Networking Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
+// see Overview of the Networking Service (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type Cpe struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the CPE.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the CPE.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The CPE's Oracle ID (OCID).
@@ -47,10 +47,10 @@ type Cpe struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE's device type.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE's device type.
 	// The Networking service maintains a general list of CPE device types (for example,
 	// Cisco ASA). For each type, Oracle provides CPE configuration content that can help
-	// a network engineer configure the CPE. The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) uniquely identifies the type of
+	// a network engineer configure the CPE. The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) uniquely identifies the type of
 	// device. To get the OCIDs for the device types on the list, see
 	// ListCpeDeviceShapes.
 	// For information about how to generate CPE configuration content for a

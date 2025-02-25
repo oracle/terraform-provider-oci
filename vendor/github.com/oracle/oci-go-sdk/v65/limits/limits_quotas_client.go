@@ -95,7 +95,7 @@ func (client *QuotasClient) ConfigurationProvider() *common.ConfigurationProvide
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/AddQuotaLock.go.html to see an example of how to use AddQuotaLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/AddQuotaLock.go.html to see an example of how to use AddQuotaLock API.
 func (client QuotasClient) AddQuotaLock(ctx context.Context, request AddQuotaLockRequest) (response AddQuotaLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,7 +152,7 @@ func (client QuotasClient) addQuotaLock(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/CreateQuota.go.html to see an example of how to use CreateQuota API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/CreateQuota.go.html to see an example of how to use CreateQuota API.
 // A default retry strategy applies to this operation CreateQuota()
 func (client QuotasClient) CreateQuota(ctx context.Context, request CreateQuotaRequest) (response CreateQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -215,7 +215,7 @@ func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/DeleteQuota.go.html to see an example of how to use DeleteQuota API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/DeleteQuota.go.html to see an example of how to use DeleteQuota API.
 // A default retry strategy applies to this operation DeleteQuota()
 func (client QuotasClient) DeleteQuota(ctx context.Context, request DeleteQuotaRequest) (response DeleteQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -273,7 +273,7 @@ func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/GetQuota.go.html to see an example of how to use GetQuota API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/GetQuota.go.html to see an example of how to use GetQuota API.
 // A default retry strategy applies to this operation GetQuota()
 func (client QuotasClient) GetQuota(ctx context.Context, request GetQuotaRequest) (response GetQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -331,7 +331,7 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListQuotas.go.html to see an example of how to use ListQuotas API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListQuotas.go.html to see an example of how to use ListQuotas API.
 // A default retry strategy applies to this operation ListQuotas()
 func (client QuotasClient) ListQuotas(ctx context.Context, request ListQuotasRequest) (response ListQuotasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -389,7 +389,7 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/RemoveQuotaLock.go.html to see an example of how to use RemoveQuotaLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/RemoveQuotaLock.go.html to see an example of how to use RemoveQuotaLock API.
 func (client QuotasClient) RemoveQuotaLock(ctx context.Context, request RemoveQuotaLockRequest) (response RemoveQuotaLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -446,7 +446,7 @@ func (client QuotasClient) removeQuotaLock(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/UpdateQuota.go.html to see an example of how to use UpdateQuota API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/UpdateQuota.go.html to see an example of how to use UpdateQuota API.
 // A default retry strategy applies to this operation UpdateQuota()
 func (client QuotasClient) UpdateQuota(ctx context.Context, request UpdateQuotaRequest) (response UpdateQuotaResponse, err error) {
 	var ociResponse common.OCIResponse

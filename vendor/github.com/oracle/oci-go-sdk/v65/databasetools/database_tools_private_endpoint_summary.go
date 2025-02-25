@@ -18,13 +18,13 @@ import (
 // DatabaseToolsPrivateEndpointSummary Summary of the Database Tools private endpoint.
 type DatabaseToolsPrivateEndpointSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools Endpoint Service.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools Endpoint Service.
 	EndpointServiceId *string `mandatory:"true" json:"endpointServiceId"`
 
 	// The time the Database Tools private endpoint was created. An RFC3339 formatted datetime string.
@@ -33,7 +33,7 @@ type DatabaseToolsPrivateEndpointSummary struct {
 	// The time the Database Tools private endpoint was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The current state of the Database Tools private endpoint.
@@ -60,10 +60,10 @@ type DatabaseToolsPrivateEndpointSummary struct {
 	// A description of the Database Tools private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN that the private endpoint belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN that the private endpoint belongs to.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private endpoint's VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint's VNIC.
 	PrivateEndpointVnicId *string `mandatory:"false" json:"privateEndpointVnicId"`
 
 	// The private IP address that represents the access point for the associated endpoint service.
@@ -78,7 +78,7 @@ type DatabaseToolsPrivateEndpointSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups
 	// that the private endpoint's VNIC belongs to.  For more information about NSGs, see
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`

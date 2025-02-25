@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleStages.go.html to see an example of how to use ListLifecycleStagesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleStages.go.html to see an example of how to use ListLifecycleStagesRequest.
 type ListLifecycleStagesRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
@@ -27,10 +27,10 @@ type ListLifecycleStagesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"false" contributesTo:"query" name:"lifecycleStageId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
 
 	// A filter to return only profiles that match the given archType.
@@ -46,12 +46,12 @@ type ListLifecycleStagesRequest struct {
 	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
@@ -150,7 +150,7 @@ type ListLifecycleStagesResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -173,6 +173,7 @@ const (
 	ListLifecycleStagesArchTypeI686    ListLifecycleStagesArchTypeEnum = "I686"
 	ListLifecycleStagesArchTypeNoarch  ListLifecycleStagesArchTypeEnum = "NOARCH"
 	ListLifecycleStagesArchTypeSrc     ListLifecycleStagesArchTypeEnum = "SRC"
+	ListLifecycleStagesArchTypeI386    ListLifecycleStagesArchTypeEnum = "I386"
 )
 
 var mappingListLifecycleStagesArchTypeEnum = map[string]ListLifecycleStagesArchTypeEnum{
@@ -181,6 +182,7 @@ var mappingListLifecycleStagesArchTypeEnum = map[string]ListLifecycleStagesArchT
 	"I686":    ListLifecycleStagesArchTypeI686,
 	"NOARCH":  ListLifecycleStagesArchTypeNoarch,
 	"SRC":     ListLifecycleStagesArchTypeSrc,
+	"I386":    ListLifecycleStagesArchTypeI386,
 }
 
 var mappingListLifecycleStagesArchTypeEnumLowerCase = map[string]ListLifecycleStagesArchTypeEnum{
@@ -189,6 +191,7 @@ var mappingListLifecycleStagesArchTypeEnumLowerCase = map[string]ListLifecycleSt
 	"i686":    ListLifecycleStagesArchTypeI686,
 	"noarch":  ListLifecycleStagesArchTypeNoarch,
 	"src":     ListLifecycleStagesArchTypeSrc,
+	"i386":    ListLifecycleStagesArchTypeI386,
 }
 
 // GetListLifecycleStagesArchTypeEnumValues Enumerates the set of values for ListLifecycleStagesArchTypeEnum
@@ -208,6 +211,7 @@ func GetListLifecycleStagesArchTypeEnumStringValues() []string {
 		"I686",
 		"NOARCH",
 		"SRC",
+		"I386",
 	}
 }
 

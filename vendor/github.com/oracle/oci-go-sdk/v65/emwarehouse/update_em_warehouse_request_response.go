@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/UpdateEmWarehouse.go.html to see an example of how to use UpdateEmWarehouseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/UpdateEmWarehouse.go.html to see an example of how to use UpdateEmWarehouseRequest.
 type UpdateEmWarehouseRequest struct {
 
 	// unique EmWarehouse identifier

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteReplica.go.html to see an example of how to use DeleteReplicaRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteReplica.go.html to see an example of how to use DeleteReplicaRequest.
 type DeleteReplicaRequest struct {
 
 	// A table name within the compartment, or a table OCID.

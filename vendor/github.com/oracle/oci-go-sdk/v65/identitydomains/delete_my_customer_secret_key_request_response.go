@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyCustomerSecretKey.go.html to see an example of how to use DeleteMyCustomerSecretKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyCustomerSecretKey.go.html to see an example of how to use DeleteMyCustomerSecretKeyRequest.
 type DeleteMyCustomerSecretKeyRequest struct {
 
 	// ID of the resource

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoringTemplate.go.html to see an example of how to use CreateMonitoringTemplateRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoringTemplate.go.html to see an example of how to use CreateMonitoringTemplateRequest.
 type CreateMonitoringTemplateRequest struct {
 
 	// Details required for creating a new monitoring template.

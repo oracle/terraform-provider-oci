@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -71,7 +71,7 @@ func (m *tablespaceadmincredentialdetails) UnmarshalPolymorphicJSON(data []byte)
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TablespaceAdminCredentialDetails: %s.", m.TablespaceAdminCredentialType)
+		common.Logf("Received unsupported enum value for TablespaceAdminCredentialDetails: %s.", m.TablespaceAdminCredentialType)
 		return *m, nil
 	}
 }

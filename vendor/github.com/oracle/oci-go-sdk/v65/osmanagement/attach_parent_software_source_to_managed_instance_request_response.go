@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AttachParentSoftwareSourceToManagedInstance.go.html to see an example of how to use AttachParentSoftwareSourceToManagedInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AttachParentSoftwareSourceToManagedInstance.go.html to see an example of how to use AttachParentSoftwareSourceToManagedInstanceRequest.
 type AttachParentSoftwareSourceToManagedInstanceRequest struct {
 
 	// OCID for the managed instance

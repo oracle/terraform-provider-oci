@@ -18,7 +18,7 @@ import (
 // KeyDetails The properties that define the kms keys used by Functions for Image Signature verification.
 type KeyDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the KMS key that will be used to verify the image signature.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the KMS key that will be used to verify the image signature.
 	KmsKeyId *string `mandatory:"true" json:"kmsKeyId"`
 }
 

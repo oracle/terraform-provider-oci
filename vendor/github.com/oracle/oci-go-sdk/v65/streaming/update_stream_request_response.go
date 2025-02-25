@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStream.go.html to see an example of how to use UpdateStreamRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStream.go.html to see an example of how to use UpdateStreamRequest.
 type UpdateStreamRequest struct {
 
 	// The OCID of the stream.

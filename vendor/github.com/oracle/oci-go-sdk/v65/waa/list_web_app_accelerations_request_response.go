@@ -15,17 +15,17 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWebAppAccelerations.go.html to see an example of how to use ListWebAppAccelerationsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWebAppAccelerations.go.html to see an example of how to use ListWebAppAccelerationsRequest.
 type ListWebAppAccelerationsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only the WebAppAcceleration with the given OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// A filter to return only the WebAppAcceleration with the given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// A filter to return only the WebAppAcceleration with the given
-	// OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of related WebAppAccelerationPolicy.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of related WebAppAccelerationPolicy.
 	WebAppAccelerationPolicyId *string `mandatory:"false" contributesTo:"query" name:"webAppAccelerationPolicyId"`
 
 	// A filter to return only resources that match the given lifecycleState.

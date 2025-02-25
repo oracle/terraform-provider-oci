@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListIdentityConfigurations.go.html to see an example of how to use ListIdentityConfigurationsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListIdentityConfigurations.go.html to see an example of how to use ListIdentityConfigurationsRequest.
 type ListIdentityConfigurationsRequest struct {
 
 	// The OCID of the cluster.

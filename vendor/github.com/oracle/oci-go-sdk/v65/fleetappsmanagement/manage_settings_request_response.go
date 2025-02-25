@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageSettings.go.html to see an example of how to use ManageSettingsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageSettings.go.html to see an example of how to use ManageSettingsRequest.
 type ManageSettingsRequest struct {
 
 	// A filter to return resources whose Onboarding identifier matches the given identifier.

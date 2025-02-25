@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCaptureFilter.go.html to see an example of how to use DeleteCaptureFilterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCaptureFilter.go.html to see an example of how to use DeleteCaptureFilterRequest.
 type DeleteCaptureFilterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capture filter.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capture filter.
 	CaptureFilterId *string `mandatory:"true" contributesTo:"path" name:"captureFilterId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

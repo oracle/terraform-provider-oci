@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindowRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindowRequest.
 type UpdateMaintenanceWindowRequest struct {
 
 	// unique MaintenanceWindow identifier

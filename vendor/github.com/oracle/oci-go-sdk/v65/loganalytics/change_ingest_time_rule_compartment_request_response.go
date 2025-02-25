@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeIngestTimeRuleCompartment.go.html to see an example of how to use ChangeIngestTimeRuleCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeIngestTimeRuleCompartment.go.html to see an example of how to use ChangeIngestTimeRuleCompartmentRequest.
 type ChangeIngestTimeRuleCompartmentRequest struct {
 
 	// The Logging Analytics namespace used for the request.

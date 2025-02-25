@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeEnvironmentCompartment.go.html to see an example of how to use ChangeEnvironmentCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeEnvironmentCompartment.go.html to see an example of how to use ChangeEnvironmentCompartmentRequest.
 type ChangeEnvironmentCompartmentRequest struct {
 
 	// Unique environment identifier.

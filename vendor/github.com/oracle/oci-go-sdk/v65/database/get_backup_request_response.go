@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetBackup.go.html to see an example of how to use GetBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetBackup.go.html to see an example of how to use GetBackupRequest.
 type GetBackupRequest struct {
 
-	// The backup OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The backup OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// Unique Oracle-assigned identifier for the request.

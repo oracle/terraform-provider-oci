@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSources.go.html to see an example of how to use ListSoftwareSourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSources.go.html to see an example of how to use ListSoftwareSourcesRequest.
 type ListSoftwareSourcesRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
 
 	// The type of the software source.
@@ -36,17 +36,20 @@ type ListSoftwareSourcesRequest struct {
 	// A filter to return only instances whose architecture type matches the given architecture.
 	ArchType []ArchTypeEnum `contributesTo:"query" name:"archType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source in a non-OCI environment for a tenancy.
+	// The availability of the software source in a non-OCI environment for a tenancy.
 	Availability []AvailabilityEnum `contributesTo:"query" name:"availability" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source in an OCI environment for a tenancy.
+	// The availability of the software source in an OCI environment for a tenancy.
 	AvailabilityAtOci []AvailabilityEnum `contributesTo:"query" name:"availabilityAtOci" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source. Use this query parameter to filter across availabilities in different environments.
+	// The availability of the software source. Use this query parameter to filter across availabilities in different environments.
 	AvailabilityAnywhere []AvailabilityEnum `contributesTo:"query" name:"availabilityAnywhere" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Indicates whether the software source is mandatory for the Autonomous Linux service.
 	IsMandatoryForAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isMandatoryForAutonomousLinux"`
+
+	// A filter to return software sources which can be synced to a management station.
+	IsMirrorSyncAllowed *bool `mandatory:"false" contributesTo:"query" name:"isMirrorSyncAllowed"`
 
 	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -58,12 +61,12 @@ type ListSoftwareSourcesRequest struct {
 	DisplayNameNotEqualTo []string `contributesTo:"query" name:"displayNameNotEqualTo" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
@@ -185,7 +188,7 @@ type ListSoftwareSourcesResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

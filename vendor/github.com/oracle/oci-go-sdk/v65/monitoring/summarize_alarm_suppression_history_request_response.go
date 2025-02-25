@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/SummarizeAlarmSuppressionHistory.go.html to see an example of how to use SummarizeAlarmSuppressionHistoryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/SummarizeAlarmSuppressionHistory.go.html to see an example of how to use SummarizeAlarmSuppressionHistoryRequest.
 type SummarizeAlarmSuppressionHistoryRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular
@@ -27,12 +27,12 @@ type SummarizeAlarmSuppressionHistoryRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Default: 1000
 	// Example: 500
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -97,12 +97,12 @@ type SummarizeAlarmSuppressionHistoryResponse struct {
 
 	// For list pagination. When this header appears in the response, next page of results remains.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// For list pagination. When this header appears in the response, previous pages of results remains.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcPreviousPage *string `presentIn:"header" name:"opc-previous-page"`
 }
 

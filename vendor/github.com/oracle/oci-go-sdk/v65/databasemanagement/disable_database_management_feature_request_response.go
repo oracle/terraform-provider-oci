@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableDatabaseManagementFeature.go.html to see an example of how to use DisableDatabaseManagementFeatureRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableDatabaseManagementFeature.go.html to see an example of how to use DisableDatabaseManagementFeatureRequest.
 type DisableDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// The details required to disable a Database Management feature for an Oracle cloud database.

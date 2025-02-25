@@ -20,7 +20,7 @@ import (
 // ChangeDetectAnomalyJobCompartmentDetails Details for changing the compartment of the DetectAnomalyJob.
 type ChangeDetectAnomalyJobCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// the resource should be moved to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

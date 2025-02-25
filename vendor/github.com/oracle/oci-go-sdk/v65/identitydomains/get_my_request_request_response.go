@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyRequest.go.html to see an example of how to use GetMyRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyRequest.go.html to see an example of how to use GetMyRequestRequest.
 type GetMyRequestRequest struct {
 
 	// ID of the resource

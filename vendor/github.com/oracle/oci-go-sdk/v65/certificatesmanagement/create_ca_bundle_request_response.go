@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCaBundle.go.html to see an example of how to use CreateCaBundleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCaBundle.go.html to see an example of how to use CreateCaBundleRequest.
 type CreateCaBundleRequest struct {
 
 	// The details of the request to create a new CA bundle.

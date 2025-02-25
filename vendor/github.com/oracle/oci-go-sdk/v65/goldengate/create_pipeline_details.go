@@ -22,7 +22,7 @@ type CreatePipelineDetails interface {
 	// An object's Display Name.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	GetCompartmentId() *string
 
 	// The Oracle license model that applies to a Deployment.
@@ -101,7 +101,7 @@ func (m *createpipelinedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreatePipelineDetails: %s.", m.RecipeType)
+		common.Logf("Received unsupported enum value for CreatePipelineDetails: %s.", m.RecipeType)
 		return *m, nil
 	}
 }

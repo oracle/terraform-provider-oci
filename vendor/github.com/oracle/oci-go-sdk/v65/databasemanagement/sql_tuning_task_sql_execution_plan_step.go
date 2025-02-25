@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -24,11 +24,11 @@ type SqlTuningTaskSqlExecutionPlanStep struct {
 	PlanHashValue *int64 `mandatory:"false" json:"planHashValue"`
 
 	// The identification number of a step in the SQL execution plan. This is unique within the SQL execution plan.
-	// This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	StepId *int `mandatory:"false" json:"stepId"`
 
 	// The ID of the next step that operates on the results of this step.
-	// This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ParentStepId *int `mandatory:"false" json:"parentStepId"`
 
 	// The order of processing for steps with the same parent ID.

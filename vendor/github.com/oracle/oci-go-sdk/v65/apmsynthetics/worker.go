@@ -18,7 +18,7 @@ import (
 // Worker The information about an On-premise VP worker.
 type Worker struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the On-premise VP worker.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the On-premise VP worker.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The runtime assigned id of the On-premise VP worker.
@@ -30,7 +30,7 @@ type Worker struct {
 	// Unique permanent name of the On-premise VP worker. This is the same as the displayName.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the On-premise vantage point.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the On-premise vantage point.
 	OpvpId *string `mandatory:"true" json:"opvpId"`
 
 	// On-premise vantage point name.

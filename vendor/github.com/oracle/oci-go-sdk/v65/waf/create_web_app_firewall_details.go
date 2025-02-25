@@ -20,10 +20,10 @@ import (
 // CreateWebAppFirewallDetails The information about new Web App Firewall.
 type CreateWebAppFirewallDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
 	GetWebAppFirewallPolicyId() *string
 
 	// WebAppFirewall display name, can be renamed.
@@ -89,7 +89,7 @@ func (m *createwebappfirewalldetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateWebAppFirewallDetails: %s.", m.BackendType)
+		common.Logf("Received unsupported enum value for CreateWebAppFirewallDetails: %s.", m.BackendType)
 		return *m, nil
 	}
 }

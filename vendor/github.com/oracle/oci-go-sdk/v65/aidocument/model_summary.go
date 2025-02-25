@@ -31,7 +31,7 @@ type ModelSummary struct {
 	// The version of the model.
 	ModelVersion *string `mandatory:"true" json:"modelVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// When the model was created, as an RFC3339 datetime string.
@@ -67,7 +67,7 @@ type ModelSummary struct {
 
 	ValidationDataset Dataset `mandatory:"false" json:"validationDataset"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) list of active custom Key Value models that need to be composed.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) list of active custom Key Value models that need to be composed.
 	ComponentModels []ComponentModel `mandatory:"false" json:"componentModels"`
 
 	// Set to true when the model is created by using multiple key value extraction models.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdatePeerTargetDatabase.go.html to see an example of how to use UpdatePeerTargetDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdatePeerTargetDatabase.go.html to see an example of how to use UpdatePeerTargetDatabaseRequest.
 type UpdatePeerTargetDatabaseRequest struct {
 
 	// The OCID of the Data Safe target database.

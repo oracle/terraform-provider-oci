@@ -60,7 +60,7 @@ func (m *rollbackdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for RollbackDetails: %s.", m.Strategy)
+		common.Logf("Received unsupported enum value for RollbackDetails: %s.", m.Strategy)
 		return *m, nil
 	}
 }

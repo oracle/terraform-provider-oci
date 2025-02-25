@@ -25,7 +25,7 @@ type CreateModelDetails struct {
 	// The compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// A human-friendly name for the model, which can be changed.
@@ -49,7 +49,7 @@ type CreateModelDetails struct {
 
 	ValidationDataset Dataset `mandatory:"false" json:"validationDataset"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) list of active custom Key Value models that need to be composed.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) list of active custom Key Value models that need to be composed.
 	ComponentModels []ComponentModel `mandatory:"false" json:"componentModels"`
 
 	// the alias name of the model.

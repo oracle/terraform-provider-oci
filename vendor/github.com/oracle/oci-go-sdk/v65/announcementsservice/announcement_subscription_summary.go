@@ -18,7 +18,7 @@ import (
 // AnnouncementSubscriptionSummary A summary representation of an announcement subscription.
 type AnnouncementSubscriptionSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the announcement subscription.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the announcement subscription.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name for the announcement subscription. Does not have to be unique, and it's changeable. Avoid entering confidential information.

@@ -6,11 +6,11 @@
 //
 // Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
 // compute instances, and block storage volumes. For more information, see the console
-// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
-// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
-// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// VirtualCircuitRedundancyMetadata This resource provides redundancy level details for the virtual circuit. For more about redundancy, see FastConnect Redundancy Best Practices (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnectresiliency.htm).
+// VirtualCircuitRedundancyMetadata This resource provides redundancy level details for the virtual circuit. For more about redundancy, see FastConnect Redundancy Best Practices (https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnectresiliency.htm).
 type VirtualCircuitRedundancyMetadata struct {
 
 	// The configured redundancy level of the virtual circuit.

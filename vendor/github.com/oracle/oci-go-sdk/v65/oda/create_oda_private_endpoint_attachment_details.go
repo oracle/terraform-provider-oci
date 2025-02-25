@@ -18,10 +18,10 @@ import (
 // CreateOdaPrivateEndpointAttachmentDetails Properties that are required to create an ODA private endpoint attachment.
 type CreateOdaPrivateEndpointAttachmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached ODA Instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached ODA Instance.
 	OdaInstanceId *string `mandatory:"true" json:"odaInstanceId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ODA Private Endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ODA Private Endpoint.
 	OdaPrivateEndpointId *string `mandatory:"true" json:"odaPrivateEndpointId"`
 }
 

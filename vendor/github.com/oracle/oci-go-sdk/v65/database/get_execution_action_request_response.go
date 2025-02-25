@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExecutionAction.go.html to see an example of how to use GetExecutionActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExecutionAction.go.html to see an example of how to use GetExecutionActionRequest.
 type GetExecutionActionRequest struct {
 
-	// The execution action OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution action OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionActionId *string `mandatory:"true" contributesTo:"path" name:"executionActionId"`
 
 	// Unique identifier for the request.

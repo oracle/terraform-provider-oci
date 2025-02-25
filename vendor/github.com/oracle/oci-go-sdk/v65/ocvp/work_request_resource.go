@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -27,7 +27,7 @@ type WorkRequestResource struct {
 	// work request.
 	ActionType ActionTypesEnum `mandatory:"true" json:"actionType"`
 
-	// An OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) or other unique identifier
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or other unique identifier
 	// for the resource.
 	Identifier *string `mandatory:"true" json:"identifier"`
 

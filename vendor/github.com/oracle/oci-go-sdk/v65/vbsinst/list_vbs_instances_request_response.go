@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListVbsInstances.go.html to see an example of how to use ListVbsInstancesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListVbsInstances.go.html to see an example of how to use ListVbsInstancesRequest.
 type ListVbsInstancesRequest struct {
 
 	// The ID of the compartment in which to list resources.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeBackup.go.html to see an example of how to use GetNodeBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeBackup.go.html to see an example of how to use GetNodeBackupRequest.
 type GetNodeBackupRequest struct {
 
 	// The OCID of the cluster.

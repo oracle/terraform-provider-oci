@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreatePipeline.go.html to see an example of how to use CreatePipelineRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreatePipeline.go.html to see an example of how to use CreatePipelineRequest.
 type CreatePipelineRequest struct {
 
 	// Specification of the pipeline to create.

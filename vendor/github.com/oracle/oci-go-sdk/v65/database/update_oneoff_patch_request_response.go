@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateOneoffPatch.go.html to see an example of how to use UpdateOneoffPatchRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateOneoffPatch.go.html to see an example of how to use UpdateOneoffPatchRequest.
 type UpdateOneoffPatchRequest struct {
 
-	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The one-off patch OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
 
 	// Request to update the properties of a one-off patch.

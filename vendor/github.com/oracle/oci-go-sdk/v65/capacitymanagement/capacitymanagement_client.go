@@ -4,7 +4,7 @@
 
 // OCI Control Center Capacity Management API
 //
-// OCI Control Center (OCC) Capacity Management enables you to manage capacity requests in realms where OCI Control Center Capacity Management is available. For more information, see OCI Control Center (https://docs.cloud.oracle.com/iaas/Content/control-center/home.htm).
+// OCI Control Center (OCC) Capacity Management enables you to manage capacity requests in realms where OCI Control Center Capacity Management is available. For more information, see OCI Control Center (https://docs.oracle.com/iaas/Content/control-center/home.htm).
 //
 
 package capacitymanagement
@@ -95,7 +95,7 @@ func (client *CapacityManagementClient) ConfigurationProvider() *common.Configur
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccAvailabilityCatalog.go.html to see an example of how to use CreateOccAvailabilityCatalog API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccAvailabilityCatalog.go.html to see an example of how to use CreateOccAvailabilityCatalog API.
 // A default retry strategy applies to this operation CreateOccAvailabilityCatalog()
 func (client CapacityManagementClient) CreateOccAvailabilityCatalog(ctx context.Context, request CreateOccAvailabilityCatalogRequest) (response CreateOccAvailabilityCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client CapacityManagementClient) createOccAvailabilityCatalog(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCapacityRequest.go.html to see an example of how to use CreateOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCapacityRequest.go.html to see an example of how to use CreateOccCapacityRequest API.
 // A default retry strategy applies to this operation CreateOccCapacityRequest()
 func (client CapacityManagementClient) CreateOccCapacityRequest(ctx context.Context, request CreateOccCapacityRequestRequest) (response CreateOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -221,7 +221,7 @@ func (client CapacityManagementClient) createOccCapacityRequest(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomer.go.html to see an example of how to use CreateOccCustomer API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomer.go.html to see an example of how to use CreateOccCustomer API.
 // A default retry strategy applies to this operation CreateOccCustomer()
 func (client CapacityManagementClient) CreateOccCustomer(ctx context.Context, request CreateOccCustomerRequest) (response CreateOccCustomerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -284,7 +284,7 @@ func (client CapacityManagementClient) createOccCustomer(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomerGroup.go.html to see an example of how to use CreateOccCustomerGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomerGroup.go.html to see an example of how to use CreateOccCustomerGroup API.
 // A default retry strategy applies to this operation CreateOccCustomerGroup()
 func (client CapacityManagementClient) CreateOccCustomerGroup(ctx context.Context, request CreateOccCustomerGroupRequest) (response CreateOccCustomerGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -347,7 +347,7 @@ func (client CapacityManagementClient) createOccCustomerGroup(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccAvailabilityCatalog.go.html to see an example of how to use DeleteOccAvailabilityCatalog API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccAvailabilityCatalog.go.html to see an example of how to use DeleteOccAvailabilityCatalog API.
 // A default retry strategy applies to this operation DeleteOccAvailabilityCatalog()
 func (client CapacityManagementClient) DeleteOccAvailabilityCatalog(ctx context.Context, request DeleteOccAvailabilityCatalogRequest) (response DeleteOccAvailabilityCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -405,7 +405,7 @@ func (client CapacityManagementClient) deleteOccAvailabilityCatalog(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCapacityRequest.go.html to see an example of how to use DeleteOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCapacityRequest.go.html to see an example of how to use DeleteOccCapacityRequest API.
 // A default retry strategy applies to this operation DeleteOccCapacityRequest()
 func (client CapacityManagementClient) DeleteOccCapacityRequest(ctx context.Context, request DeleteOccCapacityRequestRequest) (response DeleteOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -463,7 +463,7 @@ func (client CapacityManagementClient) deleteOccCapacityRequest(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomer.go.html to see an example of how to use DeleteOccCustomer API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomer.go.html to see an example of how to use DeleteOccCustomer API.
 // A default retry strategy applies to this operation DeleteOccCustomer()
 func (client CapacityManagementClient) DeleteOccCustomer(ctx context.Context, request DeleteOccCustomerRequest) (response DeleteOccCustomerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -521,7 +521,7 @@ func (client CapacityManagementClient) deleteOccCustomer(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomerGroup.go.html to see an example of how to use DeleteOccCustomerGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomerGroup.go.html to see an example of how to use DeleteOccCustomerGroup API.
 // A default retry strategy applies to this operation DeleteOccCustomerGroup()
 func (client CapacityManagementClient) DeleteOccCustomerGroup(ctx context.Context, request DeleteOccCustomerGroupRequest) (response DeleteOccCustomerGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -579,7 +579,7 @@ func (client CapacityManagementClient) deleteOccCustomerGroup(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccAvailabilityCatalog.go.html to see an example of how to use GetOccAvailabilityCatalog API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccAvailabilityCatalog.go.html to see an example of how to use GetOccAvailabilityCatalog API.
 // A default retry strategy applies to this operation GetOccAvailabilityCatalog()
 func (client CapacityManagementClient) GetOccAvailabilityCatalog(ctx context.Context, request GetOccAvailabilityCatalogRequest) (response GetOccAvailabilityCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -637,7 +637,7 @@ func (client CapacityManagementClient) getOccAvailabilityCatalog(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccAvailabilityCatalogContent.go.html to see an example of how to use GetOccAvailabilityCatalogContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccAvailabilityCatalogContent.go.html to see an example of how to use GetOccAvailabilityCatalogContent API.
 // A default retry strategy applies to this operation GetOccAvailabilityCatalogContent()
 func (client CapacityManagementClient) GetOccAvailabilityCatalogContent(ctx context.Context, request GetOccAvailabilityCatalogContentRequest) (response GetOccAvailabilityCatalogContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -699,7 +699,7 @@ func (client CapacityManagementClient) getOccAvailabilityCatalogContent(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCapacityRequest.go.html to see an example of how to use GetOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCapacityRequest.go.html to see an example of how to use GetOccCapacityRequest API.
 // A default retry strategy applies to this operation GetOccCapacityRequest()
 func (client CapacityManagementClient) GetOccCapacityRequest(ctx context.Context, request GetOccCapacityRequestRequest) (response GetOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -757,7 +757,7 @@ func (client CapacityManagementClient) getOccCapacityRequest(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCustomerGroup.go.html to see an example of how to use GetOccCustomerGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCustomerGroup.go.html to see an example of how to use GetOccCustomerGroup API.
 // A default retry strategy applies to this operation GetOccCustomerGroup()
 func (client CapacityManagementClient) GetOccCustomerGroup(ctx context.Context, request GetOccCustomerGroupRequest) (response GetOccCustomerGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -815,7 +815,7 @@ func (client CapacityManagementClient) getOccCustomerGroup(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalNamespaceOccOverviews.go.html to see an example of how to use ListInternalNamespaceOccOverviews API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalNamespaceOccOverviews.go.html to see an example of how to use ListInternalNamespaceOccOverviews API.
 // A default retry strategy applies to this operation ListInternalNamespaceOccOverviews()
 func (client CapacityManagementClient) ListInternalNamespaceOccOverviews(ctx context.Context, request ListInternalNamespaceOccOverviewsRequest) (response ListInternalNamespaceOccOverviewsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -873,7 +873,7 @@ func (client CapacityManagementClient) listInternalNamespaceOccOverviews(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlockDetails.go.html to see an example of how to use ListInternalOccHandoverResourceBlockDetails API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlockDetails.go.html to see an example of how to use ListInternalOccHandoverResourceBlockDetails API.
 // A default retry strategy applies to this operation ListInternalOccHandoverResourceBlockDetails()
 func (client CapacityManagementClient) ListInternalOccHandoverResourceBlockDetails(ctx context.Context, request ListInternalOccHandoverResourceBlockDetailsRequest) (response ListInternalOccHandoverResourceBlockDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -931,7 +931,7 @@ func (client CapacityManagementClient) listInternalOccHandoverResourceBlockDetai
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlocks.go.html to see an example of how to use ListInternalOccHandoverResourceBlocks API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlocks.go.html to see an example of how to use ListInternalOccHandoverResourceBlocks API.
 // A default retry strategy applies to this operation ListInternalOccHandoverResourceBlocks()
 func (client CapacityManagementClient) ListInternalOccHandoverResourceBlocks(ctx context.Context, request ListInternalOccHandoverResourceBlocksRequest) (response ListInternalOccHandoverResourceBlocksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -989,7 +989,7 @@ func (client CapacityManagementClient) listInternalOccHandoverResourceBlocks(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccAvailabilities.go.html to see an example of how to use ListOccAvailabilities API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccAvailabilities.go.html to see an example of how to use ListOccAvailabilities API.
 // A default retry strategy applies to this operation ListOccAvailabilities()
 func (client CapacityManagementClient) ListOccAvailabilities(ctx context.Context, request ListOccAvailabilitiesRequest) (response ListOccAvailabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1047,7 +1047,7 @@ func (client CapacityManagementClient) listOccAvailabilities(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccAvailabilityCatalogs.go.html to see an example of how to use ListOccAvailabilityCatalogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccAvailabilityCatalogs.go.html to see an example of how to use ListOccAvailabilityCatalogs API.
 // A default retry strategy applies to this operation ListOccAvailabilityCatalogs()
 func (client CapacityManagementClient) ListOccAvailabilityCatalogs(ctx context.Context, request ListOccAvailabilityCatalogsRequest) (response ListOccAvailabilityCatalogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1105,7 +1105,7 @@ func (client CapacityManagementClient) listOccAvailabilityCatalogs(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccAvailabilityCatalogsInternal.go.html to see an example of how to use ListOccAvailabilityCatalogsInternal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccAvailabilityCatalogsInternal.go.html to see an example of how to use ListOccAvailabilityCatalogsInternal API.
 // A default retry strategy applies to this operation ListOccAvailabilityCatalogsInternal()
 func (client CapacityManagementClient) ListOccAvailabilityCatalogsInternal(ctx context.Context, request ListOccAvailabilityCatalogsInternalRequest) (response ListOccAvailabilityCatalogsInternalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1163,7 +1163,7 @@ func (client CapacityManagementClient) listOccAvailabilityCatalogsInternal(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCapacityRequests.go.html to see an example of how to use ListOccCapacityRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCapacityRequests.go.html to see an example of how to use ListOccCapacityRequests API.
 // A default retry strategy applies to this operation ListOccCapacityRequests()
 func (client CapacityManagementClient) ListOccCapacityRequests(ctx context.Context, request ListOccCapacityRequestsRequest) (response ListOccCapacityRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1221,7 +1221,7 @@ func (client CapacityManagementClient) listOccCapacityRequests(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCapacityRequestsInternal.go.html to see an example of how to use ListOccCapacityRequestsInternal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCapacityRequestsInternal.go.html to see an example of how to use ListOccCapacityRequestsInternal API.
 // A default retry strategy applies to this operation ListOccCapacityRequestsInternal()
 func (client CapacityManagementClient) ListOccCapacityRequestsInternal(ctx context.Context, request ListOccCapacityRequestsInternalRequest) (response ListOccCapacityRequestsInternalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1279,7 +1279,7 @@ func (client CapacityManagementClient) listOccCapacityRequestsInternal(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCustomerGroups.go.html to see an example of how to use ListOccCustomerGroups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCustomerGroups.go.html to see an example of how to use ListOccCustomerGroups API.
 // A default retry strategy applies to this operation ListOccCustomerGroups()
 func (client CapacityManagementClient) ListOccCustomerGroups(ctx context.Context, request ListOccCustomerGroupsRequest) (response ListOccCustomerGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1337,7 +1337,7 @@ func (client CapacityManagementClient) listOccCustomerGroups(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlockDetails.go.html to see an example of how to use ListOccHandoverResourceBlockDetails API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlockDetails.go.html to see an example of how to use ListOccHandoverResourceBlockDetails API.
 // A default retry strategy applies to this operation ListOccHandoverResourceBlockDetails()
 func (client CapacityManagementClient) ListOccHandoverResourceBlockDetails(ctx context.Context, request ListOccHandoverResourceBlockDetailsRequest) (response ListOccHandoverResourceBlockDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1395,7 +1395,7 @@ func (client CapacityManagementClient) listOccHandoverResourceBlockDetails(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlocks.go.html to see an example of how to use ListOccHandoverResourceBlocks API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlocks.go.html to see an example of how to use ListOccHandoverResourceBlocks API.
 // A default retry strategy applies to this operation ListOccHandoverResourceBlocks()
 func (client CapacityManagementClient) ListOccHandoverResourceBlocks(ctx context.Context, request ListOccHandoverResourceBlocksRequest) (response ListOccHandoverResourceBlocksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1453,7 +1453,7 @@ func (client CapacityManagementClient) listOccHandoverResourceBlocks(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccOverviews.go.html to see an example of how to use ListOccOverviews API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccOverviews.go.html to see an example of how to use ListOccOverviews API.
 // A default retry strategy applies to this operation ListOccOverviews()
 func (client CapacityManagementClient) ListOccOverviews(ctx context.Context, request ListOccOverviewsRequest) (response ListOccOverviewsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1511,7 +1511,7 @@ func (client CapacityManagementClient) listOccOverviews(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PatchInternalOccCapacityRequest.go.html to see an example of how to use PatchInternalOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PatchInternalOccCapacityRequest.go.html to see an example of how to use PatchInternalOccCapacityRequest API.
 // A default retry strategy applies to this operation PatchInternalOccCapacityRequest()
 func (client CapacityManagementClient) PatchInternalOccCapacityRequest(ctx context.Context, request PatchInternalOccCapacityRequestRequest) (response PatchInternalOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1569,7 +1569,7 @@ func (client CapacityManagementClient) patchInternalOccCapacityRequest(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PatchOccCapacityRequest.go.html to see an example of how to use PatchOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PatchOccCapacityRequest.go.html to see an example of how to use PatchOccCapacityRequest API.
 // A default retry strategy applies to this operation PatchOccCapacityRequest()
 func (client CapacityManagementClient) PatchOccCapacityRequest(ctx context.Context, request PatchOccCapacityRequestRequest) (response PatchOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1627,7 +1627,7 @@ func (client CapacityManagementClient) patchOccCapacityRequest(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PublishOccAvailabilityCatalog.go.html to see an example of how to use PublishOccAvailabilityCatalog API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PublishOccAvailabilityCatalog.go.html to see an example of how to use PublishOccAvailabilityCatalog API.
 // A default retry strategy applies to this operation PublishOccAvailabilityCatalog()
 func (client CapacityManagementClient) PublishOccAvailabilityCatalog(ctx context.Context, request PublishOccAvailabilityCatalogRequest) (response PublishOccAvailabilityCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1690,7 +1690,7 @@ func (client CapacityManagementClient) publishOccAvailabilityCatalog(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateInternalOccCapacityRequest.go.html to see an example of how to use UpdateInternalOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateInternalOccCapacityRequest.go.html to see an example of how to use UpdateInternalOccCapacityRequest API.
 // A default retry strategy applies to this operation UpdateInternalOccCapacityRequest()
 func (client CapacityManagementClient) UpdateInternalOccCapacityRequest(ctx context.Context, request UpdateInternalOccCapacityRequestRequest) (response UpdateInternalOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1748,7 +1748,7 @@ func (client CapacityManagementClient) updateInternalOccCapacityRequest(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccAvailabilityCatalog.go.html to see an example of how to use UpdateOccAvailabilityCatalog API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccAvailabilityCatalog.go.html to see an example of how to use UpdateOccAvailabilityCatalog API.
 // A default retry strategy applies to this operation UpdateOccAvailabilityCatalog()
 func (client CapacityManagementClient) UpdateOccAvailabilityCatalog(ctx context.Context, request UpdateOccAvailabilityCatalogRequest) (response UpdateOccAvailabilityCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1806,7 +1806,7 @@ func (client CapacityManagementClient) updateOccAvailabilityCatalog(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCapacityRequest.go.html to see an example of how to use UpdateOccCapacityRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCapacityRequest.go.html to see an example of how to use UpdateOccCapacityRequest API.
 // A default retry strategy applies to this operation UpdateOccCapacityRequest()
 func (client CapacityManagementClient) UpdateOccCapacityRequest(ctx context.Context, request UpdateOccCapacityRequestRequest) (response UpdateOccCapacityRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1864,7 +1864,7 @@ func (client CapacityManagementClient) updateOccCapacityRequest(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomer.go.html to see an example of how to use UpdateOccCustomer API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomer.go.html to see an example of how to use UpdateOccCustomer API.
 // A default retry strategy applies to this operation UpdateOccCustomer()
 func (client CapacityManagementClient) UpdateOccCustomer(ctx context.Context, request UpdateOccCustomerRequest) (response UpdateOccCustomerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1922,7 +1922,7 @@ func (client CapacityManagementClient) updateOccCustomer(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomerGroup.go.html to see an example of how to use UpdateOccCustomerGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomerGroup.go.html to see an example of how to use UpdateOccCustomerGroup API.
 // A default retry strategy applies to this operation UpdateOccCustomerGroup()
 func (client CapacityManagementClient) UpdateOccCustomerGroup(ctx context.Context, request UpdateOccCustomerGroupRequest) (response UpdateOccCustomerGroupResponse, err error) {
 	var ociResponse common.OCIResponse

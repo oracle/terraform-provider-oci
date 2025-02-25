@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -95,7 +95,7 @@ func (client *OrganizationClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ApproveOrganizationTenancyForTransfer.go.html to see an example of how to use ApproveOrganizationTenancyForTransfer API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ApproveOrganizationTenancyForTransfer.go.html to see an example of how to use ApproveOrganizationTenancyForTransfer API.
 func (client OrganizationClient) ApproveOrganizationTenancyForTransfer(ctx context.Context, request ApproveOrganizationTenancyForTransferRequest) (response ApproveOrganizationTenancyForTransferResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client OrganizationClient) approveOrganizationTenancyForTransfer(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateChildTenancy.go.html to see an example of how to use CreateChildTenancy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateChildTenancy.go.html to see an example of how to use CreateChildTenancy API.
 func (client OrganizationClient) CreateChildTenancy(ctx context.Context, request CreateChildTenancyRequest) (response CreateChildTenancyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -219,7 +219,7 @@ func (client OrganizationClient) createChildTenancy(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteOrganizationTenancy.go.html to see an example of how to use DeleteOrganizationTenancy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteOrganizationTenancy.go.html to see an example of how to use DeleteOrganizationTenancy API.
 func (client OrganizationClient) DeleteOrganizationTenancy(ctx context.Context, request DeleteOrganizationTenancyRequest) (response DeleteOrganizationTenancyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -281,7 +281,7 @@ func (client OrganizationClient) deleteOrganizationTenancy(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrganization.go.html to see an example of how to use GetOrganization API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrganization.go.html to see an example of how to use GetOrganization API.
 func (client OrganizationClient) GetOrganization(ctx context.Context, request GetOrganizationRequest) (response GetOrganizationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -338,7 +338,7 @@ func (client OrganizationClient) getOrganization(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrganizationTenancy.go.html to see an example of how to use GetOrganizationTenancy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrganizationTenancy.go.html to see an example of how to use GetOrganizationTenancy API.
 func (client OrganizationClient) GetOrganizationTenancy(ctx context.Context, request GetOrganizationTenancyRequest) (response GetOrganizationTenancyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -395,7 +395,7 @@ func (client OrganizationClient) getOrganizationTenancy(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListOrganizationTenancies.go.html to see an example of how to use ListOrganizationTenancies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListOrganizationTenancies.go.html to see an example of how to use ListOrganizationTenancies API.
 func (client OrganizationClient) ListOrganizationTenancies(ctx context.Context, request ListOrganizationTenanciesRequest) (response ListOrganizationTenanciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -452,7 +452,7 @@ func (client OrganizationClient) listOrganizationTenancies(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListOrganizations.go.html to see an example of how to use ListOrganizations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListOrganizations.go.html to see an example of how to use ListOrganizations API.
 func (client OrganizationClient) ListOrganizations(ctx context.Context, request ListOrganizationsRequest) (response ListOrganizationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -509,7 +509,7 @@ func (client OrganizationClient) listOrganizations(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/RestoreOrganizationTenancy.go.html to see an example of how to use RestoreOrganizationTenancy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/RestoreOrganizationTenancy.go.html to see an example of how to use RestoreOrganizationTenancy API.
 func (client OrganizationClient) RestoreOrganizationTenancy(ctx context.Context, request RestoreOrganizationTenancyRequest) (response RestoreOrganizationTenancyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -566,7 +566,7 @@ func (client OrganizationClient) restoreOrganizationTenancy(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UnapproveOrganizationTenancyForTransfer.go.html to see an example of how to use UnapproveOrganizationTenancyForTransfer API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UnapproveOrganizationTenancyForTransfer.go.html to see an example of how to use UnapproveOrganizationTenancyForTransfer API.
 func (client OrganizationClient) UnapproveOrganizationTenancyForTransfer(ctx context.Context, request UnapproveOrganizationTenancyForTransferRequest) (response UnapproveOrganizationTenancyForTransferResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -628,7 +628,7 @@ func (client OrganizationClient) unapproveOrganizationTenancyForTransfer(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateOrganization.go.html to see an example of how to use UpdateOrganization API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateOrganization.go.html to see an example of how to use UpdateOrganization API.
 func (client OrganizationClient) UpdateOrganization(ctx context.Context, request UpdateOrganizationRequest) (response UpdateOrganizationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

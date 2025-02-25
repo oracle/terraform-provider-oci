@@ -19,13 +19,13 @@ import (
 // VmWareAssetSourceSummary Description of an asset source.
 type VmWareAssetSourceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resourse.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resourse.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the environment.
 	EnvironmentId *string `mandatory:"true" json:"environmentId"`
 
 	// A user-friendly name for the asset source. Does not have to be unique, and it's mutable.
@@ -35,10 +35,10 @@ type VmWareAssetSourceSummary struct {
 	// The detailed state of the asset source.
 	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
 	InventoryId *string `mandatory:"true" json:"inventoryId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	AssetsCompartmentId *string `mandatory:"true" json:"assetsCompartmentId"`
 
 	// Endpoint for VMware asset discovery and replication in the form of ```https://<host>:<port>/sdk```

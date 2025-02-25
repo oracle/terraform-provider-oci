@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ChangeSecretCompartment.go.html to see an example of how to use ChangeSecretCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ChangeSecretCompartment.go.html to see an example of how to use ChangeSecretCompartmentRequest.
 type ChangeSecretCompartmentRequest struct {
 
 	// The OCID of the secret.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequestErrors.go.html to see an example of how to use ListSecurityAttributeWorkRequestErrorsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributeWorkRequestErrors.go.html to see an example of how to use ListSecurityAttributeWorkRequestErrorsRequest.
 type ListSecurityAttributeWorkRequestErrorsRequest struct {
 
 	// The OCID of the work request.

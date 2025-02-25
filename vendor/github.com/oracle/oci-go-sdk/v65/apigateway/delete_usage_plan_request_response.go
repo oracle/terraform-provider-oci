@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteUsagePlan.go.html to see an example of how to use DeleteUsagePlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteUsagePlan.go.html to see an example of how to use DeleteUsagePlanRequest.
 type DeleteUsagePlanRequest struct {
 
 	// The ocid of the usage plan.

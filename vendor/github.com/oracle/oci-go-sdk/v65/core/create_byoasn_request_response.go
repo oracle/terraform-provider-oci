@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateByoasn.go.html to see an example of how to use CreateByoasnRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateByoasn.go.html to see an example of how to use CreateByoasnRequest.
 type CreateByoasnRequest struct {
 
 	// Details needed to create a BYOASN Resource.

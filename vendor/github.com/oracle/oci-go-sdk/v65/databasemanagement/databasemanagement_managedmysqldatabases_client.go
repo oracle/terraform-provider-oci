@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -97,7 +97,7 @@ func (client *ManagedMySqlDatabasesClient) ConfigurationProvider() *common.Confi
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalMysqlAssociatedService.go.html to see an example of how to use DisableExternalMysqlAssociatedService API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalMysqlAssociatedService.go.html to see an example of how to use DisableExternalMysqlAssociatedService API.
 // A default retry strategy applies to this operation DisableExternalMysqlAssociatedService()
 func (client ManagedMySqlDatabasesClient) DisableExternalMysqlAssociatedService(ctx context.Context, request DisableExternalMysqlAssociatedServiceRequest) (response DisableExternalMysqlAssociatedServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -160,7 +160,7 @@ func (client ManagedMySqlDatabasesClient) disableExternalMysqlAssociatedService(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalMysqlAssociatedService.go.html to see an example of how to use EnableExternalMysqlAssociatedService API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalMysqlAssociatedService.go.html to see an example of how to use EnableExternalMysqlAssociatedService API.
 // A default retry strategy applies to this operation EnableExternalMysqlAssociatedService()
 func (client ManagedMySqlDatabasesClient) EnableExternalMysqlAssociatedService(ctx context.Context, request EnableExternalMysqlAssociatedServiceRequest) (response EnableExternalMysqlAssociatedServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -223,7 +223,7 @@ func (client ManagedMySqlDatabasesClient) enableExternalMysqlAssociatedService(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetHeatWaveFleetMetric.go.html to see an example of how to use GetHeatWaveFleetMetric API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetHeatWaveFleetMetric.go.html to see an example of how to use GetHeatWaveFleetMetric API.
 func (client ManagedMySqlDatabasesClient) GetHeatWaveFleetMetric(ctx context.Context, request GetHeatWaveFleetMetricRequest) (response GetHeatWaveFleetMetricResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -280,7 +280,7 @@ func (client ManagedMySqlDatabasesClient) getHeatWaveFleetMetric(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedMySqlDatabase.go.html to see an example of how to use GetManagedMySqlDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedMySqlDatabase.go.html to see an example of how to use GetManagedMySqlDatabase API.
 func (client ManagedMySqlDatabasesClient) GetManagedMySqlDatabase(ctx context.Context, request GetManagedMySqlDatabaseRequest) (response GetManagedMySqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -337,7 +337,7 @@ func (client ManagedMySqlDatabasesClient) getManagedMySqlDatabase(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetMySqlFleetMetric.go.html to see an example of how to use GetMySqlFleetMetric API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetMySqlFleetMetric.go.html to see an example of how to use GetMySqlFleetMetric API.
 func (client ManagedMySqlDatabasesClient) GetMySqlFleetMetric(ctx context.Context, request GetMySqlFleetMetricRequest) (response GetMySqlFleetMetricResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -394,7 +394,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlFleetMetric(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabaseConfigurationData.go.html to see an example of how to use ListManagedMySqlDatabaseConfigurationData API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabaseConfigurationData.go.html to see an example of how to use ListManagedMySqlDatabaseConfigurationData API.
 // A default retry strategy applies to this operation ListManagedMySqlDatabaseConfigurationData()
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabaseConfigurationData(ctx context.Context, request ListManagedMySqlDatabaseConfigurationDataRequest) (response ListManagedMySqlDatabaseConfigurationDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -452,7 +452,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseConfigurationD
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabaseSqlData.go.html to see an example of how to use ListManagedMySqlDatabaseSqlData API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabaseSqlData.go.html to see an example of how to use ListManagedMySqlDatabaseSqlData API.
 // A default retry strategy applies to this operation ListManagedMySqlDatabaseSqlData()
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabaseSqlData(ctx context.Context, request ListManagedMySqlDatabaseSqlDataRequest) (response ListManagedMySqlDatabaseSqlDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -510,7 +510,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseSqlData(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabases.go.html to see an example of how to use ListManagedMySqlDatabases API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabases.go.html to see an example of how to use ListManagedMySqlDatabases API.
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabases(ctx context.Context, request ListManagedMySqlDatabasesRequest) (response ListManagedMySqlDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -567,7 +567,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabases(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeManagedMySqlDatabaseAvailabilityMetrics.go.html to see an example of how to use SummarizeManagedMySqlDatabaseAvailabilityMetrics API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeManagedMySqlDatabaseAvailabilityMetrics.go.html to see an example of how to use SummarizeManagedMySqlDatabaseAvailabilityMetrics API.
 // A default retry strategy applies to this operation SummarizeManagedMySqlDatabaseAvailabilityMetrics()
 func (client ManagedMySqlDatabasesClient) SummarizeManagedMySqlDatabaseAvailabilityMetrics(ctx context.Context, request SummarizeManagedMySqlDatabaseAvailabilityMetricsRequest) (response SummarizeManagedMySqlDatabaseAvailabilityMetricsResponse, err error) {
 	var ociResponse common.OCIResponse

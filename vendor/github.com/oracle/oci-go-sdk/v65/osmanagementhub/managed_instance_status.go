@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -26,6 +26,7 @@ const (
 	ManagedInstanceStatusRegistrationError ManagedInstanceStatusEnum = "REGISTRATION_ERROR"
 	ManagedInstanceStatusDeleting          ManagedInstanceStatusEnum = "DELETING"
 	ManagedInstanceStatusOnboarding        ManagedInstanceStatusEnum = "ONBOARDING"
+	ManagedInstanceStatusRebooting         ManagedInstanceStatusEnum = "REBOOTING"
 )
 
 var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
@@ -36,6 +37,7 @@ var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
 	"REGISTRATION_ERROR": ManagedInstanceStatusRegistrationError,
 	"DELETING":           ManagedInstanceStatusDeleting,
 	"ONBOARDING":         ManagedInstanceStatusOnboarding,
+	"REBOOTING":          ManagedInstanceStatusRebooting,
 }
 
 var mappingManagedInstanceStatusEnumLowerCase = map[string]ManagedInstanceStatusEnum{
@@ -46,6 +48,7 @@ var mappingManagedInstanceStatusEnumLowerCase = map[string]ManagedInstanceStatus
 	"registration_error": ManagedInstanceStatusRegistrationError,
 	"deleting":           ManagedInstanceStatusDeleting,
 	"onboarding":         ManagedInstanceStatusOnboarding,
+	"rebooting":          ManagedInstanceStatusRebooting,
 }
 
 // GetManagedInstanceStatusEnumValues Enumerates the set of values for ManagedInstanceStatusEnum
@@ -67,6 +70,7 @@ func GetManagedInstanceStatusEnumStringValues() []string {
 		"REGISTRATION_ERROR",
 		"DELETING",
 		"ONBOARDING",
+		"REBOOTING",
 	}
 }
 

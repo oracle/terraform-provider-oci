@@ -54,6 +54,10 @@ type ChannelSummary struct {
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ChannelSummary) String() string {
@@ -81,6 +85,7 @@ func (m *ChannelSummary) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails *string                           `json:"lifecycleDetails"`
 		FreeformTags     map[string]string                 `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
 		Id               *string                           `json:"id"`
 		CompartmentId    *string                           `json:"compartmentId"`
 		IsEnabled        *bool                             `json:"isEnabled"`
@@ -102,6 +107,8 @@ func (m *ChannelSummary) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualServiceRouteTable.go.html to see an example of how to use UpdateVirtualServiceRouteTableRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualServiceRouteTable.go.html to see an example of how to use UpdateVirtualServiceRouteTableRequest.
 type UpdateVirtualServiceRouteTableRequest struct {
 
 	// Unique VirtualServiceRouteTable identifier.

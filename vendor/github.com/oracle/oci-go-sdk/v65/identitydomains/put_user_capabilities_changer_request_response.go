@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserCapabilitiesChanger.go.html to see an example of how to use PutUserCapabilitiesChangerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserCapabilitiesChanger.go.html to see an example of how to use PutUserCapabilitiesChangerRequest.
 type PutUserCapabilitiesChangerRequest struct {
 
 	// ID of the resource

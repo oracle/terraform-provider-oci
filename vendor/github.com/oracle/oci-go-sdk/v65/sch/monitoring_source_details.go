@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -21,7 +21,7 @@ import (
 
 // MonitoringSourceDetails The Monitoring source.
 // For configuration instructions, see
-// Creating a Connector with a Monitoring Source (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-monitoring-source.htm).
+// Creating a Connector with a Monitoring Source (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector-monitoring-source.htm).
 type MonitoringSourceDetails struct {
 
 	// One or more compartment-specific lists of metric namespaces to retrieve data from.

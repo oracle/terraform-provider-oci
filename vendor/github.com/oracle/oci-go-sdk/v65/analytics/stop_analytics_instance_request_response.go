@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/StopAnalyticsInstance.go.html to see an example of how to use StopAnalyticsInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/StopAnalyticsInstance.go.html to see an example of how to use StopAnalyticsInstanceRequest.
 type StopAnalyticsInstanceRequest struct {
 
 	// The OCID of the AnalyticsInstance.

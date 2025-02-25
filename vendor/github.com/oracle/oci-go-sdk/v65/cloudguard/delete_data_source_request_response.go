@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteDataSource.go.html to see an example of how to use DeleteDataSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteDataSource.go.html to see an example of how to use DeleteDataSourceRequest.
 type DeleteDataSourceRequest struct {
 
 	// Data source OCID.

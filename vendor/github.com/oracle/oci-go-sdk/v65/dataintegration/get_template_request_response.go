@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTemplate.go.html to see an example of how to use GetTemplateRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTemplate.go.html to see an example of how to use GetTemplateRequest.
 type GetTemplateRequest struct {
 
 	// The workspace ID.

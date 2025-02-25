@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstances.go.html to see an example of how to use ListManagedInstancesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstances.go.html to see an example of how to use ListManagedInstancesRequest.
 type ListManagedInstancesRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
@@ -27,7 +27,7 @@ type ListManagedInstancesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
 	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
 
 	// A filter to return only managed instances whose status matches the status provided.
@@ -57,7 +57,7 @@ type ListManagedInstancesRequest struct {
 	// A filter to return only managed instances that are attached to the specified group or lifecycle environment.
 	IsAttachedToGroupOrLifecycleStage *bool `mandatory:"false" contributesTo:"query" name:"isAttachedToGroupOrLifecycleStage"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
 
 	// The assigned erratum name. It's unique and not changeable.
@@ -79,7 +79,7 @@ type ListManagedInstancesRequest struct {
 	// A multi filter to return only managed instances that match the given profile ids.
 	Profile []string `contributesTo:"query" name:"profile" collectionFormat:"multi"`
 
-	// A multi filter to return only managed instances that don't contain the given profile OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// A multi filter to return only managed instances that don't contain the given profile OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ProfileNotEqualTo []string `contributesTo:"query" name:"profileNotEqualTo" collectionFormat:"multi"`
 
 	// A filter to return only managed instances with a registration profile attached.
@@ -88,13 +88,27 @@ type ListManagedInstancesRequest struct {
 	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
+	// A filter to return only managed instances with the specified version of osmh-agent running.
+	AgentVersion *string `mandatory:"false" contributesTo:"query" name:"agentVersion"`
+
+	// A filter to return resources that are associated with the specified management
+	// station OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStation []string `contributesTo:"query" name:"managementStation" collectionFormat:"multi"`
+
+	// A filter to return resources that aren't associated with the specified management
+	// station OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStationNotEqualTo []string `contributesTo:"query" name:"managementStationNotEqualTo" collectionFormat:"multi"`
+
+	// A filter to return only managed instances that require a reboot to install updates.
+	IsRebootRequired *bool `mandatory:"false" contributesTo:"query" name:"isRebootRequired"`
+
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
@@ -198,8 +212,11 @@ type ListManagedInstancesResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// The total number of items in the result. Used for pagination of a list of items.
+	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 }
 
 func (response ListManagedInstancesResponse) String() string {

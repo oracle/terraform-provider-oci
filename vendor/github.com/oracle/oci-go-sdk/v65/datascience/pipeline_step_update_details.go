@@ -64,6 +64,10 @@ func (m *pipelinestepupdatedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.StepType {
+	case "DATAFLOW":
+		mm := PipelineDataflowStepUpdateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ML_JOB":
 		mm := PipelineMlJobStepUpdateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -77,7 +81,7 @@ func (m *pipelinestepupdatedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PipelineStepUpdateDetails: %s.", m.StepType)
+		common.Logf("Received unsupported enum value for PipelineStepUpdateDetails: %s.", m.StepType)
 		return *m, nil
 	}
 }
@@ -121,18 +125,21 @@ const (
 	PipelineStepUpdateDetailsStepTypeMlJob        PipelineStepUpdateDetailsStepTypeEnum = "ML_JOB"
 	PipelineStepUpdateDetailsStepTypeCustomScript PipelineStepUpdateDetailsStepTypeEnum = "CUSTOM_SCRIPT"
 	PipelineStepUpdateDetailsStepTypeContainer    PipelineStepUpdateDetailsStepTypeEnum = "CONTAINER"
+	PipelineStepUpdateDetailsStepTypeDataflow     PipelineStepUpdateDetailsStepTypeEnum = "DATAFLOW"
 )
 
 var mappingPipelineStepUpdateDetailsStepTypeEnum = map[string]PipelineStepUpdateDetailsStepTypeEnum{
 	"ML_JOB":        PipelineStepUpdateDetailsStepTypeMlJob,
 	"CUSTOM_SCRIPT": PipelineStepUpdateDetailsStepTypeCustomScript,
 	"CONTAINER":     PipelineStepUpdateDetailsStepTypeContainer,
+	"DATAFLOW":      PipelineStepUpdateDetailsStepTypeDataflow,
 }
 
 var mappingPipelineStepUpdateDetailsStepTypeEnumLowerCase = map[string]PipelineStepUpdateDetailsStepTypeEnum{
 	"ml_job":        PipelineStepUpdateDetailsStepTypeMlJob,
 	"custom_script": PipelineStepUpdateDetailsStepTypeCustomScript,
 	"container":     PipelineStepUpdateDetailsStepTypeContainer,
+	"dataflow":      PipelineStepUpdateDetailsStepTypeDataflow,
 }
 
 // GetPipelineStepUpdateDetailsStepTypeEnumValues Enumerates the set of values for PipelineStepUpdateDetailsStepTypeEnum
@@ -150,6 +157,7 @@ func GetPipelineStepUpdateDetailsStepTypeEnumStringValues() []string {
 		"ML_JOB",
 		"CUSTOM_SCRIPT",
 		"CONTAINER",
+		"DATAFLOW",
 	}
 }
 

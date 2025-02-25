@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetParameterFileVersion.go.html to see an example of how to use GetParameterFileVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetParameterFileVersion.go.html to see an example of how to use GetParameterFileVersionRequest.
 type GetParameterFileVersionRequest struct {
 
 	// A unique name associated with the current migration/job and extract/replicat name

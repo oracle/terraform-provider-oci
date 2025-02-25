@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// FusionEnvironmentStatus The health status of the Fusion Applications environment. For more information, see Environment Status (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/manage-environment.htm#environment-status).
+// FusionEnvironmentStatus The health status of the Fusion Applications environment. For more information, see Environment Status (https://docs.oracle.com/iaas/Content/fusion-applications/manage-environment.htm#environment-status).
 type FusionEnvironmentStatus struct {
 
 	// The data plane status of FusionEnvironment.

@@ -20,13 +20,13 @@ import (
 // WebAppAccelerationPolicySummary Summary of the WebAppAccelerationPolicy.
 type WebAppAccelerationPolicySummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.
 	Id *string `mandatory:"true" json:"id"`
 
 	// WebAppAccelerationPolicy display name, can be renamed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time the WebAppAccelerationPolicy was created. An RFC3339 formatted datetime string.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ChangeCertificateCompartment.go.html to see an example of how to use ChangeCertificateCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ChangeCertificateCompartment.go.html to see an example of how to use ChangeCertificateCompartmentRequest.
 type ChangeCertificateCompartmentRequest struct {
 
 	// The OCID of the certificate.

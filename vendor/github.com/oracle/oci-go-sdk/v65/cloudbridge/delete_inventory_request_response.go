@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteInventory.go.html to see an example of how to use DeleteInventoryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteInventory.go.html to see an example of how to use DeleteInventoryRequest.
 type DeleteInventoryRequest struct {
 
 	// Inventory OCID.

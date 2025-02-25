@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStreamPool.go.html to see an example of how to use CreateStreamPoolRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStreamPool.go.html to see an example of how to use CreateStreamPoolRequest.
 type CreateStreamPoolRequest struct {
 
 	// The stream pool to create.

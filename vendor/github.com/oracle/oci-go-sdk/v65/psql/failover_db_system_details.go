@@ -5,7 +5,7 @@
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -23,7 +23,7 @@ type FailoverDbSystemDetails struct {
 	// If not set, the AD will be chosen based on availability.
 	Ad *string `mandatory:"false" json:"ad"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database instance node. This parameter is optional.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database instance node. This parameter is optional.
 	// If not set, an existing database instance node will be chosen based on availability.
 	DbInstanceId *string `mandatory:"false" json:"dbInstanceId"`
 }

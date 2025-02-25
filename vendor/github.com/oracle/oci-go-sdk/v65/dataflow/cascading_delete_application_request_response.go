@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CascadingDeleteApplication.go.html to see an example of how to use CascadingDeleteApplicationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CascadingDeleteApplication.go.html to see an example of how to use CascadingDeleteApplicationRequest.
 type CascadingDeleteApplicationRequest struct {
 
 	// The unique ID for an application.

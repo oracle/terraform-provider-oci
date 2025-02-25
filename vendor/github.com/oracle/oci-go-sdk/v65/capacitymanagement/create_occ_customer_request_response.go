@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomer.go.html to see an example of how to use CreateOccCustomerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomer.go.html to see an example of how to use CreateOccCustomerRequest.
 type CreateOccCustomerRequest struct {
 
 	// The request details for creating a customer.

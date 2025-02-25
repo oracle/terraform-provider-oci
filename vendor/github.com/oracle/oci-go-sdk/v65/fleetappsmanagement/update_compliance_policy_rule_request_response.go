@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateCompliancePolicyRule.go.html to see an example of how to use UpdateCompliancePolicyRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateCompliancePolicyRule.go.html to see an example of how to use UpdateCompliancePolicyRuleRequest.
 type UpdateCompliancePolicyRuleRequest struct {
 
 	// unique CompliancePolicyRule identifier.

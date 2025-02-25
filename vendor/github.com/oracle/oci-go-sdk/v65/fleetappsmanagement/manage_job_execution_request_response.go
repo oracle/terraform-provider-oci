@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageJobExecution.go.html to see an example of how to use ManageJobExecutionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageJobExecution.go.html to see an example of how to use ManageJobExecutionRequest.
 type ManageJobExecutionRequest struct {
 
 	// Details for confirming Targets.

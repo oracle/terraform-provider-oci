@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RetryFsuJob.go.html to see an example of how to use RetryFsuJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RetryFsuJob.go.html to see an example of how to use RetryFsuJobRequest.
 type RetryFsuJobRequest struct {
 
 	// The OCID of the Exadata Fleet Update Job.

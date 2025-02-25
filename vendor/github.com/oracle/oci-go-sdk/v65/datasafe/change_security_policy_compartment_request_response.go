@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyCompartment.go.html to see an example of how to use ChangeSecurityPolicyCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyCompartment.go.html to see an example of how to use ChangeSecurityPolicyCompartmentRequest.
 type ChangeSecurityPolicyCompartmentRequest struct {
 
 	// The OCID of the security policy resource.

@@ -18,7 +18,7 @@ import (
 // GenerateAgentDeployScriptDetails Attributes to generate agent deploy script for a Fleet.
 type GenerateAgentDeployScriptDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the install key for which to generate the script.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the install key for which to generate the script.
 	InstallKeyId *string `mandatory:"true" json:"installKeyId"`
 
 	// The operating system type for the script. Currently only 'LINUX' and 'WINDOWS' are supported.

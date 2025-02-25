@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.oracle.com/iaas/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -55,7 +55,7 @@ func (m *eula) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Eula: %s.", m.EulaType)
+		common.Logf("Received unsupported enum value for Eula: %s.", m.EulaType)
 		return *m, nil
 	}
 }

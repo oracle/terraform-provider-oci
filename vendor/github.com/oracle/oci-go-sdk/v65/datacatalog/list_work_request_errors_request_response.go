@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrorsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrorsRequest.
 type ListWorkRequestErrorsRequest struct {
 
 	// The OCID of the asynchronous request.
@@ -93,7 +93,7 @@ type ListWorkRequestErrorsResponse struct {
 	// A list of []WorkRequestError instances
 	Items []WorkRequestError `presentIn:"body"`
 
-	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

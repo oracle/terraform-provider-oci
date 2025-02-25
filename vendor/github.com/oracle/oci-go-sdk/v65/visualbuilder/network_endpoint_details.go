@@ -57,7 +57,7 @@ func (m *networkendpointdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for NetworkEndpointDetails: %s.", m.NetworkEndpointType)
+		common.Logf("Received unsupported enum value for NetworkEndpointDetails: %s.", m.NetworkEndpointType)
 		return *m, nil
 	}
 }

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchPolicy.go.html to see an example of how to use PatchPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchPolicy.go.html to see an example of how to use PatchPolicyRequest.
 type PatchPolicyRequest struct {
 
 	// ID of the resource

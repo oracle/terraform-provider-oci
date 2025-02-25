@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StartSqlCollection.go.html to see an example of how to use StartSqlCollectionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StartSqlCollection.go.html to see an example of how to use StartSqlCollectionRequest.
 type StartSqlCollectionRequest struct {
 
 	// The OCID of the SQL collection resource.

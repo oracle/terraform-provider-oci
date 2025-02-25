@@ -18,7 +18,7 @@ import (
 // WorkRequestSummary The summarized details of a work request.
 type WorkRequestSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A description of the operation requested by the work request.
@@ -27,7 +27,7 @@ type WorkRequestSummary struct {
 	// The current status of the work request.
 	Status WorkRequestStatusValuesEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time the work request was created, expressed in RFC 3339 timestamp format.

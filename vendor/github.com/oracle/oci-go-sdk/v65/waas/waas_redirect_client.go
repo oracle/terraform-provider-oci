@@ -95,7 +95,7 @@ func (client *RedirectClient) ConfigurationProvider() *common.ConfigurationProvi
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeHttpRedirectCompartment.go.html to see an example of how to use ChangeHttpRedirectCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeHttpRedirectCompartment.go.html to see an example of how to use ChangeHttpRedirectCompartment API.
 func (client RedirectClient) ChangeHttpRedirectCompartment(ctx context.Context, request ChangeHttpRedirectCompartmentRequest) (response ChangeHttpRedirectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client RedirectClient) changeHttpRedirectCompartment(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateHttpRedirect.go.html to see an example of how to use CreateHttpRedirect API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateHttpRedirect.go.html to see an example of how to use CreateHttpRedirect API.
 func (client RedirectClient) CreateHttpRedirect(ctx context.Context, request CreateHttpRedirectRequest) (response CreateHttpRedirectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -219,7 +219,7 @@ func (client RedirectClient) createHttpRedirect(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteHttpRedirect.go.html to see an example of how to use DeleteHttpRedirect API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteHttpRedirect.go.html to see an example of how to use DeleteHttpRedirect API.
 func (client RedirectClient) DeleteHttpRedirect(ctx context.Context, request DeleteHttpRedirectRequest) (response DeleteHttpRedirectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -281,7 +281,7 @@ func (client RedirectClient) deleteHttpRedirect(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetHttpRedirect.go.html to see an example of how to use GetHttpRedirect API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetHttpRedirect.go.html to see an example of how to use GetHttpRedirect API.
 // A default retry strategy applies to this operation GetHttpRedirect()
 func (client RedirectClient) GetHttpRedirect(ctx context.Context, request GetHttpRedirectRequest) (response GetHttpRedirectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -339,7 +339,7 @@ func (client RedirectClient) getHttpRedirect(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListHttpRedirects.go.html to see an example of how to use ListHttpRedirects API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListHttpRedirects.go.html to see an example of how to use ListHttpRedirects API.
 // A default retry strategy applies to this operation ListHttpRedirects()
 func (client RedirectClient) ListHttpRedirects(ctx context.Context, request ListHttpRedirectsRequest) (response ListHttpRedirectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -397,7 +397,7 @@ func (client RedirectClient) listHttpRedirects(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateHttpRedirect.go.html to see an example of how to use UpdateHttpRedirect API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateHttpRedirect.go.html to see an example of how to use UpdateHttpRedirect API.
 func (client RedirectClient) UpdateHttpRedirect(ctx context.Context, request UpdateHttpRedirectRequest) (response UpdateHttpRedirectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

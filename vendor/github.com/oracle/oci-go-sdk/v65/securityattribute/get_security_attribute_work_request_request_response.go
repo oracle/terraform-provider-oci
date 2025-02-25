@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttributeWorkRequest.go.html to see an example of how to use GetSecurityAttributeWorkRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/GetSecurityAttributeWorkRequest.go.html to see an example of how to use GetSecurityAttributeWorkRequestRequest.
 type GetSecurityAttributeWorkRequestRequest struct {
 
 	// The OCID of the work request.

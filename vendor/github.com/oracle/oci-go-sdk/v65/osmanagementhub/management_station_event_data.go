@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -24,6 +24,9 @@ type ManagementStationEventData struct {
 
 	// Status of the management station operation.
 	Status EventStatusEnum `mandatory:"true" json:"status"`
+
+	// Health state of the management station
+	HealthState ManagementStationEventDataHealthStateEnum `mandatory:"false" json:"healthState,omitempty"`
 
 	AdditionalDetails *WorkRequestEventDataAdditionalDetails `mandatory:"false" json:"additionalDetails"`
 }
@@ -44,6 +47,9 @@ func (m ManagementStationEventData) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetEventStatusEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagementStationEventDataHealthStateEnum(string(m.HealthState)); !ok && m.HealthState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HealthState: %s. Supported values are: %s.", m.HealthState, strings.Join(GetManagementStationEventDataHealthStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -58,18 +64,21 @@ const (
 	ManagementStationEventDataOperationTypeSetManagementStationConfig      ManagementStationEventDataOperationTypeEnum = "SET_MANAGEMENT_STATION_CONFIG"
 	ManagementStationEventDataOperationTypeSyncManagementStationMirror     ManagementStationEventDataOperationTypeEnum = "SYNC_MANAGEMENT_STATION_MIRROR"
 	ManagementStationEventDataOperationTypeUpdateManagementStationSoftware ManagementStationEventDataOperationTypeEnum = "UPDATE_MANAGEMENT_STATION_SOFTWARE"
+	ManagementStationEventDataOperationTypeSetManagementStationHealthState ManagementStationEventDataOperationTypeEnum = "SET_MANAGEMENT_STATION_HEALTH_STATE"
 )
 
 var mappingManagementStationEventDataOperationTypeEnum = map[string]ManagementStationEventDataOperationTypeEnum{
-	"SET_MANAGEMENT_STATION_CONFIG":      ManagementStationEventDataOperationTypeSetManagementStationConfig,
-	"SYNC_MANAGEMENT_STATION_MIRROR":     ManagementStationEventDataOperationTypeSyncManagementStationMirror,
-	"UPDATE_MANAGEMENT_STATION_SOFTWARE": ManagementStationEventDataOperationTypeUpdateManagementStationSoftware,
+	"SET_MANAGEMENT_STATION_CONFIG":       ManagementStationEventDataOperationTypeSetManagementStationConfig,
+	"SYNC_MANAGEMENT_STATION_MIRROR":      ManagementStationEventDataOperationTypeSyncManagementStationMirror,
+	"UPDATE_MANAGEMENT_STATION_SOFTWARE":  ManagementStationEventDataOperationTypeUpdateManagementStationSoftware,
+	"SET_MANAGEMENT_STATION_HEALTH_STATE": ManagementStationEventDataOperationTypeSetManagementStationHealthState,
 }
 
 var mappingManagementStationEventDataOperationTypeEnumLowerCase = map[string]ManagementStationEventDataOperationTypeEnum{
-	"set_management_station_config":      ManagementStationEventDataOperationTypeSetManagementStationConfig,
-	"sync_management_station_mirror":     ManagementStationEventDataOperationTypeSyncManagementStationMirror,
-	"update_management_station_software": ManagementStationEventDataOperationTypeUpdateManagementStationSoftware,
+	"set_management_station_config":       ManagementStationEventDataOperationTypeSetManagementStationConfig,
+	"sync_management_station_mirror":      ManagementStationEventDataOperationTypeSyncManagementStationMirror,
+	"update_management_station_software":  ManagementStationEventDataOperationTypeUpdateManagementStationSoftware,
+	"set_management_station_health_state": ManagementStationEventDataOperationTypeSetManagementStationHealthState,
 }
 
 // GetManagementStationEventDataOperationTypeEnumValues Enumerates the set of values for ManagementStationEventDataOperationTypeEnum
@@ -87,11 +96,58 @@ func GetManagementStationEventDataOperationTypeEnumStringValues() []string {
 		"SET_MANAGEMENT_STATION_CONFIG",
 		"SYNC_MANAGEMENT_STATION_MIRROR",
 		"UPDATE_MANAGEMENT_STATION_SOFTWARE",
+		"SET_MANAGEMENT_STATION_HEALTH_STATE",
 	}
 }
 
 // GetMappingManagementStationEventDataOperationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingManagementStationEventDataOperationTypeEnum(val string) (ManagementStationEventDataOperationTypeEnum, bool) {
 	enum, ok := mappingManagementStationEventDataOperationTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ManagementStationEventDataHealthStateEnum Enum with underlying type: string
+type ManagementStationEventDataHealthStateEnum string
+
+// Set of constants representing the allowable values for ManagementStationEventDataHealthStateEnum
+const (
+	ManagementStationEventDataHealthStateHealthy     ManagementStationEventDataHealthStateEnum = "HEALTHY"
+	ManagementStationEventDataHealthStateUnhealthy   ManagementStationEventDataHealthStateEnum = "UNHEALTHY"
+	ManagementStationEventDataHealthStateUnavailable ManagementStationEventDataHealthStateEnum = "UNAVAILABLE"
+)
+
+var mappingManagementStationEventDataHealthStateEnum = map[string]ManagementStationEventDataHealthStateEnum{
+	"HEALTHY":     ManagementStationEventDataHealthStateHealthy,
+	"UNHEALTHY":   ManagementStationEventDataHealthStateUnhealthy,
+	"UNAVAILABLE": ManagementStationEventDataHealthStateUnavailable,
+}
+
+var mappingManagementStationEventDataHealthStateEnumLowerCase = map[string]ManagementStationEventDataHealthStateEnum{
+	"healthy":     ManagementStationEventDataHealthStateHealthy,
+	"unhealthy":   ManagementStationEventDataHealthStateUnhealthy,
+	"unavailable": ManagementStationEventDataHealthStateUnavailable,
+}
+
+// GetManagementStationEventDataHealthStateEnumValues Enumerates the set of values for ManagementStationEventDataHealthStateEnum
+func GetManagementStationEventDataHealthStateEnumValues() []ManagementStationEventDataHealthStateEnum {
+	values := make([]ManagementStationEventDataHealthStateEnum, 0)
+	for _, v := range mappingManagementStationEventDataHealthStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetManagementStationEventDataHealthStateEnumStringValues Enumerates the set of values in String for ManagementStationEventDataHealthStateEnum
+func GetManagementStationEventDataHealthStateEnumStringValues() []string {
+	return []string{
+		"HEALTHY",
+		"UNHEALTHY",
+		"UNAVAILABLE",
+	}
+}
+
+// GetMappingManagementStationEventDataHealthStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingManagementStationEventDataHealthStateEnum(val string) (ManagementStationEventDataHealthStateEnum, bool) {
+	enum, ok := mappingManagementStationEventDataHealthStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

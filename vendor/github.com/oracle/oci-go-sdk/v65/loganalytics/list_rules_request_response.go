@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListRules.go.html to see an example of how to use ListRulesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListRules.go.html to see an example of how to use ListRulesRequest.
 type ListRulesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

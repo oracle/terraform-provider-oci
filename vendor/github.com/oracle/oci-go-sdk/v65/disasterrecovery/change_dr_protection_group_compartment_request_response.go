@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ChangeDrProtectionGroupCompartment.go.html to see an example of how to use ChangeDrProtectionGroupCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ChangeDrProtectionGroupCompartment.go.html to see an example of how to use ChangeDrProtectionGroupCompartmentRequest.
 type ChangeDrProtectionGroupCompartmentRequest struct {
 
 	// Details for changing the DR protection group compartment.

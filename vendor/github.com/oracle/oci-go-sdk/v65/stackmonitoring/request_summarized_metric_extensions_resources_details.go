@@ -18,19 +18,19 @@ import (
 // RequestSummarizedMetricExtensionsResourcesDetails Filtering criteria data to be specified in the request. Either metricExtensionId or compartmentId must be passed even when no other filter property is passed.
 type RequestSummarizedMetricExtensionsResourcesDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Metric Extension resource
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Metric Extension resource
 	MetricExtensionId *string `mandatory:"false" json:"metricExtensionId"`
 
 	// Resource type to which Metric Extension applies
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Filter to return metric extensions based on input enable status i.e. Enabled/Disabled
 	AssociationStatus RequestSummarizedMetricExtensionsResourcesDetailsAssociationStatusEnum `mandatory:"false" json:"associationStatus,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Monitored Resource
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Monitored Resource
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
 	// The field to group by

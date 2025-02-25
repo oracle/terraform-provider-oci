@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -25,15 +25,15 @@ type WorkRequest struct {
 	// Status of the work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
 	// Work requests should be scoped to the same compartment as the resource it affects.
 	// If the work request affects multiple resources the different compartments, the services selects the compartment of the primary resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the resources affected by the work request.
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the resources affected by the work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
 	// The percentage complete of the operation tracked by this work request.
@@ -51,10 +51,10 @@ type WorkRequest struct {
 	// A progress or error message, if there is any.
 	Message *string `mandatory:"false" json:"message"`
 
-	// The OCID of the parent work request, if there is any.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent work request, if there is any.
 	ParentId *string `mandatory:"false" json:"parentId"`
 
-	// The list of OCIDs for the child work requests.
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the child work requests.
 	ChildrenId []string `mandatory:"false" json:"childrenId"`
 
 	// A list of package names to be installed, updated, or removed.
@@ -75,7 +75,7 @@ type WorkRequest struct {
 	// The date and time the work request completed (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that initiated the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that initiated the work request.
 	InitiatorId *string `mandatory:"false" json:"initiatorId"`
 
 	ManagementStation *WorkRequestManagementStationDetails `mandatory:"false" json:"managementStation"`
@@ -92,14 +92,23 @@ type WorkRequest struct {
 	// The EventFingerprint associated with the content. This property is required when the work request type is IMPORT_CONTENT or REMOVE_CONTENT.
 	ContentChecksum *string `mandatory:"false" json:"contentChecksum"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original work request that is being retried.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original work request that is being retried.
 	RetryOfId *string `mandatory:"false" json:"retryOfId"`
 
-	// Indicates whether this work request is managed by the Autonomous Linux service.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original work request that is being rerun.
+	RerunOfId *string `mandatory:"false" json:"rerunOfId"`
+
+	// The amount of time in minutes to wait until retrying the work request. If set, the service will automatically retry
+	// a failed work request after the interval. For example, An interval set to [2,5,10]. If the initial
+	// execution of the work request fails, the service waits 2 minutes and then retries. If that fails, the service waits 5 minutes
+	// and then retries. If that fails, the service waits 10 minutes and then retries.
 	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 
 	// Indicates whether this work request is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The number of minutes the service waits for the reboot to complete. If the managed instance doesn't reboot within the timeout, the service marks the reboot job as failed.
+	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 }
 
 func (m WorkRequest) String() string {

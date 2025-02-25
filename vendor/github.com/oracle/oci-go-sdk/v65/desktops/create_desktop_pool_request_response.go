@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/CreateDesktopPool.go.html to see an example of how to use CreateDesktopPoolRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/CreateDesktopPool.go.html to see an example of how to use CreateDesktopPoolRequest.
 type CreateDesktopPoolRequest struct {
 
 	// The details of the desktop pool to create.

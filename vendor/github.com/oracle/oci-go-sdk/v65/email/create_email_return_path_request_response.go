@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateEmailReturnPath.go.html to see an example of how to use CreateEmailReturnPathRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateEmailReturnPath.go.html to see an example of how to use CreateEmailReturnPathRequest.
 type CreateEmailReturnPathRequest struct {
 
 	// The email return path to create.

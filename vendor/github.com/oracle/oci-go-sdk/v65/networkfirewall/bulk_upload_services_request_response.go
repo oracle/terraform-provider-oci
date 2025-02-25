@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadServices.go.html to see an example of how to use BulkUploadServicesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadServices.go.html to see an example of how to use BulkUploadServicesRequest.
 type BulkUploadServicesRequest struct {
 
 	// Unique Network Firewall Policy identifier

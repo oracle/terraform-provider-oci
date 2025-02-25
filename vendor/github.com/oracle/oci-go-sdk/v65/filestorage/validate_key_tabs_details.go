@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -19,7 +19,7 @@ import (
 // ValidateKeyTabsDetails Validate keytabs request details.
 type ValidateKeyTabsDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target whose keytabs are to be validated.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target whose keytabs are to be validated.
 	MountTargetId *string `mandatory:"false" json:"mountTargetId"`
 
 	KeyTabSecretDetails *KeyTabSecretDetails `mandatory:"false" json:"keyTabSecretDetails"`

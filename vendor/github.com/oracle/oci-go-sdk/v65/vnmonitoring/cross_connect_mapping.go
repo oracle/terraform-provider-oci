@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -47,7 +47,7 @@ type CrossConnectMapping struct {
 	// means you don't use BGP MD5 authentication.
 	BgpMd5AuthKey *string `mandatory:"false" json:"bgpMd5AuthKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect or cross-connect group for this mapping.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect or cross-connect group for this mapping.
 	// Specified by the owner of the cross-connect or cross-connect group (the
 	// customer if the customer is colocated with Oracle, or the provider if the
 	// customer is connecting via provider).
@@ -77,7 +77,7 @@ type CrossConnectMapping struct {
 	// provider's edge router. Only subnet masks from /64 up to /127 are allowed.
 	// There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
 	// IPv6 addressing is supported for all commercial and government regions. See
-	// IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:db8::1/64`
 	CustomerBgpPeeringIpv6 *string `mandatory:"false" json:"customerBgpPeeringIpv6"`
 
@@ -87,7 +87,7 @@ type CrossConnectMapping struct {
 	// a provider's edge router, the provider specifies this.
 	// There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
 	// Note that IPv6 addressing is currently supported only in certain regions. See
-	// IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:db8::2/64`
 	OracleBgpPeeringIpv6 *string `mandatory:"false" json:"oracleBgpPeeringIpv6"`
 

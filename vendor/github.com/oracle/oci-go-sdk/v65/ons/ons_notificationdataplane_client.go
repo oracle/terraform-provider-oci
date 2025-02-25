@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -94,12 +94,12 @@ func (client *NotificationDataPlaneClient) ConfigurationProvider() *common.Confi
 
 // ChangeSubscriptionCompartment Moves a subscription into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeSubscriptionCompartment.go.html to see an example of how to use ChangeSubscriptionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeSubscriptionCompartment.go.html to see an example of how to use ChangeSubscriptionCompartment API.
 func (client NotificationDataPlaneClient) ChangeSubscriptionCompartment(ctx context.Context, request ChangeSubscriptionCompartmentRequest) (response ChangeSubscriptionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -159,12 +159,12 @@ func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx cont
 
 // CreateSubscription Creates a subscription for the specified topic and sends a subscription confirmation URL to the endpoint. The subscription remains in "Pending" status until it has been confirmed.
 // For information about confirming subscriptions, see
-// To confirm a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#confirmSub).
+// To confirm a subscription (https://docs.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#confirmSub).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateSubscription.go.html to see an example of how to use CreateSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateSubscription.go.html to see an example of how to use CreateSubscription API.
 func (client NotificationDataPlaneClient) CreateSubscription(ctx context.Context, request CreateSubscriptionRequest) (response CreateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -227,7 +227,7 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/DeleteSubscription.go.html to see an example of how to use DeleteSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/DeleteSubscription.go.html to see an example of how to use DeleteSubscription API.
 func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context, request DeleteSubscriptionRequest) (response DeleteSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -285,7 +285,7 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetConfirmSubscription.go.html to see an example of how to use GetConfirmSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetConfirmSubscription.go.html to see an example of how to use GetConfirmSubscription API.
 func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Context, request GetConfirmSubscriptionRequest) (response GetConfirmSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -343,7 +343,7 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetSubscription.go.html to see an example of how to use GetSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetSubscription.go.html to see an example of how to use GetSubscription API.
 func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -401,7 +401,7 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetUnsubscription.go.html to see an example of how to use GetUnsubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetUnsubscription.go.html to see an example of how to use GetUnsubscription API.
 func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context, request GetUnsubscriptionRequest) (response GetUnsubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -459,7 +459,7 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -521,12 +521,12 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 // Message delivery rate limit per endpoint: 60 messages per minute for HTTP-based protocols, 10 messages per minute for the `EMAIL` protocol.
 // HTTP-based protocols use URL endpoints that begin with "http:" or "https:".
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60 per topic. (This TPM limit represents messages per minute.)
-// For more information about publishing messages, see Publishing Messages (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
-// For steps to request a limit increase, see Requesting a Service Limit Increase (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm#three).
+// For more information about publishing messages, see Publishing Messages (https://docs.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
+// For steps to request a limit increase, see Requesting a Service Limit Increase (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm#three).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessage API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessage API.
 func (client NotificationDataPlaneClient) PublishMessage(ctx context.Context, request PublishMessageRequest) (response PublishMessageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -584,7 +584,7 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ResendSubscriptionConfirmation.go.html to see an example of how to use ResendSubscriptionConfirmation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ResendSubscriptionConfirmation.go.html to see an example of how to use ResendSubscriptionConfirmation API.
 func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx context.Context, request ResendSubscriptionConfirmationRequest) (response ResendSubscriptionConfirmationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -642,7 +642,7 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
 func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

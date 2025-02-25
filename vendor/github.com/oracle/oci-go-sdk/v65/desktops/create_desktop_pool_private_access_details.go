@@ -18,7 +18,7 @@ import (
 // CreateDesktopPoolPrivateAccessDetails The details of the desktop's private access network connectivity to be set up for the desktop pool.
 type CreateDesktopPoolPrivateAccessDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the
 	// connectivity will be established.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 

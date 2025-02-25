@@ -96,7 +96,7 @@ func (client *GenericArtifactsContentClient) ConfigurationProvider() *common.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContent.go.html to see an example of how to use GetGenericArtifactContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContent.go.html to see an example of how to use GetGenericArtifactContent API.
 func (client GenericArtifactsContentClient) GetGenericArtifactContent(ctx context.Context, request GetGenericArtifactContentRequest) (response GetGenericArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,7 +152,7 @@ func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContentByPath.go.html to see an example of how to use GetGenericArtifactContentByPath API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContentByPath.go.html to see an example of how to use GetGenericArtifactContentByPath API.
 func (client GenericArtifactsContentClient) GetGenericArtifactContentByPath(ctx context.Context, request GetGenericArtifactContentByPathRequest) (response GetGenericArtifactContentByPathResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -208,7 +208,7 @@ func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/PutGenericArtifactContentByPath.go.html to see an example of how to use PutGenericArtifactContentByPath API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/PutGenericArtifactContentByPath.go.html to see an example of how to use PutGenericArtifactContentByPath API.
 func (client GenericArtifactsContentClient) PutGenericArtifactContentByPath(ctx context.Context, request PutGenericArtifactContentByPathRequest) (response PutGenericArtifactContentByPathResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

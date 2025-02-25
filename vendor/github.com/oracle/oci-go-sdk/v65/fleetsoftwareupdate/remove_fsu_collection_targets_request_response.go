@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RemoveFsuCollectionTargets.go.html to see an example of how to use RemoveFsuCollectionTargetsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RemoveFsuCollectionTargets.go.html to see an example of how to use RemoveFsuCollectionTargetsRequest.
 type RemoveFsuCollectionTargetsRequest struct {
 
 	// Unique Exadata Fleet Update Collection identifier.

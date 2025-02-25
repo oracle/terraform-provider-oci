@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/AddTagDefaultLock.go.html to see an example of how to use AddTagDefaultLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/AddTagDefaultLock.go.html to see an example of how to use AddTagDefaultLockRequest.
 type AddTagDefaultLockRequest struct {
 
 	// The OCID of the tag default.

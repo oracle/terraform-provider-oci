@@ -95,7 +95,7 @@ func (client *FleetAppsManagementClient) ConfigurationProvider() *common.Configu
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CheckResourceTagging.go.html to see an example of how to use CheckResourceTagging API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CheckResourceTagging.go.html to see an example of how to use CheckResourceTagging API.
 // A default retry strategy applies to this operation CheckResourceTagging()
 func (client FleetAppsManagementClient) CheckResourceTagging(ctx context.Context, request CheckResourceTaggingRequest) (response CheckResourceTaggingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,7 +159,7 @@ func (client FleetAppsManagementClient) checkResourceTagging(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ConfirmTargets.go.html to see an example of how to use ConfirmTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ConfirmTargets.go.html to see an example of how to use ConfirmTargets API.
 // A default retry strategy applies to this operation ConfirmTargets()
 func (client FleetAppsManagementClient) ConfirmTargets(ctx context.Context, request ConfirmTargetsRequest) (response ConfirmTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,7 +222,7 @@ func (client FleetAppsManagementClient) confirmTargets(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleet.go.html to see an example of how to use CreateFleet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleet.go.html to see an example of how to use CreateFleet API.
 // A default retry strategy applies to this operation CreateFleet()
 func (client FleetAppsManagementClient) CreateFleet(ctx context.Context, request CreateFleetRequest) (response CreateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -285,7 +285,7 @@ func (client FleetAppsManagementClient) createFleet(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetCredential.go.html to see an example of how to use CreateFleetCredential API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetCredential.go.html to see an example of how to use CreateFleetCredential API.
 // A default retry strategy applies to this operation CreateFleetCredential()
 func (client FleetAppsManagementClient) CreateFleetCredential(ctx context.Context, request CreateFleetCredentialRequest) (response CreateFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -348,7 +348,7 @@ func (client FleetAppsManagementClient) createFleetCredential(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetProperty.go.html to see an example of how to use CreateFleetProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetProperty.go.html to see an example of how to use CreateFleetProperty API.
 // A default retry strategy applies to this operation CreateFleetProperty()
 func (client FleetAppsManagementClient) CreateFleetProperty(ctx context.Context, request CreateFleetPropertyRequest) (response CreateFleetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -411,7 +411,7 @@ func (client FleetAppsManagementClient) createFleetProperty(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetResource.go.html to see an example of how to use CreateFleetResource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetResource.go.html to see an example of how to use CreateFleetResource API.
 // A default retry strategy applies to this operation CreateFleetResource()
 func (client FleetAppsManagementClient) CreateFleetResource(ctx context.Context, request CreateFleetResourceRequest) (response CreateFleetResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -474,7 +474,7 @@ func (client FleetAppsManagementClient) createFleetResource(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleet.go.html to see an example of how to use DeleteFleet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleet.go.html to see an example of how to use DeleteFleet API.
 // A default retry strategy applies to this operation DeleteFleet()
 func (client FleetAppsManagementClient) DeleteFleet(ctx context.Context, request DeleteFleetRequest) (response DeleteFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -532,7 +532,7 @@ func (client FleetAppsManagementClient) deleteFleet(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleetCredential.go.html to see an example of how to use DeleteFleetCredential API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleetCredential.go.html to see an example of how to use DeleteFleetCredential API.
 // A default retry strategy applies to this operation DeleteFleetCredential()
 func (client FleetAppsManagementClient) DeleteFleetCredential(ctx context.Context, request DeleteFleetCredentialRequest) (response DeleteFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -590,7 +590,7 @@ func (client FleetAppsManagementClient) deleteFleetCredential(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleetProperty.go.html to see an example of how to use DeleteFleetProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleetProperty.go.html to see an example of how to use DeleteFleetProperty API.
 // A default retry strategy applies to this operation DeleteFleetProperty()
 func (client FleetAppsManagementClient) DeleteFleetProperty(ctx context.Context, request DeleteFleetPropertyRequest) (response DeleteFleetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -648,7 +648,7 @@ func (client FleetAppsManagementClient) deleteFleetProperty(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleetResource.go.html to see an example of how to use DeleteFleetResource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleetResource.go.html to see an example of how to use DeleteFleetResource API.
 // A default retry strategy applies to this operation DeleteFleetResource()
 func (client FleetAppsManagementClient) DeleteFleetResource(ctx context.Context, request DeleteFleetResourceRequest) (response DeleteFleetResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -706,7 +706,7 @@ func (client FleetAppsManagementClient) deleteFleetResource(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GenerateComplianceReport.go.html to see an example of how to use GenerateComplianceReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GenerateComplianceReport.go.html to see an example of how to use GenerateComplianceReport API.
 // A default retry strategy applies to this operation GenerateComplianceReport()
 func (client FleetAppsManagementClient) GenerateComplianceReport(ctx context.Context, request GenerateComplianceReportRequest) (response GenerateComplianceReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -769,7 +769,7 @@ func (client FleetAppsManagementClient) generateComplianceReport(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetComplianceReport.go.html to see an example of how to use GetComplianceReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetComplianceReport.go.html to see an example of how to use GetComplianceReport API.
 // A default retry strategy applies to this operation GetComplianceReport()
 func (client FleetAppsManagementClient) GetComplianceReport(ctx context.Context, request GetComplianceReportRequest) (response GetComplianceReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -827,7 +827,7 @@ func (client FleetAppsManagementClient) getComplianceReport(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleet.go.html to see an example of how to use GetFleet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleet.go.html to see an example of how to use GetFleet API.
 // A default retry strategy applies to this operation GetFleet()
 func (client FleetAppsManagementClient) GetFleet(ctx context.Context, request GetFleetRequest) (response GetFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -885,7 +885,7 @@ func (client FleetAppsManagementClient) getFleet(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetCredential.go.html to see an example of how to use GetFleetCredential API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetCredential.go.html to see an example of how to use GetFleetCredential API.
 // A default retry strategy applies to this operation GetFleetCredential()
 func (client FleetAppsManagementClient) GetFleetCredential(ctx context.Context, request GetFleetCredentialRequest) (response GetFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -943,7 +943,7 @@ func (client FleetAppsManagementClient) getFleetCredential(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetProperty.go.html to see an example of how to use GetFleetProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetProperty.go.html to see an example of how to use GetFleetProperty API.
 // A default retry strategy applies to this operation GetFleetProperty()
 func (client FleetAppsManagementClient) GetFleetProperty(ctx context.Context, request GetFleetPropertyRequest) (response GetFleetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1001,7 +1001,7 @@ func (client FleetAppsManagementClient) getFleetProperty(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetResource.go.html to see an example of how to use GetFleetResource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetResource.go.html to see an example of how to use GetFleetResource API.
 // A default retry strategy applies to this operation GetFleetResource()
 func (client FleetAppsManagementClient) GetFleetResource(ctx context.Context, request GetFleetResourceRequest) (response GetFleetResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1059,7 +1059,7 @@ func (client FleetAppsManagementClient) getFleetResource(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client FleetAppsManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1117,7 +1117,7 @@ func (client FleetAppsManagementClient) getWorkRequest(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListAnnouncements.go.html to see an example of how to use ListAnnouncements API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListAnnouncements.go.html to see an example of how to use ListAnnouncements API.
 // A default retry strategy applies to this operation ListAnnouncements()
 func (client FleetAppsManagementClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1175,7 +1175,7 @@ func (client FleetAppsManagementClient) listAnnouncements(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetCredentials.go.html to see an example of how to use ListFleetCredentials API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetCredentials.go.html to see an example of how to use ListFleetCredentials API.
 // A default retry strategy applies to this operation ListFleetCredentials()
 func (client FleetAppsManagementClient) ListFleetCredentials(ctx context.Context, request ListFleetCredentialsRequest) (response ListFleetCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1233,7 +1233,7 @@ func (client FleetAppsManagementClient) listFleetCredentials(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProducts.go.html to see an example of how to use ListFleetProducts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProducts.go.html to see an example of how to use ListFleetProducts API.
 // A default retry strategy applies to this operation ListFleetProducts()
 func (client FleetAppsManagementClient) ListFleetProducts(ctx context.Context, request ListFleetProductsRequest) (response ListFleetProductsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1291,7 +1291,7 @@ func (client FleetAppsManagementClient) listFleetProducts(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProperties.go.html to see an example of how to use ListFleetProperties API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProperties.go.html to see an example of how to use ListFleetProperties API.
 // A default retry strategy applies to this operation ListFleetProperties()
 func (client FleetAppsManagementClient) ListFleetProperties(ctx context.Context, request ListFleetPropertiesRequest) (response ListFleetPropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1349,7 +1349,7 @@ func (client FleetAppsManagementClient) listFleetProperties(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetResources.go.html to see an example of how to use ListFleetResources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetResources.go.html to see an example of how to use ListFleetResources API.
 // A default retry strategy applies to this operation ListFleetResources()
 func (client FleetAppsManagementClient) ListFleetResources(ctx context.Context, request ListFleetResourcesRequest) (response ListFleetResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1407,7 +1407,7 @@ func (client FleetAppsManagementClient) listFleetResources(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetTargets.go.html to see an example of how to use ListFleetTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetTargets.go.html to see an example of how to use ListFleetTargets API.
 // A default retry strategy applies to this operation ListFleetTargets()
 func (client FleetAppsManagementClient) ListFleetTargets(ctx context.Context, request ListFleetTargetsRequest) (response ListFleetTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1465,7 +1465,7 @@ func (client FleetAppsManagementClient) listFleetTargets(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleets.go.html to see an example of how to use ListFleets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleets.go.html to see an example of how to use ListFleets API.
 // A default retry strategy applies to this operation ListFleets()
 func (client FleetAppsManagementClient) ListFleets(ctx context.Context, request ListFleetsRequest) (response ListFleetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1523,7 +1523,7 @@ func (client FleetAppsManagementClient) listFleets(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListInventoryResources.go.html to see an example of how to use ListInventoryResources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListInventoryResources.go.html to see an example of how to use ListInventoryResources API.
 // A default retry strategy applies to this operation ListInventoryResources()
 func (client FleetAppsManagementClient) ListInventoryResources(ctx context.Context, request ListInventoryResourcesRequest) (response ListInventoryResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1582,7 +1582,7 @@ func (client FleetAppsManagementClient) listInventoryResources(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListTargets.go.html to see an example of how to use ListTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListTargets.go.html to see an example of how to use ListTargets API.
 // A default retry strategy applies to this operation ListTargets()
 func (client FleetAppsManagementClient) ListTargets(ctx context.Context, request ListTargetsRequest) (response ListTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1640,7 +1640,7 @@ func (client FleetAppsManagementClient) listTargets(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client FleetAppsManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1698,7 +1698,7 @@ func (client FleetAppsManagementClient) listWorkRequestErrors(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client FleetAppsManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1756,7 +1756,7 @@ func (client FleetAppsManagementClient) listWorkRequestLogs(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client FleetAppsManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1814,7 +1814,7 @@ func (client FleetAppsManagementClient) listWorkRequests(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestResourceValidation.go.html to see an example of how to use RequestResourceValidation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestResourceValidation.go.html to see an example of how to use RequestResourceValidation API.
 // A default retry strategy applies to this operation RequestResourceValidation()
 func (client FleetAppsManagementClient) RequestResourceValidation(ctx context.Context, request RequestResourceValidationRequest) (response RequestResourceValidationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1878,7 +1878,7 @@ func (client FleetAppsManagementClient) requestResourceValidation(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestTargetDiscovery.go.html to see an example of how to use RequestTargetDiscovery API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestTargetDiscovery.go.html to see an example of how to use RequestTargetDiscovery API.
 // A default retry strategy applies to this operation RequestTargetDiscovery()
 func (client FleetAppsManagementClient) RequestTargetDiscovery(ctx context.Context, request RequestTargetDiscoveryRequest) (response RequestTargetDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1941,7 +1941,7 @@ func (client FleetAppsManagementClient) requestTargetDiscovery(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleet.go.html to see an example of how to use UpdateFleet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleet.go.html to see an example of how to use UpdateFleet API.
 // A default retry strategy applies to this operation UpdateFleet()
 func (client FleetAppsManagementClient) UpdateFleet(ctx context.Context, request UpdateFleetRequest) (response UpdateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1999,7 +1999,7 @@ func (client FleetAppsManagementClient) updateFleet(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetCredential.go.html to see an example of how to use UpdateFleetCredential API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetCredential.go.html to see an example of how to use UpdateFleetCredential API.
 // A default retry strategy applies to this operation UpdateFleetCredential()
 func (client FleetAppsManagementClient) UpdateFleetCredential(ctx context.Context, request UpdateFleetCredentialRequest) (response UpdateFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2057,7 +2057,7 @@ func (client FleetAppsManagementClient) updateFleetCredential(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetProperty.go.html to see an example of how to use UpdateFleetProperty API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetProperty.go.html to see an example of how to use UpdateFleetProperty API.
 // A default retry strategy applies to this operation UpdateFleetProperty()
 func (client FleetAppsManagementClient) UpdateFleetProperty(ctx context.Context, request UpdateFleetPropertyRequest) (response UpdateFleetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2115,7 +2115,7 @@ func (client FleetAppsManagementClient) updateFleetProperty(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetResource.go.html to see an example of how to use UpdateFleetResource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetResource.go.html to see an example of how to use UpdateFleetResource API.
 // A default retry strategy applies to this operation UpdateFleetResource()
 func (client FleetAppsManagementClient) UpdateFleetResource(ctx context.Context, request UpdateFleetResourceRequest) (response UpdateFleetResourceResponse, err error) {
 	var ociResponse common.OCIResponse

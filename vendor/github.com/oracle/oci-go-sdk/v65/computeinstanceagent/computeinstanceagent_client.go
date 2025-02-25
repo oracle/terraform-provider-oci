@@ -99,7 +99,7 @@ func (client *ComputeInstanceAgentClient) ConfigurationProvider() *common.Config
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/CancelInstanceAgentCommand.go.html to see an example of how to use CancelInstanceAgentCommand API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/CancelInstanceAgentCommand.go.html to see an example of how to use CancelInstanceAgentCommand API.
 func (client ComputeInstanceAgentClient) CancelInstanceAgentCommand(ctx context.Context, request CancelInstanceAgentCommandRequest) (response CancelInstanceAgentCommandResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -160,7 +160,7 @@ func (client ComputeInstanceAgentClient) cancelInstanceAgentCommand(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/CreateInstanceAgentCommand.go.html to see an example of how to use CreateInstanceAgentCommand API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/CreateInstanceAgentCommand.go.html to see an example of how to use CreateInstanceAgentCommand API.
 func (client ComputeInstanceAgentClient) CreateInstanceAgentCommand(ctx context.Context, request CreateInstanceAgentCommandRequest) (response CreateInstanceAgentCommandResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -222,7 +222,7 @@ func (client ComputeInstanceAgentClient) createInstanceAgentCommand(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommand.go.html to see an example of how to use GetInstanceAgentCommand API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommand.go.html to see an example of how to use GetInstanceAgentCommand API.
 func (client ComputeInstanceAgentClient) GetInstanceAgentCommand(ctx context.Context, request GetInstanceAgentCommandRequest) (response GetInstanceAgentCommandResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -279,7 +279,7 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommand(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommandExecution.go.html to see an example of how to use GetInstanceAgentCommandExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommandExecution.go.html to see an example of how to use GetInstanceAgentCommandExecution API.
 func (client ComputeInstanceAgentClient) GetInstanceAgentCommandExecution(ctx context.Context, request GetInstanceAgentCommandExecutionRequest) (response GetInstanceAgentCommandExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -337,7 +337,7 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommandExecution(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentCommandExecutions.go.html to see an example of how to use ListInstanceAgentCommandExecutions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentCommandExecutions.go.html to see an example of how to use ListInstanceAgentCommandExecutions API.
 func (client ComputeInstanceAgentClient) ListInstanceAgentCommandExecutions(ctx context.Context, request ListInstanceAgentCommandExecutionsRequest) (response ListInstanceAgentCommandExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -394,7 +394,7 @@ func (client ComputeInstanceAgentClient) listInstanceAgentCommandExecutions(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentCommands.go.html to see an example of how to use ListInstanceAgentCommands API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentCommands.go.html to see an example of how to use ListInstanceAgentCommands API.
 func (client ComputeInstanceAgentClient) ListInstanceAgentCommands(ctx context.Context, request ListInstanceAgentCommandsRequest) (response ListInstanceAgentCommandsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

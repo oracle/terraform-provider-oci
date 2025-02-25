@@ -24,7 +24,7 @@ type CreateMetricGroupDetails struct {
 	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation
 	// of MetricGroups. A filterId is generated when a Span Filter is created.
 	FilterId *string `mandatory:"true" json:"filterId"`
 

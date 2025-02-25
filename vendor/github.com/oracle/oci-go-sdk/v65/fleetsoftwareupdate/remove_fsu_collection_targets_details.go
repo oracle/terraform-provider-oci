@@ -56,7 +56,7 @@ func (m *removefsucollectiontargetsdetails) UnmarshalPolymorphicJSON(data []byte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for RemoveFsuCollectionTargetsDetails: %s.", m.RemovalStrategy)
+		common.Logf("Received unsupported enum value for RemoveFsuCollectionTargetsDetails: %s.", m.RemovalStrategy)
 		return *m, nil
 	}
 }

@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -30,7 +30,7 @@ type DiscoveredExternalDbSystemComponent interface {
 	// The name of the discovered DB system component.
 	GetComponentName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	GetResourceId() *string
 
 	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
@@ -124,7 +124,7 @@ func (m *discoveredexternaldbsystemcomponent) UnmarshalPolymorphicJSON(data []by
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DiscoveredExternalDbSystemComponent: %s.", m.ComponentType)
+		common.Logf("Received unsupported enum value for DiscoveredExternalDbSystemComponent: %s.", m.ComponentType)
 		return *m, nil
 	}
 }

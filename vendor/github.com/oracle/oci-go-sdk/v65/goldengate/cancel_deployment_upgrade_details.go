@@ -55,7 +55,7 @@ func (m *canceldeploymentupgradedetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CancelDeploymentUpgradeDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for CancelDeploymentUpgradeDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

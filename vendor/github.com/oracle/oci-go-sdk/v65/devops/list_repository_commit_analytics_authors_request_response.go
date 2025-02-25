@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListRepositoryCommitAnalyticsAuthors.go.html to see an example of how to use ListRepositoryCommitAnalyticsAuthorsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListRepositoryCommitAnalyticsAuthors.go.html to see an example of how to use ListRepositoryCommitAnalyticsAuthorsRequest.
 type ListRepositoryCommitAnalyticsAuthorsRequest struct {
 
 	// Unique repository identifier.

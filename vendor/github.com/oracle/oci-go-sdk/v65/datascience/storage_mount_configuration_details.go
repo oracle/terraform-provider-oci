@@ -69,7 +69,7 @@ func (m *storagemountconfigurationdetails) UnmarshalPolymorphicJSON(data []byte)
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for StorageMountConfigurationDetails: %s.", m.StorageType)
+		common.Logf("Received unsupported enum value for StorageMountConfigurationDetails: %s.", m.StorageType)
 		return *m, nil
 	}
 }

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbNode.go.html to see an example of how to use GetDbNodeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbNode.go.html to see an example of how to use GetDbNodeRequest.
 type GetDbNodeRequest struct {
 
-	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// Unique Oracle-assigned identifier for the request.

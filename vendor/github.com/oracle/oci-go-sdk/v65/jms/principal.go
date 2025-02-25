@@ -18,7 +18,7 @@ import (
 // Principal An authorized principal.
 type Principal struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the principal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the principal.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the principal.

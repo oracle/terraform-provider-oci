@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommand.go.html to see an example of how to use GetInstanceAgentCommandRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommand.go.html to see an example of how to use GetInstanceAgentCommandRequest.
 type GetInstanceAgentCommandRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the command.
 	InstanceAgentCommandId *string `mandatory:"true" contributesTo:"path" name:"instanceAgentCommandId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,

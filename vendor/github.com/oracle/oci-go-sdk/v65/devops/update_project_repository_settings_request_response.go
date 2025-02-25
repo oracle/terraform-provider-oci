@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateProjectRepositorySettings.go.html to see an example of how to use UpdateProjectRepositorySettingsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateProjectRepositorySettings.go.html to see an example of how to use UpdateProjectRepositorySettingsRequest.
 type UpdateProjectRepositorySettingsRequest struct {
 
 	// Unique project identifier.

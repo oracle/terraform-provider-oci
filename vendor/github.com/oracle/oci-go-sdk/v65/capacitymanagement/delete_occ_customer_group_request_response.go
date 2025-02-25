@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomerGroup.go.html to see an example of how to use DeleteOccCustomerGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomerGroup.go.html to see an example of how to use DeleteOccCustomerGroupRequest.
 type DeleteOccCustomerGroupRequest struct {
 
 	// The OCID of the customer group.

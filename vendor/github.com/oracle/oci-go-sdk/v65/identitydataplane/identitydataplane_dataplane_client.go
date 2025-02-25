@@ -95,7 +95,7 @@ func (client *DataplaneClient) ConfigurationProvider() *common.ConfigurationProv
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateScopedAccessToken.go.html to see an example of how to use GenerateScopedAccessToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateScopedAccessToken.go.html to see an example of how to use GenerateScopedAccessToken API.
 func (client DataplaneClient) GenerateScopedAccessToken(ctx context.Context, request GenerateScopedAccessTokenRequest) (response GenerateScopedAccessTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -154,7 +154,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateUserSecurityToken.go.html to see an example of how to use GenerateUserSecurityToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateUserSecurityToken.go.html to see an example of how to use GenerateUserSecurityToken API.
 func (client DataplaneClient) GenerateUserSecurityToken(ctx context.Context, request GenerateUserSecurityTokenRequest) (response GenerateUserSecurityTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

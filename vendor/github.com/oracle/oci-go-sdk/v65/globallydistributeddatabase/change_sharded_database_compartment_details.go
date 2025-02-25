@@ -18,7 +18,7 @@ import (
 // ChangeShardedDatabaseCompartmentDetails The configuration details for moving the resource for sharded database to other compartment.
 type ChangeShardedDatabaseCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the resource to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the resource to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

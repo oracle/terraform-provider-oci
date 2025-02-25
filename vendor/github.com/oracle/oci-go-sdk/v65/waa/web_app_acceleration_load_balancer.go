@@ -21,16 +21,16 @@ import (
 // WebAppAccelerationLoadBalancer WebAppAcceleration to a LoadBalancer resource.
 type WebAppAccelerationLoadBalancer struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
 	Id *string `mandatory:"true" json:"id"`
 
 	// WebAppAcceleration display name, can be renamed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
 	WebAppAccelerationPolicyId *string `mandatory:"true" json:"webAppAccelerationPolicyId"`
 
 	// The time the WebAppAcceleration was created. An RFC3339 formatted datetime string.
@@ -48,7 +48,7 @@ type WebAppAccelerationLoadBalancer struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 
-	// LoadBalancer OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to which the WebAppAccelerationPolicy is attached to.
+	// LoadBalancer OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the WebAppAccelerationPolicy is attached to.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The time the WebAppAcceleration was updated. An RFC3339 formatted datetime string.

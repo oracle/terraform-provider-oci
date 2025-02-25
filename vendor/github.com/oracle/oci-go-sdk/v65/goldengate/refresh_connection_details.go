@@ -55,7 +55,7 @@ func (m *refreshconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for RefreshConnectionDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for RefreshConnectionDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

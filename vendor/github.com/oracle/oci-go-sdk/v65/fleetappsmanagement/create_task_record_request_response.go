@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateTaskRecord.go.html to see an example of how to use CreateTaskRecordRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateTaskRecord.go.html to see an example of how to use CreateTaskRecordRequest.
 type CreateTaskRecordRequest struct {
 
 	// Details for the new TaskRecord.

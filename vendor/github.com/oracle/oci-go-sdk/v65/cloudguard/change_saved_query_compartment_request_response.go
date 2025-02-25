@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSavedQueryCompartment.go.html to see an example of how to use ChangeSavedQueryCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSavedQueryCompartment.go.html to see an example of how to use ChangeSavedQueryCompartmentRequest.
 type ChangeSavedQueryCompartmentRequest struct {
 
 	// Saved query OCID

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSocialIdentityProvider.go.html to see an example of how to use PutSocialIdentityProviderRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSocialIdentityProvider.go.html to see an example of how to use PutSocialIdentityProviderRequest.
 type PutSocialIdentityProviderRequest struct {
 
 	// ID of the resource

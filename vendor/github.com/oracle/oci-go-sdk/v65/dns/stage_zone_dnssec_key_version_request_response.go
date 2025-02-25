@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/StageZoneDnssecKeyVersion.go.html to see an example of how to use StageZoneDnssecKeyVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/StageZoneDnssecKeyVersion.go.html to see an example of how to use StageZoneDnssecKeyVersionRequest.
 type StageZoneDnssecKeyVersionRequest struct {
 
 	// The OCID of the target zone.

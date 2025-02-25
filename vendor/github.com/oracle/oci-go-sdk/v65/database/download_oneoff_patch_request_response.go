@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadOneoffPatch.go.html to see an example of how to use DownloadOneoffPatchRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadOneoffPatch.go.html to see an example of how to use DownloadOneoffPatchRequest.
 type DownloadOneoffPatchRequest struct {
 
-	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The one-off patch OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

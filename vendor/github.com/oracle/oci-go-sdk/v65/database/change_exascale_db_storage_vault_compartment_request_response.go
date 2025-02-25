@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeExascaleDbStorageVaultCompartment.go.html to see an example of how to use ChangeExascaleDbStorageVaultCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeExascaleDbStorageVaultCompartment.go.html to see an example of how to use ChangeExascaleDbStorageVaultCompartmentRequest.
 type ChangeExascaleDbStorageVaultCompartmentRequest struct {
 
 	// Request to move Exadata Database Storage Vault to a different compartment
 	ChangeExascaleDbStorageVaultCompartmentDetails `contributesTo:"body"`
 
-	// The Exadata Database Storage Vault OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata Database Storage Vault OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExascaleDbStorageVaultId *string `mandatory:"true" contributesTo:"path" name:"exascaleDbStorageVaultId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -87,7 +87,7 @@ type ChangeExascaleDbStorageVaultCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

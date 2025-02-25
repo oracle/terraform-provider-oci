@@ -33,7 +33,7 @@ type Model struct {
 
 	ModelTrainingResults *ModelTrainingResults `mandatory:"true" json:"modelTrainingResults"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// The time the the Model was created. An RFC3339 formatted datetime string.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRepositorySettings.go.html to see an example of how to use DeleteRepositorySettingsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRepositorySettings.go.html to see an example of how to use DeleteRepositorySettingsRequest.
 type DeleteRepositorySettingsRequest struct {
 
 	// Unique repository identifier.

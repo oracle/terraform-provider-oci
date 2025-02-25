@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeEventCompartment.go.html to see an example of how to use ChangeEventCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeEventCompartment.go.html to see an example of how to use ChangeEventCompartmentRequest.
 type ChangeEventCompartmentRequest struct {
 
 	// Specifies the compartment to move the event to.
 	ChangeEventCompartmentDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	EventId *string `mandatory:"true" contributesTo:"path" name:"eventId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
