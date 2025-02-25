@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsObjectCollectionRule.go.html to see an example of how to use DeleteLogAnalyticsObjectCollectionRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsObjectCollectionRule.go.html to see an example of how to use DeleteLogAnalyticsObjectCollectionRuleRequest.
 type DeleteLogAnalyticsObjectCollectionRuleRequest struct {
 
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The Logging Analytics Object Collection Rule OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The Logging Analytics Object Collection Rule OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	LogAnalyticsObjectCollectionRuleId *string `mandatory:"true" contributesTo:"path" name:"logAnalyticsObjectCollectionRuleId"`
 
 	// The client request ID for tracing.

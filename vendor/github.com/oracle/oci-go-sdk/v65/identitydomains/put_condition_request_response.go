@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCondition.go.html to see an example of how to use PutConditionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCondition.go.html to see an example of how to use PutConditionRequest.
 type PutConditionRequest struct {
 
 	// ID of the resource

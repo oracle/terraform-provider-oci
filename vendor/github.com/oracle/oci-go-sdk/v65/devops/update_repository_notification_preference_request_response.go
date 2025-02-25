@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateRepositoryNotificationPreference.go.html to see an example of how to use UpdateRepositoryNotificationPreferenceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateRepositoryNotificationPreference.go.html to see an example of how to use UpdateRepositoryNotificationPreferenceRequest.
 type UpdateRepositoryNotificationPreferenceRequest struct {
 
 	// The information to be updated.

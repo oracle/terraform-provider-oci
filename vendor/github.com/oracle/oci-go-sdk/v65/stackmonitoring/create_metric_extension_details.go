@@ -28,7 +28,7 @@ type CreateMetricExtensionDetails struct {
 	// Resource type to which Metric Extension applies
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Schedule of metric extension should use RFC 5545 format i.e. recur-rule-part = "FREQ";INTERVAL where FREQ rule part identifies the type of recurrence rule. Valid values are "MINUTELY","HOURLY","DAILY" to specify repeating events based on an interval of a minute, an hour and a day or more. Example- FREQ=DAILY;INTERVAL=1

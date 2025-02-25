@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAuditTrail.go.html to see an example of how to use UpdateAuditTrailRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAuditTrail.go.html to see an example of how to use UpdateAuditTrailRequest.
 type UpdateAuditTrailRequest struct {
 
 	// The OCID of the audit trail.

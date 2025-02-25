@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadReport.go.html to see an example of how to use CreateJavaDownloadReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadReport.go.html to see an example of how to use CreateJavaDownloadReportRequest.
 type CreateJavaDownloadReportRequest struct {
 
 	// Details for the new report.

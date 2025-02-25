@@ -50,7 +50,7 @@ type FsuCollection interface {
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
 	GetLastCompletedFsuCycleId() *string
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -133,7 +133,7 @@ func (m *fsucollection) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for FsuCollection: %s.", m.Type)
+		common.Logf("Received unsupported enum value for FsuCollection: %s.", m.Type)
 		return *m, nil
 	}
 }

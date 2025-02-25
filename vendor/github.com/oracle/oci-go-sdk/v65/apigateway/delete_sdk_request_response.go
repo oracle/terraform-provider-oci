@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteSdk.go.html to see an example of how to use DeleteSdkRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteSdk.go.html to see an example of how to use DeleteSdkRequest.
 type DeleteSdkRequest struct {
 
 	// The ocid of the SDK.

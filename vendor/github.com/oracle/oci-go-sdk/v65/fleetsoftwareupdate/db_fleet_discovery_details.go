@@ -69,7 +69,7 @@ func (m *dbfleetdiscoverydetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DbFleetDiscoveryDetails: %s.", m.Strategy)
+		common.Logf("Received unsupported enum value for DbFleetDiscoveryDetails: %s.", m.Strategy)
 		return *m, nil
 	}
 }

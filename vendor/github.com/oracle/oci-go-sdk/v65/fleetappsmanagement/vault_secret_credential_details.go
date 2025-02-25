@@ -19,7 +19,7 @@ import (
 // VaultSecretCredentialDetails Secret details.
 type VaultSecretCredentialDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret.
 	SecretId *string `mandatory:"true" json:"secretId"`
 
 	// The secret version.

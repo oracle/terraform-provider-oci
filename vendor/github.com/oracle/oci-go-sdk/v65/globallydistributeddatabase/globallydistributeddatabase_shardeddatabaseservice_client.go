@@ -95,7 +95,7 @@ func (client *ShardedDatabaseServiceClient) ConfigurationProvider() *common.Conf
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangePrivateEndpointCompartment()
 func (client ShardedDatabaseServiceClient) ChangePrivateEndpointCompartment(ctx context.Context, request ChangePrivateEndpointCompartmentRequest) (response ChangePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client ShardedDatabaseServiceClient) changePrivateEndpointCompartment(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangeShardedDatabaseCompartment.go.html to see an example of how to use ChangeShardedDatabaseCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangeShardedDatabaseCompartment.go.html to see an example of how to use ChangeShardedDatabaseCompartment API.
 // A default retry strategy applies to this operation ChangeShardedDatabaseCompartment()
 func (client ShardedDatabaseServiceClient) ChangeShardedDatabaseCompartment(ctx context.Context, request ChangeShardedDatabaseCompartmentRequest) (response ChangeShardedDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -224,7 +224,7 @@ func (client ShardedDatabaseServiceClient) changeShardedDatabaseCompartment(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureShardedDatabaseGsms.go.html to see an example of how to use ConfigureShardedDatabaseGsms API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureShardedDatabaseGsms.go.html to see an example of how to use ConfigureShardedDatabaseGsms API.
 // A default retry strategy applies to this operation ConfigureShardedDatabaseGsms()
 func (client ShardedDatabaseServiceClient) ConfigureShardedDatabaseGsms(ctx context.Context, request ConfigureShardedDatabaseGsmsRequest) (response ConfigureShardedDatabaseGsmsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -291,7 +291,7 @@ func (client ShardedDatabaseServiceClient) configureShardedDatabaseGsms(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureSharding.go.html to see an example of how to use ConfigureSharding API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureSharding.go.html to see an example of how to use ConfigureSharding API.
 // A default retry strategy applies to this operation ConfigureSharding()
 func (client ShardedDatabaseServiceClient) ConfigureSharding(ctx context.Context, request ConfigureShardingRequest) (response ConfigureShardingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -354,7 +354,7 @@ func (client ShardedDatabaseServiceClient) configureSharding(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpoint API.
 // A default retry strategy applies to this operation CreatePrivateEndpoint()
 func (client ShardedDatabaseServiceClient) CreatePrivateEndpoint(ctx context.Context, request CreatePrivateEndpointRequest) (response CreatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -417,7 +417,7 @@ func (client ShardedDatabaseServiceClient) createPrivateEndpoint(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreateShardedDatabase.go.html to see an example of how to use CreateShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreateShardedDatabase.go.html to see an example of how to use CreateShardedDatabase API.
 // A default retry strategy applies to this operation CreateShardedDatabase()
 func (client ShardedDatabaseServiceClient) CreateShardedDatabase(ctx context.Context, request CreateShardedDatabaseRequest) (response CreateShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -480,7 +480,7 @@ func (client ShardedDatabaseServiceClient) createShardedDatabase(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DeletePrivateEndpoint.go.html to see an example of how to use DeletePrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DeletePrivateEndpoint.go.html to see an example of how to use DeletePrivateEndpoint API.
 // A default retry strategy applies to this operation DeletePrivateEndpoint()
 func (client ShardedDatabaseServiceClient) DeletePrivateEndpoint(ctx context.Context, request DeletePrivateEndpointRequest) (response DeletePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -543,7 +543,7 @@ func (client ShardedDatabaseServiceClient) deletePrivateEndpoint(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DeleteShardedDatabase.go.html to see an example of how to use DeleteShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DeleteShardedDatabase.go.html to see an example of how to use DeleteShardedDatabase API.
 // A default retry strategy applies to this operation DeleteShardedDatabase()
 func (client ShardedDatabaseServiceClient) DeleteShardedDatabase(ctx context.Context, request DeleteShardedDatabaseRequest) (response DeleteShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -609,7 +609,7 @@ func (client ShardedDatabaseServiceClient) deleteShardedDatabase(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DownloadGsmCertificateSigningRequest.go.html to see an example of how to use DownloadGsmCertificateSigningRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DownloadGsmCertificateSigningRequest.go.html to see an example of how to use DownloadGsmCertificateSigningRequest API.
 // A default retry strategy applies to this operation DownloadGsmCertificateSigningRequest()
 func (client ShardedDatabaseServiceClient) DownloadGsmCertificateSigningRequest(ctx context.Context, request DownloadGsmCertificateSigningRequestRequest) (response DownloadGsmCertificateSigningRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -671,7 +671,7 @@ func (client ShardedDatabaseServiceClient) downloadGsmCertificateSigningRequest(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchConnectionString.go.html to see an example of how to use FetchConnectionString API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchConnectionString.go.html to see an example of how to use FetchConnectionString API.
 // A default retry strategy applies to this operation FetchConnectionString()
 func (client ShardedDatabaseServiceClient) FetchConnectionString(ctx context.Context, request FetchConnectionStringRequest) (response FetchConnectionStringResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -734,7 +734,7 @@ func (client ShardedDatabaseServiceClient) fetchConnectionString(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchShardableCloudAutonomousVmClusters.go.html to see an example of how to use FetchShardableCloudAutonomousVmClusters API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchShardableCloudAutonomousVmClusters.go.html to see an example of how to use FetchShardableCloudAutonomousVmClusters API.
 // A default retry strategy applies to this operation FetchShardableCloudAutonomousVmClusters()
 func (client ShardedDatabaseServiceClient) FetchShardableCloudAutonomousVmClusters(ctx context.Context, request FetchShardableCloudAutonomousVmClustersRequest) (response FetchShardableCloudAutonomousVmClustersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -799,7 +799,7 @@ func (client ShardedDatabaseServiceClient) fetchShardableCloudAutonomousVmCluste
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GenerateGsmCertificateSigningRequest.go.html to see an example of how to use GenerateGsmCertificateSigningRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GenerateGsmCertificateSigningRequest.go.html to see an example of how to use GenerateGsmCertificateSigningRequest API.
 // A default retry strategy applies to this operation GenerateGsmCertificateSigningRequest()
 func (client ShardedDatabaseServiceClient) GenerateGsmCertificateSigningRequest(ctx context.Context, request GenerateGsmCertificateSigningRequestRequest) (response GenerateGsmCertificateSigningRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -862,7 +862,7 @@ func (client ShardedDatabaseServiceClient) generateGsmCertificateSigningRequest(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GenerateWallet.go.html to see an example of how to use GenerateWallet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GenerateWallet.go.html to see an example of how to use GenerateWallet API.
 // A default retry strategy applies to this operation GenerateWallet()
 func (client ShardedDatabaseServiceClient) GenerateWallet(ctx context.Context, request GenerateWalletRequest) (response GenerateWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -924,7 +924,7 @@ func (client ShardedDatabaseServiceClient) generateWallet(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GetPrivateEndpoint.go.html to see an example of how to use GetPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GetPrivateEndpoint.go.html to see an example of how to use GetPrivateEndpoint API.
 // A default retry strategy applies to this operation GetPrivateEndpoint()
 func (client ShardedDatabaseServiceClient) GetPrivateEndpoint(ctx context.Context, request GetPrivateEndpointRequest) (response GetPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -982,7 +982,7 @@ func (client ShardedDatabaseServiceClient) getPrivateEndpoint(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GetShardedDatabase.go.html to see an example of how to use GetShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GetShardedDatabase.go.html to see an example of how to use GetShardedDatabase API.
 // A default retry strategy applies to this operation GetShardedDatabase()
 func (client ShardedDatabaseServiceClient) GetShardedDatabase(ctx context.Context, request GetShardedDatabaseRequest) (response GetShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1040,7 +1040,7 @@ func (client ShardedDatabaseServiceClient) getShardedDatabase(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ShardedDatabaseServiceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1098,7 +1098,7 @@ func (client ShardedDatabaseServiceClient) getWorkRequest(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpoints API.
 // A default retry strategy applies to this operation ListPrivateEndpoints()
 func (client ShardedDatabaseServiceClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1156,7 +1156,7 @@ func (client ShardedDatabaseServiceClient) listPrivateEndpoints(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListShardedDatabases.go.html to see an example of how to use ListShardedDatabases API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListShardedDatabases.go.html to see an example of how to use ListShardedDatabases API.
 // A default retry strategy applies to this operation ListShardedDatabases()
 func (client ShardedDatabaseServiceClient) ListShardedDatabases(ctx context.Context, request ListShardedDatabasesRequest) (response ListShardedDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1214,7 +1214,7 @@ func (client ShardedDatabaseServiceClient) listShardedDatabases(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ShardedDatabaseServiceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1272,7 +1272,7 @@ func (client ShardedDatabaseServiceClient) listWorkRequestErrors(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ShardedDatabaseServiceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1330,7 +1330,7 @@ func (client ShardedDatabaseServiceClient) listWorkRequestLogs(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ShardedDatabaseServiceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1390,7 +1390,7 @@ func (client ShardedDatabaseServiceClient) listWorkRequests(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/PatchShardedDatabase.go.html to see an example of how to use PatchShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/PatchShardedDatabase.go.html to see an example of how to use PatchShardedDatabase API.
 // A default retry strategy applies to this operation PatchShardedDatabase()
 func (client ShardedDatabaseServiceClient) PatchShardedDatabase(ctx context.Context, request PatchShardedDatabaseRequest) (response PatchShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1448,7 +1448,7 @@ func (client ShardedDatabaseServiceClient) patchShardedDatabase(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/PrevalidateShardedDatabase.go.html to see an example of how to use PrevalidateShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/PrevalidateShardedDatabase.go.html to see an example of how to use PrevalidateShardedDatabase API.
 // A default retry strategy applies to this operation PrevalidateShardedDatabase()
 func (client ShardedDatabaseServiceClient) PrevalidateShardedDatabase(ctx context.Context, request PrevalidateShardedDatabaseRequest) (response PrevalidateShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1511,7 +1511,7 @@ func (client ShardedDatabaseServiceClient) prevalidateShardedDatabase(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ReinstateProxyInstance.go.html to see an example of how to use ReinstateProxyInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ReinstateProxyInstance.go.html to see an example of how to use ReinstateProxyInstance API.
 // A default retry strategy applies to this operation ReinstateProxyInstance()
 func (client ShardedDatabaseServiceClient) ReinstateProxyInstance(ctx context.Context, request ReinstateProxyInstanceRequest) (response ReinstateProxyInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1574,7 +1574,7 @@ func (client ShardedDatabaseServiceClient) reinstateProxyInstance(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/StartShardedDatabase.go.html to see an example of how to use StartShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/StartShardedDatabase.go.html to see an example of how to use StartShardedDatabase API.
 // A default retry strategy applies to this operation StartShardedDatabase()
 func (client ShardedDatabaseServiceClient) StartShardedDatabase(ctx context.Context, request StartShardedDatabaseRequest) (response StartShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1637,7 +1637,7 @@ func (client ShardedDatabaseServiceClient) startShardedDatabase(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/StopShardedDatabase.go.html to see an example of how to use StopShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/StopShardedDatabase.go.html to see an example of how to use StopShardedDatabase API.
 // A default retry strategy applies to this operation StopShardedDatabase()
 func (client ShardedDatabaseServiceClient) StopShardedDatabase(ctx context.Context, request StopShardedDatabaseRequest) (response StopShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1700,7 +1700,7 @@ func (client ShardedDatabaseServiceClient) stopShardedDatabase(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpoint API.
 // A default retry strategy applies to this operation UpdatePrivateEndpoint()
 func (client ShardedDatabaseServiceClient) UpdatePrivateEndpoint(ctx context.Context, request UpdatePrivateEndpointRequest) (response UpdatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1763,7 +1763,7 @@ func (client ShardedDatabaseServiceClient) updatePrivateEndpoint(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UpdateShardedDatabase.go.html to see an example of how to use UpdateShardedDatabase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UpdateShardedDatabase.go.html to see an example of how to use UpdateShardedDatabase API.
 // A default retry strategy applies to this operation UpdateShardedDatabase()
 func (client ShardedDatabaseServiceClient) UpdateShardedDatabase(ctx context.Context, request UpdateShardedDatabaseRequest) (response UpdateShardedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1823,7 +1823,7 @@ func (client ShardedDatabaseServiceClient) updateShardedDatabase(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UploadSignedCertificateAndGenerateWallet.go.html to see an example of how to use UploadSignedCertificateAndGenerateWallet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UploadSignedCertificateAndGenerateWallet.go.html to see an example of how to use UploadSignedCertificateAndGenerateWallet API.
 // A default retry strategy applies to this operation UploadSignedCertificateAndGenerateWallet()
 func (client ShardedDatabaseServiceClient) UploadSignedCertificateAndGenerateWallet(ctx context.Context, request UploadSignedCertificateAndGenerateWalletRequest) (response UploadSignedCertificateAndGenerateWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1886,7 +1886,7 @@ func (client ShardedDatabaseServiceClient) uploadSignedCertificateAndGenerateWal
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ValidateNetwork.go.html to see an example of how to use ValidateNetwork API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ValidateNetwork.go.html to see an example of how to use ValidateNetwork API.
 // A default retry strategy applies to this operation ValidateNetwork()
 func (client ShardedDatabaseServiceClient) ValidateNetwork(ctx context.Context, request ValidateNetworkRequest) (response ValidateNetworkResponse, err error) {
 	var ociResponse common.OCIResponse

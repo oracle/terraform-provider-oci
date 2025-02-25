@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateNewsReport.go.html to see an example of how to use UpdateNewsReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateNewsReport.go.html to see an example of how to use UpdateNewsReportRequest.
 type UpdateNewsReportRequest struct {
 
 	// Unique news report identifier.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutGroup.go.html to see an example of how to use PutGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutGroup.go.html to see an example of how to use PutGroupRequest.
 type PutGroupRequest struct {
 
 	// ID of the resource

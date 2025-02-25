@@ -5,7 +5,7 @@
 // Media Services API
 //
 // Media Services (includes Media Flow and Media Streams) is a fully managed service for processing media (video) source content. Use Media Flow and Media Streams to transcode and package digital video using configurable workflows and stream video outputs.
-// Use the Media Services API to configure media workflows and run Media Flow jobs, create distribution channels, ingest assets, create Preview URLs and play assets. For more information, see Media Flow (https://docs.cloud.oracle.com/iaas/Content/dms-mediaflow/home.htm) and Media Streams (https://docs.cloud.oracle.com/iaas/Content/dms-mediastream/home.htm).
+// Use the Media Services API to configure media workflows and run Media Flow jobs, create distribution channels, ingest assets, create Preview URLs and play assets. For more information, see Media Flow (https://docs.oracle.com/iaas/Content/dms-mediaflow/home.htm) and Media Streams (https://docs.oracle.com/iaas/Content/dms-mediastream/home.htm).
 //
 
 package mediaservices
@@ -96,7 +96,7 @@ func (client *MediaServicesClient) ConfigurationProvider() *common.Configuration
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaAssetLock.go.html to see an example of how to use AddMediaAssetLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaAssetLock.go.html to see an example of how to use AddMediaAssetLock API.
 // A default retry strategy applies to this operation AddMediaAssetLock()
 func (client MediaServicesClient) AddMediaAssetLock(ctx context.Context, request AddMediaAssetLockRequest) (response AddMediaAssetLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,7 +159,7 @@ func (client MediaServicesClient) addMediaAssetLock(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowConfigurationLock.go.html to see an example of how to use AddMediaWorkflowConfigurationLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowConfigurationLock.go.html to see an example of how to use AddMediaWorkflowConfigurationLock API.
 // A default retry strategy applies to this operation AddMediaWorkflowConfigurationLock()
 func (client MediaServicesClient) AddMediaWorkflowConfigurationLock(ctx context.Context, request AddMediaWorkflowConfigurationLockRequest) (response AddMediaWorkflowConfigurationLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,7 +222,7 @@ func (client MediaServicesClient) addMediaWorkflowConfigurationLock(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowJobLock.go.html to see an example of how to use AddMediaWorkflowJobLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowJobLock.go.html to see an example of how to use AddMediaWorkflowJobLock API.
 // A default retry strategy applies to this operation AddMediaWorkflowJobLock()
 func (client MediaServicesClient) AddMediaWorkflowJobLock(ctx context.Context, request AddMediaWorkflowJobLockRequest) (response AddMediaWorkflowJobLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -285,7 +285,7 @@ func (client MediaServicesClient) addMediaWorkflowJobLock(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowLock.go.html to see an example of how to use AddMediaWorkflowLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowLock.go.html to see an example of how to use AddMediaWorkflowLock API.
 // A default retry strategy applies to this operation AddMediaWorkflowLock()
 func (client MediaServicesClient) AddMediaWorkflowLock(ctx context.Context, request AddMediaWorkflowLockRequest) (response AddMediaWorkflowLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -348,7 +348,7 @@ func (client MediaServicesClient) addMediaWorkflowLock(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamCdnConfigLock.go.html to see an example of how to use AddStreamCdnConfigLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamCdnConfigLock.go.html to see an example of how to use AddStreamCdnConfigLock API.
 // A default retry strategy applies to this operation AddStreamCdnConfigLock()
 func (client MediaServicesClient) AddStreamCdnConfigLock(ctx context.Context, request AddStreamCdnConfigLockRequest) (response AddStreamCdnConfigLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -411,7 +411,7 @@ func (client MediaServicesClient) addStreamCdnConfigLock(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamDistributionChannelLock.go.html to see an example of how to use AddStreamDistributionChannelLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamDistributionChannelLock.go.html to see an example of how to use AddStreamDistributionChannelLock API.
 // A default retry strategy applies to this operation AddStreamDistributionChannelLock()
 func (client MediaServicesClient) AddStreamDistributionChannelLock(ctx context.Context, request AddStreamDistributionChannelLockRequest) (response AddStreamDistributionChannelLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -474,7 +474,7 @@ func (client MediaServicesClient) addStreamDistributionChannelLock(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamPackagingConfigLock.go.html to see an example of how to use AddStreamPackagingConfigLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamPackagingConfigLock.go.html to see an example of how to use AddStreamPackagingConfigLock API.
 // A default retry strategy applies to this operation AddStreamPackagingConfigLock()
 func (client MediaServicesClient) AddStreamPackagingConfigLock(ctx context.Context, request AddStreamPackagingConfigLockRequest) (response AddStreamPackagingConfigLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -537,7 +537,7 @@ func (client MediaServicesClient) addStreamPackagingConfigLock(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaAssetCompartment.go.html to see an example of how to use ChangeMediaAssetCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaAssetCompartment.go.html to see an example of how to use ChangeMediaAssetCompartment API.
 // A default retry strategy applies to this operation ChangeMediaAssetCompartment()
 func (client MediaServicesClient) ChangeMediaAssetCompartment(ctx context.Context, request ChangeMediaAssetCompartmentRequest) (response ChangeMediaAssetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -600,7 +600,7 @@ func (client MediaServicesClient) changeMediaAssetCompartment(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowCompartment.go.html to see an example of how to use ChangeMediaWorkflowCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowCompartment.go.html to see an example of how to use ChangeMediaWorkflowCompartment API.
 // A default retry strategy applies to this operation ChangeMediaWorkflowCompartment()
 func (client MediaServicesClient) ChangeMediaWorkflowCompartment(ctx context.Context, request ChangeMediaWorkflowCompartmentRequest) (response ChangeMediaWorkflowCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -663,7 +663,7 @@ func (client MediaServicesClient) changeMediaWorkflowCompartment(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowConfigurationCompartment.go.html to see an example of how to use ChangeMediaWorkflowConfigurationCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowConfigurationCompartment.go.html to see an example of how to use ChangeMediaWorkflowConfigurationCompartment API.
 // A default retry strategy applies to this operation ChangeMediaWorkflowConfigurationCompartment()
 func (client MediaServicesClient) ChangeMediaWorkflowConfigurationCompartment(ctx context.Context, request ChangeMediaWorkflowConfigurationCompartmentRequest) (response ChangeMediaWorkflowConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -726,7 +726,7 @@ func (client MediaServicesClient) changeMediaWorkflowConfigurationCompartment(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowJobCompartment.go.html to see an example of how to use ChangeMediaWorkflowJobCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowJobCompartment.go.html to see an example of how to use ChangeMediaWorkflowJobCompartment API.
 // A default retry strategy applies to this operation ChangeMediaWorkflowJobCompartment()
 func (client MediaServicesClient) ChangeMediaWorkflowJobCompartment(ctx context.Context, request ChangeMediaWorkflowJobCompartmentRequest) (response ChangeMediaWorkflowJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -789,7 +789,7 @@ func (client MediaServicesClient) changeMediaWorkflowJobCompartment(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeStreamDistributionChannelCompartment.go.html to see an example of how to use ChangeStreamDistributionChannelCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeStreamDistributionChannelCompartment.go.html to see an example of how to use ChangeStreamDistributionChannelCompartment API.
 // A default retry strategy applies to this operation ChangeStreamDistributionChannelCompartment()
 func (client MediaServicesClient) ChangeStreamDistributionChannelCompartment(ctx context.Context, request ChangeStreamDistributionChannelCompartmentRequest) (response ChangeStreamDistributionChannelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -852,7 +852,7 @@ func (client MediaServicesClient) changeStreamDistributionChannelCompartment(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaAsset.go.html to see an example of how to use CreateMediaAsset API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaAsset.go.html to see an example of how to use CreateMediaAsset API.
 // A default retry strategy applies to this operation CreateMediaAsset()
 func (client MediaServicesClient) CreateMediaAsset(ctx context.Context, request CreateMediaAssetRequest) (response CreateMediaAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -915,7 +915,7 @@ func (client MediaServicesClient) createMediaAsset(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflow.go.html to see an example of how to use CreateMediaWorkflow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflow.go.html to see an example of how to use CreateMediaWorkflow API.
 // A default retry strategy applies to this operation CreateMediaWorkflow()
 func (client MediaServicesClient) CreateMediaWorkflow(ctx context.Context, request CreateMediaWorkflowRequest) (response CreateMediaWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -978,7 +978,7 @@ func (client MediaServicesClient) createMediaWorkflow(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflowConfiguration.go.html to see an example of how to use CreateMediaWorkflowConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflowConfiguration.go.html to see an example of how to use CreateMediaWorkflowConfiguration API.
 // A default retry strategy applies to this operation CreateMediaWorkflowConfiguration()
 func (client MediaServicesClient) CreateMediaWorkflowConfiguration(ctx context.Context, request CreateMediaWorkflowConfigurationRequest) (response CreateMediaWorkflowConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1041,7 +1041,7 @@ func (client MediaServicesClient) createMediaWorkflowConfiguration(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflowJob.go.html to see an example of how to use CreateMediaWorkflowJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflowJob.go.html to see an example of how to use CreateMediaWorkflowJob API.
 // A default retry strategy applies to this operation CreateMediaWorkflowJob()
 func (client MediaServicesClient) CreateMediaWorkflowJob(ctx context.Context, request CreateMediaWorkflowJobRequest) (response CreateMediaWorkflowJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1104,7 +1104,7 @@ func (client MediaServicesClient) createMediaWorkflowJob(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamCdnConfig.go.html to see an example of how to use CreateStreamCdnConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamCdnConfig.go.html to see an example of how to use CreateStreamCdnConfig API.
 // A default retry strategy applies to this operation CreateStreamCdnConfig()
 func (client MediaServicesClient) CreateStreamCdnConfig(ctx context.Context, request CreateStreamCdnConfigRequest) (response CreateStreamCdnConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1167,7 +1167,7 @@ func (client MediaServicesClient) createStreamCdnConfig(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamDistributionChannel.go.html to see an example of how to use CreateStreamDistributionChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamDistributionChannel.go.html to see an example of how to use CreateStreamDistributionChannel API.
 // A default retry strategy applies to this operation CreateStreamDistributionChannel()
 func (client MediaServicesClient) CreateStreamDistributionChannel(ctx context.Context, request CreateStreamDistributionChannelRequest) (response CreateStreamDistributionChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1230,7 +1230,7 @@ func (client MediaServicesClient) createStreamDistributionChannel(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamPackagingConfig.go.html to see an example of how to use CreateStreamPackagingConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamPackagingConfig.go.html to see an example of how to use CreateStreamPackagingConfig API.
 // A default retry strategy applies to this operation CreateStreamPackagingConfig()
 func (client MediaServicesClient) CreateStreamPackagingConfig(ctx context.Context, request CreateStreamPackagingConfigRequest) (response CreateStreamPackagingConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1293,7 +1293,7 @@ func (client MediaServicesClient) createStreamPackagingConfig(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaAsset.go.html to see an example of how to use DeleteMediaAsset API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaAsset.go.html to see an example of how to use DeleteMediaAsset API.
 // A default retry strategy applies to this operation DeleteMediaAsset()
 func (client MediaServicesClient) DeleteMediaAsset(ctx context.Context, request DeleteMediaAssetRequest) (response DeleteMediaAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1351,7 +1351,7 @@ func (client MediaServicesClient) deleteMediaAsset(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaAssetDistributionChannelAttachment.go.html to see an example of how to use DeleteMediaAssetDistributionChannelAttachment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaAssetDistributionChannelAttachment.go.html to see an example of how to use DeleteMediaAssetDistributionChannelAttachment API.
 // A default retry strategy applies to this operation DeleteMediaAssetDistributionChannelAttachment()
 func (client MediaServicesClient) DeleteMediaAssetDistributionChannelAttachment(ctx context.Context, request DeleteMediaAssetDistributionChannelAttachmentRequest) (response DeleteMediaAssetDistributionChannelAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1409,7 +1409,7 @@ func (client MediaServicesClient) deleteMediaAssetDistributionChannelAttachment(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflow.go.html to see an example of how to use DeleteMediaWorkflow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflow.go.html to see an example of how to use DeleteMediaWorkflow API.
 // A default retry strategy applies to this operation DeleteMediaWorkflow()
 func (client MediaServicesClient) DeleteMediaWorkflow(ctx context.Context, request DeleteMediaWorkflowRequest) (response DeleteMediaWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1467,7 +1467,7 @@ func (client MediaServicesClient) deleteMediaWorkflow(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflowConfiguration.go.html to see an example of how to use DeleteMediaWorkflowConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflowConfiguration.go.html to see an example of how to use DeleteMediaWorkflowConfiguration API.
 // A default retry strategy applies to this operation DeleteMediaWorkflowConfiguration()
 func (client MediaServicesClient) DeleteMediaWorkflowConfiguration(ctx context.Context, request DeleteMediaWorkflowConfigurationRequest) (response DeleteMediaWorkflowConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1525,7 +1525,7 @@ func (client MediaServicesClient) deleteMediaWorkflowConfiguration(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflowJob.go.html to see an example of how to use DeleteMediaWorkflowJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflowJob.go.html to see an example of how to use DeleteMediaWorkflowJob API.
 // A default retry strategy applies to this operation DeleteMediaWorkflowJob()
 func (client MediaServicesClient) DeleteMediaWorkflowJob(ctx context.Context, request DeleteMediaWorkflowJobRequest) (response DeleteMediaWorkflowJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1583,7 +1583,7 @@ func (client MediaServicesClient) deleteMediaWorkflowJob(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamCdnConfig.go.html to see an example of how to use DeleteStreamCdnConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamCdnConfig.go.html to see an example of how to use DeleteStreamCdnConfig API.
 // A default retry strategy applies to this operation DeleteStreamCdnConfig()
 func (client MediaServicesClient) DeleteStreamCdnConfig(ctx context.Context, request DeleteStreamCdnConfigRequest) (response DeleteStreamCdnConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1641,7 +1641,7 @@ func (client MediaServicesClient) deleteStreamCdnConfig(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamDistributionChannel.go.html to see an example of how to use DeleteStreamDistributionChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamDistributionChannel.go.html to see an example of how to use DeleteStreamDistributionChannel API.
 // A default retry strategy applies to this operation DeleteStreamDistributionChannel()
 func (client MediaServicesClient) DeleteStreamDistributionChannel(ctx context.Context, request DeleteStreamDistributionChannelRequest) (response DeleteStreamDistributionChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1699,7 +1699,7 @@ func (client MediaServicesClient) deleteStreamDistributionChannel(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamPackagingConfig.go.html to see an example of how to use DeleteStreamPackagingConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamPackagingConfig.go.html to see an example of how to use DeleteStreamPackagingConfig API.
 // A default retry strategy applies to this operation DeleteStreamPackagingConfig()
 func (client MediaServicesClient) DeleteStreamPackagingConfig(ctx context.Context, request DeleteStreamPackagingConfigRequest) (response DeleteStreamPackagingConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1757,7 +1757,7 @@ func (client MediaServicesClient) deleteStreamPackagingConfig(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAsset.go.html to see an example of how to use GetMediaAsset API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAsset.go.html to see an example of how to use GetMediaAsset API.
 // A default retry strategy applies to this operation GetMediaAsset()
 func (client MediaServicesClient) GetMediaAsset(ctx context.Context, request GetMediaAssetRequest) (response GetMediaAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1815,7 +1815,7 @@ func (client MediaServicesClient) getMediaAsset(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAssetDistributionChannelAttachment.go.html to see an example of how to use GetMediaAssetDistributionChannelAttachment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAssetDistributionChannelAttachment.go.html to see an example of how to use GetMediaAssetDistributionChannelAttachment API.
 // A default retry strategy applies to this operation GetMediaAssetDistributionChannelAttachment()
 func (client MediaServicesClient) GetMediaAssetDistributionChannelAttachment(ctx context.Context, request GetMediaAssetDistributionChannelAttachmentRequest) (response GetMediaAssetDistributionChannelAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1873,7 +1873,7 @@ func (client MediaServicesClient) getMediaAssetDistributionChannelAttachment(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflow.go.html to see an example of how to use GetMediaWorkflow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflow.go.html to see an example of how to use GetMediaWorkflow API.
 // A default retry strategy applies to this operation GetMediaWorkflow()
 func (client MediaServicesClient) GetMediaWorkflow(ctx context.Context, request GetMediaWorkflowRequest) (response GetMediaWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1931,7 +1931,7 @@ func (client MediaServicesClient) getMediaWorkflow(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflowConfiguration.go.html to see an example of how to use GetMediaWorkflowConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflowConfiguration.go.html to see an example of how to use GetMediaWorkflowConfiguration API.
 // A default retry strategy applies to this operation GetMediaWorkflowConfiguration()
 func (client MediaServicesClient) GetMediaWorkflowConfiguration(ctx context.Context, request GetMediaWorkflowConfigurationRequest) (response GetMediaWorkflowConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1989,7 +1989,7 @@ func (client MediaServicesClient) getMediaWorkflowConfiguration(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflowJob.go.html to see an example of how to use GetMediaWorkflowJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflowJob.go.html to see an example of how to use GetMediaWorkflowJob API.
 // A default retry strategy applies to this operation GetMediaWorkflowJob()
 func (client MediaServicesClient) GetMediaWorkflowJob(ctx context.Context, request GetMediaWorkflowJobRequest) (response GetMediaWorkflowJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2047,7 +2047,7 @@ func (client MediaServicesClient) getMediaWorkflowJob(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamCdnConfig.go.html to see an example of how to use GetStreamCdnConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamCdnConfig.go.html to see an example of how to use GetStreamCdnConfig API.
 // A default retry strategy applies to this operation GetStreamCdnConfig()
 func (client MediaServicesClient) GetStreamCdnConfig(ctx context.Context, request GetStreamCdnConfigRequest) (response GetStreamCdnConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2105,7 +2105,7 @@ func (client MediaServicesClient) getStreamCdnConfig(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamDistributionChannel.go.html to see an example of how to use GetStreamDistributionChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamDistributionChannel.go.html to see an example of how to use GetStreamDistributionChannel API.
 // A default retry strategy applies to this operation GetStreamDistributionChannel()
 func (client MediaServicesClient) GetStreamDistributionChannel(ctx context.Context, request GetStreamDistributionChannelRequest) (response GetStreamDistributionChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2163,7 +2163,7 @@ func (client MediaServicesClient) getStreamDistributionChannel(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamPackagingConfig.go.html to see an example of how to use GetStreamPackagingConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamPackagingConfig.go.html to see an example of how to use GetStreamPackagingConfig API.
 // A default retry strategy applies to this operation GetStreamPackagingConfig()
 func (client MediaServicesClient) GetStreamPackagingConfig(ctx context.Context, request GetStreamPackagingConfigRequest) (response GetStreamPackagingConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2221,7 +2221,7 @@ func (client MediaServicesClient) getStreamPackagingConfig(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/IngestStreamDistributionChannel.go.html to see an example of how to use IngestStreamDistributionChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/IngestStreamDistributionChannel.go.html to see an example of how to use IngestStreamDistributionChannel API.
 // A default retry strategy applies to this operation IngestStreamDistributionChannel()
 func (client MediaServicesClient) IngestStreamDistributionChannel(ctx context.Context, request IngestStreamDistributionChannelRequest) (response IngestStreamDistributionChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2284,7 +2284,7 @@ func (client MediaServicesClient) ingestStreamDistributionChannel(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaAssetDistributionChannelAttachments.go.html to see an example of how to use ListMediaAssetDistributionChannelAttachments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaAssetDistributionChannelAttachments.go.html to see an example of how to use ListMediaAssetDistributionChannelAttachments API.
 // A default retry strategy applies to this operation ListMediaAssetDistributionChannelAttachments()
 func (client MediaServicesClient) ListMediaAssetDistributionChannelAttachments(ctx context.Context, request ListMediaAssetDistributionChannelAttachmentsRequest) (response ListMediaAssetDistributionChannelAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2342,7 +2342,7 @@ func (client MediaServicesClient) listMediaAssetDistributionChannelAttachments(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaAssets.go.html to see an example of how to use ListMediaAssets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaAssets.go.html to see an example of how to use ListMediaAssets API.
 // A default retry strategy applies to this operation ListMediaAssets()
 func (client MediaServicesClient) ListMediaAssets(ctx context.Context, request ListMediaAssetsRequest) (response ListMediaAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2400,7 +2400,7 @@ func (client MediaServicesClient) listMediaAssets(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowConfigurations.go.html to see an example of how to use ListMediaWorkflowConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowConfigurations.go.html to see an example of how to use ListMediaWorkflowConfigurations API.
 // A default retry strategy applies to this operation ListMediaWorkflowConfigurations()
 func (client MediaServicesClient) ListMediaWorkflowConfigurations(ctx context.Context, request ListMediaWorkflowConfigurationsRequest) (response ListMediaWorkflowConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2458,7 +2458,7 @@ func (client MediaServicesClient) listMediaWorkflowConfigurations(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowJobs.go.html to see an example of how to use ListMediaWorkflowJobs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowJobs.go.html to see an example of how to use ListMediaWorkflowJobs API.
 // A default retry strategy applies to this operation ListMediaWorkflowJobs()
 func (client MediaServicesClient) ListMediaWorkflowJobs(ctx context.Context, request ListMediaWorkflowJobsRequest) (response ListMediaWorkflowJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2516,7 +2516,7 @@ func (client MediaServicesClient) listMediaWorkflowJobs(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowTaskDeclarations.go.html to see an example of how to use ListMediaWorkflowTaskDeclarations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowTaskDeclarations.go.html to see an example of how to use ListMediaWorkflowTaskDeclarations API.
 // A default retry strategy applies to this operation ListMediaWorkflowTaskDeclarations()
 func (client MediaServicesClient) ListMediaWorkflowTaskDeclarations(ctx context.Context, request ListMediaWorkflowTaskDeclarationsRequest) (response ListMediaWorkflowTaskDeclarationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2574,7 +2574,7 @@ func (client MediaServicesClient) listMediaWorkflowTaskDeclarations(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflows.go.html to see an example of how to use ListMediaWorkflows API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflows.go.html to see an example of how to use ListMediaWorkflows API.
 // A default retry strategy applies to this operation ListMediaWorkflows()
 func (client MediaServicesClient) ListMediaWorkflows(ctx context.Context, request ListMediaWorkflowsRequest) (response ListMediaWorkflowsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2632,7 +2632,7 @@ func (client MediaServicesClient) listMediaWorkflows(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamCdnConfigs.go.html to see an example of how to use ListStreamCdnConfigs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamCdnConfigs.go.html to see an example of how to use ListStreamCdnConfigs API.
 // A default retry strategy applies to this operation ListStreamCdnConfigs()
 func (client MediaServicesClient) ListStreamCdnConfigs(ctx context.Context, request ListStreamCdnConfigsRequest) (response ListStreamCdnConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2690,7 +2690,7 @@ func (client MediaServicesClient) listStreamCdnConfigs(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamDistributionChannels.go.html to see an example of how to use ListStreamDistributionChannels API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamDistributionChannels.go.html to see an example of how to use ListStreamDistributionChannels API.
 // A default retry strategy applies to this operation ListStreamDistributionChannels()
 func (client MediaServicesClient) ListStreamDistributionChannels(ctx context.Context, request ListStreamDistributionChannelsRequest) (response ListStreamDistributionChannelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2748,7 +2748,7 @@ func (client MediaServicesClient) listStreamDistributionChannels(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamPackagingConfigs.go.html to see an example of how to use ListStreamPackagingConfigs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamPackagingConfigs.go.html to see an example of how to use ListStreamPackagingConfigs API.
 // A default retry strategy applies to this operation ListStreamPackagingConfigs()
 func (client MediaServicesClient) ListStreamPackagingConfigs(ctx context.Context, request ListStreamPackagingConfigsRequest) (response ListStreamPackagingConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2806,7 +2806,7 @@ func (client MediaServicesClient) listStreamPackagingConfigs(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListSystemMediaWorkflows.go.html to see an example of how to use ListSystemMediaWorkflows API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListSystemMediaWorkflows.go.html to see an example of how to use ListSystemMediaWorkflows API.
 // A default retry strategy applies to this operation ListSystemMediaWorkflows()
 func (client MediaServicesClient) ListSystemMediaWorkflows(ctx context.Context, request ListSystemMediaWorkflowsRequest) (response ListSystemMediaWorkflowsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2864,7 +2864,7 @@ func (client MediaServicesClient) listSystemMediaWorkflows(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaAssetLock.go.html to see an example of how to use RemoveMediaAssetLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaAssetLock.go.html to see an example of how to use RemoveMediaAssetLock API.
 // A default retry strategy applies to this operation RemoveMediaAssetLock()
 func (client MediaServicesClient) RemoveMediaAssetLock(ctx context.Context, request RemoveMediaAssetLockRequest) (response RemoveMediaAssetLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2927,7 +2927,7 @@ func (client MediaServicesClient) removeMediaAssetLock(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowConfigurationLock.go.html to see an example of how to use RemoveMediaWorkflowConfigurationLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowConfigurationLock.go.html to see an example of how to use RemoveMediaWorkflowConfigurationLock API.
 // A default retry strategy applies to this operation RemoveMediaWorkflowConfigurationLock()
 func (client MediaServicesClient) RemoveMediaWorkflowConfigurationLock(ctx context.Context, request RemoveMediaWorkflowConfigurationLockRequest) (response RemoveMediaWorkflowConfigurationLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2990,7 +2990,7 @@ func (client MediaServicesClient) removeMediaWorkflowConfigurationLock(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowJobLock.go.html to see an example of how to use RemoveMediaWorkflowJobLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowJobLock.go.html to see an example of how to use RemoveMediaWorkflowJobLock API.
 // A default retry strategy applies to this operation RemoveMediaWorkflowJobLock()
 func (client MediaServicesClient) RemoveMediaWorkflowJobLock(ctx context.Context, request RemoveMediaWorkflowJobLockRequest) (response RemoveMediaWorkflowJobLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3053,7 +3053,7 @@ func (client MediaServicesClient) removeMediaWorkflowJobLock(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowLock.go.html to see an example of how to use RemoveMediaWorkflowLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowLock.go.html to see an example of how to use RemoveMediaWorkflowLock API.
 // A default retry strategy applies to this operation RemoveMediaWorkflowLock()
 func (client MediaServicesClient) RemoveMediaWorkflowLock(ctx context.Context, request RemoveMediaWorkflowLockRequest) (response RemoveMediaWorkflowLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3116,7 +3116,7 @@ func (client MediaServicesClient) removeMediaWorkflowLock(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamCdnConfigLock.go.html to see an example of how to use RemoveStreamCdnConfigLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamCdnConfigLock.go.html to see an example of how to use RemoveStreamCdnConfigLock API.
 // A default retry strategy applies to this operation RemoveStreamCdnConfigLock()
 func (client MediaServicesClient) RemoveStreamCdnConfigLock(ctx context.Context, request RemoveStreamCdnConfigLockRequest) (response RemoveStreamCdnConfigLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3179,7 +3179,7 @@ func (client MediaServicesClient) removeStreamCdnConfigLock(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamDistributionChannelLock.go.html to see an example of how to use RemoveStreamDistributionChannelLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamDistributionChannelLock.go.html to see an example of how to use RemoveStreamDistributionChannelLock API.
 // A default retry strategy applies to this operation RemoveStreamDistributionChannelLock()
 func (client MediaServicesClient) RemoveStreamDistributionChannelLock(ctx context.Context, request RemoveStreamDistributionChannelLockRequest) (response RemoveStreamDistributionChannelLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3242,7 +3242,7 @@ func (client MediaServicesClient) removeStreamDistributionChannelLock(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamPackagingConfigLock.go.html to see an example of how to use RemoveStreamPackagingConfigLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamPackagingConfigLock.go.html to see an example of how to use RemoveStreamPackagingConfigLock API.
 // A default retry strategy applies to this operation RemoveStreamPackagingConfigLock()
 func (client MediaServicesClient) RemoveStreamPackagingConfigLock(ctx context.Context, request RemoveStreamPackagingConfigLockRequest) (response RemoveStreamPackagingConfigLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3305,7 +3305,7 @@ func (client MediaServicesClient) removeStreamPackagingConfigLock(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaAsset.go.html to see an example of how to use UpdateMediaAsset API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaAsset.go.html to see an example of how to use UpdateMediaAsset API.
 // A default retry strategy applies to this operation UpdateMediaAsset()
 func (client MediaServicesClient) UpdateMediaAsset(ctx context.Context, request UpdateMediaAssetRequest) (response UpdateMediaAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3363,7 +3363,7 @@ func (client MediaServicesClient) updateMediaAsset(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflow.go.html to see an example of how to use UpdateMediaWorkflow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflow.go.html to see an example of how to use UpdateMediaWorkflow API.
 // A default retry strategy applies to this operation UpdateMediaWorkflow()
 func (client MediaServicesClient) UpdateMediaWorkflow(ctx context.Context, request UpdateMediaWorkflowRequest) (response UpdateMediaWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3421,7 +3421,7 @@ func (client MediaServicesClient) updateMediaWorkflow(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflowConfiguration.go.html to see an example of how to use UpdateMediaWorkflowConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflowConfiguration.go.html to see an example of how to use UpdateMediaWorkflowConfiguration API.
 // A default retry strategy applies to this operation UpdateMediaWorkflowConfiguration()
 func (client MediaServicesClient) UpdateMediaWorkflowConfiguration(ctx context.Context, request UpdateMediaWorkflowConfigurationRequest) (response UpdateMediaWorkflowConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3479,7 +3479,7 @@ func (client MediaServicesClient) updateMediaWorkflowConfiguration(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflowJob.go.html to see an example of how to use UpdateMediaWorkflowJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflowJob.go.html to see an example of how to use UpdateMediaWorkflowJob API.
 // A default retry strategy applies to this operation UpdateMediaWorkflowJob()
 func (client MediaServicesClient) UpdateMediaWorkflowJob(ctx context.Context, request UpdateMediaWorkflowJobRequest) (response UpdateMediaWorkflowJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3537,7 +3537,7 @@ func (client MediaServicesClient) updateMediaWorkflowJob(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamCdnConfig.go.html to see an example of how to use UpdateStreamCdnConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamCdnConfig.go.html to see an example of how to use UpdateStreamCdnConfig API.
 // A default retry strategy applies to this operation UpdateStreamCdnConfig()
 func (client MediaServicesClient) UpdateStreamCdnConfig(ctx context.Context, request UpdateStreamCdnConfigRequest) (response UpdateStreamCdnConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3595,7 +3595,7 @@ func (client MediaServicesClient) updateStreamCdnConfig(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamDistributionChannel.go.html to see an example of how to use UpdateStreamDistributionChannel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamDistributionChannel.go.html to see an example of how to use UpdateStreamDistributionChannel API.
 // A default retry strategy applies to this operation UpdateStreamDistributionChannel()
 func (client MediaServicesClient) UpdateStreamDistributionChannel(ctx context.Context, request UpdateStreamDistributionChannelRequest) (response UpdateStreamDistributionChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3653,7 +3653,7 @@ func (client MediaServicesClient) updateStreamDistributionChannel(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamPackagingConfig.go.html to see an example of how to use UpdateStreamPackagingConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamPackagingConfig.go.html to see an example of how to use UpdateStreamPackagingConfig API.
 // A default retry strategy applies to this operation UpdateStreamPackagingConfig()
 func (client MediaServicesClient) UpdateStreamPackagingConfig(ctx context.Context, request UpdateStreamPackagingConfigRequest) (response UpdateStreamPackagingConfigResponse, err error) {
 	var ociResponse common.OCIResponse

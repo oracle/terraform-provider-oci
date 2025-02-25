@@ -27,7 +27,7 @@ type WorkRequestResource struct {
 	// or DELETED, respectively.
 	ActionType ActionTypeEnum `mandatory:"true" json:"actionType"`
 
-	// An OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) or other unique identifier of the resource affected by the work request.
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or other unique identifier of the resource affected by the work request.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The URI path that the user can perform a GET operation to access the resource metadata.

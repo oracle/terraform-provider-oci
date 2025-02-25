@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/BulkApplyRecommendations.go.html to see an example of how to use BulkApplyRecommendationsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/BulkApplyRecommendations.go.html to see an example of how to use BulkApplyRecommendationsRequest.
 type BulkApplyRecommendationsRequest struct {
 
 	// The unique OCID associated with the recommendation.

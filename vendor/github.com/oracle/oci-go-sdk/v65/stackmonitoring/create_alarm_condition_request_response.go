@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateAlarmCondition.go.html to see an example of how to use CreateAlarmConditionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateAlarmCondition.go.html to see an example of how to use CreateAlarmConditionRequest.
 type CreateAlarmConditionRequest struct {
 
 	// Details required for creating a new alarm condition
 	CreateAlarmConditionDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" contributesTo:"path" name:"monitoringTemplateId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

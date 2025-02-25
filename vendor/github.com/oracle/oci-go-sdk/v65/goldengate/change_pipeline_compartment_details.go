@@ -18,7 +18,7 @@ import (
 // ChangePipelineCompartmentDetails The new compartment for a Pipeline.
 type ChangePipelineCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

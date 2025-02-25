@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaDownloadToken.go.html to see an example of how to use UpdateJavaDownloadTokenRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaDownloadToken.go.html to see an example of how to use UpdateJavaDownloadTokenRequest.
 type UpdateJavaDownloadTokenRequest struct {
 
 	// Unique JavaDownloadToken identifier.

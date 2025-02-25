@@ -59,7 +59,7 @@ func (m *password) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Password: %s.", m.PasswordType)
+		common.Logf("Received unsupported enum value for Password: %s.", m.PasswordType)
 		return *m, nil
 	}
 }

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomer.go.html to see an example of how to use UpdateOccCustomerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomer.go.html to see an example of how to use UpdateOccCustomerRequest.
 type UpdateOccCustomerRequest struct {
 
 	// Request to update the properties of the customer group.

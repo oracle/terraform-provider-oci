@@ -65,7 +65,7 @@ type CreateContainerDetails struct {
 	ResourceConfig *CreateContainerResourceConfigDetails `mandatory:"false" json:"resourceConfig"`
 
 	// list of container health checks to check container status and take appropriate action if container status is failed.
-	// There are three types of health checks that we currently support HTTP, TCP, and Command.
+	// There are two types of health checks that we currently support HTTP and TCP.
 	HealthChecks []CreateContainerHealthCheckDetails `mandatory:"false" json:"healthChecks"`
 
 	SecurityContext CreateSecurityContextDetails `mandatory:"false" json:"securityContext"`

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateEkmsPrivateEndpoint.go.html to see an example of how to use UpdateEkmsPrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateEkmsPrivateEndpoint.go.html to see an example of how to use UpdateEkmsPrivateEndpointRequest.
 type UpdateEkmsPrivateEndpointRequest struct {
 
 	// Unique EKMS private endpoint identifier.

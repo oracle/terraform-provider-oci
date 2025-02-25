@@ -18,7 +18,7 @@ import (
 // ChangeDataSciencePrivateEndpointCompartmentDetails The details required to change a private endpoint compartment.
 type ChangeDataSciencePrivateEndpointCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResourceProfile.go.html to see an example of how to use GetResourceProfileRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResourceProfile.go.html to see an example of how to use GetResourceProfileRequest.
 type GetResourceProfileRequest struct {
 
 	// OCID of the resource profile.

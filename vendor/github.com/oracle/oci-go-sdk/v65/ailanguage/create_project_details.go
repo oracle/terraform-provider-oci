@@ -20,7 +20,7 @@ import (
 // CreateProjectDetails Parameters needed to create a new project. Projects enable users to organise their language work.
 type CreateProjectDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the project's compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the project's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.

@@ -27,7 +27,7 @@ type StorageWorkRequestSummary struct {
 	// This is the type of the work request.
 	OperationType StorageOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// When the work request started.

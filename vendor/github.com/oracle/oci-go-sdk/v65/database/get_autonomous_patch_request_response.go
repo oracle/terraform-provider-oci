@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousPatch.go.html to see an example of how to use GetAutonomousPatchRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousPatch.go.html to see an example of how to use GetAutonomousPatchRequest.
 type GetAutonomousPatchRequest struct {
 
-	// The autonomous patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The autonomous patch OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousPatchId *string `mandatory:"true" contributesTo:"path" name:"autonomousPatchId"`
 
 	// Unique Oracle-assigned identifier for the request.

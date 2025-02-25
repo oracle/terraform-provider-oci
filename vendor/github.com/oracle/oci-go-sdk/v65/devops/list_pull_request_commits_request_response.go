@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPullRequestCommits.go.html to see an example of how to use ListPullRequestCommitsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPullRequestCommits.go.html to see an example of how to use ListPullRequestCommitsRequest.
 type ListPullRequestCommitsRequest struct {
 
 	// unique PullRequest identifier

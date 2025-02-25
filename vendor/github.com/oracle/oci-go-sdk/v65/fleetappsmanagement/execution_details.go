@@ -59,7 +59,7 @@ func (m *executiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ExecutionDetails: %s.", m.ExecutionType)
+		common.Logf("Received unsupported enum value for ExecutionDetails: %s.", m.ExecutionType)
 		return *m, nil
 	}
 }

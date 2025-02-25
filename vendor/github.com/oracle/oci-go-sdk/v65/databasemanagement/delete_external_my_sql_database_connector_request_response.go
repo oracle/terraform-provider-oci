@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalMySqlDatabaseConnector.go.html to see an example of how to use DeleteExternalMySqlDatabaseConnectorRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalMySqlDatabaseConnector.go.html to see an example of how to use DeleteExternalMySqlDatabaseConnectorRequest.
 type DeleteExternalMySqlDatabaseConnectorRequest struct {
 
 	// The OCID of the External MySQL Database Connector.

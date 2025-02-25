@@ -16,7 +16,7 @@ import (
 )
 
 // OpensearchCluster An OpenSearch cluster resource. An OpenSearch cluster is set of instances that provide OpenSearch functionality in OCI Search Service with OpenSearch.
-// For more information, see About Search Service with OpenSearch (https://docs.cloud.oracle.com/iaas/Content/search-opensearch/Concepts/ociopensearch.htm).
+// For more information, see About Search Service with OpenSearch (https://docs.oracle.com/iaas/Content/search-opensearch/Concepts/ociopensearch.htm).
 type OpensearchCluster struct {
 
 	// The OCID of the cluster.

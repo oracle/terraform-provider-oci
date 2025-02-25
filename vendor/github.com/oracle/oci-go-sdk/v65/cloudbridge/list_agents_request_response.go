@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAgents.go.html to see an example of how to use ListAgentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAgents.go.html to see an example of how to use ListAgentsRequest.
 type ListAgentsRequest struct {
 
 	// The ID of the compartment in which to list resources.

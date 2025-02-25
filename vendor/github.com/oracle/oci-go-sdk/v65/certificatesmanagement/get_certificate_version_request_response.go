@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateVersion.go.html to see an example of how to use GetCertificateVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateVersion.go.html to see an example of how to use GetCertificateVersionRequest.
 type GetCertificateVersionRequest struct {
 
 	// The OCID of the certificate.

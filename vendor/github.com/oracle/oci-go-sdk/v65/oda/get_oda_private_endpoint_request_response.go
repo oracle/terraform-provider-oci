@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpoint.go.html to see an example of how to use GetOdaPrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpoint.go.html to see an example of how to use GetOdaPrivateEndpointRequest.
 type GetOdaPrivateEndpointRequest struct {
 
-	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OdaPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"odaPrivateEndpointId"`
 
 	// The client request ID for tracing. This value is included in the opc-request-id response header.

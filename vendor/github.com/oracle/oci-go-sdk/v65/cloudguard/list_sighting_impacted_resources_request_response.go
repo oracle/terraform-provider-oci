@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSightingImpactedResources.go.html to see an example of how to use ListSightingImpactedResourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSightingImpactedResources.go.html to see an example of how to use ListSightingImpactedResourcesRequest.
 type ListSightingImpactedResourcesRequest struct {
 
 	// OCID of the sighting.

@@ -5,8 +5,8 @@
 // Object Storage Service API
 //
 // Use Object Storage and Archive Storage APIs to manage buckets, objects, and related resources.
-// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
-// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
+// For more information, see Overview of Object Storage (https://docs.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -29,7 +29,7 @@ type WorkRequestSummary struct {
 	// The id of the work request.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work
 	// requests are scoped to the same compartment as the resource the work request affects.
 	// If the work request affects multiple resources and those resources are not in the same compartment, the OCID of
 	// the primary resource is used. For example, you can copy an object in a bucket in one compartment to a bucket in

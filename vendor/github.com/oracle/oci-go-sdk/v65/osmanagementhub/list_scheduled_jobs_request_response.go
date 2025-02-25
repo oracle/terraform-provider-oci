@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListScheduledJobs.go.html to see an example of how to use ListScheduledJobsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListScheduledJobs.go.html to see an example of how to use ListScheduledJobsRequest.
 type ListScheduledJobsRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
@@ -30,16 +30,16 @@ type ListScheduledJobsRequest struct {
 	// A filter to return only scheduled jobs currently in the given state.
 	LifecycleState ScheduledJobLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
 	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
 	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed compartment. This filter returns resources associated with this compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed compartment. This filter returns resources associated with this compartment.
 	ManagedCompartmentId *string `mandatory:"false" contributesTo:"query" name:"managedCompartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 	LifecycleStageId *string `mandatory:"false" contributesTo:"query" name:"lifecycleStageId"`
 
 	// A filter to return only scheduled jobs with the given operation type.
@@ -57,12 +57,12 @@ type ListScheduledJobsRequest struct {
 	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
@@ -78,7 +78,7 @@ type ListScheduledJobsRequest struct {
 	// A filter to return only restricted scheduled jobs.
 	IsRestricted *bool `mandatory:"false" contributesTo:"query" name:"isRestricted"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job. A filter to return the specified job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job. A filter to return the specified job.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Indicates whether to include subcompartments in the returned results. Default is false.
@@ -175,7 +175,7 @@ type ListScheduledJobsResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -215,6 +215,8 @@ const (
 	ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates      ListScheduledJobsOperationTypeEnum = "INSTALL_BUGFIX_WINDOWS_UPDATES"
 	ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates ListScheduledJobsOperationTypeEnum = "INSTALL_ENHANCEMENT_WINDOWS_UPDATES"
 	ListScheduledJobsOperationTypeInstallOtherWindowsUpdates       ListScheduledJobsOperationTypeEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeReboot                           ListScheduledJobsOperationTypeEnum = "REBOOT"
+	ListScheduledJobsOperationTypeRerunWorkRequest                 ListScheduledJobsOperationTypeEnum = "RERUN_WORK_REQUEST"
 )
 
 var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
@@ -240,6 +242,8 @@ var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOper
 	"INSTALL_BUGFIX_WINDOWS_UPDATES":      ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates,
 	"INSTALL_ENHANCEMENT_WINDOWS_UPDATES": ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates,
 	"INSTALL_OTHER_WINDOWS_UPDATES":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
+	"REBOOT":                              ListScheduledJobsOperationTypeReboot,
+	"RERUN_WORK_REQUEST":                  ListScheduledJobsOperationTypeRerunWorkRequest,
 }
 
 var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListScheduledJobsOperationTypeEnum{
@@ -265,6 +269,8 @@ var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListSchedule
 	"install_bugfix_windows_updates":      ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates,
 	"install_enhancement_windows_updates": ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates,
 	"install_other_windows_updates":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
+	"reboot":                              ListScheduledJobsOperationTypeReboot,
+	"rerun_work_request":                  ListScheduledJobsOperationTypeRerunWorkRequest,
 }
 
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
@@ -301,6 +307,8 @@ func GetListScheduledJobsOperationTypeEnumStringValues() []string {
 		"INSTALL_BUGFIX_WINDOWS_UPDATES",
 		"INSTALL_ENHANCEMENT_WINDOWS_UPDATES",
 		"INSTALL_OTHER_WINDOWS_UPDATES",
+		"REBOOT",
+		"RERUN_WORK_REQUEST",
 	}
 }
 

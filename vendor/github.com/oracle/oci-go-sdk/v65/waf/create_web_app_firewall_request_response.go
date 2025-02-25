@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateWebAppFirewall.go.html to see an example of how to use CreateWebAppFirewallRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateWebAppFirewall.go.html to see an example of how to use CreateWebAppFirewallRequest.
 type CreateWebAppFirewallRequest struct {
 
 	// Details for the new Web App Firewall.

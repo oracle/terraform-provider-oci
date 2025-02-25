@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -23,7 +23,7 @@ type UpdateSubnetDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the set of DHCP options the subnet will use.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the set of DHCP options the subnet will use.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -34,7 +34,7 @@ type UpdateSubnetDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the subnet will use.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the subnet will use.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// The OCIDs of the security list or lists the subnet will use. This
@@ -55,7 +55,7 @@ type UpdateSubnetDetails struct {
 
 	// This is the IPv6 CIDR block for the subnet's IP address space.
 	// The subnet size is always /64.
-	// See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// See IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// The provided CIDR must maintain the following rules -
 	// a. The IPv6 CIDR block is valid and correctly formatted.
 	// b. The IPv6 CIDR is within the parent VCN IPv6 range.

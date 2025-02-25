@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/StopShardedDatabase.go.html to see an example of how to use StopShardedDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/StopShardedDatabase.go.html to see an example of how to use StopShardedDatabaseRequest.
 type StopShardedDatabaseRequest struct {
 
 	// Sharded Database identifier

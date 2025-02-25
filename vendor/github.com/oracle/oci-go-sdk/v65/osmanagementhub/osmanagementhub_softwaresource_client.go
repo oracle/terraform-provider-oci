@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -94,10 +94,14 @@ func (client *SoftwareSourceClient) ConfigurationProvider() *common.Configuratio
 
 // AddPackagesToSoftwareSource Adds packages to a software source. This operation can only be done for custom and versioned custom software sources that are not created using filters.
 // For a versioned custom software source, you can only add packages when the source is created. Once content is added to a versioned custom software source, it is immutable.
+// Packages can be of the format:
+//   - name (for example: git). If isLatestContentOnly is true, only the latest version of the package will be added, otherwise all versions of the package will be added.
+//   - name-version-release.architecture (for example: git-2.43.5-1.el8_10.x86_64)
+//   - name-epoch:version-release.architecture (for example: git-0:2.43.5-1.el8_10.x86_64)
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AddPackagesToSoftwareSource.go.html to see an example of how to use AddPackagesToSoftwareSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AddPackagesToSoftwareSource.go.html to see an example of how to use AddPackagesToSoftwareSource API.
 // A default retry strategy applies to this operation AddPackagesToSoftwareSource()
 func (client SoftwareSourceClient) AddPackagesToSoftwareSource(ctx context.Context, request AddPackagesToSoftwareSourceRequest) (response AddPackagesToSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -160,7 +164,7 @@ func (client SoftwareSourceClient) addPackagesToSoftwareSource(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeAvailabilityOfSoftwareSources.go.html to see an example of how to use ChangeAvailabilityOfSoftwareSources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeAvailabilityOfSoftwareSources.go.html to see an example of how to use ChangeAvailabilityOfSoftwareSources API.
 // A default retry strategy applies to this operation ChangeAvailabilityOfSoftwareSources()
 func (client SoftwareSourceClient) ChangeAvailabilityOfSoftwareSources(ctx context.Context, request ChangeAvailabilityOfSoftwareSourcesRequest) (response ChangeAvailabilityOfSoftwareSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -220,11 +224,11 @@ func (client SoftwareSourceClient) changeAvailabilityOfSoftwareSources(ctx conte
 }
 
 // ChangeSoftwareSourceCompartment Moves the specified software sources to a different compartment within the same tenancy.
-// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeSoftwareSourceCompartment.go.html to see an example of how to use ChangeSoftwareSourceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeSoftwareSourceCompartment.go.html to see an example of how to use ChangeSoftwareSourceCompartment API.
 // A default retry strategy applies to this operation ChangeSoftwareSourceCompartment()
 func (client SoftwareSourceClient) ChangeSoftwareSourceCompartment(ctx context.Context, request ChangeSoftwareSourceCompartmentRequest) (response ChangeSoftwareSourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -287,7 +291,7 @@ func (client SoftwareSourceClient) changeSoftwareSourceCompartment(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateEntitlement.go.html to see an example of how to use CreateEntitlement API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateEntitlement.go.html to see an example of how to use CreateEntitlement API.
 // A default retry strategy applies to this operation CreateEntitlement()
 func (client SoftwareSourceClient) CreateEntitlement(ctx context.Context, request CreateEntitlementRequest) (response CreateEntitlementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -346,11 +350,11 @@ func (client SoftwareSourceClient) createEntitlement(ctx context.Context, reques
 	return response, err
 }
 
-// CreateSoftwareSource Creates a new versioned or custom software source.
+// CreateSoftwareSource Creates a new software source.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateSoftwareSource.go.html to see an example of how to use CreateSoftwareSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateSoftwareSource.go.html to see an example of how to use CreateSoftwareSource API.
 // A default retry strategy applies to this operation CreateSoftwareSource()
 func (client SoftwareSourceClient) CreateSoftwareSource(ctx context.Context, request CreateSoftwareSourceRequest) (response CreateSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -413,7 +417,7 @@ func (client SoftwareSourceClient) createSoftwareSource(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteSoftwareSource.go.html to see an example of how to use DeleteSoftwareSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteSoftwareSource.go.html to see an example of how to use DeleteSoftwareSource API.
 // A default retry strategy applies to this operation DeleteSoftwareSource()
 func (client SoftwareSourceClient) DeleteSoftwareSource(ctx context.Context, request DeleteSoftwareSourceRequest) (response DeleteSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -471,7 +475,7 @@ func (client SoftwareSourceClient) deleteSoftwareSource(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetErratum.go.html to see an example of how to use GetErratum API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetErratum.go.html to see an example of how to use GetErratum API.
 // A default retry strategy applies to this operation GetErratum()
 func (client SoftwareSourceClient) GetErratum(ctx context.Context, request GetErratumRequest) (response GetErratumResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -529,7 +533,7 @@ func (client SoftwareSourceClient) getErratum(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetModuleStream.go.html to see an example of how to use GetModuleStream API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetModuleStream.go.html to see an example of how to use GetModuleStream API.
 // A default retry strategy applies to this operation GetModuleStream()
 func (client SoftwareSourceClient) GetModuleStream(ctx context.Context, request GetModuleStreamRequest) (response GetModuleStreamResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -587,7 +591,7 @@ func (client SoftwareSourceClient) getModuleStream(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetModuleStreamProfile.go.html to see an example of how to use GetModuleStreamProfile API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetModuleStreamProfile.go.html to see an example of how to use GetModuleStreamProfile API.
 // A default retry strategy applies to this operation GetModuleStreamProfile()
 func (client SoftwareSourceClient) GetModuleStreamProfile(ctx context.Context, request GetModuleStreamProfileRequest) (response GetModuleStreamProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -645,7 +649,7 @@ func (client SoftwareSourceClient) getModuleStreamProfile(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetPackageGroup.go.html to see an example of how to use GetPackageGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetPackageGroup.go.html to see an example of how to use GetPackageGroup API.
 // A default retry strategy applies to this operation GetPackageGroup()
 func (client SoftwareSourceClient) GetPackageGroup(ctx context.Context, request GetPackageGroupRequest) (response GetPackageGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -703,7 +707,7 @@ func (client SoftwareSourceClient) getPackageGroup(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwarePackage.go.html to see an example of how to use GetSoftwarePackage API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwarePackage.go.html to see an example of how to use GetSoftwarePackage API.
 // A default retry strategy applies to this operation GetSoftwarePackage()
 func (client SoftwareSourceClient) GetSoftwarePackage(ctx context.Context, request GetSoftwarePackageRequest) (response GetSoftwarePackageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -757,11 +761,11 @@ func (client SoftwareSourceClient) getSoftwarePackage(ctx context.Context, reque
 	return response, err
 }
 
-// GetSoftwarePackageByName Returns information about the specified software package based on its fully qualified name.
+// GetSoftwarePackageByName Returns information about the specified software package based on its fully qualified name (NVRA or NEVRA).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwarePackageByName.go.html to see an example of how to use GetSoftwarePackageByName API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwarePackageByName.go.html to see an example of how to use GetSoftwarePackageByName API.
 // A default retry strategy applies to this operation GetSoftwarePackageByName()
 func (client SoftwareSourceClient) GetSoftwarePackageByName(ctx context.Context, request GetSoftwarePackageByNameRequest) (response GetSoftwarePackageByNameResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -819,7 +823,7 @@ func (client SoftwareSourceClient) getSoftwarePackageByName(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwareSource.go.html to see an example of how to use GetSoftwareSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwareSource.go.html to see an example of how to use GetSoftwareSource API.
 // A default retry strategy applies to this operation GetSoftwareSource()
 func (client SoftwareSourceClient) GetSoftwareSource(ctx context.Context, request GetSoftwareSourceRequest) (response GetSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -873,12 +877,69 @@ func (client SoftwareSourceClient) getSoftwareSource(ctx context.Context, reques
 	return response, err
 }
 
+// GetSoftwareSourceManifest Returns an archive containing the list of packages in the software source.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwareSourceManifest.go.html to see an example of how to use GetSoftwareSourceManifest API.
+// A default retry strategy applies to this operation GetSoftwareSourceManifest()
+func (client SoftwareSourceClient) GetSoftwareSourceManifest(ctx context.Context, request GetSoftwareSourceManifestRequest) (response GetSoftwareSourceManifestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSoftwareSourceManifest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSoftwareSourceManifestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSoftwareSourceManifestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSoftwareSourceManifestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSoftwareSourceManifestResponse")
+	}
+	return
+}
+
+// getSoftwareSourceManifest implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) getSoftwareSourceManifest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/manifest", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSoftwareSourceManifestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/GetSoftwareSourceManifest"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "GetSoftwareSourceManifest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAllSoftwarePackages Lists software packages available through the OS Management Hub service.  Filter the list against a variety of criteria
 // including but not limited to its name.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListAllSoftwarePackages.go.html to see an example of how to use ListAllSoftwarePackages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListAllSoftwarePackages.go.html to see an example of how to use ListAllSoftwarePackages API.
 // A default retry strategy applies to this operation ListAllSoftwarePackages()
 func (client SoftwareSourceClient) ListAllSoftwarePackages(ctx context.Context, request ListAllSoftwarePackagesRequest) (response ListAllSoftwarePackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -932,12 +993,71 @@ func (client SoftwareSourceClient) listAllSoftwarePackages(ctx context.Context, 
 	return response, err
 }
 
-// ListEntitlements Lists entitlements in the specified tenancy OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but
+// ListAvailableSoftwarePackages Lists software packages that are available to be added to a custom software source of type MANIFEST.  Filter the list against a variety of criteria
+// including but not limited to its name.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListAvailableSoftwarePackages.go.html to see an example of how to use ListAvailableSoftwarePackages API.
+// A default retry strategy applies to this operation ListAvailableSoftwarePackages()
+func (client SoftwareSourceClient) ListAvailableSoftwarePackages(ctx context.Context, request ListAvailableSoftwarePackagesRequest) (response ListAvailableSoftwarePackagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAvailableSoftwarePackages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableSoftwarePackagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableSoftwarePackagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAvailableSoftwarePackagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAvailableSoftwarePackagesResponse")
+	}
+	return
+}
+
+// listAvailableSoftwarePackages implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) listAvailableSoftwarePackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/availableSoftwarePackages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAvailableSoftwarePackagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListAvailableSoftwarePackages"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "ListAvailableSoftwarePackages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListEntitlements Lists entitlements in the specified tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but
 // not limited to its Customer Support Identifier (CSI), and vendor name.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListEntitlements.go.html to see an example of how to use ListEntitlements API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListEntitlements.go.html to see an example of how to use ListEntitlements API.
 // A default retry strategy applies to this operation ListEntitlements()
 func (client SoftwareSourceClient) ListEntitlements(ctx context.Context, request ListEntitlementsRequest) (response ListEntitlementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -996,7 +1116,7 @@ func (client SoftwareSourceClient) listEntitlements(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListErrata.go.html to see an example of how to use ListErrata API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListErrata.go.html to see an example of how to use ListErrata API.
 // A default retry strategy applies to this operation ListErrata()
 func (client SoftwareSourceClient) ListErrata(ctx context.Context, request ListErrataRequest) (response ListErrataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1050,12 +1170,12 @@ func (client SoftwareSourceClient) listErrata(ctx context.Context, request commo
 	return response, err
 }
 
-// ListModuleStreamProfiles Lists module stream profiles from the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of
+// ListModuleStreamProfiles Lists module stream profiles from the specified software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of
 // criteria including but not limited to its module name, stream name, and profile name.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreamProfiles.go.html to see an example of how to use ListModuleStreamProfiles API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreamProfiles.go.html to see an example of how to use ListModuleStreamProfiles API.
 // A default retry strategy applies to this operation ListModuleStreamProfiles()
 func (client SoftwareSourceClient) ListModuleStreamProfiles(ctx context.Context, request ListModuleStreamProfilesRequest) (response ListModuleStreamProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1109,12 +1229,12 @@ func (client SoftwareSourceClient) listModuleStreamProfiles(ctx context.Context,
 	return response, err
 }
 
-// ListModuleStreams Lists module streams from the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// ListModuleStreams Lists module streams from the specified software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Filter the list against a variety of criteria including but not limited to its module name and (stream) name.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreams.go.html to see an example of how to use ListModuleStreams API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreams.go.html to see an example of how to use ListModuleStreams API.
 // A default retry strategy applies to this operation ListModuleStreams()
 func (client SoftwareSourceClient) ListModuleStreams(ctx context.Context, request ListModuleStreamsRequest) (response ListModuleStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1168,12 +1288,12 @@ func (client SoftwareSourceClient) listModuleStreams(ctx context.Context, reques
 	return response, err
 }
 
-// ListPackageGroups Lists package groups that are associated with the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
+// ListPackageGroups Lists package groups that are associated with the specified software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
 // variety of criteria including but not limited to its name, and package group type.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListPackageGroups.go.html to see an example of how to use ListPackageGroups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListPackageGroups.go.html to see an example of how to use ListPackageGroups API.
 // A default retry strategy applies to this operation ListPackageGroups()
 func (client SoftwareSourceClient) ListPackageGroups(ctx context.Context, request ListPackageGroupsRequest) (response ListPackageGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1232,7 +1352,7 @@ func (client SoftwareSourceClient) listPackageGroups(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwarePackageSoftwareSources.go.html to see an example of how to use ListSoftwarePackageSoftwareSources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwarePackageSoftwareSources.go.html to see an example of how to use ListSoftwarePackageSoftwareSources API.
 // A default retry strategy applies to this operation ListSoftwarePackageSoftwareSources()
 func (client SoftwareSourceClient) ListSoftwarePackageSoftwareSources(ctx context.Context, request ListSoftwarePackageSoftwareSourcesRequest) (response ListSoftwarePackageSoftwareSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1291,7 +1411,7 @@ func (client SoftwareSourceClient) listSoftwarePackageSoftwareSources(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwarePackages.go.html to see an example of how to use ListSoftwarePackages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwarePackages.go.html to see an example of how to use ListSoftwarePackages API.
 // A default retry strategy applies to this operation ListSoftwarePackages()
 func (client SoftwareSourceClient) ListSoftwarePackages(ctx context.Context, request ListSoftwarePackagesRequest) (response ListSoftwarePackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1350,7 +1470,7 @@ func (client SoftwareSourceClient) listSoftwarePackages(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSourceVendors.go.html to see an example of how to use ListSoftwareSourceVendors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSourceVendors.go.html to see an example of how to use ListSoftwareSourceVendors API.
 // A default retry strategy applies to this operation ListSoftwareSourceVendors()
 func (client SoftwareSourceClient) ListSoftwareSourceVendors(ctx context.Context, request ListSoftwareSourceVendorsRequest) (response ListSoftwareSourceVendorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1404,12 +1524,12 @@ func (client SoftwareSourceClient) listSoftwareSourceVendors(ctx context.Context
 	return response, err
 }
 
-// ListSoftwareSources Lists software sources that match the specified tenancy or software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
+// ListSoftwareSources Lists software sources that match the specified tenancy or software source OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
 // variety of criteria including but not limited to its name, status, architecture, and OS family.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSources.go.html to see an example of how to use ListSoftwareSources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSources.go.html to see an example of how to use ListSoftwareSources API.
 // A default retry strategy applies to this operation ListSoftwareSources()
 func (client SoftwareSourceClient) ListSoftwareSources(ctx context.Context, request ListSoftwareSourcesRequest) (response ListSoftwareSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1463,12 +1583,146 @@ func (client SoftwareSourceClient) listSoftwareSources(ctx context.Context, requ
 	return response, err
 }
 
+// RemovePackagesFromSoftwareSource Removes packages from a software source. This operation can only be done for custom software sources that are not created using filters.
+// Packages can be of the format:
+//   - name (for example: git). This removes all versions of the package.
+//   - name-version-release.architecture (for example: git-2.43.5-1.el8_10.x86_64)
+//   - name-epoch:version-release.architecture (for example: git-0:2.43.5-1.el8_10.x86_64)
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemovePackagesFromSoftwareSource.go.html to see an example of how to use RemovePackagesFromSoftwareSource API.
+// A default retry strategy applies to this operation RemovePackagesFromSoftwareSource()
+func (client SoftwareSourceClient) RemovePackagesFromSoftwareSource(ctx context.Context, request RemovePackagesFromSoftwareSourceRequest) (response RemovePackagesFromSoftwareSourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removePackagesFromSoftwareSource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemovePackagesFromSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemovePackagesFromSoftwareSourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemovePackagesFromSoftwareSourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemovePackagesFromSoftwareSourceResponse")
+	}
+	return
+}
+
+// removePackagesFromSoftwareSource implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) removePackagesFromSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/removePackages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemovePackagesFromSoftwareSourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/RemovePackagesFromSoftwareSource"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "RemovePackagesFromSoftwareSource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReplacePackagesInSoftwareSource Replaces packages in a software source with the provided list of packages. This operation can only be done for custom software sources that are not created using filters.
+// Packages can be of the format:
+//   - name (for example: git). If isLatestContentOnly is true, only the latest version of the package will be added, otherwise all versions of the package will be added.
+//   - name-version-release.architecture (for example: git-2.43.5-1.el8_10.x86_64)
+//   - name-epoch:version-release.architecture (for example: git-0:2.43.5-1.el8_10.x86_64)
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ReplacePackagesInSoftwareSource.go.html to see an example of how to use ReplacePackagesInSoftwareSource API.
+// A default retry strategy applies to this operation ReplacePackagesInSoftwareSource()
+func (client SoftwareSourceClient) ReplacePackagesInSoftwareSource(ctx context.Context, request ReplacePackagesInSoftwareSourceRequest) (response ReplacePackagesInSoftwareSourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.replacePackagesInSoftwareSource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplacePackagesInSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplacePackagesInSoftwareSourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplacePackagesInSoftwareSourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplacePackagesInSoftwareSourceResponse")
+	}
+	return
+}
+
+// replacePackagesInSoftwareSource implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) replacePackagesInSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/replacePackages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReplacePackagesInSoftwareSourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ReplacePackagesInSoftwareSource"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "ReplacePackagesInSoftwareSource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SearchSoftwareSourceModuleStreams Returns a list of module streams from the specified software sources. Filter the list against a variety of
 // criteria including the module name.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourceModuleStreams.go.html to see an example of how to use SearchSoftwareSourceModuleStreams API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourceModuleStreams.go.html to see an example of how to use SearchSoftwareSourceModuleStreams API.
 // A default retry strategy applies to this operation SearchSoftwareSourceModuleStreams()
 func (client SoftwareSourceClient) SearchSoftwareSourceModuleStreams(ctx context.Context, request SearchSoftwareSourceModuleStreamsRequest) (response SearchSoftwareSourceModuleStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1527,7 +1781,7 @@ func (client SoftwareSourceClient) searchSoftwareSourceModuleStreams(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourceModules.go.html to see an example of how to use SearchSoftwareSourceModules API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourceModules.go.html to see an example of how to use SearchSoftwareSourceModules API.
 // A default retry strategy applies to this operation SearchSoftwareSourceModules()
 func (client SoftwareSourceClient) SearchSoftwareSourceModules(ctx context.Context, request SearchSoftwareSourceModulesRequest) (response SearchSoftwareSourceModulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1586,7 +1840,7 @@ func (client SoftwareSourceClient) searchSoftwareSourceModules(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourcePackageGroups.go.html to see an example of how to use SearchSoftwareSourcePackageGroups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourcePackageGroups.go.html to see an example of how to use SearchSoftwareSourcePackageGroups API.
 // A default retry strategy applies to this operation SearchSoftwareSourcePackageGroups()
 func (client SoftwareSourceClient) SearchSoftwareSourcePackageGroups(ctx context.Context, request SearchSoftwareSourcePackageGroupsRequest) (response SearchSoftwareSourcePackageGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1640,11 +1894,74 @@ func (client SoftwareSourceClient) searchSoftwareSourcePackageGroups(ctx context
 	return response, err
 }
 
+// SoftwareSourceGenerateMetadata Regenerates metadata for the specified custom software source.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SoftwareSourceGenerateMetadata.go.html to see an example of how to use SoftwareSourceGenerateMetadata API.
+// A default retry strategy applies to this operation SoftwareSourceGenerateMetadata()
+func (client SoftwareSourceClient) SoftwareSourceGenerateMetadata(ctx context.Context, request SoftwareSourceGenerateMetadataRequest) (response SoftwareSourceGenerateMetadataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.softwareSourceGenerateMetadata, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SoftwareSourceGenerateMetadataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SoftwareSourceGenerateMetadataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SoftwareSourceGenerateMetadataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SoftwareSourceGenerateMetadataResponse")
+	}
+	return
+}
+
+// softwareSourceGenerateMetadata implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) softwareSourceGenerateMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/generateMetadata", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SoftwareSourceGenerateMetadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/SoftwareSourceGenerateMetadata"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "SoftwareSourceGenerateMetadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateSoftwareSource Updates the specified software source's details, including but not limited to name, description, and tags.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateSoftwareSource.go.html to see an example of how to use UpdateSoftwareSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateSoftwareSource.go.html to see an example of how to use UpdateSoftwareSource API.
 // A default retry strategy applies to this operation UpdateSoftwareSource()
 func (client SoftwareSourceClient) UpdateSoftwareSource(ctx context.Context, request UpdateSoftwareSourceRequest) (response UpdateSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1691,6 +2008,69 @@ func (client SoftwareSourceClient) updateSoftwareSource(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/UpdateSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "UpdateSoftwareSource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &softwaresource{})
+	return response, err
+}
+
+// UpdateSoftwareSourceManifest Updates the package list document for the software source.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateSoftwareSourceManifest.go.html to see an example of how to use UpdateSoftwareSourceManifest API.
+// A default retry strategy applies to this operation UpdateSoftwareSourceManifest()
+func (client SoftwareSourceClient) UpdateSoftwareSourceManifest(ctx context.Context, request UpdateSoftwareSourceManifestRequest) (response UpdateSoftwareSourceManifestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateSoftwareSourceManifest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSoftwareSourceManifestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSoftwareSourceManifestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSoftwareSourceManifestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSoftwareSourceManifestResponse")
+	}
+	return
+}
+
+// updateSoftwareSourceManifest implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) updateSoftwareSourceManifest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/softwareSources/{softwareSourceId}/manifest", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSoftwareSourceManifestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/UpdateSoftwareSourceManifest"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "UpdateSoftwareSourceManifest", apiReferenceLink)
 		return response, err
 	}
 

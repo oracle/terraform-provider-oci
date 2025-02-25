@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalNonContainerDatabaseManagementFeature.go.html to see an example of how to use DisableExternalNonContainerDatabaseManagementFeatureRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalNonContainerDatabaseManagementFeature.go.html to see an example of how to use DisableExternalNonContainerDatabaseManagementFeatureRequest.
 type DisableExternalNonContainerDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external non-container database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external non-container database.
 	ExternalNonContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalNonContainerDatabaseId"`
 
 	// The details required to disable a Database Management feature for an external non-container database.

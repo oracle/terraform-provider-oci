@@ -83,7 +83,7 @@ func (m *tunnelinspectionrule) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TunnelInspectionRule: %s.", m.Protocol)
+		common.Logf("Received unsupported enum value for TunnelInspectionRule: %s.", m.Protocol)
 		return *m, nil
 	}
 }

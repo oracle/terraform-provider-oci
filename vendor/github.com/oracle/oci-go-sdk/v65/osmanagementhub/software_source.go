@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// SoftwareSource The object that defines a software source. A software source contains a collection of packages. For more information, see Managing Software Sources (https://docs.cloud.oracle.com/iaas/osmh/doc/software-sources.htm).
+// SoftwareSource The object that defines a software source. A software source contains a collection of packages. For more information, see Managing Software Sources (https://docs.oracle.com/iaas/osmh/doc/software-sources.htm).
 type SoftwareSource interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	GetId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
 	// User-friendly name for the software source.
@@ -41,7 +41,7 @@ type SoftwareSource interface {
 	// The repository ID for the software source.
 	GetRepoId() *string
 
-	// The OS family the software source belongs to.
+	// The OS family of the software source.
 	GetOsFamily() OsFamilyEnum
 
 	// The architecture type supported by the software source.
@@ -62,7 +62,7 @@ type SoftwareSource interface {
 	// The yum repository checksum type used by this software source.
 	GetChecksumType() ChecksumTypeEnum
 
-	// URL of the GPG key for this software source.
+	// URI of the GPG key for this software source.
 	GetGpgKeyUrl() *string
 
 	// ID of the GPG key for this software source.
@@ -71,16 +71,16 @@ type SoftwareSource interface {
 	// Fingerprint of the GPG key for this software source.
 	GetGpgKeyFingerprint() *string
 
-	// The size of the software source in gigabytes (GB).
+	// The size of the software source in bytes (B).
 	GetSize() *float64
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
@@ -165,6 +165,10 @@ func (m *softwaresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := VendorSoftwareSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "THIRD_PARTY":
+		mm := ThirdPartySoftwareSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CUSTOM":
 		mm := CustomSoftwareSource{}
 		err = json.Unmarshal(data, &mm)
@@ -173,8 +177,12 @@ func (m *softwaresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := VersionedCustomSoftwareSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRIVATE":
+		mm := PrivateSoftwareSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SoftwareSource: %s.", m.SoftwareSourceType)
+		common.Logf("Received unsupported enum value for SoftwareSource: %s.", m.SoftwareSourceType)
 		return *m, nil
 	}
 }
@@ -323,33 +331,36 @@ type SoftwareSourceLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SoftwareSourceLifecycleStateEnum
 const (
-	SoftwareSourceLifecycleStateCreating SoftwareSourceLifecycleStateEnum = "CREATING"
-	SoftwareSourceLifecycleStateUpdating SoftwareSourceLifecycleStateEnum = "UPDATING"
-	SoftwareSourceLifecycleStateActive   SoftwareSourceLifecycleStateEnum = "ACTIVE"
-	SoftwareSourceLifecycleStateInactive SoftwareSourceLifecycleStateEnum = "INACTIVE"
-	SoftwareSourceLifecycleStateDeleting SoftwareSourceLifecycleStateEnum = "DELETING"
-	SoftwareSourceLifecycleStateDeleted  SoftwareSourceLifecycleStateEnum = "DELETED"
-	SoftwareSourceLifecycleStateFailed   SoftwareSourceLifecycleStateEnum = "FAILED"
+	SoftwareSourceLifecycleStateCreating       SoftwareSourceLifecycleStateEnum = "CREATING"
+	SoftwareSourceLifecycleStateUpdating       SoftwareSourceLifecycleStateEnum = "UPDATING"
+	SoftwareSourceLifecycleStateActive         SoftwareSourceLifecycleStateEnum = "ACTIVE"
+	SoftwareSourceLifecycleStateInactive       SoftwareSourceLifecycleStateEnum = "INACTIVE"
+	SoftwareSourceLifecycleStateDeleting       SoftwareSourceLifecycleStateEnum = "DELETING"
+	SoftwareSourceLifecycleStateDeleted        SoftwareSourceLifecycleStateEnum = "DELETED"
+	SoftwareSourceLifecycleStateFailed         SoftwareSourceLifecycleStateEnum = "FAILED"
+	SoftwareSourceLifecycleStateNeedsAttention SoftwareSourceLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingSoftwareSourceLifecycleStateEnum = map[string]SoftwareSourceLifecycleStateEnum{
-	"CREATING": SoftwareSourceLifecycleStateCreating,
-	"UPDATING": SoftwareSourceLifecycleStateUpdating,
-	"ACTIVE":   SoftwareSourceLifecycleStateActive,
-	"INACTIVE": SoftwareSourceLifecycleStateInactive,
-	"DELETING": SoftwareSourceLifecycleStateDeleting,
-	"DELETED":  SoftwareSourceLifecycleStateDeleted,
-	"FAILED":   SoftwareSourceLifecycleStateFailed,
+	"CREATING":        SoftwareSourceLifecycleStateCreating,
+	"UPDATING":        SoftwareSourceLifecycleStateUpdating,
+	"ACTIVE":          SoftwareSourceLifecycleStateActive,
+	"INACTIVE":        SoftwareSourceLifecycleStateInactive,
+	"DELETING":        SoftwareSourceLifecycleStateDeleting,
+	"DELETED":         SoftwareSourceLifecycleStateDeleted,
+	"FAILED":          SoftwareSourceLifecycleStateFailed,
+	"NEEDS_ATTENTION": SoftwareSourceLifecycleStateNeedsAttention,
 }
 
 var mappingSoftwareSourceLifecycleStateEnumLowerCase = map[string]SoftwareSourceLifecycleStateEnum{
-	"creating": SoftwareSourceLifecycleStateCreating,
-	"updating": SoftwareSourceLifecycleStateUpdating,
-	"active":   SoftwareSourceLifecycleStateActive,
-	"inactive": SoftwareSourceLifecycleStateInactive,
-	"deleting": SoftwareSourceLifecycleStateDeleting,
-	"deleted":  SoftwareSourceLifecycleStateDeleted,
-	"failed":   SoftwareSourceLifecycleStateFailed,
+	"creating":        SoftwareSourceLifecycleStateCreating,
+	"updating":        SoftwareSourceLifecycleStateUpdating,
+	"active":          SoftwareSourceLifecycleStateActive,
+	"inactive":        SoftwareSourceLifecycleStateInactive,
+	"deleting":        SoftwareSourceLifecycleStateDeleting,
+	"deleted":         SoftwareSourceLifecycleStateDeleted,
+	"failed":          SoftwareSourceLifecycleStateFailed,
+	"needs_attention": SoftwareSourceLifecycleStateNeedsAttention,
 }
 
 // GetSoftwareSourceLifecycleStateEnumValues Enumerates the set of values for SoftwareSourceLifecycleStateEnum
@@ -371,6 +382,7 @@ func GetSoftwareSourceLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

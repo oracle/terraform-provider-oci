@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteNodeBackup.go.html to see an example of how to use DeleteNodeBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteNodeBackup.go.html to see an example of how to use DeleteNodeBackupRequest.
 type DeleteNodeBackupRequest struct {
 
 	// The OCID of the cluster.

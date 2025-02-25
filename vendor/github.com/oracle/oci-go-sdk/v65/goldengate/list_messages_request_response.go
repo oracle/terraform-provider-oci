@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListMessages.go.html to see an example of how to use ListMessagesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListMessages.go.html to see an example of how to use ListMessagesRequest.
 type ListMessagesRequest struct {
 
 	// A unique Deployment identifier.

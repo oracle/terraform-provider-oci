@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetWorker.go.html to see an example of how to use GetWorkerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetWorker.go.html to see an example of how to use GetWorkerRequest.
 type GetWorkerRequest struct {
 
 	// The APM domain ID the request is intended for.

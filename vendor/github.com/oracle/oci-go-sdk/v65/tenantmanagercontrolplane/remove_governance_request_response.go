@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/RemoveGovernance.go.html to see an example of how to use RemoveGovernanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/RemoveGovernance.go.html to see an example of how to use RemoveGovernanceRequest.
 type RemoveGovernanceRequest struct {
 
 	// OCID of the organization.

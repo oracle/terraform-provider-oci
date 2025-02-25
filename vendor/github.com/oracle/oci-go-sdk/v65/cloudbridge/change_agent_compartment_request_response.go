@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAgentCompartment.go.html to see an example of how to use ChangeAgentCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAgentCompartment.go.html to see an example of how to use ChangeAgentCompartmentRequest.
 type ChangeAgentCompartmentRequest struct {
 
 	// Unique Agent identifier path parameter.

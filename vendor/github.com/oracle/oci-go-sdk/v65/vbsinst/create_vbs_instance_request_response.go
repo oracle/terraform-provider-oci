@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/CreateVbsInstance.go.html to see an example of how to use CreateVbsInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/CreateVbsInstance.go.html to see an example of how to use CreateVbsInstanceRequest.
 type CreateVbsInstanceRequest struct {
 
 	// Details for the new VbsInstance.

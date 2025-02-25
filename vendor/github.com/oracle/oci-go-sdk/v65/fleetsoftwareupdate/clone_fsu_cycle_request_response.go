@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CloneFsuCycle.go.html to see an example of how to use CloneFsuCycleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CloneFsuCycle.go.html to see an example of how to use CloneFsuCycleRequest.
 type CloneFsuCycleRequest struct {
 
 	// Unique Exadata Fleet Update Cycle identifier.

@@ -4,7 +4,7 @@
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -33,7 +33,7 @@ type ExternalScmConfiguration struct {
 	// For GitLab the expected format is https://gitlab.com/[groupName]/[repoName]
 	RepositoryUrl *string `mandatory:"true" json:"repositoryUrl"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Private Access Token (PAT) Secret.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Private Access Token (PAT) Secret.
 	// The secret provides the credentials necessary to authenticate against the SCM.
 	PatSecretId *string `mandatory:"true" json:"patSecretId"`
 

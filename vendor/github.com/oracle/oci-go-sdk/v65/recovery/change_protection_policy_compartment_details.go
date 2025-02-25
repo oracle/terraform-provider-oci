@@ -18,7 +18,7 @@ import (
 // ChangeProtectionPolicyCompartmentDetails The configuration details required to move a protection policy from the existing compartment to a specified compartment.
 type ChangeProtectionPolicyCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the Protection Policy should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the Protection Policy should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

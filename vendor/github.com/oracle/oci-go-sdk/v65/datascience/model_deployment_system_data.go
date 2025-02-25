@@ -55,7 +55,7 @@ func (m *modeldeploymentsystemdata) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ModelDeploymentSystemData: %s.", m.SystemInfraType)
+		common.Logf("Received unsupported enum value for ModelDeploymentSystemData: %s.", m.SystemInfraType)
 		return *m, nil
 	}
 }

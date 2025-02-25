@@ -97,7 +97,7 @@ func (client *OperatorControlClient) ConfigurationProvider() *common.Configurati
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlCompartment.go.html to see an example of how to use ChangeOperatorControlCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlCompartment.go.html to see an example of how to use ChangeOperatorControlCompartment API.
 // A default retry strategy applies to this operation ChangeOperatorControlCompartment()
 func (client OperatorControlClient) ChangeOperatorControlCompartment(ctx context.Context, request ChangeOperatorControlCompartmentRequest) (response ChangeOperatorControlCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -160,7 +160,7 @@ func (client OperatorControlClient) changeOperatorControlCompartment(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControl.go.html to see an example of how to use CreateOperatorControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControl.go.html to see an example of how to use CreateOperatorControl API.
 // A default retry strategy applies to this operation CreateOperatorControl()
 func (client OperatorControlClient) CreateOperatorControl(ctx context.Context, request CreateOperatorControlRequest) (response CreateOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -227,7 +227,7 @@ func (client OperatorControlClient) createOperatorControl(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControl.go.html to see an example of how to use DeleteOperatorControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControl.go.html to see an example of how to use DeleteOperatorControl API.
 // A default retry strategy applies to this operation DeleteOperatorControl()
 func (client OperatorControlClient) DeleteOperatorControl(ctx context.Context, request DeleteOperatorControlRequest) (response DeleteOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -285,7 +285,7 @@ func (client OperatorControlClient) deleteOperatorControl(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControl.go.html to see an example of how to use GetOperatorControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControl.go.html to see an example of how to use GetOperatorControl API.
 // A default retry strategy applies to this operation GetOperatorControl()
 func (client OperatorControlClient) GetOperatorControl(ctx context.Context, request GetOperatorControlRequest) (response GetOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -343,7 +343,7 @@ func (client OperatorControlClient) getOperatorControl(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControls.go.html to see an example of how to use ListOperatorControls API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControls.go.html to see an example of how to use ListOperatorControls API.
 // A default retry strategy applies to this operation ListOperatorControls()
 func (client OperatorControlClient) ListOperatorControls(ctx context.Context, request ListOperatorControlsRequest) (response ListOperatorControlsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -401,7 +401,7 @@ func (client OperatorControlClient) listOperatorControls(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControl.go.html to see an example of how to use UpdateOperatorControl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControl.go.html to see an example of how to use UpdateOperatorControl API.
 // A default retry strategy applies to this operation UpdateOperatorControl()
 func (client OperatorControlClient) UpdateOperatorControl(ctx context.Context, request UpdateOperatorControlRequest) (response UpdateOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse

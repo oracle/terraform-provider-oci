@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeletePullRequestComment.go.html to see an example of how to use DeletePullRequestCommentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeletePullRequestComment.go.html to see an example of how to use DeletePullRequestCommentRequest.
 type DeletePullRequestCommentRequest struct {
 
 	// unique PullRequest identifier

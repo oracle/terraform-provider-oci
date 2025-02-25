@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateSelfRegistrationProfile.go.html to see an example of how to use CreateSelfRegistrationProfileRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateSelfRegistrationProfile.go.html to see an example of how to use CreateSelfRegistrationProfileRequest.
 type CreateSelfRegistrationProfileRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

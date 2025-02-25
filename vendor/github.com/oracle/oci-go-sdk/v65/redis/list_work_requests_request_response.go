@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -27,7 +27,7 @@ type ListWorkRequestsRequest struct {
 	// A filter to return only resources their lifecycleState matches the given OperationStatus.
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the resource affected by the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the resource affected by the work request.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// The client request ID for tracing.

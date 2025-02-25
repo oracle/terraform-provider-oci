@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPools.go.html to see an example of how to use ListDesktopPoolsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPools.go.html to see an example of how to use ListDesktopPoolsRequest.
 type ListDesktopPoolsRequest struct {
 
 	// The OCID of the compartment of the desktop pool.

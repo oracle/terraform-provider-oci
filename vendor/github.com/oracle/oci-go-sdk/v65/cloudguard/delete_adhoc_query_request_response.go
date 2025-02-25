@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteAdhocQuery.go.html to see an example of how to use DeleteAdhocQueryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteAdhocQuery.go.html to see an example of how to use DeleteAdhocQueryRequest.
 type DeleteAdhocQueryRequest struct {
 
 	// Adhoc query OCID.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteDomainGovernance.go.html to see an example of how to use DeleteDomainGovernanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteDomainGovernance.go.html to see an example of how to use DeleteDomainGovernanceRequest.
 type DeleteDomainGovernanceRequest struct {
 
 	// The domain governance OCID.

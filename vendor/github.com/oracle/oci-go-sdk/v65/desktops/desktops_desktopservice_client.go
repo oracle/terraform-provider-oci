@@ -95,7 +95,7 @@ func (client *DesktopServiceClient) ConfigurationProvider() *common.Configuratio
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client DesktopServiceClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client DesktopServiceClient) cancelWorkRequest(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ChangeDesktopPoolCompartment.go.html to see an example of how to use ChangeDesktopPoolCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ChangeDesktopPoolCompartment.go.html to see an example of how to use ChangeDesktopPoolCompartment API.
 // A default retry strategy applies to this operation ChangeDesktopPoolCompartment()
 func (client DesktopServiceClient) ChangeDesktopPoolCompartment(ctx context.Context, request ChangeDesktopPoolCompartmentRequest) (response ChangeDesktopPoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -216,7 +216,7 @@ func (client DesktopServiceClient) changeDesktopPoolCompartment(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/CreateDesktopPool.go.html to see an example of how to use CreateDesktopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/CreateDesktopPool.go.html to see an example of how to use CreateDesktopPool API.
 // A default retry strategy applies to this operation CreateDesktopPool()
 func (client DesktopServiceClient) CreateDesktopPool(ctx context.Context, request CreateDesktopPoolRequest) (response CreateDesktopPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -279,7 +279,7 @@ func (client DesktopServiceClient) createDesktopPool(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/DeleteDesktop.go.html to see an example of how to use DeleteDesktop API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/DeleteDesktop.go.html to see an example of how to use DeleteDesktop API.
 // A default retry strategy applies to this operation DeleteDesktop()
 func (client DesktopServiceClient) DeleteDesktop(ctx context.Context, request DeleteDesktopRequest) (response DeleteDesktopResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -337,7 +337,7 @@ func (client DesktopServiceClient) deleteDesktop(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/DeleteDesktopPool.go.html to see an example of how to use DeleteDesktopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/DeleteDesktopPool.go.html to see an example of how to use DeleteDesktopPool API.
 // A default retry strategy applies to this operation DeleteDesktopPool()
 func (client DesktopServiceClient) DeleteDesktopPool(ctx context.Context, request DeleteDesktopPoolRequest) (response DeleteDesktopPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client DesktopServiceClient) deleteDesktopPool(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetDesktop.go.html to see an example of how to use GetDesktop API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetDesktop.go.html to see an example of how to use GetDesktop API.
 // A default retry strategy applies to this operation GetDesktop()
 func (client DesktopServiceClient) GetDesktop(ctx context.Context, request GetDesktopRequest) (response GetDesktopResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -453,7 +453,7 @@ func (client DesktopServiceClient) getDesktop(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetDesktopPool.go.html to see an example of how to use GetDesktopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetDesktopPool.go.html to see an example of how to use GetDesktopPool API.
 // A default retry strategy applies to this operation GetDesktopPool()
 func (client DesktopServiceClient) GetDesktopPool(ctx context.Context, request GetDesktopPoolRequest) (response GetDesktopPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -511,7 +511,7 @@ func (client DesktopServiceClient) getDesktopPool(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DesktopServiceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -569,7 +569,7 @@ func (client DesktopServiceClient) getWorkRequest(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolDesktops.go.html to see an example of how to use ListDesktopPoolDesktops API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolDesktops.go.html to see an example of how to use ListDesktopPoolDesktops API.
 // A default retry strategy applies to this operation ListDesktopPoolDesktops()
 func (client DesktopServiceClient) ListDesktopPoolDesktops(ctx context.Context, request ListDesktopPoolDesktopsRequest) (response ListDesktopPoolDesktopsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -627,7 +627,7 @@ func (client DesktopServiceClient) listDesktopPoolDesktops(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolVolumes.go.html to see an example of how to use ListDesktopPoolVolumes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolVolumes.go.html to see an example of how to use ListDesktopPoolVolumes API.
 // A default retry strategy applies to this operation ListDesktopPoolVolumes()
 func (client DesktopServiceClient) ListDesktopPoolVolumes(ctx context.Context, request ListDesktopPoolVolumesRequest) (response ListDesktopPoolVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -685,7 +685,7 @@ func (client DesktopServiceClient) listDesktopPoolVolumes(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPools.go.html to see an example of how to use ListDesktopPools API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPools.go.html to see an example of how to use ListDesktopPools API.
 // A default retry strategy applies to this operation ListDesktopPools()
 func (client DesktopServiceClient) ListDesktopPools(ctx context.Context, request ListDesktopPoolsRequest) (response ListDesktopPoolsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -743,7 +743,7 @@ func (client DesktopServiceClient) listDesktopPools(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktops.go.html to see an example of how to use ListDesktops API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktops.go.html to see an example of how to use ListDesktops API.
 // A default retry strategy applies to this operation ListDesktops()
 func (client DesktopServiceClient) ListDesktops(ctx context.Context, request ListDesktopsRequest) (response ListDesktopsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -801,7 +801,7 @@ func (client DesktopServiceClient) listDesktops(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DesktopServiceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -859,7 +859,7 @@ func (client DesktopServiceClient) listWorkRequestErrors(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DesktopServiceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -917,7 +917,7 @@ func (client DesktopServiceClient) listWorkRequestLogs(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DesktopServiceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -975,7 +975,7 @@ func (client DesktopServiceClient) listWorkRequests(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktop.go.html to see an example of how to use StartDesktop API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktop.go.html to see an example of how to use StartDesktop API.
 // A default retry strategy applies to this operation StartDesktop()
 func (client DesktopServiceClient) StartDesktop(ctx context.Context, request StartDesktopRequest) (response StartDesktopResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1038,7 +1038,7 @@ func (client DesktopServiceClient) startDesktop(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktopPool.go.html to see an example of how to use StartDesktopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktopPool.go.html to see an example of how to use StartDesktopPool API.
 // A default retry strategy applies to this operation StartDesktopPool()
 func (client DesktopServiceClient) StartDesktopPool(ctx context.Context, request StartDesktopPoolRequest) (response StartDesktopPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1101,7 +1101,7 @@ func (client DesktopServiceClient) startDesktopPool(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StopDesktop.go.html to see an example of how to use StopDesktop API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StopDesktop.go.html to see an example of how to use StopDesktop API.
 // A default retry strategy applies to this operation StopDesktop()
 func (client DesktopServiceClient) StopDesktop(ctx context.Context, request StopDesktopRequest) (response StopDesktopResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1164,7 +1164,7 @@ func (client DesktopServiceClient) stopDesktop(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StopDesktopPool.go.html to see an example of how to use StopDesktopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StopDesktopPool.go.html to see an example of how to use StopDesktopPool API.
 // A default retry strategy applies to this operation StopDesktopPool()
 func (client DesktopServiceClient) StopDesktopPool(ctx context.Context, request StopDesktopPoolRequest) (response StopDesktopPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1227,7 +1227,7 @@ func (client DesktopServiceClient) stopDesktopPool(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktop.go.html to see an example of how to use UpdateDesktop API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktop.go.html to see an example of how to use UpdateDesktop API.
 // A default retry strategy applies to this operation UpdateDesktop()
 func (client DesktopServiceClient) UpdateDesktop(ctx context.Context, request UpdateDesktopRequest) (response UpdateDesktopResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1285,7 +1285,7 @@ func (client DesktopServiceClient) updateDesktop(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktopPool.go.html to see an example of how to use UpdateDesktopPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktopPool.go.html to see an example of how to use UpdateDesktopPool API.
 // A default retry strategy applies to this operation UpdateDesktopPool()
 func (client DesktopServiceClient) UpdateDesktopPool(ctx context.Context, request UpdateDesktopPoolRequest) (response UpdateDesktopPoolResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/MakeCurrentParameterFileVersion.go.html to see an example of how to use MakeCurrentParameterFileVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/MakeCurrentParameterFileVersion.go.html to see an example of how to use MakeCurrentParameterFileVersionRequest.
 type MakeCurrentParameterFileVersionRequest struct {
 
 	// The OCID of the job

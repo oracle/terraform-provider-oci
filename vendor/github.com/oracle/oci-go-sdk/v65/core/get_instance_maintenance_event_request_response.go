@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceMaintenanceEvent.go.html to see an example of how to use GetInstanceMaintenanceEventRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceMaintenanceEvent.go.html to see an example of how to use GetInstanceMaintenanceEventRequest.
 type GetInstanceMaintenanceEventRequest struct {
 
 	// The OCID of the instance maintenance event.

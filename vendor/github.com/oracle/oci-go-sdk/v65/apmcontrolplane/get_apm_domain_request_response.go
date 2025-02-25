@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/GetApmDomain.go.html to see an example of how to use GetApmDomainRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/GetApmDomain.go.html to see an example of how to use GetApmDomainRequest.
 type GetApmDomainRequest struct {
 
 	// The OCID of the APM domain.

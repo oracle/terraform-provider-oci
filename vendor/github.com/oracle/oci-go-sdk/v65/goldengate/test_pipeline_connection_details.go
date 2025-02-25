@@ -55,7 +55,7 @@ func (m *testpipelineconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (i
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TestPipelineConnectionDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for TestPipelineConnectionDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -22,9 +22,9 @@ import (
 // SourceDetails An object that represents the source of the flow defined by the connector.
 // An example source is the VCNFlow logs within the NetworkLogs group.
 // For more information about flows defined by connectors, see
-// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
+// Overview of Connector Hub (https://docs.oracle.com/iaas/Content/connector-hub/overview.htm).
 // For configuration instructions, see
-// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// Creating a Connector (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type SourceDetails interface {
 }
 
@@ -75,7 +75,7 @@ func (m *sourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SourceDetails: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for SourceDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

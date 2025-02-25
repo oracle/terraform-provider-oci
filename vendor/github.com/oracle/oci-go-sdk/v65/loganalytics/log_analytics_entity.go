@@ -25,7 +25,7 @@ type LogAnalyticsEntity struct {
 	// Log analytics entity name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Log analytics entity type name.

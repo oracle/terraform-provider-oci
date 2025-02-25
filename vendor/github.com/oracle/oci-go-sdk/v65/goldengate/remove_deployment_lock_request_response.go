@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveDeploymentLock.go.html to see an example of how to use RemoveDeploymentLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RemoveDeploymentLock.go.html to see an example of how to use RemoveDeploymentLockRequest.
 type RemoveDeploymentLockRequest struct {
 
 	// A unique Deployment identifier.

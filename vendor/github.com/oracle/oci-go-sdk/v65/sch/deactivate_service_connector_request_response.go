@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/DeactivateServiceConnector.go.html to see an example of how to use DeactivateServiceConnectorRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/DeactivateServiceConnector.go.html to see an example of how to use DeactivateServiceConnectorRequest.
 type DeactivateServiceConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	ServiceConnectorId *string `mandatory:"true" contributesTo:"path" name:"serviceConnectorId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

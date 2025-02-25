@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateRecoveryServiceSubnet.go.html to see an example of how to use CreateRecoveryServiceSubnetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateRecoveryServiceSubnet.go.html to see an example of how to use CreateRecoveryServiceSubnetRequest.
 type CreateRecoveryServiceSubnetRequest struct {
 
 	// Describes the parameters required to create a recovery service subnet.

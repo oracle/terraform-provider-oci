@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GenerateWallet.go.html to see an example of how to use GenerateWalletRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/GenerateWallet.go.html to see an example of how to use GenerateWalletRequest.
 type GenerateWalletRequest struct {
 
 	// Sharded Database identifier

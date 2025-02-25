@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateInternalOccCapacityRequest.go.html to see an example of how to use UpdateInternalOccCapacityRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateInternalOccCapacityRequest.go.html to see an example of how to use UpdateInternalOccCapacityRequestRequest.
 type UpdateInternalOccCapacityRequestRequest struct {
 
 	// Request to update the properties of the capacity request.

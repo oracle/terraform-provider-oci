@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleets.go.html to see an example of how to use ListFleetsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleets.go.html to see an example of how to use ListFleetsRequest.
 type ListFleetsRequest struct {
 
 	// A filter to return fleets whose lifecycleState matches the given lifecycleState.

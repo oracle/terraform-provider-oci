@@ -4,7 +4,7 @@
 
 // Streaming API
 //
-// Use the Streaming API to produce and consume messages, create streams and stream pools, and manage related items. For more information, see Streaming (https://docs.cloud.oracle.com/Content/Streaming/Concepts/streamingoverview.htm).
+// Use the Streaming API to produce and consume messages, create streams and stream pools, and manage related items. For more information, see Streaming (https://docs.oracle.com/iaas/Content/Streaming/Concepts/streamingoverview.htm).
 //
 
 package streaming

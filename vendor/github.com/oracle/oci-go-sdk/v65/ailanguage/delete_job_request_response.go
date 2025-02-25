@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DeleteJob.go.html to see an example of how to use DeleteJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DeleteJob.go.html to see an example of how to use DeleteJobRequest.
 type DeleteJobRequest struct {
 
 	// Unique Transcription Job identifier.

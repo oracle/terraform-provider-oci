@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptionLineItems.go.html to see an example of how to use ListSubscriptionLineItemsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptionLineItems.go.html to see an example of how to use ListSubscriptionLineItemsRequest.
 type ListSubscriptionLineItemsRequest struct {
 
 	// OCID of the subscription.

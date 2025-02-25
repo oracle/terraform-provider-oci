@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalExadataStorageGrid.go.html to see an example of how to use UpdateExternalExadataStorageGridRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalExadataStorageGrid.go.html to see an example of how to use UpdateExternalExadataStorageGridRequest.
 type UpdateExternalExadataStorageGridRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage grid.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata storage grid.
 	ExternalExadataStorageGridId *string `mandatory:"true" contributesTo:"path" name:"externalExadataStorageGridId"`
 
 	// The details required to update an external Exadata storage grid.

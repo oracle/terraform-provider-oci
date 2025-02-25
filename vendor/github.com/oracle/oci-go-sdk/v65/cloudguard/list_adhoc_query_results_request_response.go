@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListAdhocQueryResults.go.html to see an example of how to use ListAdhocQueryResultsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListAdhocQueryResults.go.html to see an example of how to use ListAdhocQueryResultsRequest.
 type ListAdhocQueryResultsRequest struct {
 
 	// Adhoc query OCID.

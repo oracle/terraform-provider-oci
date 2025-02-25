@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/AddProjectLock.go.html to see an example of how to use AddProjectLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/AddProjectLock.go.html to see an example of how to use AddProjectLockRequest.
 type AddProjectLockRequest struct {
 
 	// A unique project identifier.

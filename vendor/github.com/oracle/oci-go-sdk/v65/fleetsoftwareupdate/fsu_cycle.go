@@ -48,7 +48,7 @@ type FsuCycle interface {
 	// In this array all the possible actions will be listed. The first element is the suggested Action.
 	GetNextActionToExecute() []NextActionToExecuteDetails
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the latest Action
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action
 	// in the Exadata Fleet Update Cycle.
 	GetLastCompletedActionId() *string
 
@@ -177,7 +177,7 @@ func (m *fsucycle) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for FsuCycle: %s.", m.Type)
+		common.Logf("Received unsupported enum value for FsuCycle: %s.", m.Type)
 		return *m, nil
 	}
 }

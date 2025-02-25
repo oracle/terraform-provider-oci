@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -21,7 +21,7 @@ import (
 
 // LatestStreamingCursor `LATEST` cursor type. Starts reading messages published after creating the connector.
 // For configuration instructions, see
-// Creating a Connector with a Streaming Source (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm).
+// Creating a Connector with a Streaming Source (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm).
 type LatestStreamingCursor struct {
 }
 

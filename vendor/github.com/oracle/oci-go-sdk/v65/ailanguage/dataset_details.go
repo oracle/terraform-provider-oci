@@ -61,7 +61,7 @@ func (m *datasetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DatasetDetails: %s.", m.DatasetType)
+		common.Logf("Received unsupported enum value for DatasetDetails: %s.", m.DatasetType)
 		return *m, nil
 	}
 }

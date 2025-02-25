@@ -25,6 +25,8 @@ type PipelineStepOverrideDetails struct {
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"true" json:"stepConfigurationDetails"`
 
 	StepContainerConfigurationDetails PipelineContainerConfigurationDetails `mandatory:"false" json:"stepContainerConfigurationDetails"`
+
+	StepDataflowConfigurationDetails *PipelineDataflowConfigurationDetails `mandatory:"false" json:"stepDataflowConfigurationDetails"`
 }
 
 func (m PipelineStepOverrideDetails) String() string {
@@ -47,6 +49,7 @@ func (m PipelineStepOverrideDetails) ValidateEnumValue() (bool, error) {
 func (m *PipelineStepOverrideDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		StepContainerConfigurationDetails pipelinecontainerconfigurationdetails `json:"stepContainerConfigurationDetails"`
+		StepDataflowConfigurationDetails  *PipelineDataflowConfigurationDetails `json:"stepDataflowConfigurationDetails"`
 		StepName                          *string                               `json:"stepName"`
 		StepConfigurationDetails          *PipelineStepConfigurationDetails     `json:"stepConfigurationDetails"`
 	}{}
@@ -65,6 +68,8 @@ func (m *PipelineStepOverrideDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.StepContainerConfigurationDetails = nil
 	}
+
+	m.StepDataflowConfigurationDetails = model.StepDataflowConfigurationDetails
 
 	m.StepName = model.StepName
 

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetConsoleConnection.go.html to see an example of how to use GetConsoleConnectionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetConsoleConnection.go.html to see an example of how to use GetConsoleConnectionRequest.
 type GetConsoleConnectionRequest struct {
 
-	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// The OCID of the console connection.

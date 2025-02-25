@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetPbfListingVersion.go.html to see an example of how to use GetPbfListingVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetPbfListingVersion.go.html to see an example of how to use GetPbfListingVersionRequest.
 type GetPbfListingVersionRequest struct {
 
 	// unique PbfListingVersion identifier

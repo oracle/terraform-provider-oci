@@ -18,7 +18,7 @@ import (
 // ChangeOccDemandSignalCompartmentDetails The configuration details for the move operation.
 type ChangeOccDemandSignalCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the OccDemandSignal to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the OccDemandSignal to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

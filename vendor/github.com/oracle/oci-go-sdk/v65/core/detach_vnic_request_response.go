@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachVnic.go.html to see an example of how to use DetachVnicRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachVnic.go.html to see an example of how to use DetachVnicRequest.
 type DetachVnicRequest struct {
 
 	// The OCID of the VNIC attachment.

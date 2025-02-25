@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetWindowsUpdate.go.html to see an example of how to use GetWindowsUpdateRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetWindowsUpdate.go.html to see an example of how to use GetWindowsUpdateRequest.
 type GetWindowsUpdateRequest struct {
 
 	// The unique identifier for the Windows update. Note that this is not an OCID, but is a unique identifier assigned by Microsoft.

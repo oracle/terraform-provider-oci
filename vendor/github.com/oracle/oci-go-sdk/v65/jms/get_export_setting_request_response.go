@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetExportSetting.go.html to see an example of how to use GetExportSettingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetExportSetting.go.html to see an example of how to use GetExportSettingRequest.
 type GetExportSettingRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The client request ID for tracing.

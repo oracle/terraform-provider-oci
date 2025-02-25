@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -21,10 +21,10 @@ import (
 // ExternalMysqlDatabaseConfigurationSummary Configuration Summary of a External MySQL database.
 type ExternalMysqlDatabaseConfigurationSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	DatabaseInsightId *string `mandatory:"true" json:"databaseInsightId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The database name. The database name is unique within the tenancy.
@@ -50,13 +50,13 @@ type ExternalMysqlDatabaseConfigurationSummary struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	DatabaseId *string `mandatory:"true" json:"databaseId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 	AgentId *string `mandatory:"true" json:"agentId"`
 
-	// The DBM owned database connector OCID (https://docs.cloud.oracle.com/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.
+	// The DBM owned database connector OCID (https://docs.oracle.com/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.
 	DatabaseConnectorId *string `mandatory:"true" json:"databaseConnectorId"`
 
 	// Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.

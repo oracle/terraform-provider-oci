@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/FetchProtectedDatabaseConfiguration.go.html to see an example of how to use FetchProtectedDatabaseConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/FetchProtectedDatabaseConfiguration.go.html to see an example of how to use FetchProtectedDatabaseConfigurationRequest.
 type FetchProtectedDatabaseConfigurationRequest struct {
 
 	// The protected database OCID.

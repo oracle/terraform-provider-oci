@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetModuleStream.go.html to see an example of how to use GetModuleStreamRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetModuleStream.go.html to see an example of how to use GetModuleStreamRequest.
 type GetModuleStreamRequest struct {
 
 	// The OCID of the software source.

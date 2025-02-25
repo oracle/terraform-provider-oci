@@ -97,7 +97,7 @@ func (client *OperatorActionsClient) ConfigurationProvider() *common.Configurati
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorAction.go.html to see an example of how to use GetOperatorAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorAction.go.html to see an example of how to use GetOperatorAction API.
 // A default retry strategy applies to this operation GetOperatorAction()
 func (client OperatorActionsClient) GetOperatorAction(ctx context.Context, request GetOperatorActionRequest) (response GetOperatorActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,7 +155,7 @@ func (client OperatorActionsClient) getOperatorAction(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorActions.go.html to see an example of how to use ListOperatorActions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorActions.go.html to see an example of how to use ListOperatorActions API.
 // A default retry strategy applies to this operation ListOperatorActions()
 func (client OperatorActionsClient) ListOperatorActions(ctx context.Context, request ListOperatorActionsRequest) (response ListOperatorActionsResponse, err error) {
 	var ociResponse common.OCIResponse

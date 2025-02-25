@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/DeleteEmWarehouse.go.html to see an example of how to use DeleteEmWarehouseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/DeleteEmWarehouse.go.html to see an example of how to use DeleteEmWarehouseRequest.
 type DeleteEmWarehouseRequest struct {
 
 	// unique EmWarehouse identifier

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateApplication.go.html to see an example of how to use UpdateApplicationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateApplication.go.html to see an example of how to use UpdateApplicationRequest.
 type UpdateApplicationRequest struct {
 
 	// Unique Network Firewall Policy identifier

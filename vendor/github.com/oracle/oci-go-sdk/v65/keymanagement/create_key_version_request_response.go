@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateKeyVersion.go.html to see an example of how to use CreateKeyVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateKeyVersion.go.html to see an example of how to use CreateKeyVersionRequest.
 type CreateKeyVersionRequest struct {
 
 	// The OCID of the key.

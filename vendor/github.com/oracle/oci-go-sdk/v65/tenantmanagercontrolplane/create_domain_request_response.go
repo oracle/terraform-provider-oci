@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomain.go.html to see an example of how to use CreateDomainRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomain.go.html to see an example of how to use CreateDomainRequest.
 type CreateDomainRequest struct {
 
 	// Parameters for domain creation.

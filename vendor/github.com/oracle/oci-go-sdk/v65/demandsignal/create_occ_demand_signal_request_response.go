@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/CreateOccDemandSignal.go.html to see an example of how to use CreateOccDemandSignalRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/CreateOccDemandSignal.go.html to see an example of how to use CreateOccDemandSignalRequest.
 type CreateOccDemandSignalRequest struct {
 
 	// Details for the new OccDemandSignal.

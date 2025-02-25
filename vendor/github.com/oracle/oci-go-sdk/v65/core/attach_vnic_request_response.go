@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVnic.go.html to see an example of how to use AttachVnicRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVnic.go.html to see an example of how to use AttachVnicRequest.
 type AttachVnicRequest struct {
 
 	// Attach VNIC details.

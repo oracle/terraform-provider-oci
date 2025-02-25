@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataSource.go.html to see an example of how to use GetDataSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataSource.go.html to see an example of how to use GetDataSourceRequest.
 type GetDataSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data source.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateLibraryMaskingFormat.go.html to see an example of how to use CreateLibraryMaskingFormatRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateLibraryMaskingFormat.go.html to see an example of how to use CreateLibraryMaskingFormatRequest.
 type CreateLibraryMaskingFormatRequest struct {
 
 	// Details to create a new library masking format.
@@ -81,7 +81,7 @@ type CreateLibraryMaskingFormatResponse struct {
 	// The LibraryMaskingFormat instance
 	LibraryMaskingFormat `presentIn:"body"`
 
-	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// The OCID of the work request. Use GetWorkRequest with this OCID to track the status of the request.

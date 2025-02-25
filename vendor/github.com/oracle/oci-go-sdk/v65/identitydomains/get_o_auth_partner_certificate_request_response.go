@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuthPartnerCertificate.go.html to see an example of how to use GetOAuthPartnerCertificateRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuthPartnerCertificate.go.html to see an example of how to use GetOAuthPartnerCertificateRequest.
 type GetOAuthPartnerCertificateRequest struct {
 
 	// ID of the resource

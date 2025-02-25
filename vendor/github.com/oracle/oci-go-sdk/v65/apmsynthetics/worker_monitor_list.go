@@ -18,7 +18,7 @@ import (
 // WorkerMonitorList Details of the monitor assigned to an On-premise vantage point worker.
 type WorkerMonitorList struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitor.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique name that can be edited. The name should not contain any confidential information.

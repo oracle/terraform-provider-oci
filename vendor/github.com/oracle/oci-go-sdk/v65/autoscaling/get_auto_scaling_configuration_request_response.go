@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfigurationRequest.
 type GetAutoScalingConfigurationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

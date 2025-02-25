@@ -96,7 +96,7 @@ func (client *FleetSoftwareUpdateClient) ConfigurationProvider() *common.Configu
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/AbortFsuDiscovery.go.html to see an example of how to use AbortFsuDiscovery API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/AbortFsuDiscovery.go.html to see an example of how to use AbortFsuDiscovery API.
 // A default retry strategy applies to this operation AbortFsuDiscovery()
 func (client FleetSoftwareUpdateClient) AbortFsuDiscovery(ctx context.Context, request AbortFsuDiscoveryRequest) (response AbortFsuDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -162,7 +162,7 @@ func (client FleetSoftwareUpdateClient) abortFsuDiscovery(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/AddFsuCollectionTargets.go.html to see an example of how to use AddFsuCollectionTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/AddFsuCollectionTargets.go.html to see an example of how to use AddFsuCollectionTargets API.
 // A default retry strategy applies to this operation AddFsuCollectionTargets()
 func (client FleetSoftwareUpdateClient) AddFsuCollectionTargets(ctx context.Context, request AddFsuCollectionTargetsRequest) (response AddFsuCollectionTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -225,7 +225,7 @@ func (client FleetSoftwareUpdateClient) addFsuCollectionTargets(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CancelFsuAction.go.html to see an example of how to use CancelFsuAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CancelFsuAction.go.html to see an example of how to use CancelFsuAction API.
 // A default retry strategy applies to this operation CancelFsuAction()
 func (client FleetSoftwareUpdateClient) CancelFsuAction(ctx context.Context, request CancelFsuActionRequest) (response CancelFsuActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -289,7 +289,7 @@ func (client FleetSoftwareUpdateClient) cancelFsuAction(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuActionCompartment.go.html to see an example of how to use ChangeFsuActionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuActionCompartment.go.html to see an example of how to use ChangeFsuActionCompartment API.
 // A default retry strategy applies to this operation ChangeFsuActionCompartment()
 func (client FleetSoftwareUpdateClient) ChangeFsuActionCompartment(ctx context.Context, request ChangeFsuActionCompartmentRequest) (response ChangeFsuActionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -353,7 +353,7 @@ func (client FleetSoftwareUpdateClient) changeFsuActionCompartment(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuCollectionCompartment.go.html to see an example of how to use ChangeFsuCollectionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuCollectionCompartment.go.html to see an example of how to use ChangeFsuCollectionCompartment API.
 // A default retry strategy applies to this operation ChangeFsuCollectionCompartment()
 func (client FleetSoftwareUpdateClient) ChangeFsuCollectionCompartment(ctx context.Context, request ChangeFsuCollectionCompartmentRequest) (response ChangeFsuCollectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -417,7 +417,7 @@ func (client FleetSoftwareUpdateClient) changeFsuCollectionCompartment(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuCycleCompartment.go.html to see an example of how to use ChangeFsuCycleCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuCycleCompartment.go.html to see an example of how to use ChangeFsuCycleCompartment API.
 // A default retry strategy applies to this operation ChangeFsuCycleCompartment()
 func (client FleetSoftwareUpdateClient) ChangeFsuCycleCompartment(ctx context.Context, request ChangeFsuCycleCompartmentRequest) (response ChangeFsuCycleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -481,7 +481,7 @@ func (client FleetSoftwareUpdateClient) changeFsuCycleCompartment(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuDiscoveryCompartment.go.html to see an example of how to use ChangeFsuDiscoveryCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuDiscoveryCompartment.go.html to see an example of how to use ChangeFsuDiscoveryCompartment API.
 // A default retry strategy applies to this operation ChangeFsuDiscoveryCompartment()
 func (client FleetSoftwareUpdateClient) ChangeFsuDiscoveryCompartment(ctx context.Context, request ChangeFsuDiscoveryCompartmentRequest) (response ChangeFsuDiscoveryCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -544,7 +544,7 @@ func (client FleetSoftwareUpdateClient) changeFsuDiscoveryCompartment(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CloneFsuCycle.go.html to see an example of how to use CloneFsuCycle API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CloneFsuCycle.go.html to see an example of how to use CloneFsuCycle API.
 // A default retry strategy applies to this operation CloneFsuCycle()
 func (client FleetSoftwareUpdateClient) CloneFsuCycle(ctx context.Context, request CloneFsuCycleRequest) (response CloneFsuCycleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -607,7 +607,7 @@ func (client FleetSoftwareUpdateClient) cloneFsuCycle(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuAction.go.html to see an example of how to use CreateFsuAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuAction.go.html to see an example of how to use CreateFsuAction API.
 // A default retry strategy applies to this operation CreateFsuAction()
 func (client FleetSoftwareUpdateClient) CreateFsuAction(ctx context.Context, request CreateFsuActionRequest) (response CreateFsuActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -670,7 +670,7 @@ func (client FleetSoftwareUpdateClient) createFsuAction(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuCollection.go.html to see an example of how to use CreateFsuCollection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuCollection.go.html to see an example of how to use CreateFsuCollection API.
 // A default retry strategy applies to this operation CreateFsuCollection()
 func (client FleetSoftwareUpdateClient) CreateFsuCollection(ctx context.Context, request CreateFsuCollectionRequest) (response CreateFsuCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -733,7 +733,7 @@ func (client FleetSoftwareUpdateClient) createFsuCollection(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuCycle.go.html to see an example of how to use CreateFsuCycle API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuCycle.go.html to see an example of how to use CreateFsuCycle API.
 // A default retry strategy applies to this operation CreateFsuCycle()
 func (client FleetSoftwareUpdateClient) CreateFsuCycle(ctx context.Context, request CreateFsuCycleRequest) (response CreateFsuCycleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -796,7 +796,7 @@ func (client FleetSoftwareUpdateClient) createFsuCycle(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuDiscovery.go.html to see an example of how to use CreateFsuDiscovery API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuDiscovery.go.html to see an example of how to use CreateFsuDiscovery API.
 // A default retry strategy applies to this operation CreateFsuDiscovery()
 func (client FleetSoftwareUpdateClient) CreateFsuDiscovery(ctx context.Context, request CreateFsuDiscoveryRequest) (response CreateFsuDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -859,7 +859,7 @@ func (client FleetSoftwareUpdateClient) createFsuDiscovery(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuAction.go.html to see an example of how to use DeleteFsuAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuAction.go.html to see an example of how to use DeleteFsuAction API.
 // A default retry strategy applies to this operation DeleteFsuAction()
 func (client FleetSoftwareUpdateClient) DeleteFsuAction(ctx context.Context, request DeleteFsuActionRequest) (response DeleteFsuActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -917,7 +917,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuAction(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCollection.go.html to see an example of how to use DeleteFsuCollection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCollection.go.html to see an example of how to use DeleteFsuCollection API.
 // A default retry strategy applies to this operation DeleteFsuCollection()
 func (client FleetSoftwareUpdateClient) DeleteFsuCollection(ctx context.Context, request DeleteFsuCollectionRequest) (response DeleteFsuCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -977,7 +977,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuCollection(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCollectionTarget.go.html to see an example of how to use DeleteFsuCollectionTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCollectionTarget.go.html to see an example of how to use DeleteFsuCollectionTarget API.
 // A default retry strategy applies to this operation DeleteFsuCollectionTarget()
 func (client FleetSoftwareUpdateClient) DeleteFsuCollectionTarget(ctx context.Context, request DeleteFsuCollectionTargetRequest) (response DeleteFsuCollectionTargetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1035,7 +1035,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuCollectionTarget(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCycle.go.html to see an example of how to use DeleteFsuCycle API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuCycle.go.html to see an example of how to use DeleteFsuCycle API.
 // A default retry strategy applies to this operation DeleteFsuCycle()
 func (client FleetSoftwareUpdateClient) DeleteFsuCycle(ctx context.Context, request DeleteFsuCycleRequest) (response DeleteFsuCycleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1093,7 +1093,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuCycle(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuDiscovery.go.html to see an example of how to use DeleteFsuDiscovery API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuDiscovery.go.html to see an example of how to use DeleteFsuDiscovery API.
 // A default retry strategy applies to this operation DeleteFsuDiscovery()
 func (client FleetSoftwareUpdateClient) DeleteFsuDiscovery(ctx context.Context, request DeleteFsuDiscoveryRequest) (response DeleteFsuDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1151,7 +1151,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuDiscovery(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuJob.go.html to see an example of how to use DeleteFsuJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuJob.go.html to see an example of how to use DeleteFsuJob API.
 // A default retry strategy applies to this operation DeleteFsuJob()
 func (client FleetSoftwareUpdateClient) DeleteFsuJob(ctx context.Context, request DeleteFsuJobRequest) (response DeleteFsuJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1209,7 +1209,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuJob(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuAction.go.html to see an example of how to use GetFsuAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuAction.go.html to see an example of how to use GetFsuAction API.
 // A default retry strategy applies to this operation GetFsuAction()
 func (client FleetSoftwareUpdateClient) GetFsuAction(ctx context.Context, request GetFsuActionRequest) (response GetFsuActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1268,7 +1268,7 @@ func (client FleetSoftwareUpdateClient) getFsuAction(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuActionOutputContent.go.html to see an example of how to use GetFsuActionOutputContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuActionOutputContent.go.html to see an example of how to use GetFsuActionOutputContent API.
 // A default retry strategy applies to this operation GetFsuActionOutputContent()
 func (client FleetSoftwareUpdateClient) GetFsuActionOutputContent(ctx context.Context, request GetFsuActionOutputContentRequest) (response GetFsuActionOutputContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1325,7 +1325,7 @@ func (client FleetSoftwareUpdateClient) getFsuActionOutputContent(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCollection.go.html to see an example of how to use GetFsuCollection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCollection.go.html to see an example of how to use GetFsuCollection API.
 // A default retry strategy applies to this operation GetFsuCollection()
 func (client FleetSoftwareUpdateClient) GetFsuCollection(ctx context.Context, request GetFsuCollectionRequest) (response GetFsuCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1383,7 +1383,7 @@ func (client FleetSoftwareUpdateClient) getFsuCollection(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCollectionTarget.go.html to see an example of how to use GetFsuCollectionTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCollectionTarget.go.html to see an example of how to use GetFsuCollectionTarget API.
 // A default retry strategy applies to this operation GetFsuCollectionTarget()
 func (client FleetSoftwareUpdateClient) GetFsuCollectionTarget(ctx context.Context, request GetFsuCollectionTargetRequest) (response GetFsuCollectionTargetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1441,7 +1441,7 @@ func (client FleetSoftwareUpdateClient) getFsuCollectionTarget(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCycle.go.html to see an example of how to use GetFsuCycle API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCycle.go.html to see an example of how to use GetFsuCycle API.
 // A default retry strategy applies to this operation GetFsuCycle()
 func (client FleetSoftwareUpdateClient) GetFsuCycle(ctx context.Context, request GetFsuCycleRequest) (response GetFsuCycleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1499,7 +1499,7 @@ func (client FleetSoftwareUpdateClient) getFsuCycle(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuDiscovery.go.html to see an example of how to use GetFsuDiscovery API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuDiscovery.go.html to see an example of how to use GetFsuDiscovery API.
 // A default retry strategy applies to this operation GetFsuDiscovery()
 func (client FleetSoftwareUpdateClient) GetFsuDiscovery(ctx context.Context, request GetFsuDiscoveryRequest) (response GetFsuDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1557,7 +1557,7 @@ func (client FleetSoftwareUpdateClient) getFsuDiscovery(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuJob.go.html to see an example of how to use GetFsuJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuJob.go.html to see an example of how to use GetFsuJob API.
 // A default retry strategy applies to this operation GetFsuJob()
 func (client FleetSoftwareUpdateClient) GetFsuJob(ctx context.Context, request GetFsuJobRequest) (response GetFsuJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1615,7 +1615,7 @@ func (client FleetSoftwareUpdateClient) getFsuJob(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuJobOutputContent.go.html to see an example of how to use GetFsuJobOutputContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuJobOutputContent.go.html to see an example of how to use GetFsuJobOutputContent API.
 // A default retry strategy applies to this operation GetFsuJobOutputContent()
 func (client FleetSoftwareUpdateClient) GetFsuJobOutputContent(ctx context.Context, request GetFsuJobOutputContentRequest) (response GetFsuJobOutputContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1672,7 +1672,7 @@ func (client FleetSoftwareUpdateClient) getFsuJobOutputContent(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client FleetSoftwareUpdateClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1730,7 +1730,7 @@ func (client FleetSoftwareUpdateClient) getWorkRequest(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuActions.go.html to see an example of how to use ListFsuActions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuActions.go.html to see an example of how to use ListFsuActions API.
 // A default retry strategy applies to this operation ListFsuActions()
 func (client FleetSoftwareUpdateClient) ListFsuActions(ctx context.Context, request ListFsuActionsRequest) (response ListFsuActionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1788,7 +1788,7 @@ func (client FleetSoftwareUpdateClient) listFsuActions(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCollectionTargets.go.html to see an example of how to use ListFsuCollectionTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCollectionTargets.go.html to see an example of how to use ListFsuCollectionTargets API.
 // A default retry strategy applies to this operation ListFsuCollectionTargets()
 func (client FleetSoftwareUpdateClient) ListFsuCollectionTargets(ctx context.Context, request ListFsuCollectionTargetsRequest) (response ListFsuCollectionTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1846,7 +1846,7 @@ func (client FleetSoftwareUpdateClient) listFsuCollectionTargets(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCollections.go.html to see an example of how to use ListFsuCollections API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCollections.go.html to see an example of how to use ListFsuCollections API.
 // A default retry strategy applies to this operation ListFsuCollections()
 func (client FleetSoftwareUpdateClient) ListFsuCollections(ctx context.Context, request ListFsuCollectionsRequest) (response ListFsuCollectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1904,7 +1904,7 @@ func (client FleetSoftwareUpdateClient) listFsuCollections(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCycles.go.html to see an example of how to use ListFsuCycles API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCycles.go.html to see an example of how to use ListFsuCycles API.
 // A default retry strategy applies to this operation ListFsuCycles()
 func (client FleetSoftwareUpdateClient) ListFsuCycles(ctx context.Context, request ListFsuCyclesRequest) (response ListFsuCyclesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1962,7 +1962,7 @@ func (client FleetSoftwareUpdateClient) listFsuCycles(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuDiscoveries.go.html to see an example of how to use ListFsuDiscoveries API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuDiscoveries.go.html to see an example of how to use ListFsuDiscoveries API.
 // A default retry strategy applies to this operation ListFsuDiscoveries()
 func (client FleetSoftwareUpdateClient) ListFsuDiscoveries(ctx context.Context, request ListFsuDiscoveriesRequest) (response ListFsuDiscoveriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2020,7 +2020,7 @@ func (client FleetSoftwareUpdateClient) listFsuDiscoveries(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuDiscoveryTargets.go.html to see an example of how to use ListFsuDiscoveryTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuDiscoveryTargets.go.html to see an example of how to use ListFsuDiscoveryTargets API.
 // A default retry strategy applies to this operation ListFsuDiscoveryTargets()
 func (client FleetSoftwareUpdateClient) ListFsuDiscoveryTargets(ctx context.Context, request ListFsuDiscoveryTargetsRequest) (response ListFsuDiscoveryTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2078,7 +2078,7 @@ func (client FleetSoftwareUpdateClient) listFsuDiscoveryTargets(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuJobOutputs.go.html to see an example of how to use ListFsuJobOutputs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuJobOutputs.go.html to see an example of how to use ListFsuJobOutputs API.
 // A default retry strategy applies to this operation ListFsuJobOutputs()
 func (client FleetSoftwareUpdateClient) ListFsuJobOutputs(ctx context.Context, request ListFsuJobOutputsRequest) (response ListFsuJobOutputsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2136,7 +2136,7 @@ func (client FleetSoftwareUpdateClient) listFsuJobOutputs(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuJobs.go.html to see an example of how to use ListFsuJobs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuJobs.go.html to see an example of how to use ListFsuJobs API.
 // A default retry strategy applies to this operation ListFsuJobs()
 func (client FleetSoftwareUpdateClient) ListFsuJobs(ctx context.Context, request ListFsuJobsRequest) (response ListFsuJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2194,7 +2194,7 @@ func (client FleetSoftwareUpdateClient) listFsuJobs(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client FleetSoftwareUpdateClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2252,7 +2252,7 @@ func (client FleetSoftwareUpdateClient) listWorkRequestErrors(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client FleetSoftwareUpdateClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2310,7 +2310,7 @@ func (client FleetSoftwareUpdateClient) listWorkRequestLogs(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client FleetSoftwareUpdateClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2370,7 +2370,7 @@ func (client FleetSoftwareUpdateClient) listWorkRequests(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RemoveFsuCollectionTargets.go.html to see an example of how to use RemoveFsuCollectionTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RemoveFsuCollectionTargets.go.html to see an example of how to use RemoveFsuCollectionTargets API.
 // A default retry strategy applies to this operation RemoveFsuCollectionTargets()
 func (client FleetSoftwareUpdateClient) RemoveFsuCollectionTargets(ctx context.Context, request RemoveFsuCollectionTargetsRequest) (response RemoveFsuCollectionTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2433,7 +2433,7 @@ func (client FleetSoftwareUpdateClient) removeFsuCollectionTargets(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ResumeFsuAction.go.html to see an example of how to use ResumeFsuAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ResumeFsuAction.go.html to see an example of how to use ResumeFsuAction API.
 // A default retry strategy applies to this operation ResumeFsuAction()
 func (client FleetSoftwareUpdateClient) ResumeFsuAction(ctx context.Context, request ResumeFsuActionRequest) (response ResumeFsuActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2497,7 +2497,7 @@ func (client FleetSoftwareUpdateClient) resumeFsuAction(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RetryFsuJob.go.html to see an example of how to use RetryFsuJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/RetryFsuJob.go.html to see an example of how to use RetryFsuJob API.
 // A default retry strategy applies to this operation RetryFsuJob()
 func (client FleetSoftwareUpdateClient) RetryFsuJob(ctx context.Context, request RetryFsuJobRequest) (response RetryFsuJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2560,7 +2560,7 @@ func (client FleetSoftwareUpdateClient) retryFsuJob(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuAction.go.html to see an example of how to use UpdateFsuAction API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuAction.go.html to see an example of how to use UpdateFsuAction API.
 // A default retry strategy applies to this operation UpdateFsuAction()
 func (client FleetSoftwareUpdateClient) UpdateFsuAction(ctx context.Context, request UpdateFsuActionRequest) (response UpdateFsuActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2618,7 +2618,7 @@ func (client FleetSoftwareUpdateClient) updateFsuAction(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuCollection.go.html to see an example of how to use UpdateFsuCollection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuCollection.go.html to see an example of how to use UpdateFsuCollection API.
 // A default retry strategy applies to this operation UpdateFsuCollection()
 func (client FleetSoftwareUpdateClient) UpdateFsuCollection(ctx context.Context, request UpdateFsuCollectionRequest) (response UpdateFsuCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2676,7 +2676,7 @@ func (client FleetSoftwareUpdateClient) updateFsuCollection(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuCycle.go.html to see an example of how to use UpdateFsuCycle API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuCycle.go.html to see an example of how to use UpdateFsuCycle API.
 // A default retry strategy applies to this operation UpdateFsuCycle()
 func (client FleetSoftwareUpdateClient) UpdateFsuCycle(ctx context.Context, request UpdateFsuCycleRequest) (response UpdateFsuCycleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2734,7 +2734,7 @@ func (client FleetSoftwareUpdateClient) updateFsuCycle(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuDiscovery.go.html to see an example of how to use UpdateFsuDiscovery API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuDiscovery.go.html to see an example of how to use UpdateFsuDiscovery API.
 // A default retry strategy applies to this operation UpdateFsuDiscovery()
 func (client FleetSoftwareUpdateClient) UpdateFsuDiscovery(ctx context.Context, request UpdateFsuDiscoveryRequest) (response UpdateFsuDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2792,7 +2792,7 @@ func (client FleetSoftwareUpdateClient) updateFsuDiscovery(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuJob.go.html to see an example of how to use UpdateFsuJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuJob.go.html to see an example of how to use UpdateFsuJob API.
 // A default retry strategy applies to this operation UpdateFsuJob()
 func (client FleetSoftwareUpdateClient) UpdateFsuJob(ctx context.Context, request UpdateFsuJobRequest) (response UpdateFsuJobResponse, err error) {
 	var ociResponse common.OCIResponse

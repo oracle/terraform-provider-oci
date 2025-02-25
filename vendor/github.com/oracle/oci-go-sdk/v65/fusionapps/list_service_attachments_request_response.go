@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListServiceAttachments.go.html to see an example of how to use ListServiceAttachmentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListServiceAttachments.go.html to see an example of how to use ListServiceAttachmentsRequest.
 type ListServiceAttachmentsRequest struct {
 
 	// unique FusionEnvironment identifier

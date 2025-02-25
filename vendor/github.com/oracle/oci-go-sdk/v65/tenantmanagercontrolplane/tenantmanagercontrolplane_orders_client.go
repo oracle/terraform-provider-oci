@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -95,7 +95,7 @@ func (client *OrdersClient) ConfigurationProvider() *common.ConfigurationProvide
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ActivateOrder.go.html to see an example of how to use ActivateOrder API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ActivateOrder.go.html to see an example of how to use ActivateOrder API.
 func (client OrdersClient) ActivateOrder(ctx context.Context, request ActivateOrderRequest) (response ActivateOrderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client OrdersClient) activateOrder(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrder.go.html to see an example of how to use GetOrder API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrder.go.html to see an example of how to use GetOrder API.
 func (client OrdersClient) GetOrder(ctx context.Context, request GetOrderRequest) (response GetOrderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

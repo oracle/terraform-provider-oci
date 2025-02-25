@@ -18,7 +18,7 @@ import (
 // ExportDetails Input arguments for running a query synchronosly and streaming the results as soon as they become available.
 type ExportDetails struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Query to perform.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateAgent.go.html to see an example of how to use UpdateAgentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateAgent.go.html to see an example of how to use UpdateAgentRequest.
 type UpdateAgentRequest struct {
 
 	// Unique Agent identifier path parameter.

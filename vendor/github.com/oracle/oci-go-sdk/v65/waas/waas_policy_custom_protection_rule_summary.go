@@ -18,7 +18,7 @@ import (
 // WaasPolicyCustomProtectionRuleSummary The OCID and action of a custom protection rule.
 type WaasPolicyCustomProtectionRuleSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the custom protection rule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom protection rule.
 	Id *string `mandatory:"false" json:"id"`
 
 	// The user-friendly name of the custom protection rule.

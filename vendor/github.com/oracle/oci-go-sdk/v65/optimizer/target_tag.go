@@ -6,7 +6,7 @@
 //
 // Use the Cloud Advisor API to find potential inefficiencies in your tenancy and address them.
 // Cloud Advisor can help you save money, improve performance, strengthen system resilience, and improve security.
-// For more information, see Cloud Advisor (https://docs.cloud.oracle.com/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
+// For more information, see Cloud Advisor (https://docs.oracle.com/iaas/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
 //
 
 package optimizer
@@ -19,7 +19,7 @@ import (
 
 // TargetTag A tag key definition used in the current profile override, including the tag namespace, tag key, tag value type, and tag values.
 // Only defined tags are supported.
-// For more information about tagging, see Tagging Overview (https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm)
+// For more information about tagging, see Tagging Overview (https://docs.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm)
 type TargetTag struct {
 
 	// The name of the tag namespace.

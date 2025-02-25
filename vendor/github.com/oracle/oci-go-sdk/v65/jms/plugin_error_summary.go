@@ -18,10 +18,10 @@ import (
 // PluginErrorSummary Entity that represents an error identified in a plugin.
 type PluginErrorSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Instance running the plugin.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Instance running the plugin.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of plugin error details.

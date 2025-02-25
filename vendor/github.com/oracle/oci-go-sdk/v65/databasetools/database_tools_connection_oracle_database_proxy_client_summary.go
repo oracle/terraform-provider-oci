@@ -59,7 +59,7 @@ func (m *databasetoolsconnectionoracledatabaseproxyclientsummary) UnmarshalPolym
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DatabaseToolsConnectionOracleDatabaseProxyClientSummary: %s.", m.ProxyAuthenticationType)
+		common.Logf("Received unsupported enum value for DatabaseToolsConnectionOracleDatabaseProxyClientSummary: %s.", m.ProxyAuthenticationType)
 		return *m, nil
 	}
 }

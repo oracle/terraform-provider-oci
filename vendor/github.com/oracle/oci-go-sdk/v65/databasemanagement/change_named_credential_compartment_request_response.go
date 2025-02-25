@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeNamedCredentialCompartment.go.html to see an example of how to use ChangeNamedCredentialCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeNamedCredentialCompartment.go.html to see an example of how to use ChangeNamedCredentialCompartmentRequest.
 type ChangeNamedCredentialCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential.
 	NamedCredentialId *string `mandatory:"true" contributesTo:"path" name:"namedCredentialId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to which the named credential should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which the named credential should be moved.
 	ChangeNamedCredentialCompartmentDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

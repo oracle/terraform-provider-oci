@@ -95,7 +95,7 @@ func (client *AddressServiceClient) ConfigurationProvider() *common.Configuratio
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddress.go.html to see an example of how to use GetAddress API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddress.go.html to see an example of how to use GetAddress API.
 // A default retry strategy applies to this operation GetAddress()
 func (client AddressServiceClient) GetAddress(ctx context.Context, request GetAddressRequest) (response GetAddressResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client AddressServiceClient) getAddress(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/VerifyAddress.go.html to see an example of how to use VerifyAddress API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/VerifyAddress.go.html to see an example of how to use VerifyAddress API.
 // A default retry strategy applies to this operation VerifyAddress()
 func (client AddressServiceClient) VerifyAddress(ctx context.Context, request VerifyAddressRequest) (response VerifyAddressResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -18,7 +18,7 @@ import (
 // DefinedMonitoringTemplateSummary Summary information about defined Monitoring Template for specified resourceType.
 type DefinedMonitoringTemplateSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the definedMonitoringTemplate.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the definedMonitoringTemplate.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the definedMonitoringTemplate.

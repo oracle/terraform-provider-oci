@@ -21,7 +21,7 @@ type QueryWorkRequest struct {
 	// Unique OCID identifier to reference this query job work Request with.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// When the job was started.

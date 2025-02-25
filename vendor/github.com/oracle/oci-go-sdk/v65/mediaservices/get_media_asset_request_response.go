@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAsset.go.html to see an example of how to use GetMediaAssetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAsset.go.html to see an example of how to use GetMediaAssetRequest.
 type GetMediaAssetRequest struct {
 
 	// Unique MediaAsset identifier

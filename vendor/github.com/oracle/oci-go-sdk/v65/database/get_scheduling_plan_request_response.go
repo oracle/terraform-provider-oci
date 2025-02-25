@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetSchedulingPlan.go.html to see an example of how to use GetSchedulingPlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetSchedulingPlan.go.html to see an example of how to use GetSchedulingPlanRequest.
 type GetSchedulingPlanRequest struct {
 
-	// The Schedule Plan OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Schedule Plan OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPlanId *string `mandatory:"true" contributesTo:"path" name:"schedulingPlanId"`
 
 	// Unique identifier for the request.

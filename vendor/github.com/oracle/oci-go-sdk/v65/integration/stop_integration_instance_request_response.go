@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StopIntegrationInstance.go.html to see an example of how to use StopIntegrationInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StopIntegrationInstance.go.html to see an example of how to use StopIntegrationInstanceRequest.
 type StopIntegrationInstanceRequest struct {
 
 	// Unique Integration Instance identifier.

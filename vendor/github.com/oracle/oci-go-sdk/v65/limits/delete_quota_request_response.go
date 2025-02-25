@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/DeleteQuota.go.html to see an example of how to use DeleteQuotaRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/DeleteQuota.go.html to see an example of how to use DeleteQuotaRequest.
 type DeleteQuotaRequest struct {
 
 	// The OCID of the quota.

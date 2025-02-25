@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -27,7 +27,7 @@ type WorkRequestResource struct {
 	// or `DELETED`, respectively.
 	ActionType ActionTypeEnum `mandatory:"true" json:"actionType"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the resource the work request affects.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the resource the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The URI path that you can use for a GET to access the resource metadata

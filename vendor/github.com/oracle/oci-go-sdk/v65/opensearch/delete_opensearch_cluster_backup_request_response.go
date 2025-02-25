@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/DeleteOpensearchClusterBackup.go.html to see an example of how to use DeleteOpensearchClusterBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/DeleteOpensearchClusterBackup.go.html to see an example of how to use DeleteOpensearchClusterBackupRequest.
 type DeleteOpensearchClusterBackupRequest struct {
 
 	// unique OpensearchClusterBackup identifier

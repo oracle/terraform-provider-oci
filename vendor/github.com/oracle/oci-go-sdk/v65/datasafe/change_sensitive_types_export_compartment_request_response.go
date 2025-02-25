@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveTypesExportCompartment.go.html to see an example of how to use ChangeSensitiveTypesExportCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveTypesExportCompartment.go.html to see an example of how to use ChangeSensitiveTypesExportCompartmentRequest.
 type ChangeSensitiveTypesExportCompartmentRequest struct {
 
 	// The OCID of the sensitive types export.

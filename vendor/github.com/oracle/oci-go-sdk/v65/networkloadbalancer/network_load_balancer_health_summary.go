@@ -18,7 +18,7 @@ import (
 // NetworkLoadBalancerHealthSummary A health status summary for the specified network load balancer
 type NetworkLoadBalancerHealthSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer with which the health status is associated.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer with which the health status is associated.
 	NetworkLoadBalancerId *string `mandatory:"true" json:"networkLoadBalancerId"`
 
 	// The overall health status of the network load balancer.

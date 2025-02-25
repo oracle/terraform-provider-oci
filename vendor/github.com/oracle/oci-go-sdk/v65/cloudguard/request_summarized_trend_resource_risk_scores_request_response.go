@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedTrendResourceRiskScores.go.html to see an example of how to use RequestSummarizedTrendResourceRiskScoresRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedTrendResourceRiskScores.go.html to see an example of how to use RequestSummarizedTrendResourceRiskScoresRequest.
 type RequestSummarizedTrendResourceRiskScoresRequest struct {
 
 	// The filter to fetch risk score trend

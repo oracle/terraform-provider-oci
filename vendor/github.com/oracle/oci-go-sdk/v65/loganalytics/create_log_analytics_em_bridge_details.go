@@ -21,7 +21,7 @@ type CreateLogAnalyticsEmBridgeDetails struct {
 	// Log analytics enterprise manager bridge display name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Compartment for entities created from enterprise manager.

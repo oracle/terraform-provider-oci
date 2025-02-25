@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecret.go.html to see an example of how to use GetSecretRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecret.go.html to see an example of how to use GetSecretRequest.
 type GetSecretRequest struct {
 
 	// The OCID of the secret.

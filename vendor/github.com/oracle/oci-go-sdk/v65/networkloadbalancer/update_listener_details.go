@@ -17,7 +17,7 @@ import (
 
 // UpdateListenerDetails The configuration of the listener.
 // For more information about listeners, see
-// Listeners for Network Load Balancers (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
+// Listeners for Network Load Balancers (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
 type UpdateListenerDetails struct {
 
 	// The name of the associated backend set.

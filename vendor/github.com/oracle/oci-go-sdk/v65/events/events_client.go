@@ -5,7 +5,7 @@
 // Events API
 //
 // API for the Events Service. Use this API to manage rules and actions that create automation
-// in your tenancy. For more information, see Overview of Events (https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm).
+// in your tenancy. For more information, see Overview of Events (https://docs.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm).
 //
 
 package events
@@ -93,11 +93,11 @@ func (client *EventsClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // ChangeRuleCompartment Moves a rule into a different compartment within the same tenancy. For information about moving
-// resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/ChangeRuleCompartment.go.html to see an example of how to use ChangeRuleCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/ChangeRuleCompartment.go.html to see an example of how to use ChangeRuleCompartment API.
 func (client EventsClient) ChangeRuleCompartment(ctx context.Context, request ChangeRuleCompartmentRequest) (response ChangeRuleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -159,7 +159,7 @@ func (client EventsClient) changeRuleCompartment(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/CreateRule.go.html to see an example of how to use CreateRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/CreateRule.go.html to see an example of how to use CreateRule API.
 func (client EventsClient) CreateRule(ctx context.Context, request CreateRuleRequest) (response CreateRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -221,7 +221,7 @@ func (client EventsClient) createRule(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/DeleteRule.go.html to see an example of how to use DeleteRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/DeleteRule.go.html to see an example of how to use DeleteRule API.
 func (client EventsClient) DeleteRule(ctx context.Context, request DeleteRuleRequest) (response DeleteRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -278,7 +278,7 @@ func (client EventsClient) deleteRule(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/GetRule.go.html to see an example of how to use GetRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/GetRule.go.html to see an example of how to use GetRule API.
 func (client EventsClient) GetRule(ctx context.Context, request GetRuleRequest) (response GetRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -335,7 +335,7 @@ func (client EventsClient) getRule(ctx context.Context, request common.OCIReques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/ListRules.go.html to see an example of how to use ListRules API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/ListRules.go.html to see an example of how to use ListRules API.
 func (client EventsClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -392,7 +392,7 @@ func (client EventsClient) listRules(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/UpdateRule.go.html to see an example of how to use UpdateRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/UpdateRule.go.html to see an example of how to use UpdateRule API.
 func (client EventsClient) UpdateRule(ctx context.Context, request UpdateRuleRequest) (response UpdateRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

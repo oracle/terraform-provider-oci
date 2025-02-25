@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePointsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePointsRequest.
 type ListDedicatedVantagePointsRequest struct {
 
 	// The APM domain ID the request is intended for.
@@ -26,7 +26,7 @@ type ListDedicatedVantagePointsRequest struct {
 
 	// The maximum number of results per page, or items to return in a paginated
 	// "List" call. For information on how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 

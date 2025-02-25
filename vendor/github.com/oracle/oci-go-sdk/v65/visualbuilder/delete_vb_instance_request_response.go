@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/DeleteVbInstance.go.html to see an example of how to use DeleteVbInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/DeleteVbInstance.go.html to see an example of how to use DeleteVbInstanceRequest.
 type DeleteVbInstanceRequest struct {
 
 	// Unique Vb Instance identifier.

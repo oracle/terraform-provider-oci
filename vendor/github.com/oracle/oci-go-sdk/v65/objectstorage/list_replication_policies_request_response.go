@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListReplicationPolicies.go.html to see an example of how to use ListReplicationPoliciesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListReplicationPolicies.go.html to see an example of how to use ListReplicationPoliciesRequest.
 type ListReplicationPoliciesRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -29,12 +29,12 @@ type ListReplicationPoliciesRequest struct {
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call. For important
-	// details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
 	// "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -125,7 +125,7 @@ type ListReplicationPoliciesResponse struct {
 	// If the `opc-next-page` header appears in the response, then this is a partial list and there are additional
 	// policies to get. Include the header's value as the `page` parameter in the subsequent GET request to get the
 	// next batch of policies. Repeat this process to retrieve the entire list of policies.
-	// For more details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For more details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

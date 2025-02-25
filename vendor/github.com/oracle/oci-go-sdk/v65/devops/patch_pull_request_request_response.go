@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/PatchPullRequest.go.html to see an example of how to use PatchPullRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/PatchPullRequest.go.html to see an example of how to use PatchPullRequestRequest.
 type PatchPullRequestRequest struct {
 
 	// unique PullRequest identifier

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementUserStatus.go.html to see an example of how to use GetAnnouncementUserStatusRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementUserStatus.go.html to see an example of how to use GetAnnouncementUserStatusRequest.
 type GetAnnouncementUserStatusRequest struct {
 
 	// The OCID of the announcement.

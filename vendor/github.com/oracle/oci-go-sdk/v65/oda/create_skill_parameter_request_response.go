@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkillParameter.go.html to see an example of how to use CreateSkillParameterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkillParameter.go.html to see an example of how to use CreateSkillParameterRequest.
 type CreateSkillParameterRequest struct {
 
 	// Unique Digital Assistant instance identifier.

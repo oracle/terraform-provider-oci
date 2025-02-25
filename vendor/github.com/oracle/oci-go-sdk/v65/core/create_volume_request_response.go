@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVolume.go.html to see an example of how to use CreateVolumeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVolume.go.html to see an example of how to use CreateVolumeRequest.
 type CreateVolumeRequest struct {
 
 	// Request to create a new volume.

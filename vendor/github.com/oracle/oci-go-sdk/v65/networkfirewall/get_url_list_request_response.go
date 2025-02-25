@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetUrlList.go.html to see an example of how to use GetUrlListRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetUrlList.go.html to see an example of how to use GetUrlListRequest.
 type GetUrlListRequest struct {
 
 	// Unique Network Firewall Policy identifier

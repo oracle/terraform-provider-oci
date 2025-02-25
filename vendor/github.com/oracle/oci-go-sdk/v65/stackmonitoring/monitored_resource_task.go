@@ -19,21 +19,21 @@ import (
 // MonitoredResourceTask The request details for importing resources from Telemetry.
 type MonitoredResourceTask struct {
 
-	// Task identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Task identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Name of the task.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	TaskDetails MonitoredResourceTaskDetails `mandatory:"true" json:"taskDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy.
 	TenantId *string `mandatory:"false" json:"tenantId"`
 
-	// Identifiers OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
+	// Identifiers OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
 	WorkRequestIds []string `mandatory:"false" json:"workRequestIds"`
 
 	// The date and time when the stack monitoring resource task was created, expressed in

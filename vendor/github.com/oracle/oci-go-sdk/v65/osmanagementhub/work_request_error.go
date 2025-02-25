@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,14 +19,14 @@ import (
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
+	// A machine-usable code for the error that occurred. Error codes are listed on
+	// (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured. (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	// The time the error occurred. (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

@@ -19,7 +19,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occurred. For a list of error codes, see
-	// API Errors (https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
+	// API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// This is a human-readable error message.

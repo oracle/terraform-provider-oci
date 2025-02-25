@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/VerifyDrPlan.go.html to see an example of how to use VerifyDrPlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/VerifyDrPlan.go.html to see an example of how to use VerifyDrPlanRequest.
 type VerifyDrPlanRequest struct {
 
 	// Details for verifying a DR plan.

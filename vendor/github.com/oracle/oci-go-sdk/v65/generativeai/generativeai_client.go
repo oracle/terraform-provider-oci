@@ -6,8 +6,8 @@
 //
 // OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation, summarization, and text embeddings.
 // Use the Generative AI service management API to create and manage DedicatedAiCluster, Endpoint, Model, and WorkRequest in the Generative AI service. For example, create a custom model by fine-tuning an out-of-the-box model using your own data, on a fine-tuning dedicated AI cluster. Then, create a hosting dedicated AI cluster with an endpoint to host your custom model.
-// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.cloud.oracle.com/iaas/api/#/en/generative-ai-inference/latest/).
-// To learn more about the service, see the Generative AI documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai/home.htm).
+// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.oracle.com/iaas/api/#/en/generative-ai-inference/latest/).
+// To learn more about the service, see the Generative AI documentation (https://docs.oracle.com/iaas/Content/generative-ai/home.htm).
 //
 
 package generativeai
@@ -94,11 +94,11 @@ func (client *GenerativeAiClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ChangeDedicatedAiClusterCompartment Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeDedicatedAiClusterCompartment Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeDedicatedAiClusterCompartment.go.html to see an example of how to use ChangeDedicatedAiClusterCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeDedicatedAiClusterCompartment.go.html to see an example of how to use ChangeDedicatedAiClusterCompartment API.
 // A default retry strategy applies to this operation ChangeDedicatedAiClusterCompartment()
 func (client GenerativeAiClient) ChangeDedicatedAiClusterCompartment(ctx context.Context, request ChangeDedicatedAiClusterCompartmentRequest) (response ChangeDedicatedAiClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -157,11 +157,11 @@ func (client GenerativeAiClient) changeDedicatedAiClusterCompartment(ctx context
 	return response, err
 }
 
-// ChangeEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeEndpointCompartment.go.html to see an example of how to use ChangeEndpointCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeEndpointCompartment.go.html to see an example of how to use ChangeEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeEndpointCompartment()
 func (client GenerativeAiClient) ChangeEndpointCompartment(ctx context.Context, request ChangeEndpointCompartmentRequest) (response ChangeEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -220,11 +220,11 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 // A default retry strategy applies to this operation ChangeModelCompartment()
 func (client GenerativeAiClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -287,7 +287,7 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateDedicatedAiCluster.go.html to see an example of how to use CreateDedicatedAiCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateDedicatedAiCluster.go.html to see an example of how to use CreateDedicatedAiCluster API.
 // A default retry strategy applies to this operation CreateDedicatedAiCluster()
 func (client GenerativeAiClient) CreateDedicatedAiCluster(ctx context.Context, request CreateDedicatedAiClusterRequest) (response CreateDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -351,7 +351,7 @@ func (client GenerativeAiClient) createDedicatedAiCluster(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateEndpoint.go.html to see an example of how to use CreateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateEndpoint.go.html to see an example of how to use CreateEndpoint API.
 // A default retry strategy applies to this operation CreateEndpoint()
 func (client GenerativeAiClient) CreateEndpoint(ctx context.Context, request CreateEndpointRequest) (response CreateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -415,7 +415,7 @@ func (client GenerativeAiClient) createEndpoint(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateModel.go.html to see an example of how to use CreateModel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateModel.go.html to see an example of how to use CreateModel API.
 // A default retry strategy applies to this operation CreateModel()
 func (client GenerativeAiClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -479,7 +479,7 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteDedicatedAiCluster.go.html to see an example of how to use DeleteDedicatedAiCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteDedicatedAiCluster.go.html to see an example of how to use DeleteDedicatedAiCluster API.
 // A default retry strategy applies to this operation DeleteDedicatedAiCluster()
 func (client GenerativeAiClient) DeleteDedicatedAiCluster(ctx context.Context, request DeleteDedicatedAiClusterRequest) (response DeleteDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -537,7 +537,7 @@ func (client GenerativeAiClient) deleteDedicatedAiCluster(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteEndpoint.go.html to see an example of how to use DeleteEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteEndpoint.go.html to see an example of how to use DeleteEndpoint API.
 // A default retry strategy applies to this operation DeleteEndpoint()
 func (client GenerativeAiClient) DeleteEndpoint(ctx context.Context, request DeleteEndpointRequest) (response DeleteEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -595,7 +595,7 @@ func (client GenerativeAiClient) deleteEndpoint(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteModel.go.html to see an example of how to use DeleteModel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteModel.go.html to see an example of how to use DeleteModel API.
 // A default retry strategy applies to this operation DeleteModel()
 func (client GenerativeAiClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -653,7 +653,7 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetDedicatedAiCluster.go.html to see an example of how to use GetDedicatedAiCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetDedicatedAiCluster.go.html to see an example of how to use GetDedicatedAiCluster API.
 // A default retry strategy applies to this operation GetDedicatedAiCluster()
 func (client GenerativeAiClient) GetDedicatedAiCluster(ctx context.Context, request GetDedicatedAiClusterRequest) (response GetDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -711,7 +711,7 @@ func (client GenerativeAiClient) getDedicatedAiCluster(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetEndpoint.go.html to see an example of how to use GetEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetEndpoint.go.html to see an example of how to use GetEndpoint API.
 // A default retry strategy applies to this operation GetEndpoint()
 func (client GenerativeAiClient) GetEndpoint(ctx context.Context, request GetEndpointRequest) (response GetEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -769,7 +769,7 @@ func (client GenerativeAiClient) getEndpoint(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetModel.go.html to see an example of how to use GetModel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetModel.go.html to see an example of how to use GetModel API.
 // A default retry strategy applies to this operation GetModel()
 func (client GenerativeAiClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -827,7 +827,7 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client GenerativeAiClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -885,7 +885,7 @@ func (client GenerativeAiClient) getWorkRequest(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListDedicatedAiClusters.go.html to see an example of how to use ListDedicatedAiClusters API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListDedicatedAiClusters.go.html to see an example of how to use ListDedicatedAiClusters API.
 // A default retry strategy applies to this operation ListDedicatedAiClusters()
 func (client GenerativeAiClient) ListDedicatedAiClusters(ctx context.Context, request ListDedicatedAiClustersRequest) (response ListDedicatedAiClustersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -943,7 +943,7 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListEndpoints.go.html to see an example of how to use ListEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListEndpoints.go.html to see an example of how to use ListEndpoints API.
 // A default retry strategy applies to this operation ListEndpoints()
 func (client GenerativeAiClient) ListEndpoints(ctx context.Context, request ListEndpointsRequest) (response ListEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1001,7 +1001,7 @@ func (client GenerativeAiClient) listEndpoints(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListModels.go.html to see an example of how to use ListModels API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListModels.go.html to see an example of how to use ListModels API.
 // A default retry strategy applies to this operation ListModels()
 func (client GenerativeAiClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1059,7 +1059,7 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client GenerativeAiClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1117,7 +1117,7 @@ func (client GenerativeAiClient) listWorkRequestErrors(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client GenerativeAiClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1175,7 +1175,7 @@ func (client GenerativeAiClient) listWorkRequestLogs(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client GenerativeAiClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1233,7 +1233,7 @@ func (client GenerativeAiClient) listWorkRequests(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateDedicatedAiCluster.go.html to see an example of how to use UpdateDedicatedAiCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateDedicatedAiCluster.go.html to see an example of how to use UpdateDedicatedAiCluster API.
 // A default retry strategy applies to this operation UpdateDedicatedAiCluster()
 func (client GenerativeAiClient) UpdateDedicatedAiCluster(ctx context.Context, request UpdateDedicatedAiClusterRequest) (response UpdateDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1291,7 +1291,7 @@ func (client GenerativeAiClient) updateDedicatedAiCluster(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateEndpoint.go.html to see an example of how to use UpdateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateEndpoint.go.html to see an example of how to use UpdateEndpoint API.
 // A default retry strategy applies to this operation UpdateEndpoint()
 func (client GenerativeAiClient) UpdateEndpoint(ctx context.Context, request UpdateEndpointRequest) (response UpdateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1349,7 +1349,7 @@ func (client GenerativeAiClient) updateEndpoint(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateModel.go.html to see an example of how to use UpdateModel API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateModel.go.html to see an example of how to use UpdateModel API.
 // A default retry strategy applies to this operation UpdateModel()
 func (client GenerativeAiClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse

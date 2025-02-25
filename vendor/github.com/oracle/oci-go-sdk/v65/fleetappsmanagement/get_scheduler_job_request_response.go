@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetSchedulerJob.go.html to see an example of how to use GetSchedulerJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetSchedulerJob.go.html to see an example of how to use GetSchedulerJobRequest.
 type GetSchedulerJobRequest struct {
 
 	// unique SchedulerJob identifier

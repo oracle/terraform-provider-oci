@@ -55,7 +55,7 @@ func (m *urlpattern) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UrlPattern: %s.", m.Type)
+		common.Logf("Received unsupported enum value for UrlPattern: %s.", m.Type)
 		return *m, nil
 	}
 }

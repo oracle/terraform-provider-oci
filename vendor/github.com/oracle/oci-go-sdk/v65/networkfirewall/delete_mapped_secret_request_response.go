@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteMappedSecret.go.html to see an example of how to use DeleteMappedSecretRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteMappedSecret.go.html to see an example of how to use DeleteMappedSecretRequest.
 type DeleteMappedSecretRequest struct {
 
 	// Unique Network Firewall Policy identifier

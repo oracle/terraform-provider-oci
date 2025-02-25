@@ -24,7 +24,7 @@ type AssociationResourceDetails struct {
 	// Monitored Resource Type.
 	Type *string `mandatory:"false" json:"type"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

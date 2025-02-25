@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkill.go.html to see an example of how to use CreateSkillRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkill.go.html to see an example of how to use CreateSkillRequest.
 type CreateSkillRequest struct {
 
 	// Unique Digital Assistant instance identifier.

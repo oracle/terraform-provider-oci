@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetOsPatchDetails.go.html to see an example of how to use GetOsPatchDetailsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetOsPatchDetails.go.html to see an example of how to use GetOsPatchDetailsRequest.
 type GetOsPatchDetailsRequest struct {
 
 	// The OCID of the cluster.

@@ -4,7 +4,7 @@
 
 // Usage Proxy API
 //
-// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
+// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
 //
 
 package usage
@@ -95,7 +95,7 @@ func (client *RewardsClient) ConfigurationProvider() *common.ConfigurationProvid
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/CreateRedeemableUser.go.html to see an example of how to use CreateRedeemableUser API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/CreateRedeemableUser.go.html to see an example of how to use CreateRedeemableUser API.
 func (client RewardsClient) CreateRedeemableUser(ctx context.Context, request CreateRedeemableUserRequest) (response CreateRedeemableUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/DeleteRedeemableUser.go.html to see an example of how to use DeleteRedeemableUser API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/DeleteRedeemableUser.go.html to see an example of how to use DeleteRedeemableUser API.
 func (client RewardsClient) DeleteRedeemableUser(ctx context.Context, request DeleteRedeemableUserRequest) (response DeleteRedeemableUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client RewardsClient) deleteRedeemableUser(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListProducts.go.html to see an example of how to use ListProducts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListProducts.go.html to see an example of how to use ListProducts API.
 func (client RewardsClient) ListProducts(ctx context.Context, request ListProductsRequest) (response ListProductsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -271,7 +271,7 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedeemableUsers.go.html to see an example of how to use ListRedeemableUsers API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedeemableUsers.go.html to see an example of how to use ListRedeemableUsers API.
 func (client RewardsClient) ListRedeemableUsers(ctx context.Context, request ListRedeemableUsersRequest) (response ListRedeemableUsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -328,7 +328,7 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedemptions.go.html to see an example of how to use ListRedemptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedemptions.go.html to see an example of how to use ListRedemptions API.
 func (client RewardsClient) ListRedemptions(ctx context.Context, request ListRedemptionsRequest) (response ListRedemptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -385,7 +385,7 @@ func (client RewardsClient) listRedemptions(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRewards.go.html to see an example of how to use ListRewards API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRewards.go.html to see an example of how to use ListRewards API.
 func (client RewardsClient) ListRewards(ctx context.Context, request ListRewardsRequest) (response ListRewardsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

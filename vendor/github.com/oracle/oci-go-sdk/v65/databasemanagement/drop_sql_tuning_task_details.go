@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -22,7 +22,7 @@ import (
 // It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type DropSqlTuningTaskDetails struct {
 
-	// The identifier of the SQL tuning task being dropped. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The identifier of the SQL tuning task being dropped. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint
 	// ListSqlTuningAdvisorTasks.
 	TaskId *int64 `mandatory:"true" json:"taskId"`

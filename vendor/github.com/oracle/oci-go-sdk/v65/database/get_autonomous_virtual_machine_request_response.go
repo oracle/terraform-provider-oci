@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousVirtualMachine.go.html to see an example of how to use GetAutonomousVirtualMachineRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousVirtualMachine.go.html to see an example of how to use GetAutonomousVirtualMachineRequest.
 type GetAutonomousVirtualMachineRequest struct {
 
-	// The Autonomous Virtual machine OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Virtual machine OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousVirtualMachineId *string `mandatory:"true" contributesTo:"path" name:"autonomousVirtualMachineId"`
 
 	// Unique identifier for the request.

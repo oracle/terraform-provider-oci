@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedMySqlDatabase.go.html to see an example of how to use GetManagedMySqlDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedMySqlDatabase.go.html to see an example of how to use GetManagedMySqlDatabaseRequest.
 type GetManagedMySqlDatabaseRequest struct {
 
 	// The OCID of the Managed MySQL Database.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrorsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrorsRequest.
 type ListWorkRequestErrorsRequest struct {
 
 	// The identifier of the asynchronous work request.

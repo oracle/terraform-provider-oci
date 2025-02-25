@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisablePluggableDatabaseManagementFeature.go.html to see an example of how to use DisablePluggableDatabaseManagementFeatureRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisablePluggableDatabaseManagementFeature.go.html to see an example of how to use DisablePluggableDatabaseManagementFeatureRequest.
 type DisablePluggableDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle cloud pluggable database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle cloud pluggable database.
 	PluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"pluggableDatabaseId"`
 
 	// The details required to disable a Database Management feature for an Oracle cloud pluggable database.

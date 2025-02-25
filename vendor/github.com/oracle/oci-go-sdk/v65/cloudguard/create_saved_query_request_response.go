@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSavedQuery.go.html to see an example of how to use CreateSavedQueryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSavedQuery.go.html to see an example of how to use CreateSavedQueryRequest.
 type CreateSavedQueryRequest struct {
 
 	// Details for the new SavedQuery resource

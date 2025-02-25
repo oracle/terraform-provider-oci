@@ -19,23 +19,23 @@ import (
 // AssetSource Asset source.
 type AssetSource interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 	GetId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
 	GetCompartmentId() *string
 
 	// A user-friendly name for the asset source. Does not have to be unique, and it's mutable.
 	// Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the environment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the environment.
 	GetEnvironmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
 	GetInventoryId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	GetAssetsCompartmentId() *string
 
 	// The current state of the asset source.
@@ -50,7 +50,7 @@ type AssetSource interface {
 	// The point in time that the asset source was last updated in the RFC3339 format.
 	GetTimeUpdated() *common.SDKTime
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of an attached discovery schedule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an attached discovery schedule.
 	GetDiscoveryScheduleId() *string
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
@@ -129,7 +129,7 @@ func (m *assetsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for AssetSource: %s.", m.Type)
+		common.Logf("Received unsupported enum value for AssetSource: %s.", m.Type)
 		return *m, nil
 	}
 }

@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -18,7 +18,7 @@ import (
 // WorkRequestError An error encountered while executing an operation that is tracked by a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed at API Errors (https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
+	// A machine-usable code for the error that occured. Error codes are listed at API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable error string for the error that occured.

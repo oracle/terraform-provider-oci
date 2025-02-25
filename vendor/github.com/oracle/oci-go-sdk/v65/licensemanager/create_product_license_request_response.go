@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateProductLicense.go.html to see an example of how to use CreateProductLicenseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateProductLicense.go.html to see an example of how to use CreateProductLicenseRequest.
 type CreateProductLicenseRequest struct {
 
 	// Details for creating a new product license.

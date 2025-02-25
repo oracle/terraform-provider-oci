@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudAutonomousVmClusterCompartment.go.html to see an example of how to use ChangeCloudAutonomousVmClusterCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudAutonomousVmClusterCompartment.go.html to see an example of how to use ChangeCloudAutonomousVmClusterCompartmentRequest.
 type ChangeCloudAutonomousVmClusterCompartmentRequest struct {
 
 	// Request to move cloud Autonomous VM cluster to a different compartment
 	ChangeCloudAutonomousVmClusterCompartmentDetails `contributesTo:"body"`
 
-	// The Cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Cloud VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CloudAutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudAutonomousVmClusterId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -87,7 +87,7 @@ type ChangeCloudAutonomousVmClusterCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

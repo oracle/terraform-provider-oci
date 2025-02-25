@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteSmtpCredential.go.html to see an example of how to use DeleteSmtpCredentialRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteSmtpCredential.go.html to see an example of how to use DeleteSmtpCredentialRequest.
 type DeleteSmtpCredentialRequest struct {
 
 	// ID of the resource

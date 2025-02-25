@@ -4,7 +4,7 @@
 
 // OCI Control Center Capacity Management API
 //
-// OCI Control Center (OCC) Capacity Management enables you to manage capacity requests in realms where OCI Control Center Capacity Management is available. For more information, see OCI Control Center (https://docs.cloud.oracle.com/iaas/Content/control-center/home.htm).
+// OCI Control Center (OCC) Capacity Management enables you to manage capacity requests in realms where OCI Control Center Capacity Management is available. For more information, see OCI Control Center (https://docs.oracle.com/iaas/Content/control-center/home.htm).
 //
 
 package capacitymanagement
@@ -90,7 +90,7 @@ func (m *patchinstruction) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PatchInstruction: %s.", m.Operation)
+		common.Logf("Received unsupported enum value for PatchInstruction: %s.", m.Operation)
 		return *m, nil
 	}
 }

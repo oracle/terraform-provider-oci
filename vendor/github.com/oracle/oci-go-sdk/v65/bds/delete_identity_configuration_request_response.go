@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteIdentityConfiguration.go.html to see an example of how to use DeleteIdentityConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteIdentityConfiguration.go.html to see an example of how to use DeleteIdentityConfigurationRequest.
 type DeleteIdentityConfigurationRequest struct {
 
 	// The OCID of the cluster.

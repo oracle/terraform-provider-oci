@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ChangeBastionCompartment.go.html to see an example of how to use ChangeBastionCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ChangeBastionCompartment.go.html to see an example of how to use ChangeBastionCompartmentRequest.
 type ChangeBastionCompartmentRequest struct {
 
 	// The unique identifier (OCID) of the bastion.

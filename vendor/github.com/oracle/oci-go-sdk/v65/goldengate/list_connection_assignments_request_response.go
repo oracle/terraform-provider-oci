@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnectionAssignments.go.html to see an example of how to use ListConnectionAssignmentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnectionAssignments.go.html to see an example of how to use ListConnectionAssignmentsRequest.
 type ListConnectionAssignmentsRequest struct {
 
 	// The OCID of the compartment that contains the work request. Work requests should be scoped
@@ -24,10 +24,10 @@ type ListConnectionAssignmentsRequest struct {
 	// to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources.
 	DeploymentId *string `mandatory:"false" contributesTo:"query" name:"deploymentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection.
 	ConnectionId *string `mandatory:"false" contributesTo:"query" name:"connectionId"`
 
 	// The name of the connection in the assignment (aliasName).

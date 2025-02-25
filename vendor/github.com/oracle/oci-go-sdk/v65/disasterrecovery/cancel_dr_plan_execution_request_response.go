@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelDrPlanExecution.go.html to see an example of how to use CancelDrPlanExecutionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelDrPlanExecution.go.html to see an example of how to use CancelDrPlanExecutionRequest.
 type CancelDrPlanExecutionRequest struct {
 
 	// Details for canceling the DR plan execution.

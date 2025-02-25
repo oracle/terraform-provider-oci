@@ -21,10 +21,10 @@ import (
 // CreateWebAppAccelerationDetails The information about new WebAppAcceleration.
 type CreateWebAppAccelerationDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppAccelerationPolicy, which is attached to the resource.
 	GetWebAppAccelerationPolicyId() *string
 
 	// WebAppAcceleration display name, can be renamed.
@@ -90,7 +90,7 @@ func (m *createwebappaccelerationdetails) UnmarshalPolymorphicJSON(data []byte) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateWebAppAccelerationDetails: %s.", m.BackendType)
+		common.Logf("Received unsupported enum value for CreateWebAppAccelerationDetails: %s.", m.BackendType)
 		return *m, nil
 	}
 }

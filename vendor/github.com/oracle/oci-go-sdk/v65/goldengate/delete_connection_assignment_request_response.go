@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnectionAssignment.go.html to see an example of how to use DeleteConnectionAssignmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnectionAssignment.go.html to see an example of how to use DeleteConnectionAssignmentRequest.
 type DeleteConnectionAssignmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
 	ConnectionAssignmentId *string `mandatory:"true" contributesTo:"path" name:"connectionAssignmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

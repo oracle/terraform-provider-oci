@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccAvailabilityCatalog.go.html to see an example of how to use UpdateOccAvailabilityCatalogRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccAvailabilityCatalog.go.html to see an example of how to use UpdateOccAvailabilityCatalogRequest.
 type UpdateOccAvailabilityCatalogRequest struct {
 
 	// Request to update the properties of the availability catalog.

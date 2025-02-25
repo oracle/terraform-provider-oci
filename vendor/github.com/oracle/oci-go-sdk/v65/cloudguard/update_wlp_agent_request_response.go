@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateWlpAgent.go.html to see an example of how to use UpdateWlpAgentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateWlpAgent.go.html to see an example of how to use UpdateWlpAgentRequest.
 type UpdateWlpAgentRequest struct {
 
 	// WLP agent OCID.

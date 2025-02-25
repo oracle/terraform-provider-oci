@@ -18,7 +18,7 @@ import (
 // TestBdsObjectStorageConnectionDetails Test access to specified Object Storage bucket using the API key.
 type TestBdsObjectStorageConnectionDetails struct {
 
-	// An Oracle Cloud Infrastructure URI to which this connection must be attempted. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	// An Oracle Cloud Infrastructure URI to which this connection must be attempted. See https://docs.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	ObjectStorageUri *string `mandatory:"true" json:"objectStorageUri"`
 
 	// Base64 passphrase used to secure the private key which will be created on user behalf.

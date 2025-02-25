@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlCompartment.go.html to see an example of how to use ChangeOperatorControlCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlCompartment.go.html to see an example of how to use ChangeOperatorControlCompartmentRequest.
 type ChangeOperatorControlCompartmentRequest struct {
 
 	// unique OperatorControl identifier

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccOverviews.go.html to see an example of how to use ListOccOverviewsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccOverviews.go.html to see an example of how to use ListOccOverviewsRequest.
 type ListOccOverviewsRequest struct {
 
 	// The namespace by which we would filter the list.

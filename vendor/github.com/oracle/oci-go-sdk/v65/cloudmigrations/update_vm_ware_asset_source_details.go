@@ -23,7 +23,7 @@ type UpdateVmWareAssetSourceDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	AssetsCompartmentId *string `mandatory:"false" json:"assetsCompartmentId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
@@ -51,7 +51,7 @@ type UpdateVmWareAssetSourceDetails struct {
 	// Flag indicating whether real-time metrics are collected for assets, originating from this asset source.
 	AreRealtimeMetricsCollected *bool `mandatory:"false" json:"areRealtimeMetricsCollected"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
 	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 }
 

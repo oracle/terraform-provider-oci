@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallWindowsUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallWindowsUpdatesOnManagedInstanceGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallWindowsUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallWindowsUpdatesOnManagedInstanceGroupRequest.
 type InstallWindowsUpdatesOnManagedInstanceGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// Provides the details used to install Windows updates on a managed instance group.

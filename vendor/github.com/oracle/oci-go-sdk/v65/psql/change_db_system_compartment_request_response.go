@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeDbSystemCompartment.go.html to see an example of how to use ChangeDbSystemCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeDbSystemCompartment.go.html to see an example of how to use ChangeDbSystemCompartmentRequest.
 type ChangeDbSystemCompartmentRequest struct {
 
 	// A unique identifier for the database system.

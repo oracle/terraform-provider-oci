@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccAvailabilityCatalog.go.html to see an example of how to use GetOccAvailabilityCatalogRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccAvailabilityCatalog.go.html to see an example of how to use GetOccAvailabilityCatalogRequest.
 type GetOccAvailabilityCatalogRequest struct {
 
 	// The OCID of the availability catalog.

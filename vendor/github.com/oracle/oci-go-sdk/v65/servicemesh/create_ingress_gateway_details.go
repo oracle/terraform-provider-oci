@@ -29,7 +29,7 @@ type CreateIngressGatewayDetails struct {
 	// An array of hostnames and their listener configuration that this gateway will bind to.
 	Hosts []IngressGatewayHost `mandatory:"true" json:"hosts"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Description of the resource. It can be changed after creation.

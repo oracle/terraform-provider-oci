@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbServer.go.html to see an example of how to use GetDbServerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbServer.go.html to see an example of how to use GetDbServerRequest.
 type GetDbServerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ExadataInfrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ExadataInfrastructure.
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"query" name:"exadataInfrastructureId"`
 
-	// The DB server OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB server OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbServerId *string `mandatory:"true" contributesTo:"path" name:"dbServerId"`
 
 	// Unique identifier for the request.

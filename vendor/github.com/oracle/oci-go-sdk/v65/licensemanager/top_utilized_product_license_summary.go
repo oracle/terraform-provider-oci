@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -18,7 +18,7 @@ import (
 // TopUtilizedProductLicenseSummary A summary of the top utilized product licenses.
 type TopUtilizedProductLicenseSummary struct {
 
-	// The product license OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The product license OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ProductLicenseId *string `mandatory:"true" json:"productLicenseId"`
 
 	// The product type.

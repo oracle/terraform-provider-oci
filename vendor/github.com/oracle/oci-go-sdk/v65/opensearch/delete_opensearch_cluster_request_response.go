@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/DeleteOpensearchCluster.go.html to see an example of how to use DeleteOpensearchClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/DeleteOpensearchCluster.go.html to see an example of how to use DeleteOpensearchClusterRequest.
 type DeleteOpensearchClusterRequest struct {
 
 	// unique OpensearchCluster identifier

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewallPolicy.go.html to see an example of how to use GetWebAppFirewallPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewallPolicy.go.html to see an example of how to use GetWebAppFirewallPolicyRequest.
 type GetWebAppFirewallPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.
 	WebAppFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppFirewallPolicyId"`
 
 	// The client request ID for tracing.

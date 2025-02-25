@@ -22,10 +22,10 @@ type OracleRmStack struct {
 	// Version of the dedicated vantage point.
 	DvpVersion *string `mandatory:"true" json:"dvpVersion"`
 
-	// Stack OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
+	// Stack OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	DvpStackId *string `mandatory:"true" json:"dvpStackId"`
 
-	// Stream OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
+	// Stream OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	DvpStreamId *string `mandatory:"true" json:"dvpStreamId"`
 }
 

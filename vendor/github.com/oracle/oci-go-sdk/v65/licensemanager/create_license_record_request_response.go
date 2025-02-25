@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateLicenseRecord.go.html to see an example of how to use CreateLicenseRecordRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateLicenseRecord.go.html to see an example of how to use CreateLicenseRecordRequest.
 type CreateLicenseRecordRequest struct {
 
 	// Details needed to create a new license record.

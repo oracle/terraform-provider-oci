@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateResourcePrincipalConfiguration.go.html to see an example of how to use CreateResourcePrincipalConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateResourcePrincipalConfiguration.go.html to see an example of how to use CreateResourcePrincipalConfigurationRequest.
 type CreateResourcePrincipalConfigurationRequest struct {
 
 	// The OCID of the cluster.

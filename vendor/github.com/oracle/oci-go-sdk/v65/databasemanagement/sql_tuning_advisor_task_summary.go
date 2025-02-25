@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,10 +20,10 @@ import (
 // SqlTuningAdvisorTaskSummary The summary of a SQL Tuning Advisor task.
 type SqlTuningAdvisorTaskSummary struct {
 
-	// The unique identifier of the SQL Tuning Advisor task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The unique identifier of the SQL Tuning Advisor task. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SqlTuningAdvisorTaskId *int64 `mandatory:"true" json:"sqlTuningAdvisorTaskId"`
 
-	// The instance ID of the SQL Tuning Advisor task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The instance ID of the SQL Tuning Advisor task. This is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InstanceId *int `mandatory:"false" json:"instanceId"`
 
 	// The name of the SQL Tuning Advisor task.
