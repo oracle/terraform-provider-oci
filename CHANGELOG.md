@@ -1,3 +1,20 @@
+## 6.28.0 (Unreleased)
+
+### Added
+- Support for DBLM: Database Life Cycle Management (Externally Registered Database Vulnerability and Patching)
+- Support for Dataflow Integration and Storage Mounts with Pipelines
+- Support for EXADB-D- X11M
+- Support for X11 M | Exadata Infrastructure Support on ExaDB-C@C
+- Support for VCNIP - IP Lifetime support and related feature
+- Support for BYODKIM
+- Support for HeatWave MySQL Service: Extra Configuration Parameters, System Tags
+- Support for OCI Cache - Valkey Support and valkey migration
+- Support for OIDC multi issuer support
+### Deprecation
+- Removed Linting from ocibuild.conf
+### Bug Fix
+- Make secret version optional and computed for cross connects
+
 ## 6.27.0 (Unreleased)
 
 ### Added
