@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAssetSource.go.html to see an example of how to use CreateAssetSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAssetSource.go.html to see an example of how to use CreateAssetSourceRequest.
 type CreateAssetSourceRequest struct {
 
 	// Details for the new asset source.

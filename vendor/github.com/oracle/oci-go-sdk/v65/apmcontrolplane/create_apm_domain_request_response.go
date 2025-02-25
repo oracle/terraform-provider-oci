@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/CreateApmDomain.go.html to see an example of how to use CreateApmDomainRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/CreateApmDomain.go.html to see an example of how to use CreateApmDomainRequest.
 type CreateApmDomainRequest struct {
 
 	// Details for the new APM domain.

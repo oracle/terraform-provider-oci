@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -37,7 +37,7 @@ type DrgRouteRule struct {
 	//     particular `Service` through a service gateway).
 	DestinationType DrgRouteRuleDestinationTypeEnum `mandatory:"true" json:"destinationType"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment responsible
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment responsible
 	// for reaching the network destination.
 	// A value of `BLACKHOLE` means traffic for this route is discarded without notification.
 	NextHopDrgAttachmentId *string `mandatory:"true" json:"nextHopDrgAttachmentId"`

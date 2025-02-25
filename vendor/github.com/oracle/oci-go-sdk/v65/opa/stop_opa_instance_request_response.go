@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StopOpaInstance.go.html to see an example of how to use StopOpaInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/StopOpaInstance.go.html to see an example of how to use StopOpaInstanceRequest.
 type StopOpaInstanceRequest struct {
 
 	// unique OpaInstance identifier

@@ -21,10 +21,10 @@ type CreateAnnouncementSubscriptionDetails struct {
 	// A user-friendly name for the announcement subscription. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the announcement subscription.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the announcement subscription.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. The caller of the operation needs the ONS_TOPIC_PUBLISH permission for the targeted Notifications service topic. For more information about Notifications permissions, see Details for Notifications (https://docs.cloud.oracle.com/Content/Identity/policyreference/notificationpolicyreference.htm).
+	// The OCID of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. The caller of the operation needs the ONS_TOPIC_PUBLISH permission for the targeted Notifications service topic. For more information about Notifications permissions, see Details for Notifications (https://docs.oracle.com/iaas/Content/Identity/policyreference/notificationpolicyreference.htm).
 	OnsTopicId *string `mandatory:"true" json:"onsTopicId"`
 
 	// A description of the announcement subscription. Avoid entering confidential information.

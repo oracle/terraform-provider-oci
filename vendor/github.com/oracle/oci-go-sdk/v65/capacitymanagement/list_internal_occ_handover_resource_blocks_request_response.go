@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlocks.go.html to see an example of how to use ListInternalOccHandoverResourceBlocksRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlocks.go.html to see an example of how to use ListInternalOccHandoverResourceBlocksRequest.
 type ListInternalOccHandoverResourceBlocksRequest struct {
 
 	// The namespace enum value that needs to be passed as a required query parameter.

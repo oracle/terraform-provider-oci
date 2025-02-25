@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateSubscriptionMapping.go.html to see an example of how to use CreateSubscriptionMappingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateSubscriptionMapping.go.html to see an example of how to use CreateSubscriptionMappingRequest.
 type CreateSubscriptionMappingRequest struct {
 
 	// Compartment ID and Subscription ID details to create a subscription mapping.

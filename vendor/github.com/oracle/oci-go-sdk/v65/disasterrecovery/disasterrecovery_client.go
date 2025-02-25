@@ -99,7 +99,7 @@ func (client *DisasterRecoveryClient) ConfigurationProvider() *common.Configurat
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/AssociateDrProtectionGroup.go.html to see an example of how to use AssociateDrProtectionGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/AssociateDrProtectionGroup.go.html to see an example of how to use AssociateDrProtectionGroup API.
 // A default retry strategy applies to this operation AssociateDrProtectionGroup()
 func (client DisasterRecoveryClient) AssociateDrProtectionGroup(ctx context.Context, request AssociateDrProtectionGroupRequest) (response AssociateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -162,7 +162,7 @@ func (client DisasterRecoveryClient) associateDrProtectionGroup(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelDrPlanExecution.go.html to see an example of how to use CancelDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelDrPlanExecution.go.html to see an example of how to use CancelDrPlanExecution API.
 // A default retry strategy applies to this operation CancelDrPlanExecution()
 func (client DisasterRecoveryClient) CancelDrPlanExecution(ctx context.Context, request CancelDrPlanExecutionRequest) (response CancelDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -225,7 +225,7 @@ func (client DisasterRecoveryClient) cancelDrPlanExecution(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client DisasterRecoveryClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -283,7 +283,7 @@ func (client DisasterRecoveryClient) cancelWorkRequest(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ChangeDrProtectionGroupCompartment.go.html to see an example of how to use ChangeDrProtectionGroupCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ChangeDrProtectionGroupCompartment.go.html to see an example of how to use ChangeDrProtectionGroupCompartment API.
 // A default retry strategy applies to this operation ChangeDrProtectionGroupCompartment()
 func (client DisasterRecoveryClient) ChangeDrProtectionGroupCompartment(ctx context.Context, request ChangeDrProtectionGroupCompartmentRequest) (response ChangeDrProtectionGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -346,7 +346,7 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrPlan.go.html to see an example of how to use CreateDrPlan API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrPlan.go.html to see an example of how to use CreateDrPlan API.
 // A default retry strategy applies to this operation CreateDrPlan()
 func (client DisasterRecoveryClient) CreateDrPlan(ctx context.Context, request CreateDrPlanRequest) (response CreateDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -409,7 +409,7 @@ func (client DisasterRecoveryClient) createDrPlan(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrPlanExecution.go.html to see an example of how to use CreateDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrPlanExecution.go.html to see an example of how to use CreateDrPlanExecution API.
 // A default retry strategy applies to this operation CreateDrPlanExecution()
 func (client DisasterRecoveryClient) CreateDrPlanExecution(ctx context.Context, request CreateDrPlanExecutionRequest) (response CreateDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -472,7 +472,7 @@ func (client DisasterRecoveryClient) createDrPlanExecution(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrProtectionGroup.go.html to see an example of how to use CreateDrProtectionGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrProtectionGroup.go.html to see an example of how to use CreateDrProtectionGroup API.
 // A default retry strategy applies to this operation CreateDrProtectionGroup()
 func (client DisasterRecoveryClient) CreateDrProtectionGroup(ctx context.Context, request CreateDrProtectionGroupRequest) (response CreateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -535,7 +535,7 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrPlan.go.html to see an example of how to use DeleteDrPlan API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrPlan.go.html to see an example of how to use DeleteDrPlan API.
 // A default retry strategy applies to this operation DeleteDrPlan()
 func (client DisasterRecoveryClient) DeleteDrPlan(ctx context.Context, request DeleteDrPlanRequest) (response DeleteDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -593,7 +593,7 @@ func (client DisasterRecoveryClient) deleteDrPlan(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrPlanExecution.go.html to see an example of how to use DeleteDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrPlanExecution.go.html to see an example of how to use DeleteDrPlanExecution API.
 // A default retry strategy applies to this operation DeleteDrPlanExecution()
 func (client DisasterRecoveryClient) DeleteDrPlanExecution(ctx context.Context, request DeleteDrPlanExecutionRequest) (response DeleteDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -651,7 +651,7 @@ func (client DisasterRecoveryClient) deleteDrPlanExecution(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrProtectionGroup.go.html to see an example of how to use DeleteDrProtectionGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrProtectionGroup.go.html to see an example of how to use DeleteDrProtectionGroup API.
 // A default retry strategy applies to this operation DeleteDrProtectionGroup()
 func (client DisasterRecoveryClient) DeleteDrProtectionGroup(ctx context.Context, request DeleteDrProtectionGroupRequest) (response DeleteDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -710,7 +710,7 @@ func (client DisasterRecoveryClient) deleteDrProtectionGroup(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DisassociateDrProtectionGroup.go.html to see an example of how to use DisassociateDrProtectionGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DisassociateDrProtectionGroup.go.html to see an example of how to use DisassociateDrProtectionGroup API.
 // A default retry strategy applies to this operation DisassociateDrProtectionGroup()
 func (client DisasterRecoveryClient) DisassociateDrProtectionGroup(ctx context.Context, request DisassociateDrProtectionGroupRequest) (response DisassociateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -773,7 +773,7 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrPlan.go.html to see an example of how to use GetDrPlan API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrPlan.go.html to see an example of how to use GetDrPlan API.
 // A default retry strategy applies to this operation GetDrPlan()
 func (client DisasterRecoveryClient) GetDrPlan(ctx context.Context, request GetDrPlanRequest) (response GetDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -831,7 +831,7 @@ func (client DisasterRecoveryClient) getDrPlan(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrPlanExecution.go.html to see an example of how to use GetDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrPlanExecution.go.html to see an example of how to use GetDrPlanExecution API.
 // A default retry strategy applies to this operation GetDrPlanExecution()
 func (client DisasterRecoveryClient) GetDrPlanExecution(ctx context.Context, request GetDrPlanExecutionRequest) (response GetDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -889,7 +889,7 @@ func (client DisasterRecoveryClient) getDrPlanExecution(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrProtectionGroup.go.html to see an example of how to use GetDrProtectionGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrProtectionGroup.go.html to see an example of how to use GetDrProtectionGroup API.
 // A default retry strategy applies to this operation GetDrProtectionGroup()
 func (client DisasterRecoveryClient) GetDrProtectionGroup(ctx context.Context, request GetDrProtectionGroupRequest) (response GetDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -947,7 +947,7 @@ func (client DisasterRecoveryClient) getDrProtectionGroup(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DisasterRecoveryClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1005,7 +1005,7 @@ func (client DisasterRecoveryClient) getWorkRequest(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/IgnoreDrPlanExecution.go.html to see an example of how to use IgnoreDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/IgnoreDrPlanExecution.go.html to see an example of how to use IgnoreDrPlanExecution API.
 // A default retry strategy applies to this operation IgnoreDrPlanExecution()
 func (client DisasterRecoveryClient) IgnoreDrPlanExecution(ctx context.Context, request IgnoreDrPlanExecutionRequest) (response IgnoreDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1068,7 +1068,7 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlanExecutions.go.html to see an example of how to use ListDrPlanExecutions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlanExecutions.go.html to see an example of how to use ListDrPlanExecutions API.
 // A default retry strategy applies to this operation ListDrPlanExecutions()
 func (client DisasterRecoveryClient) ListDrPlanExecutions(ctx context.Context, request ListDrPlanExecutionsRequest) (response ListDrPlanExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1126,7 +1126,7 @@ func (client DisasterRecoveryClient) listDrPlanExecutions(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlans.go.html to see an example of how to use ListDrPlans API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlans.go.html to see an example of how to use ListDrPlans API.
 // A default retry strategy applies to this operation ListDrPlans()
 func (client DisasterRecoveryClient) ListDrPlans(ctx context.Context, request ListDrPlansRequest) (response ListDrPlansResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1184,7 +1184,7 @@ func (client DisasterRecoveryClient) listDrPlans(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrProtectionGroups.go.html to see an example of how to use ListDrProtectionGroups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrProtectionGroups.go.html to see an example of how to use ListDrProtectionGroups API.
 // A default retry strategy applies to this operation ListDrProtectionGroups()
 func (client DisasterRecoveryClient) ListDrProtectionGroups(ctx context.Context, request ListDrProtectionGroupsRequest) (response ListDrProtectionGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1242,7 +1242,7 @@ func (client DisasterRecoveryClient) listDrProtectionGroups(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DisasterRecoveryClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1300,7 +1300,7 @@ func (client DisasterRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DisasterRecoveryClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1358,7 +1358,7 @@ func (client DisasterRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DisasterRecoveryClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1416,7 +1416,7 @@ func (client DisasterRecoveryClient) listWorkRequests(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/PauseDrPlanExecution.go.html to see an example of how to use PauseDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/PauseDrPlanExecution.go.html to see an example of how to use PauseDrPlanExecution API.
 // A default retry strategy applies to this operation PauseDrPlanExecution()
 func (client DisasterRecoveryClient) PauseDrPlanExecution(ctx context.Context, request PauseDrPlanExecutionRequest) (response PauseDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1479,7 +1479,7 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RefreshDrPlan.go.html to see an example of how to use RefreshDrPlan API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RefreshDrPlan.go.html to see an example of how to use RefreshDrPlan API.
 // A default retry strategy applies to this operation RefreshDrPlan()
 func (client DisasterRecoveryClient) RefreshDrPlan(ctx context.Context, request RefreshDrPlanRequest) (response RefreshDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1542,7 +1542,7 @@ func (client DisasterRecoveryClient) refreshDrPlan(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ResumeDrPlanExecution.go.html to see an example of how to use ResumeDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ResumeDrPlanExecution.go.html to see an example of how to use ResumeDrPlanExecution API.
 // A default retry strategy applies to this operation ResumeDrPlanExecution()
 func (client DisasterRecoveryClient) ResumeDrPlanExecution(ctx context.Context, request ResumeDrPlanExecutionRequest) (response ResumeDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1605,7 +1605,7 @@ func (client DisasterRecoveryClient) resumeDrPlanExecution(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RetryDrPlanExecution.go.html to see an example of how to use RetryDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RetryDrPlanExecution.go.html to see an example of how to use RetryDrPlanExecution API.
 // A default retry strategy applies to this operation RetryDrPlanExecution()
 func (client DisasterRecoveryClient) RetryDrPlanExecution(ctx context.Context, request RetryDrPlanExecutionRequest) (response RetryDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1668,7 +1668,7 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrPlan.go.html to see an example of how to use UpdateDrPlan API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrPlan.go.html to see an example of how to use UpdateDrPlan API.
 // A default retry strategy applies to this operation UpdateDrPlan()
 func (client DisasterRecoveryClient) UpdateDrPlan(ctx context.Context, request UpdateDrPlanRequest) (response UpdateDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1726,7 +1726,7 @@ func (client DisasterRecoveryClient) updateDrPlan(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrPlanExecution.go.html to see an example of how to use UpdateDrPlanExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrPlanExecution.go.html to see an example of how to use UpdateDrPlanExecution API.
 // A default retry strategy applies to this operation UpdateDrPlanExecution()
 func (client DisasterRecoveryClient) UpdateDrPlanExecution(ctx context.Context, request UpdateDrPlanExecutionRequest) (response UpdateDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1784,7 +1784,7 @@ func (client DisasterRecoveryClient) updateDrPlanExecution(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroup.go.html to see an example of how to use UpdateDrProtectionGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroup.go.html to see an example of how to use UpdateDrProtectionGroup API.
 // A default retry strategy applies to this operation UpdateDrProtectionGroup()
 func (client DisasterRecoveryClient) UpdateDrProtectionGroup(ctx context.Context, request UpdateDrProtectionGroupRequest) (response UpdateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1842,7 +1842,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroup(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroupRole.go.html to see an example of how to use UpdateDrProtectionGroupRole API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroupRole.go.html to see an example of how to use UpdateDrProtectionGroupRole API.
 // A default retry strategy applies to this operation UpdateDrProtectionGroupRole()
 func (client DisasterRecoveryClient) UpdateDrProtectionGroupRole(ctx context.Context, request UpdateDrProtectionGroupRoleRequest) (response UpdateDrProtectionGroupRoleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1905,7 +1905,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroupRole(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/VerifyDrPlan.go.html to see an example of how to use VerifyDrPlan API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/VerifyDrPlan.go.html to see an example of how to use VerifyDrPlan API.
 // A default retry strategy applies to this operation VerifyDrPlan()
 func (client DisasterRecoveryClient) VerifyDrPlan(ctx context.Context, request VerifyDrPlanRequest) (response VerifyDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse

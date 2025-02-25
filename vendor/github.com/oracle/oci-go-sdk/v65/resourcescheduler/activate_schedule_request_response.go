@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcescheduler/ActivateSchedule.go.html to see an example of how to use ActivateScheduleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcescheduler/ActivateSchedule.go.html to see an example of how to use ActivateScheduleRequest.
 type ActivateScheduleRequest struct {
 
-	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
+	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	ScheduleId *string `mandatory:"true" contributesTo:"path" name:"scheduleId"`
 
 	// This is used for optimistic concurrency control. In the PUT or DELETE call for a resource, set the

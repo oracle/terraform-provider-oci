@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutPolicy.go.html to see an example of how to use PutPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutPolicy.go.html to see an example of how to use PutPolicyRequest.
 type PutPolicyRequest struct {
 
 	// ID of the resource

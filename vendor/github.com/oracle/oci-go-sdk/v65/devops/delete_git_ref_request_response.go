@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteGitRef.go.html to see an example of how to use DeleteGitRefRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteGitRef.go.html to see an example of how to use DeleteGitRefRequest.
 type DeleteGitRefRequest struct {
 
 	// Unique repository identifier.

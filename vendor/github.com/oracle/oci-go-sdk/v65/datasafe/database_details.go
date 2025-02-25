@@ -68,7 +68,7 @@ func (m *databasedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DatabaseDetails: %s.", m.DatabaseType)
+		common.Logf("Received unsupported enum value for DatabaseDetails: %s.", m.DatabaseType)
 		return *m, nil
 	}
 }

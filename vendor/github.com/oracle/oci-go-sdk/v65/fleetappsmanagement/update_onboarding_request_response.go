@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateOnboarding.go.html to see an example of how to use UpdateOnboardingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateOnboarding.go.html to see an example of how to use UpdateOnboardingRequest.
 type UpdateOnboardingRequest struct {
 
 	// A filter to return resources whose Onboarding identifier matches the given identifier.

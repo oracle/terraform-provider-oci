@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaFamily.go.html to see an example of how to use GetJavaFamilyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaFamily.go.html to see an example of how to use GetJavaFamilyRequest.
 type GetJavaFamilyRequest struct {
 
 	// Unique Java family version identifier.

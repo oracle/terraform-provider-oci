@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateNamespaceMetadata.go.html to see an example of how to use UpdateNamespaceMetadataRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateNamespaceMetadata.go.html to see an example of how to use UpdateNamespaceMetadataRequest.
 type UpdateNamespaceMetadataRequest struct {
 
 	// The Object Storage namespace used for the request.

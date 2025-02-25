@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteProject.go.html to see an example of how to use DeleteProjectRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteProject.go.html to see an example of how to use DeleteProjectRequest.
 type DeleteProjectRequest struct {
 
 	// The OCID of the Project.

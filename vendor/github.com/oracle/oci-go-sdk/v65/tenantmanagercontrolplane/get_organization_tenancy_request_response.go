@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrganizationTenancy.go.html to see an example of how to use GetOrganizationTenancyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetOrganizationTenancy.go.html to see an example of how to use GetOrganizationTenancyRequest.
 type GetOrganizationTenancyRequest struct {
 
 	// OCID of the organization.

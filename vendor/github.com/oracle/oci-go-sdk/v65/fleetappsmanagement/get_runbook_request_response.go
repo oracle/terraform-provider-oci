@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbook.go.html to see an example of how to use GetRunbookRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbook.go.html to see an example of how to use GetRunbookRequest.
 type GetRunbookRequest struct {
 
 	// Unique Runbook identifier

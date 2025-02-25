@@ -4,7 +4,7 @@
 
 // Vault Key Management API
 //
-// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -79,11 +79,11 @@ func (client *KmsCryptoClient) ConfigurationProvider() *common.ConfigurationProv
 	return client.config
 }
 
-// Decrypt Decrypts data using the given DecryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/latest/datatypes/DecryptDataDetails) resource.
+// Decrypt Decrypts data using the given DecryptDataDetails (https://docs.oracle.com/iaas/api/#/en/key/latest/datatypes/DecryptDataDetails) resource.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Decrypt.go.html to see an example of how to use Decrypt API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Decrypt.go.html to see an example of how to use Decrypt API.
 func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptRequest) (response DecryptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -136,12 +136,12 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// Encrypt Encrypts data using the given EncryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/latest/datatypes/EncryptDataDetails) resource.
+// Encrypt Encrypts data using the given EncryptDataDetails (https://docs.oracle.com/iaas/api/#/en/key/latest/datatypes/EncryptDataDetails) resource.
 // Plaintext included in the example request is a base64-encoded value of a UTF-8 string.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Encrypt.go.html to see an example of how to use Encrypt API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Encrypt.go.html to see an example of how to use Encrypt API.
 func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptRequest) (response EncryptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -201,7 +201,7 @@ func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ExportKey.go.html to see an example of how to use ExportKey API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ExportKey.go.html to see an example of how to use ExportKey API.
 func (client KmsCryptoClient) ExportKey(ctx context.Context, request ExportKeyRequest) (response ExportKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -258,7 +258,7 @@ func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GenerateDataEncryptionKey.go.html to see an example of how to use GenerateDataEncryptionKey API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GenerateDataEncryptionKey.go.html to see an example of how to use GenerateDataEncryptionKey API.
 func (client KmsCryptoClient) GenerateDataEncryptionKey(ctx context.Context, request GenerateDataEncryptionKeyRequest) (response GenerateDataEncryptionKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -312,13 +312,13 @@ func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, req
 }
 
 // Sign Creates a digital signature for a message or message digest by using the private key of a public-private key pair,
-// also known as an asymmetric key. To verify the generated signature, you can use the Verify (https://docs.cloud.oracle.com/api/#/en/key/latest/VerifiedData/Verify)
+// also known as an asymmetric key. To verify the generated signature, you can use the Verify (https://docs.oracle.com/iaas/api/#/en/key/latest/VerifiedData/Verify)
 // operation. Or, if you want to validate the signature outside of the service, you can do so by using the public key of the same asymmetric key.
 // This operation is not supported for keys having protection mode `EXTERNAL`.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Sign.go.html to see an example of how to use Sign API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Sign.go.html to see an example of how to use Sign API.
 func (client KmsCryptoClient) Sign(ctx context.Context, request SignRequest) (response SignResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -371,14 +371,14 @@ func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// Verify Verifies a digital signature that was generated by the Sign (https://docs.cloud.oracle.com/api/#/en/key/latest/SignedData/Sign) operation
+// Verify Verifies a digital signature that was generated by the Sign (https://docs.oracle.com/iaas/api/#/en/key/latest/SignedData/Sign) operation
 // by using the public key of the same asymmetric key that was used to sign the data. If you want to validate the
 // digital signature outside of the service, you can do so by using the public key of the asymmetric key.
 // This operation is not supported for keys having protection mode `EXTERNAL`.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Verify.go.html to see an example of how to use Verify API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Verify.go.html to see an example of how to use Verify API.
 func (client KmsCryptoClient) Verify(ctx context.Context, request VerifyRequest) (response VerifyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

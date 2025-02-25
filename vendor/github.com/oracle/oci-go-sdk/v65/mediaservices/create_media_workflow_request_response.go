@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflow.go.html to see an example of how to use CreateMediaWorkflowRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaWorkflow.go.html to see an example of how to use CreateMediaWorkflowRequest.
 type CreateMediaWorkflowRequest struct {
 
 	// Details for the new MediaWorkflow.

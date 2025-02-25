@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -19,7 +19,7 @@ import (
 type EnablePluggableDatabaseManagementDetails struct {
 	CredentialDetails *DatabaseCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	PrivateEndPointId *string `mandatory:"true" json:"privateEndPointId"`
 
 	// The name of the Oracle Database service that will be used to connect to the database.
@@ -31,7 +31,7 @@ type EnablePluggableDatabaseManagementDetails struct {
 	// The port used to connect to the pluggable database.
 	Port *int `mandatory:"false" json:"port"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure secret (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure secret (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	SslSecretId *string `mandatory:"false" json:"sslSecretId"`
 
 	// The role of the user that will be connecting to the pluggable database.

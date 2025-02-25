@@ -95,7 +95,7 @@ func (client *ServiceMeshClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client ServiceMeshClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client ServiceMeshClient) cancelWorkRequest(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeAccessPolicyCompartment.go.html to see an example of how to use ChangeAccessPolicyCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeAccessPolicyCompartment.go.html to see an example of how to use ChangeAccessPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeAccessPolicyCompartment()
 func (client ServiceMeshClient) ChangeAccessPolicyCompartment(ctx context.Context, request ChangeAccessPolicyCompartmentRequest) (response ChangeAccessPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -216,7 +216,7 @@ func (client ServiceMeshClient) changeAccessPolicyCompartment(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayCompartment.go.html to see an example of how to use ChangeIngressGatewayCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayCompartment.go.html to see an example of how to use ChangeIngressGatewayCompartment API.
 // A default retry strategy applies to this operation ChangeIngressGatewayCompartment()
 func (client ServiceMeshClient) ChangeIngressGatewayCompartment(ctx context.Context, request ChangeIngressGatewayCompartmentRequest) (response ChangeIngressGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -279,7 +279,7 @@ func (client ServiceMeshClient) changeIngressGatewayCompartment(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayRouteTableCompartment.go.html to see an example of how to use ChangeIngressGatewayRouteTableCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayRouteTableCompartment.go.html to see an example of how to use ChangeIngressGatewayRouteTableCompartment API.
 // A default retry strategy applies to this operation ChangeIngressGatewayRouteTableCompartment()
 func (client ServiceMeshClient) ChangeIngressGatewayRouteTableCompartment(ctx context.Context, request ChangeIngressGatewayRouteTableCompartmentRequest) (response ChangeIngressGatewayRouteTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -342,7 +342,7 @@ func (client ServiceMeshClient) changeIngressGatewayRouteTableCompartment(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeMeshCompartment.go.html to see an example of how to use ChangeMeshCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeMeshCompartment.go.html to see an example of how to use ChangeMeshCompartment API.
 // A default retry strategy applies to this operation ChangeMeshCompartment()
 func (client ServiceMeshClient) ChangeMeshCompartment(ctx context.Context, request ChangeMeshCompartmentRequest) (response ChangeMeshCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -405,7 +405,7 @@ func (client ServiceMeshClient) changeMeshCompartment(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualDeploymentCompartment.go.html to see an example of how to use ChangeVirtualDeploymentCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualDeploymentCompartment.go.html to see an example of how to use ChangeVirtualDeploymentCompartment API.
 // A default retry strategy applies to this operation ChangeVirtualDeploymentCompartment()
 func (client ServiceMeshClient) ChangeVirtualDeploymentCompartment(ctx context.Context, request ChangeVirtualDeploymentCompartmentRequest) (response ChangeVirtualDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -468,7 +468,7 @@ func (client ServiceMeshClient) changeVirtualDeploymentCompartment(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualServiceCompartment.go.html to see an example of how to use ChangeVirtualServiceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualServiceCompartment.go.html to see an example of how to use ChangeVirtualServiceCompartment API.
 // A default retry strategy applies to this operation ChangeVirtualServiceCompartment()
 func (client ServiceMeshClient) ChangeVirtualServiceCompartment(ctx context.Context, request ChangeVirtualServiceCompartmentRequest) (response ChangeVirtualServiceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -531,7 +531,7 @@ func (client ServiceMeshClient) changeVirtualServiceCompartment(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualServiceRouteTableCompartment.go.html to see an example of how to use ChangeVirtualServiceRouteTableCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualServiceRouteTableCompartment.go.html to see an example of how to use ChangeVirtualServiceRouteTableCompartment API.
 // A default retry strategy applies to this operation ChangeVirtualServiceRouteTableCompartment()
 func (client ServiceMeshClient) ChangeVirtualServiceRouteTableCompartment(ctx context.Context, request ChangeVirtualServiceRouteTableCompartmentRequest) (response ChangeVirtualServiceRouteTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -594,7 +594,7 @@ func (client ServiceMeshClient) changeVirtualServiceRouteTableCompartment(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateAccessPolicy.go.html to see an example of how to use CreateAccessPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateAccessPolicy.go.html to see an example of how to use CreateAccessPolicy API.
 // A default retry strategy applies to this operation CreateAccessPolicy()
 func (client ServiceMeshClient) CreateAccessPolicy(ctx context.Context, request CreateAccessPolicyRequest) (response CreateAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -657,7 +657,7 @@ func (client ServiceMeshClient) createAccessPolicy(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateIngressGateway.go.html to see an example of how to use CreateIngressGateway API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateIngressGateway.go.html to see an example of how to use CreateIngressGateway API.
 // A default retry strategy applies to this operation CreateIngressGateway()
 func (client ServiceMeshClient) CreateIngressGateway(ctx context.Context, request CreateIngressGatewayRequest) (response CreateIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -720,7 +720,7 @@ func (client ServiceMeshClient) createIngressGateway(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateIngressGatewayRouteTable.go.html to see an example of how to use CreateIngressGatewayRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateIngressGatewayRouteTable.go.html to see an example of how to use CreateIngressGatewayRouteTable API.
 // A default retry strategy applies to this operation CreateIngressGatewayRouteTable()
 func (client ServiceMeshClient) CreateIngressGatewayRouteTable(ctx context.Context, request CreateIngressGatewayRouteTableRequest) (response CreateIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -783,7 +783,7 @@ func (client ServiceMeshClient) createIngressGatewayRouteTable(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateMesh.go.html to see an example of how to use CreateMesh API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateMesh.go.html to see an example of how to use CreateMesh API.
 // A default retry strategy applies to this operation CreateMesh()
 func (client ServiceMeshClient) CreateMesh(ctx context.Context, request CreateMeshRequest) (response CreateMeshResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -846,7 +846,7 @@ func (client ServiceMeshClient) createMesh(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualDeployment.go.html to see an example of how to use CreateVirtualDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualDeployment.go.html to see an example of how to use CreateVirtualDeployment API.
 // A default retry strategy applies to this operation CreateVirtualDeployment()
 func (client ServiceMeshClient) CreateVirtualDeployment(ctx context.Context, request CreateVirtualDeploymentRequest) (response CreateVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -909,7 +909,7 @@ func (client ServiceMeshClient) createVirtualDeployment(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualService.go.html to see an example of how to use CreateVirtualService API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualService.go.html to see an example of how to use CreateVirtualService API.
 // A default retry strategy applies to this operation CreateVirtualService()
 func (client ServiceMeshClient) CreateVirtualService(ctx context.Context, request CreateVirtualServiceRequest) (response CreateVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -972,7 +972,7 @@ func (client ServiceMeshClient) createVirtualService(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualServiceRouteTable.go.html to see an example of how to use CreateVirtualServiceRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualServiceRouteTable.go.html to see an example of how to use CreateVirtualServiceRouteTable API.
 // A default retry strategy applies to this operation CreateVirtualServiceRouteTable()
 func (client ServiceMeshClient) CreateVirtualServiceRouteTable(ctx context.Context, request CreateVirtualServiceRouteTableRequest) (response CreateVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1035,7 +1035,7 @@ func (client ServiceMeshClient) createVirtualServiceRouteTable(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteAccessPolicy.go.html to see an example of how to use DeleteAccessPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteAccessPolicy.go.html to see an example of how to use DeleteAccessPolicy API.
 // A default retry strategy applies to this operation DeleteAccessPolicy()
 func (client ServiceMeshClient) DeleteAccessPolicy(ctx context.Context, request DeleteAccessPolicyRequest) (response DeleteAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1093,7 +1093,7 @@ func (client ServiceMeshClient) deleteAccessPolicy(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteIngressGateway.go.html to see an example of how to use DeleteIngressGateway API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteIngressGateway.go.html to see an example of how to use DeleteIngressGateway API.
 // A default retry strategy applies to this operation DeleteIngressGateway()
 func (client ServiceMeshClient) DeleteIngressGateway(ctx context.Context, request DeleteIngressGatewayRequest) (response DeleteIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1151,7 +1151,7 @@ func (client ServiceMeshClient) deleteIngressGateway(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteIngressGatewayRouteTable.go.html to see an example of how to use DeleteIngressGatewayRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteIngressGatewayRouteTable.go.html to see an example of how to use DeleteIngressGatewayRouteTable API.
 // A default retry strategy applies to this operation DeleteIngressGatewayRouteTable()
 func (client ServiceMeshClient) DeleteIngressGatewayRouteTable(ctx context.Context, request DeleteIngressGatewayRouteTableRequest) (response DeleteIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1209,7 +1209,7 @@ func (client ServiceMeshClient) deleteIngressGatewayRouteTable(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteMesh.go.html to see an example of how to use DeleteMesh API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteMesh.go.html to see an example of how to use DeleteMesh API.
 // A default retry strategy applies to this operation DeleteMesh()
 func (client ServiceMeshClient) DeleteMesh(ctx context.Context, request DeleteMeshRequest) (response DeleteMeshResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1267,7 +1267,7 @@ func (client ServiceMeshClient) deleteMesh(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualDeployment.go.html to see an example of how to use DeleteVirtualDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualDeployment.go.html to see an example of how to use DeleteVirtualDeployment API.
 // A default retry strategy applies to this operation DeleteVirtualDeployment()
 func (client ServiceMeshClient) DeleteVirtualDeployment(ctx context.Context, request DeleteVirtualDeploymentRequest) (response DeleteVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1325,7 +1325,7 @@ func (client ServiceMeshClient) deleteVirtualDeployment(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualService.go.html to see an example of how to use DeleteVirtualService API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualService.go.html to see an example of how to use DeleteVirtualService API.
 // A default retry strategy applies to this operation DeleteVirtualService()
 func (client ServiceMeshClient) DeleteVirtualService(ctx context.Context, request DeleteVirtualServiceRequest) (response DeleteVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1383,7 +1383,7 @@ func (client ServiceMeshClient) deleteVirtualService(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualServiceRouteTable.go.html to see an example of how to use DeleteVirtualServiceRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualServiceRouteTable.go.html to see an example of how to use DeleteVirtualServiceRouteTable API.
 // A default retry strategy applies to this operation DeleteVirtualServiceRouteTable()
 func (client ServiceMeshClient) DeleteVirtualServiceRouteTable(ctx context.Context, request DeleteVirtualServiceRouteTableRequest) (response DeleteVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1441,7 +1441,7 @@ func (client ServiceMeshClient) deleteVirtualServiceRouteTable(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetAccessPolicy.go.html to see an example of how to use GetAccessPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetAccessPolicy.go.html to see an example of how to use GetAccessPolicy API.
 // A default retry strategy applies to this operation GetAccessPolicy()
 func (client ServiceMeshClient) GetAccessPolicy(ctx context.Context, request GetAccessPolicyRequest) (response GetAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1499,7 +1499,7 @@ func (client ServiceMeshClient) getAccessPolicy(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetIngressGateway.go.html to see an example of how to use GetIngressGateway API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetIngressGateway.go.html to see an example of how to use GetIngressGateway API.
 // A default retry strategy applies to this operation GetIngressGateway()
 func (client ServiceMeshClient) GetIngressGateway(ctx context.Context, request GetIngressGatewayRequest) (response GetIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1557,7 +1557,7 @@ func (client ServiceMeshClient) getIngressGateway(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetIngressGatewayRouteTable.go.html to see an example of how to use GetIngressGatewayRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetIngressGatewayRouteTable.go.html to see an example of how to use GetIngressGatewayRouteTable API.
 // A default retry strategy applies to this operation GetIngressGatewayRouteTable()
 func (client ServiceMeshClient) GetIngressGatewayRouteTable(ctx context.Context, request GetIngressGatewayRouteTableRequest) (response GetIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1615,7 +1615,7 @@ func (client ServiceMeshClient) getIngressGatewayRouteTable(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetMesh.go.html to see an example of how to use GetMesh API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetMesh.go.html to see an example of how to use GetMesh API.
 // A default retry strategy applies to this operation GetMesh()
 func (client ServiceMeshClient) GetMesh(ctx context.Context, request GetMeshRequest) (response GetMeshResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1673,7 +1673,7 @@ func (client ServiceMeshClient) getMesh(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetProxyDetails.go.html to see an example of how to use GetProxyDetails API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetProxyDetails.go.html to see an example of how to use GetProxyDetails API.
 // A default retry strategy applies to this operation GetProxyDetails()
 func (client ServiceMeshClient) GetProxyDetails(ctx context.Context, request GetProxyDetailsRequest) (response GetProxyDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1731,7 +1731,7 @@ func (client ServiceMeshClient) getProxyDetails(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualDeployment.go.html to see an example of how to use GetVirtualDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualDeployment.go.html to see an example of how to use GetVirtualDeployment API.
 // A default retry strategy applies to this operation GetVirtualDeployment()
 func (client ServiceMeshClient) GetVirtualDeployment(ctx context.Context, request GetVirtualDeploymentRequest) (response GetVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1789,7 +1789,7 @@ func (client ServiceMeshClient) getVirtualDeployment(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualService.go.html to see an example of how to use GetVirtualService API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualService.go.html to see an example of how to use GetVirtualService API.
 // A default retry strategy applies to this operation GetVirtualService()
 func (client ServiceMeshClient) GetVirtualService(ctx context.Context, request GetVirtualServiceRequest) (response GetVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1847,7 +1847,7 @@ func (client ServiceMeshClient) getVirtualService(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualServiceRouteTable.go.html to see an example of how to use GetVirtualServiceRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualServiceRouteTable.go.html to see an example of how to use GetVirtualServiceRouteTable API.
 // A default retry strategy applies to this operation GetVirtualServiceRouteTable()
 func (client ServiceMeshClient) GetVirtualServiceRouteTable(ctx context.Context, request GetVirtualServiceRouteTableRequest) (response GetVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1905,7 +1905,7 @@ func (client ServiceMeshClient) getVirtualServiceRouteTable(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ServiceMeshClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1963,7 +1963,7 @@ func (client ServiceMeshClient) getWorkRequest(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListAccessPolicies.go.html to see an example of how to use ListAccessPolicies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListAccessPolicies.go.html to see an example of how to use ListAccessPolicies API.
 // A default retry strategy applies to this operation ListAccessPolicies()
 func (client ServiceMeshClient) ListAccessPolicies(ctx context.Context, request ListAccessPoliciesRequest) (response ListAccessPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2021,7 +2021,7 @@ func (client ServiceMeshClient) listAccessPolicies(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListIngressGatewayRouteTables.go.html to see an example of how to use ListIngressGatewayRouteTables API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListIngressGatewayRouteTables.go.html to see an example of how to use ListIngressGatewayRouteTables API.
 // A default retry strategy applies to this operation ListIngressGatewayRouteTables()
 func (client ServiceMeshClient) ListIngressGatewayRouteTables(ctx context.Context, request ListIngressGatewayRouteTablesRequest) (response ListIngressGatewayRouteTablesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2079,7 +2079,7 @@ func (client ServiceMeshClient) listIngressGatewayRouteTables(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListIngressGateways.go.html to see an example of how to use ListIngressGateways API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListIngressGateways.go.html to see an example of how to use ListIngressGateways API.
 // A default retry strategy applies to this operation ListIngressGateways()
 func (client ServiceMeshClient) ListIngressGateways(ctx context.Context, request ListIngressGatewaysRequest) (response ListIngressGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2137,7 +2137,7 @@ func (client ServiceMeshClient) listIngressGateways(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListMeshes.go.html to see an example of how to use ListMeshes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListMeshes.go.html to see an example of how to use ListMeshes API.
 // A default retry strategy applies to this operation ListMeshes()
 func (client ServiceMeshClient) ListMeshes(ctx context.Context, request ListMeshesRequest) (response ListMeshesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2195,7 +2195,7 @@ func (client ServiceMeshClient) listMeshes(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualDeployments.go.html to see an example of how to use ListVirtualDeployments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualDeployments.go.html to see an example of how to use ListVirtualDeployments API.
 // A default retry strategy applies to this operation ListVirtualDeployments()
 func (client ServiceMeshClient) ListVirtualDeployments(ctx context.Context, request ListVirtualDeploymentsRequest) (response ListVirtualDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2253,7 +2253,7 @@ func (client ServiceMeshClient) listVirtualDeployments(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServiceRouteTables.go.html to see an example of how to use ListVirtualServiceRouteTables API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServiceRouteTables.go.html to see an example of how to use ListVirtualServiceRouteTables API.
 // A default retry strategy applies to this operation ListVirtualServiceRouteTables()
 func (client ServiceMeshClient) ListVirtualServiceRouteTables(ctx context.Context, request ListVirtualServiceRouteTablesRequest) (response ListVirtualServiceRouteTablesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2311,7 +2311,7 @@ func (client ServiceMeshClient) listVirtualServiceRouteTables(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServices.go.html to see an example of how to use ListVirtualServices API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServices.go.html to see an example of how to use ListVirtualServices API.
 // A default retry strategy applies to this operation ListVirtualServices()
 func (client ServiceMeshClient) ListVirtualServices(ctx context.Context, request ListVirtualServicesRequest) (response ListVirtualServicesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2369,7 +2369,7 @@ func (client ServiceMeshClient) listVirtualServices(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ServiceMeshClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2427,7 +2427,7 @@ func (client ServiceMeshClient) listWorkRequestErrors(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ServiceMeshClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2485,7 +2485,7 @@ func (client ServiceMeshClient) listWorkRequestLogs(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ServiceMeshClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2543,7 +2543,7 @@ func (client ServiceMeshClient) listWorkRequests(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateAccessPolicy.go.html to see an example of how to use UpdateAccessPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateAccessPolicy.go.html to see an example of how to use UpdateAccessPolicy API.
 // A default retry strategy applies to this operation UpdateAccessPolicy()
 func (client ServiceMeshClient) UpdateAccessPolicy(ctx context.Context, request UpdateAccessPolicyRequest) (response UpdateAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2606,7 +2606,7 @@ func (client ServiceMeshClient) updateAccessPolicy(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateIngressGateway.go.html to see an example of how to use UpdateIngressGateway API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateIngressGateway.go.html to see an example of how to use UpdateIngressGateway API.
 // A default retry strategy applies to this operation UpdateIngressGateway()
 func (client ServiceMeshClient) UpdateIngressGateway(ctx context.Context, request UpdateIngressGatewayRequest) (response UpdateIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2669,7 +2669,7 @@ func (client ServiceMeshClient) updateIngressGateway(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateIngressGatewayRouteTable.go.html to see an example of how to use UpdateIngressGatewayRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateIngressGatewayRouteTable.go.html to see an example of how to use UpdateIngressGatewayRouteTable API.
 // A default retry strategy applies to this operation UpdateIngressGatewayRouteTable()
 func (client ServiceMeshClient) UpdateIngressGatewayRouteTable(ctx context.Context, request UpdateIngressGatewayRouteTableRequest) (response UpdateIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2732,7 +2732,7 @@ func (client ServiceMeshClient) updateIngressGatewayRouteTable(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateMesh.go.html to see an example of how to use UpdateMesh API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateMesh.go.html to see an example of how to use UpdateMesh API.
 // A default retry strategy applies to this operation UpdateMesh()
 func (client ServiceMeshClient) UpdateMesh(ctx context.Context, request UpdateMeshRequest) (response UpdateMeshResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2795,7 +2795,7 @@ func (client ServiceMeshClient) updateMesh(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualDeployment.go.html to see an example of how to use UpdateVirtualDeployment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualDeployment.go.html to see an example of how to use UpdateVirtualDeployment API.
 // A default retry strategy applies to this operation UpdateVirtualDeployment()
 func (client ServiceMeshClient) UpdateVirtualDeployment(ctx context.Context, request UpdateVirtualDeploymentRequest) (response UpdateVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2858,7 +2858,7 @@ func (client ServiceMeshClient) updateVirtualDeployment(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualService.go.html to see an example of how to use UpdateVirtualService API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualService.go.html to see an example of how to use UpdateVirtualService API.
 // A default retry strategy applies to this operation UpdateVirtualService()
 func (client ServiceMeshClient) UpdateVirtualService(ctx context.Context, request UpdateVirtualServiceRequest) (response UpdateVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2921,7 +2921,7 @@ func (client ServiceMeshClient) updateVirtualService(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualServiceRouteTable.go.html to see an example of how to use UpdateVirtualServiceRouteTable API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateVirtualServiceRouteTable.go.html to see an example of how to use UpdateVirtualServiceRouteTable API.
 // A default retry strategy applies to this operation UpdateVirtualServiceRouteTable()
 func (client ServiceMeshClient) UpdateVirtualServiceRouteTable(ctx context.Context, request UpdateVirtualServiceRouteTableRequest) (response UpdateVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetHsmPartition.go.html to see an example of how to use GetHsmPartitionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetHsmPartition.go.html to see an example of how to use GetHsmPartitionRequest.
 type GetHsmPartitionRequest struct {
 
 	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.

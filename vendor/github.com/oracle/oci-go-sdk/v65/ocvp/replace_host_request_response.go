@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ReplaceHost.go.html to see an example of how to use ReplaceHostRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ReplaceHost.go.html to see an example of how to use ReplaceHostRequest.
 type ReplaceHostRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host.
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
 	// The details for replacing ESXi host

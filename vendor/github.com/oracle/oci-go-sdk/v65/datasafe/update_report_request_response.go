@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateReport.go.html to see an example of how to use UpdateReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateReport.go.html to see an example of how to use UpdateReportRequest.
 type UpdateReportRequest struct {
 
 	// Unique report identifier

@@ -5,7 +5,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -22,7 +22,7 @@ import (
 // *  If the load balancer has a list of NSGs configured and this list is empty, the operation removes all of the load balancer's NSG associations.
 type UpdateNetworkSecurityGroupsDetails struct {
 
-	// An array of NSG OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the load
+	// An array of NSG OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the load
 	// balancer.
 	// During the load balancer's creation, the service adds the new load balancer to the specified NSGs.
 	// The benefits of associating the load balancer with NSGs include:

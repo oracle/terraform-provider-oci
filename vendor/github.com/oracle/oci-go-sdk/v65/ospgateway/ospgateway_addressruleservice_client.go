@@ -95,7 +95,7 @@ func (client *AddressRuleServiceClient) ConfigurationProvider() *common.Configur
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddressRule.go.html to see an example of how to use GetAddressRule API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddressRule.go.html to see an example of how to use GetAddressRule API.
 // A default retry strategy applies to this operation GetAddressRule()
 func (client AddressRuleServiceClient) GetAddressRule(ctx context.Context, request GetAddressRuleRequest) (response GetAddressRuleResponse, err error) {
 	var ociResponse common.OCIResponse

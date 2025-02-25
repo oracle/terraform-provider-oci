@@ -25,10 +25,10 @@ type CreateOggDeploymentDetails struct {
 	// The type of credential store for OGG.
 	CredentialStore CredentialStoreEnum `mandatory:"false" json:"credentialStore,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used.
 	IdentityDomainId *string `mandatory:"false" json:"identityDomainId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The GoldenGate deployment console username.

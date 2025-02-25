@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -36,7 +36,7 @@ type SummarizeExadataInsightResourceStatisticsAggregationCollection struct {
 	// Defines the type of exadata resource metric (example: CPU, STORAGE)
 	ExadataResourceMetric SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum `mandatory:"true" json:"exadataResourceMetric"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 	ExadataInsightId *string `mandatory:"true" json:"exadataInsightId"`
 
 	// The user-friendly name for the Exadata system. The name does not have to be unique.

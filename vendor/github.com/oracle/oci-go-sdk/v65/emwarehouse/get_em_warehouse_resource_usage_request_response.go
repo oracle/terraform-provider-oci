@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetEmWarehouseResourceUsage.go.html to see an example of how to use GetEmWarehouseResourceUsageRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetEmWarehouseResourceUsage.go.html to see an example of how to use GetEmWarehouseResourceUsageRequest.
 type GetEmWarehouseResourceUsageRequest struct {
 
 	// unique EmWarehouse identifier

@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -20,8 +20,8 @@ import (
 // DhcpOption A single DHCP option according to RFC 1533 (https://tools.ietf.org/html/rfc1533).
 // The two options available to use are DhcpDnsOption
 // and DhcpSearchDomainOption. For more
-// information, see DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm)
-// and DHCP Options (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm).
+// information, see DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm)
+// and DHCP Options (https://docs.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm).
 type DhcpOption interface {
 }
 
@@ -64,7 +64,7 @@ func (m *dhcpoption) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DhcpOption: %s.", m.Type)
+		common.Logf("Received unsupported enum value for DhcpOption: %s.", m.Type)
 		return *m, nil
 	}
 }

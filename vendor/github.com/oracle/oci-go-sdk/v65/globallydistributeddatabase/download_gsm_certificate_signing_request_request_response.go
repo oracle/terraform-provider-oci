@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DownloadGsmCertificateSigningRequest.go.html to see an example of how to use DownloadGsmCertificateSigningRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/DownloadGsmCertificateSigningRequest.go.html to see an example of how to use DownloadGsmCertificateSigningRequestRequest.
 type DownloadGsmCertificateSigningRequestRequest struct {
 
 	// Sharded Database identifier

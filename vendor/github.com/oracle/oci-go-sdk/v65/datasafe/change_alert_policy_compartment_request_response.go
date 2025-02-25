@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAlertPolicyCompartment.go.html to see an example of how to use ChangeAlertPolicyCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAlertPolicyCompartment.go.html to see an example of how to use ChangeAlertPolicyCompartmentRequest.
 type ChangeAlertPolicyCompartmentRequest struct {
 
 	// The OCID of the alert policy.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateLifecycleEnvironment.go.html to see an example of how to use CreateLifecycleEnvironmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateLifecycleEnvironment.go.html to see an example of how to use CreateLifecycleEnvironmentRequest.
 type CreateLifecycleEnvironmentRequest struct {
 
 	// Details for the new lifecycle environment.

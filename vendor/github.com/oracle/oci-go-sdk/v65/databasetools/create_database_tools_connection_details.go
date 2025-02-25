@@ -22,7 +22,7 @@ type CreateDatabaseToolsConnectionDetails interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	GetCompartmentId() *string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -99,7 +99,7 @@ func (m *createdatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateDatabaseToolsConnectionDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for CreateDatabaseToolsConnectionDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

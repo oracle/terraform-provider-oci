@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetProjectNotificationPreference.go.html to see an example of how to use GetProjectNotificationPreferenceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetProjectNotificationPreference.go.html to see an example of how to use GetProjectNotificationPreferenceRequest.
 type GetProjectNotificationPreferenceRequest struct {
 
 	// Unique project identifier.

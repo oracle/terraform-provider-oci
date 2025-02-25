@@ -5,7 +5,7 @@
 // Management Agent API
 //
 // Use the Management Agent API to manage your infrastructure's management agents, including their plugins and install keys.
-// For more information, see Management Agent (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
+// For more information, see Management Agent (https://docs.oracle.com/iaas/management-agents/index.html).
 //
 
 package managementagent
@@ -56,7 +56,7 @@ func (m *updatedatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateDataSourceDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for UpdateDataSourceDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

@@ -5,10 +5,10 @@
 // Autoscaling API
 //
 // APIs for dynamically scaling Compute resources to meet application requirements. For more information about
-// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// autoscaling, see Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Overview of the Compute Service (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
 // **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
-// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
+// Oracle Cloud Infrastructure US Government Cloud (https://docs.oracle.com/iaas/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
@@ -22,7 +22,7 @@ import (
 
 // AutoScalingPolicy Autoscaling policies define the criteria that trigger autoscaling actions and the actions to take.
 // An autoscaling policy is part of an autoscaling configuration. For more information, see
-// Autoscaling (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
+// Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
 // You can create the following types of autoscaling policies:
 //
 //   - **Schedule-based:** Autoscaling events take place at the specific times that you schedule.
@@ -95,7 +95,7 @@ func (m *autoscalingpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for AutoScalingPolicy: %s.", m.PolicyType)
+		common.Logf("Received unsupported enum value for AutoScalingPolicy: %s.", m.PolicyType)
 		return *m, nil
 	}
 }

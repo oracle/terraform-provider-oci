@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCustomerGroup.go.html to see an example of how to use GetOccCustomerGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCustomerGroup.go.html to see an example of how to use GetOccCustomerGroupRequest.
 type GetOccCustomerGroupRequest struct {
 
 	// The OCID of the customer group.

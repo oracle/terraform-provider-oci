@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteSkill.go.html to see an example of how to use DeleteSkillRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteSkill.go.html to see an example of how to use DeleteSkillRequest.
 type DeleteSkillRequest struct {
 
 	// Unique Digital Assistant instance identifier.

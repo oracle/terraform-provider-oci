@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreatePasswordPolicy.go.html to see an example of how to use CreatePasswordPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreatePasswordPolicy.go.html to see an example of how to use CreatePasswordPolicyRequest.
 type CreatePasswordPolicyRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

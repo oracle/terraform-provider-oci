@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -94,12 +94,12 @@ func (client *NotificationControlPlaneClient) ConfigurationProvider() *common.Co
 
 // ChangeTopicCompartment Moves a topic into a different compartment within the same tenancy. For information about moving resources
 // between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeTopicCompartment.go.html to see an example of how to use ChangeTopicCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeTopicCompartment.go.html to see an example of how to use ChangeTopicCompartment API.
 func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.Context, request ChangeTopicCompartmentRequest) (response ChangeTopicCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -158,19 +158,19 @@ func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.
 }
 
 // CreateTopic Creates a topic in the specified compartment. For general information about topics, see
-// Managing Topics and Subscriptions (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).
+// Managing Topics and Subscriptions (https://docs.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the topic to reside.
-// For information about access control and compartments, see Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// For information about access control and compartments, see Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // You must specify a display name for the topic.
 // All Oracle Cloud Infrastructure resources, including topics, get an Oracle-assigned, unique ID called an
 // Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response. You can also
 // retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the resource in the
-// Console. For more information, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Console. For more information, see Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateTopic.go.html to see an example of how to use CreateTopic API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateTopic.go.html to see an example of how to use CreateTopic API.
 func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, request CreateTopicRequest) (response CreateTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -233,7 +233,7 @@ func (client NotificationControlPlaneClient) createTopic(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/DeleteTopic.go.html to see an example of how to use DeleteTopic API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/DeleteTopic.go.html to see an example of how to use DeleteTopic API.
 func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, request DeleteTopicRequest) (response DeleteTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -290,7 +290,7 @@ func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetTopic.go.html to see an example of how to use GetTopic API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetTopic.go.html to see an example of how to use GetTopic API.
 func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, request GetTopicRequest) (response GetTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -348,7 +348,7 @@ func (client NotificationControlPlaneClient) getTopic(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListTopics.go.html to see an example of how to use ListTopics API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListTopics.go.html to see an example of how to use ListTopics API.
 func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, request ListTopicsRequest) (response ListTopicsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -406,7 +406,7 @@ func (client NotificationControlPlaneClient) listTopics(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateTopic.go.html to see an example of how to use UpdateTopic API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateTopic.go.html to see an example of how to use UpdateTopic API.
 func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, request UpdateTopicRequest) (response UpdateTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

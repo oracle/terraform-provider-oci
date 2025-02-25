@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/UpgradeOpenSearchCluster.go.html to see an example of how to use UpgradeOpenSearchClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/UpgradeOpenSearchCluster.go.html to see an example of how to use UpgradeOpenSearchClusterRequest.
 type UpgradeOpenSearchClusterRequest struct {
 
 	// unique OpensearchCluster identifier

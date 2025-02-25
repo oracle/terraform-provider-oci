@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -22,7 +22,7 @@ type CreateKerberosDetails struct {
 	// The Kerberos realm that the mount target will join.
 	KerberosRealm *string `mandatory:"true" json:"kerberosRealm"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the keytab Secret in the Vault.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the keytab Secret in the Vault.
 	KeyTabSecretId *string `mandatory:"false" json:"keyTabSecretId"`
 
 	// Version of the keytab Secret in the Vault to use.

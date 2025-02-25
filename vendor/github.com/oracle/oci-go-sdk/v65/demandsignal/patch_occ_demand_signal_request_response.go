@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/PatchOccDemandSignal.go.html to see an example of how to use PatchOccDemandSignalRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/PatchOccDemandSignal.go.html to see an example of how to use PatchOccDemandSignalRequest.
 type PatchOccDemandSignalRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OccDemandSignal.
 	OccDemandSignalId *string `mandatory:"true" contributesTo:"path" name:"occDemandSignalId"`
 
 	// The information to be updated.

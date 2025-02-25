@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CreateSecurityAttribute.go.html to see an example of how to use CreateSecurityAttributeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/CreateSecurityAttribute.go.html to see an example of how to use CreateSecurityAttributeRequest.
 type CreateSecurityAttributeRequest struct {
 
 	// The OCID of the security attribute namespace.

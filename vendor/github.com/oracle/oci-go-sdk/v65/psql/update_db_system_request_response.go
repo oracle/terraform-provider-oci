@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateDbSystem.go.html to see an example of how to use UpdateDbSystemRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateDbSystem.go.html to see an example of how to use UpdateDbSystemRequest.
 type UpdateDbSystemRequest struct {
 
 	// A unique identifier for the database system.

@@ -18,13 +18,13 @@ import (
 // ClusterPlacementGroupSummary A summary object that provides the metadata details of the cluster placement group.
 type ClusterPlacementGroupSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The friendly name of the cluster placement group.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the cluster placement group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the cluster placement group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The availability domain of the cluster placement group.

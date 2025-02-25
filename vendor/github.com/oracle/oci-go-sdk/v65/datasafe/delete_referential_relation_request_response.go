@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteReferentialRelation.go.html to see an example of how to use DeleteReferentialRelationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteReferentialRelation.go.html to see an example of how to use DeleteReferentialRelationRequest.
 type DeleteReferentialRelationRequest struct {
 
 	// The OCID of the sensitive data model.

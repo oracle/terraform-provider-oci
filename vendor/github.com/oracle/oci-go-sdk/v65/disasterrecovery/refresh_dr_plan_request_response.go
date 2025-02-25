@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RefreshDrPlan.go.html to see an example of how to use RefreshDrPlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RefreshDrPlan.go.html to see an example of how to use RefreshDrPlanRequest.
 type RefreshDrPlanRequest struct {
 
 	// Details for refreshing a DR plan.

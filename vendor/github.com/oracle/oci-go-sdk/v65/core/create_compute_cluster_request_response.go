@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCluster.go.html to see an example of how to use CreateComputeClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCluster.go.html to see an example of how to use CreateComputeClusterRequest.
 type CreateComputeClusterRequest struct {
 
-	// The data for creating a compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
+	// The data for creating a compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
 	// is an empty remote direct memory access (RDMA) network group.
 	// After the compute cluster is created, you can use the compute cluster's OCID with the
 	// LaunchInstance operation to create instances in the compute cluster.

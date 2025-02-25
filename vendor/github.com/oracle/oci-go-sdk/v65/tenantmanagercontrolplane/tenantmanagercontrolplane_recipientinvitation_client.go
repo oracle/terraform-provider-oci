@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -95,7 +95,7 @@ func (client *RecipientInvitationClient) ConfigurationProvider() *common.Configu
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/AcceptRecipientInvitation.go.html to see an example of how to use AcceptRecipientInvitation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/AcceptRecipientInvitation.go.html to see an example of how to use AcceptRecipientInvitation API.
 func (client RecipientInvitationClient) AcceptRecipientInvitation(ctx context.Context, request AcceptRecipientInvitationRequest) (response AcceptRecipientInvitationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client RecipientInvitationClient) acceptRecipientInvitation(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetRecipientInvitation.go.html to see an example of how to use GetRecipientInvitation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetRecipientInvitation.go.html to see an example of how to use GetRecipientInvitation API.
 func (client RecipientInvitationClient) GetRecipientInvitation(ctx context.Context, request GetRecipientInvitationRequest) (response GetRecipientInvitationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client RecipientInvitationClient) getRecipientInvitation(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/IgnoreRecipientInvitation.go.html to see an example of how to use IgnoreRecipientInvitation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/IgnoreRecipientInvitation.go.html to see an example of how to use IgnoreRecipientInvitation API.
 func (client RecipientInvitationClient) IgnoreRecipientInvitation(ctx context.Context, request IgnoreRecipientInvitationRequest) (response IgnoreRecipientInvitationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -276,7 +276,7 @@ func (client RecipientInvitationClient) ignoreRecipientInvitation(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListRecipientInvitations.go.html to see an example of how to use ListRecipientInvitations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListRecipientInvitations.go.html to see an example of how to use ListRecipientInvitations API.
 func (client RecipientInvitationClient) ListRecipientInvitations(ctx context.Context, request ListRecipientInvitationsRequest) (response ListRecipientInvitationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -333,7 +333,7 @@ func (client RecipientInvitationClient) listRecipientInvitations(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateRecipientInvitation.go.html to see an example of how to use UpdateRecipientInvitation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateRecipientInvitation.go.html to see an example of how to use UpdateRecipientInvitation API.
 func (client RecipientInvitationClient) UpdateRecipientInvitation(ctx context.Context, request UpdateRecipientInvitationRequest) (response UpdateRecipientInvitationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

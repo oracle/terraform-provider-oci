@@ -26,7 +26,7 @@ type CreateMonitoredResourceDetails struct {
 	// Monitored Resource Type.
 	Type *string `mandatory:"true" json:"type"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Monitored resource display name.
@@ -35,12 +35,12 @@ type CreateMonitoredResourceDetails struct {
 	// Host name of the monitored resource.
 	HostName *string `mandatory:"false" json:"hostName"`
 
-	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// External resource is any OCI resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
 	// Currently supports only OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Management Agent Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
 	// Time zone in the form of tz database canonical zone ID. Specifies the preference with

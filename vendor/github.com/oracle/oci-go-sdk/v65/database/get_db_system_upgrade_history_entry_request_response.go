@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbSystemUpgradeHistoryEntry.go.html to see an example of how to use GetDbSystemUpgradeHistoryEntryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbSystemUpgradeHistoryEntry.go.html to see an example of how to use GetDbSystemUpgradeHistoryEntryRequest.
 type GetDbSystemUpgradeHistoryEntryRequest struct {
 
-	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
-	// The database/db system upgrade History OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The database/db system upgrade History OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	UpgradeHistoryEntryId *string `mandatory:"true" contributesTo:"path" name:"upgradeHistoryEntryId"`
 
 	// Unique identifier for the request.

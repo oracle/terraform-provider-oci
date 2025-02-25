@@ -18,7 +18,7 @@ import (
 // SourcePipelineConnectionDetails The source connection details for creating a pipeline.
 type SourcePipelineConnectionDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection being
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
 	// referenced.
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 }

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetResources.go.html to see an example of how to use ListFleetResourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetResources.go.html to see an example of how to use ListFleetResourcesRequest.
 type ListFleetResourcesRequest struct {
 
 	// Unique Fleet identifier.

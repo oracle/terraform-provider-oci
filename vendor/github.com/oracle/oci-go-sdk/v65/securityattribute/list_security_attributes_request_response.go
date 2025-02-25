@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributes.go.html to see an example of how to use ListSecurityAttributesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ListSecurityAttributes.go.html to see an example of how to use ListSecurityAttributesRequest.
 type ListSecurityAttributesRequest struct {
 
 	// The OCID of the security attribute namespace.

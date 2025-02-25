@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ActivateMonitoringPlugin.go.html to see an example of how to use ActivateMonitoringPluginRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ActivateMonitoringPlugin.go.html to see an example of how to use ActivateMonitoringPluginRequest.
 type ActivateMonitoringPluginRequest struct {
 
 	// OCID of monitored instance.

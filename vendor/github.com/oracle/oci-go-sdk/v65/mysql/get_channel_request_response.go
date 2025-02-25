@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetChannel.go.html to see an example of how to use GetChannelRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetChannel.go.html to see an example of how to use GetChannelRequest.
 type GetChannelRequest struct {
 
-	// The Channel OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Channel OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ChannelId *string `mandatory:"true" contributesTo:"path" name:"channelId"`
 
 	// Customer-defined unique identifier for the request. If you need to

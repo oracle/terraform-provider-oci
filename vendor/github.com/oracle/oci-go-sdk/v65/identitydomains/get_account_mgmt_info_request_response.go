@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAccountMgmtInfo.go.html to see an example of how to use GetAccountMgmtInfoRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAccountMgmtInfo.go.html to see an example of how to use GetAccountMgmtInfoRequest.
 type GetAccountMgmtInfoRequest struct {
 
 	// ID of the resource

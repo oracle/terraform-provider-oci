@@ -68,7 +68,7 @@ func (m *batchingstrategydetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BatchingStrategyDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for BatchingStrategyDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

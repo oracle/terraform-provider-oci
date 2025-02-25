@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateMaintenanceRun.go.html to see an example of how to use CreateMaintenanceRunRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateMaintenanceRun.go.html to see an example of how to use CreateMaintenanceRunRequest.
 type CreateMaintenanceRunRequest struct {
 
 	// Request to create a Maintenance Run for the resource.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteEkmsPrivateEndpoint.go.html to see an example of how to use DeleteEkmsPrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteEkmsPrivateEndpoint.go.html to see an example of how to use DeleteEkmsPrivateEndpointRequest.
 type DeleteEkmsPrivateEndpointRequest struct {
 
 	// Unique EKMS private endpoint identifier.

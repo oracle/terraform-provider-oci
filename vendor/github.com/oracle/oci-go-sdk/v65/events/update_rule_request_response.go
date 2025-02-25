@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/UpdateRule.go.html to see an example of how to use UpdateRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/UpdateRule.go.html to see an example of how to use UpdateRuleRequest.
 type UpdateRuleRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 	RuleId *string `mandatory:"true" contributesTo:"path" name:"ruleId"`
 
 	// The new rule spec to apply

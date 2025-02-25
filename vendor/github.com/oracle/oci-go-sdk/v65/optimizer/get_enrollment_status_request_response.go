@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetEnrollmentStatus.go.html to see an example of how to use GetEnrollmentStatusRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetEnrollmentStatus.go.html to see an example of how to use GetEnrollmentStatusRequest.
 type GetEnrollmentStatusRequest struct {
 
 	// The unique OCID associated with the enrollment status.

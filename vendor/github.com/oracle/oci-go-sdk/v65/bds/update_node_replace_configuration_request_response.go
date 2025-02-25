@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateNodeReplaceConfiguration.go.html to see an example of how to use UpdateNodeReplaceConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateNodeReplaceConfiguration.go.html to see an example of how to use UpdateNodeReplaceConfigurationRequest.
 type UpdateNodeReplaceConfigurationRequest struct {
 
 	// The OCID of the cluster.

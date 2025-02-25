@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/GetMigrationAsset.go.html to see an example of how to use GetMigrationAssetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/GetMigrationAsset.go.html to see an example of how to use GetMigrationAssetRequest.
 type GetMigrationAssetRequest struct {
 
 	// Unique migration asset identifier

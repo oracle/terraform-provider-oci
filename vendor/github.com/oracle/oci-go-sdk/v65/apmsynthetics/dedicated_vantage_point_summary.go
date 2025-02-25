@@ -19,7 +19,7 @@ import (
 // DedicatedVantagePointSummary Information about dedicated vantage points.
 type DedicatedVantagePointSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the dedicated vantage point.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated vantage point.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique dedicated vantage point name that cannot be edited. The name should not contain any confidential information.

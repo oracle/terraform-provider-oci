@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/AddDatasetLabels.go.html to see an example of how to use AddDatasetLabelsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/AddDatasetLabels.go.html to see an example of how to use AddDatasetLabelsRequest.
 type AddDatasetLabelsRequest struct {
 
 	// Unique Dataset OCID

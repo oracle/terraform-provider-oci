@@ -55,7 +55,7 @@ func (m *mysqldatatransfermediumdetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for MySqlDataTransferMediumDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for MySqlDataTransferMediumDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

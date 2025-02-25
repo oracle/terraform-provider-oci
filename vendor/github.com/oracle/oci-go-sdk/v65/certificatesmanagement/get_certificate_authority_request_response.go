@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateAuthority.go.html to see an example of how to use GetCertificateAuthorityRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateAuthority.go.html to see an example of how to use GetCertificateAuthorityRequest.
 type GetCertificateAuthorityRequest struct {
 
 	// The OCID of the certificate authority (CA).

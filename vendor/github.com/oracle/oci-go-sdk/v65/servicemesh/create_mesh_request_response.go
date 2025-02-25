@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateMesh.go.html to see an example of how to use CreateMeshRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateMesh.go.html to see an example of how to use CreateMeshRequest.
 type CreateMeshRequest struct {
 
 	// Details for the new Mesh.

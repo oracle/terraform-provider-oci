@@ -18,17 +18,17 @@ import (
 // MonitoredInstanceSummary Summary of the monitored instance.
 type MonitoredInstanceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored instance.
 	InstanceId *string `mandatory:"true" json:"instanceId"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name of the monitored instance. It is binded to Compute Instance (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
-	// DisplayName is fetched from Core Service API (https://docs.cloud.oracle.com/api/#/en/iaas/20160918/Instance/).
+	// A user-friendly name of the monitored instance. It is binded to Compute Instance (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
+	// DisplayName is fetched from Core Service API (https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/).
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Management Agent Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
 	// The current state of the monitored instance.

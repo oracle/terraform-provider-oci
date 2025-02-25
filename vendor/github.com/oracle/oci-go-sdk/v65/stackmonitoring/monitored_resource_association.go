@@ -21,16 +21,16 @@ type MonitoredResourceAssociation struct {
 	// Association Type.
 	AssociationType *string `mandatory:"true" json:"associationType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Tenancy Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Tenancy Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Source Monitored Resource Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"true" json:"sourceResourceId"`
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Destination Monitored Resource Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"true" json:"destinationResourceId"`
 
 	SourceResourceDetails *AssociationResourceDetails `mandatory:"false" json:"sourceResourceDetails"`

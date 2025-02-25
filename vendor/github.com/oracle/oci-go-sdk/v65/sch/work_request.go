@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -25,7 +25,7 @@ import (
 // the request. WorkRequest objects provide visibility for
 // in-progress work flows. For more information about work
 // requests, see
-// Viewing the State of a Work Request (https://docs.cloud.oracle.com/iaas/Content/connector-hub/workrequests.htm).
+// Viewing the State of a Work Request (https://docs.oracle.com/iaas/Content/connector-hub/workrequests.htm).
 type WorkRequest struct {
 
 	// The type of action the work request represents.
@@ -34,10 +34,10 @@ type WorkRequest struct {
 	// Status of current work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// containing the work request.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

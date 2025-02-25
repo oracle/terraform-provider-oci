@@ -20,10 +20,10 @@ import (
 // InstanceAgentCommandExecutionSummary Execution details for a command.
 type InstanceAgentCommandExecutionSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the command.
 	InstanceAgentCommandId *string `mandatory:"true" json:"instanceAgentCommandId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" json:"instanceId"`
 
 	// The command delivery state.

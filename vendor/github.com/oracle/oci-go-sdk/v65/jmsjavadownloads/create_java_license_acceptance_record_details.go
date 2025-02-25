@@ -18,7 +18,7 @@ import (
 // CreateJavaLicenseAcceptanceRecordDetails The attributes to create a new JavaLicenseAcceptanceRecord.
 type CreateJavaLicenseAcceptanceRecordDetails struct {
 
-	// The tenancy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the user accepting the license.
+	// The tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user accepting the license.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// License type for the Java version.
@@ -28,11 +28,11 @@ type CreateJavaLicenseAcceptanceRecordDetails struct {
 	LicenseAcceptanceStatus LicenseAcceptanceStatusEnum `mandatory:"true" json:"licenseAcceptanceStatus"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Concepts/understandingfreeformtags.htm).)
+	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm).)
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

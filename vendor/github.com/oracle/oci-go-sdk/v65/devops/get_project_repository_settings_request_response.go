@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetProjectRepositorySettings.go.html to see an example of how to use GetProjectRepositorySettingsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetProjectRepositorySettings.go.html to see an example of how to use GetProjectRepositorySettingsRequest.
 type GetProjectRepositorySettingsRequest struct {
 
 	// Unique project identifier.

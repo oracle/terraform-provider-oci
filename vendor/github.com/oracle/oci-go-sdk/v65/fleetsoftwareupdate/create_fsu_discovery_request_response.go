@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuDiscovery.go.html to see an example of how to use CreateFsuDiscoveryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuDiscovery.go.html to see an example of how to use CreateFsuDiscoveryRequest.
 type CreateFsuDiscoveryRequest struct {
 
 	// Details for the new Exadata Fleet Update Discovery.

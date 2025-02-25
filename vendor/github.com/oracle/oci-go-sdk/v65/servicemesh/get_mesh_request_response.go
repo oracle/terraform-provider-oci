@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetMesh.go.html to see an example of how to use GetMeshRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetMesh.go.html to see an example of how to use GetMeshRequest.
 type GetMeshRequest struct {
 
 	// Unique Mesh identifier.

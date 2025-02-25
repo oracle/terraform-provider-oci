@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateApplication.go.html to see an example of how to use CreateApplicationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateApplication.go.html to see an example of how to use CreateApplicationRequest.
 type CreateApplicationRequest struct {
 
 	// Unique Network Firewall Policy identifier

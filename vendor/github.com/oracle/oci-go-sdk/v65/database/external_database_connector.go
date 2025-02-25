@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -21,7 +21,7 @@ import (
 // manage your external database using the Oracle Cloud Infrastructure Console and API interfaces.
 type ExternalDatabaseConnector interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
 	// The user-friendly name for the
@@ -29,7 +29,7 @@ type ExternalDatabaseConnector interface {
 	// The name does not have to be unique.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 	// CreateExternalDatabaseConnectorDetails.
 	GetId() *string
 
@@ -39,7 +39,7 @@ type ExternalDatabaseConnector interface {
 	// The date and time the external connector was created.
 	GetTimeCreated() *common.SDKTime
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database resource.
 	GetExternalDatabaseId() *string
 
 	// The status of connectivity to the external database.
@@ -49,12 +49,12 @@ type ExternalDatabaseConnector interface {
 	GetTimeConnectionStatusLastUpdated() *common.SDKTime
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
 
 	// Additional information about the current lifecycle state.
@@ -118,7 +118,7 @@ func (m *externaldatabaseconnector) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ExternalDatabaseConnector: %s.", m.ConnectorType)
+		common.Logf("Received unsupported enum value for ExternalDatabaseConnector: %s.", m.ConnectorType)
 		return *m, nil
 	}
 }

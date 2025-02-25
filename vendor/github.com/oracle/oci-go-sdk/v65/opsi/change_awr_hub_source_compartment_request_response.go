@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeAwrHubSourceCompartment.go.html to see an example of how to use ChangeAwrHubSourceCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeAwrHubSourceCompartment.go.html to see an example of how to use ChangeAwrHubSourceCompartmentRequest.
 type ChangeAwrHubSourceCompartmentRequest struct {
 
 	// Unique Awr Hub Source identifier

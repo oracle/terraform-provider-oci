@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StopPool.go.html to see an example of how to use StopPoolRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StopPool.go.html to see an example of how to use StopPoolRequest.
 type StopPoolRequest struct {
 
 	// The unique ID for a pool.

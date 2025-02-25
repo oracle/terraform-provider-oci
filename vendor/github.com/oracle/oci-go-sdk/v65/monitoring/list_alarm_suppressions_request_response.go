@@ -15,14 +15,14 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListAlarmSuppressions.go.html to see an example of how to use ListAlarmSuppressionsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListAlarmSuppressions.go.html to see an example of how to use ListAlarmSuppressionsRequest.
 type ListAlarmSuppressionsRequest struct {
 
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular
 	// request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm that is the target of the alarm suppression.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm that is the target of the alarm suppression.
 	AlarmId *string `mandatory:"false" contributesTo:"query" name:"alarmId"`
 
 	// A filter to return only resources that match the given display name exactly.
@@ -38,7 +38,7 @@ type ListAlarmSuppressionsRequest struct {
 	// `DIMENSION` indicates a suppression configured for specified dimensions.
 	Level AlarmSuppressionLevelEnum `mandatory:"false" contributesTo:"query" name:"level" omitEmpty:"true"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for searching.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for searching.
 	// Use the tenancy OCID to search in the root compartment.
 	// If targetType is not specified, searches all suppressions defined under the compartment.
 	// If targetType is `COMPARTMENT`, searches suppressions in the specified compartment only.
@@ -74,12 +74,12 @@ type ListAlarmSuppressionsRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Default: 1000
 	// Example: 500
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -156,12 +156,12 @@ type ListAlarmSuppressionsResponse struct {
 
 	// For list pagination. When this header appears in the response, next page of results remains.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// For list pagination. When this header appears in the response, previous pages of results remains.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcPreviousPage *string `presentIn:"header" name:"opc-previous-page"`
 }
 

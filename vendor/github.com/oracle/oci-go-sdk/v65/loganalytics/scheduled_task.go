@@ -19,7 +19,7 @@ import (
 // ScheduledTask Log analytics scheduled task resource.
 type ScheduledTask interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
 	GetId() *string
 
 	// A user-friendly name that is changeable and that does not have to be unique.
@@ -36,7 +36,7 @@ type ScheduledTask interface {
 
 	GetAction() Action
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	GetCompartmentId() *string
 
 	// The date and time the scheduled task was created, in the format defined by RFC3339.
@@ -54,7 +54,7 @@ type ScheduledTask interface {
 	// reason for taskStatus PAUSED.
 	GetPauseReason() ScheduledTaskPauseReasonEnum
 
-	// most recent Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
+	// most recent Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	GetWorkRequestId() *string
 
 	// Number of execution occurrences.
@@ -140,7 +140,7 @@ func (m *scheduledtask) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ScheduledTask: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for ScheduledTask: %s.", m.Kind)
 		return *m, nil
 	}
 }

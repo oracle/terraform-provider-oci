@@ -18,7 +18,7 @@ import (
 
 // AddAutoScalePolicyDetails Policy definition for the autoscale configuration.
 // An autoscaling policy is part of an autoscaling configuration. For more information, see
-// Autoscaling (https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-autoscale)
+// Autoscaling (https://docs.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-autoscale)
 // You can create following type of autoscaling policies:
 // - **MetricBasedVerticalScalingPolicy:** Vertical autoscaling action is triggered when a performance metric exceeds a threshold
 // - **MetricBasedHorizontalScalingPolicy:** Horizontal autoscaling action is triggered when a performance metric exceeds a threshold
@@ -75,7 +75,7 @@ func (m *addautoscalepolicydetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for AddAutoScalePolicyDetails: %s.", m.PolicyType)
+		common.Logf("Received unsupported enum value for AddAutoScalePolicyDetails: %s.", m.PolicyType)
 		return *m, nil
 	}
 }

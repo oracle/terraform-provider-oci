@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCapacityRequest.go.html to see an example of how to use GetOccCapacityRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/GetOccCapacityRequest.go.html to see an example of how to use GetOccCapacityRequestRequest.
 type GetOccCapacityRequestRequest struct {
 
 	// The OCID of the capacity request.

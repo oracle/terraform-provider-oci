@@ -5,7 +5,7 @@
 // Email Delivery API
 //
 // Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
-// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+// For more information, see Overview of the Email Delivery Service (https://docs.oracle.com/iaas/Content/Email/Concepts/overview.htm).
 //  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
 //  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
@@ -32,7 +32,7 @@ type Suppression struct {
 	// The unique ID of the suppression.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The reason that the email address was suppressed. For more information on the types of bounces, see Suppression List (https://docs.cloud.oracle.com/Content/Email/Concepts/overview.htm#components).
+	// The reason that the email address was suppressed. For more information on the types of bounces, see Suppression List (https://docs.oracle.com/iaas/Content/Email/Concepts/overview.htm#components).
 	Reason SuppressionReasonEnum `mandatory:"false" json:"reason,omitempty"`
 
 	// The date and time the suppression was added in "YYYY-MM-ddThh:mmZ"

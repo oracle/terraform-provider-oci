@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/EnableKey.go.html to see an example of how to use EnableKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/EnableKey.go.html to see an example of how to use EnableKeyRequest.
 type EnableKeyRequest struct {
 
 	// The OCID of the key.

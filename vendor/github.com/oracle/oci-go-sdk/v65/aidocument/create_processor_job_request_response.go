@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateProcessorJob.go.html to see an example of how to use CreateProcessorJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateProcessorJob.go.html to see an example of how to use CreateProcessorJobRequest.
 type CreateProcessorJobRequest struct {
 
 	// The details for creating the processor job.

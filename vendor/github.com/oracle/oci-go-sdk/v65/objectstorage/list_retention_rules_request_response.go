@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListRetentionRules.go.html to see an example of how to use ListRetentionRulesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListRetentionRules.go.html to see an example of how to use ListRetentionRulesRequest.
 type ListRetentionRulesRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -26,7 +26,7 @@ type ListRetentionRulesRequest struct {
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call. For important
-	// details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Unique Oracle-assigned identifier for the request.
@@ -121,7 +121,7 @@ type ListRetentionRulesResponse struct {
 	// of retention rules and there are additional rules to get. Include the value of this header as
 	// the `page` parameter in a subsequent GET request to get the next set of retention rules.
 	// Repeat this process to retrieve the entire list of retention rules.
-	// For more details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For more details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

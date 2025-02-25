@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,7 +19,7 @@ import (
 // CreateVirtualCircuitDetails The representation of CreateVirtualCircuitDetails
 type CreateVirtualCircuitDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the virtual circuit.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the virtual circuit.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of IP addresses used in this virtual circuit. PRIVATE
@@ -39,7 +39,7 @@ type CreateVirtualCircuitDetails struct {
 
 	// The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit.
 	// Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`.
-	// See Route Filtering (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
+	// See Route Filtering (https://docs.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
 	// By default, routing information is shared for all routes in the same market.
 	RoutingPolicy []CreateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
 
@@ -75,7 +75,7 @@ type CreateVirtualCircuitDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// For private virtual circuits only. The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
+	// For private virtual circuits only. The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
 	// that this virtual circuit uses.
 	GatewayId *string `mandatory:"false" json:"gatewayId"`
 
@@ -84,7 +84,7 @@ type CreateVirtualCircuitDetails struct {
 	// ListFastConnectProviderServices.
 	ProviderName *string `mandatory:"false" json:"providerName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting
 	// via a provider). To get a list of the available service offerings, see
 	// ListFastConnectProviderServices.
 	ProviderServiceId *string `mandatory:"false" json:"providerServiceId"`

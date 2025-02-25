@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetResource.go.html to see an example of how to use CreateFleetResourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetResource.go.html to see an example of how to use CreateFleetResourceRequest.
 type CreateFleetResourceRequest struct {
 
 	// Details for the new FleetResource.

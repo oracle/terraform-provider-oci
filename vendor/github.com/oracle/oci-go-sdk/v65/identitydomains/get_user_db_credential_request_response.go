@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetUserDbCredential.go.html to see an example of how to use GetUserDbCredentialRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetUserDbCredential.go.html to see an example of how to use GetUserDbCredentialRequest.
 type GetUserDbCredentialRequest struct {
 
 	// ID of the resource

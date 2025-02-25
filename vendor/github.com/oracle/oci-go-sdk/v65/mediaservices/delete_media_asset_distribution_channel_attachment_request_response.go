@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaAssetDistributionChannelAttachment.go.html to see an example of how to use DeleteMediaAssetDistributionChannelAttachmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaAssetDistributionChannelAttachment.go.html to see an example of how to use DeleteMediaAssetDistributionChannelAttachmentRequest.
 type DeleteMediaAssetDistributionChannelAttachmentRequest struct {
 
 	// Unique MediaAsset identifier

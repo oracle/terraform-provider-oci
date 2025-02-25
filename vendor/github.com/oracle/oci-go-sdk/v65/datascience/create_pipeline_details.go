@@ -19,10 +19,10 @@ import (
 // CreatePipelineDetails The information about new Pipeline.
 type CreatePipelineDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the pipeline.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the pipeline.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Array of step details for each step.
@@ -40,11 +40,14 @@ type CreatePipelineDetails struct {
 
 	InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"infrastructureConfigurationDetails"`
 
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// The storage mount details to mount to the instance running the pipeline step.
+	StorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationDetailsList"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
@@ -68,16 +71,17 @@ func (m CreatePipelineDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                        *string                                     `json:"displayName"`
-		Description                        *string                                     `json:"description"`
-		ConfigurationDetails               pipelineconfigurationdetails                `json:"configurationDetails"`
-		LogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
-		InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
-		FreeformTags                       map[string]string                           `json:"freeformTags"`
-		DefinedTags                        map[string]map[string]interface{}           `json:"definedTags"`
-		ProjectId                          *string                                     `json:"projectId"`
-		CompartmentId                      *string                                     `json:"compartmentId"`
-		StepDetails                        []pipelinestepdetails                       `json:"stepDetails"`
+		DisplayName                          *string                                     `json:"displayName"`
+		Description                          *string                                     `json:"description"`
+		ConfigurationDetails                 pipelineconfigurationdetails                `json:"configurationDetails"`
+		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
+		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
+		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
+		FreeformTags                         map[string]string                           `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
+		ProjectId                            *string                                     `json:"projectId"`
+		CompartmentId                        *string                                     `json:"compartmentId"`
+		StepDetails                          []pipelinestepdetails                       `json:"stepDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -103,6 +107,18 @@ func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.InfrastructureConfigurationDetails = model.InfrastructureConfigurationDetails
 
+	m.StorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StorageMountConfigurationDetailsList))
+	for i, n := range model.StorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StorageMountConfigurationDetailsList[i] = nil
+		}
+	}
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

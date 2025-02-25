@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GenerateAgentInstallerConfiguration.go.html to see an example of how to use GenerateAgentInstallerConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GenerateAgentInstallerConfiguration.go.html to see an example of how to use GenerateAgentInstallerConfigurationRequest.
 type GenerateAgentInstallerConfigurationRequest struct {
 
 	// Details that are used to generate the installer configuration for a fleet.

@@ -151,7 +151,7 @@ func (m *migration) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Migration: %s.", m.DatabaseCombination)
+		common.Logf("Received unsupported enum value for Migration: %s.", m.DatabaseCombination)
 		return *m, nil
 	}
 }

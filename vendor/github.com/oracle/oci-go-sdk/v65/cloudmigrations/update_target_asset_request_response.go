@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/UpdateTargetAsset.go.html to see an example of how to use UpdateTargetAssetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/UpdateTargetAsset.go.html to see an example of how to use UpdateTargetAssetRequest.
 type UpdateTargetAssetRequest struct {
 
 	// Unique target asset identifier

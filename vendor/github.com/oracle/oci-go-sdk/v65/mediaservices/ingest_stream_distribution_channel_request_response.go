@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/IngestStreamDistributionChannel.go.html to see an example of how to use IngestStreamDistributionChannelRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/IngestStreamDistributionChannel.go.html to see an example of how to use IngestStreamDistributionChannelRequest.
 type IngestStreamDistributionChannelRequest struct {
 
 	// Unique Stream Distribution Channel path identifier.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetPullRequest.go.html to see an example of how to use GetPullRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetPullRequest.go.html to see an example of how to use GetPullRequestRequest.
 type GetPullRequestRequest struct {
 
 	// unique PullRequest identifier

@@ -59,7 +59,7 @@ func (m *maintenancewindowschedule) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for MaintenanceWindowSchedule: %s.", m.ScheduleType)
+		common.Logf("Received unsupported enum value for MaintenanceWindowSchedule: %s.", m.ScheduleType)
 		return *m, nil
 	}
 }

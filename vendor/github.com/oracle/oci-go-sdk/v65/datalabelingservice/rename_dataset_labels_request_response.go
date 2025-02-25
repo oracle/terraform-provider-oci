@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/RenameDatasetLabels.go.html to see an example of how to use RenameDatasetLabelsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/RenameDatasetLabels.go.html to see an example of how to use RenameDatasetLabelsRequest.
 type RenameDatasetLabelsRequest struct {
 
 	// Unique Dataset OCID

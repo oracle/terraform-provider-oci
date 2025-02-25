@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -95,7 +95,7 @@ func (client *DomainGovernanceClient) ConfigurationProvider() *common.Configurat
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomainGovernance.go.html to see an example of how to use CreateDomainGovernance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateDomainGovernance.go.html to see an example of how to use CreateDomainGovernance API.
 func (client DomainGovernanceClient) CreateDomainGovernance(ctx context.Context, request CreateDomainGovernanceRequest) (response CreateDomainGovernanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client DomainGovernanceClient) createDomainGovernance(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteDomainGovernance.go.html to see an example of how to use DeleteDomainGovernance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteDomainGovernance.go.html to see an example of how to use DeleteDomainGovernance API.
 func (client DomainGovernanceClient) DeleteDomainGovernance(ctx context.Context, request DeleteDomainGovernanceRequest) (response DeleteDomainGovernanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client DomainGovernanceClient) deleteDomainGovernance(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetDomainGovernance.go.html to see an example of how to use GetDomainGovernance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetDomainGovernance.go.html to see an example of how to use GetDomainGovernance API.
 func (client DomainGovernanceClient) GetDomainGovernance(ctx context.Context, request GetDomainGovernanceRequest) (response GetDomainGovernanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -271,7 +271,7 @@ func (client DomainGovernanceClient) getDomainGovernance(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListDomainGovernances.go.html to see an example of how to use ListDomainGovernances API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListDomainGovernances.go.html to see an example of how to use ListDomainGovernances API.
 func (client DomainGovernanceClient) ListDomainGovernances(ctx context.Context, request ListDomainGovernancesRequest) (response ListDomainGovernancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -328,7 +328,7 @@ func (client DomainGovernanceClient) listDomainGovernances(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateDomainGovernance.go.html to see an example of how to use UpdateDomainGovernance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/UpdateDomainGovernance.go.html to see an example of how to use UpdateDomainGovernance API.
 func (client DomainGovernanceClient) UpdateDomainGovernance(ctx context.Context, request UpdateDomainGovernanceRequest) (response UpdateDomainGovernanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

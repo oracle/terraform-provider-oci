@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetAgent.go.html to see an example of how to use GetAgentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetAgent.go.html to see an example of how to use GetAgentRequest.
 type GetAgentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent.
 	AgentId *string `mandatory:"true" contributesTo:"path" name:"agentId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

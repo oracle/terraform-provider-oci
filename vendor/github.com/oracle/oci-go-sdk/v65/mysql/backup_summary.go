@@ -19,7 +19,7 @@ import (
 // To use any of the API operations, you must be authorized in an IAM
 // policy. If you're not authorized, talk to an administrator. If you're an
 // administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type BackupSummary struct {
 
 	// OCID of the backup.
@@ -71,6 +71,10 @@ type BackupSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The OCID of the immediate source DB system backup from which this DB system backup was copied.
 	ImmediateSourceBackupId *string `mandatory:"false" json:"immediateSourceBackupId"`

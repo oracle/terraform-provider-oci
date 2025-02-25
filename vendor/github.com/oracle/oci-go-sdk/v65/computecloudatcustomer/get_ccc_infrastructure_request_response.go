@@ -15,14 +15,14 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/GetCccInfrastructure.go.html to see an example of how to use GetCccInfrastructureRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/GetCccInfrastructure.go.html to see an example of how to use GetCccInfrastructureRequest.
 type GetCccInfrastructureRequest struct {
 
-	// An OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a
 	// Compute Cloud@Customer Infrastructure.
 	CccInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"cccInfrastructureId"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

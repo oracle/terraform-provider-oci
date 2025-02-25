@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ChangeMigrationPlanCompartment.go.html to see an example of how to use ChangeMigrationPlanCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ChangeMigrationPlanCompartment.go.html to see an example of how to use ChangeMigrationPlanCompartmentRequest.
 type ChangeMigrationPlanCompartmentRequest struct {
 
 	// Unique migration plan identifier

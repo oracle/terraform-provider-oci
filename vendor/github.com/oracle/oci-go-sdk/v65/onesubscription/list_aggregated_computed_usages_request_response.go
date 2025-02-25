@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListAggregatedComputedUsages.go.html to see an example of how to use ListAggregatedComputedUsagesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListAggregatedComputedUsages.go.html to see an example of how to use ListAggregatedComputedUsagesRequest.
 type ListAggregatedComputedUsagesRequest struct {
 
 	// The OCID of the root compartment.

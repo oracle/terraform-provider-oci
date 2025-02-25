@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ExecuteMigrationPlan.go.html to see an example of how to use ExecuteMigrationPlanRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ExecuteMigrationPlan.go.html to see an example of how to use ExecuteMigrationPlanRequest.
 type ExecuteMigrationPlanRequest struct {
 
 	// Unique migration plan identifier

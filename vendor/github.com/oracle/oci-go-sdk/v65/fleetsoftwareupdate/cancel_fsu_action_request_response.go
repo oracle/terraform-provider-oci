@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CancelFsuAction.go.html to see an example of how to use CancelFsuActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CancelFsuAction.go.html to see an example of how to use CancelFsuActionRequest.
 type CancelFsuActionRequest struct {
 
 	// Unique Exadata Fleet Update Action identifier.

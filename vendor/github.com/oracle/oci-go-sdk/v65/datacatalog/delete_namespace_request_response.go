@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteNamespace.go.html to see an example of how to use DeleteNamespaceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteNamespace.go.html to see an example of how to use DeleteNamespaceRequest.
 type DeleteNamespaceRequest struct {
 
 	// Unique catalog identifier.

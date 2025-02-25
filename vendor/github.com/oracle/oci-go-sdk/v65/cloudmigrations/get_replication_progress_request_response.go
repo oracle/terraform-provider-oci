@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/GetReplicationProgress.go.html to see an example of how to use GetReplicationProgressRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/GetReplicationProgress.go.html to see an example of how to use GetReplicationProgressRequest.
 type GetReplicationProgressRequest struct {
 
 	// Unique migration asset identifier

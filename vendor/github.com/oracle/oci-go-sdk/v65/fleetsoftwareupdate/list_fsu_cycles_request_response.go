@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCycles.go.html to see an example of how to use ListFsuCyclesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuCycles.go.html to see an example of how to use ListFsuCyclesRequest.
 type ListFsuCyclesRequest struct {
 
 	// The ID of the compartment in which to list resources.

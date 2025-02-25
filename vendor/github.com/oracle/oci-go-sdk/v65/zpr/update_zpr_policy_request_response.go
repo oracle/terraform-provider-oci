@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/UpdateZprPolicy.go.html to see an example of how to use UpdateZprPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/UpdateZprPolicy.go.html to see an example of how to use UpdateZprPolicyRequest.
 type UpdateZprPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
 	ZprPolicyId *string `mandatory:"true" contributesTo:"path" name:"zprPolicyId"`
 
 	// The information to be updated.

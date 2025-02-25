@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSetting.go.html to see an example of how to use PatchSettingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSetting.go.html to see an example of how to use PatchSettingRequest.
 type PatchSettingRequest struct {
 
 	// ID of the resource

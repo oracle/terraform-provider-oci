@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeSqlEndpointCompartment.go.html to see an example of how to use ChangeSqlEndpointCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeSqlEndpointCompartment.go.html to see an example of how to use ChangeSqlEndpointCompartmentRequest.
 type ChangeSqlEndpointCompartmentRequest struct {
 
 	// The unique id of the SQL Endpoint.

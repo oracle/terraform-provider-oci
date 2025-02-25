@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoicelineComputedUsages.go.html to see an example of how to use ListInvoicelineComputedUsagesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoicelineComputedUsages.go.html to see an example of how to use ListInvoicelineComputedUsagesRequest.
 type ListInvoicelineComputedUsagesRequest struct {
 
 	// The OCID of the root compartment.

@@ -16,7 +16,7 @@ import (
 )
 
 // OpensearchClusterBackup An OpenSearch cluster backup resource. An cluster is set of instances that provide OpenSearch functionality in OCI Search Service with OpenSearch.
-// For more information, see Cluster Backups (https://docs.cloud.oracle.com/iaas/Content/search-opensearch/Concepts/ociopensearchbackups.htm).
+// For more information, see Cluster Backups (https://docs.oracle.com/iaas/Content/search-opensearch/Concepts/ociopensearchbackups.htm).
 type OpensearchClusterBackup struct {
 
 	// The OCID of the cluster backup.

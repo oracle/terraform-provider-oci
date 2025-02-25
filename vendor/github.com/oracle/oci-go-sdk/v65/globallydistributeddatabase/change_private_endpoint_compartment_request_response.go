@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartmentRequest.
 type ChangePrivateEndpointCompartmentRequest struct {
 
 	// Request to move the private endpoint to a different compartment.

@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -17,14 +17,14 @@ import (
 )
 
 // NetworkConfiguration The network configurations used by Cluster, including
-// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management subnet and VLANs.
+// OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management subnet and VLANs.
 type NetworkConfiguration struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management subnet used
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management subnet used
 	// to provision the Cluster.
 	ProvisioningSubnetId *string `mandatory:"true" json:"provisioningSubnetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
 	// for the vMotion component of the VMware environment.
 	// This attribute is not guaranteed to reflect the vMotion VLAN
 	// currently used by the ESXi hosts in the Cluster. The purpose
@@ -37,7 +37,7 @@ type NetworkConfiguration struct {
 	// `vmotionVlanId` with that new VLAN's OCID.
 	VmotionVlanId *string `mandatory:"true" json:"vmotionVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
 	// for the vSAN component of the VMware environment.
 	// This attribute is not guaranteed to reflect the vSAN VLAN
 	// currently used by the ESXi hosts in the Cluster. The purpose
@@ -50,7 +50,7 @@ type NetworkConfiguration struct {
 	// `vsanVlanId` with that new VLAN's OCID.
 	VsanVlanId *string `mandatory:"true" json:"vsanVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
 	// for the NSX VTEP component of the VMware environment.
 	// This attribute is not guaranteed to reflect the NSX VTEP VLAN
 	// currently used by the ESXi hosts in the Cluster. The purpose
@@ -63,7 +63,7 @@ type NetworkConfiguration struct {
 	// `nsxVTepVlanId` with that new VLAN's OCID.
 	NsxVTepVlanId *string `mandatory:"true" json:"nsxVTepVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
 	// for the NSX Edge VTEP component of the VMware environment.
 	// This attribute is not guaranteed to reflect the NSX Edge VTEP VLAN
 	// currently used by the ESXi hosts in the Cluster. The purpose
@@ -76,7 +76,7 @@ type NetworkConfiguration struct {
 	// `nsxEdgeVTepVlanId` with that new VLAN's OCID.
 	NsxEdgeVTepVlanId *string `mandatory:"true" json:"nsxEdgeVTepVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
 	// for the vSphere component of the VMware environment. This VLAN is a mandatory attribute
 	// for Management Cluster.
 	// This attribute is not guaranteed to reflect the vSphere VLAN
@@ -90,7 +90,7 @@ type NetworkConfiguration struct {
 	// `vsphereVlanId` with that new VLAN's OCID.
 	VsphereVlanId *string `mandatory:"false" json:"vsphereVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
 	// for the NSX Edge Uplink 1 component of the VMware environment. This VLAN is a mandatory
 	// attribute for Management Cluster.
 	// This attribute is not guaranteed to reflect the NSX Edge Uplink 1 VLAN
@@ -104,7 +104,7 @@ type NetworkConfiguration struct {
 	// `nsxEdgeUplink1VlanId` with that new VLAN's OCID.
 	NsxEdgeUplink1VlanId *string `mandatory:"false" json:"nsxEdgeUplink1VlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
 	// for the NSX Edge Uplink 2 component of the VMware environment. This VLAN is a mandatory
 	// attribute for Management Cluster.
 	// This attribute is not guaranteed to reflect the NSX Edge Uplink 2 VLAN
@@ -118,15 +118,15 @@ type NetworkConfiguration struct {
 	// `nsxEdgeUplink2VlanId` with that new VLAN's OCID.
 	NsxEdgeUplink2VlanId *string `mandatory:"false" json:"nsxEdgeUplink2VlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
 	// for the vSphere Replication component of the VMware environment.
 	ReplicationVlanId *string `mandatory:"false" json:"replicationVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster
 	// for the Provisioning component of the VMware environment.
 	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
 	// for the HCX component of the VMware environment. This VLAN is a mandatory attribute
 	// for Management Cluster when HCX is enabled.
 	// This attribute is not guaranteed to reflect the HCX VLAN

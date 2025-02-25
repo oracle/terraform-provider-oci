@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportSkill.go.html to see an example of how to use ExportSkillRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportSkill.go.html to see an example of how to use ExportSkillRequest.
 type ExportSkillRequest struct {
 
 	// Unique Digital Assistant instance identifier.

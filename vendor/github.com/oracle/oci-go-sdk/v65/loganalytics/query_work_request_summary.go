@@ -27,7 +27,7 @@ type QueryWorkRequestSummary struct {
 	// Current execution mode for the job.
 	Mode JobModeEnum `mandatory:"true" json:"mode"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// When the work request was accepted. Should match timeStarted in all cases.

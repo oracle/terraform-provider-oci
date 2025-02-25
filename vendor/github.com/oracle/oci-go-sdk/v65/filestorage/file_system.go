@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -24,17 +24,17 @@ import (
 // IAM policy. If you're not authorized, talk to an
 // administrator. If you're an administrator who needs to write
 // policies to give users access, see Getting Started with
-// Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type FileSystem struct {
 
 	// The number of bytes consumed by the file system, including
 	// any snapshots. This number reflects the metered size of the file
 	// system and is updated asynchronously with respect to
 	// updates to the file system.
-	// For more information, see File System Usage and Metering (https://docs.cloud.oracle.com/Content/File/Concepts/FSutilization.htm).
+	// For more information, see File System Usage and Metering (https://docs.oracle.com/iaas/Content/File/Concepts/FSutilization.htm).
 	MeteredBytes *int64 `mandatory:"true" json:"meteredBytes"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the file system.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -42,7 +42,7 @@ type FileSystem struct {
 	// Example: `My file system`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the file system.
@@ -60,12 +60,12 @@ type FileSystem struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -73,19 +73,19 @@ type FileSystem struct {
 	// System tags are applied to resources by internal OCI services.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key which is the master encryption key for the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the KMS key which is the master encryption key for the file system.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	SourceDetails *SourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Specifies whether the file system has been cloned.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
+	// See Cloning a File System (https://docs.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	IsCloneParent *bool `mandatory:"false" json:"isCloneParent"`
 
 	// Specifies whether the data has finished copying from the source to the clone.
 	// Hydration can take up to several hours to complete depending on the size of the source.
 	// The source and clone remain available during hydration, but there may be some performance impact.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm#hydration).
+	// See Cloning a File System (https://docs.oracle.com/iaas/Content/File/Tasks/cloningFS.htm#hydration).
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
 	// Specifies the total number of children of a file system.
@@ -101,14 +101,14 @@ type FileSystem struct {
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Specifies whether the file system can be used as a target file system for replication. The system sets this value to `true` if the file system is unexported, hasn't yet been specified as a target file system in any replication resource, and has no user snapshots. After the file system has been specified as a target in a replication, or if the file system contains user snapshots, the system sets this value to `false`.
-	// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
+	// For more information, see Using Replication (https://docs.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
 	IsTargetable *bool `mandatory:"false" json:"isTargetable"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target associated with the file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target associated with the file system.
 	// Empty if the file system is not being used as target in a replication.
 	ReplicationTargetId *string `mandatory:"false" json:"replicationTargetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated file system snapshot policy, which
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated file system snapshot policy, which
 	// controls the frequency of snapshot creation and retention period of the taken snapshots.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
 }

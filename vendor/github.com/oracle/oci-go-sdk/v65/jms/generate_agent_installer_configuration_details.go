@@ -18,10 +18,10 @@ import (
 // GenerateAgentInstallerConfigurationDetails Attributes to generate agent installer parameters for a fleet.
 type GenerateAgentInstallerConfigurationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management agent install key for which to generate the configuration file.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management agent install key for which to generate the configuration file.
 	InstallKeyId *string `mandatory:"true" json:"installKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet for which to generate the configuration file.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet for which to generate the configuration file.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 }
 

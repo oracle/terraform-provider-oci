@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeployPlugins.go.html to see an example of how to use DeployPluginsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeployPlugins.go.html to see an example of how to use DeployPluginsRequest.
 type DeployPluginsRequest struct {
 
 	// Details of Plugins to be deployed for a given list of Management Agents.

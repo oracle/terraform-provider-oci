@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteNewsReport.go.html to see an example of how to use DeleteNewsReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteNewsReport.go.html to see an example of how to use DeleteNewsReportRequest.
 type DeleteNewsReportRequest struct {
 
 	// Unique news report identifier.

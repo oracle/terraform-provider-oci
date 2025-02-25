@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDetectAnomalyJob.go.html to see an example of how to use CreateDetectAnomalyJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDetectAnomalyJob.go.html to see an example of how to use CreateDetectAnomalyJobRequest.
 type CreateDetectAnomalyJobRequest struct {
 
 	// The input is either:

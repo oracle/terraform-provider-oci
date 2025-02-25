@@ -19,10 +19,10 @@ import (
 // InstanceAgentCommand The command payload.
 type InstanceAgentCommand struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the command.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the command.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the command.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The target instance that the command runs on.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateProtectedDatabase.go.html to see an example of how to use CreateProtectedDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateProtectedDatabase.go.html to see an example of how to use CreateProtectedDatabaseRequest.
 type CreateProtectedDatabaseRequest struct {
 
 	// Describes the parameters required to create a protected database.

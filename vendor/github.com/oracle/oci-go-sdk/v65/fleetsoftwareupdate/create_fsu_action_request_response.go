@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuAction.go.html to see an example of how to use CreateFsuActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuAction.go.html to see an example of how to use CreateFsuActionRequest.
 type CreateFsuActionRequest struct {
 
 	// Details for the new Exadata Fleet Update Action.

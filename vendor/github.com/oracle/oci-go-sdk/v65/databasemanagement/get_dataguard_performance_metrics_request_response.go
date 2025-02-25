@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDataguardPerformanceMetrics.go.html to see an example of how to use GetDataguardPerformanceMetricsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDataguardPerformanceMetrics.go.html to see an example of how to use GetDataguardPerformanceMetricsRequest.
 type GetDataguardPerformanceMetricsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
 	// The start time of the time range to retrieve the health metrics of a Managed Database
@@ -32,7 +32,7 @@ type GetDataguardPerformanceMetricsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for which peer database metrics are required.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for which peer database metrics are required.
 	// This is not a mandatory parameter and in its absence, all the peer database metrics are returned.
 	PeerDatabaseCompartmentId *string `mandatory:"false" contributesTo:"query" name:"peerDatabaseCompartmentId"`
 

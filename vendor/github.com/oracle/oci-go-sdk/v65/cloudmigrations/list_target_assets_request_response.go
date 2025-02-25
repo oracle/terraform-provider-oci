@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ListTargetAssets.go.html to see an example of how to use ListTargetAssetsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ListTargetAssets.go.html to see an example of how to use ListTargetAssetsRequest.
 type ListTargetAssetsRequest struct {
 
 	// Unique migration plan identifier

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetScheduledAction.go.html to see an example of how to use GetScheduledActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetScheduledAction.go.html to see an example of how to use GetScheduledActionRequest.
 type GetScheduledActionRequest struct {
 
-	// The Scheduled Action OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduled Action OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ScheduledActionId *string `mandatory:"true" contributesTo:"path" name:"scheduledActionId"`
 
 	// Unique identifier for the request.

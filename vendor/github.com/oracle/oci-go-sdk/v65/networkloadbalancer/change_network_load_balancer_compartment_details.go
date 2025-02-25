@@ -19,7 +19,7 @@ import (
 // **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ChangeNetworkLoadBalancerCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which to move the network load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which to move the network load balancer.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

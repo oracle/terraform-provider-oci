@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -19,7 +19,7 @@ import (
 // DatabaseUpgradeWithDatabaseSoftwareImageDetails Details of the database software image to be used to upgrade a database.
 type DatabaseUpgradeWithDatabaseSoftwareImageDetails struct {
 
-	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
+	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	DatabaseSoftwareImageId *string `mandatory:"true" json:"databaseSoftwareImageId"`
 
 	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).

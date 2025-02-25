@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagementStation.go.html to see an example of how to use CreateManagementStationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagementStation.go.html to see an example of how to use CreateManagementStationRequest.
 type CreateManagementStationRequest struct {
 
 	// Provides the information used to create a management station.

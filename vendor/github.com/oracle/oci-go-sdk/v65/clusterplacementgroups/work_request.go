@@ -27,7 +27,7 @@ type WorkRequest struct {
 	// The ID of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work requests are scoped to
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work requests are scoped to
 	// the same compartment as the resource that the work request affects. If the work request affects multiple resources
 	// and those resources are not in the same compartment, the OCID of the resource designated as the primary
 	// resource is used.

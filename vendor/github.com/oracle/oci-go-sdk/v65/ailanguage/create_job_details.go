@@ -21,7 +21,7 @@ import (
 // CreateJobDetails Job creation detail which will have documents on which language services need to run prediction along with output folder
 type CreateJobDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	InputLocation InputLocation `mandatory:"true" json:"inputLocation"`

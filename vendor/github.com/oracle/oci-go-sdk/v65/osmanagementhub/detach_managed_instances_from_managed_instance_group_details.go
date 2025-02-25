@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,7 +19,7 @@ import (
 // DetachManagedInstancesFromManagedInstanceGroupDetails Provides the information used to detach managed instances from a group.
 type DetachManagedInstancesFromManagedInstanceGroupDetails struct {
 
-	// List of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to detach from the group.
+	// List of managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to detach from the group.
 	ManagedInstances []string `mandatory:"true" json:"managedInstances"`
 }
 

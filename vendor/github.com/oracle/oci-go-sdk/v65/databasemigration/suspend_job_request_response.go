@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/SuspendJob.go.html to see an example of how to use SuspendJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/SuspendJob.go.html to see an example of how to use SuspendJobRequest.
 type SuspendJobRequest struct {
 
 	// The OCID of the job

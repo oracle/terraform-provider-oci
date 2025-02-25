@@ -18,7 +18,7 @@ import (
 // ChangeRecoveryServiceSubnetCompartmentDetails The configuration details required to move a Recovery Service subnet from the existing compartment to a specified compartment.
 type ChangeRecoveryServiceSubnetCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the Recovery Service subnet should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the Recovery Service subnet should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

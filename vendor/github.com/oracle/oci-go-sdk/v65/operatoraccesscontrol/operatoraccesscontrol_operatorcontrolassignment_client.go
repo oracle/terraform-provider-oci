@@ -97,7 +97,7 @@ func (client *OperatorControlAssignmentClient) ConfigurationProvider() *common.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlAssignmentCompartment.go.html to see an example of how to use ChangeOperatorControlAssignmentCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlAssignmentCompartment.go.html to see an example of how to use ChangeOperatorControlAssignmentCompartment API.
 // A default retry strategy applies to this operation ChangeOperatorControlAssignmentCompartment()
 func (client OperatorControlAssignmentClient) ChangeOperatorControlAssignmentCompartment(ctx context.Context, request ChangeOperatorControlAssignmentCompartmentRequest) (response ChangeOperatorControlAssignmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -160,7 +160,7 @@ func (client OperatorControlAssignmentClient) changeOperatorControlAssignmentCom
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControlAssignment.go.html to see an example of how to use CreateOperatorControlAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControlAssignment.go.html to see an example of how to use CreateOperatorControlAssignment API.
 // A default retry strategy applies to this operation CreateOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) CreateOperatorControlAssignment(ctx context.Context, request CreateOperatorControlAssignmentRequest) (response CreateOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -223,7 +223,7 @@ func (client OperatorControlAssignmentClient) createOperatorControlAssignment(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControlAssignment.go.html to see an example of how to use DeleteOperatorControlAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControlAssignment.go.html to see an example of how to use DeleteOperatorControlAssignment API.
 // A default retry strategy applies to this operation DeleteOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) DeleteOperatorControlAssignment(ctx context.Context, request DeleteOperatorControlAssignmentRequest) (response DeleteOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -281,7 +281,7 @@ func (client OperatorControlAssignmentClient) deleteOperatorControlAssignment(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAssignmentValidationStatus.go.html to see an example of how to use GetAssignmentValidationStatus API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAssignmentValidationStatus.go.html to see an example of how to use GetAssignmentValidationStatus API.
 // A default retry strategy applies to this operation GetAssignmentValidationStatus()
 func (client OperatorControlAssignmentClient) GetAssignmentValidationStatus(ctx context.Context, request GetAssignmentValidationStatusRequest) (response GetAssignmentValidationStatusResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -339,7 +339,7 @@ func (client OperatorControlAssignmentClient) getAssignmentValidationStatus(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControlAssignment.go.html to see an example of how to use GetOperatorControlAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControlAssignment.go.html to see an example of how to use GetOperatorControlAssignment API.
 // A default retry strategy applies to this operation GetOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) GetOperatorControlAssignment(ctx context.Context, request GetOperatorControlAssignmentRequest) (response GetOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -397,7 +397,7 @@ func (client OperatorControlAssignmentClient) getOperatorControlAssignment(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControlAssignments.go.html to see an example of how to use ListOperatorControlAssignments API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControlAssignments.go.html to see an example of how to use ListOperatorControlAssignments API.
 // A default retry strategy applies to this operation ListOperatorControlAssignments()
 func (client OperatorControlAssignmentClient) ListOperatorControlAssignments(ctx context.Context, request ListOperatorControlAssignmentsRequest) (response ListOperatorControlAssignmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -455,7 +455,7 @@ func (client OperatorControlAssignmentClient) listOperatorControlAssignments(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControlAssignment.go.html to see an example of how to use UpdateOperatorControlAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControlAssignment.go.html to see an example of how to use UpdateOperatorControlAssignment API.
 // A default retry strategy applies to this operation UpdateOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) UpdateOperatorControlAssignment(ctx context.Context, request UpdateOperatorControlAssignmentRequest) (response UpdateOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -513,7 +513,7 @@ func (client OperatorControlAssignmentClient) updateOperatorControlAssignment(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ValidateOperatorAssignment.go.html to see an example of how to use ValidateOperatorAssignment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ValidateOperatorAssignment.go.html to see an example of how to use ValidateOperatorAssignment API.
 // A default retry strategy applies to this operation ValidateOperatorAssignment()
 func (client OperatorControlAssignmentClient) ValidateOperatorAssignment(ctx context.Context, request ValidateOperatorAssignmentRequest) (response ValidateOperatorAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse

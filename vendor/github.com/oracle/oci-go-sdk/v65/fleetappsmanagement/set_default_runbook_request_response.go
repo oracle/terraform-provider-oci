@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SetDefaultRunbook.go.html to see an example of how to use SetDefaultRunbookRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SetDefaultRunbook.go.html to see an example of how to use SetDefaultRunbookRequest.
 type SetDefaultRunbookRequest struct {
 
 	// Details for setting the Runbook as default.

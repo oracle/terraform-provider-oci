@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateRunbook.go.html to see an example of how to use UpdateRunbookRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateRunbook.go.html to see an example of how to use UpdateRunbookRequest.
 type UpdateRunbookRequest struct {
 
 	// Unique Runbook identifier

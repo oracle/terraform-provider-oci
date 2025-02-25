@@ -4,7 +4,7 @@
 
 // Streaming API
 //
-// Use the Streaming API to produce and consume messages, create streams and stream pools, and manage related items. For more information, see Streaming (https://docs.cloud.oracle.com/Content/Streaming/Concepts/streamingoverview.htm).
+// Use the Streaming API to produce and consume messages, create streams and stream pools, and manage related items. For more information, see Streaming (https://docs.oracle.com/iaas/Content/Streaming/Concepts/streamingoverview.htm).
 //
 
 package streaming
@@ -95,7 +95,7 @@ func (client *StreamAdminClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeConnectHarnessCompartment.go.html to see an example of how to use ChangeConnectHarnessCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeConnectHarnessCompartment.go.html to see an example of how to use ChangeConnectHarnessCompartment API.
 // A default retry strategy applies to this operation ChangeConnectHarnessCompartment()
 func (client StreamAdminClient) ChangeConnectHarnessCompartment(ctx context.Context, request ChangeConnectHarnessCompartmentRequest) (response ChangeConnectHarnessCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,7 +155,7 @@ func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamCompartment.go.html to see an example of how to use ChangeStreamCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamCompartment.go.html to see an example of how to use ChangeStreamCompartment API.
 // A default retry strategy applies to this operation ChangeStreamCompartment()
 func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, request ChangeStreamCompartmentRequest) (response ChangeStreamCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,7 +213,7 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamPoolCompartment.go.html to see an example of how to use ChangeStreamPoolCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamPoolCompartment.go.html to see an example of how to use ChangeStreamPoolCompartment API.
 // A default retry strategy applies to this operation ChangeStreamPoolCompartment()
 func (client StreamAdminClient) ChangeStreamPoolCompartment(ctx context.Context, request ChangeStreamPoolCompartmentRequest) (response ChangeStreamPoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -272,7 +272,7 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateConnectHarness.go.html to see an example of how to use CreateConnectHarness API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateConnectHarness.go.html to see an example of how to use CreateConnectHarness API.
 // A default retry strategy applies to this operation CreateConnectHarness()
 func (client StreamAdminClient) CreateConnectHarness(ctx context.Context, request CreateConnectHarnessRequest) (response CreateConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -339,7 +339,7 @@ func (client StreamAdminClient) createConnectHarness(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStream.go.html to see an example of how to use CreateStream API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStream.go.html to see an example of how to use CreateStream API.
 // A default retry strategy applies to this operation CreateStream()
 func (client StreamAdminClient) CreateStream(ctx context.Context, request CreateStreamRequest) (response CreateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -399,7 +399,7 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStreamPool.go.html to see an example of how to use CreateStreamPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStreamPool.go.html to see an example of how to use CreateStreamPool API.
 // A default retry strategy applies to this operation CreateStreamPool()
 func (client StreamAdminClient) CreateStreamPool(ctx context.Context, request CreateStreamPoolRequest) (response CreateStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -466,7 +466,7 @@ func (client StreamAdminClient) createStreamPool(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteConnectHarness.go.html to see an example of how to use DeleteConnectHarness API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteConnectHarness.go.html to see an example of how to use DeleteConnectHarness API.
 // A default retry strategy applies to this operation DeleteConnectHarness()
 func (client StreamAdminClient) DeleteConnectHarness(ctx context.Context, request DeleteConnectHarnessRequest) (response DeleteConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -528,7 +528,7 @@ func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStream.go.html to see an example of how to use DeleteStream API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStream.go.html to see an example of how to use DeleteStream API.
 // A default retry strategy applies to this operation DeleteStream()
 func (client StreamAdminClient) DeleteStream(ctx context.Context, request DeleteStreamRequest) (response DeleteStreamResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -587,7 +587,7 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStreamPool.go.html to see an example of how to use DeleteStreamPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStreamPool.go.html to see an example of how to use DeleteStreamPool API.
 // A default retry strategy applies to this operation DeleteStreamPool()
 func (client StreamAdminClient) DeleteStreamPool(ctx context.Context, request DeleteStreamPoolRequest) (response DeleteStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -645,7 +645,7 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetConnectHarness.go.html to see an example of how to use GetConnectHarness API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetConnectHarness.go.html to see an example of how to use GetConnectHarness API.
 // A default retry strategy applies to this operation GetConnectHarness()
 func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request GetConnectHarnessRequest) (response GetConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -703,7 +703,7 @@ func (client StreamAdminClient) getConnectHarness(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStream.go.html to see an example of how to use GetStream API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStream.go.html to see an example of how to use GetStream API.
 // A default retry strategy applies to this operation GetStream()
 func (client StreamAdminClient) GetStream(ctx context.Context, request GetStreamRequest) (response GetStreamResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -761,7 +761,7 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStreamPool.go.html to see an example of how to use GetStreamPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStreamPool.go.html to see an example of how to use GetStreamPool API.
 // A default retry strategy applies to this operation GetStreamPool()
 func (client StreamAdminClient) GetStreamPool(ctx context.Context, request GetStreamPoolRequest) (response GetStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -819,7 +819,7 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListConnectHarnesses.go.html to see an example of how to use ListConnectHarnesses API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListConnectHarnesses.go.html to see an example of how to use ListConnectHarnesses API.
 // A default retry strategy applies to this operation ListConnectHarnesses()
 func (client StreamAdminClient) ListConnectHarnesses(ctx context.Context, request ListConnectHarnessesRequest) (response ListConnectHarnessesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -877,7 +877,7 @@ func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreamPools.go.html to see an example of how to use ListStreamPools API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreamPools.go.html to see an example of how to use ListStreamPools API.
 // A default retry strategy applies to this operation ListStreamPools()
 func (client StreamAdminClient) ListStreamPools(ctx context.Context, request ListStreamPoolsRequest) (response ListStreamPoolsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -938,7 +938,7 @@ func (client StreamAdminClient) listStreamPools(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreams.go.html to see an example of how to use ListStreams API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreams.go.html to see an example of how to use ListStreams API.
 // A default retry strategy applies to this operation ListStreams()
 func (client StreamAdminClient) ListStreams(ctx context.Context, request ListStreamsRequest) (response ListStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -996,7 +996,7 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateConnectHarness.go.html to see an example of how to use UpdateConnectHarness API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateConnectHarness.go.html to see an example of how to use UpdateConnectHarness API.
 // A default retry strategy applies to this operation UpdateConnectHarness()
 func (client StreamAdminClient) UpdateConnectHarness(ctx context.Context, request UpdateConnectHarnessRequest) (response UpdateConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1054,7 +1054,7 @@ func (client StreamAdminClient) updateConnectHarness(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStream.go.html to see an example of how to use UpdateStream API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStream.go.html to see an example of how to use UpdateStream API.
 // A default retry strategy applies to this operation UpdateStream()
 func (client StreamAdminClient) UpdateStream(ctx context.Context, request UpdateStreamRequest) (response UpdateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1112,7 +1112,7 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStreamPool.go.html to see an example of how to use UpdateStreamPool API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStreamPool.go.html to see an example of how to use UpdateStreamPool API.
 // A default retry strategy applies to this operation UpdateStreamPool()
 func (client StreamAdminClient) UpdateStreamPool(ctx context.Context, request UpdateStreamPoolRequest) (response UpdateStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse

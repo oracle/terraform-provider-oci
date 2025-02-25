@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureSharding.go.html to see an example of how to use ConfigureShardingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/ConfigureSharding.go.html to see an example of how to use ConfigureShardingRequest.
 type ConfigureShardingRequest struct {
 
 	// Sharded Database identifier
