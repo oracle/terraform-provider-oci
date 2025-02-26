@@ -31,7 +31,9 @@ resource "oci_ai_document_processor_job" "test_processor_job" {
 			bucket = var.processor_job_input_location_object_locations_bucket
 			namespace = var.processor_job_input_location_object_locations_namespace
 			object = var.processor_job_input_location_object_locations_object
+			page_range = var.processor_job_input_location_object_locations_page_range
 		}
+		page_range = var.processor_job_input_location_page_range
 	}
 	output_location {
 		#Required
@@ -41,6 +43,10 @@ resource "oci_ai_document_processor_job" "test_processor_job" {
 	}
 	processor_config {
 		#Required
+		processor_type = var.processor_job_processor_config_processor_type
+
+		#Optional
+		document_type = var.processor_job_processor_config_document_type
 		features {
 			#Required
 			feature_type = var.processor_job_processor_config_features_feature_type
@@ -49,14 +55,21 @@ resource "oci_ai_document_processor_job" "test_processor_job" {
 			generate_searchable_pdf = var.processor_job_processor_config_features_generate_searchable_pdf
 			max_results = var.processor_job_processor_config_features_max_results
 			model_id = oci_ai_document_model.test_model.id
+			selection_mark_detection = var.processor_job_processor_config_features_selection_mark_detection
 			tenancy_id = oci_identity_tenancy.test_tenancy.id
 		}
-		processor_type = var.processor_job_processor_config_processor_type
-
-		#Optional
-		document_type = var.processor_job_processor_config_document_type
 		is_zip_output_enabled = var.processor_job_processor_config_is_zip_output_enabled
 		language = var.processor_job_processor_config_language
+		model_id = oci_ai_document_model.test_model.id
+		normalization_fields {
+
+			#Optional
+			map {
+
+				#Optional
+				normalization_type = var.processor_job_processor_config_normalization_fields_map_normalization_type
+			}
+		}
 	}
 
 	#Optional
@@ -76,6 +89,8 @@ The following arguments are supported:
 		* `bucket` - (Required when source_type=OBJECT_STORAGE_LOCATIONS) The Object Storage bucket name.
 		* `namespace` - (Required when source_type=OBJECT_STORAGE_LOCATIONS) The Object Storage namespace name.
 		* `object` - (Required when source_type=OBJECT_STORAGE_LOCATIONS) The Object Storage object name.
+		* `page_range` - (Applicable when source_type=OBJECT_STORAGE_LOCATIONS) The page ranges to be analysed.
+	* `page_range` - (Applicable when source_type=INLINE_DOCUMENT_CONTENT) The page ranges to be analysed.
 	* `source_type` - (Required) The type of input location. The allowed values are:
 		* `OBJECT_STORAGE_LOCATIONS`: A list of object locations in Object Storage.
 		* `INLINE_DOCUMENT_CONTENT`: The content of an inline document. 
@@ -84,20 +99,26 @@ The following arguments are supported:
 	* `namespace` - (Required) The Object Storage namespace.
 	* `prefix` - (Required) The Object Storage folder name.
 * `processor_config` - (Required) The configuration of a processor.
-	* `document_type` - (Optional) The document type.
-	* `features` - (Required) The types of document analysis requested.
+	* `document_type` - (Applicable when processor_type=GENERAL) The document type.
+	* `features` - (Required when processor_type=GENERAL) The types of document analysis requested.
 		* `feature_type` - (Required) The type of document analysis requested. The allowed values are:
 			* `LANGUAGE_CLASSIFICATION`: Detect the language.
 			* `TEXT_EXTRACTION`: Recognize text.
 			* `TABLE_EXTRACTION`: Detect and extract data in tables.
 			* `KEY_VALUE_EXTRACTION`: Extract form fields.
-			* `DOCUMENT_CLASSIFICATION`: Identify the type of document. 
+			* `DOCUMENT_CLASSIFICATION`: Identify the type of document.
+			* `DOCUMENT_ELEMENTS_EXTRACTION`: Extract information from bar code 
 		* `generate_searchable_pdf` - (Applicable when feature_type=TEXT_EXTRACTION) Whether or not to generate a searchable PDF file.
 		* `max_results` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | LANGUAGE_CLASSIFICATION) The maximum number of results to return.
-		* `model_id` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | KEY_VALUE_EXTRACTION) The custom model ID.
+		* `model_id` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | DOCUMENT_ELEMENTS_EXTRACTION | KEY_VALUE_EXTRACTION | TABLE_EXTRACTION | TEXT_EXTRACTION) Unique identifier custom model OCID that should be used for inference.
+		* `selection_mark_detection` - (Applicable when feature_type=TEXT_EXTRACTION) Whether checkbox detection feature is enabled or disabled.
 		* `tenancy_id` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | KEY_VALUE_EXTRACTION) The custom model tenancy ID when modelId represents aliasName.
-	* `is_zip_output_enabled` - (Optional) Whether or not to generate a ZIP file containing the results.
-	* `language` - (Optional) The document language, abbreviated according to the BCP 47 Language-Tag syntax.
+	* `is_zip_output_enabled` - (Applicable when processor_type=GENERAL) Whether or not to generate a ZIP file containing the results.
+	* `language` - (Applicable when processor_type=GENERAL) The document language, abbreviated according to the BCP 47 Language-Tag syntax.
+	* `model_id` - (Applicable when processor_type=INVOICE) Unique identifier custom model OCID that should be used for inference.
+	* `normalization_fields` - (Required when processor_type=INVOICE) A string-to-object map where the key is the normalization field and the object contains information about the field.
+		* `map` - (Applicable when processor_type=INVOICE) A wrapped map.
+			* `normalization_type` - (Applicable when processor_type=INVOICE) A string mapping to the normalization type.
 	* `processor_type` - (Required) The type of the processor.
 
 
@@ -117,6 +138,8 @@ The following attributes are exported:
 		* `bucket` - The Object Storage bucket name.
 		* `namespace` - The Object Storage namespace name.
 		* `object` - The Object Storage object name.
+		* `page_range` - The page ranges to be analysed.
+	* `page_range` - The page ranges to be analysed.
 	* `source_type` - The type of input location. The allowed values are:
 		* `OBJECT_STORAGE_LOCATIONS`: A list of object locations in Object Storage.
 		* `INLINE_DOCUMENT_CONTENT`: The content of an inline document. 
@@ -134,13 +157,19 @@ The following attributes are exported:
 			* `TEXT_EXTRACTION`: Recognize text.
 			* `TABLE_EXTRACTION`: Detect and extract data in tables.
 			* `KEY_VALUE_EXTRACTION`: Extract form fields.
-			* `DOCUMENT_CLASSIFICATION`: Identify the type of document. 
+			* `DOCUMENT_CLASSIFICATION`: Identify the type of document.
+			* `DOCUMENT_ELEMENTS_EXTRACTION`: Extract information from bar code 
 		* `generate_searchable_pdf` - Whether or not to generate a searchable PDF file.
 		* `max_results` - The maximum number of results to return.
-		* `model_id` - The custom model ID.
+		* `model_id` - Unique identifier custom model OCID that should be used for inference.
+		* `selection_mark_detection` - Whether checkbox detection feature is enabled or disabled.
 		* `tenancy_id` - The custom model tenancy ID when modelId represents aliasName.
 	* `is_zip_output_enabled` - Whether or not to generate a ZIP file containing the results.
 	* `language` - The document language, abbreviated according to the BCP 47 Language-Tag syntax.
+	* `model_id` - Unique identifier custom model OCID that should be used for inference.
+	* `normalization_fields` - A string-to-object map where the key is the normalization field and the object contains information about the field.
+		* `map` - A wrapped map.
+			* `normalization_type` - A string mapping to the normalization type.
 	* `processor_type` - The type of the processor.
 * `state` - The current state of the processor job.
 * `time_accepted` - The job acceptance time.
