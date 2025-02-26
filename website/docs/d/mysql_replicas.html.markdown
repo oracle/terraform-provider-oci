@@ -66,11 +66,13 @@ The following attributes are exported:
 * `is_delete_protected` - Specifies whether the read replica can be deleted. Set to true to prevent deletion, false (default) to allow. Note that if a read replica is delete protected it also prevents the entire DB System from being deleted. If the DB System is delete protected, read replicas can still be deleted individually if they are not delete  protected themselves. 
 * `lifecycle_details` - A message describing the state of the read replica.
 * `mysql_version` - The MySQL version currently in use by the read replica.
+* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
 * `port` - The port the read replica is configured to listen on.
 * `port_x` - The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
 * `replica_overrides` - By default a read replica inherits the MySQL version, shape, and configuration of the source DB system.  If you want to override any of these, provide values in the properties, mysqlVersion, shapeName,  and configurationId. If you set a property value to "", then the value is inherited from its  source DB system. 
 	* `configuration_id` - The OCID of the Configuration to be used by the read replica.
 	* `mysql_version` - The MySQL version to be used by the read replica.
+	* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
 	* `shape_name` - The shape to be used by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 

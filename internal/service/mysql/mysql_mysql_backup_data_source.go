@@ -87,7 +87,7 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.DbSystemSnapshot != nil {
-		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot)})
+		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot, true)})
 	} else {
 		s.D.Set("db_system_snapshot", nil)
 	}
