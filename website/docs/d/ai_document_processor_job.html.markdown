@@ -42,6 +42,8 @@ The following attributes are exported:
 		* `bucket` - The Object Storage bucket name.
 		* `namespace` - The Object Storage namespace name.
 		* `object` - The Object Storage object name.
+		* `page_range` - The page ranges to be analysed.
+	* `page_range` - The page ranges to be analysed.
 	* `source_type` - The type of input location. The allowed values are:
 		* `OBJECT_STORAGE_LOCATIONS`: A list of object locations in Object Storage.
 		* `INLINE_DOCUMENT_CONTENT`: The content of an inline document. 
@@ -59,13 +61,19 @@ The following attributes are exported:
 			* `TEXT_EXTRACTION`: Recognize text.
 			* `TABLE_EXTRACTION`: Detect and extract data in tables.
 			* `KEY_VALUE_EXTRACTION`: Extract form fields.
-			* `DOCUMENT_CLASSIFICATION`: Identify the type of document. 
+			* `DOCUMENT_CLASSIFICATION`: Identify the type of document.
+			* `DOCUMENT_ELEMENTS_EXTRACTION`: Extract information from bar code 
 		* `generate_searchable_pdf` - Whether or not to generate a searchable PDF file.
 		* `max_results` - The maximum number of results to return.
-		* `model_id` - The custom model ID.
+		* `model_id` - Unique identifier custom model OCID that should be used for inference.
+		* `selection_mark_detection` - Whether checkbox detection feature is enabled or disabled.
 		* `tenancy_id` - The custom model tenancy ID when modelId represents aliasName.
 	* `is_zip_output_enabled` - Whether or not to generate a ZIP file containing the results.
 	* `language` - The document language, abbreviated according to the BCP 47 Language-Tag syntax.
+	* `model_id` - Unique identifier custom model OCID that should be used for inference.
+	* `normalization_fields` - A string-to-object map where the key is the normalization field and the object contains information about the field.
+		* `map` - A wrapped map.
+			* `normalization_type` - A string mapping to the normalization type.
 	* `processor_type` - The type of the processor.
 * `state` - The current state of the processor job.
 * `time_accepted` - The job acceptance time.

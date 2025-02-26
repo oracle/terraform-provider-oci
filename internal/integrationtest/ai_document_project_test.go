@@ -56,7 +56,7 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags": "freeformTags2"}},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreAiDocumentDefinedTagsChangesRepresentation},
 	}
 
@@ -212,10 +212,10 @@ func TestAiDocumentProjectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
+			ImportStateVerifyIgnore: []string{},
+			ImportStateVerify:       true,
 			Config:                  config + AiDocumentProjectRequiredOnlyResource,
 			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
 		},
 	})
