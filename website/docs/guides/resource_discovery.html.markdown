@@ -603,8 +603,6 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_model\_referential\_relation
 * oci\_data\_safe\_sensitive\_type\_group\_grouped\_sensitive\_type
 * oci\_data\_safe\_sensitive\_type\_group
-* oci\_data\_safe\_calculate\_audit\_volume\_available
-* oci\_data\_safe\_calculate\_audit\_volume\_collected
 
 database
     
@@ -737,6 +735,15 @@ delegate_access_control
 * oci\_delegate\_access\_control\_delegation\_subscription
 * oci\_delegate\_access\_control\_delegation\_control
 
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
+
+delegate_access_control
+    
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
+
 demand_signal
     
 * oci\_demand\_signal\_occ\_demand\_signal
@@ -804,6 +811,18 @@ file_storage
 * oci\_file\_storage\_filesystem\_snapshot\_policy
 * oci\_file\_storage\_outbound\_connector
 * oci\_file\_storage\_file\_system\_quota\_rule
+
+fleet_apps_management
+    
+* oci\_fleet\_apps\_management\_task\_record
+* oci\_fleet\_apps\_management\_maintenance\_window
+* oci\_fleet\_apps\_management\_fleet
+* oci\_fleet\_apps\_management\_scheduler\_definition
+* oci\_fleet\_apps\_management\_property
+* oci\_fleet\_apps\_management\_runbook
+* oci\_fleet\_apps\_management\_platform\_configuration
+* oci\_fleet\_apps\_management\_compliance\_policy\_rule
+* oci\_fleet\_apps\_management\_patch
 
 fleet_apps_management
     

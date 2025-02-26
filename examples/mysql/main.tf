@@ -20,6 +20,8 @@ variable "compartment_ocid" {
 }
 
 provider "oci" {
+  # un-ignore to run backwards compatibility testing
+  #version = "6.32.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -36,6 +38,11 @@ resource "oci_core_subnet" "test_subnet" {
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
+}
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_mysql_mysql_backup" "test_mysql_backup" {
@@ -111,6 +118,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     window_start_time = "sun 01:00"
   }
 
+  nsg_ids       = [oci_core_network_security_group.test_network_security_group.id]
   port          = "3306"
   port_x        = "33306"
 
@@ -167,6 +175,16 @@ data "oci_mysql_shapes" "test_shapes" {
 
 data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = var.tenancy_ocid
+}
+
+data "oci_mysql_mysql_db_system" "test_mysql_db_system" {
+  #Required
+  db_system_id = oci_mysql_mysql_db_system.test_mysql_backup_db_system.id
+}
+
+data "oci_mysql_mysql_backup" "test_mysql_backup" {
+  #Required
+  backup_id = oci_mysql_mysql_backup.test_mysql_backup.id
 }
 
 output "configuration_id" {

@@ -36,6 +36,8 @@ variable "compartment_ocid" {
 }
 
 provider "oci" {
+  # un-ignore to run backwards compatibility testing
+  #version = "6.32.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

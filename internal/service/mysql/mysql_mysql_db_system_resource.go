@@ -347,6 +347,15 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.MySqlVersionDiffSuppress,
 			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"port": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -1142,6 +1151,20 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.MysqlVersion = &tmp
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
 	if port, ok := s.D.GetOkExists("port"); ok {
 		tmp := port.(int)
 		request.Port = &tmp
@@ -1352,6 +1375,20 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
 	if readEndpoint, ok := s.D.GetOkExists("read_endpoint"); ok && s.D.HasChange("read_endpoint") {
 		if tmpList := readEndpoint.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "read_endpoint", 0)
@@ -1521,6 +1558,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	if s.Res.MysqlVersion != nil {
 		s.D.Set("mysql_version", *s.Res.MysqlVersion)
 	}
+
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.PointInTimeRecoveryDetails != nil {
 		s.D.Set("point_in_time_recovery_details", []interface{}{PointInTimeRecoveryDetailsToMap(s.Res.PointInTimeRecoveryDetails)})
