@@ -15,9 +15,12 @@ import (
 )
 
 var (
-	AiDocumentProcessorJobRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Required, acctest.Create, AiDocumentProcessorJobRepresentation)
+	AiDocumentProcessorJobDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_project", "test_project", acctest.Required, acctest.Create, AiDocumentProjectRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_model", "test_model", acctest.Required, acctest.Create, AiDocumentModelRepresentation2) +
+		DefinedTagsDependencies
 
-	AiDocumentProcessorJobResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Optional, acctest.Update, AiDocumentProcessorJobRepresentation)
+	AiDocumentProcessorJobRequiredOnlyResource = AiDocumentProcessorJobDependencies + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Required, acctest.Create, AiDocumentProcessorJobRepresentation)
+
+	AiDocumentProcessorJobResourceConfig = AiDocumentProcessorJobDependencies + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Optional, acctest.Update, AiDocumentProcessorJobRepresentation)
 
 	AiDocumentAiDocumentProcessorJobSingularDataSourceRepresentation = map[string]interface{}{
 		"processor_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_document_processor_job.test_processor_job.id}`},
@@ -31,28 +34,44 @@ var (
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 	AiDocumentProcessorJobInputLocationRepresentation = map[string]interface{}{
-		"source_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE_LOCATIONS`},
-		//"data":             acctest.Representation{RepType: acctest.Optional, Create: `data`},
+		"page_range":       acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"source_type":      acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE_LOCATIONS`},
+		"data":             acctest.Representation{RepType: acctest.Optional, Create: ""},
 		"object_locations": acctest.RepresentationGroup{RepType: acctest.Required, Group: AiDocumentProcessorJobInputLocationObjectLocationsRepresentation},
 	}
 	AiDocumentProcessorJobOutputLocationRepresentation = map[string]interface{}{
-		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `tf_test_bucket`},
-		"namespace": acctest.Representation{RepType: acctest.Required, Create: `axgexwaxnm7k`},
-		"prefix":    acctest.Representation{RepType: acctest.Required, Create: `response`},
+		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `canary_test`},
+		"namespace": acctest.Representation{RepType: acctest.Required, Create: `axylfvgphoea`},
+		"prefix":    acctest.Representation{RepType: acctest.Required, Create: `test`},
 	}
 	AiDocumentProcessorJobProcessorConfigRepresentation = map[string]interface{}{
-		"features":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AiDocumentProcessorJobProcessorConfigFeaturesRepresentation},
-		"processor_type": acctest.Representation{RepType: acctest.Required, Create: `GENERAL`},
+		"processor_type":        acctest.Representation{RepType: acctest.Required, Create: `GENERAL`},
+		"document_type":         acctest.Representation{RepType: acctest.Optional, Create: `RECEIPT`},
+		"features":              acctest.RepresentationGroup{RepType: acctest.Required, Group: AiDocumentProcessorJobProcessorConfigFeaturesRepresentation},
+		"is_zip_output_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"language":              acctest.Representation{RepType: acctest.Optional, Create: `ENG`},
+		"model_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_ai_document_model.test_model.id}`},
+		"normalization_fields":  acctest.RepresentationGroup{RepType: acctest.Required, Group: AiDocumentProcessorJobProcessorConfigNormalizationFieldsRepresentation},
 	}
 	AiDocumentProcessorJobInputLocationObjectLocationsRepresentation = map[string]interface{}{
-		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `tf_test_bucket`},
-		"namespace": acctest.Representation{RepType: acctest.Required, Create: `axgexwaxnm7k`},
-		"object":    acctest.Representation{RepType: acctest.Required, Create: `amazon_inv.pdf`},
+		"bucket":     acctest.Representation{RepType: acctest.Required, Create: `canary_test`},
+		"namespace":  acctest.Representation{RepType: acctest.Required, Create: `axylfvgphoea`},
+		"object":     acctest.Representation{RepType: acctest.Required, Create: `key_value_receipt.png`},
+		"page_range": acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}},
 	}
 	AiDocumentProcessorJobProcessorConfigFeaturesRepresentation = map[string]interface{}{
-		"feature_type":            acctest.Representation{RepType: acctest.Required, Create: `DOCUMENT_CLASSIFICATION`},
-		"generate_searchable_pdf": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"max_results":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"feature_type":             acctest.Representation{RepType: acctest.Required, Create: `KEY_VALUE_EXTRACTION`},
+		"generate_searchable_pdf":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"max_results":              acctest.Representation{RepType: acctest.Optional, Create: `0`},
+		"model_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_ai_document_model.test_model.id}`},
+		"selection_mark_detection": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"tenancy_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+	}
+	AiDocumentProcessorJobProcessorConfigNormalizationFieldsRepresentation = map[string]interface{}{
+		"map": acctest.RepresentationGroup{RepType: acctest.Required, Group: AiDocumentProcessorJobProcessorConfigNormalizationFieldsMapRepresentation},
+	}
+	AiDocumentProcessorJobProcessorConfigNormalizationFieldsMapRepresentation = map[string]interface{}{
+		"normalization_type": acctest.Representation{RepType: acctest.Required, Create: `normalization_type_sample_val`},
 	}
 )
 
@@ -71,57 +90,69 @@ func TestAiDocumentProcessorJobResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ai_document_processor_job.test_processor_job"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Optional, acctest.Create, AiDocumentProcessorJobRepresentation), "aidocument", "processorJob", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AiDocumentProcessorJobDependencies+acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Optional, acctest.Create, AiDocumentProcessorJobRepresentation), "aidocument", "processorJob", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Required, acctest.Create, AiDocumentProcessorJobRepresentation),
+			Config: config + compartmentIdVariableStr + AiDocumentProcessorJobDependencies + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Required, acctest.Create, AiDocumentProcessorJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "input_location.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.bucket", "tf_test_bucket"),
-				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.namespace", "axgexwaxnm7k"),
-				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.object", "amazon_inv.pdf"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.bucket", "canary_test"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.namespace", "axylfvgphoea"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.object", "key_value_receipt.png"),
 				resource.TestCheckResourceAttr(resourceName, "input_location.0.source_type", "OBJECT_STORAGE_LOCATIONS"),
 				resource.TestCheckResourceAttr(resourceName, "output_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "output_location.0.bucket", "tf_test_bucket"),
-				resource.TestCheckResourceAttr(resourceName, "output_location.0.namespace", "axgexwaxnm7k"),
-				resource.TestCheckResourceAttr(resourceName, "output_location.0.prefix", "response"),
+				resource.TestCheckResourceAttr(resourceName, "output_location.0.bucket", "canary_test"),
+				resource.TestCheckResourceAttr(resourceName, "output_location.0.namespace", "axylfvgphoea"),
+				resource.TestCheckResourceAttr(resourceName, "output_location.0.prefix", "test"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.feature_type", "DOCUMENT_CLASSIFICATION"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.normalization_fields.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.normalization_fields.0.map.0.normalization_type", "normalization_type_sample_val"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.feature_type", "KEY_VALUE_EXTRACTION"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.processor_type", "GENERAL"),
 			),
 		},
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr,
+			Config: config + compartmentIdVariableStr + AiDocumentProcessorJobDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Optional, acctest.Create, AiDocumentProcessorJobRepresentation),
+			Config: config + compartmentIdVariableStr + AiDocumentProcessorJobDependencies + acctest.GenerateResourceFromRepresentationMap("oci_ai_document_processor_job", "test_processor_job", acctest.Optional, acctest.Create, AiDocumentProcessorJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "input_location.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.bucket", "tf_test_bucket"),
-				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.namespace", "axgexwaxnm7k"),
-				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.object", "amazon_inv.pdf"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.page_range.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.page_range.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.bucket", "canary_test"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.namespace", "axylfvgphoea"),
+				resource.TestCheckResourceAttr(resourceName, "input_location.0.object_locations.0.object", "key_value_receipt.png"),
 				resource.TestCheckResourceAttr(resourceName, "input_location.0.source_type", "OBJECT_STORAGE_LOCATIONS"),
 				resource.TestCheckResourceAttr(resourceName, "output_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "output_location.0.bucket", "tf_test_bucket"),
-				resource.TestCheckResourceAttr(resourceName, "output_location.0.namespace", "axgexwaxnm7k"),
-				resource.TestCheckResourceAttr(resourceName, "output_location.0.prefix", "response"),
+				resource.TestCheckResourceAttr(resourceName, "output_location.0.bucket", "canary_test"),
+				resource.TestCheckResourceAttr(resourceName, "output_location.0.namespace", "axylfvgphoea"),
+				resource.TestCheckResourceAttr(resourceName, "output_location.0.prefix", "test"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.feature_type", "DOCUMENT_CLASSIFICATION"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.feature_type", "KEY_VALUE_EXTRACTION"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.generate_searchable_pdf", "false"),
-				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.max_results", "10"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.max_results", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "processor_config.0.features.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.selection_mark_detection", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "processor_config.0.features.0.tenancy_id"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.is_zip_output_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.language", "ENG"),
+				resource.TestCheckResourceAttrSet(resourceName, "processor_config.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.normalization_fields.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.normalization_fields.0.map.0.normalization_type", "normalization_type_sample_val"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.is_zip_output_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.processor_type", "GENERAL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -142,21 +173,27 @@ func TestAiDocumentProcessorJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.bucket", "tf_test_bucket"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.namespace", "axgexwaxnm7k"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.object", "amazon_inv.pdf"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.page_range.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.page_range.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.bucket", "canary_test"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.namespace", "axylfvgphoea"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.object_locations.0.object", "key_value_receipt.png"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "input_location.0.source_type", "OBJECT_STORAGE_LOCATIONS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.0.bucket", "tf_test_bucket"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.0.namespace", "axgexwaxnm7k"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.0.prefix", "response"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.0.bucket", "canary_test"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.0.namespace", "axylfvgphoea"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_location.0.prefix", "test"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "percent_complete"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.feature_type", "DOCUMENT_CLASSIFICATION"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.feature_type", "KEY_VALUE_EXTRACTION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.generate_searchable_pdf", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.max_results", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.max_results", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.selection_mark_detection", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.is_zip_output_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.language", "ENG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.normalization_fields.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.normalization_fields.0.map.0.normalization_type", "normalization_type_sample_val"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.processor_type", "GENERAL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),

@@ -95,6 +95,10 @@ func (s *AiDocumentModelDataSourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InferenceUnits != nil {
+		s.D.Set("inference_units", *s.Res.InferenceUnits)
+	}
+
 	if s.Res.IsComposedModel != nil {
 		s.D.Set("is_composed_model", *s.Res.IsComposedModel)
 	}
@@ -105,6 +109,10 @@ func (s *AiDocumentModelDataSourceCrud) SetData() error {
 
 	s.D.Set("labels", s.Res.Labels)
 	s.D.Set("labels", s.Res.Labels)
+
+	if s.Res.Language != nil {
+		s.D.Set("language", *s.Res.Language)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -122,6 +130,16 @@ func (s *AiDocumentModelDataSourceCrud) SetData() error {
 		s.D.Set("metrics", metricsArray)
 	} else {
 		s.D.Set("metrics", nil)
+	}
+
+	if s.Res.ModelSubType != nil {
+		modelSubTypeArray := []interface{}{}
+		if modelSubTypeMap := ModelSubTypeToMap(&s.Res.ModelSubType); modelSubTypeMap != nil {
+			modelSubTypeArray = append(modelSubTypeArray, modelSubTypeMap)
+		}
+		s.D.Set("model_sub_type", modelSubTypeArray)
+	} else {
+		s.D.Set("model_sub_type", nil)
 	}
 
 	s.D.Set("model_type", s.Res.ModelType)

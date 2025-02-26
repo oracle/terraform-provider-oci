@@ -107,8 +107,19 @@ func AiDocumentModelResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"inference_units": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"is_quick_mode": {
 				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"language": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -118,6 +129,39 @@ func AiDocumentModelResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"model_sub_type": {
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				MaxItems:         1,
+				MinItems:         1,
+				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"model_sub_type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"model_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION",
+								"PRE_TRAINED_KEY_VALUE_EXTRACTION",
+							}, true),
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"model_version": {
 				Type:     schema.TypeString,
@@ -131,7 +175,6 @@ func AiDocumentModelResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -182,7 +225,6 @@ func AiDocumentModelResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -233,7 +275,6 @@ func AiDocumentModelResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -294,6 +335,47 @@ func AiDocumentModelResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+					},
+				},
 			},
 			"metrics": {
 				Type:     schema.TypeList,
@@ -593,14 +675,35 @@ func (s *AiDocumentModelResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if inferenceUnits, ok := s.D.GetOkExists("inference_units"); ok {
+		tmp := inferenceUnits.(int)
+		request.InferenceUnits = &tmp
+	}
+
 	if isQuickMode, ok := s.D.GetOkExists("is_quick_mode"); ok {
 		tmp := isQuickMode.(bool)
 		request.IsQuickMode = &tmp
 	}
 
+	if language, ok := s.D.GetOkExists("language"); ok {
+		tmp := language.(string)
+		request.Language = &tmp
+	}
+
 	if maxTrainingTimeInHours, ok := s.D.GetOkExists("max_training_time_in_hours"); ok {
 		tmp := maxTrainingTimeInHours.(float64)
 		request.MaxTrainingTimeInHours = &tmp
+	}
+
+	if modelSubType, ok := s.D.GetOkExists("model_sub_type"); ok {
+		if tmpList := modelSubType.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "model_sub_type", 0)
+			tmp, err := s.mapToModelSubType(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ModelSubType = tmp
+		}
 	}
 
 	if modelType, ok := s.D.GetOkExists("model_type"); ok {
@@ -817,6 +920,7 @@ func (s *AiDocumentModelResourceCrud) Get() error {
 }
 
 func (s *AiDocumentModelResourceCrud) Update() error {
+
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -848,6 +952,11 @@ func (s *AiDocumentModelResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if inferenceUnits, ok := s.D.GetOkExists("inference_units"); ok {
+		tmp := inferenceUnits.(int)
+		request.InferenceUnits = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -916,6 +1025,10 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InferenceUnits != nil {
+		s.D.Set("inference_units", *s.Res.InferenceUnits)
+	}
+
 	if s.Res.IsComposedModel != nil {
 		s.D.Set("is_composed_model", *s.Res.IsComposedModel)
 	}
@@ -926,6 +1039,10 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 
 	s.D.Set("labels", s.Res.Labels)
 	s.D.Set("labels", s.Res.Labels)
+
+	if s.Res.Language != nil {
+		s.D.Set("language", *s.Res.Language)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -943,6 +1060,16 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 		s.D.Set("metrics", metricsArray)
 	} else {
 		s.D.Set("metrics", nil)
+	}
+
+	if s.Res.ModelSubType != nil {
+		modelSubTypeArray := []interface{}{}
+		if modelSubTypeMap := ModelSubTypeToMap(&s.Res.ModelSubType); modelSubTypeMap != nil {
+			modelSubTypeArray = append(modelSubTypeArray, modelSubTypeMap)
+		}
+		s.D.Set("model_sub_type", modelSubTypeArray)
+	} else {
+		s.D.Set("model_sub_type", nil)
 	}
 
 	s.D.Set("model_type", s.Res.ModelType)
@@ -1010,6 +1137,17 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *AiDocumentModelResourceCrud) mapToComponentModel(fieldKeyFormat string) (oci_ai_document.ComponentModel, error) {
+	result := oci_ai_document.ComponentModel{}
+
+	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+		tmp := modelId.(string)
+		result.ModelId = &tmp
+	}
+
+	return result, nil
+}
+
 func ComponentModelToMap(obj oci_ai_document.ComponentModel) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1018,17 +1156,6 @@ func ComponentModelToMap(obj oci_ai_document.ComponentModel) map[string]interfac
 	}
 
 	return result
-}
-
-func (s *AiDocumentModelResourceCrud) mapToComponentModel(fieldKeyFormat string) (oci_ai_document.ComponentModel, error) {
-	var componentModel oci_ai_document.ComponentModel
-
-	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
-		tmp := modelId.(string)
-		componentModel.ModelId = &tmp
-	}
-
-	return componentModel, nil
 }
 
 func (s *AiDocumentModelResourceCrud) mapToDataset(fieldKeyFormat string) (oci_ai_document.Dataset, error) {
@@ -1471,6 +1598,84 @@ func ModelMetricsToMap(obj *oci_ai_document.ModelMetrics) map[string]interface{}
 		if v.DatasetSummary != nil {
 			result["dataset_summary"] = []interface{}{DatasetSummaryToMap(v.DatasetSummary)}
 		}
+	case oci_ai_document.PretrainedDocumentClassificationModelDetails:
+		result["model_type"] = "PRE_TRAINED_DOCUMENT_CLASSIFICATION"
+
+		if v.DatasetSummary != nil {
+			result["dataset_summary"] = []interface{}{DatasetSummaryToMap(v.DatasetSummary)}
+		}
+	case oci_ai_document.PreTrainedDocumentElementsExtractionModelDetails:
+		result["model_type"] = "PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION"
+
+		if v.DatasetSummary != nil {
+			result["dataset_summary"] = []interface{}{DatasetSummaryToMap(v.DatasetSummary)}
+		}
+	case oci_ai_document.PretrainedKeyValueExtractionModelDetails:
+		result["model_type"] = "PRE_TRAINED_KEY_VALUE_EXTRACTION"
+
+		if v.DatasetSummary != nil {
+			result["dataset_summary"] = []interface{}{DatasetSummaryToMap(v.DatasetSummary)}
+		}
+	case oci_ai_document.PretrainedTableExtractionModelDetails:
+		result["model_type"] = "PRE_TRAINED_TABLE_EXTRACTION"
+
+		if v.DatasetSummary != nil {
+			result["dataset_summary"] = []interface{}{DatasetSummaryToMap(v.DatasetSummary)}
+		}
+	case oci_ai_document.PretrainedTextExtractionModelDetails:
+		result["model_type"] = "PRE_TRAINED_TEXT_EXTRACTION"
+
+		if v.DatasetSummary != nil {
+			result["dataset_summary"] = []interface{}{DatasetSummaryToMap(v.DatasetSummary)}
+		}
+	default:
+		log.Printf("[WARN] Received 'model_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *AiDocumentModelResourceCrud) mapToModelSubType(fieldKeyFormat string) (oci_ai_document.ModelSubType, error) {
+	var baseObject oci_ai_document.ModelSubType
+	//discriminator
+	modelTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_type"))
+	var modelType string
+	if ok {
+		modelType = modelTypeRaw.(string)
+	} else {
+		modelType = "" // default value
+	}
+	switch strings.ToLower(modelType) {
+	case strings.ToLower("PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION"):
+		details := oci_ai_document.DocumentElementsSubType{}
+		if modelSubType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_sub_type")); ok {
+			details.ModelSubType = oci_ai_document.DocumentElementsSubTypeModelSubTypeEnum(modelSubType.(string))
+		}
+		baseObject = details
+	case strings.ToLower("PRE_TRAINED_KEY_VALUE_EXTRACTION"):
+		details := oci_ai_document.KvModelSubType{}
+		if modelSubType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_sub_type")); ok {
+			details.ModelSubType = oci_ai_document.KvModelSubTypeModelSubTypeEnum(modelSubType.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown model_type '%v' was specified", modelType)
+	}
+	return baseObject, nil
+}
+
+func ModelSubTypeToMap(obj *oci_ai_document.ModelSubType) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_ai_document.DocumentElementsSubType:
+		result["model_type"] = "PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION"
+
+		result["model_sub_type"] = string(v.ModelSubType)
+	case oci_ai_document.KvModelSubType:
+		result["model_type"] = "PRE_TRAINED_KEY_VALUE_EXTRACTION"
+
+		result["model_sub_type"] = string(v.ModelSubType)
 	default:
 		log.Printf("[WARN] Received 'model_type' of unknown type %v", *obj)
 		return nil
@@ -1509,6 +1714,10 @@ func ModelSummaryToMap(obj oci_ai_document.ModelSummary) map[string]interface{} 
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InferenceUnits != nil {
+		result["inference_units"] = int(*obj.InferenceUnits)
 	}
 
 	if obj.IsComposedModel != nil {
@@ -1597,6 +1806,20 @@ func (s *AiDocumentModelResourceCrud) updateCompartment(compartment interface{})
 	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
+
+	return nil
+}
+
+func (s *AiDocumentModelResourceCrud) AddModelLock() error {
+
+	log.Panicln("addModelLock should be unreachable and handled by Splat")
+
+	return nil
+}
+
+func (s *AiDocumentModelResourceCrud) RemoveModelLock() error {
+
+	log.Panicln("removeModelLock should be unreachable and handled by Splat")
 
 	return nil
 }

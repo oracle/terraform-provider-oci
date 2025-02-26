@@ -41,10 +41,18 @@ The following attributes are exported:
 * `display_name` - A human-friendly name for the model, which can be changed.
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: `{"bar-key": "value"}` 
 * `id` - A unique identifier that is immutable after creation.
+* `inference_units` - Number of replicas required for this model.
 * `is_composed_model` - Set to true when the model is created by using multiple key value extraction models.
 * `is_quick_mode` - Set to true when experimenting with a new model type or dataset, so model training is quick, with a predefined low number of passes through the training data.
 * `labels` - The collection of labels used to train the custom model.
+* `language` - The document language for model training, abbreviated according to the BCP 47 syntax.
 * `lifecycle_details` - A message describing the current state in more detail, that can provide actionable information if training failed.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The lock compartment ID.
+	* `message` - A message added by the lock creator. The message typically gives an indication of why the resource is locked. 
+	* `related_resource_id` - The resource ID that is locking this resource. Indicates that deleting this resource removes the lock. 
+	* `time_created` - Indicates when the lock was created, in the format defined by RFC 3339.
+	* `type` - Lock type.
 * `max_training_time_in_hours` - The maximum model training time in hours, expressed as a decimal fraction.
 * `metrics` - Trained Model Metrics.
 	* `dataset_summary` - Summary of count of samples used during model training.
@@ -71,6 +79,16 @@ The following attributes are exported:
 			* `threshold` - Threshold used to calculate precision and recall.
 		* `document_count` - Total test documents in the label.
 		* `mean_average_precision` - Mean average precision under different thresholds
+* `model_sub_type` - Applicable to only PRE_TRAINED_KEY_VALUE_EXTRACTION, PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION.
+	* `model_sub_type` - The model sub type for PRE_TRAINED_KEY_VALUE_EXTRACTION The allowed values are:
+		* `RECEIPT`
+		* `INVOICE`
+		* `PASSPORT`
+		* `DRIVER_LICENSE`
+		* `HEALTH_INSURANCE_ID` 
+	* `model_type` - Sub type model based on the model type. The allowed values are:
+		* `PRE_TRAINED_KEY_VALUE_EXTRACTION`
+		* `PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION` 
 * `model_type` - The type of the Document model.
 * `model_version` - The version of the model.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
