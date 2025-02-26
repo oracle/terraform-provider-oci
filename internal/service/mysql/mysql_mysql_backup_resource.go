@@ -397,6 +397,14 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Computed: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"port": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -869,7 +877,7 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 	}
 
 	if s.Res.DbSystemSnapshot != nil {
-		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot)})
+		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot, false)})
 	} else {
 		s.D.Set("db_system_snapshot", nil)
 	}
@@ -1017,7 +1025,7 @@ func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{
 	return result
 }
 
-func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface{} {
+func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AdminUsername != nil {
@@ -1102,6 +1110,16 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 
 	if obj.MysqlVersion != nil {
 		result["mysql_version"] = string(*obj.MysqlVersion)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.Port != nil {

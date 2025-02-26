@@ -19,6 +19,16 @@ variable "region" {
 variable "compartment_ocid" {
 }
 
+provider "oci" {
+  # un-ignore to run backwards compatibility testing
+  #version = "6.32.0"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
+}
+
 resource "oci_core_subnet" "test_subnet" {
   cidr_block     = "10.0.0.0/24"
   compartment_id = var.compartment_ocid
@@ -28,6 +38,11 @@ resource "oci_core_subnet" "test_subnet" {
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
+}
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
@@ -98,7 +113,9 @@ resource "oci_mysql_replica" "test_replica" {
   is_delete_protected  = false
   replica_overrides {
     configuration_id   = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-    mysql_version      = "8.1.0"
+    # TODO: fix unsupported version
+    #mysql_version      = "8.1.0"
+    nsg_ids            = [oci_core_network_security_group.test_network_security_group.id]
     shape_name         = "MySQL.VM.Standard.E3.4.64GB"
   }
 }
