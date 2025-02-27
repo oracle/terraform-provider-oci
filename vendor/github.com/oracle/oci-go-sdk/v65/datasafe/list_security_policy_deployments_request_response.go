@@ -193,33 +193,36 @@ type ListSecurityPolicyDeploymentsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListSecurityPolicyDeploymentsLifecycleStateEnum
 const (
-	ListSecurityPolicyDeploymentsLifecycleStateCreating       ListSecurityPolicyDeploymentsLifecycleStateEnum = "CREATING"
-	ListSecurityPolicyDeploymentsLifecycleStateUpdating       ListSecurityPolicyDeploymentsLifecycleStateEnum = "UPDATING"
-	ListSecurityPolicyDeploymentsLifecycleStateDeployed       ListSecurityPolicyDeploymentsLifecycleStateEnum = "DEPLOYED"
-	ListSecurityPolicyDeploymentsLifecycleStateNeedsAttention ListSecurityPolicyDeploymentsLifecycleStateEnum = "NEEDS_ATTENTION"
-	ListSecurityPolicyDeploymentsLifecycleStateFailed         ListSecurityPolicyDeploymentsLifecycleStateEnum = "FAILED"
-	ListSecurityPolicyDeploymentsLifecycleStateDeleting       ListSecurityPolicyDeploymentsLifecycleStateEnum = "DELETING"
-	ListSecurityPolicyDeploymentsLifecycleStateDeleted        ListSecurityPolicyDeploymentsLifecycleStateEnum = "DELETED"
+	ListSecurityPolicyDeploymentsLifecycleStateCreating          ListSecurityPolicyDeploymentsLifecycleStateEnum = "CREATING"
+	ListSecurityPolicyDeploymentsLifecycleStateUpdating          ListSecurityPolicyDeploymentsLifecycleStateEnum = "UPDATING"
+	ListSecurityPolicyDeploymentsLifecycleStateDeployed          ListSecurityPolicyDeploymentsLifecycleStateEnum = "DEPLOYED"
+	ListSecurityPolicyDeploymentsLifecycleStatePendingDeployment ListSecurityPolicyDeploymentsLifecycleStateEnum = "PENDING_DEPLOYMENT"
+	ListSecurityPolicyDeploymentsLifecycleStateNeedsAttention    ListSecurityPolicyDeploymentsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListSecurityPolicyDeploymentsLifecycleStateFailed            ListSecurityPolicyDeploymentsLifecycleStateEnum = "FAILED"
+	ListSecurityPolicyDeploymentsLifecycleStateDeleting          ListSecurityPolicyDeploymentsLifecycleStateEnum = "DELETING"
+	ListSecurityPolicyDeploymentsLifecycleStateDeleted           ListSecurityPolicyDeploymentsLifecycleStateEnum = "DELETED"
 )
 
 var mappingListSecurityPolicyDeploymentsLifecycleStateEnum = map[string]ListSecurityPolicyDeploymentsLifecycleStateEnum{
-	"CREATING":        ListSecurityPolicyDeploymentsLifecycleStateCreating,
-	"UPDATING":        ListSecurityPolicyDeploymentsLifecycleStateUpdating,
-	"DEPLOYED":        ListSecurityPolicyDeploymentsLifecycleStateDeployed,
-	"NEEDS_ATTENTION": ListSecurityPolicyDeploymentsLifecycleStateNeedsAttention,
-	"FAILED":          ListSecurityPolicyDeploymentsLifecycleStateFailed,
-	"DELETING":        ListSecurityPolicyDeploymentsLifecycleStateDeleting,
-	"DELETED":         ListSecurityPolicyDeploymentsLifecycleStateDeleted,
+	"CREATING":           ListSecurityPolicyDeploymentsLifecycleStateCreating,
+	"UPDATING":           ListSecurityPolicyDeploymentsLifecycleStateUpdating,
+	"DEPLOYED":           ListSecurityPolicyDeploymentsLifecycleStateDeployed,
+	"PENDING_DEPLOYMENT": ListSecurityPolicyDeploymentsLifecycleStatePendingDeployment,
+	"NEEDS_ATTENTION":    ListSecurityPolicyDeploymentsLifecycleStateNeedsAttention,
+	"FAILED":             ListSecurityPolicyDeploymentsLifecycleStateFailed,
+	"DELETING":           ListSecurityPolicyDeploymentsLifecycleStateDeleting,
+	"DELETED":            ListSecurityPolicyDeploymentsLifecycleStateDeleted,
 }
 
 var mappingListSecurityPolicyDeploymentsLifecycleStateEnumLowerCase = map[string]ListSecurityPolicyDeploymentsLifecycleStateEnum{
-	"creating":        ListSecurityPolicyDeploymentsLifecycleStateCreating,
-	"updating":        ListSecurityPolicyDeploymentsLifecycleStateUpdating,
-	"deployed":        ListSecurityPolicyDeploymentsLifecycleStateDeployed,
-	"needs_attention": ListSecurityPolicyDeploymentsLifecycleStateNeedsAttention,
-	"failed":          ListSecurityPolicyDeploymentsLifecycleStateFailed,
-	"deleting":        ListSecurityPolicyDeploymentsLifecycleStateDeleting,
-	"deleted":         ListSecurityPolicyDeploymentsLifecycleStateDeleted,
+	"creating":           ListSecurityPolicyDeploymentsLifecycleStateCreating,
+	"updating":           ListSecurityPolicyDeploymentsLifecycleStateUpdating,
+	"deployed":           ListSecurityPolicyDeploymentsLifecycleStateDeployed,
+	"pending_deployment": ListSecurityPolicyDeploymentsLifecycleStatePendingDeployment,
+	"needs_attention":    ListSecurityPolicyDeploymentsLifecycleStateNeedsAttention,
+	"failed":             ListSecurityPolicyDeploymentsLifecycleStateFailed,
+	"deleting":           ListSecurityPolicyDeploymentsLifecycleStateDeleting,
+	"deleted":            ListSecurityPolicyDeploymentsLifecycleStateDeleted,
 }
 
 // GetListSecurityPolicyDeploymentsLifecycleStateEnumValues Enumerates the set of values for ListSecurityPolicyDeploymentsLifecycleStateEnum
@@ -237,6 +240,7 @@ func GetListSecurityPolicyDeploymentsLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"DEPLOYED",
+		"PENDING_DEPLOYMENT",
 		"NEEDS_ATTENTION",
 		"FAILED",
 		"DELETING",

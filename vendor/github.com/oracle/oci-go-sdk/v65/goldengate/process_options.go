@@ -23,6 +23,9 @@ type ProcessOptions struct {
 
 	// If ENABLED, then the replication process restarts itself upon failure. This option applies when creating or updating a pipeline.
 	ShouldRestartOnFailure ProcessOptionsShouldRestartOnFailureEnum `mandatory:"true" json:"shouldRestartOnFailure"`
+
+	// If ENABLED, then the pipeline is started as part of pipeline creation. It uses default mapping. This option applies when creating or updating a pipeline.
+	StartUsingDefaultMapping ProcessOptionsStartUsingDefaultMappingEnum `mandatory:"false" json:"startUsingDefaultMapping,omitempty"`
 }
 
 func (m ProcessOptions) String() string {
@@ -38,6 +41,9 @@ func (m ProcessOptions) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShouldRestartOnFailure: %s. Supported values are: %s.", m.ShouldRestartOnFailure, strings.Join(GetProcessOptionsShouldRestartOnFailureEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingProcessOptionsStartUsingDefaultMappingEnum(string(m.StartUsingDefaultMapping)); !ok && m.StartUsingDefaultMapping != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StartUsingDefaultMapping: %s. Supported values are: %s.", m.StartUsingDefaultMapping, strings.Join(GetProcessOptionsStartUsingDefaultMappingEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -83,5 +89,47 @@ func GetProcessOptionsShouldRestartOnFailureEnumStringValues() []string {
 // GetMappingProcessOptionsShouldRestartOnFailureEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingProcessOptionsShouldRestartOnFailureEnum(val string) (ProcessOptionsShouldRestartOnFailureEnum, bool) {
 	enum, ok := mappingProcessOptionsShouldRestartOnFailureEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ProcessOptionsStartUsingDefaultMappingEnum Enum with underlying type: string
+type ProcessOptionsStartUsingDefaultMappingEnum string
+
+// Set of constants representing the allowable values for ProcessOptionsStartUsingDefaultMappingEnum
+const (
+	ProcessOptionsStartUsingDefaultMappingEnabled  ProcessOptionsStartUsingDefaultMappingEnum = "ENABLED"
+	ProcessOptionsStartUsingDefaultMappingDisabled ProcessOptionsStartUsingDefaultMappingEnum = "DISABLED"
+)
+
+var mappingProcessOptionsStartUsingDefaultMappingEnum = map[string]ProcessOptionsStartUsingDefaultMappingEnum{
+	"ENABLED":  ProcessOptionsStartUsingDefaultMappingEnabled,
+	"DISABLED": ProcessOptionsStartUsingDefaultMappingDisabled,
+}
+
+var mappingProcessOptionsStartUsingDefaultMappingEnumLowerCase = map[string]ProcessOptionsStartUsingDefaultMappingEnum{
+	"enabled":  ProcessOptionsStartUsingDefaultMappingEnabled,
+	"disabled": ProcessOptionsStartUsingDefaultMappingDisabled,
+}
+
+// GetProcessOptionsStartUsingDefaultMappingEnumValues Enumerates the set of values for ProcessOptionsStartUsingDefaultMappingEnum
+func GetProcessOptionsStartUsingDefaultMappingEnumValues() []ProcessOptionsStartUsingDefaultMappingEnum {
+	values := make([]ProcessOptionsStartUsingDefaultMappingEnum, 0)
+	for _, v := range mappingProcessOptionsStartUsingDefaultMappingEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetProcessOptionsStartUsingDefaultMappingEnumStringValues Enumerates the set of values in String for ProcessOptionsStartUsingDefaultMappingEnum
+func GetProcessOptionsStartUsingDefaultMappingEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingProcessOptionsStartUsingDefaultMappingEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingProcessOptionsStartUsingDefaultMappingEnum(val string) (ProcessOptionsStartUsingDefaultMappingEnum, bool) {
+	enum, ok := mappingProcessOptionsStartUsingDefaultMappingEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

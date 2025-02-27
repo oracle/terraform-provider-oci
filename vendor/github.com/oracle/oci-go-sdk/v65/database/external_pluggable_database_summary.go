@@ -191,6 +191,7 @@ const (
 	ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEdition                   ExternalPluggableDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance    ExternalPluggableDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance ExternalPluggableDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper          ExternalPluggableDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingExternalPluggableDatabaseSummaryDatabaseEditionEnum = map[string]ExternalPluggableDatabaseSummaryDatabaseEditionEnum{
@@ -198,6 +199,7 @@ var mappingExternalPluggableDatabaseSummaryDatabaseEditionEnum = map[string]Exte
 	"ENTERPRISE_EDITION":                     ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingExternalPluggableDatabaseSummaryDatabaseEditionEnumLowerCase = map[string]ExternalPluggableDatabaseSummaryDatabaseEditionEnum{
@@ -205,6 +207,7 @@ var mappingExternalPluggableDatabaseSummaryDatabaseEditionEnumLowerCase = map[st
 	"enterprise_edition":                     ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetExternalPluggableDatabaseSummaryDatabaseEditionEnumValues Enumerates the set of values for ExternalPluggableDatabaseSummaryDatabaseEditionEnum
@@ -223,6 +226,7 @@ func GetExternalPluggableDatabaseSummaryDatabaseEditionEnumStringValues() []stri
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

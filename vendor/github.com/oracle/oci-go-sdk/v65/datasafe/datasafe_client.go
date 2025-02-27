@@ -559,6 +559,65 @@ func (client DataSafeClient) bulkCreateSqlFirewallAllowedSqls(ctx context.Contex
 	return response, err
 }
 
+// BulkCreateUnifiedAuditPolicy Bulk create unified audit policies.
+// A default retry strategy applies to this operation BulkCreateUnifiedAuditPolicy()
+func (client DataSafeClient) BulkCreateUnifiedAuditPolicy(ctx context.Context, request BulkCreateUnifiedAuditPolicyRequest) (response BulkCreateUnifiedAuditPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.bulkCreateUnifiedAuditPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkCreateUnifiedAuditPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkCreateUnifiedAuditPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkCreateUnifiedAuditPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkCreateUnifiedAuditPolicyResponse")
+	}
+	return
+}
+
+// bulkCreateUnifiedAuditPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) bulkCreateUnifiedAuditPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAuditPolicies/actions/bulkCreate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkCreateUnifiedAuditPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicy/BulkCreateUnifiedAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "BulkCreateUnifiedAuditPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkDeleteSqlFirewallAllowedSqls Delete multiple allowed sqls from the SQL firewall policy.
 // A default retry strategy applies to this operation BulkDeleteSqlFirewallAllowedSqls()
 func (client DataSafeClient) BulkDeleteSqlFirewallAllowedSqls(ctx context.Context, request BulkDeleteSqlFirewallAllowedSqlsRequest) (response BulkDeleteSqlFirewallAllowedSqlsResponse, err error) {
@@ -731,65 +790,6 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 	return response, err
 }
 
-// CalculateTargetDatabaseGroupAuditProfileDeviations Calculates the targets with their audit profiles and retention settings that deviate from the target group setting.
-// A default retry strategy applies to this operation CalculateTargetDatabaseGroupAuditProfileDeviations()
-func (client DataSafeClient) CalculateTargetDatabaseGroupAuditProfileDeviations(ctx context.Context, request CalculateTargetDatabaseGroupAuditProfileDeviationsRequest) (response CalculateTargetDatabaseGroupAuditProfileDeviationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.calculateTargetDatabaseGroupAuditProfileDeviations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CalculateTargetDatabaseGroupAuditProfileDeviationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CalculateTargetDatabaseGroupAuditProfileDeviationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CalculateTargetDatabaseGroupAuditProfileDeviationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CalculateTargetDatabaseGroupAuditProfileDeviationsResponse")
-	}
-	return
-}
-
-// calculateTargetDatabaseGroupAuditProfileDeviations implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) calculateTargetDatabaseGroupAuditProfileDeviations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabaseGroupAuditProfiles/{targetDatabaseGroupAuditProfileId}/actions/calculateTargetDeviations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CalculateTargetDatabaseGroupAuditProfileDeviationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/CalculateTargetDatabaseGroupAuditProfileDeviations"
-		err = common.PostProcessServiceError(err, "DataSafe", "CalculateTargetDatabaseGroupAuditProfileDeviations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CancelWorkRequest Cancel the specified work request.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client DataSafeClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
@@ -801,11 +801,6 @@ func (client DataSafeClient) CancelWorkRequest(ctx context.Context, request Canc
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -960,6 +955,65 @@ func (client DataSafeClient) changeAlertPolicyCompartment(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/ChangeAlertPolicyCompartment"
 		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAlertPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeAttributeSetCompartment Moves the attribute set to the specified compartment. When provided, if-Match is checked against ETag value of the resource.
+// A default retry strategy applies to this operation ChangeAttributeSetCompartment()
+func (client DataSafeClient) ChangeAttributeSetCompartment(ctx context.Context, request ChangeAttributeSetCompartmentRequest) (response ChangeAttributeSetCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAttributeSetCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAttributeSetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAttributeSetCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAttributeSetCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAttributeSetCompartmentResponse")
+	}
+	return
+}
+
+// changeAttributeSetCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeAttributeSetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/attributeSets/{attributeSetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAttributeSetCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AttributeSet/ChangeAttributeSetCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAttributeSetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1908,6 +1962,65 @@ func (client DataSafeClient) changeSecurityPolicyCompartment(ctx context.Context
 	return response, err
 }
 
+// ChangeSecurityPolicyConfigCompartment Moves the specified security policy configuration and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeSecurityPolicyConfigCompartment()
+func (client DataSafeClient) ChangeSecurityPolicyConfigCompartment(ctx context.Context, request ChangeSecurityPolicyConfigCompartmentRequest) (response ChangeSecurityPolicyConfigCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSecurityPolicyConfigCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSecurityPolicyConfigCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSecurityPolicyConfigCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSecurityPolicyConfigCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSecurityPolicyConfigCompartmentResponse")
+	}
+	return
+}
+
+// changeSecurityPolicyConfigCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSecurityPolicyConfigCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicyConfigs/{securityPolicyConfigId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSecurityPolicyConfigCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyConfig/ChangeSecurityPolicyConfigCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSecurityPolicyConfigCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSecurityPolicyDeploymentCompartment Moves the specified security policy deployment and its dependent resources into a different compartment.
 // A default retry strategy applies to this operation ChangeSecurityPolicyDeploymentCompartment()
 func (client DataSafeClient) ChangeSecurityPolicyDeploymentCompartment(ctx context.Context, request ChangeSecurityPolicyDeploymentCompartmentRequest) (response ChangeSecurityPolicyDeploymentCompartmentResponse, err error) {
@@ -2439,65 +2552,6 @@ func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeTargetDatabaseGroupAuditProfileCompartment Moves the specified audit profile and its dependent resources into a different compartment.
-// A default retry strategy applies to this operation ChangeTargetDatabaseGroupAuditProfileCompartment()
-func (client DataSafeClient) ChangeTargetDatabaseGroupAuditProfileCompartment(ctx context.Context, request ChangeTargetDatabaseGroupAuditProfileCompartmentRequest) (response ChangeTargetDatabaseGroupAuditProfileCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeTargetDatabaseGroupAuditProfileCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeTargetDatabaseGroupAuditProfileCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeTargetDatabaseGroupAuditProfileCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeTargetDatabaseGroupAuditProfileCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeTargetDatabaseGroupAuditProfileCompartmentResponse")
-	}
-	return
-}
-
-// changeTargetDatabaseGroupAuditProfileCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) changeTargetDatabaseGroupAuditProfileCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabaseGroupAuditProfiles/{targetDatabaseGroupAuditProfileId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeTargetDatabaseGroupAuditProfileCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/ChangeTargetDatabaseGroupAuditProfileCompartment"
-		err = common.PostProcessServiceError(err, "DataSafe", "ChangeTargetDatabaseGroupAuditProfileCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeTargetDatabaseGroupCompartment Moves the target database group to the specified compartment.
 // A default retry strategy applies to this operation ChangeTargetDatabaseGroupCompartment()
 func (client DataSafeClient) ChangeTargetDatabaseGroupCompartment(ctx context.Context, request ChangeTargetDatabaseGroupCompartmentRequest) (response ChangeTargetDatabaseGroupCompartmentResponse, err error) {
@@ -2550,6 +2604,124 @@ func (client DataSafeClient) changeTargetDatabaseGroupCompartment(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroup/ChangeTargetDatabaseGroupCompartment"
 		err = common.PostProcessServiceError(err, "DataSafe", "ChangeTargetDatabaseGroupCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeUnifiedAuditPolicyCompartment Moves the specified Unified Audit policy and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeUnifiedAuditPolicyCompartment()
+func (client DataSafeClient) ChangeUnifiedAuditPolicyCompartment(ctx context.Context, request ChangeUnifiedAuditPolicyCompartmentRequest) (response ChangeUnifiedAuditPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeUnifiedAuditPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeUnifiedAuditPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeUnifiedAuditPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeUnifiedAuditPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeUnifiedAuditPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeUnifiedAuditPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeUnifiedAuditPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAuditPolicies/{unifiedAuditPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeUnifiedAuditPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicy/ChangeUnifiedAuditPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeUnifiedAuditPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeUnifiedAuditPolicyDefinitionCompartment Moves the specified unified audit policy definition and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeUnifiedAuditPolicyDefinitionCompartment()
+func (client DataSafeClient) ChangeUnifiedAuditPolicyDefinitionCompartment(ctx context.Context, request ChangeUnifiedAuditPolicyDefinitionCompartmentRequest) (response ChangeUnifiedAuditPolicyDefinitionCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeUnifiedAuditPolicyDefinitionCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeUnifiedAuditPolicyDefinitionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeUnifiedAuditPolicyDefinitionCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeUnifiedAuditPolicyDefinitionCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeUnifiedAuditPolicyDefinitionCompartmentResponse")
+	}
+	return
+}
+
+// changeUnifiedAuditPolicyDefinitionCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeUnifiedAuditPolicyDefinitionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAuditPolicyDefinitions/{unifiedAuditPolicyDefinitionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeUnifiedAuditPolicyDefinitionCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicyDefinition/ChangeUnifiedAuditPolicyDefinitionCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeUnifiedAuditPolicyDefinitionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2917,6 +3089,65 @@ func (client DataSafeClient) createAlertPolicyRule(ctx context.Context, request 
 	return response, err
 }
 
+// CreateAttributeSet Creates an attribute set.
+// A default retry strategy applies to this operation CreateAttributeSet()
+func (client DataSafeClient) CreateAttributeSet(ctx context.Context, request CreateAttributeSetRequest) (response CreateAttributeSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAttributeSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAttributeSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAttributeSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAttributeSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAttributeSetResponse")
+	}
+	return
+}
+
+// createAttributeSet implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createAttributeSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/attributeSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAttributeSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AttributeSet/CreateAttributeSet"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateAttributeSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAuditArchiveRetrieval Creates a work request to retrieve archived audit data. This asynchronous process will usually take over an hour to complete.
 // Save the id from the response of this operation. Call GetAuditArchiveRetrieval operation after an hour, passing the id to know the status of
 // this operation.
@@ -2971,6 +3202,65 @@ func (client DataSafeClient) createAuditArchiveRetrieval(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DataSafe", "CreateAuditArchiveRetrieval", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAuditProfile Create a new audit profile resource.
+// A default retry strategy applies to this operation CreateAuditProfile()
+func (client DataSafeClient) CreateAuditProfile(ctx context.Context, request CreateAuditProfileRequest) (response CreateAuditProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAuditProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAuditProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAuditProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAuditProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAuditProfileResponse")
+	}
+	return
+}
+
+// createAuditProfile implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createAuditProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/auditProfiles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAuditProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/CreateAuditProfile"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateAuditProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -3671,6 +3961,183 @@ func (client DataSafeClient) createSecurityAssessment(ctx context.Context, reque
 	return response, err
 }
 
+// CreateSecurityPolicy Creates a Data Safe security policy.
+// A default retry strategy applies to this operation CreateSecurityPolicy()
+func (client DataSafeClient) CreateSecurityPolicy(ctx context.Context, request CreateSecurityPolicyRequest) (response CreateSecurityPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSecurityPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSecurityPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSecurityPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSecurityPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSecurityPolicyResponse")
+	}
+	return
+}
+
+// createSecurityPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSecurityPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSecurityPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSecurityPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSecurityPolicyConfig Creates a new security policy configuration resource.
+// A default retry strategy applies to this operation CreateSecurityPolicyConfig()
+func (client DataSafeClient) CreateSecurityPolicyConfig(ctx context.Context, request CreateSecurityPolicyConfigRequest) (response CreateSecurityPolicyConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSecurityPolicyConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSecurityPolicyConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSecurityPolicyConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSecurityPolicyConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSecurityPolicyConfigResponse")
+	}
+	return
+}
+
+// createSecurityPolicyConfig implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSecurityPolicyConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicyConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSecurityPolicyConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyConfig/CreateSecurityPolicyConfig"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSecurityPolicyConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSecurityPolicyDeployment Creates a Data Safe security policy deployment in the Data Safe Console.
+// A default retry strategy applies to this operation CreateSecurityPolicyDeployment()
+func (client DataSafeClient) CreateSecurityPolicyDeployment(ctx context.Context, request CreateSecurityPolicyDeploymentRequest) (response CreateSecurityPolicyDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSecurityPolicyDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSecurityPolicyDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSecurityPolicyDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSecurityPolicyDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSecurityPolicyDeploymentResponse")
+	}
+	return
+}
+
+// createSecurityPolicyDeployment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSecurityPolicyDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicyDeployments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSecurityPolicyDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/CreateSecurityPolicyDeployment"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSecurityPolicyDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSensitiveColumn Creates a new sensitive column in the specified sensitive data model.
 // A default retry strategy applies to this operation CreateSensitiveColumn()
 func (client DataSafeClient) CreateSensitiveColumn(ctx context.Context, request CreateSensitiveColumnRequest) (response CreateSensitiveColumnResponse, err error) {
@@ -4208,9 +4675,9 @@ func (client DataSafeClient) createTargetDatabaseGroup(ctx context.Context, requ
 	return response, err
 }
 
-// CreateTargetDatabaseGroupAuditProfile Create a new audit profile resource.
-// A default retry strategy applies to this operation CreateTargetDatabaseGroupAuditProfile()
-func (client DataSafeClient) CreateTargetDatabaseGroupAuditProfile(ctx context.Context, request CreateTargetDatabaseGroupAuditProfileRequest) (response CreateTargetDatabaseGroupAuditProfileResponse, err error) {
+// CreateUnifiedAuditPolicy Creates the specified unified audit policy.
+// A default retry strategy applies to this operation CreateUnifiedAuditPolicy()
+func (client DataSafeClient) CreateUnifiedAuditPolicy(ctx context.Context, request CreateUnifiedAuditPolicyRequest) (response CreateUnifiedAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -4224,42 +4691,42 @@ func (client DataSafeClient) CreateTargetDatabaseGroupAuditProfile(ctx context.C
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.createTargetDatabaseGroupAuditProfile, policy)
+	ociResponse, err = common.Retry(ctx, request, client.createUnifiedAuditPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateTargetDatabaseGroupAuditProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = CreateUnifiedAuditPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = CreateTargetDatabaseGroupAuditProfileResponse{}
+				response = CreateUnifiedAuditPolicyResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(CreateTargetDatabaseGroupAuditProfileResponse); ok {
+	if convertedResponse, ok := ociResponse.(CreateUnifiedAuditPolicyResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateTargetDatabaseGroupAuditProfileResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into CreateUnifiedAuditPolicyResponse")
 	}
 	return
 }
 
-// createTargetDatabaseGroupAuditProfile implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) createTargetDatabaseGroupAuditProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// createUnifiedAuditPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createUnifiedAuditPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabaseGroupAuditProfiles", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAuditPolicies", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response CreateTargetDatabaseGroupAuditProfileResponse
+	var response CreateUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/CreateTargetDatabaseGroupAuditProfile"
-		err = common.PostProcessServiceError(err, "DataSafe", "CreateTargetDatabaseGroupAuditProfile", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicy/CreateUnifiedAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateUnifiedAuditPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -4495,6 +4962,60 @@ func (client DataSafeClient) deleteAlertPolicyRule(ctx context.Context, request 
 	return response, err
 }
 
+// DeleteAttributeSet Submits a work request to delete an attribute set.
+// A default retry strategy applies to this operation DeleteAttributeSet()
+func (client DataSafeClient) DeleteAttributeSet(ctx context.Context, request DeleteAttributeSetRequest) (response DeleteAttributeSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAttributeSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAttributeSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAttributeSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAttributeSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAttributeSetResponse")
+	}
+	return
+}
+
+// deleteAttributeSet implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteAttributeSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/attributeSets/{attributeSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAttributeSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AttributeSet/DeleteAttributeSet"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAttributeSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteAuditArchiveRetrieval To unload retrieved archive data, call the operation ListAuditArchiveRetrieval first.
 // This will return the auditArchiveRetrievalId. Then call this operation with auditArchiveRetrievalId.
 // A default retry strategy applies to this operation DeleteAuditArchiveRetrieval()
@@ -4543,6 +5064,61 @@ func (client DataSafeClient) deleteAuditArchiveRetrieval(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditArchiveRetrieval/DeleteAuditArchiveRetrieval"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAuditArchiveRetrieval", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAuditProfile Deletes the specified audit profile.
+// The audit profile delete operation is only supported for audit profiles with target type as TARGET_DATABASE_GROUP.
+// A default retry strategy applies to this operation DeleteAuditProfile()
+func (client DataSafeClient) DeleteAuditProfile(ctx context.Context, request DeleteAuditProfileRequest) (response DeleteAuditProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAuditProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAuditProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAuditProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAuditProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAuditProfileResponse")
+	}
+	return
+}
+
+// deleteAuditProfile implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteAuditProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/auditProfiles/{auditProfileId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAuditProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/DeleteAuditProfile"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAuditProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -5363,6 +5939,168 @@ func (client DataSafeClient) deleteSecurityAssessment(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteSecurityPolicy Deletes the specified security policy.
+// A default retry strategy applies to this operation DeleteSecurityPolicy()
+func (client DataSafeClient) DeleteSecurityPolicy(ctx context.Context, request DeleteSecurityPolicyRequest) (response DeleteSecurityPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSecurityPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSecurityPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSecurityPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSecurityPolicyResponse")
+	}
+	return
+}
+
+// deleteSecurityPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSecurityPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/securityPolicies/{securityPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSecurityPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicy/DeleteSecurityPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSecurityPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSecurityPolicyConfig Deletes the specified Security policy configuration.
+// A default retry strategy applies to this operation DeleteSecurityPolicyConfig()
+func (client DataSafeClient) DeleteSecurityPolicyConfig(ctx context.Context, request DeleteSecurityPolicyConfigRequest) (response DeleteSecurityPolicyConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityPolicyConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSecurityPolicyConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSecurityPolicyConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSecurityPolicyConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSecurityPolicyConfigResponse")
+	}
+	return
+}
+
+// deleteSecurityPolicyConfig implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSecurityPolicyConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/securityPolicyConfigs/{securityPolicyConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSecurityPolicyConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyConfig/DeleteSecurityPolicyConfig"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSecurityPolicyConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSecurityPolicyDeployment Deletes the specified Security policy deployment.
+// A default retry strategy applies to this operation DeleteSecurityPolicyDeployment()
+func (client DataSafeClient) DeleteSecurityPolicyDeployment(ctx context.Context, request DeleteSecurityPolicyDeploymentRequest) (response DeleteSecurityPolicyDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityPolicyDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSecurityPolicyDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSecurityPolicyDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSecurityPolicyDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSecurityPolicyDeploymentResponse")
+	}
+	return
+}
+
+// deleteSecurityPolicyDeployment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSecurityPolicyDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/securityPolicyDeployments/{securityPolicyDeploymentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSecurityPolicyDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/DeleteSecurityPolicyDeployment"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSecurityPolicyDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSensitiveColumn Deletes the specified sensitive column.
 // A default retry strategy applies to this operation DeleteSensitiveColumn()
 func (client DataSafeClient) DeleteSensitiveColumn(ctx context.Context, request DeleteSensitiveColumnRequest) (response DeleteSensitiveColumnResponse, err error) {
@@ -5957,13 +6695,9 @@ func (client DataSafeClient) deleteTargetDatabaseGroup(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteTargetDatabaseGroupAuditProfile Deletes the specified audit profile.
-// The audit profile  resource cannot be deleted if any of audit trails exists or
-// if any of audit trails have events existing in online or offline storage.
-// Ensure deleting related audit trails and events related to these trails
-// by configuring retention months for online/offline storage accordingly.
-// A default retry strategy applies to this operation DeleteTargetDatabaseGroupAuditProfile()
-func (client DataSafeClient) DeleteTargetDatabaseGroupAuditProfile(ctx context.Context, request DeleteTargetDatabaseGroupAuditProfileRequest) (response DeleteTargetDatabaseGroupAuditProfileResponse, err error) {
+// DeleteUnifiedAuditPolicy Deletes the Unified Audit policy resource.
+// A default retry strategy applies to this operation DeleteUnifiedAuditPolicy()
+func (client DataSafeClient) DeleteUnifiedAuditPolicy(ctx context.Context, request DeleteUnifiedAuditPolicyRequest) (response DeleteUnifiedAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -5972,42 +6706,96 @@ func (client DataSafeClient) DeleteTargetDatabaseGroupAuditProfile(ctx context.C
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteTargetDatabaseGroupAuditProfile, policy)
+	ociResponse, err = common.Retry(ctx, request, client.deleteUnifiedAuditPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteTargetDatabaseGroupAuditProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = DeleteUnifiedAuditPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = DeleteTargetDatabaseGroupAuditProfileResponse{}
+				response = DeleteUnifiedAuditPolicyResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(DeleteTargetDatabaseGroupAuditProfileResponse); ok {
+	if convertedResponse, ok := ociResponse.(DeleteUnifiedAuditPolicyResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteTargetDatabaseGroupAuditProfileResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteUnifiedAuditPolicyResponse")
 	}
 	return
 }
 
-// deleteTargetDatabaseGroupAuditProfile implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deleteTargetDatabaseGroupAuditProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// deleteUnifiedAuditPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteUnifiedAuditPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targetDatabaseGroupAuditProfiles/{targetDatabaseGroupAuditProfileId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/unifiedAuditPolicies/{unifiedAuditPolicyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response DeleteTargetDatabaseGroupAuditProfileResponse
+	var response DeleteUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/DeleteTargetDatabaseGroupAuditProfile"
-		err = common.PostProcessServiceError(err, "DataSafe", "DeleteTargetDatabaseGroupAuditProfile", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicy/DeleteUnifiedAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteUnifiedAuditPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteUnifiedAuditPolicyDefinition Deletes the specified Unified audit policy definition.
+// A default retry strategy applies to this operation DeleteUnifiedAuditPolicyDefinition()
+func (client DataSafeClient) DeleteUnifiedAuditPolicyDefinition(ctx context.Context, request DeleteUnifiedAuditPolicyDefinitionRequest) (response DeleteUnifiedAuditPolicyDefinitionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteUnifiedAuditPolicyDefinition, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteUnifiedAuditPolicyDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteUnifiedAuditPolicyDefinitionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteUnifiedAuditPolicyDefinitionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteUnifiedAuditPolicyDefinitionResponse")
+	}
+	return
+}
+
+// deleteUnifiedAuditPolicyDefinition implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteUnifiedAuditPolicyDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/unifiedAuditPolicyDefinitions/{unifiedAuditPolicyDefinitionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteUnifiedAuditPolicyDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicyDefinition/DeleteUnifiedAuditPolicyDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteUnifiedAuditPolicyDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -6065,6 +6853,65 @@ func (client DataSafeClient) deleteUserAssessment(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/DeleteUserAssessment"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteUserAssessment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeploySecurityPolicyDeployment Deploy the security policy to the specified target or target groups.
+// A default retry strategy applies to this operation DeploySecurityPolicyDeployment()
+func (client DataSafeClient) DeploySecurityPolicyDeployment(ctx context.Context, request DeploySecurityPolicyDeploymentRequest) (response DeploySecurityPolicyDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deploySecurityPolicyDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeploySecurityPolicyDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeploySecurityPolicyDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeploySecurityPolicyDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeploySecurityPolicyDeploymentResponse")
+	}
+	return
+}
+
+// deploySecurityPolicyDeployment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deploySecurityPolicyDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicyDeployments/{securityPolicyDeploymentId}/actions/deploy", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeploySecurityPolicyDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/DeploySecurityPolicyDeployment"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeploySecurityPolicyDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -6688,6 +7535,59 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeConfiguration/EnableDataSafeConfiguration"
 		err = common.PostProcessServiceError(err, "DataSafe", "EnableDataSafeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ExecuteResourceQuery Executes the resource query.
+// A default retry strategy applies to this operation ExecuteResourceQuery()
+func (client DataSafeClient) ExecuteResourceQuery(ctx context.Context, request ExecuteResourceQueryRequest) (response ExecuteResourceQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.executeResourceQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExecuteResourceQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExecuteResourceQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExecuteResourceQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExecuteResourceQueryResponse")
+	}
+	return
+}
+
+// executeResourceQuery implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) executeResourceQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/resourceQuery", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExecuteResourceQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ExecuteResourceQueryDetails/ExecuteResourceQuery"
+		err = common.PostProcessServiceError(err, "DataSafe", "ExecuteResourceQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -7434,6 +8334,60 @@ func (client DataSafeClient) getAlertPolicyRule(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicyRule/GetAlertPolicyRule"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetAlertPolicyRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAttributeSet Gets the details of the specified attribute set.
+// A default retry strategy applies to this operation GetAttributeSet()
+func (client DataSafeClient) GetAttributeSet(ctx context.Context, request GetAttributeSetRequest) (response GetAttributeSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAttributeSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAttributeSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAttributeSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAttributeSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAttributeSetResponse")
+	}
+	return
+}
+
+// getAttributeSet implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getAttributeSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/attributeSets/{attributeSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAttributeSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AttributeSet/GetAttributeSet"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAttributeSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -9125,6 +10079,60 @@ func (client DataSafeClient) getSecurityPolicy(ctx context.Context, request comm
 	return response, err
 }
 
+// GetSecurityPolicyConfig Gets a security policy configuration by identifier.
+// A default retry strategy applies to this operation GetSecurityPolicyConfig()
+func (client DataSafeClient) GetSecurityPolicyConfig(ctx context.Context, request GetSecurityPolicyConfigRequest) (response GetSecurityPolicyConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityPolicyConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityPolicyConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityPolicyConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityPolicyConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityPolicyConfigResponse")
+	}
+	return
+}
+
+// getSecurityPolicyConfig implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSecurityPolicyConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicyConfigs/{securityPolicyConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityPolicyConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyConfig/GetSecurityPolicyConfig"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityPolicyConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSecurityPolicyDeployment Gets a security policy deployment by identifier.
 // A default retry strategy applies to this operation GetSecurityPolicyDeployment()
 func (client DataSafeClient) GetSecurityPolicyDeployment(ctx context.Context, request GetSecurityPolicyDeploymentRequest) (response GetSecurityPolicyDeploymentResponse, err error) {
@@ -9881,60 +10889,6 @@ func (client DataSafeClient) getTargetDatabaseGroup(ctx context.Context, request
 	return response, err
 }
 
-// GetTargetDatabaseGroupAuditProfile Gets the details of audit profile resource.
-// A default retry strategy applies to this operation GetTargetDatabaseGroupAuditProfile()
-func (client DataSafeClient) GetTargetDatabaseGroupAuditProfile(ctx context.Context, request GetTargetDatabaseGroupAuditProfileRequest) (response GetTargetDatabaseGroupAuditProfileResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getTargetDatabaseGroupAuditProfile, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetTargetDatabaseGroupAuditProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetTargetDatabaseGroupAuditProfileResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetTargetDatabaseGroupAuditProfileResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetTargetDatabaseGroupAuditProfileResponse")
-	}
-	return
-}
-
-// getTargetDatabaseGroupAuditProfile implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getTargetDatabaseGroupAuditProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabaseGroupAuditProfiles/{targetDatabaseGroupAuditProfileId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetTargetDatabaseGroupAuditProfileResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/GetTargetDatabaseGroupAuditProfile"
-		err = common.PostProcessServiceError(err, "DataSafe", "GetTargetDatabaseGroupAuditProfile", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetTemplateBaselineComparison Gets the details of the comparison report for the security assessments submitted for comparison.
 // A default retry strategy applies to this operation GetTemplateBaselineComparison()
 func (client DataSafeClient) GetTemplateBaselineComparison(ctx context.Context, request GetTemplateBaselineComparisonRequest) (response GetTemplateBaselineComparisonResponse, err error) {
@@ -9982,6 +10936,114 @@ func (client DataSafeClient) getTemplateBaselineComparison(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/GetTemplateBaselineComparison"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetTemplateBaselineComparison", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetUnifiedAuditPolicy Gets a Unified Audit policy by identifier.
+// A default retry strategy applies to this operation GetUnifiedAuditPolicy()
+func (client DataSafeClient) GetUnifiedAuditPolicy(ctx context.Context, request GetUnifiedAuditPolicyRequest) (response GetUnifiedAuditPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getUnifiedAuditPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetUnifiedAuditPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetUnifiedAuditPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetUnifiedAuditPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetUnifiedAuditPolicyResponse")
+	}
+	return
+}
+
+// getUnifiedAuditPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getUnifiedAuditPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAuditPolicies/{unifiedAuditPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetUnifiedAuditPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicy/GetUnifiedAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetUnifiedAuditPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetUnifiedAuditPolicyDefinition Gets a unified audit policy definition by the specified OCID of the unified audit policy definition resource.
+// A default retry strategy applies to this operation GetUnifiedAuditPolicyDefinition()
+func (client DataSafeClient) GetUnifiedAuditPolicyDefinition(ctx context.Context, request GetUnifiedAuditPolicyDefinitionRequest) (response GetUnifiedAuditPolicyDefinitionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getUnifiedAuditPolicyDefinition, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetUnifiedAuditPolicyDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetUnifiedAuditPolicyDefinitionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetUnifiedAuditPolicyDefinitionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetUnifiedAuditPolicyDefinitionResponse")
+	}
+	return
+}
+
+// getUnifiedAuditPolicyDefinition implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getUnifiedAuditPolicyDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAuditPolicyDefinitions/{unifiedAuditPolicyDefinitionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetUnifiedAuditPolicyDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicyDefinition/GetUnifiedAuditPolicyDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetUnifiedAuditPolicyDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -10366,6 +11428,70 @@ func (client DataSafeClient) listAlerts(ctx context.Context, request common.OCIR
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertSummary/ListAlerts"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListAlerts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAttributeSets Retrieves the list of attribute sets.
+// The ListAttributeSets operation returns only the attribute sets in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requester has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListAttributeSet on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAttributeSets()
+func (client DataSafeClient) ListAttributeSets(ctx context.Context, request ListAttributeSetsRequest) (response ListAttributeSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAttributeSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAttributeSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAttributeSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAttributeSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAttributeSetsResponse")
+	}
+	return
+}
+
+// listAttributeSets implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listAttributeSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/attributeSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAttributeSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/attributeSet/ListAttributeSets"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAttributeSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -11002,7 +12128,7 @@ func (client DataSafeClient) listAvailableAuditVolumes(ctx context.Context, requ
 	return response, err
 }
 
-// ListChecks List all the security checks in the specified compartment.
+// ListChecks Lists all the security checks in the specified compartment for security assessment of type TEMPLATE.
 // A default retry strategy applies to this operation ListChecks()
 func (client DataSafeClient) ListChecks(ctx context.Context, request ListChecksRequest) (response ListChecksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11672,7 +12798,7 @@ func (client DataSafeClient) listFindingAnalytics(ctx context.Context, request c
 	return response, err
 }
 
-// ListFindings List all the findings from all the targets in the specified compartment.
+// ListFindings Lists all the findings for the specified assessment except for type TEMPLATE. If the assessment is of type TEMPLATE_BASELINE, the findings returned are the security checks with the user-defined severity from the template.
 // A default retry strategy applies to this operation ListFindings()
 func (client DataSafeClient) ListFindings(ctx context.Context, request ListFindingsRequest) (response ListFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13470,6 +14596,70 @@ func (client DataSafeClient) listSecurityPolicies(ctx context.Context, request c
 	return response, err
 }
 
+// ListSecurityPolicyConfigs Retrieves a list of all security policy configurations in Data Safe.
+// The ListSecurityPolicyConfigs operation returns only the security policy configurations in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSecurityPolicyConfigs on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListSecurityPolicyConfigs()
+func (client DataSafeClient) ListSecurityPolicyConfigs(ctx context.Context, request ListSecurityPolicyConfigsRequest) (response ListSecurityPolicyConfigsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityPolicyConfigs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityPolicyConfigsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityPolicyConfigsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityPolicyConfigsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityPolicyConfigsResponse")
+	}
+	return
+}
+
+// listSecurityPolicyConfigs implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSecurityPolicyConfigs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicyConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityPolicyConfigsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyConfigCollection/ListSecurityPolicyConfigs"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSecurityPolicyConfigs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSecurityPolicyDeployments Retrieves a list of all security policy deployments in Data Safe.
 // The ListSecurityPolicyDeployments operation returns only the security policy deployments in the specified `compartmentId`.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -14805,125 +15995,6 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 	return response, err
 }
 
-// ListTargetDatabaseGroupAuditProfileDeviations Gets a list of all targets whose audit settings deviate from the target group setting.
-// A default retry strategy applies to this operation ListTargetDatabaseGroupAuditProfileDeviations()
-func (client DataSafeClient) ListTargetDatabaseGroupAuditProfileDeviations(ctx context.Context, request ListTargetDatabaseGroupAuditProfileDeviationsRequest) (response ListTargetDatabaseGroupAuditProfileDeviationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listTargetDatabaseGroupAuditProfileDeviations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListTargetDatabaseGroupAuditProfileDeviationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListTargetDatabaseGroupAuditProfileDeviationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListTargetDatabaseGroupAuditProfileDeviationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListTargetDatabaseGroupAuditProfileDeviationsResponse")
-	}
-	return
-}
-
-// listTargetDatabaseGroupAuditProfileDeviations implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listTargetDatabaseGroupAuditProfileDeviations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabaseGroupAuditProfiles/{targetDatabaseGroupAuditProfileId}/targetDeviations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListTargetDatabaseGroupAuditProfileDeviationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/ListTargetDatabaseGroupAuditProfileDeviations"
-		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetDatabaseGroupAuditProfileDeviations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListTargetDatabaseGroupAuditProfiles Gets a list of all target group audit profiles.
-// The ListTargetDatabaseGroupAuditProfiles operation returns only the audit profiles in the specified `compartmentId`.
-// The list does not include any subcompartments of the compartmentId passed.
-// The parameter `accessLevel` specifies whether to return only those compartments for which the
-// requestor has INSPECT permissions on at least one resource directly
-// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
-// Principal doesn't have access to even one of the child compartments. This is valid only when
-// `compartmentIdInSubtree` is set to `true`.
-// The parameter `compartmentIdInSubtree` applies when you perform ListTargetDatabaseGroupAuditProfiles on the
-// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
-// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
-// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
-// A default retry strategy applies to this operation ListTargetDatabaseGroupAuditProfiles()
-func (client DataSafeClient) ListTargetDatabaseGroupAuditProfiles(ctx context.Context, request ListTargetDatabaseGroupAuditProfilesRequest) (response ListTargetDatabaseGroupAuditProfilesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listTargetDatabaseGroupAuditProfiles, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListTargetDatabaseGroupAuditProfilesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListTargetDatabaseGroupAuditProfilesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListTargetDatabaseGroupAuditProfilesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListTargetDatabaseGroupAuditProfilesResponse")
-	}
-	return
-}
-
-// listTargetDatabaseGroupAuditProfiles implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listTargetDatabaseGroupAuditProfiles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabaseGroupAuditProfiles", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListTargetDatabaseGroupAuditProfilesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/ListTargetDatabaseGroupAuditProfiles"
-		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetDatabaseGroupAuditProfiles", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListTargetDatabaseGroups Retrieves a list of target database groups according to the specified query parameters.
 // A default retry strategy applies to this operation ListTargetDatabaseGroups()
 func (client DataSafeClient) ListTargetDatabaseGroups(ctx context.Context, request ListTargetDatabaseGroupsRequest) (response ListTargetDatabaseGroupsResponse, err error) {
@@ -15032,8 +16103,68 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 	return response, err
 }
 
+// ListTargetOverrides Gets a list of all targets whose audit settings override the target group setting.
+// A default retry strategy applies to this operation ListTargetOverrides()
+func (client DataSafeClient) ListTargetOverrides(ctx context.Context, request ListTargetOverridesRequest) (response ListTargetOverridesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTargetOverrides, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTargetOverridesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTargetOverridesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTargetOverridesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTargetOverridesResponse")
+	}
+	return
+}
+
+// listTargetOverrides implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTargetOverrides(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/auditProfiles/{auditProfileId}/targetOverrides", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTargetOverridesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ListTargetOverrides"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetOverrides", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListTemplateAnalytics Gets a list of template aggregated details in the specified compartment. This provides information about the
-// overall template usage, by returning the counting number of the target databases/target groups using the templates.
+// overall template usage, by returning the count of the target databases/target groups using the templates. It also provides information
+// about the statistics for the template baseline and the comparison related. If the comparison is done, it will show if there is any drift,
+// and how many checks have drifts.
+// The dimension field - isGroup identifies if the targetId belongs to a target group or a individual target.
+// The dimension field - isCompared identifies if the comparison between the latest assessment and the template baseline assessment is done or not.
+// The dimension field - isCompliant identifies if the latest assessment is compliant with the template baseline assessment or not.
+// The dimension field - totalChecksFailed identifies how many checks in the template have drifts in the comparison.
 // When you perform the ListTemplateAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
 // parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has INSPECT
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
@@ -15085,6 +16216,199 @@ func (client DataSafeClient) listTemplateAnalytics(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/ListTemplateAnalytics"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListTemplateAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTemplateAssociationAnalytics Gets a list of template association details in the specified compartment. This provides information about the
+// overall template usage, by returning the count of the target databases/target groups using the templates.
+// If the template baseline is created for a target group which contains several targets, we will have each individual target
+// listed there as targetId field together with targetDatabaseGroupId. And if the template baseline is created for an individual target,
+// it will have targetId field only.
+// By leveraging the targetId filter, you will be able to know all the template or template baseline that this target has something to do with.
+// No matter if they are directly applied or created for this target, or they are for the target group the target belongs to.
+// When you perform the ListTemplateAssociationAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has INSPECT
+// permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+// root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
+// compartmentId, then "Not Authorized" is returned.
+// A default retry strategy applies to this operation ListTemplateAssociationAnalytics()
+func (client DataSafeClient) ListTemplateAssociationAnalytics(ctx context.Context, request ListTemplateAssociationAnalyticsRequest) (response ListTemplateAssociationAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTemplateAssociationAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTemplateAssociationAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTemplateAssociationAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTemplateAssociationAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTemplateAssociationAnalyticsResponse")
+	}
+	return
+}
+
+// listTemplateAssociationAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTemplateAssociationAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityAssessments/templateAssociationAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTemplateAssociationAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/ListTemplateAssociationAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTemplateAssociationAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListUnifiedAuditPolicies Retrieves a list of all Unified Audit policies.
+// The ListUnifiedAuditPolicies operation returns only the Unified Audit policies in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requester has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a sub-compartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListUnifiedAuditPolicies on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and sub-compartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListUnifiedAuditPolicies()
+func (client DataSafeClient) ListUnifiedAuditPolicies(ctx context.Context, request ListUnifiedAuditPoliciesRequest) (response ListUnifiedAuditPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUnifiedAuditPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUnifiedAuditPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUnifiedAuditPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUnifiedAuditPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUnifiedAuditPoliciesResponse")
+	}
+	return
+}
+
+// listUnifiedAuditPolicies implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listUnifiedAuditPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAuditPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUnifiedAuditPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicyCollection/ListUnifiedAuditPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListUnifiedAuditPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListUnifiedAuditPolicyDefinitions Retrieves a list of all unified audit policy definitions in Data Safe.
+// The ListUnifiedAuditPolicyDefinitions operation returns only the unified audit policy definitions in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requester has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListUnifiedAuditPolicyDefinitions on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListUnifiedAuditPolicyDefinitions()
+func (client DataSafeClient) ListUnifiedAuditPolicyDefinitions(ctx context.Context, request ListUnifiedAuditPolicyDefinitionsRequest) (response ListUnifiedAuditPolicyDefinitionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUnifiedAuditPolicyDefinitions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUnifiedAuditPolicyDefinitionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUnifiedAuditPolicyDefinitionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUnifiedAuditPolicyDefinitionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUnifiedAuditPolicyDefinitionsResponse")
+	}
+	return
+}
+
+// listUnifiedAuditPolicyDefinitions implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listUnifiedAuditPolicyDefinitions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAuditPolicyDefinitions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUnifiedAuditPolicyDefinitionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicyDefinitionCollection/ListUnifiedAuditPolicyDefinitions"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListUnifiedAuditPolicyDefinitions", apiReferenceLink)
 		return response, err
 	}
 
@@ -16399,6 +17723,65 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 	return response, err
 }
 
+// RefreshSecurityPolicyDeployment Retrieve all the security policies from the associated target or target group and refresh the same on Data safe.
+// A default retry strategy applies to this operation RefreshSecurityPolicyDeployment()
+func (client DataSafeClient) RefreshSecurityPolicyDeployment(ctx context.Context, request RefreshSecurityPolicyDeploymentRequest) (response RefreshSecurityPolicyDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshSecurityPolicyDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshSecurityPolicyDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshSecurityPolicyDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshSecurityPolicyDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshSecurityPolicyDeploymentResponse")
+	}
+	return
+}
+
+// refreshSecurityPolicyDeployment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) refreshSecurityPolicyDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicyDeployments/{securityPolicyDeploymentId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshSecurityPolicyDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/RefreshSecurityPolicyDeployment"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshSecurityPolicyDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshSqlCollectionLogInsights Refresh the specified SQL collection Log Insights.
 // A default retry strategy applies to this operation RefreshSqlCollectionLogInsights()
 func (client DataSafeClient) RefreshSqlCollectionLogInsights(ctx context.Context, request RefreshSqlCollectionLogInsightsRequest) (response RefreshSqlCollectionLogInsightsResponse, err error) {
@@ -17619,6 +19002,60 @@ func (client DataSafeClient) updateAlertPolicyRule(ctx context.Context, request 
 	return response, err
 }
 
+// UpdateAttributeSet Updates an attribute set.
+// A default retry strategy applies to this operation UpdateAttributeSet()
+func (client DataSafeClient) UpdateAttributeSet(ctx context.Context, request UpdateAttributeSetRequest) (response UpdateAttributeSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAttributeSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAttributeSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAttributeSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAttributeSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAttributeSetResponse")
+	}
+	return
+}
+
+// updateAttributeSet implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateAttributeSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/attributeSets/{attributeSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAttributeSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AttributeSet/UpdateAttributeSet"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAttributeSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAuditArchiveRetrieval Updates the audit archive retrieval.
 // A default retry strategy applies to this operation UpdateAuditArchiveRetrieval()
 func (client DataSafeClient) UpdateAuditArchiveRetrieval(ctx context.Context, request UpdateAuditArchiveRetrievalRequest) (response UpdateAuditArchiveRetrievalResponse, err error) {
@@ -18617,6 +20054,60 @@ func (client DataSafeClient) updateSecurityPolicy(ctx context.Context, request c
 	return response, err
 }
 
+// UpdateSecurityPolicyConfig Updates the security policy configuration.
+// A default retry strategy applies to this operation UpdateSecurityPolicyConfig()
+func (client DataSafeClient) UpdateSecurityPolicyConfig(ctx context.Context, request UpdateSecurityPolicyConfigRequest) (response UpdateSecurityPolicyConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSecurityPolicyConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSecurityPolicyConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSecurityPolicyConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSecurityPolicyConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSecurityPolicyConfigResponse")
+	}
+	return
+}
+
+// updateSecurityPolicyConfig implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSecurityPolicyConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/securityPolicyConfigs/{securityPolicyConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSecurityPolicyConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyConfig/UpdateSecurityPolicyConfig"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSecurityPolicyConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateSecurityPolicyDeployment Updates the security policy deployment.
 // A default retry strategy applies to this operation UpdateSecurityPolicyDeployment()
 func (client DataSafeClient) UpdateSecurityPolicyDeployment(ctx context.Context, request UpdateSecurityPolicyDeploymentRequest) (response UpdateSecurityPolicyDeploymentResponse, err error) {
@@ -19222,9 +20713,9 @@ func (client DataSafeClient) updateTargetDatabaseGroup(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateTargetDatabaseGroupAuditProfile Updates one or more attributes of the specified target group audit profile.
-// A default retry strategy applies to this operation UpdateTargetDatabaseGroupAuditProfile()
-func (client DataSafeClient) UpdateTargetDatabaseGroupAuditProfile(ctx context.Context, request UpdateTargetDatabaseGroupAuditProfileRequest) (response UpdateTargetDatabaseGroupAuditProfileResponse, err error) {
+// UpdateUnifiedAuditPolicy Updates the Unified Audit policy.
+// A default retry strategy applies to this operation UpdateUnifiedAuditPolicy()
+func (client DataSafeClient) UpdateUnifiedAuditPolicy(ctx context.Context, request UpdateUnifiedAuditPolicyRequest) (response UpdateUnifiedAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -19233,42 +20724,96 @@ func (client DataSafeClient) UpdateTargetDatabaseGroupAuditProfile(ctx context.C
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.updateTargetDatabaseGroupAuditProfile, policy)
+	ociResponse, err = common.Retry(ctx, request, client.updateUnifiedAuditPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateTargetDatabaseGroupAuditProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = UpdateUnifiedAuditPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = UpdateTargetDatabaseGroupAuditProfileResponse{}
+				response = UpdateUnifiedAuditPolicyResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(UpdateTargetDatabaseGroupAuditProfileResponse); ok {
+	if convertedResponse, ok := ociResponse.(UpdateUnifiedAuditPolicyResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateTargetDatabaseGroupAuditProfileResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateUnifiedAuditPolicyResponse")
 	}
 	return
 }
 
-// updateTargetDatabaseGroupAuditProfile implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateTargetDatabaseGroupAuditProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// updateUnifiedAuditPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateUnifiedAuditPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targetDatabaseGroupAuditProfiles/{targetDatabaseGroupAuditProfileId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/unifiedAuditPolicies/{unifiedAuditPolicyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response UpdateTargetDatabaseGroupAuditProfileResponse
+	var response UpdateUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseGroupAuditProfile/UpdateTargetDatabaseGroupAuditProfile"
-		err = common.PostProcessServiceError(err, "DataSafe", "UpdateTargetDatabaseGroupAuditProfile", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicy/UpdateUnifiedAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateUnifiedAuditPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateUnifiedAuditPolicyDefinition Updates the unified audit policy definition.
+// A default retry strategy applies to this operation UpdateUnifiedAuditPolicyDefinition()
+func (client DataSafeClient) UpdateUnifiedAuditPolicyDefinition(ctx context.Context, request UpdateUnifiedAuditPolicyDefinitionRequest) (response UpdateUnifiedAuditPolicyDefinitionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateUnifiedAuditPolicyDefinition, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateUnifiedAuditPolicyDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateUnifiedAuditPolicyDefinitionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateUnifiedAuditPolicyDefinitionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateUnifiedAuditPolicyDefinitionResponse")
+	}
+	return
+}
+
+// updateUnifiedAuditPolicyDefinition implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateUnifiedAuditPolicyDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/unifiedAuditPolicyDefinitions/{unifiedAuditPolicyDefinitionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateUnifiedAuditPolicyDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UnifiedAuditPolicyDefinition/UpdateUnifiedAuditPolicyDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateUnifiedAuditPolicyDefinition", apiReferenceLink)
 		return response, err
 	}
 

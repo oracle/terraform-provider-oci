@@ -29,6 +29,9 @@ type ListFindingsRequest struct {
 	// A filter to return only findings that match the specified risk level(s). Use containsSeverity parameter if need to filter by multiple risk levels.
 	ContainsSeverity []ListFindingsContainsSeverityEnum `contributesTo:"query" name:"containsSeverity" omitEmpty:"true" collectionFormat:"multi"`
 
+	// The category of the finding.
+	Category *string `mandatory:"false" contributesTo:"query" name:"category"`
+
 	// A filter to return only the findings that match the specified lifecycle states.
 	LifecycleState ListFindingsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

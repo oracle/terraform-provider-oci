@@ -370,6 +370,7 @@ const (
 	BackupSummaryDatabaseEditionEnterpriseEdition                   BackupSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	BackupSummaryDatabaseEditionEnterpriseEditionHighPerformance    BackupSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	BackupSummaryDatabaseEditionEnterpriseEditionExtremePerformance BackupSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	BackupSummaryDatabaseEditionEnterpriseEditionDeveloper          BackupSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingBackupSummaryDatabaseEditionEnum = map[string]BackupSummaryDatabaseEditionEnum{
@@ -377,6 +378,7 @@ var mappingBackupSummaryDatabaseEditionEnum = map[string]BackupSummaryDatabaseEd
 	"ENTERPRISE_EDITION":                     BackupSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    BackupSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": BackupSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           BackupSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingBackupSummaryDatabaseEditionEnumLowerCase = map[string]BackupSummaryDatabaseEditionEnum{
@@ -384,6 +386,7 @@ var mappingBackupSummaryDatabaseEditionEnumLowerCase = map[string]BackupSummaryD
 	"enterprise_edition":                     BackupSummaryDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    BackupSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": BackupSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           BackupSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetBackupSummaryDatabaseEditionEnumValues Enumerates the set of values for BackupSummaryDatabaseEditionEnum
@@ -402,6 +405,7 @@ func GetBackupSummaryDatabaseEditionEnumStringValues() []string {
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

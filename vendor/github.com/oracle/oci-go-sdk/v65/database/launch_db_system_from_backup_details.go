@@ -366,6 +366,7 @@ const (
 	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEdition                   LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionHighPerformance    LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionExtremePerformance LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionDeveloper          LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingLaunchDbSystemFromBackupDetailsDatabaseEditionEnum = map[string]LaunchDbSystemFromBackupDetailsDatabaseEditionEnum{
@@ -373,6 +374,7 @@ var mappingLaunchDbSystemFromBackupDetailsDatabaseEditionEnum = map[string]Launc
 	"ENTERPRISE_EDITION":                     LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingLaunchDbSystemFromBackupDetailsDatabaseEditionEnumLowerCase = map[string]LaunchDbSystemFromBackupDetailsDatabaseEditionEnum{
@@ -380,6 +382,7 @@ var mappingLaunchDbSystemFromBackupDetailsDatabaseEditionEnumLowerCase = map[str
 	"enterprise_edition":                     LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDatabaseEditionEnum
@@ -398,6 +401,7 @@ func GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumStringValues() []strin
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

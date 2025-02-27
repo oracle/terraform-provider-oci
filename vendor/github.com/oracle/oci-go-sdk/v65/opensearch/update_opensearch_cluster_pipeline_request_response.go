@@ -20,9 +20,6 @@ type UpdateOpensearchClusterPipelineRequest struct {
 	// Update the opensearch cluster pipeline details.
 	UpdateOpensearchClusterPipelineDetails `contributesTo:"body"`
 
-	// A flag SET to true when we only want to dry run Create or Update Pipeline.
-	IsDryRun *bool `mandatory:"false" contributesTo:"query" name:"isDryRun"`
-
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.
@@ -32,6 +29,10 @@ type UpdateOpensearchClusterPipelineRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not modify the
+	// configuration item details and is used only to perform validation on the submitted data.
+	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

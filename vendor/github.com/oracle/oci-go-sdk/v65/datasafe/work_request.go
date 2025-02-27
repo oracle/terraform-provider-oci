@@ -116,6 +116,9 @@ const (
 	WorkRequestOperationTypeCompareWithBaselineSecurityAssessment     WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
 	WorkRequestOperationTypeDeleteSecurityAssessment                  WorkRequestOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
 	WorkRequestOperationTypeUpdateSecurityAssessment                  WorkRequestOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypePatchChecks                               WorkRequestOperationTypeEnum = "PATCH_CHECKS"
+	WorkRequestOperationTypeUpdateFindingSeverity                     WorkRequestOperationTypeEnum = "UPDATE_FINDING_SEVERITY"
+	WorkRequestOperationTypeApplyTemplate                             WorkRequestOperationTypeEnum = "APPLY_TEMPLATE"
 	WorkRequestOperationTypeUpdateFindingRisk                         WorkRequestOperationTypeEnum = "UPDATE_FINDING_RISK"
 	WorkRequestOperationTypeChangeSecurityAssessmentCompartment       WorkRequestOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
 	WorkRequestOperationTypeSetSecurityAssessmentBaseline             WorkRequestOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
@@ -204,11 +207,19 @@ const (
 	WorkRequestOperationTypeUpdateDifference                          WorkRequestOperationTypeEnum = "UPDATE_DIFFERENCE"
 	WorkRequestOperationTypePatchDifference                           WorkRequestOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestOperationTypeApplyDifference                           WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
+	WorkRequestOperationTypeDeleteMaskingReport                       WorkRequestOperationTypeEnum = "DELETE_MASKING_REPORT"
 	WorkRequestOperationTypeMaskPolicyGenerateHealthReport            WorkRequestOperationTypeEnum = "MASK_POLICY_GENERATE_HEALTH_REPORT"
 	WorkRequestOperationTypeMaskPolicyDeleteHealthReport              WorkRequestOperationTypeEnum = "MASK_POLICY_DELETE_HEALTH_REPORT"
 	WorkRequestOperationTypeCreateSensitiveTypesExport                WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPES_EXPORT"
 	WorkRequestOperationTypeUpdateSensitiveTypesExport                WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPES_EXPORT"
 	WorkRequestOperationTypeBulkCreateSensitiveTypes                  WorkRequestOperationTypeEnum = "BULK_CREATE_SENSITIVE_TYPES"
+	WorkRequestOperationTypeCreateSensitiveTypeGroup                  WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPE_GROUP"
+	WorkRequestOperationTypeUpdateSensitiveTypeGroup                  WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPE_GROUP"
+	WorkRequestOperationTypeDeleteSensitiveTypeGroup                  WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_TYPE_GROUP"
+	WorkRequestOperationTypeDeleteSensitiveType                       WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_TYPE"
+	WorkRequestOperationTypePatchGroupedSensitiveTypes                WorkRequestOperationTypeEnum = "PATCH_GROUPED_SENSITIVE_TYPES"
+	WorkRequestOperationTypeCreateRelation                            WorkRequestOperationTypeEnum = "CREATE_RELATION"
+	WorkRequestOperationTypeDeleteRelation                            WorkRequestOperationTypeEnum = "DELETE_RELATION"
 	WorkRequestOperationTypeAbortMasking                              WorkRequestOperationTypeEnum = "ABORT_MASKING"
 	WorkRequestOperationTypeCreateSecurityPolicyReport                WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
 	WorkRequestOperationTypeRefreshSecurityPolicyCache                WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
@@ -224,6 +235,7 @@ const (
 	WorkRequestOperationTypeUpdateAlertPolicyRule                     WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY_RULE"
 	WorkRequestOperationTypeDeleteAlertPolicyRule                     WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
 	WorkRequestOperationTypeChangeAlertPolicyCompartment              WorkRequestOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeUpdateTargetGroupAuditProfile             WorkRequestOperationTypeEnum = "UPDATE_TARGET_GROUP_AUDIT_PROFILE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -270,6 +282,9 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT":     WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
 	"DELETE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeDeleteSecurityAssessment,
 	"UPDATE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeUpdateSecurityAssessment,
+	"PATCH_CHECKS":                                  WorkRequestOperationTypePatchChecks,
+	"UPDATE_FINDING_SEVERITY":                       WorkRequestOperationTypeUpdateFindingSeverity,
+	"APPLY_TEMPLATE":                                WorkRequestOperationTypeApplyTemplate,
 	"UPDATE_FINDING_RISK":                           WorkRequestOperationTypeUpdateFindingRisk,
 	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
 	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
@@ -358,11 +373,19 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_DIFFERENCE":                             WorkRequestOperationTypeUpdateDifference,
 	"PATCH_DIFFERENCE":                              WorkRequestOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestOperationTypeApplyDifference,
+	"DELETE_MASKING_REPORT":                         WorkRequestOperationTypeDeleteMaskingReport,
 	"MASK_POLICY_GENERATE_HEALTH_REPORT":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
 	"MASK_POLICY_DELETE_HEALTH_REPORT":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
 	"CREATE_SENSITIVE_TYPES_EXPORT":                 WorkRequestOperationTypeCreateSensitiveTypesExport,
 	"UPDATE_SENSITIVE_TYPES_EXPORT":                 WorkRequestOperationTypeUpdateSensitiveTypesExport,
 	"BULK_CREATE_SENSITIVE_TYPES":                   WorkRequestOperationTypeBulkCreateSensitiveTypes,
+	"CREATE_SENSITIVE_TYPE_GROUP":                   WorkRequestOperationTypeCreateSensitiveTypeGroup,
+	"UPDATE_SENSITIVE_TYPE_GROUP":                   WorkRequestOperationTypeUpdateSensitiveTypeGroup,
+	"DELETE_SENSITIVE_TYPE_GROUP":                   WorkRequestOperationTypeDeleteSensitiveTypeGroup,
+	"DELETE_SENSITIVE_TYPE":                         WorkRequestOperationTypeDeleteSensitiveType,
+	"PATCH_GROUPED_SENSITIVE_TYPES":                 WorkRequestOperationTypePatchGroupedSensitiveTypes,
+	"CREATE_RELATION":                               WorkRequestOperationTypeCreateRelation,
+	"DELETE_RELATION":                               WorkRequestOperationTypeDeleteRelation,
 	"ABORT_MASKING":                                 WorkRequestOperationTypeAbortMasking,
 	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
@@ -378,6 +401,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeUpdateAlertPolicyRule,
 	"DELETE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
 	"CHANGE_ALERT_POLICY_COMPARTMENT":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
+	"UPDATE_TARGET_GROUP_AUDIT_PROFILE":             WorkRequestOperationTypeUpdateTargetGroupAuditProfile,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -424,6 +448,9 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"compare_with_baseline_security_assessment":     WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
 	"delete_security_assessment":                    WorkRequestOperationTypeDeleteSecurityAssessment,
 	"update_security_assessment":                    WorkRequestOperationTypeUpdateSecurityAssessment,
+	"patch_checks":                                  WorkRequestOperationTypePatchChecks,
+	"update_finding_severity":                       WorkRequestOperationTypeUpdateFindingSeverity,
+	"apply_template":                                WorkRequestOperationTypeApplyTemplate,
 	"update_finding_risk":                           WorkRequestOperationTypeUpdateFindingRisk,
 	"change_security_assessment_compartment":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
 	"set_security_assessment_baseline":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
@@ -512,11 +539,19 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_difference":                             WorkRequestOperationTypeUpdateDifference,
 	"patch_difference":                              WorkRequestOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestOperationTypeApplyDifference,
+	"delete_masking_report":                         WorkRequestOperationTypeDeleteMaskingReport,
 	"mask_policy_generate_health_report":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
 	"mask_policy_delete_health_report":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
 	"create_sensitive_types_export":                 WorkRequestOperationTypeCreateSensitiveTypesExport,
 	"update_sensitive_types_export":                 WorkRequestOperationTypeUpdateSensitiveTypesExport,
 	"bulk_create_sensitive_types":                   WorkRequestOperationTypeBulkCreateSensitiveTypes,
+	"create_sensitive_type_group":                   WorkRequestOperationTypeCreateSensitiveTypeGroup,
+	"update_sensitive_type_group":                   WorkRequestOperationTypeUpdateSensitiveTypeGroup,
+	"delete_sensitive_type_group":                   WorkRequestOperationTypeDeleteSensitiveTypeGroup,
+	"delete_sensitive_type":                         WorkRequestOperationTypeDeleteSensitiveType,
+	"patch_grouped_sensitive_types":                 WorkRequestOperationTypePatchGroupedSensitiveTypes,
+	"create_relation":                               WorkRequestOperationTypeCreateRelation,
+	"delete_relation":                               WorkRequestOperationTypeDeleteRelation,
 	"abort_masking":                                 WorkRequestOperationTypeAbortMasking,
 	"create_security_policy_report":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"refresh_security_policy_cache":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
@@ -532,6 +567,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_alert_policy_rule":                      WorkRequestOperationTypeUpdateAlertPolicyRule,
 	"delete_alert_policy_rule":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
 	"change_alert_policy_compartment":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
+	"update_target_group_audit_profile":             WorkRequestOperationTypeUpdateTargetGroupAuditProfile,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -589,6 +625,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT",
 		"DELETE_SECURITY_ASSESSMENT",
 		"UPDATE_SECURITY_ASSESSMENT",
+		"PATCH_CHECKS",
+		"UPDATE_FINDING_SEVERITY",
+		"APPLY_TEMPLATE",
 		"UPDATE_FINDING_RISK",
 		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
 		"SET_SECURITY_ASSESSMENT_BASELINE",
@@ -677,11 +716,19 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_DIFFERENCE",
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
+		"DELETE_MASKING_REPORT",
 		"MASK_POLICY_GENERATE_HEALTH_REPORT",
 		"MASK_POLICY_DELETE_HEALTH_REPORT",
 		"CREATE_SENSITIVE_TYPES_EXPORT",
 		"UPDATE_SENSITIVE_TYPES_EXPORT",
 		"BULK_CREATE_SENSITIVE_TYPES",
+		"CREATE_SENSITIVE_TYPE_GROUP",
+		"UPDATE_SENSITIVE_TYPE_GROUP",
+		"DELETE_SENSITIVE_TYPE_GROUP",
+		"DELETE_SENSITIVE_TYPE",
+		"PATCH_GROUPED_SENSITIVE_TYPES",
+		"CREATE_RELATION",
+		"DELETE_RELATION",
 		"ABORT_MASKING",
 		"CREATE_SECURITY_POLICY_REPORT",
 		"REFRESH_SECURITY_POLICY_CACHE",
@@ -697,6 +744,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_ALERT_POLICY_RULE",
 		"DELETE_ALERT_POLICY_RULE",
 		"CHANGE_ALERT_POLICY_COMPARTMENT",
+		"UPDATE_TARGET_GROUP_AUDIT_PROFILE",
 	}
 }
 

@@ -17,9 +17,6 @@ type CreateOpensearchClusterPipelineRequest struct {
 	// Details for the new OpensearchCluster Pipeline.
 	CreateOpensearchClusterPipelineDetails `contributesTo:"body"`
 
-	// A flag SET to true when we only want to dry run Create or Update Pipeline.
-	IsDryRun *bool `mandatory:"false" contributesTo:"query" name:"isDryRun"`
-
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
@@ -29,6 +26,10 @@ type CreateOpensearchClusterPipelineRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not modify the
+	// configuration item details and is used only to perform validation on the submitted data.
+	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

@@ -29,8 +29,9 @@ type PatchHistorySummary struct {
 
 	// The type of current patch history.
 	// DP - Data Plane patch(This history type is internal available only)
-	// ODH - Oracle Distribution of Hadoop patch
-	// OS - Operating System patch
+	// ODH - Oracle Distribution of Hadoop update
+	// OS - Operating System update
+	// BDS - Big Data Service update
 	PatchType PatchHistorySummaryPatchTypeEnum `mandatory:"true" json:"patchType"`
 }
 
@@ -110,18 +111,21 @@ const (
 	PatchHistorySummaryPatchTypeDp  PatchHistorySummaryPatchTypeEnum = "DP"
 	PatchHistorySummaryPatchTypeOdh PatchHistorySummaryPatchTypeEnum = "ODH"
 	PatchHistorySummaryPatchTypeOs  PatchHistorySummaryPatchTypeEnum = "OS"
+	PatchHistorySummaryPatchTypeBds PatchHistorySummaryPatchTypeEnum = "BDS"
 )
 
 var mappingPatchHistorySummaryPatchTypeEnum = map[string]PatchHistorySummaryPatchTypeEnum{
 	"DP":  PatchHistorySummaryPatchTypeDp,
 	"ODH": PatchHistorySummaryPatchTypeOdh,
 	"OS":  PatchHistorySummaryPatchTypeOs,
+	"BDS": PatchHistorySummaryPatchTypeBds,
 }
 
 var mappingPatchHistorySummaryPatchTypeEnumLowerCase = map[string]PatchHistorySummaryPatchTypeEnum{
 	"dp":  PatchHistorySummaryPatchTypeDp,
 	"odh": PatchHistorySummaryPatchTypeOdh,
 	"os":  PatchHistorySummaryPatchTypeOs,
+	"bds": PatchHistorySummaryPatchTypeBds,
 }
 
 // GetPatchHistorySummaryPatchTypeEnumValues Enumerates the set of values for PatchHistorySummaryPatchTypeEnum
@@ -139,6 +143,7 @@ func GetPatchHistorySummaryPatchTypeEnumStringValues() []string {
 		"DP",
 		"ODH",
 		"OS",
+		"BDS",
 	}
 }
 

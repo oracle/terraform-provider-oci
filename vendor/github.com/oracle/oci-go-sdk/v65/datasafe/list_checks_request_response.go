@@ -29,13 +29,27 @@ type ListChecksRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListChecksSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2
-	// of the System for Cross-Domain Identity Management (SCIM) specification, which is available
-	// at RFC3339 (https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions,
-	// text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format.
-	// (Numeric and boolean values should not be quoted.)
-	// **Example:** query=(key eq 'USER.INACTIVE') and (title contains 'Owner Account')
-	ScimQuery *string `mandatory:"false" contributesTo:"query" name:"scimQuery"`
+	// The field to sort by. You can specify only one sort order(sortOrder). The default order for title is ascending.
+	SortBy ListChecksSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// A filter to return only checks of a particular risk level.
+	SuggestedSeverity ListChecksSuggestedSeverityEnum `mandatory:"false" contributesTo:"query" name:"suggestedSeverity" omitEmpty:"true"`
+
+	// A filter to return only findings that match the specified risk level(s). Use containsSeverity parameter if need to filter by multiple risk levels.
+	ContainsSeverity []ListChecksContainsSeverityEnum `contributesTo:"query" name:"containsSeverity" omitEmpty:"true" collectionFormat:"multi"`
+
+	// An optional filter to return only findings that match the specified references. Use containsReferences param if need to filter by multiple references.
+	ContainsReferences []SecurityAssessmentReferencesEnum `contributesTo:"query" name:"containsReferences" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Default is false.
+	// When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED.
+	// Setting this to ACCESSIBLE returns only those compartments for which the
+	// user has INSPECT permissions directly or indirectly (permissions can be on a
+	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
+	AccessLevel ListChecksAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
 	// Each check in security assessment has an associated key (think of key as a check's name).
 	// For a given check, the key will be the same across targets. The user can use these keys to filter the checks.
@@ -79,6 +93,27 @@ func (request ListChecksRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListChecksSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListChecksSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListChecksSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListChecksSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListChecksSuggestedSeverityEnum(string(request.SuggestedSeverity)); !ok && request.SuggestedSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SuggestedSeverity: %s. Supported values are: %s.", request.SuggestedSeverity, strings.Join(GetListChecksSuggestedSeverityEnumStringValues(), ",")))
+	}
+	for _, val := range request.ContainsSeverity {
+		if _, ok := GetMappingListChecksContainsSeverityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsSeverity: %s. Supported values are: %s.", val, strings.Join(GetListChecksContainsSeverityEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ContainsReferences {
+		if _, ok := GetMappingSecurityAssessmentReferencesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsReferences: %s. Supported values are: %s.", val, strings.Join(GetSecurityAssessmentReferencesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := GetMappingListChecksAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListChecksAccessLevelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -155,5 +190,213 @@ func GetListChecksSortOrderEnumStringValues() []string {
 // GetMappingListChecksSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListChecksSortOrderEnum(val string) (ListChecksSortOrderEnum, bool) {
 	enum, ok := mappingListChecksSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListChecksSortByEnum Enum with underlying type: string
+type ListChecksSortByEnum string
+
+// Set of constants representing the allowable values for ListChecksSortByEnum
+const (
+	ListChecksSortByTitle    ListChecksSortByEnum = "title"
+	ListChecksSortByCategory ListChecksSortByEnum = "category"
+)
+
+var mappingListChecksSortByEnum = map[string]ListChecksSortByEnum{
+	"title":    ListChecksSortByTitle,
+	"category": ListChecksSortByCategory,
+}
+
+var mappingListChecksSortByEnumLowerCase = map[string]ListChecksSortByEnum{
+	"title":    ListChecksSortByTitle,
+	"category": ListChecksSortByCategory,
+}
+
+// GetListChecksSortByEnumValues Enumerates the set of values for ListChecksSortByEnum
+func GetListChecksSortByEnumValues() []ListChecksSortByEnum {
+	values := make([]ListChecksSortByEnum, 0)
+	for _, v := range mappingListChecksSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListChecksSortByEnumStringValues Enumerates the set of values in String for ListChecksSortByEnum
+func GetListChecksSortByEnumStringValues() []string {
+	return []string{
+		"title",
+		"category",
+	}
+}
+
+// GetMappingListChecksSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListChecksSortByEnum(val string) (ListChecksSortByEnum, bool) {
+	enum, ok := mappingListChecksSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListChecksSuggestedSeverityEnum Enum with underlying type: string
+type ListChecksSuggestedSeverityEnum string
+
+// Set of constants representing the allowable values for ListChecksSuggestedSeverityEnum
+const (
+	ListChecksSuggestedSeverityHigh     ListChecksSuggestedSeverityEnum = "HIGH"
+	ListChecksSuggestedSeverityMedium   ListChecksSuggestedSeverityEnum = "MEDIUM"
+	ListChecksSuggestedSeverityLow      ListChecksSuggestedSeverityEnum = "LOW"
+	ListChecksSuggestedSeverityEvaluate ListChecksSuggestedSeverityEnum = "EVALUATE"
+	ListChecksSuggestedSeverityAdvisory ListChecksSuggestedSeverityEnum = "ADVISORY"
+	ListChecksSuggestedSeverityPass     ListChecksSuggestedSeverityEnum = "PASS"
+	ListChecksSuggestedSeverityDeferred ListChecksSuggestedSeverityEnum = "DEFERRED"
+)
+
+var mappingListChecksSuggestedSeverityEnum = map[string]ListChecksSuggestedSeverityEnum{
+	"HIGH":     ListChecksSuggestedSeverityHigh,
+	"MEDIUM":   ListChecksSuggestedSeverityMedium,
+	"LOW":      ListChecksSuggestedSeverityLow,
+	"EVALUATE": ListChecksSuggestedSeverityEvaluate,
+	"ADVISORY": ListChecksSuggestedSeverityAdvisory,
+	"PASS":     ListChecksSuggestedSeverityPass,
+	"DEFERRED": ListChecksSuggestedSeverityDeferred,
+}
+
+var mappingListChecksSuggestedSeverityEnumLowerCase = map[string]ListChecksSuggestedSeverityEnum{
+	"high":     ListChecksSuggestedSeverityHigh,
+	"medium":   ListChecksSuggestedSeverityMedium,
+	"low":      ListChecksSuggestedSeverityLow,
+	"evaluate": ListChecksSuggestedSeverityEvaluate,
+	"advisory": ListChecksSuggestedSeverityAdvisory,
+	"pass":     ListChecksSuggestedSeverityPass,
+	"deferred": ListChecksSuggestedSeverityDeferred,
+}
+
+// GetListChecksSuggestedSeverityEnumValues Enumerates the set of values for ListChecksSuggestedSeverityEnum
+func GetListChecksSuggestedSeverityEnumValues() []ListChecksSuggestedSeverityEnum {
+	values := make([]ListChecksSuggestedSeverityEnum, 0)
+	for _, v := range mappingListChecksSuggestedSeverityEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListChecksSuggestedSeverityEnumStringValues Enumerates the set of values in String for ListChecksSuggestedSeverityEnum
+func GetListChecksSuggestedSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+		"DEFERRED",
+	}
+}
+
+// GetMappingListChecksSuggestedSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListChecksSuggestedSeverityEnum(val string) (ListChecksSuggestedSeverityEnum, bool) {
+	enum, ok := mappingListChecksSuggestedSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListChecksContainsSeverityEnum Enum with underlying type: string
+type ListChecksContainsSeverityEnum string
+
+// Set of constants representing the allowable values for ListChecksContainsSeverityEnum
+const (
+	ListChecksContainsSeverityHigh     ListChecksContainsSeverityEnum = "HIGH"
+	ListChecksContainsSeverityMedium   ListChecksContainsSeverityEnum = "MEDIUM"
+	ListChecksContainsSeverityLow      ListChecksContainsSeverityEnum = "LOW"
+	ListChecksContainsSeverityEvaluate ListChecksContainsSeverityEnum = "EVALUATE"
+	ListChecksContainsSeverityAdvisory ListChecksContainsSeverityEnum = "ADVISORY"
+	ListChecksContainsSeverityPass     ListChecksContainsSeverityEnum = "PASS"
+	ListChecksContainsSeverityDeferred ListChecksContainsSeverityEnum = "DEFERRED"
+)
+
+var mappingListChecksContainsSeverityEnum = map[string]ListChecksContainsSeverityEnum{
+	"HIGH":     ListChecksContainsSeverityHigh,
+	"MEDIUM":   ListChecksContainsSeverityMedium,
+	"LOW":      ListChecksContainsSeverityLow,
+	"EVALUATE": ListChecksContainsSeverityEvaluate,
+	"ADVISORY": ListChecksContainsSeverityAdvisory,
+	"PASS":     ListChecksContainsSeverityPass,
+	"DEFERRED": ListChecksContainsSeverityDeferred,
+}
+
+var mappingListChecksContainsSeverityEnumLowerCase = map[string]ListChecksContainsSeverityEnum{
+	"high":     ListChecksContainsSeverityHigh,
+	"medium":   ListChecksContainsSeverityMedium,
+	"low":      ListChecksContainsSeverityLow,
+	"evaluate": ListChecksContainsSeverityEvaluate,
+	"advisory": ListChecksContainsSeverityAdvisory,
+	"pass":     ListChecksContainsSeverityPass,
+	"deferred": ListChecksContainsSeverityDeferred,
+}
+
+// GetListChecksContainsSeverityEnumValues Enumerates the set of values for ListChecksContainsSeverityEnum
+func GetListChecksContainsSeverityEnumValues() []ListChecksContainsSeverityEnum {
+	values := make([]ListChecksContainsSeverityEnum, 0)
+	for _, v := range mappingListChecksContainsSeverityEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListChecksContainsSeverityEnumStringValues Enumerates the set of values in String for ListChecksContainsSeverityEnum
+func GetListChecksContainsSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+		"DEFERRED",
+	}
+}
+
+// GetMappingListChecksContainsSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListChecksContainsSeverityEnum(val string) (ListChecksContainsSeverityEnum, bool) {
+	enum, ok := mappingListChecksContainsSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListChecksAccessLevelEnum Enum with underlying type: string
+type ListChecksAccessLevelEnum string
+
+// Set of constants representing the allowable values for ListChecksAccessLevelEnum
+const (
+	ListChecksAccessLevelRestricted ListChecksAccessLevelEnum = "RESTRICTED"
+	ListChecksAccessLevelAccessible ListChecksAccessLevelEnum = "ACCESSIBLE"
+)
+
+var mappingListChecksAccessLevelEnum = map[string]ListChecksAccessLevelEnum{
+	"RESTRICTED": ListChecksAccessLevelRestricted,
+	"ACCESSIBLE": ListChecksAccessLevelAccessible,
+}
+
+var mappingListChecksAccessLevelEnumLowerCase = map[string]ListChecksAccessLevelEnum{
+	"restricted": ListChecksAccessLevelRestricted,
+	"accessible": ListChecksAccessLevelAccessible,
+}
+
+// GetListChecksAccessLevelEnumValues Enumerates the set of values for ListChecksAccessLevelEnum
+func GetListChecksAccessLevelEnumValues() []ListChecksAccessLevelEnum {
+	values := make([]ListChecksAccessLevelEnum, 0)
+	for _, v := range mappingListChecksAccessLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListChecksAccessLevelEnumStringValues Enumerates the set of values in String for ListChecksAccessLevelEnum
+func GetListChecksAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
+}
+
+// GetMappingListChecksAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListChecksAccessLevelEnum(val string) (ListChecksAccessLevelEnum, bool) {
+	enum, ok := mappingListChecksAccessLevelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

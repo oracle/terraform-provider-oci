@@ -31,7 +31,7 @@ type OnPremConnector struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the on-premises connector.
-	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState OnPremConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The description of the on-premises connector.
 	Description *string `mandatory:"false" json:"description"`
@@ -67,8 +67,8 @@ func (m OnPremConnector) String() string {
 // Not recommended for calling this function directly
 func (m OnPremConnector) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingOnPremConnectorLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOnPremConnectorLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

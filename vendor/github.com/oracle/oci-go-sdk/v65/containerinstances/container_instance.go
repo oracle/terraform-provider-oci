@@ -56,6 +56,9 @@ type ContainerInstance struct {
 	// The container restart policy is applied for all containers in container instance.
 	ContainerRestartPolicy ContainerInstanceContainerRestartPolicyEnum `mandatory:"true" json:"containerRestartPolicy"`
 
+	// TenantId id of the container instance.
+	TenantId *string `mandatory:"false" json:"tenantId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -127,6 +130,7 @@ func (m ContainerInstance) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		TenantId                         *string                                     `json:"tenantId"`
 		FreeformTags                     map[string]string                           `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{}           `json:"definedTags"`
 		SystemTags                       map[string]map[string]interface{}           `json:"systemTags"`
@@ -160,6 +164,8 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.TenantId = model.TenantId
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

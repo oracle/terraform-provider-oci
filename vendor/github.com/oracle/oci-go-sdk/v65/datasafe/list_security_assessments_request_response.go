@@ -39,7 +39,7 @@ type ListSecurityAssessmentsRequest struct {
 	// A filter to return only security assessments of type save schedule.
 	IsScheduleAssessment *bool `mandatory:"false" contributesTo:"query" name:"isScheduleAssessment"`
 
-	// A filter to return only security asessments that were created by either user or system.
+	// A filter to return only security assessments that were created by either user or system.
 	TriggeredBy ListSecurityAssessmentsTriggeredByEnum `mandatory:"false" contributesTo:"query" name:"triggeredBy" omitEmpty:"true"`
 
 	// A filter to return only items related to a specific target OCID.
@@ -84,6 +84,9 @@ type ListSecurityAssessmentsRequest struct {
 
 	// A filter to return the target database group that matches the specified OCID.
 	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
+	// The OCID of the security assessment of type TEMPLATE.
+	TemplateAssessmentId *string `mandatory:"false" contributesTo:"query" name:"templateAssessmentId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

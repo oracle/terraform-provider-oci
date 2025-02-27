@@ -26,6 +26,9 @@ type InstallOsPatchDetails struct {
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
 	PatchingConfigs PatchingConfigs `mandatory:"false" json:"patchingConfigs"`
+
+	// Perform dry run for the patch and stop.
+	IsDryRun *bool `mandatory:"false" json:"isDryRun"`
 }
 
 func (m InstallOsPatchDetails) String() string {
@@ -48,6 +51,7 @@ func (m InstallOsPatchDetails) ValidateEnumValue() (bool, error) {
 func (m *InstallOsPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		PatchingConfigs      patchingconfigs `json:"patchingConfigs"`
+		IsDryRun             *bool           `json:"isDryRun"`
 		OsPatchVersion       *string         `json:"osPatchVersion"`
 		ClusterAdminPassword *string         `json:"clusterAdminPassword"`
 	}{}
@@ -66,6 +70,8 @@ func (m *InstallOsPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PatchingConfigs = nil
 	}
+
+	m.IsDryRun = model.IsDryRun
 
 	m.OsPatchVersion = model.OsPatchVersion
 

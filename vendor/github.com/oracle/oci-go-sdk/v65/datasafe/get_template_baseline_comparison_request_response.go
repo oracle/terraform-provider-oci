@@ -20,6 +20,15 @@ type GetTemplateBaselineComparisonRequest struct {
 	// The OCID of the security assessment baseline.
 	ComparisonSecurityAssessmentId *string `mandatory:"true" contributesTo:"path" name:"comparisonSecurityAssessmentId"`
 
+	// A filter to return only items related to a specific target OCID.
+	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
+
+	// The category of the finding.
+	Category *string `mandatory:"false" contributesTo:"query" name:"category"`
+
+	// The unique key that identifies the finding. It is a string and unique within a security assessment.
+	FindingKey *string `mandatory:"false" contributesTo:"query" name:"findingKey"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

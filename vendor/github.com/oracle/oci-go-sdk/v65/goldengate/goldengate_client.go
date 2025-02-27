@@ -854,6 +854,65 @@ func (client GoldenGateClient) collectDeploymentDiagnostic(ctx context.Context, 
 	return response, err
 }
 
+// CollectPipelineDiagnostic Collects diagnostics for the pipeline
+// A default retry strategy applies to this operation CollectPipelineDiagnostic()
+func (client GoldenGateClient) CollectPipelineDiagnostic(ctx context.Context, request CollectPipelineDiagnosticRequest) (response CollectPipelineDiagnosticResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.collectPipelineDiagnostic, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CollectPipelineDiagnosticResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CollectPipelineDiagnosticResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CollectPipelineDiagnosticResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CollectPipelineDiagnosticResponse")
+	}
+	return
+}
+
+// collectPipelineDiagnostic implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) collectPipelineDiagnostic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pipelines/{pipelineId}/actions/collectDiagnostics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CollectPipelineDiagnosticResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Pipeline/CollectPipelineDiagnostic"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CollectPipelineDiagnostic", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CopyDeploymentBackup Creates a copy of a Deployment Backup.
 // A default retry strategy applies to this operation CopyDeploymentBackup()
 func (client GoldenGateClient) CopyDeploymentBackup(ctx context.Context, request CopyDeploymentBackupRequest) (response CopyDeploymentBackupResponse, err error) {
@@ -3186,7 +3245,7 @@ func (client GoldenGateClient) listPipelineInitializationSteps(ctx context.Conte
 	return response, err
 }
 
-// ListPipelineRunningProcesses Retrieves a Pipeline's running replication process's status like extracts/replicats.
+// ListPipelineRunningProcesses Retrieves a Pipeline's running replication process's status like Capture/Apply.
 // A default retry strategy applies to this operation ListPipelineRunningProcesses()
 func (client GoldenGateClient) ListPipelineRunningProcesses(ctx context.Context, request ListPipelineRunningProcessesRequest) (response ListPipelineRunningProcessesResponse, err error) {
 	var ociResponse common.OCIResponse

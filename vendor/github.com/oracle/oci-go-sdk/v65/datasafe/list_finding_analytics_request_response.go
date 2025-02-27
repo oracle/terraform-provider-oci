@@ -60,6 +60,12 @@ type ListFindingAnalyticsRequest struct {
 	// An optional filter to return only findings that match the specified target ids. Use this parameter to filter by multiple target ids.
 	TargetIds []string `contributesTo:"query" name:"targetIds" collectionFormat:"multi"`
 
+	// The category of the finding.
+	Category *string `mandatory:"false" contributesTo:"query" name:"category"`
+
+	// A filter to return only findings that match the specified risk level(s). Use containsSeverity parameter if need to filter by multiple risk levels.
+	ContainsSeverity []ListFindingAnalyticsContainsSeverityEnum `contributesTo:"query" name:"containsSeverity" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -111,6 +117,12 @@ func (request ListFindingAnalyticsRequest) ValidateEnumValue() (bool, error) {
 	for _, val := range request.ContainsReferences {
 		if _, ok := GetMappingSecurityAssessmentReferencesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsReferences: %s. Supported values are: %s.", val, strings.Join(GetSecurityAssessmentReferencesEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ContainsSeverity {
+		if _, ok := GetMappingListFindingAnalyticsContainsSeverityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsSeverity: %s. Supported values are: %s.", val, strings.Join(GetListFindingAnalyticsContainsSeverityEnumStringValues(), ",")))
 		}
 	}
 
@@ -199,16 +211,19 @@ type ListFindingAnalyticsGroupByEnum string
 const (
 	ListFindingAnalyticsGroupByFindingkeyandtopfindingstatus ListFindingAnalyticsGroupByEnum = "findingKeyAndTopFindingStatus"
 	ListFindingAnalyticsGroupByFindingkeyandseverity         ListFindingAnalyticsGroupByEnum = "findingKeyAndSeverity"
+	ListFindingAnalyticsGroupBySeverity                      ListFindingAnalyticsGroupByEnum = "severity"
 )
 
 var mappingListFindingAnalyticsGroupByEnum = map[string]ListFindingAnalyticsGroupByEnum{
 	"findingKeyAndTopFindingStatus": ListFindingAnalyticsGroupByFindingkeyandtopfindingstatus,
 	"findingKeyAndSeverity":         ListFindingAnalyticsGroupByFindingkeyandseverity,
+	"severity":                      ListFindingAnalyticsGroupBySeverity,
 }
 
 var mappingListFindingAnalyticsGroupByEnumLowerCase = map[string]ListFindingAnalyticsGroupByEnum{
 	"findingkeyandtopfindingstatus": ListFindingAnalyticsGroupByFindingkeyandtopfindingstatus,
 	"findingkeyandseverity":         ListFindingAnalyticsGroupByFindingkeyandseverity,
+	"severity":                      ListFindingAnalyticsGroupBySeverity,
 }
 
 // GetListFindingAnalyticsGroupByEnumValues Enumerates the set of values for ListFindingAnalyticsGroupByEnum
@@ -225,6 +240,7 @@ func GetListFindingAnalyticsGroupByEnumStringValues() []string {
 	return []string{
 		"findingKeyAndTopFindingStatus",
 		"findingKeyAndSeverity",
+		"severity",
 	}
 }
 
@@ -293,5 +309,67 @@ func GetListFindingAnalyticsSeverityEnumStringValues() []string {
 // GetMappingListFindingAnalyticsSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListFindingAnalyticsSeverityEnum(val string) (ListFindingAnalyticsSeverityEnum, bool) {
 	enum, ok := mappingListFindingAnalyticsSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListFindingAnalyticsContainsSeverityEnum Enum with underlying type: string
+type ListFindingAnalyticsContainsSeverityEnum string
+
+// Set of constants representing the allowable values for ListFindingAnalyticsContainsSeverityEnum
+const (
+	ListFindingAnalyticsContainsSeverityHigh     ListFindingAnalyticsContainsSeverityEnum = "HIGH"
+	ListFindingAnalyticsContainsSeverityMedium   ListFindingAnalyticsContainsSeverityEnum = "MEDIUM"
+	ListFindingAnalyticsContainsSeverityLow      ListFindingAnalyticsContainsSeverityEnum = "LOW"
+	ListFindingAnalyticsContainsSeverityEvaluate ListFindingAnalyticsContainsSeverityEnum = "EVALUATE"
+	ListFindingAnalyticsContainsSeverityAdvisory ListFindingAnalyticsContainsSeverityEnum = "ADVISORY"
+	ListFindingAnalyticsContainsSeverityPass     ListFindingAnalyticsContainsSeverityEnum = "PASS"
+	ListFindingAnalyticsContainsSeverityDeferred ListFindingAnalyticsContainsSeverityEnum = "DEFERRED"
+)
+
+var mappingListFindingAnalyticsContainsSeverityEnum = map[string]ListFindingAnalyticsContainsSeverityEnum{
+	"HIGH":     ListFindingAnalyticsContainsSeverityHigh,
+	"MEDIUM":   ListFindingAnalyticsContainsSeverityMedium,
+	"LOW":      ListFindingAnalyticsContainsSeverityLow,
+	"EVALUATE": ListFindingAnalyticsContainsSeverityEvaluate,
+	"ADVISORY": ListFindingAnalyticsContainsSeverityAdvisory,
+	"PASS":     ListFindingAnalyticsContainsSeverityPass,
+	"DEFERRED": ListFindingAnalyticsContainsSeverityDeferred,
+}
+
+var mappingListFindingAnalyticsContainsSeverityEnumLowerCase = map[string]ListFindingAnalyticsContainsSeverityEnum{
+	"high":     ListFindingAnalyticsContainsSeverityHigh,
+	"medium":   ListFindingAnalyticsContainsSeverityMedium,
+	"low":      ListFindingAnalyticsContainsSeverityLow,
+	"evaluate": ListFindingAnalyticsContainsSeverityEvaluate,
+	"advisory": ListFindingAnalyticsContainsSeverityAdvisory,
+	"pass":     ListFindingAnalyticsContainsSeverityPass,
+	"deferred": ListFindingAnalyticsContainsSeverityDeferred,
+}
+
+// GetListFindingAnalyticsContainsSeverityEnumValues Enumerates the set of values for ListFindingAnalyticsContainsSeverityEnum
+func GetListFindingAnalyticsContainsSeverityEnumValues() []ListFindingAnalyticsContainsSeverityEnum {
+	values := make([]ListFindingAnalyticsContainsSeverityEnum, 0)
+	for _, v := range mappingListFindingAnalyticsContainsSeverityEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListFindingAnalyticsContainsSeverityEnumStringValues Enumerates the set of values in String for ListFindingAnalyticsContainsSeverityEnum
+func GetListFindingAnalyticsContainsSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+		"DEFERRED",
+	}
+}
+
+// GetMappingListFindingAnalyticsContainsSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListFindingAnalyticsContainsSeverityEnum(val string) (ListFindingAnalyticsContainsSeverityEnum, bool) {
+	enum, ok := mappingListFindingAnalyticsContainsSeverityEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

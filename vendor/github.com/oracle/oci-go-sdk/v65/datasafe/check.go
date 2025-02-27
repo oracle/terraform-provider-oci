@@ -22,7 +22,7 @@ type Check struct {
 	Key *string `mandatory:"true" json:"key"`
 
 	// The short title for the check.
-	Title *string `mandatory:"true" json:"title"`
+	Title *string `mandatory:"false" json:"title"`
 
 	// The explanation of the issue in this check. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 	Remarks *string `mandatory:"false" json:"remarks"`
@@ -37,7 +37,7 @@ type Check struct {
 	Oneline *string `mandatory:"false" json:"oneline"`
 
 	// The severity of the check as suggested by Data Safe security assessment. This will be the default severity in the template baseline security assessment.
-	SuggestedSeverity *string `mandatory:"false" json:"suggestedSeverity"`
+	SuggestedSeverity CheckSuggestedSeverityEnum `mandatory:"false" json:"suggestedSeverity,omitempty"`
 }
 
 func (m Check) String() string {
@@ -50,8 +50,73 @@ func (m Check) String() string {
 func (m Check) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCheckSuggestedSeverityEnum(string(m.SuggestedSeverity)); !ok && m.SuggestedSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SuggestedSeverity: %s. Supported values are: %s.", m.SuggestedSeverity, strings.Join(GetCheckSuggestedSeverityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CheckSuggestedSeverityEnum Enum with underlying type: string
+type CheckSuggestedSeverityEnum string
+
+// Set of constants representing the allowable values for CheckSuggestedSeverityEnum
+const (
+	CheckSuggestedSeverityHigh     CheckSuggestedSeverityEnum = "HIGH"
+	CheckSuggestedSeverityMedium   CheckSuggestedSeverityEnum = "MEDIUM"
+	CheckSuggestedSeverityLow      CheckSuggestedSeverityEnum = "LOW"
+	CheckSuggestedSeverityEvaluate CheckSuggestedSeverityEnum = "EVALUATE"
+	CheckSuggestedSeverityAdvisory CheckSuggestedSeverityEnum = "ADVISORY"
+	CheckSuggestedSeverityPass     CheckSuggestedSeverityEnum = "PASS"
+	CheckSuggestedSeverityDeferred CheckSuggestedSeverityEnum = "DEFERRED"
+)
+
+var mappingCheckSuggestedSeverityEnum = map[string]CheckSuggestedSeverityEnum{
+	"HIGH":     CheckSuggestedSeverityHigh,
+	"MEDIUM":   CheckSuggestedSeverityMedium,
+	"LOW":      CheckSuggestedSeverityLow,
+	"EVALUATE": CheckSuggestedSeverityEvaluate,
+	"ADVISORY": CheckSuggestedSeverityAdvisory,
+	"PASS":     CheckSuggestedSeverityPass,
+	"DEFERRED": CheckSuggestedSeverityDeferred,
+}
+
+var mappingCheckSuggestedSeverityEnumLowerCase = map[string]CheckSuggestedSeverityEnum{
+	"high":     CheckSuggestedSeverityHigh,
+	"medium":   CheckSuggestedSeverityMedium,
+	"low":      CheckSuggestedSeverityLow,
+	"evaluate": CheckSuggestedSeverityEvaluate,
+	"advisory": CheckSuggestedSeverityAdvisory,
+	"pass":     CheckSuggestedSeverityPass,
+	"deferred": CheckSuggestedSeverityDeferred,
+}
+
+// GetCheckSuggestedSeverityEnumValues Enumerates the set of values for CheckSuggestedSeverityEnum
+func GetCheckSuggestedSeverityEnumValues() []CheckSuggestedSeverityEnum {
+	values := make([]CheckSuggestedSeverityEnum, 0)
+	for _, v := range mappingCheckSuggestedSeverityEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCheckSuggestedSeverityEnumStringValues Enumerates the set of values in String for CheckSuggestedSeverityEnum
+func GetCheckSuggestedSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+		"DEFERRED",
+	}
+}
+
+// GetMappingCheckSuggestedSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCheckSuggestedSeverityEnum(val string) (CheckSuggestedSeverityEnum, bool) {
+	enum, ok := mappingCheckSuggestedSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

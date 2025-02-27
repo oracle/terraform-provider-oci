@@ -183,6 +183,7 @@ const (
 	ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEdition                   ExternalNonContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance    ExternalNonContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance ExternalNonContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper          ExternalNonContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnum = map[string]ExternalNonContainerDatabaseSummaryDatabaseEditionEnum{
@@ -190,6 +191,7 @@ var mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnum = map[string]E
 	"ENTERPRISE_EDITION":                     ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnumLowerCase = map[string]ExternalNonContainerDatabaseSummaryDatabaseEditionEnum{
@@ -197,6 +199,7 @@ var mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnumLowerCase = map
 	"enterprise_edition":                     ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumValues Enumerates the set of values for ExternalNonContainerDatabaseSummaryDatabaseEditionEnum
@@ -215,6 +218,7 @@ func GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumStringValues() []s
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

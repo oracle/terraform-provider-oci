@@ -41,6 +41,9 @@ type ListTargetAlertPolicyAssociationsRequest struct {
 	// The field to sort by. Only one sort parameter may be provided.
 	SortBy ListTargetAlertPolicyAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

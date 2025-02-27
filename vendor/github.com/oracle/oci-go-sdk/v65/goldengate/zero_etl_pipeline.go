@@ -49,6 +49,8 @@ type ZeroEtlPipeline struct {
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
+	PipelineDiagnosticData *PipelineDiagnosticData `mandatory:"false" json:"pipelineDiagnosticData"`
+
 	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
 	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -133,6 +135,11 @@ func (m ZeroEtlPipeline) GetSourceConnectionDetails() *SourcePipelineConnectionD
 // GetTargetConnectionDetails returns TargetConnectionDetails
 func (m ZeroEtlPipeline) GetTargetConnectionDetails() *TargetPipelineConnectionDetails {
 	return m.TargetConnectionDetails
+}
+
+// GetPipelineDiagnosticData returns PipelineDiagnosticData
+func (m ZeroEtlPipeline) GetPipelineDiagnosticData() *PipelineDiagnosticData {
+	return m.PipelineDiagnosticData
 }
 
 // GetFreeformTags returns FreeformTags

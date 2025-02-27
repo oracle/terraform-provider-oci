@@ -25,6 +25,9 @@ type FindingAnalyticsDimensions struct {
 	// The category of the top finding.
 	TopFindingCategory *string `mandatory:"false" json:"topFindingCategory"`
 
+	// The category of the top finding.
+	Category *string `mandatory:"false" json:"category"`
+
 	// The short title of the finding.
 	Title *string `mandatory:"false" json:"title"`
 

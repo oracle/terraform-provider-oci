@@ -27,7 +27,7 @@ type SecurityPolicyDeploymentSummary struct {
 	// The display name of the security policy deployment.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the target where the security policy is deployed.
+	// The OCID of the target/target group where the security policy is deployed.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// The OCID of the security policy corresponding to the security policy deployment.
@@ -41,6 +41,12 @@ type SecurityPolicyDeploymentSummary struct {
 
 	// The description of the security policy deployment.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Indicates whether the security policy deployment is for a target database or a target database group.
+	TargetType SecurityPolicyDeploymentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
+	// Indicates whether the security policy will be un-deployed when a target is removed from a target group.
+	AutomaticUndeploy SecurityPolicyDeploymentAutomaticUndeployEnum `mandatory:"false" json:"automaticUndeploy,omitempty"`
 
 	// The last date and time the security policy deployment was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -74,6 +80,12 @@ func (m SecurityPolicyDeploymentSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityPolicyDeploymentLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecurityPolicyDeploymentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetSecurityPolicyDeploymentTargetTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSecurityPolicyDeploymentAutomaticUndeployEnum(string(m.AutomaticUndeploy)); !ok && m.AutomaticUndeploy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutomaticUndeploy: %s. Supported values are: %s.", m.AutomaticUndeploy, strings.Join(GetSecurityPolicyDeploymentAutomaticUndeployEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

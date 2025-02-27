@@ -17,9 +17,6 @@ type RemoveSecurityAssessmentTemplateRequest struct {
 	// The OCID of the security assessment.
 	SecurityAssessmentId *string `mandatory:"true" contributesTo:"path" name:"securityAssessmentId"`
 
-	// Details of template that need to be removed from specified security assessment.
-	SecurityAssessmentTemplateDetails `contributesTo:"body"`
-
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the if-match parameter to the value of the
 	// etag from a previous GET or POST response for that resource.

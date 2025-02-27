@@ -18,27 +18,33 @@ type SecurityPolicyEntryStateDeploymentStatusEnum string
 
 // Set of constants representing the allowable values for SecurityPolicyEntryStateDeploymentStatusEnum
 const (
-	SecurityPolicyEntryStateDeploymentStatusCreated      SecurityPolicyEntryStateDeploymentStatusEnum = "CREATED"
-	SecurityPolicyEntryStateDeploymentStatusModified     SecurityPolicyEntryStateDeploymentStatusEnum = "MODIFIED"
-	SecurityPolicyEntryStateDeploymentStatusConflict     SecurityPolicyEntryStateDeploymentStatusEnum = "CONFLICT"
-	SecurityPolicyEntryStateDeploymentStatusUnauthorized SecurityPolicyEntryStateDeploymentStatusEnum = "UNAUTHORIZED"
-	SecurityPolicyEntryStateDeploymentStatusDeleted      SecurityPolicyEntryStateDeploymentStatusEnum = "DELETED"
+	SecurityPolicyEntryStateDeploymentStatusCreated           SecurityPolicyEntryStateDeploymentStatusEnum = "CREATED"
+	SecurityPolicyEntryStateDeploymentStatusModified          SecurityPolicyEntryStateDeploymentStatusEnum = "MODIFIED"
+	SecurityPolicyEntryStateDeploymentStatusConflict          SecurityPolicyEntryStateDeploymentStatusEnum = "CONFLICT"
+	SecurityPolicyEntryStateDeploymentStatusConnectivityIssue SecurityPolicyEntryStateDeploymentStatusEnum = "CONNECTIVITY_ISSUE"
+	SecurityPolicyEntryStateDeploymentStatusUnsupportedSyntax SecurityPolicyEntryStateDeploymentStatusEnum = "UNSUPPORTED_SYNTAX"
+	SecurityPolicyEntryStateDeploymentStatusUnauthorized      SecurityPolicyEntryStateDeploymentStatusEnum = "UNAUTHORIZED"
+	SecurityPolicyEntryStateDeploymentStatusDeleted           SecurityPolicyEntryStateDeploymentStatusEnum = "DELETED"
 )
 
 var mappingSecurityPolicyEntryStateDeploymentStatusEnum = map[string]SecurityPolicyEntryStateDeploymentStatusEnum{
-	"CREATED":      SecurityPolicyEntryStateDeploymentStatusCreated,
-	"MODIFIED":     SecurityPolicyEntryStateDeploymentStatusModified,
-	"CONFLICT":     SecurityPolicyEntryStateDeploymentStatusConflict,
-	"UNAUTHORIZED": SecurityPolicyEntryStateDeploymentStatusUnauthorized,
-	"DELETED":      SecurityPolicyEntryStateDeploymentStatusDeleted,
+	"CREATED":            SecurityPolicyEntryStateDeploymentStatusCreated,
+	"MODIFIED":           SecurityPolicyEntryStateDeploymentStatusModified,
+	"CONFLICT":           SecurityPolicyEntryStateDeploymentStatusConflict,
+	"CONNECTIVITY_ISSUE": SecurityPolicyEntryStateDeploymentStatusConnectivityIssue,
+	"UNSUPPORTED_SYNTAX": SecurityPolicyEntryStateDeploymentStatusUnsupportedSyntax,
+	"UNAUTHORIZED":       SecurityPolicyEntryStateDeploymentStatusUnauthorized,
+	"DELETED":            SecurityPolicyEntryStateDeploymentStatusDeleted,
 }
 
 var mappingSecurityPolicyEntryStateDeploymentStatusEnumLowerCase = map[string]SecurityPolicyEntryStateDeploymentStatusEnum{
-	"created":      SecurityPolicyEntryStateDeploymentStatusCreated,
-	"modified":     SecurityPolicyEntryStateDeploymentStatusModified,
-	"conflict":     SecurityPolicyEntryStateDeploymentStatusConflict,
-	"unauthorized": SecurityPolicyEntryStateDeploymentStatusUnauthorized,
-	"deleted":      SecurityPolicyEntryStateDeploymentStatusDeleted,
+	"created":            SecurityPolicyEntryStateDeploymentStatusCreated,
+	"modified":           SecurityPolicyEntryStateDeploymentStatusModified,
+	"conflict":           SecurityPolicyEntryStateDeploymentStatusConflict,
+	"connectivity_issue": SecurityPolicyEntryStateDeploymentStatusConnectivityIssue,
+	"unsupported_syntax": SecurityPolicyEntryStateDeploymentStatusUnsupportedSyntax,
+	"unauthorized":       SecurityPolicyEntryStateDeploymentStatusUnauthorized,
+	"deleted":            SecurityPolicyEntryStateDeploymentStatusDeleted,
 }
 
 // GetSecurityPolicyEntryStateDeploymentStatusEnumValues Enumerates the set of values for SecurityPolicyEntryStateDeploymentStatusEnum
@@ -56,6 +62,8 @@ func GetSecurityPolicyEntryStateDeploymentStatusEnumStringValues() []string {
 		"CREATED",
 		"MODIFIED",
 		"CONFLICT",
+		"CONNECTIVITY_ISSUE",
+		"UNSUPPORTED_SYNTAX",
 		"UNAUTHORIZED",
 		"DELETED",
 	}

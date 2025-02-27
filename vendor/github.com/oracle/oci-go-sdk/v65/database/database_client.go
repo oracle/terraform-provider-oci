@@ -16272,7 +16272,7 @@ func (client DatabaseClient) listDbHomes(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListDbNodes Lists the database nodes in the specified DB system and compartment. A database node is a server running database software.
+// ListDbNodes Lists the database nodes in the specified DB system and compartment. In addition to the other required parameters, either '--db-system-id' or '--vm-cluster-id' also must be provided, depending on the service being accessed.
 func (client DatabaseClient) ListDbNodes(ctx context.Context, request ListDbNodesRequest) (response ListDbNodesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -72,6 +72,7 @@ const (
 	ColumnFilterOperatorCoCs  ColumnFilterOperatorEnum = "CO_CS"
 	ColumnFilterOperatorNot   ColumnFilterOperatorEnum = "NOT"
 	ColumnFilterOperatorNotIn ColumnFilterOperatorEnum = "NOT_IN"
+	ColumnFilterOperatorPr    ColumnFilterOperatorEnum = "PR"
 )
 
 var mappingColumnFilterOperatorEnum = map[string]ColumnFilterOperatorEnum{
@@ -89,6 +90,7 @@ var mappingColumnFilterOperatorEnum = map[string]ColumnFilterOperatorEnum{
 	"CO_CS":  ColumnFilterOperatorCoCs,
 	"NOT":    ColumnFilterOperatorNot,
 	"NOT_IN": ColumnFilterOperatorNotIn,
+	"PR":     ColumnFilterOperatorPr,
 }
 
 var mappingColumnFilterOperatorEnumLowerCase = map[string]ColumnFilterOperatorEnum{
@@ -106,6 +108,7 @@ var mappingColumnFilterOperatorEnumLowerCase = map[string]ColumnFilterOperatorEn
 	"co_cs":  ColumnFilterOperatorCoCs,
 	"not":    ColumnFilterOperatorNot,
 	"not_in": ColumnFilterOperatorNotIn,
+	"pr":     ColumnFilterOperatorPr,
 }
 
 // GetColumnFilterOperatorEnumValues Enumerates the set of values for ColumnFilterOperatorEnum
@@ -134,6 +137,7 @@ func GetColumnFilterOperatorEnumStringValues() []string {
 		"CO_CS",
 		"NOT",
 		"NOT_IN",
+		"PR",
 	}
 }
 

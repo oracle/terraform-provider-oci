@@ -30,14 +30,17 @@ type ListTemplateAnalyticsRequest struct {
 	// The OCID of the security assessment of type TEMPLATE.
 	TemplateAssessmentId *string `mandatory:"false" contributesTo:"query" name:"templateAssessmentId"`
 
-	// A filter to return only the target group related information if the OCID belongs to a target group.
-	IsGroup *bool `mandatory:"false" contributesTo:"query" name:"isGroup"`
-
 	// The OCID of the security assessment of type TEMPLATE_BASELINE.
 	TemplateBaselineAssessmentId *string `mandatory:"false" contributesTo:"query" name:"templateBaselineAssessmentId"`
 
-	// Attribute by which the template analytics data should be grouped.
-	GroupBy ListTemplateAnalyticsGroupByEnum `mandatory:"false" contributesTo:"query" name:"groupBy" omitEmpty:"true"`
+	// A filter to return only the target group related information if the OCID belongs to a target group.
+	IsGroup *bool `mandatory:"false" contributesTo:"query" name:"isGroup"`
+
+	// A filter to return only the statistics where the comparison between the latest assessment and the template baseline assessment is done.
+	IsCompared *bool `mandatory:"false" contributesTo:"query" name:"isCompared"`
+
+	// A filter to return only the statistics where the latest assessment is compliant with the template baseline assessment.
+	IsCompliant *bool `mandatory:"false" contributesTo:"query" name:"isCompliant"`
 
 	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
@@ -93,9 +96,6 @@ func (request ListTemplateAnalyticsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListTemplateAnalyticsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListTemplateAnalyticsAccessLevelEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingListTemplateAnalyticsGroupByEnum(string(request.GroupBy)); !ok && request.GroupBy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GroupBy: %s. Supported values are: %s.", request.GroupBy, strings.Join(GetListTemplateAnalyticsGroupByEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -108,8 +108,8 @@ type ListTemplateAnalyticsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of TemplateAnalyticCollection instances
-	TemplateAnalyticCollection `presentIn:"body"`
+	// A list of TemplateAnalyticsCollection instances
+	TemplateAnalyticsCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
@@ -171,47 +171,5 @@ func GetListTemplateAnalyticsAccessLevelEnumStringValues() []string {
 // GetMappingListTemplateAnalyticsAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListTemplateAnalyticsAccessLevelEnum(val string) (ListTemplateAnalyticsAccessLevelEnum, bool) {
 	enum, ok := mappingListTemplateAnalyticsAccessLevelEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListTemplateAnalyticsGroupByEnum Enum with underlying type: string
-type ListTemplateAnalyticsGroupByEnum string
-
-// Set of constants representing the allowable values for ListTemplateAnalyticsGroupByEnum
-const (
-	ListTemplateAnalyticsGroupByTemplateassessmentid         ListTemplateAnalyticsGroupByEnum = "templateAssessmentId"
-	ListTemplateAnalyticsGroupByTemplatebaselineassessmentid ListTemplateAnalyticsGroupByEnum = "templateBaselineAssessmentId"
-)
-
-var mappingListTemplateAnalyticsGroupByEnum = map[string]ListTemplateAnalyticsGroupByEnum{
-	"templateAssessmentId":         ListTemplateAnalyticsGroupByTemplateassessmentid,
-	"templateBaselineAssessmentId": ListTemplateAnalyticsGroupByTemplatebaselineassessmentid,
-}
-
-var mappingListTemplateAnalyticsGroupByEnumLowerCase = map[string]ListTemplateAnalyticsGroupByEnum{
-	"templateassessmentid":         ListTemplateAnalyticsGroupByTemplateassessmentid,
-	"templatebaselineassessmentid": ListTemplateAnalyticsGroupByTemplatebaselineassessmentid,
-}
-
-// GetListTemplateAnalyticsGroupByEnumValues Enumerates the set of values for ListTemplateAnalyticsGroupByEnum
-func GetListTemplateAnalyticsGroupByEnumValues() []ListTemplateAnalyticsGroupByEnum {
-	values := make([]ListTemplateAnalyticsGroupByEnum, 0)
-	for _, v := range mappingListTemplateAnalyticsGroupByEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListTemplateAnalyticsGroupByEnumStringValues Enumerates the set of values in String for ListTemplateAnalyticsGroupByEnum
-func GetListTemplateAnalyticsGroupByEnumStringValues() []string {
-	return []string{
-		"templateAssessmentId",
-		"templateBaselineAssessmentId",
-	}
-}
-
-// GetMappingListTemplateAnalyticsGroupByEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListTemplateAnalyticsGroupByEnum(val string) (ListTemplateAnalyticsGroupByEnum, bool) {
-	enum, ok := mappingListTemplateAnalyticsGroupByEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

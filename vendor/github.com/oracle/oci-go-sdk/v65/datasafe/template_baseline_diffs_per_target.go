@@ -21,6 +21,9 @@ type TemplateBaselineDiffsPerTarget struct {
 	// The OCID of the target database.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
+	// A unique identifier for the finding. This is common for the finding across targets.
+	Key *string `mandatory:"false" json:"key"`
+
 	// The short title for the finding.
 	Title *string `mandatory:"false" json:"title"`
 
