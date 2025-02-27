@@ -269,6 +269,9 @@ func init() {
 	if common.CheckForEnabledServices("desktops") {
 		tf_desktops.RegisterDatasource()
 	}
+	if common.CheckForEnabledServices("dblm") {
+		tf_dblm.RegisterDatasource()
+	}
 	if common.CheckForEnabledServices("devops") {
 		tf_devops.RegisterDatasource()
 	}

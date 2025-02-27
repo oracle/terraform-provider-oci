@@ -164,6 +164,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
+    * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
@@ -764,6 +765,10 @@ dns
 * oci\_dns\_resolver
 * oci\_dns\_resolver\_endpoint
 * oci\_dns\_view
+
+em_warehouse
+
+* oci\_em\_warehouse\_em\_warehouse
 
 email
     
