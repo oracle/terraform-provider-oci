@@ -269,6 +269,9 @@ func init() {
 	if common.CheckForEnabledServices("desktops") {
 		tf_desktops.RegisterResource()
 	}
+	if common.CheckForEnabledServices("dblm") {
+		tf_dblm.RegisterResource()
+	}
 	if common.CheckForEnabledServices("devops") {
 		tf_devops.RegisterResource()
 	}
