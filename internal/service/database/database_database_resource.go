@@ -129,13 +129,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"backup_destination_details": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -145,18 +143,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 												"id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 												"type": {
 													Type:     schema.TypeString,
 													Optional: true,
-													ForceNew: true,
 												},
 												"vpc_user": {
 													Type:     schema.TypeString,
@@ -1062,6 +1057,36 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 	return result, nil
 }
 
+func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")) {
+		tmp := dbrsPolicyId.(string)
+		result.DbrsPolicyId = &tmp
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "id")) {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "type")) {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_password")) {
+		tmp := vpcPassword.(string)
+		result.VpcPassword = &tmp
+	}
+
+	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_user")) {
+		tmp := vpcUser.(string)
+		result.VpcUser = &tmp
+	}
+
+	return result, nil
+}
+
 func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1719,9 +1744,30 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 		result.RecoveryWindowInDays = &tmp
 	}
 
-	if runImmediateFullBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")); ok {
+	if runImmediateFullBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")) {
 		tmp := runImmediateFullBackup.(bool)
 		result.RunImmediateFullBackup = &tmp
+	}
+
+	if backup_deletion_policy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")) {
+		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backup_deletion_policy.(string))
+	}
+
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToUpdateBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
 	}
 
 	return result, nil
