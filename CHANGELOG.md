@@ -5,7 +5,6 @@
 - Support for OCI Cache - Valkey Support and valkey migration
 - Support for HeatWave MySQL Service: Extra Configuration Parameters, System Tags
 - Support for BYODKIM
-- Support for VCNIP - IP Lifetime support and related feature
 - Support for X11 M | Exadata Infrastructure Support on ExaDB-C@C
 - Support for EXADB-D- X11M
 - Support for Dataflow Integration and Storage Mounts with Pipelines
