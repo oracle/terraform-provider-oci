@@ -32,6 +32,9 @@ type PipelineCustomScriptStepDetails struct {
 
 	StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"stepInfrastructureConfigurationDetails"`
 
+	// The storage mount details to mount to the instance running the pipeline step.
+	StepStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"stepStorageMountConfigurationDetailsList"`
+
 	// A flag to indicate whether the artifact has been uploaded for this step or not.
 	IsArtifactUploaded *bool `mandatory:"false" json:"isArtifactUploaded"`
 }
@@ -84,4 +87,48 @@ func (m PipelineCustomScriptStepDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *PipelineCustomScriptStepDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description                              *string                                     `json:"description"`
+		DependsOn                                []string                                    `json:"dependsOn"`
+		StepConfigurationDetails                 *PipelineStepConfigurationDetails           `json:"stepConfigurationDetails"`
+		StepInfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
+		StepStorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"stepStorageMountConfigurationDetailsList"`
+		IsArtifactUploaded                       *bool                                       `json:"isArtifactUploaded"`
+		StepName                                 *string                                     `json:"stepName"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.DependsOn = make([]string, len(model.DependsOn))
+	copy(m.DependsOn, model.DependsOn)
+	m.StepConfigurationDetails = model.StepConfigurationDetails
+
+	m.StepInfrastructureConfigurationDetails = model.StepInfrastructureConfigurationDetails
+
+	m.StepStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StepStorageMountConfigurationDetailsList))
+	for i, n := range model.StepStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StepStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StepStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
+	m.IsArtifactUploaded = model.IsArtifactUploaded
+
+	m.StepName = model.StepName
+
+	return
 }

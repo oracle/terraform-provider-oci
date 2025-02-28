@@ -24,7 +24,7 @@ type ExportSetting struct {
 	// The internal identifier of the export setting.
 	ExportSettingKey *string `mandatory:"false" json:"exportSettingKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet.
 	FleetId *string `mandatory:"false" json:"fleetId"`
 
 	// The duration of data to be exported for fleets.

@@ -21,7 +21,7 @@ data "oci_email_email_return_paths" "test_email_return_paths" {
 	compartment_id = var.compartment_id
 	id = var.email_return_path_id
 	name = var.email_return_path_name
-	parent_resource_id = oci_usage_proxy_resource.test_resource.id
+	parent_resource_id = oci_cloud_guard_resource.test_resource.id
 	state = var.email_return_path_state
 }
 ```

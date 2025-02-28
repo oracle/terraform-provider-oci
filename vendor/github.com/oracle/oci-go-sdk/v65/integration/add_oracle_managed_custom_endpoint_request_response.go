@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/AddOracleManagedCustomEndpoint.go.html to see an example of how to use AddOracleManagedCustomEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/AddOracleManagedCustomEndpoint.go.html to see an example of how to use AddOracleManagedCustomEndpointRequest.
 type AddOracleManagedCustomEndpointRequest struct {
 
 	// Details for enabling oracle managed custom endpoint.

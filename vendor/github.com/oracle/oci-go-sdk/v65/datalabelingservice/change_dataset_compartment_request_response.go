@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ChangeDatasetCompartment.go.html to see an example of how to use ChangeDatasetCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ChangeDatasetCompartment.go.html to see an example of how to use ChangeDatasetCompartmentRequest.
 type ChangeDatasetCompartmentRequest struct {
 
 	// Unique Dataset OCID

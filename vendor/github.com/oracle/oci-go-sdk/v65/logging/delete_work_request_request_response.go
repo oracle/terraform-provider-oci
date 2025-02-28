@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequestRequest.
 type DeleteWorkRequestRequest struct {
 
 	// The asynchronous request ID.

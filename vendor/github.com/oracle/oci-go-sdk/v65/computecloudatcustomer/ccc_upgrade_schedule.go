@@ -5,7 +5,7 @@
 // Compute Cloud@Customer API
 //
 // Use the Compute Cloud@Customer API to manage Compute Cloud@Customer infrastructures and upgrade schedules.
-// For more information see Compute Cloud@Customer documentation (https://docs.cloud.oracle.com/iaas/compute-cloud-at-customer/home.htm).
+// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/compute-cloud-at-customer/home.htm).
 //
 
 package computecloudatcustomer
@@ -19,7 +19,7 @@ import (
 // CccUpgradeSchedule Defines a schedule for preferred upgrade times.
 type CccUpgradeSchedule struct {
 
-	// Upgrade schedule OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Upgrade schedule OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// This cannot be changed once created.
 	Id *string `mandatory:"true" json:"id"`
 
@@ -27,7 +27,7 @@ type CccUpgradeSchedule struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the
+	// Compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the
 	// Compute Cloud@Customer upgrade schedule.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -54,7 +54,7 @@ type CccUpgradeSchedule struct {
 	Events []CccScheduleEvent `mandatory:"false" json:"events"`
 
 	// List of Compute Cloud@Customer infrastructure
-	// OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that are using this upgrade
+	// OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that are using this upgrade
 	// schedule.
 	InfrastructureIds []string `mandatory:"false" json:"infrastructureIds"`
 

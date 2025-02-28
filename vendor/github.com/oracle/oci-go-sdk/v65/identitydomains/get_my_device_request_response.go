@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyDevice.go.html to see an example of how to use GetMyDeviceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyDevice.go.html to see an example of how to use GetMyDeviceRequest.
 type GetMyDeviceRequest struct {
 
 	// ID of the resource

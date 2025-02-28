@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteInstanceConfiguration.go.html to see an example of how to use DeleteInstanceConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteInstanceConfiguration.go.html to see an example of how to use DeleteInstanceConfigurationRequest.
 type DeleteInstanceConfigurationRequest struct {
 
 	// The OCID of the instance configuration.

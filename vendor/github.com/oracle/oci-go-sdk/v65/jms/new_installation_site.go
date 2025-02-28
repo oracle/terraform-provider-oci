@@ -18,7 +18,7 @@ import (
 // NewInstallationSite The properties of a new Java installation site.
 type NewInstallationSite struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
 	// The release version of the Java Runtime.

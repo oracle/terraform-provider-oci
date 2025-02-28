@@ -77,7 +77,7 @@ func (m *createshardeddatabasedetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateShardedDatabaseDetails: %s.", m.DbDeploymentType)
+		common.Logf("Received unsupported enum value for CreateShardedDatabaseDetails: %s.", m.DbDeploymentType)
 		return *m, nil
 	}
 }

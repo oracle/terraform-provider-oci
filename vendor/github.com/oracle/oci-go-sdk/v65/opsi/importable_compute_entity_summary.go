@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -21,13 +21,13 @@ import (
 // ImportableComputeEntitySummary A compute entity that can be imported into Operations Insights.
 type ImportableComputeEntitySummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
 	GetComputeId() *string
 
-	// The Display Name (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Display) of the Compute Instance
+	// The Display Name (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Display) of the Compute Instance
 	GetComputeDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 }
 
@@ -72,7 +72,7 @@ func (m *importablecomputeentitysummary) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ImportableComputeEntitySummary: %s.", m.EntitySource)
+		common.Logf("Received unsupported enum value for ImportableComputeEntitySummary: %s.", m.EntitySource)
 		return *m, nil
 	}
 }

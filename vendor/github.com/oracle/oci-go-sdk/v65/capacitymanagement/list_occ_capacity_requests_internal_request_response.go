@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCapacityRequestsInternal.go.html to see an example of how to use ListOccCapacityRequestsInternalRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccCapacityRequestsInternal.go.html to see an example of how to use ListOccCapacityRequestsInternalRequest.
 type ListOccCapacityRequestsInternalRequest struct {
 
 	// The ocid of the compartment or tenancy in which resources are to be listed. This will also be used for authorization purposes.

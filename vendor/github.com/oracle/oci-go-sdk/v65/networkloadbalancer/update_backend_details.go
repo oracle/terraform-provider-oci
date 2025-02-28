@@ -22,7 +22,7 @@ type UpdateBackendDetails struct {
 	// proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections
 	// as a server weighted '1'.
 	// For more information about network load balancer policies, see
-	// Network Load Balancer Policies (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#Policies).
+	// Network Load Balancer Policies (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies).
 	// Example: `3`
 	Weight *int `mandatory:"false" json:"weight"`
 

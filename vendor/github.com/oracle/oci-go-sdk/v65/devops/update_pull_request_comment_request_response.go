@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdatePullRequestComment.go.html to see an example of how to use UpdatePullRequestCommentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdatePullRequestComment.go.html to see an example of how to use UpdatePullRequestCommentRequest.
 type UpdatePullRequestCommentRequest struct {
 
 	// unique PullRequest identifier

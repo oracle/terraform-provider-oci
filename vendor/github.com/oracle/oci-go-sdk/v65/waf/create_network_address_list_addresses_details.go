@@ -20,7 +20,7 @@ import (
 // CreateNetworkAddressListAddressesDetails The information about new NetworkAddressListAddresses.
 type CreateNetworkAddressListAddressesDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A list of IP address prefixes in CIDR notation.

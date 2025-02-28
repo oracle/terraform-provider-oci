@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ListMigrations.go.html to see an example of how to use ListMigrationsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ListMigrations.go.html to see an example of how to use ListMigrationsRequest.
 type ListMigrationsRequest struct {
 
 	// The ID of the compartment in which to list resources.

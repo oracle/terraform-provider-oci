@@ -64,7 +64,7 @@ func (m *inputlocation) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for InputLocation: %s.", m.LocationType)
+		common.Logf("Received unsupported enum value for InputLocation: %s.", m.LocationType)
 		return *m, nil
 	}
 }

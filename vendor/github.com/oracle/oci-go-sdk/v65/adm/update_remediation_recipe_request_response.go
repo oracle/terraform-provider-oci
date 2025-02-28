@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateRemediationRecipe.go.html to see an example of how to use UpdateRemediationRecipeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateRemediationRecipe.go.html to see an example of how to use UpdateRemediationRecipeRequest.
 type UpdateRemediationRecipeRequest struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Remediation Recipe, as a URL path parameter.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of a Remediation Recipe, as a URL path parameter.
 	RemediationRecipeId *string `mandatory:"true" contributesTo:"path" name:"remediationRecipeId"`
 
 	// The details to update a Remediation Recipe.

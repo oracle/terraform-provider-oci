@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/DeleteDataset.go.html to see an example of how to use DeleteDatasetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/DeleteDataset.go.html to see an example of how to use DeleteDatasetRequest.
 type DeleteDatasetRequest struct {
 
 	// Unique Dataset OCID

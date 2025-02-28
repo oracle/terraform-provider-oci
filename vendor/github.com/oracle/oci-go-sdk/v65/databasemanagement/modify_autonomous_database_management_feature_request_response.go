@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ModifyAutonomousDatabaseManagementFeature.go.html to see an example of how to use ModifyAutonomousDatabaseManagementFeatureRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ModifyAutonomousDatabaseManagementFeature.go.html to see an example of how to use ModifyAutonomousDatabaseManagementFeatureRequest.
 type ModifyAutonomousDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
 	// The details required to modify a Database Management feature for an Autonomous Database.

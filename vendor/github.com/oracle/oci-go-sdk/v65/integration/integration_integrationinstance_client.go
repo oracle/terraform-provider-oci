@@ -95,7 +95,7 @@ func (client *IntegrationInstanceClient) ConfigurationProvider() *common.Configu
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/AddOracleManagedCustomEndpoint.go.html to see an example of how to use AddOracleManagedCustomEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/AddOracleManagedCustomEndpoint.go.html to see an example of how to use AddOracleManagedCustomEndpoint API.
 // A default retry strategy applies to this operation AddOracleManagedCustomEndpoint()
 func (client IntegrationInstanceClient) AddOracleManagedCustomEndpoint(ctx context.Context, request AddOracleManagedCustomEndpointRequest) (response AddOracleManagedCustomEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client IntegrationInstanceClient) addOracleManagedCustomEndpoint(ctx conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceCompartment.go.html to see an example of how to use ChangeIntegrationInstanceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceCompartment.go.html to see an example of how to use ChangeIntegrationInstanceCompartment API.
 func (client IntegrationInstanceClient) ChangeIntegrationInstanceCompartment(ctx context.Context, request ChangeIntegrationInstanceCompartmentRequest) (response ChangeIntegrationInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -221,7 +221,7 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceNetworkEndpoint.go.html to see an example of how to use ChangeIntegrationInstanceNetworkEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceNetworkEndpoint.go.html to see an example of how to use ChangeIntegrationInstanceNetworkEndpoint API.
 func (client IntegrationInstanceClient) ChangeIntegrationInstanceNetworkEndpoint(ctx context.Context, request ChangeIntegrationInstanceNetworkEndpointRequest) (response ChangeIntegrationInstanceNetworkEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -284,7 +284,7 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangePrivateEndpointOutboundConnection.go.html to see an example of how to use ChangePrivateEndpointOutboundConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangePrivateEndpointOutboundConnection.go.html to see an example of how to use ChangePrivateEndpointOutboundConnection API.
 func (client IntegrationInstanceClient) ChangePrivateEndpointOutboundConnection(ctx context.Context, request ChangePrivateEndpointOutboundConnectionRequest) (response ChangePrivateEndpointOutboundConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -346,7 +346,7 @@ func (client IntegrationInstanceClient) changePrivateEndpointOutboundConnection(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/CreateIntegrationInstance.go.html to see an example of how to use CreateIntegrationInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/CreateIntegrationInstance.go.html to see an example of how to use CreateIntegrationInstance API.
 // A default retry strategy applies to this operation CreateIntegrationInstance()
 func (client IntegrationInstanceClient) CreateIntegrationInstance(ctx context.Context, request CreateIntegrationInstanceRequest) (response CreateIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -409,7 +409,7 @@ func (client IntegrationInstanceClient) createIntegrationInstance(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DeleteIntegrationInstance.go.html to see an example of how to use DeleteIntegrationInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DeleteIntegrationInstance.go.html to see an example of how to use DeleteIntegrationInstance API.
 func (client IntegrationInstanceClient) DeleteIntegrationInstance(ctx context.Context, request DeleteIntegrationInstanceRequest) (response DeleteIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -469,7 +469,7 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DisasterRecoveryFailover.go.html to see an example of how to use DisasterRecoveryFailover API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DisasterRecoveryFailover.go.html to see an example of how to use DisasterRecoveryFailover API.
 // A default retry strategy applies to this operation DisasterRecoveryFailover()
 func (client IntegrationInstanceClient) DisasterRecoveryFailover(ctx context.Context, request DisasterRecoveryFailoverRequest) (response DisasterRecoveryFailoverResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -532,7 +532,7 @@ func (client IntegrationInstanceClient) disasterRecoveryFailover(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/EnableProcessAutomation.go.html to see an example of how to use EnableProcessAutomation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/EnableProcessAutomation.go.html to see an example of how to use EnableProcessAutomation API.
 func (client IntegrationInstanceClient) EnableProcessAutomation(ctx context.Context, request EnableProcessAutomationRequest) (response EnableProcessAutomationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -594,7 +594,7 @@ func (client IntegrationInstanceClient) enableProcessAutomation(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ExtendDataRetention.go.html to see an example of how to use ExtendDataRetention API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ExtendDataRetention.go.html to see an example of how to use ExtendDataRetention API.
 // A default retry strategy applies to this operation ExtendDataRetention()
 func (client IntegrationInstanceClient) ExtendDataRetention(ctx context.Context, request ExtendDataRetentionRequest) (response ExtendDataRetentionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -657,7 +657,7 @@ func (client IntegrationInstanceClient) extendDataRetention(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/GetIntegrationInstance.go.html to see an example of how to use GetIntegrationInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/GetIntegrationInstance.go.html to see an example of how to use GetIntegrationInstance API.
 func (client IntegrationInstanceClient) GetIntegrationInstance(ctx context.Context, request GetIntegrationInstanceRequest) (response GetIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -714,7 +714,7 @@ func (client IntegrationInstanceClient) getIntegrationInstance(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client IntegrationInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -771,7 +771,7 @@ func (client IntegrationInstanceClient) getWorkRequest(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListIntegrationInstances.go.html to see an example of how to use ListIntegrationInstances API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListIntegrationInstances.go.html to see an example of how to use ListIntegrationInstances API.
 func (client IntegrationInstanceClient) ListIntegrationInstances(ctx context.Context, request ListIntegrationInstancesRequest) (response ListIntegrationInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -828,7 +828,7 @@ func (client IntegrationInstanceClient) listIntegrationInstances(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client IntegrationInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -885,7 +885,7 @@ func (client IntegrationInstanceClient) listWorkRequestErrors(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client IntegrationInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -942,7 +942,7 @@ func (client IntegrationInstanceClient) listWorkRequestLogs(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client IntegrationInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -999,7 +999,7 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/RemoveOracleManagedCustomEndpoint.go.html to see an example of how to use RemoveOracleManagedCustomEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/RemoveOracleManagedCustomEndpoint.go.html to see an example of how to use RemoveOracleManagedCustomEndpoint API.
 // A default retry strategy applies to this operation RemoveOracleManagedCustomEndpoint()
 func (client IntegrationInstanceClient) RemoveOracleManagedCustomEndpoint(ctx context.Context, request RemoveOracleManagedCustomEndpointRequest) (response RemoveOracleManagedCustomEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1062,7 +1062,7 @@ func (client IntegrationInstanceClient) removeOracleManagedCustomEndpoint(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StartIntegrationInstance.go.html to see an example of how to use StartIntegrationInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StartIntegrationInstance.go.html to see an example of how to use StartIntegrationInstance API.
 func (client IntegrationInstanceClient) StartIntegrationInstance(ctx context.Context, request StartIntegrationInstanceRequest) (response StartIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1124,7 +1124,7 @@ func (client IntegrationInstanceClient) startIntegrationInstance(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StopIntegrationInstance.go.html to see an example of how to use StopIntegrationInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StopIntegrationInstance.go.html to see an example of how to use StopIntegrationInstance API.
 func (client IntegrationInstanceClient) StopIntegrationInstance(ctx context.Context, request StopIntegrationInstanceRequest) (response StopIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1186,7 +1186,7 @@ func (client IntegrationInstanceClient) stopIntegrationInstance(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/UpdateIntegrationInstance.go.html to see an example of how to use UpdateIntegrationInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/UpdateIntegrationInstance.go.html to see an example of how to use UpdateIntegrationInstance API.
 func (client IntegrationInstanceClient) UpdateIntegrationInstance(ctx context.Context, request UpdateIntegrationInstanceRequest) (response UpdateIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

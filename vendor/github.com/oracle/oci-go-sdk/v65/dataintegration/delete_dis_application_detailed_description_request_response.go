@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDisApplicationDetailedDescription.go.html to see an example of how to use DeleteDisApplicationDetailedDescriptionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDisApplicationDetailedDescription.go.html to see an example of how to use DeleteDisApplicationDetailedDescriptionRequest.
 type DeleteDisApplicationDetailedDescriptionRequest struct {
 
 	// The workspace ID.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateUpstConfiguration.go.html to see an example of how to use ActivateUpstConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateUpstConfiguration.go.html to see an example of how to use ActivateUpstConfigurationRequest.
 type ActivateUpstConfigurationRequest struct {
 
 	// The OCID of the cluster.

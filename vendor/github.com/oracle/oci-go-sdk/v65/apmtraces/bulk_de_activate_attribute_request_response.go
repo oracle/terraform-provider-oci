@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkDeActivateAttribute.go.html to see an example of how to use BulkDeActivateAttributeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkDeActivateAttribute.go.html to see an example of how to use BulkDeActivateAttributeRequest.
 type BulkDeActivateAttributeRequest struct {
 
 	// The APM Domain ID for the intended request.

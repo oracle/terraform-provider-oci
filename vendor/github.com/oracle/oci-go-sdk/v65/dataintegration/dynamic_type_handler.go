@@ -59,7 +59,7 @@ func (m *dynamictypehandler) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DynamicTypeHandler: %s.", m.ModelType)
+		common.Logf("Received unsupported enum value for DynamicTypeHandler: %s.", m.ModelType)
 		return *m, nil
 	}
 }

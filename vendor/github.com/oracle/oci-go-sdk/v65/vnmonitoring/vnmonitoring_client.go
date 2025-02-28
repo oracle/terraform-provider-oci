@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -96,7 +96,7 @@ func (client *VnMonitoringClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ChangePathAnalyzerTestCompartment.go.html to see an example of how to use ChangePathAnalyzerTestCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ChangePathAnalyzerTestCompartment.go.html to see an example of how to use ChangePathAnalyzerTestCompartment API.
 func (client VnMonitoringClient) ChangePathAnalyzerTestCompartment(ctx context.Context, request ChangePathAnalyzerTestCompartmentRequest) (response ChangePathAnalyzerTestCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -153,7 +153,7 @@ func (client VnMonitoringClient) changePathAnalyzerTestCompartment(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/CreatePathAnalyzerTest.go.html to see an example of how to use CreatePathAnalyzerTest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/CreatePathAnalyzerTest.go.html to see an example of how to use CreatePathAnalyzerTest API.
 func (client VnMonitoringClient) CreatePathAnalyzerTest(ctx context.Context, request CreatePathAnalyzerTestRequest) (response CreatePathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -215,7 +215,7 @@ func (client VnMonitoringClient) createPathAnalyzerTest(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/DeletePathAnalyzerTest.go.html to see an example of how to use DeletePathAnalyzerTest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/DeletePathAnalyzerTest.go.html to see an example of how to use DeletePathAnalyzerTest API.
 func (client VnMonitoringClient) DeletePathAnalyzerTest(ctx context.Context, request DeletePathAnalyzerTestRequest) (response DeletePathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -268,7 +268,7 @@ func (client VnMonitoringClient) deletePathAnalyzerTest(ctx context.Context, req
 	return response, err
 }
 
-// GetPathAnalysis Use this method to initiate a Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) analysis. This method returns
+// GetPathAnalysis Use this method to initiate a Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) analysis. This method returns
 // an opc-work-request-id, and you can poll the status of the work request until it either fails or succeeds.
 // If the work request status is successful, use ListWorkRequestResults
 // with the work request ID to ask for the successful analysis results. If the work request status is failed, use
@@ -278,7 +278,7 @@ func (client VnMonitoringClient) deletePathAnalyzerTest(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetPathAnalysis.go.html to see an example of how to use GetPathAnalysis API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetPathAnalysis.go.html to see an example of how to use GetPathAnalysis API.
 func (client VnMonitoringClient) GetPathAnalysis(ctx context.Context, request GetPathAnalysisRequest) (response GetPathAnalysisResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -340,7 +340,7 @@ func (client VnMonitoringClient) getPathAnalysis(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetPathAnalyzerTest.go.html to see an example of how to use GetPathAnalyzerTest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetPathAnalyzerTest.go.html to see an example of how to use GetPathAnalyzerTest API.
 func (client VnMonitoringClient) GetPathAnalyzerTest(ctx context.Context, request GetPathAnalyzerTestRequest) (response GetPathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -397,7 +397,7 @@ func (client VnMonitoringClient) getPathAnalyzerTest(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client VnMonitoringClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -454,7 +454,7 @@ func (client VnMonitoringClient) getWorkRequest(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListPathAnalyzerTests.go.html to see an example of how to use ListPathAnalyzerTests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListPathAnalyzerTests.go.html to see an example of how to use ListPathAnalyzerTests API.
 func (client VnMonitoringClient) ListPathAnalyzerTests(ctx context.Context, request ListPathAnalyzerTestsRequest) (response ListPathAnalyzerTestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -511,7 +511,7 @@ func (client VnMonitoringClient) listPathAnalyzerTests(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client VnMonitoringClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -568,7 +568,7 @@ func (client VnMonitoringClient) listWorkRequestErrors(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client VnMonitoringClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -626,7 +626,7 @@ func (client VnMonitoringClient) listWorkRequestLogs(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestResults.go.html to see an example of how to use ListWorkRequestResults API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestResults.go.html to see an example of how to use ListWorkRequestResults API.
 func (client VnMonitoringClient) ListWorkRequestResults(ctx context.Context, request ListWorkRequestResultsRequest) (response ListWorkRequestResultsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -683,7 +683,7 @@ func (client VnMonitoringClient) listWorkRequestResults(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client VnMonitoringClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -740,7 +740,7 @@ func (client VnMonitoringClient) listWorkRequests(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/UpdatePathAnalyzerTest.go.html to see an example of how to use UpdatePathAnalyzerTest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/UpdatePathAnalyzerTest.go.html to see an example of how to use UpdatePathAnalyzerTest API.
 func (client VnMonitoringClient) UpdatePathAnalyzerTest(ctx context.Context, request UpdatePathAnalyzerTestRequest) (response UpdatePathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

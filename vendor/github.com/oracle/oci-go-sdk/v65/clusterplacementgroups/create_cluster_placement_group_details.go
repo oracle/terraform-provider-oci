@@ -30,7 +30,7 @@ type CreateClusterPlacementGroupDetails struct {
 	// The availability domain where you want to create the cluster placement group.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the cluster placement group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the cluster placement group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	PlacementInstruction *PlacementInstructionDetails `mandatory:"false" json:"placementInstruction"`

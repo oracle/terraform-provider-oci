@@ -19,7 +19,7 @@ import (
 type ErrorDetails struct {
 
 	// A short error code that defines the error, meant for programmatic parsing. See
-	// API Errors (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
+	// API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A user-friendly error message.

@@ -46,7 +46,7 @@ type UpdateAzureDataLakeStorageConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Indicates that sensitive attributes are provided via Secrets.
@@ -60,7 +60,7 @@ type UpdateAzureDataLakeStorageConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026.
 	AccountKey *string `mandatory:"false" json:"accountKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
 	// Note: When provided, 'accountKey' field must not be provided.
 	AccountKeySecretId *string `mandatory:"false" json:"accountKeySecretId"`
 
@@ -70,7 +70,7 @@ type UpdateAzureDataLakeStorageConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "sasTokenSecretId". This field will be removed after February 15 2026.
 	SasToken *string `mandatory:"false" json:"sasToken"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the sas token is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the sas token is stored.
 	// Note: When provided, 'sasToken' field must not be provided.
 	SasTokenSecretId *string `mandatory:"false" json:"sasTokenSecretId"`
 
@@ -87,7 +87,7 @@ type UpdateAzureDataLakeStorageConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "clientSecretSecretId". This field will be removed after February 15 2026.
 	ClientSecret *string `mandatory:"false" json:"clientSecret"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.
 	// Note: When provided, 'clientSecret' field must not be provided.
 	ClientSecretSecretId *string `mandatory:"false" json:"clientSecretSecretId"`
 

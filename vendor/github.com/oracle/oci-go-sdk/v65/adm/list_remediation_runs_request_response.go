@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListRemediationRuns.go.html to see an example of how to use ListRemediationRunsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListRemediationRuns.go.html to see an example of how to use ListRemediationRunsRequest.
 type ListRemediationRunsRequest struct {
 
 	// A filter to return only resources that match the specified identifier.

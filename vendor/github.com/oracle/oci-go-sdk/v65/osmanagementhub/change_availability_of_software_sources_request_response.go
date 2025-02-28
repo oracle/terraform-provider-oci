@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeAvailabilityOfSoftwareSources.go.html to see an example of how to use ChangeAvailabilityOfSoftwareSourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeAvailabilityOfSoftwareSources.go.html to see an example of how to use ChangeAvailabilityOfSoftwareSourcesRequest.
 type ChangeAvailabilityOfSoftwareSourcesRequest struct {
 
 	// Request body that contains a list of software sources whose availability needs to be updated.

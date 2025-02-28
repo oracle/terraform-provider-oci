@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/RemoveQuotaLock.go.html to see an example of how to use RemoveQuotaLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/RemoveQuotaLock.go.html to see an example of how to use RemoveQuotaLockRequest.
 type RemoveQuotaLockRequest struct {
 
 	// The OCID of the quota.

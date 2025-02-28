@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSavedQuery.go.html to see an example of how to use DeleteSavedQueryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSavedQuery.go.html to see an example of how to use DeleteSavedQueryRequest.
 type DeleteSavedQueryRequest struct {
 
 	// Saved query OCID

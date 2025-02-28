@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementCompartment.go.html to see an example of how to use GetAnnouncementCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementCompartment.go.html to see an example of how to use GetAnnouncementCompartmentRequest.
 type GetAnnouncementCompartmentRequest struct {
 
 	// The OCID of the announcement.

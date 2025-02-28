@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ResumeChannel.go.html to see an example of how to use ResumeChannelRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ResumeChannel.go.html to see an example of how to use ResumeChannelRequest.
 type ResumeChannelRequest struct {
 
-	// The Channel OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Channel OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ChannelId *string `mandatory:"true" contributesTo:"path" name:"channelId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

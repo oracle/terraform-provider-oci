@@ -15,14 +15,14 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetNamespace.go.html to see an example of how to use GetNamespaceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetNamespace.go.html to see an example of how to use GetNamespaceRequest.
 type GetNamespaceRequest struct {
 
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
-	// This is an optional field representing either the tenancy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) or the compartment
-	// OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) within the tenancy whose Object Storage namespace is to be retrieved.
+	// This is an optional field representing either the tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or the compartment
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) within the tenancy whose Object Storage namespace is to be retrieved.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccAvailabilityCatalog.go.html to see an example of how to use CreateOccAvailabilityCatalogRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccAvailabilityCatalog.go.html to see an example of how to use CreateOccAvailabilityCatalogRequest.
 type CreateOccAvailabilityCatalogRequest struct {
 
 	// The request details for creating an availability catalog.

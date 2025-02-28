@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationSubscription.go.html to see an example of how to use CreateDelegationSubscriptionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationSubscription.go.html to see an example of how to use CreateDelegationSubscriptionRequest.
 type CreateDelegationSubscriptionRequest struct {
 
 	// Details for creating Delegation Subscription in Delegation Control.
@@ -82,7 +82,7 @@ type CreateDelegationSubscriptionResponse struct {
 	// The DelegationSubscription instance
 	DelegationSubscription `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

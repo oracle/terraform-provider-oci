@@ -18,7 +18,7 @@ import (
 // ChangeReplicationScheduleCompartmentDetails Information about compartment into which the replication schedule should be moved.
 type ChangeReplicationScheduleCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the replication schedule should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the replication schedule should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

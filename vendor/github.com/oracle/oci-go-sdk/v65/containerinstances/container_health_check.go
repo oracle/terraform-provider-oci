@@ -104,12 +104,8 @@ func (m *containerhealthcheck) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := ContainerHttpHealthCheck{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "COMMAND":
-		mm := ContainerCommandHealthCheck{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ContainerHealthCheck: %s.", m.HealthCheckType)
+		common.Logf("Received unsupported enum value for ContainerHealthCheck: %s.", m.HealthCheckType)
 		return *m, nil
 	}
 }

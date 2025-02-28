@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkCreateSqlFirewallAllowedSqls.go.html to see an example of how to use BulkCreateSqlFirewallAllowedSqlsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkCreateSqlFirewallAllowedSqls.go.html to see an example of how to use BulkCreateSqlFirewallAllowedSqlsRequest.
 type BulkCreateSqlFirewallAllowedSqlsRequest struct {
 
 	// Details of the allowed sql.

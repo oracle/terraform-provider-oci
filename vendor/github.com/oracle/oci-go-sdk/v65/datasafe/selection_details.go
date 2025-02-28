@@ -59,7 +59,7 @@ func (m *selectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SelectionDetails: %s.", m.SelectionMode)
+		common.Logf("Received unsupported enum value for SelectionDetails: %s.", m.SelectionMode)
 		return *m, nil
 	}
 }

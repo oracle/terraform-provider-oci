@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteSchedulerDefinition.go.html to see an example of how to use DeleteSchedulerDefinitionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteSchedulerDefinition.go.html to see an example of how to use DeleteSchedulerDefinitionRequest.
 type DeleteSchedulerDefinitionRequest struct {
 
 	// unique SchedulerDefinition identifier

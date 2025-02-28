@@ -32,7 +32,7 @@ variable "redis_cluster_node_memory_in_gbs" {
 }
 
 variable "redis_cluster_software_version" {
-  default = "REDIS_7_0"
+  default = "VALKEY_7_2"
 }
 
 variable "redis_cluster_state" {

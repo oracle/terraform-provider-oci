@@ -16,7 +16,7 @@ import (
 )
 
 // HealthCheckerDetails The health check policy configuration.
-// For more information, see Editing Network Load Balancer Health Check Policies (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-policy.htm).
+// For more information, see Editing Network Load Balancer Health Check Policies (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-policy.htm).
 type HealthCheckerDetails struct {
 
 	// The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.

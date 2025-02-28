@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuCycle.go.html to see an example of how to use CreateFsuCycleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuCycle.go.html to see an example of how to use CreateFsuCycleRequest.
 type CreateFsuCycleRequest struct {
 
 	// Details for the new Exadata Fleet Update Maintenance Cycle.

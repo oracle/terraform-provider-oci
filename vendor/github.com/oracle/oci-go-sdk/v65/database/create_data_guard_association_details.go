@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -45,7 +45,7 @@ type CreateDataGuardAssociationDetails interface {
 	// **IMPORTANT** - The only transport type currently supported by the Database service is ASYNC.
 	GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum
 
-	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	GetDatabaseSoftwareImageId() *string
 
 	GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails
@@ -119,7 +119,7 @@ func (m *createdataguardassociationdetails) UnmarshalPolymorphicJSON(data []byte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateDataGuardAssociationDetails: %s.", m.CreationType)
+		common.Logf("Received unsupported enum value for CreateDataGuardAssociationDetails: %s.", m.CreationType)
 		return *m, nil
 	}
 }

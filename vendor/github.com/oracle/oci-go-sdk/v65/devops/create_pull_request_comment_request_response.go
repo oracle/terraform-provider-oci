@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreatePullRequestComment.go.html to see an example of how to use CreatePullRequestCommentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreatePullRequestComment.go.html to see an example of how to use CreatePullRequestCommentRequest.
 type CreatePullRequestCommentRequest struct {
 
 	// unique PullRequest identifier

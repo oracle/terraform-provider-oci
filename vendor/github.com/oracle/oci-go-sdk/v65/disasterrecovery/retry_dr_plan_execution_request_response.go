@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RetryDrPlanExecution.go.html to see an example of how to use RetryDrPlanExecutionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RetryDrPlanExecution.go.html to see an example of how to use RetryDrPlanExecutionRequest.
 type RetryDrPlanExecutionRequest struct {
 
 	// Details for retrying execution of the failed group or step.

@@ -21,10 +21,10 @@ import (
 // CreateModelDetails The information needed to train a new model
 type CreateModelDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)  for the models compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)  for the models compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	ModelDetails ModelDetails `mandatory:"true" json:"modelDetails"`

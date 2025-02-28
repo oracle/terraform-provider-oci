@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ResumeFsuAction.go.html to see an example of how to use ResumeFsuActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ResumeFsuAction.go.html to see an example of how to use ResumeFsuActionRequest.
 type ResumeFsuActionRequest struct {
 
 	// Unique Exadata Fleet Update Action identifier.

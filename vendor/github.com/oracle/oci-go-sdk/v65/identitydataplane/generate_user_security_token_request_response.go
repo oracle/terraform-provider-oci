@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateUserSecurityToken.go.html to see an example of how to use GenerateUserSecurityTokenRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateUserSecurityToken.go.html to see an example of how to use GenerateUserSecurityTokenRequest.
 type GenerateUserSecurityTokenRequest struct {
 
 	// The key-value pair object storing the token exchange request parameters required to obtain a UPST for self.

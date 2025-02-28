@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/AddGovernance.go.html to see an example of how to use AddGovernanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/AddGovernance.go.html to see an example of how to use AddGovernanceRequest.
 type AddGovernanceRequest struct {
 
 	// OCID of the organization.

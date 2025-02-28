@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -18,7 +18,7 @@ import (
 
 // AttachManagedInstancesToLifecycleStageDetails The managed instances to attach to the lifecycle stage.
 type AttachManagedInstancesToLifecycleStageDetails struct {
-	ManagedInstanceDetails *ManagedInstancesDetails `mandatory:"false" json:"managedInstanceDetails"`
+	ManagedInstanceDetails *ManagedInstancesDetails `mandatory:"true" json:"managedInstanceDetails"`
 }
 
 func (m AttachManagedInstancesToLifecycleStageDetails) String() string {

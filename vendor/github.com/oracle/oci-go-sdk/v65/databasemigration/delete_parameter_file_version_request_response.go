@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteParameterFileVersion.go.html to see an example of how to use DeleteParameterFileVersionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteParameterFileVersion.go.html to see an example of how to use DeleteParameterFileVersionRequest.
 type DeleteParameterFileVersionRequest struct {
 
 	// The OCID of the job

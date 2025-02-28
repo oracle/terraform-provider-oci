@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCapacityRequest.go.html to see an example of how to use UpdateOccCapacityRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCapacityRequest.go.html to see an example of how to use UpdateOccCapacityRequestRequest.
 type UpdateOccCapacityRequestRequest struct {
 
 	// Request to update the properties of the capacity request.

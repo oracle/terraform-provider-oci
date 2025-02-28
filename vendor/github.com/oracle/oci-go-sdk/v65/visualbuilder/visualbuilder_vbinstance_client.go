@@ -96,7 +96,7 @@ func (client *VbInstanceClient) ConfigurationProvider() *common.ConfigurationPro
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ChangeVbInstanceCompartment.go.html to see an example of how to use ChangeVbInstanceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ChangeVbInstanceCompartment.go.html to see an example of how to use ChangeVbInstanceCompartment API.
 func (client VbInstanceClient) ChangeVbInstanceCompartment(ctx context.Context, request ChangeVbInstanceCompartmentRequest) (response ChangeVbInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -158,7 +158,7 @@ func (client VbInstanceClient) changeVbInstanceCompartment(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/CreateVbInstance.go.html to see an example of how to use CreateVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/CreateVbInstance.go.html to see an example of how to use CreateVbInstance API.
 func (client VbInstanceClient) CreateVbInstance(ctx context.Context, request CreateVbInstanceRequest) (response CreateVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -220,7 +220,7 @@ func (client VbInstanceClient) createVbInstance(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/DeleteVbInstance.go.html to see an example of how to use DeleteVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/DeleteVbInstance.go.html to see an example of how to use DeleteVbInstance API.
 func (client VbInstanceClient) DeleteVbInstance(ctx context.Context, request DeleteVbInstanceRequest) (response DeleteVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -277,7 +277,7 @@ func (client VbInstanceClient) deleteVbInstance(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetVbInstance.go.html to see an example of how to use GetVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetVbInstance.go.html to see an example of how to use GetVbInstance API.
 // A default retry strategy applies to this operation GetVbInstance()
 func (client VbInstanceClient) GetVbInstance(ctx context.Context, request GetVbInstanceRequest) (response GetVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -335,7 +335,7 @@ func (client VbInstanceClient) getVbInstance(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client VbInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -393,7 +393,7 @@ func (client VbInstanceClient) getWorkRequest(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListVbInstances.go.html to see an example of how to use ListVbInstances API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListVbInstances.go.html to see an example of how to use ListVbInstances API.
 // A default retry strategy applies to this operation ListVbInstances()
 func (client VbInstanceClient) ListVbInstances(ctx context.Context, request ListVbInstancesRequest) (response ListVbInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -451,7 +451,7 @@ func (client VbInstanceClient) listVbInstances(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client VbInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -509,7 +509,7 @@ func (client VbInstanceClient) listWorkRequestErrors(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client VbInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -567,7 +567,7 @@ func (client VbInstanceClient) listWorkRequestLogs(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client VbInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -627,7 +627,7 @@ func (client VbInstanceClient) listWorkRequests(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ReconfigurePrivateEndpointVbInstance.go.html to see an example of how to use ReconfigurePrivateEndpointVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ReconfigurePrivateEndpointVbInstance.go.html to see an example of how to use ReconfigurePrivateEndpointVbInstance API.
 func (client VbInstanceClient) ReconfigurePrivateEndpointVbInstance(ctx context.Context, request ReconfigurePrivateEndpointVbInstanceRequest) (response ReconfigurePrivateEndpointVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -689,7 +689,7 @@ func (client VbInstanceClient) reconfigurePrivateEndpointVbInstance(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/RequestSummarizedApplications.go.html to see an example of how to use RequestSummarizedApplications API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/RequestSummarizedApplications.go.html to see an example of how to use RequestSummarizedApplications API.
 func (client VbInstanceClient) RequestSummarizedApplications(ctx context.Context, request RequestSummarizedApplicationsRequest) (response RequestSummarizedApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -752,7 +752,7 @@ func (client VbInstanceClient) requestSummarizedApplications(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StartVbInstance.go.html to see an example of how to use StartVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StartVbInstance.go.html to see an example of how to use StartVbInstance API.
 func (client VbInstanceClient) StartVbInstance(ctx context.Context, request StartVbInstanceRequest) (response StartVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -815,7 +815,7 @@ func (client VbInstanceClient) startVbInstance(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StopVbInstance.go.html to see an example of how to use StopVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StopVbInstance.go.html to see an example of how to use StopVbInstance API.
 func (client VbInstanceClient) StopVbInstance(ctx context.Context, request StopVbInstanceRequest) (response StopVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -877,7 +877,7 @@ func (client VbInstanceClient) stopVbInstance(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/UpdateVbInstance.go.html to see an example of how to use UpdateVbInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/UpdateVbInstance.go.html to see an example of how to use UpdateVbInstance API.
 func (client VbInstanceClient) UpdateVbInstance(ctx context.Context, request UpdateVbInstanceRequest) (response UpdateVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

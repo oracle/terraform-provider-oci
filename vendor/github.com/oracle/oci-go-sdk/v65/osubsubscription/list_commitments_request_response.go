@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListCommitments.go.html to see an example of how to use ListCommitmentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListCommitments.go.html to see an example of how to use ListCommitmentsRequest.
 type ListCommitmentsRequest struct {
 
 	// This param is used to get the commitments for a particular subscribed service

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCloudGateMapping.go.html to see an example of how to use DeleteCloudGateMappingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCloudGateMapping.go.html to see an example of how to use DeleteCloudGateMappingRequest.
 type DeleteCloudGateMappingRequest struct {
 
 	// ID of the resource

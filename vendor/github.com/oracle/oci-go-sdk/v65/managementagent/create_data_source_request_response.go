@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/CreateDataSource.go.html to see an example of how to use CreateDataSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/CreateDataSource.go.html to see an example of how to use CreateDataSourceRequest.
 type CreateDataSourceRequest struct {
 
 	// Unique Management Agent identifier

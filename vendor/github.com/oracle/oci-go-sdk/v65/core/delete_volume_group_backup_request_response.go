@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVolumeGroupBackup.go.html to see an example of how to use DeleteVolumeGroupBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVolumeGroupBackup.go.html to see an example of how to use DeleteVolumeGroupBackupRequest.
 type DeleteVolumeGroupBackupRequest struct {
 
 	// The Oracle Cloud ID (OCID) that uniquely identifies the volume group backup.

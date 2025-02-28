@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetRecoveryServiceSubnet.go.html to see an example of how to use GetRecoveryServiceSubnetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetRecoveryServiceSubnet.go.html to see an example of how to use GetRecoveryServiceSubnetRequest.
 type GetRecoveryServiceSubnetRequest struct {
 
 	// The recovery service subnet OCID.

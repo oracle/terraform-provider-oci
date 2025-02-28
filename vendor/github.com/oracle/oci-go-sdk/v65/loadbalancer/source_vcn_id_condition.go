@@ -5,7 +5,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -20,7 +20,7 @@ import (
 // SourceVcnIdCondition An access control rule condition that requires a match on the specified source VCN OCID.
 type SourceVcnIdCondition struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the originating VCN that an incoming packet
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the originating VCN that an incoming packet
 	// must match.
 	// You can use this condition in conjunction with `SourceVcnIpAddressCondition`.
 	// **NOTE:** If you define this condition for a rule without a `SourceVcnIpAddressCondition`, this condition

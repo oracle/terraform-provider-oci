@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeHttpRedirectCompartment.go.html to see an example of how to use ChangeHttpRedirectCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeHttpRedirectCompartment.go.html to see an example of how to use ChangeHttpRedirectCompartmentRequest.
 type ChangeHttpRedirectCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.
 	HttpRedirectId *string `mandatory:"true" contributesTo:"path" name:"httpRedirectId"`
 
 	ChangeHttpRedirectCompartmentDetails `contributesTo:"body"`

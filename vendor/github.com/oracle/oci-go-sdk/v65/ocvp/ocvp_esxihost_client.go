@@ -5,7 +5,7 @@
 // Oracle Cloud VMware Solution API
 //
 // Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -100,7 +100,7 @@ func (client *EsxiHostClient) ConfigurationProvider() *common.ConfigurationProvi
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateEsxiHost.go.html to see an example of how to use CreateEsxiHost API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateEsxiHost.go.html to see an example of how to use CreateEsxiHost API.
 // A default retry strategy applies to this operation CreateEsxiHost()
 func (client EsxiHostClient) CreateEsxiHost(ctx context.Context, request CreateEsxiHostRequest) (response CreateEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -173,7 +173,7 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteEsxiHost.go.html to see an example of how to use DeleteEsxiHost API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteEsxiHost.go.html to see an example of how to use DeleteEsxiHost API.
 // A default retry strategy applies to this operation DeleteEsxiHost()
 func (client EsxiHostClient) DeleteEsxiHost(ctx context.Context, request DeleteEsxiHostRequest) (response DeleteEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -231,7 +231,7 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetEsxiHost.go.html to see an example of how to use GetEsxiHost API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetEsxiHost.go.html to see an example of how to use GetEsxiHost API.
 // A default retry strategy applies to this operation GetEsxiHost()
 func (client EsxiHostClient) GetEsxiHost(ctx context.Context, request GetEsxiHostRequest) (response GetEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -289,7 +289,7 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/InplaceUpgrade.go.html to see an example of how to use InplaceUpgrade API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/InplaceUpgrade.go.html to see an example of how to use InplaceUpgrade API.
 // A default retry strategy applies to this operation InplaceUpgrade()
 func (client EsxiHostClient) InplaceUpgrade(ctx context.Context, request InplaceUpgradeRequest) (response InplaceUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -359,7 +359,7 @@ func (client EsxiHostClient) inplaceUpgrade(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListEsxiHosts.go.html to see an example of how to use ListEsxiHosts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListEsxiHosts.go.html to see an example of how to use ListEsxiHosts API.
 // A default retry strategy applies to this operation ListEsxiHosts()
 func (client EsxiHostClient) ListEsxiHosts(ctx context.Context, request ListEsxiHostsRequest) (response ListEsxiHostsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -417,7 +417,7 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ReplaceHost.go.html to see an example of how to use ReplaceHost API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ReplaceHost.go.html to see an example of how to use ReplaceHost API.
 // A default retry strategy applies to this operation ReplaceHost()
 func (client EsxiHostClient) ReplaceHost(ctx context.Context, request ReplaceHostRequest) (response ReplaceHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -480,7 +480,7 @@ func (client EsxiHostClient) replaceHost(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/SwapBilling.go.html to see an example of how to use SwapBilling API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/SwapBilling.go.html to see an example of how to use SwapBilling API.
 // A default retry strategy applies to this operation SwapBilling()
 func (client EsxiHostClient) SwapBilling(ctx context.Context, request SwapBillingRequest) (response SwapBillingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -543,7 +543,7 @@ func (client EsxiHostClient) swapBilling(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateEsxiHost.go.html to see an example of how to use UpdateEsxiHost API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateEsxiHost.go.html to see an example of how to use UpdateEsxiHost API.
 // A default retry strategy applies to this operation UpdateEsxiHost()
 func (client EsxiHostClient) UpdateEsxiHost(ctx context.Context, request UpdateEsxiHostRequest) (response UpdateEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse

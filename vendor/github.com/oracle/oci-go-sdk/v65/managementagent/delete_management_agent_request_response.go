@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeleteManagementAgent.go.html to see an example of how to use DeleteManagementAgentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeleteManagementAgent.go.html to see an example of how to use DeleteManagementAgentRequest.
 type DeleteManagementAgentRequest struct {
 
 	// Unique Management Agent identifier

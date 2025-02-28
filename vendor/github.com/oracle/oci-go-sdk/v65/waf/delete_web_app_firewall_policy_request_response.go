@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteWebAppFirewallPolicy.go.html to see an example of how to use DeleteWebAppFirewallPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteWebAppFirewallPolicy.go.html to see an example of how to use DeleteWebAppFirewallPolicyRequest.
 type DeleteWebAppFirewallPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.
 	WebAppFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"webAppFirewallPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource,

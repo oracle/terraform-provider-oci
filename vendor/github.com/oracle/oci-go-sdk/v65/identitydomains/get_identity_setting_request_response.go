@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentitySetting.go.html to see an example of how to use GetIdentitySettingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentitySetting.go.html to see an example of how to use GetIdentitySettingRequest.
 type GetIdentitySettingRequest struct {
 
 	// ID of the resource

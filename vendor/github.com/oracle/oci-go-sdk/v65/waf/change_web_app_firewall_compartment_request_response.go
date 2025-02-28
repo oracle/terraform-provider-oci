@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallCompartment.go.html to see an example of how to use ChangeWebAppFirewallCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallCompartment.go.html to see an example of how to use ChangeWebAppFirewallCompartmentRequest.
 type ChangeWebAppFirewallCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
 	WebAppFirewallId *string `mandatory:"true" contributesTo:"path" name:"webAppFirewallId"`
 
 	// The information to be updated.

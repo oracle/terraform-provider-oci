@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlCollection.go.html to see an example of how to use DeleteSqlCollectionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlCollection.go.html to see an example of how to use DeleteSqlCollectionRequest.
 type DeleteSqlCollectionRequest struct {
 
 	// The OCID of the SQL collection resource.

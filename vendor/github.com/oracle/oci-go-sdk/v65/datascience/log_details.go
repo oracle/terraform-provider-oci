@@ -18,10 +18,10 @@ import (
 // LogDetails The log details.
 type LogDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a log to work with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a log to work with.
 	LogId *string `mandatory:"true" json:"logId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a log group to work with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a log group to work with.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 }
 

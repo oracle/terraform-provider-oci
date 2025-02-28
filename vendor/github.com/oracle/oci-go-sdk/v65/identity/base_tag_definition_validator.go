@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/home.htm).
+// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.oracle.com/iaas/Content/Identity/home.htm).
 //
 
 package identity
@@ -18,13 +18,13 @@ import (
 
 // BaseTagDefinitionValidator Validates a definedTag value. Each validator performs validation steps in addition to the standard
 // validation for definedTag values. For more information, see
-// Limits on Tags (https://docs.cloud.oracle.com/Content/Tagging/Concepts/taggingoverview.htm#limits).
+// Limits on Tags (https://docs.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm#limits).
 // If you define a validator after a value has been set for a defined tag, then any updates that
 // attempt to change the value must pass the additional validation defined by the current rule.
 // Previously set values (even those that would fail the current validation) are not updated. You can
 // still update other attributes to resources that contain a non-valid defined tag.
 // To clear the validator call UpdateTag with
-// DefaultTagDefinitionValidator (https://docs.cloud.oracle.com/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator).
+// DefaultTagDefinitionValidator (https://docs.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator).
 type BaseTagDefinitionValidator interface {
 }
 
@@ -67,7 +67,7 @@ func (m *basetagdefinitionvalidator) UnmarshalPolymorphicJSON(data []byte) (inte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BaseTagDefinitionValidator: %s.", m.ValidatorType)
+		common.Logf("Received unsupported enum value for BaseTagDefinitionValidator: %s.", m.ValidatorType)
 		return *m, nil
 	}
 }

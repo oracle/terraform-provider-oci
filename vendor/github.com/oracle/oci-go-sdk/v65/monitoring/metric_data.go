@@ -7,7 +7,7 @@
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
-// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
+// the Monitoring documentation (https://docs.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -20,7 +20,7 @@ import (
 
 // MetricData The set of aggregated data returned for a metric.
 // For information about metrics, see
-// Metrics Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#MetricsOverview).
+// Metrics Overview (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#MetricsOverview).
 // Limits information for returned data follows.
 // * Data points: 100,000.
 // * Metric streams* within data points: 2,000.
@@ -32,7 +32,7 @@ import (
 // Metric streams cannot be aggregated across metric groups.
 // A metric group is the combination of a given metric, metric namespace, and tenancy for the purpose of determining limits.
 // For more information about metric-related concepts, see
-// Monitoring Concepts (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#concepts).
+// Monitoring Concepts (https://docs.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#concepts).
 type MetricData struct {
 
 	// The reference provided in a metric definition to indicate the source service or
@@ -40,7 +40,7 @@ type MetricData struct {
 	// Example: `oci_computeagent`
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
 	// resources that the aggregated data was returned from.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

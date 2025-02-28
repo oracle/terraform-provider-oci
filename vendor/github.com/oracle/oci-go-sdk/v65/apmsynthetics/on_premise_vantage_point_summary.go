@@ -18,7 +18,7 @@ import (
 // OnPremiseVantagePointSummary Information about On-premise vantage point.
 type OnPremiseVantagePointSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the On-premise vantage point.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the On-premise vantage point.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique permanent name of the On-premise vantage point.

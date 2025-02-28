@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,7 +20,7 @@ import (
 // ChangeDbManagementPrivateEndpointCompartmentDetails The details used to move the Database Management private endpoint to another compartment.
 type ChangeDbManagementPrivateEndpointCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to which the Database Management private endpoint needs to be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which the Database Management private endpoint needs to be moved.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAgent.go.html to see an example of how to use CreateAgentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAgent.go.html to see an example of how to use CreateAgentRequest.
 type CreateAgentRequest struct {
 
 	// Details of the new Agent.

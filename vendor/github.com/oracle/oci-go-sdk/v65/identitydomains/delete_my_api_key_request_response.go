@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyApiKey.go.html to see an example of how to use DeleteMyApiKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyApiKey.go.html to see an example of how to use DeleteMyApiKeyRequest.
 type DeleteMyApiKeyRequest struct {
 
 	// ID of the resource

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlocks.go.html to see an example of how to use ListOccHandoverResourceBlocksRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlocks.go.html to see an example of how to use ListOccHandoverResourceBlocksRequest.
 type ListOccHandoverResourceBlocksRequest struct {
 
 	// The namespace by which we would filter the list.

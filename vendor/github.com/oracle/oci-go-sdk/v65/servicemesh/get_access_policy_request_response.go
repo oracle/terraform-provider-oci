@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetAccessPolicy.go.html to see an example of how to use GetAccessPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetAccessPolicy.go.html to see an example of how to use GetAccessPolicyRequest.
 type GetAccessPolicyRequest struct {
 
 	// Unique AccessPolicy identifier.

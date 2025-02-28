@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,7 +20,7 @@ import (
 // AwrDbSummary The AWR summary for a database.
 type AwrDbSummary struct {
 
-	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs
 	AwrDbId *string `mandatory:"true" json:"awrDbId"`
@@ -49,12 +49,12 @@ type AwrDbSummary struct {
 	// The end time of the latest snapshot.
 	TimeLatestSnapshotEnd *common.SDKTime `mandatory:"false" json:"timeLatestSnapshotEnd"`
 
-	// The ID of the earliest snapshot. The snapshot ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the earliest snapshot. The snapshot ID is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots
 	FirstSnapshotId *int `mandatory:"false" json:"firstSnapshotId"`
 
-	// The ID of the latest snapshot. The snapshot ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the latest snapshot. The snapshot ID is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots
 	LatestSnapshotId *int `mandatory:"false" json:"latestSnapshotId"`
@@ -65,7 +65,7 @@ type AwrDbSummary struct {
 	// The interval time between snapshots (in minutes).
 	SnapshotIntervalInMin *int `mandatory:"false" json:"snapshotIntervalInMin"`
 
-	// ID of the database container. The database container ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// ID of the database container. The database container ID is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbSnapshotRanges
 	ContainerId *int `mandatory:"false" json:"containerId"`

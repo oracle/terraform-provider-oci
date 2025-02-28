@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/PatchModel.go.html to see an example of how to use PatchModelRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/PatchModel.go.html to see an example of how to use PatchModelRequest.
 type PatchModelRequest struct {
 
 	// A unique model identifier.

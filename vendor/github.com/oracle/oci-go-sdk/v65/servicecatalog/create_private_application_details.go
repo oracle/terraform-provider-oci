@@ -19,7 +19,7 @@ import (
 // CreatePrivateApplicationDetails The model for the parameters needed to create a private application.
 type CreatePrivateApplicationDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the private application.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the private application.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name of the private application.

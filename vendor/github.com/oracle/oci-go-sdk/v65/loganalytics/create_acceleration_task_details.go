@@ -21,7 +21,7 @@ import (
 // The resulting scheduled task will have TaskType ACCELERATION.
 type CreateAccelerationTaskDetails struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The ManagementSavedSearch id [OCID] to be accelerated.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingPolicyHealthReport.go.html to see an example of how to use DeleteMaskingPolicyHealthReportRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingPolicyHealthReport.go.html to see an example of how to use DeleteMaskingPolicyHealthReportRequest.
 type DeleteMaskingPolicyHealthReportRequest struct {
 
 	// The OCID of the masking health report.

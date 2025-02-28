@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -96,7 +96,7 @@ func (client *ManagedInstanceGroupClient) ConfigurationProvider() *common.Config
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToManagedInstanceGroup.go.html to see an example of how to use AttachManagedInstancesToManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToManagedInstanceGroup.go.html to see an example of how to use AttachManagedInstancesToManagedInstanceGroup API.
 // A default retry strategy applies to this operation AttachManagedInstancesToManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) AttachManagedInstancesToManagedInstanceGroup(ctx context.Context, request AttachManagedInstancesToManagedInstanceGroupRequest) (response AttachManagedInstancesToManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,7 +159,7 @@ func (client ManagedInstanceGroupClient) attachManagedInstancesToManagedInstance
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachSoftwareSourcesToManagedInstanceGroup.go.html to see an example of how to use AttachSoftwareSourcesToManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachSoftwareSourcesToManagedInstanceGroup.go.html to see an example of how to use AttachSoftwareSourcesToManagedInstanceGroup API.
 // A default retry strategy applies to this operation AttachSoftwareSourcesToManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) AttachSoftwareSourcesToManagedInstanceGroup(ctx context.Context, request AttachSoftwareSourcesToManagedInstanceGroupRequest) (response AttachSoftwareSourcesToManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -218,11 +218,11 @@ func (client ManagedInstanceGroupClient) attachSoftwareSourcesToManagedInstanceG
 	return response, err
 }
 
-// ChangeManagedInstanceGroupCompartment Moves the specified managed instance group to a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeManagedInstanceGroupCompartment Moves the specified managed instance group to a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeManagedInstanceGroupCompartment.go.html to see an example of how to use ChangeManagedInstanceGroupCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeManagedInstanceGroupCompartment.go.html to see an example of how to use ChangeManagedInstanceGroupCompartment API.
 // A default retry strategy applies to this operation ChangeManagedInstanceGroupCompartment()
 func (client ManagedInstanceGroupClient) ChangeManagedInstanceGroupCompartment(ctx context.Context, request ChangeManagedInstanceGroupCompartmentRequest) (response ChangeManagedInstanceGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -285,7 +285,7 @@ func (client ManagedInstanceGroupClient) changeManagedInstanceGroupCompartment(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroup API.
 // A default retry strategy applies to this operation CreateManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) CreateManagedInstanceGroup(ctx context.Context, request CreateManagedInstanceGroupRequest) (response CreateManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -348,7 +348,7 @@ func (client ManagedInstanceGroupClient) createManagedInstanceGroup(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagedInstanceGroup.go.html to see an example of how to use DeleteManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagedInstanceGroup.go.html to see an example of how to use DeleteManagedInstanceGroup API.
 // A default retry strategy applies to this operation DeleteManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DeleteManagedInstanceGroup(ctx context.Context, request DeleteManagedInstanceGroupRequest) (response DeleteManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -406,7 +406,7 @@ func (client ManagedInstanceGroupClient) deleteManagedInstanceGroup(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromManagedInstanceGroup.go.html to see an example of how to use DetachManagedInstancesFromManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromManagedInstanceGroup.go.html to see an example of how to use DetachManagedInstancesFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation DetachManagedInstancesFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DetachManagedInstancesFromManagedInstanceGroup(ctx context.Context, request DetachManagedInstancesFromManagedInstanceGroupRequest) (response DetachManagedInstancesFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -469,7 +469,7 @@ func (client ManagedInstanceGroupClient) detachManagedInstancesFromManagedInstan
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachSoftwareSourcesFromManagedInstanceGroup.go.html to see an example of how to use DetachSoftwareSourcesFromManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachSoftwareSourcesFromManagedInstanceGroup.go.html to see an example of how to use DetachSoftwareSourcesFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation DetachSoftwareSourcesFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DetachSoftwareSourcesFromManagedInstanceGroup(ctx context.Context, request DetachSoftwareSourcesFromManagedInstanceGroupRequest) (response DetachSoftwareSourcesFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -532,7 +532,7 @@ func (client ManagedInstanceGroupClient) detachSoftwareSourcesFromManagedInstanc
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DisableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use DisableModuleStreamOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DisableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use DisableModuleStreamOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation DisableModuleStreamOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DisableModuleStreamOnManagedInstanceGroup(ctx context.Context, request DisableModuleStreamOnManagedInstanceGroupRequest) (response DisableModuleStreamOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -595,7 +595,7 @@ func (client ManagedInstanceGroupClient) disableModuleStreamOnManagedInstanceGro
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/EnableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use EnableModuleStreamOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/EnableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use EnableModuleStreamOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation EnableModuleStreamOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) EnableModuleStreamOnManagedInstanceGroup(ctx context.Context, request EnableModuleStreamOnManagedInstanceGroupRequest) (response EnableModuleStreamOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -658,7 +658,7 @@ func (client ManagedInstanceGroupClient) enableModuleStreamOnManagedInstanceGrou
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceGroup.go.html to see an example of how to use GetManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceGroup.go.html to see an example of how to use GetManagedInstanceGroup API.
 // A default retry strategy applies to this operation GetManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) GetManagedInstanceGroup(ctx context.Context, request GetManagedInstanceGroupRequest) (response GetManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -716,7 +716,7 @@ func (client ManagedInstanceGroupClient) getManagedInstanceGroup(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallModuleStreamProfileOnManagedInstanceGroup.go.html to see an example of how to use InstallModuleStreamProfileOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallModuleStreamProfileOnManagedInstanceGroup.go.html to see an example of how to use InstallModuleStreamProfileOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation InstallModuleStreamProfileOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) InstallModuleStreamProfileOnManagedInstanceGroup(ctx context.Context, request InstallModuleStreamProfileOnManagedInstanceGroupRequest) (response InstallModuleStreamProfileOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -779,7 +779,7 @@ func (client ManagedInstanceGroupClient) installModuleStreamProfileOnManagedInst
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallPackagesOnManagedInstanceGroup.go.html to see an example of how to use InstallPackagesOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallPackagesOnManagedInstanceGroup.go.html to see an example of how to use InstallPackagesOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation InstallPackagesOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) InstallPackagesOnManagedInstanceGroup(ctx context.Context, request InstallPackagesOnManagedInstanceGroupRequest) (response InstallPackagesOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -842,7 +842,7 @@ func (client ManagedInstanceGroupClient) installPackagesOnManagedInstanceGroup(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallWindowsUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallWindowsUpdatesOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallWindowsUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallWindowsUpdatesOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) InstallWindowsUpdatesOnManagedInstanceGroup(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceGroupRequest) (response InstallWindowsUpdatesOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -905,7 +905,7 @@ func (client ManagedInstanceGroupClient) installWindowsUpdatesOnManagedInstanceG
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableModules.go.html to see an example of how to use ListManagedInstanceGroupAvailableModules API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableModules.go.html to see an example of how to use ListManagedInstanceGroupAvailableModules API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupAvailableModules()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupAvailableModules(ctx context.Context, request ListManagedInstanceGroupAvailableModulesRequest) (response ListManagedInstanceGroupAvailableModulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -964,7 +964,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableModule
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailablePackages.go.html to see an example of how to use ListManagedInstanceGroupAvailablePackages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailablePackages.go.html to see an example of how to use ListManagedInstanceGroupAvailablePackages API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupAvailablePackages()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupAvailablePackages(ctx context.Context, request ListManagedInstanceGroupAvailablePackagesRequest) (response ListManagedInstanceGroupAvailablePackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1022,7 +1022,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailablePackag
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableSoftwareSources.go.html to see an example of how to use ListManagedInstanceGroupAvailableSoftwareSources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableSoftwareSources.go.html to see an example of how to use ListManagedInstanceGroupAvailableSoftwareSources API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupAvailableSoftwareSources()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupAvailableSoftwareSources(ctx context.Context, request ListManagedInstanceGroupAvailableSoftwareSourcesRequest) (response ListManagedInstanceGroupAvailableSoftwareSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1081,7 +1081,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableSoftwa
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupInstalledPackages.go.html to see an example of how to use ListManagedInstanceGroupInstalledPackages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupInstalledPackages.go.html to see an example of how to use ListManagedInstanceGroupInstalledPackages API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupInstalledPackages()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupInstalledPackages(ctx context.Context, request ListManagedInstanceGroupInstalledPackagesRequest) (response ListManagedInstanceGroupInstalledPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1156,7 +1156,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupInstalledPackag
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupModules.go.html to see an example of how to use ListManagedInstanceGroupModules API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupModules.go.html to see an example of how to use ListManagedInstanceGroupModules API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupModules()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupModules(ctx context.Context, request ListManagedInstanceGroupModulesRequest) (response ListManagedInstanceGroupModulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1210,11 +1210,11 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupModules(ctx con
 	return response, err
 }
 
-// ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but not limited to name, status, architecture, and OS family.
+// ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but not limited to name, status, architecture, and OS family.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroups.go.html to see an example of how to use ListManagedInstanceGroups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroups.go.html to see an example of how to use ListManagedInstanceGroups API.
 // A default retry strategy applies to this operation ListManagedInstanceGroups()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroups(ctx context.Context, request ListManagedInstanceGroupsRequest) (response ListManagedInstanceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1273,7 +1273,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroups(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ManageModuleStreamsOnManagedInstanceGroup.go.html to see an example of how to use ManageModuleStreamsOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ManageModuleStreamsOnManagedInstanceGroup.go.html to see an example of how to use ManageModuleStreamsOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation ManageModuleStreamsOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) ManageModuleStreamsOnManagedInstanceGroup(ctx context.Context, request ManageModuleStreamsOnManagedInstanceGroupRequest) (response ManageModuleStreamsOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1332,11 +1332,74 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 	return response, err
 }
 
+// RebootManagedInstanceGroup Reboots all managed instances in the specified group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RebootManagedInstanceGroup.go.html to see an example of how to use RebootManagedInstanceGroup API.
+// A default retry strategy applies to this operation RebootManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) RebootManagedInstanceGroup(ctx context.Context, request RebootManagedInstanceGroupRequest) (response RebootManagedInstanceGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rebootManagedInstanceGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RebootManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RebootManagedInstanceGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RebootManagedInstanceGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RebootManagedInstanceGroupResponse")
+	}
+	return
+}
+
+// rebootManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) rebootManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/reboot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RebootManagedInstanceGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RebootManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RebootManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveModuleStreamProfileFromManagedInstanceGroup Removes a profile for a module stream that is installed on a managed instance group. Providing the module stream name (without specifying a profile name) removes all profiles that have been installed for the module stream.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemoveModuleStreamProfileFromManagedInstanceGroup.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemoveModuleStreamProfileFromManagedInstanceGroup.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation RemoveModuleStreamProfileFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) RemoveModuleStreamProfileFromManagedInstanceGroup(ctx context.Context, request RemoveModuleStreamProfileFromManagedInstanceGroupRequest) (response RemoveModuleStreamProfileFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1399,7 +1462,7 @@ func (client ManagedInstanceGroupClient) removeModuleStreamProfileFromManagedIns
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemovePackagesFromManagedInstanceGroup.go.html to see an example of how to use RemovePackagesFromManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemovePackagesFromManagedInstanceGroup.go.html to see an example of how to use RemovePackagesFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation RemovePackagesFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) RemovePackagesFromManagedInstanceGroup(ctx context.Context, request RemovePackagesFromManagedInstanceGroupRequest) (response RemovePackagesFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1465,7 +1528,7 @@ func (client ManagedInstanceGroupClient) removePackagesFromManagedInstanceGroup(
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SwitchModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use SwitchModuleStreamOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SwitchModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use SwitchModuleStreamOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation SwitchModuleStreamOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) SwitchModuleStreamOnManagedInstanceGroup(ctx context.Context, request SwitchModuleStreamOnManagedInstanceGroupRequest) (response SwitchModuleStreamOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1528,7 +1591,7 @@ func (client ManagedInstanceGroupClient) switchModuleStreamOnManagedInstanceGrou
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateAllPackagesOnManagedInstanceGroup.go.html to see an example of how to use UpdateAllPackagesOnManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateAllPackagesOnManagedInstanceGroup.go.html to see an example of how to use UpdateAllPackagesOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation UpdateAllPackagesOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) UpdateAllPackagesOnManagedInstanceGroup(ctx context.Context, request UpdateAllPackagesOnManagedInstanceGroupRequest) (response UpdateAllPackagesOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1591,7 +1654,7 @@ func (client ManagedInstanceGroupClient) updateAllPackagesOnManagedInstanceGroup
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagedInstanceGroup.go.html to see an example of how to use UpdateManagedInstanceGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagedInstanceGroup.go.html to see an example of how to use UpdateManagedInstanceGroup API.
 // A default retry strategy applies to this operation UpdateManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) UpdateManagedInstanceGroup(ctx context.Context, request UpdateManagedInstanceGroupRequest) (response UpdateManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse

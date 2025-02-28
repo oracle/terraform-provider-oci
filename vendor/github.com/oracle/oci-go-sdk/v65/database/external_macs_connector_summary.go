@@ -4,7 +4,7 @@
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ExternalMacsConnectorSummary An Oracle Cloud Infrastructure resource that uses the Management Agent cloud service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html) to connect to an external Oracle Database.
+// ExternalMacsConnectorSummary An Oracle Cloud Infrastructure resource that uses the Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html) to connect to an external Oracle Database.
 type ExternalMacsConnectorSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The user-friendly name for the
@@ -27,14 +27,14 @@ type ExternalMacsConnectorSummary struct {
 	// The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 	// CreateExternalDatabaseConnectorDetails.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The date and time the external connector was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database resource.
 	ExternalDatabaseId *string `mandatory:"true" json:"externalDatabaseId"`
 
 	// The status of connectivity to the external database.
@@ -52,12 +52,12 @@ type ExternalMacsConnectorSummary struct {
 	ConnectorAgentId *string `mandatory:"true" json:"connectorAgentId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Additional information about the current lifecycle state.

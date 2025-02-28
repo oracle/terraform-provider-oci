@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateLabelCondition.go.html to see an example of how to use ValidateLabelConditionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateLabelCondition.go.html to see an example of how to use ValidateLabelConditionRequest.
 type ValidateLabelConditionRequest struct {
 
 	// The Logging Analytics namespace used for the request.

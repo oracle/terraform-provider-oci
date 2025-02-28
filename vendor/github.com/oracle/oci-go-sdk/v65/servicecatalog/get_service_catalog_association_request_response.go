@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetServiceCatalogAssociation.go.html to see an example of how to use GetServiceCatalogAssociationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetServiceCatalogAssociation.go.html to see an example of how to use GetServiceCatalogAssociationRequest.
 type GetServiceCatalogAssociationRequest struct {
 
 	// The unique identifier of the service catalog association.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteCertificate.go.html to see an example of how to use DeleteCertificateRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteCertificate.go.html to see an example of how to use DeleteCertificateRequest.
 type DeleteCertificateRequest struct {
 
 	// A unique Deployment identifier.

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetEmailReturnPath.go.html to see an example of how to use GetEmailReturnPathRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetEmailReturnPath.go.html to see an example of how to use GetEmailReturnPathRequest.
 type GetEmailReturnPathRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
 	EmailReturnPathId *string `mandatory:"true" contributesTo:"path" name:"emailReturnPathId"`
 
 	// The request ID for tracing from the system

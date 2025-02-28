@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateIngestTimeRule.go.html to see an example of how to use UpdateIngestTimeRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateIngestTimeRule.go.html to see an example of how to use UpdateIngestTimeRuleRequest.
 type UpdateIngestTimeRuleRequest struct {
 
 	// The Logging Analytics namespace used for the request.

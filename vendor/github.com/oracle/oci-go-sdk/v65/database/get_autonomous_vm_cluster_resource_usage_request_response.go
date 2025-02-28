@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousVmClusterResourceUsage.go.html to see an example of how to use GetAutonomousVmClusterResourceUsageRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousVmClusterResourceUsage.go.html to see an example of how to use GetAutonomousVmClusterResourceUsageRequest.
 type GetAutonomousVmClusterResourceUsageRequest struct {
 
-	// The autonomous VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The autonomous VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"autonomousVmClusterId"`
 
 	// Unique identifier for the request.

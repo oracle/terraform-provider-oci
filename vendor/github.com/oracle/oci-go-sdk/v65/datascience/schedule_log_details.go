@@ -18,10 +18,10 @@ import (
 // ScheduleLogDetails Custom logging details for schedule execution.
 type ScheduleLogDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom log to be used for Schedule logging.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom log to be used for Schedule logging.
 	LogId *string `mandatory:"true" json:"logId"`
 }
 

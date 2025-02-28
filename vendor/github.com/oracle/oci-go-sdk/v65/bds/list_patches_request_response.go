@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatches.go.html to see an example of how to use ListPatchesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatches.go.html to see an example of how to use ListPatchesRequest.
 type ListPatchesRequest struct {
 
 	// The OCID of the cluster.

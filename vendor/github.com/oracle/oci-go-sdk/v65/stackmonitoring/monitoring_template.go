@@ -18,13 +18,13 @@ import (
 // MonitoringTemplate Detailed information of the Monitoring Template
 type MonitoringTemplate struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoringTemplate
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitoringTemplate
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name for the monitoring template. It should be unique, and it's mutable in nature. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenant Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Tenant Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
 	// The OCID of the compartment containing the monitoringTemplate.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSdmMaskingPolicyDifferenceCompartment.go.html to see an example of how to use ChangeSdmMaskingPolicyDifferenceCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSdmMaskingPolicyDifferenceCompartment.go.html to see an example of how to use ChangeSdmMaskingPolicyDifferenceCompartmentRequest.
 type ChangeSdmMaskingPolicyDifferenceCompartmentRequest struct {
 
 	// The OCID of the SDM masking policy difference.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableAwrHubSource.go.html to see an example of how to use EnableAwrHubSourceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableAwrHubSource.go.html to see an example of how to use EnableAwrHubSourceRequest.
 type EnableAwrHubSourceRequest struct {
 
 	// Unique Awr Hub Source identifier

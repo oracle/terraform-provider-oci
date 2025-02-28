@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/ListQuickPicks.go.html to see an example of how to use ListQuickPicksRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/ListQuickPicks.go.html to see an example of how to use ListQuickPicksRequest.
 type ListQuickPicksRequest struct {
 
 	// The APM Domain ID for the intended request.

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindowRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindowRequest.
 type UpdateMaintenanceWindowRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of maintenance window.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window.
 	MaintenanceWindowId *string `mandatory:"true" contributesTo:"path" name:"maintenanceWindowId"`
 
 	// The information to be updated.

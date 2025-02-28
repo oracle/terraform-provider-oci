@@ -4,7 +4,7 @@
 
 // Vault Secret Retrieval API
 //
-// Use the Secret Retrieval API to retrieve secrets and secret versions from vaults. For more information, see Managing Secrets (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingsecrets.htm).
+// Use the Secret Retrieval API to retrieve secrets and secret versions from vaults. For more information, see Managing Secrets (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingsecrets.htm).
 //
 
 package secrets
@@ -55,7 +55,7 @@ func (m *secretbundlecontentdetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SecretBundleContentDetails: %s.", m.ContentType)
+		common.Logf("Received unsupported enum value for SecretBundleContentDetails: %s.", m.ContentType)
 		return *m, nil
 	}
 }

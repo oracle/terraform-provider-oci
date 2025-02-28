@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationPackageActionDownloadConfig.go.html to see an example of how to use GetPrivateApplicationPackageActionDownloadConfigRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationPackageActionDownloadConfig.go.html to see an example of how to use GetPrivateApplicationPackageActionDownloadConfigRequest.
 type GetPrivateApplicationPackageActionDownloadConfigRequest struct {
 
 	// The unique identifier for the private application package.

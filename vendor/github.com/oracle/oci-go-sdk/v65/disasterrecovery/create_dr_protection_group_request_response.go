@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrProtectionGroup.go.html to see an example of how to use CreateDrProtectionGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrProtectionGroup.go.html to see an example of how to use CreateDrProtectionGroupRequest.
 type CreateDrProtectionGroupRequest struct {
 
 	// Details for creating the DR protection group.
@@ -85,7 +85,7 @@ type CreateDrProtectionGroupResponse struct {
 	// A URI for the new resource which was created by the request.
 	Location *string `presentIn:"header" name:"location"`
 
-	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier (OCID) for the asynchronous request. You can use this to query status of the asynchronous operation. Use GetWorkRequest with this OCID to track the status of the request.

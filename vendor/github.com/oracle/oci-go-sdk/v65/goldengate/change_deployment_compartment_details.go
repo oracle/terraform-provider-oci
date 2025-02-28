@@ -18,7 +18,7 @@ import (
 // ChangeDeploymentCompartmentDetails The new compartment for a Deployment.
 type ChangeDeploymentCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

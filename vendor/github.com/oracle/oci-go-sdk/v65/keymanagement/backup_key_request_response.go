@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/BackupKey.go.html to see an example of how to use BackupKeyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/BackupKey.go.html to see an example of how to use BackupKeyRequest.
 type BackupKeyRequest struct {
 
 	// The OCID of the key.

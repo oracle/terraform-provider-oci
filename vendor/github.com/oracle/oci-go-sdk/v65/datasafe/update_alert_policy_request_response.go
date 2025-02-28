@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAlertPolicy.go.html to see an example of how to use UpdateAlertPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAlertPolicy.go.html to see an example of how to use UpdateAlertPolicyRequest.
 type UpdateAlertPolicyRequest struct {
 
 	// The OCID of the alert policy.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroupRequest.
 type CreateManagedInstanceGroupRequest struct {
 
 	// Details about a Managed Instance Group to create

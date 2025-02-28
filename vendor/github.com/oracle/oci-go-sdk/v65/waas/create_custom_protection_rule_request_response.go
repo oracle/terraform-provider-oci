@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateCustomProtectionRule.go.html to see an example of how to use CreateCustomProtectionRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateCustomProtectionRule.go.html to see an example of how to use CreateCustomProtectionRuleRequest.
 type CreateCustomProtectionRuleRequest struct {
 
 	// The details of the custom protection rule.

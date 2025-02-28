@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListSubscribedServices.go.html to see an example of how to use ListSubscribedServicesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListSubscribedServices.go.html to see an example of how to use ListSubscribedServicesRequest.
 type ListSubscribedServicesRequest struct {
 
 	// The OCID of the root compartment.

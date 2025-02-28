@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateNamedCredential.go.html to see an example of how to use UpdateNamedCredentialRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateNamedCredential.go.html to see an example of how to use UpdateNamedCredentialRequest.
 type UpdateNamedCredentialRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential.
 	NamedCredentialId *string `mandatory:"true" contributesTo:"path" name:"namedCredentialId"`
 
 	// The details required to update a named credential.

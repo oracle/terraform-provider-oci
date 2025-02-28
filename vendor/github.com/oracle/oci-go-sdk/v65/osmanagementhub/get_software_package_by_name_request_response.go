@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwarePackageByName.go.html to see an example of how to use GetSoftwarePackageByNameRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetSoftwarePackageByName.go.html to see an example of how to use GetSoftwarePackageByNameRequest.
 type GetSoftwarePackageByNameRequest struct {
 
 	// The name of the software package.

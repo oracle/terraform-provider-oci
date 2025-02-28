@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -96,7 +96,7 @@ func (client *ScheduledJobClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeScheduledJobCompartment.go.html to see an example of how to use ChangeScheduledJobCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeScheduledJobCompartment.go.html to see an example of how to use ChangeScheduledJobCompartment API.
 // A default retry strategy applies to this operation ChangeScheduledJobCompartment()
 func (client ScheduledJobClient) ChangeScheduledJobCompartment(ctx context.Context, request ChangeScheduledJobCompartmentRequest) (response ChangeScheduledJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,7 +159,7 @@ func (client ScheduledJobClient) changeScheduledJobCompartment(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateScheduledJob.go.html to see an example of how to use CreateScheduledJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateScheduledJob.go.html to see an example of how to use CreateScheduledJob API.
 // A default retry strategy applies to this operation CreateScheduledJob()
 func (client ScheduledJobClient) CreateScheduledJob(ctx context.Context, request CreateScheduledJobRequest) (response CreateScheduledJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,7 +222,7 @@ func (client ScheduledJobClient) createScheduledJob(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteScheduledJob.go.html to see an example of how to use DeleteScheduledJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteScheduledJob.go.html to see an example of how to use DeleteScheduledJob API.
 // A default retry strategy applies to this operation DeleteScheduledJob()
 func (client ScheduledJobClient) DeleteScheduledJob(ctx context.Context, request DeleteScheduledJobRequest) (response DeleteScheduledJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -280,7 +280,7 @@ func (client ScheduledJobClient) deleteScheduledJob(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetScheduledJob.go.html to see an example of how to use GetScheduledJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetScheduledJob.go.html to see an example of how to use GetScheduledJob API.
 // A default retry strategy applies to this operation GetScheduledJob()
 func (client ScheduledJobClient) GetScheduledJob(ctx context.Context, request GetScheduledJobRequest) (response GetScheduledJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -334,11 +334,11 @@ func (client ScheduledJobClient) getScheduledJob(ctx context.Context, request co
 	return response, err
 }
 
-// ListScheduledJobs Lists scheduled jobs that match the specified compartment or scheduled job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// ListScheduledJobs Lists scheduled jobs that match the specified compartment or scheduled job OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListScheduledJobs.go.html to see an example of how to use ListScheduledJobs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListScheduledJobs.go.html to see an example of how to use ListScheduledJobs API.
 // A default retry strategy applies to this operation ListScheduledJobs()
 func (client ScheduledJobClient) ListScheduledJobs(ctx context.Context, request ListScheduledJobsRequest) (response ListScheduledJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -397,7 +397,7 @@ func (client ScheduledJobClient) listScheduledJobs(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RunScheduledJobNow.go.html to see an example of how to use RunScheduledJobNow API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RunScheduledJobNow.go.html to see an example of how to use RunScheduledJobNow API.
 // A default retry strategy applies to this operation RunScheduledJobNow()
 func (client ScheduledJobClient) RunScheduledJobNow(ctx context.Context, request RunScheduledJobNowRequest) (response RunScheduledJobNowResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -460,7 +460,7 @@ func (client ScheduledJobClient) runScheduledJobNow(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateScheduledJob.go.html to see an example of how to use UpdateScheduledJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateScheduledJob.go.html to see an example of how to use UpdateScheduledJob API.
 // A default retry strategy applies to this operation UpdateScheduledJob()
 func (client ScheduledJobClient) UpdateScheduledJob(ctx context.Context, request UpdateScheduledJobRequest) (response UpdateScheduledJobResponse, err error) {
 	var ociResponse common.OCIResponse

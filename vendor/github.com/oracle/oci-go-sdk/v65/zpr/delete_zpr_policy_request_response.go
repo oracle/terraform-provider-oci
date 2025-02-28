@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/DeleteZprPolicy.go.html to see an example of how to use DeleteZprPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/DeleteZprPolicy.go.html to see an example of how to use DeleteZprPolicyRequest.
 type DeleteZprPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ZprPolicy.
 	ZprPolicyId *string `mandatory:"true" contributesTo:"path" name:"zprPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

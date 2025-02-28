@@ -5,7 +5,7 @@
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -24,13 +24,13 @@ import (
 // All operations (except `DELETE`) must be done using the associated replication resource.
 // Deleting a `ReplicationTarget` allows the target file system to be exported.
 // Deleting a `ReplicationTarget` does not delete the associated `Replication` resource, but places it in a `FAILED` state.
-// For more information, see File System Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
+// For more information, see File System Replication (https://docs.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 type ReplicationTarget struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of this replication.
@@ -45,13 +45,13 @@ type ReplicationTarget struct {
 	// Example: `2021-01-04T20:01:29.100Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of source filesystem.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of source filesystem.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of target filesystem.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of target filesystem.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of replication.
 	ReplicationId *string `mandatory:"true" json:"replicationId"`
 
 	// The availability domain the replication resource is in. May be unset
@@ -59,7 +59,7 @@ type ReplicationTarget struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last snapshot snapshot which was completely applied to the target file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last snapshot snapshot which was completely applied to the target file system.
 	// Empty while the initial snapshot is being applied.
 	LastSnapshotId *string `mandatory:"false" json:"lastSnapshotId"`
 
@@ -76,12 +76,12 @@ type ReplicationTarget struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 

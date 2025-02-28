@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteConnectHarness.go.html to see an example of how to use DeleteConnectHarnessRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteConnectHarness.go.html to see an example of how to use DeleteConnectHarnessRequest.
 type DeleteConnectHarnessRequest struct {
 
 	// The OCID of the connect harness.

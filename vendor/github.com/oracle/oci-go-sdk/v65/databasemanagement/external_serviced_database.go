@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,7 +20,7 @@ import (
 // ExternalServicedDatabase The details of a database serviced by an external DB system component such as a listener or ASM.
 type ExternalServicedDatabase struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The user-friendly name for the database. The name does not have to be unique.
@@ -29,7 +29,7 @@ type ExternalServicedDatabase struct {
 	// The unique name of the external database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the external database resides.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the external database resides.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The type of Oracle Database installation.

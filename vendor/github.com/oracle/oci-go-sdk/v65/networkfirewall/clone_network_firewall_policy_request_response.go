@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CloneNetworkFirewallPolicy.go.html to see an example of how to use CloneNetworkFirewallPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CloneNetworkFirewallPolicy.go.html to see an example of how to use CloneNetworkFirewallPolicyRequest.
 type CloneNetworkFirewallPolicyRequest struct {
 
 	// Unique Network Firewall Policy identifier

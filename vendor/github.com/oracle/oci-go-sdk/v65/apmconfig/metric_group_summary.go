@@ -21,7 +21,7 @@ import (
 // process. The set is then published to a namespace, which is a product level subdivision of metrics.
 type MetricGroupSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	Id *string `mandatory:"false" json:"id"`
 
@@ -35,10 +35,10 @@ type MetricGroupSummary struct {
 	// Example: `2020-02-13T22:47:12.613Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
 
 	// For optimistic concurrency control. See `if-match`.
@@ -55,7 +55,7 @@ type MetricGroupSummary struct {
 	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation
 	// of MetricGroups. A filterId is generated when a Span Filter is created.
 	FilterId *string `mandatory:"false" json:"filterId"`
 

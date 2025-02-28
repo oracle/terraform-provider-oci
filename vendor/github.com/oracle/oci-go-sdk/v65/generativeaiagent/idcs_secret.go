@@ -8,7 +8,7 @@
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
 // For creating and managing client chat sessions see the /EN/generative-ai-agents-client/latest/.
-// To learn more about the service, see the Generative AI Agents documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai-agents/home.htm).
+// To learn more about the service, see the Generative AI Agents documentation (https://docs.oracle.com/iaas/Content/generative-ai-agents/home.htm).
 //
 
 package generativeaiagent
@@ -29,7 +29,7 @@ type IdcsSecret struct {
 	// The IDCS Connect clientId.
 	ClientId *string `mandatory:"true" json:"clientId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret for client secret.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret for client secret.
 	VaultSecretId *string `mandatory:"true" json:"vaultSecretId"`
 
 	// Fully qualified scope url

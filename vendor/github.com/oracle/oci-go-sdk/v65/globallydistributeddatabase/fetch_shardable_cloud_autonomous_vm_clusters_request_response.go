@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchShardableCloudAutonomousVmClusters.go.html to see an example of how to use FetchShardableCloudAutonomousVmClustersRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/FetchShardableCloudAutonomousVmClusters.go.html to see an example of how to use FetchShardableCloudAutonomousVmClustersRequest.
 type FetchShardableCloudAutonomousVmClustersRequest struct {
 
 	// Request payload to get sharded cloud autonomous vm clusters.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/PublishRunbook.go.html to see an example of how to use PublishRunbookRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/PublishRunbook.go.html to see an example of how to use PublishRunbookRequest.
 type PublishRunbookRequest struct {
 
 	// Details for publishing the Runbook.

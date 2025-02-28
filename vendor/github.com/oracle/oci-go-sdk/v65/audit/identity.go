@@ -5,7 +5,7 @@
 // Audit API
 //
 // API for the Audit Service. Use this API for compliance monitoring in your tenancy.
-// For more information, see Overview of Audit (https://docs.cloud.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
+// For more information, see Overview of Audit (https://docs.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
 // **Tip**: This API is good for queries, but not bulk-export operations.
 //
 
@@ -24,7 +24,7 @@ type Identity struct {
 	// Example: `ExampleName`
 	PrincipalName *string `mandatory:"false" json:"principalName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the principal.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the principal.
 	PrincipalId *string `mandatory:"false" json:"principalId"`
 
 	// The type of authentication used.
@@ -34,11 +34,11 @@ type Identity struct {
 	// The name of the user or service. This value is the friendly name associated with `callerId`.
 	CallerName *string `mandatory:"false" json:"callerName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the caller. The caller that made a
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the caller. The caller that made a
 	// request on behalf of the prinicpal.
 	CallerId *string `mandatory:"false" json:"callerId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenant.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenant.
 	TenantId *string `mandatory:"false" json:"tenantId"`
 
 	// The IP address of the source of the request.

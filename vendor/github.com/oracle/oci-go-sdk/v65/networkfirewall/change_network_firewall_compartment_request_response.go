@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallCompartment.go.html to see an example of how to use ChangeNetworkFirewallCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallCompartment.go.html to see an example of how to use ChangeNetworkFirewallCompartmentRequest.
 type ChangeNetworkFirewallCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall resource.
 	NetworkFirewallId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallId"`
 
 	// The information to be updated.

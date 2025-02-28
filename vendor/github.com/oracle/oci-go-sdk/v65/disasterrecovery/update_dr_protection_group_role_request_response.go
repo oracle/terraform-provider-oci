@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroupRole.go.html to see an example of how to use UpdateDrProtectionGroupRoleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroupRole.go.html to see an example of how to use UpdateDrProtectionGroupRoleRequest.
 type UpdateDrProtectionGroupRoleRequest struct {
 
 	// The role details for the DR protection group to be updated.

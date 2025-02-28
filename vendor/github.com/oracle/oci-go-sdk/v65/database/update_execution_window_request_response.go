@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExecutionWindow.go.html to see an example of how to use UpdateExecutionWindowRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExecutionWindow.go.html to see an example of how to use UpdateExecutionWindowRequest.
 type UpdateExecutionWindowRequest struct {
 
-	// The execution window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionWindowId *string `mandatory:"true" contributesTo:"path" name:"executionWindowId"`
 
 	// Request to update the properties of a execution window.
@@ -83,7 +83,7 @@ type UpdateExecutionWindowResponse struct {
 	// The ExecutionWindow instance
 	ExecutionWindow `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

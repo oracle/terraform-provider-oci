@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/CreateIndex.go.html to see an example of how to use CreateIndexRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/CreateIndex.go.html to see an example of how to use CreateIndexRequest.
 type CreateIndexRequest struct {
 
 	// A table name within the compartment, or a table OCID.

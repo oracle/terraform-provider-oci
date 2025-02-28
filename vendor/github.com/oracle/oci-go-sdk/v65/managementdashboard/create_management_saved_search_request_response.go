@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/CreateManagementSavedSearch.go.html to see an example of how to use CreateManagementSavedSearchRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/CreateManagementSavedSearch.go.html to see an example of how to use CreateManagementSavedSearchRequest.
 type CreateManagementSavedSearchRequest struct {
 
 	// JSON metadata for the saved search.

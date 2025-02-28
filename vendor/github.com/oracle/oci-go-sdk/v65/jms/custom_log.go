@@ -18,10 +18,10 @@ import (
 // CustomLog Custom Log for inventory or operation log.
 type CustomLog struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the log group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the log.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 	LogId *string `mandatory:"true" json:"logId"`
 }
 

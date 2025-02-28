@@ -19,7 +19,7 @@ import (
 // CreateScheduledTaskDetails Details for creating a scheduled task.
 type CreateScheduledTaskDetails interface {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	GetCompartmentId() *string
 
 	// A user-friendly name that is changeable and that does not have to be unique.
@@ -84,7 +84,7 @@ func (m *createscheduledtaskdetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateScheduledTaskDetails: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for CreateScheduledTaskDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

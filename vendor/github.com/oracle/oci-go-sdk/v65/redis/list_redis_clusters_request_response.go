@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusters.go.html to see an example of how to use ListRedisClustersRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusters.go.html to see an example of how to use ListRedisClustersRequest.
 type ListRedisClustersRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -27,7 +27,7 @@ type ListRedisClustersRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

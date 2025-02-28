@@ -20,7 +20,7 @@ import (
 // CreateWebAppFirewallPolicyDetails The information about new WebAppFirewallPolicy.
 type CreateWebAppFirewallPolicyDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// WebAppFirewallPolicy display name, can be renamed.

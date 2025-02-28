@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeSubscriberCompartment.go.html to see an example of how to use ChangeSubscriberCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeSubscriberCompartment.go.html to see an example of how to use ChangeSubscriberCompartmentRequest.
 type ChangeSubscriberCompartmentRequest struct {
 
 	// The ocid of the subscriber.

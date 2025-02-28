@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -96,7 +96,7 @@ func (client *ManagementStationClient) ConfigurationProvider() *common.Configura
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeManagementStationCompartment.go.html to see an example of how to use ChangeManagementStationCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeManagementStationCompartment.go.html to see an example of how to use ChangeManagementStationCompartment API.
 // A default retry strategy applies to this operation ChangeManagementStationCompartment()
 func (client ManagementStationClient) ChangeManagementStationCompartment(ctx context.Context, request ChangeManagementStationCompartmentRequest) (response ChangeManagementStationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,11 +155,11 @@ func (client ManagementStationClient) changeManagementStationCompartment(ctx con
 	return response, err
 }
 
-// CreateManagementStation Create a management station. You must provide proxy and mirror configuration information.
+// CreateManagementStation Creates a management station using the proxy and mirror configuration information provided.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagementStation.go.html to see an example of how to use CreateManagementStation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagementStation.go.html to see an example of how to use CreateManagementStation API.
 // A default retry strategy applies to this operation CreateManagementStation()
 func (client ManagementStationClient) CreateManagementStation(ctx context.Context, request CreateManagementStationRequest) (response CreateManagementStationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -218,11 +218,13 @@ func (client ManagementStationClient) createManagementStation(ctx context.Contex
 	return response, err
 }
 
-// DeleteManagementStation Deletes a management station.
+// DeleteManagementStation Deletes a management station. You can't delete a station if there are resources associated with the station
+// (such as instances using the station or profiles associated with the station). Switch stations and edit profiles
+// as needed before deleting the station.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagementStation.go.html to see an example of how to use DeleteManagementStation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagementStation.go.html to see an example of how to use DeleteManagementStation API.
 // A default retry strategy applies to this operation DeleteManagementStation()
 func (client ManagementStationClient) DeleteManagementStation(ctx context.Context, request DeleteManagementStationRequest) (response DeleteManagementStationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -233,6 +235,11 @@ func (client ManagementStationClient) DeleteManagementStation(ctx context.Contex
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.deleteManagementStation, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -276,11 +283,11 @@ func (client ManagementStationClient) deleteManagementStation(ctx context.Contex
 	return response, err
 }
 
-// GetManagementStation Gets information about the specified management station.
+// GetManagementStation Returns information about the specified management station.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagementStation.go.html to see an example of how to use GetManagementStation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagementStation.go.html to see an example of how to use GetManagementStation API.
 // A default retry strategy applies to this operation GetManagementStation()
 func (client ManagementStationClient) GetManagementStation(ctx context.Context, request GetManagementStationRequest) (response GetManagementStationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -334,11 +341,12 @@ func (client ManagementStationClient) getManagementStation(ctx context.Context, 
 	return response, err
 }
 
-// ListManagementStations Lists management stations in a compartment.
+// ListManagementStations Lists management stations within the specified compartment. Filter the list against a variety of criteria
+// including but not limited to name, status, and location.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagementStations.go.html to see an example of how to use ListManagementStations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagementStations.go.html to see an example of how to use ListManagementStations API.
 // A default retry strategy applies to this operation ListManagementStations()
 func (client ManagementStationClient) ListManagementStations(ctx context.Context, request ListManagementStationsRequest) (response ListManagementStationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -396,7 +404,7 @@ func (client ManagementStationClient) listManagementStations(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListMirrors.go.html to see an example of how to use ListMirrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListMirrors.go.html to see an example of how to use ListMirrors API.
 // A default retry strategy applies to this operation ListMirrors()
 func (client ManagementStationClient) ListMirrors(ctx context.Context, request ListMirrorsRequest) (response ListMirrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -450,11 +458,11 @@ func (client ManagementStationClient) listMirrors(ctx context.Context, request c
 	return response, err
 }
 
-// RefreshManagementStationConfig Refreshes the list of software sources mirrored by the management station to support the associated instances.
+// RefreshManagementStationConfig Refreshes the list of software sources mirrored by the management station.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RefreshManagementStationConfig.go.html to see an example of how to use RefreshManagementStationConfig API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RefreshManagementStationConfig.go.html to see an example of how to use RefreshManagementStationConfig API.
 // A default retry strategy applies to this operation RefreshManagementStationConfig()
 func (client ManagementStationClient) RefreshManagementStationConfig(ctx context.Context, request RefreshManagementStationConfigRequest) (response RefreshManagementStationConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -513,11 +521,11 @@ func (client ManagementStationClient) refreshManagementStationConfig(ctx context
 	return response, err
 }
 
-// SynchronizeMirrors Synchronize the specified software sources mirrors on the management station.
+// SynchronizeMirrors Synchronize the specified software sources mirrored on the management station.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SynchronizeMirrors.go.html to see an example of how to use SynchronizeMirrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SynchronizeMirrors.go.html to see an example of how to use SynchronizeMirrors API.
 // A default retry strategy applies to this operation SynchronizeMirrors()
 func (client ManagementStationClient) SynchronizeMirrors(ctx context.Context, request SynchronizeMirrorsRequest) (response SynchronizeMirrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -580,7 +588,7 @@ func (client ManagementStationClient) synchronizeMirrors(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SynchronizeSingleMirrors.go.html to see an example of how to use SynchronizeSingleMirrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SynchronizeSingleMirrors.go.html to see an example of how to use SynchronizeSingleMirrors API.
 // A default retry strategy applies to this operation SynchronizeSingleMirrors()
 func (client ManagementStationClient) SynchronizeSingleMirrors(ctx context.Context, request SynchronizeSingleMirrorsRequest) (response SynchronizeSingleMirrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -643,7 +651,7 @@ func (client ManagementStationClient) synchronizeSingleMirrors(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagementStation.go.html to see an example of how to use UpdateManagementStation API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagementStation.go.html to see an example of how to use UpdateManagementStation API.
 // A default retry strategy applies to this operation UpdateManagementStation()
 func (client ManagementStationClient) UpdateManagementStation(ctx context.Context, request UpdateManagementStationRequest) (response UpdateManagementStationResponse, err error) {
 	var ociResponse common.OCIResponse

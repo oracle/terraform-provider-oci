@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuCollectionCompartment.go.html to see an example of how to use ChangeFsuCollectionCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuCollectionCompartment.go.html to see an example of how to use ChangeFsuCollectionCompartmentRequest.
 type ChangeFsuCollectionCompartmentRequest struct {
 
 	// Unique Exadata Fleet Update Collection identifier.

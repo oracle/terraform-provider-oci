@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteUserDefinedFunctionValidation.go.html to see an example of how to use DeleteUserDefinedFunctionValidationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteUserDefinedFunctionValidation.go.html to see an example of how to use DeleteUserDefinedFunctionValidationRequest.
 type DeleteUserDefinedFunctionValidationRequest struct {
 
 	// The workspace ID.

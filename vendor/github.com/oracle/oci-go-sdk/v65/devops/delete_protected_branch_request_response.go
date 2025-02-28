@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteProtectedBranch.go.html to see an example of how to use DeleteProtectedBranchRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteProtectedBranch.go.html to see an example of how to use DeleteProtectedBranchRequest.
 type DeleteProtectedBranchRequest struct {
 
 	// Unique repository identifier.

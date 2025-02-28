@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePatch.go.html to see an example of how to use CreatePatchRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePatch.go.html to see an example of how to use CreatePatchRequest.
 type CreatePatchRequest struct {
 
 	// Details for the new Patch.

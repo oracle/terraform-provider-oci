@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/DeleteMigration.go.html to see an example of how to use DeleteMigrationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/DeleteMigration.go.html to see an example of how to use DeleteMigrationRequest.
 type DeleteMigrationRequest struct {
 
 	// Unique migration identifier

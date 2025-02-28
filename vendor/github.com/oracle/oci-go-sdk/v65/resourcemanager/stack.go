@@ -7,7 +7,7 @@
 // Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
 // Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
+// the Resource Manager documentation (https://docs.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -22,15 +22,15 @@ import (
 // Stack The properties that define a stack.
 // A stack is the collection of Oracle Cloud Infrastructure resources corresponding to a given Terraform configuration.
 // For instructions on managing stacks, see
-// Managing Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/stacks.htm).
+// Managing Stacks (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/stacks.htm).
 // For more information about stacks, see
-// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__stackdefinition).
+// Key Concepts (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__stackdefinition).
 type Stack struct {
 
-	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the stack.
+	// Unique identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the stack.
 	Id *string `mandatory:"false" json:"id"`
 
-	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the compartment where the stack is located.
+	// Unique identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the compartment where the stack is located.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Human-readable name of the stack.
@@ -46,7 +46,7 @@ type Stack struct {
 
 	// The current lifecycle state of the stack.
 	// For more information about stack lifecycle states in Resource Manager, see
-	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates).
+	// Key Concepts (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates).
 	LifecycleState StackLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	ConfigSource ConfigSource `mandatory:"false" json:"configSource"`
@@ -57,7 +57,7 @@ type Stack struct {
 	// Terraform Registry (https://registry.terraform.io/browse/providers) and allows
 	// CustomTerraformProvider.
 	// For more information about stack sourcing of third-party Terraform providers, see
-	// Third-party Provider Configuration (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
+	// Third-party Provider Configuration (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
 	IsThirdPartyProviderExperienceEnabled *bool `mandatory:"false" json:"isThirdPartyProviderExperienceEnabled"`
 
 	// Terraform variables associated with this resource.
@@ -79,12 +79,12 @@ type Stack struct {
 	TimeDriftLastChecked *common.SDKTime `mandatory:"false" json:"timeDriftLastChecked"`
 
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

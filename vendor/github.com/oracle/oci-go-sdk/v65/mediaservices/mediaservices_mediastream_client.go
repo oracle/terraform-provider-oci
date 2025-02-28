@@ -5,7 +5,7 @@
 // Media Services API
 //
 // Media Services (includes Media Flow and Media Streams) is a fully managed service for processing media (video) source content. Use Media Flow and Media Streams to transcode and package digital video using configurable workflows and stream video outputs.
-// Use the Media Services API to configure media workflows and run Media Flow jobs, create distribution channels, ingest assets, create Preview URLs and play assets. For more information, see Media Flow (https://docs.cloud.oracle.com/iaas/Content/dms-mediaflow/home.htm) and Media Streams (https://docs.cloud.oracle.com/iaas/Content/dms-mediastream/home.htm).
+// Use the Media Services API to configure media workflows and run Media Flow jobs, create distribution channels, ingest assets, create Preview URLs and play assets. For more information, see Media Flow (https://docs.oracle.com/iaas/Content/dms-mediaflow/home.htm) and Media Streams (https://docs.oracle.com/iaas/Content/dms-mediastream/home.htm).
 //
 
 package mediaservices
@@ -96,7 +96,7 @@ func (client *MediaStreamClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GeneratePlaylist.go.html to see an example of how to use GeneratePlaylist API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GeneratePlaylist.go.html to see an example of how to use GeneratePlaylist API.
 // A default retry strategy applies to this operation GeneratePlaylist()
 func (client MediaStreamClient) GeneratePlaylist(ctx context.Context, request GeneratePlaylistRequest) (response GeneratePlaylistResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client MediaStreamClient) generatePlaylist(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GenerateSessionToken.go.html to see an example of how to use GenerateSessionToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GenerateSessionToken.go.html to see an example of how to use GenerateSessionToken API.
 // A default retry strategy applies to this operation GenerateSessionToken()
 func (client MediaStreamClient) GenerateSessionToken(ctx context.Context, request GenerateSessionTokenRequest) (response GenerateSessionTokenResponse, err error) {
 	var ociResponse common.OCIResponse

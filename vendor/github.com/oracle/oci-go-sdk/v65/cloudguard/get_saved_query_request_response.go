@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSavedQuery.go.html to see an example of how to use GetSavedQueryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSavedQuery.go.html to see an example of how to use GetSavedQueryRequest.
 type GetSavedQueryRequest struct {
 
 	// Saved query OCID

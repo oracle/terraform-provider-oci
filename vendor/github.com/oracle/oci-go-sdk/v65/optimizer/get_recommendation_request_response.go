@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetRecommendation.go.html to see an example of how to use GetRecommendationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetRecommendation.go.html to see an example of how to use GetRecommendationRequest.
 type GetRecommendationRequest struct {
 
 	// The unique OCID associated with the recommendation.

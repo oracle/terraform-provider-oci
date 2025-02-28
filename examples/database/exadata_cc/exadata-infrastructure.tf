@@ -42,13 +42,15 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   infini_band_network_cidr    = "10.31.8.0/21"
   netmask                     = "255.255.255.0"
   ntp_server                  = ["10.231.225.76"]
-  shape                       = "ExadataCC.X7"
+  shape                       = "ExadataCC.X11M"
   time_zone                   = "US/Pacific"
   activation_file             = "activation.zip"
   storage_count               = 3
   compute_count               = 2
   is_cps_offline_report_enabled = false
   is_multi_rack_deployment      = false
+  database_server_type        = "X11M"
+  storage_server_type         = "X11M-HC"
 
   #Optional
   network_bonding_mode_details {

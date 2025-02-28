@@ -22,7 +22,7 @@ type CreateMaintenanceWindowDetails struct {
 	// Maintenance Window name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of resource Ids which are part of the Maintenance Window

@@ -19,13 +19,13 @@ import (
 // MaintenanceWindowSummary General information of a Maintenance Window
 type MaintenanceWindowSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of maintenance window.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Maintenance Window name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Number of resources of the Maintenance window.

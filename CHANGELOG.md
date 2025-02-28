@@ -1,3 +1,18 @@
+## 6.28.0 (February 28, 2025)
+
+### Added
+- Support for OIDC multi issuer support
+- Support for OCI Cache - Valkey Support and valkey migration
+- Support for HeatWave MySQL Service: Extra Configuration Parameters, System Tags
+- Support for BYODKIM
+- Support for X11 M | Exadata Infrastructure Support on ExaDB-C@C
+- Support for EXADB-D- X11M
+- Support for Dataflow Integration and Storage Mounts with Pipelines
+- Support for DBLM: Database Life Cycle Management (Externally Registered Database Vulnerability and Patching)
+
+### Bug Fix
+- Make secret version optional and computed for cross connects
+
 ## 6.27.0 (February 19, 2025)
 
 ### Added

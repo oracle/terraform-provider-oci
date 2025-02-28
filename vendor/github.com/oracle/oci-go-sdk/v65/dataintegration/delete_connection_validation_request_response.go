@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteConnectionValidation.go.html to see an example of how to use DeleteConnectionValidationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteConnectionValidation.go.html to see an example of how to use DeleteConnectionValidationRequest.
 type DeleteConnectionValidationRequest struct {
 
 	// The workspace ID.

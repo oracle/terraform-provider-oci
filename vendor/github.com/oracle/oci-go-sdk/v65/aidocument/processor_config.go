@@ -55,7 +55,7 @@ func (m *processorconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ProcessorConfig: %s.", m.ProcessorType)
+		common.Logf("Received unsupported enum value for ProcessorConfig: %s.", m.ProcessorType)
 		return *m, nil
 	}
 }

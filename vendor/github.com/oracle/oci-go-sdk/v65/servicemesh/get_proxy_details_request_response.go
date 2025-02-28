@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetProxyDetails.go.html to see an example of how to use GetProxyDetailsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetProxyDetails.go.html to see an example of how to use GetProxyDetailsRequest.
 type GetProxyDetailsRequest struct {
 
 	// The client request ID for tracing.

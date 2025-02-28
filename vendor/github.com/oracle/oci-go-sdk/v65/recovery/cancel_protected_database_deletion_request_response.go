@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CancelProtectedDatabaseDeletion.go.html to see an example of how to use CancelProtectedDatabaseDeletionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CancelProtectedDatabaseDeletion.go.html to see an example of how to use CancelProtectedDatabaseDeletionRequest.
 type CancelProtectedDatabaseDeletionRequest struct {
 
 	// The protected database OCID.

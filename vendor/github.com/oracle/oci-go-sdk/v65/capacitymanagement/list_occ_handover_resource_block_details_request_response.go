@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlockDetails.go.html to see an example of how to use ListOccHandoverResourceBlockDetailsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlockDetails.go.html to see an example of how to use ListOccHandoverResourceBlockDetailsRequest.
 type ListOccHandoverResourceBlockDetailsRequest struct {
 
 	// The OCID of the OccHandoverResource which is a required query parameter for listing OccHandoverResourceDetails.

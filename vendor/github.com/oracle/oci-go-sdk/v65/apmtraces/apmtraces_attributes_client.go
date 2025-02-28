@@ -101,7 +101,7 @@ func (client *AttributesClient) ConfigurationProvider() *common.ConfigurationPro
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkActivateAttribute.go.html to see an example of how to use BulkActivateAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkActivateAttribute.go.html to see an example of how to use BulkActivateAttribute API.
 func (client AttributesClient) BulkActivateAttribute(ctx context.Context, request BulkActivateAttributeRequest) (response BulkActivateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -165,7 +165,7 @@ func (client AttributesClient) bulkActivateAttribute(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkDeActivateAttribute.go.html to see an example of how to use BulkDeActivateAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkDeActivateAttribute.go.html to see an example of how to use BulkDeActivateAttribute API.
 func (client AttributesClient) BulkDeActivateAttribute(ctx context.Context, request BulkDeActivateAttributeRequest) (response BulkDeActivateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -223,7 +223,7 @@ func (client AttributesClient) bulkDeActivateAttribute(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkPinAttribute.go.html to see an example of how to use BulkPinAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkPinAttribute.go.html to see an example of how to use BulkPinAttribute API.
 func (client AttributesClient) BulkPinAttribute(ctx context.Context, request BulkPinAttributeRequest) (response BulkPinAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -280,7 +280,7 @@ func (client AttributesClient) bulkPinAttribute(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkUnpinAttribute.go.html to see an example of how to use BulkUnpinAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkUnpinAttribute.go.html to see an example of how to use BulkUnpinAttribute API.
 func (client AttributesClient) BulkUnpinAttribute(ctx context.Context, request BulkUnpinAttributeRequest) (response BulkUnpinAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -337,7 +337,7 @@ func (client AttributesClient) bulkUnpinAttribute(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkUpdateAttribute.go.html to see an example of how to use BulkUpdateAttribute API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkUpdateAttribute.go.html to see an example of how to use BulkUpdateAttribute API.
 func (client AttributesClient) BulkUpdateAttribute(ctx context.Context, request BulkUpdateAttributeRequest) (response BulkUpdateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -396,7 +396,7 @@ func (client AttributesClient) bulkUpdateAttribute(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkUpdateAttributeNotes.go.html to see an example of how to use BulkUpdateAttributeNotes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/BulkUpdateAttributeNotes.go.html to see an example of how to use BulkUpdateAttributeNotes API.
 func (client AttributesClient) BulkUpdateAttributeNotes(ctx context.Context, request BulkUpdateAttributeNotesRequest) (response BulkUpdateAttributeNotesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -453,7 +453,7 @@ func (client AttributesClient) bulkUpdateAttributeNotes(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetStatusAutoActivate.go.html to see an example of how to use GetStatusAutoActivate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetStatusAutoActivate.go.html to see an example of how to use GetStatusAutoActivate API.
 func (client AttributesClient) GetStatusAutoActivate(ctx context.Context, request GetStatusAutoActivateRequest) (response GetStatusAutoActivateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -510,7 +510,7 @@ func (client AttributesClient) getStatusAutoActivate(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/PutToggleAutoActivate.go.html to see an example of how to use PutToggleAutoActivate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/PutToggleAutoActivate.go.html to see an example of how to use PutToggleAutoActivate API.
 func (client AttributesClient) PutToggleAutoActivate(ctx context.Context, request PutToggleAutoActivateRequest) (response PutToggleAutoActivateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

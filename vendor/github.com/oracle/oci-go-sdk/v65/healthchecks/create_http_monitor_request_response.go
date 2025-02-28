@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateHttpMonitor.go.html to see an example of how to use CreateHttpMonitorRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateHttpMonitor.go.html to see an example of how to use CreateHttpMonitorRequest.
 type CreateHttpMonitorRequest struct {
 
 	// The configuration details for creating an HTTP monitor.

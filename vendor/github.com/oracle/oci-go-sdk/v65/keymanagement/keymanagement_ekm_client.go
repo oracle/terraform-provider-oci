@@ -4,7 +4,7 @@
 
 // Vault Key Management API
 //
-// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -95,7 +95,7 @@ func (client *EkmClient) ConfigurationProvider() *common.ConfigurationProvider {
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateEkmsPrivateEndpoint.go.html to see an example of how to use CreateEkmsPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateEkmsPrivateEndpoint.go.html to see an example of how to use CreateEkmsPrivateEndpoint API.
 func (client EkmClient) CreateEkmsPrivateEndpoint(ctx context.Context, request CreateEkmsPrivateEndpointRequest) (response CreateEkmsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client EkmClient) createEkmsPrivateEndpoint(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteEkmsPrivateEndpoint.go.html to see an example of how to use DeleteEkmsPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteEkmsPrivateEndpoint.go.html to see an example of how to use DeleteEkmsPrivateEndpoint API.
 func (client EkmClient) DeleteEkmsPrivateEndpoint(ctx context.Context, request DeleteEkmsPrivateEndpointRequest) (response DeleteEkmsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client EkmClient) deleteEkmsPrivateEndpoint(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetEkmsPrivateEndpoint.go.html to see an example of how to use GetEkmsPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetEkmsPrivateEndpoint.go.html to see an example of how to use GetEkmsPrivateEndpoint API.
 func (client EkmClient) GetEkmsPrivateEndpoint(ctx context.Context, request GetEkmsPrivateEndpointRequest) (response GetEkmsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -271,7 +271,7 @@ func (client EkmClient) getEkmsPrivateEndpoint(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListEkmsPrivateEndpoints.go.html to see an example of how to use ListEkmsPrivateEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListEkmsPrivateEndpoints.go.html to see an example of how to use ListEkmsPrivateEndpoints API.
 func (client EkmClient) ListEkmsPrivateEndpoints(ctx context.Context, request ListEkmsPrivateEndpointsRequest) (response ListEkmsPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -328,7 +328,7 @@ func (client EkmClient) listEkmsPrivateEndpoints(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateEkmsPrivateEndpoint.go.html to see an example of how to use UpdateEkmsPrivateEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateEkmsPrivateEndpoint.go.html to see an example of how to use UpdateEkmsPrivateEndpoint API.
 func (client EkmClient) UpdateEkmsPrivateEndpoint(ctx context.Context, request UpdateEkmsPrivateEndpointRequest) (response UpdateEkmsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

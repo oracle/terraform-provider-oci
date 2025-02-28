@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UploadSignedCertificateAndGenerateWallet.go.html to see an example of how to use UploadSignedCertificateAndGenerateWalletRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UploadSignedCertificateAndGenerateWallet.go.html to see an example of how to use UploadSignedCertificateAndGenerateWalletRequest.
 type UploadSignedCertificateAndGenerateWalletRequest struct {
 
 	// Sharded Database identifier

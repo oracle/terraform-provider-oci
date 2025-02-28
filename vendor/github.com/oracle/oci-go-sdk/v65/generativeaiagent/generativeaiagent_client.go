@@ -8,7 +8,7 @@
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
 // For creating and managing client chat sessions see the /EN/generative-ai-agents-client/latest/.
-// To learn more about the service, see the Generative AI Agents documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai-agents/home.htm).
+// To learn more about the service, see the Generative AI Agents documentation (https://docs.oracle.com/iaas/Content/generative-ai-agents/home.htm).
 //
 
 package generativeaiagent
@@ -99,7 +99,7 @@ func (client *GenerativeAiAgentClient) ConfigurationProvider() *common.Configura
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client GenerativeAiAgentClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,11 +154,11 @@ func (client GenerativeAiAgentClient) cancelWorkRequest(ctx context.Context, req
 }
 
 // ChangeAgentCompartment Moves an agent into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeAgentCompartment.go.html to see an example of how to use ChangeAgentCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeAgentCompartment.go.html to see an example of how to use ChangeAgentCompartment API.
 // A default retry strategy applies to this operation ChangeAgentCompartment()
 func (client GenerativeAiAgentClient) ChangeAgentCompartment(ctx context.Context, request ChangeAgentCompartmentRequest) (response ChangeAgentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -218,11 +218,11 @@ func (client GenerativeAiAgentClient) changeAgentCompartment(ctx context.Context
 }
 
 // ChangeAgentEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeAgentEndpointCompartment.go.html to see an example of how to use ChangeAgentEndpointCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeAgentEndpointCompartment.go.html to see an example of how to use ChangeAgentEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeAgentEndpointCompartment()
 func (client GenerativeAiAgentClient) ChangeAgentEndpointCompartment(ctx context.Context, request ChangeAgentEndpointCompartmentRequest) (response ChangeAgentEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -282,11 +282,11 @@ func (client GenerativeAiAgentClient) changeAgentEndpointCompartment(ctx context
 }
 
 // ChangeKnowledgeBaseCompartment Moves a knowledge base into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeKnowledgeBaseCompartment.go.html to see an example of how to use ChangeKnowledgeBaseCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeKnowledgeBaseCompartment.go.html to see an example of how to use ChangeKnowledgeBaseCompartment API.
 // A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
 func (client GenerativeAiAgentClient) ChangeKnowledgeBaseCompartment(ctx context.Context, request ChangeKnowledgeBaseCompartmentRequest) (response ChangeKnowledgeBaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -349,7 +349,7 @@ func (client GenerativeAiAgentClient) changeKnowledgeBaseCompartment(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateAgent.go.html to see an example of how to use CreateAgent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateAgent.go.html to see an example of how to use CreateAgent API.
 // A default retry strategy applies to this operation CreateAgent()
 func (client GenerativeAiAgentClient) CreateAgent(ctx context.Context, request CreateAgentRequest) (response CreateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -412,7 +412,7 @@ func (client GenerativeAiAgentClient) createAgent(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateAgentEndpoint.go.html to see an example of how to use CreateAgentEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateAgentEndpoint.go.html to see an example of how to use CreateAgentEndpoint API.
 // A default retry strategy applies to this operation CreateAgentEndpoint()
 func (client GenerativeAiAgentClient) CreateAgentEndpoint(ctx context.Context, request CreateAgentEndpointRequest) (response CreateAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -475,7 +475,7 @@ func (client GenerativeAiAgentClient) createAgentEndpoint(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateDataIngestionJob.go.html to see an example of how to use CreateDataIngestionJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateDataIngestionJob.go.html to see an example of how to use CreateDataIngestionJob API.
 // A default retry strategy applies to this operation CreateDataIngestionJob()
 func (client GenerativeAiAgentClient) CreateDataIngestionJob(ctx context.Context, request CreateDataIngestionJobRequest) (response CreateDataIngestionJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -538,7 +538,7 @@ func (client GenerativeAiAgentClient) createDataIngestionJob(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateDataSource.go.html to see an example of how to use CreateDataSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateDataSource.go.html to see an example of how to use CreateDataSource API.
 // A default retry strategy applies to this operation CreateDataSource()
 func (client GenerativeAiAgentClient) CreateDataSource(ctx context.Context, request CreateDataSourceRequest) (response CreateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -601,7 +601,7 @@ func (client GenerativeAiAgentClient) createDataSource(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateKnowledgeBase.go.html to see an example of how to use CreateKnowledgeBase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateKnowledgeBase.go.html to see an example of how to use CreateKnowledgeBase API.
 // A default retry strategy applies to this operation CreateKnowledgeBase()
 func (client GenerativeAiAgentClient) CreateKnowledgeBase(ctx context.Context, request CreateKnowledgeBaseRequest) (response CreateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -664,7 +664,7 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteAgent.go.html to see an example of how to use DeleteAgent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteAgent.go.html to see an example of how to use DeleteAgent API.
 // A default retry strategy applies to this operation DeleteAgent()
 func (client GenerativeAiAgentClient) DeleteAgent(ctx context.Context, request DeleteAgentRequest) (response DeleteAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -722,7 +722,7 @@ func (client GenerativeAiAgentClient) deleteAgent(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteAgentEndpoint.go.html to see an example of how to use DeleteAgentEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteAgentEndpoint.go.html to see an example of how to use DeleteAgentEndpoint API.
 // A default retry strategy applies to this operation DeleteAgentEndpoint()
 func (client GenerativeAiAgentClient) DeleteAgentEndpoint(ctx context.Context, request DeleteAgentEndpointRequest) (response DeleteAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -780,7 +780,7 @@ func (client GenerativeAiAgentClient) deleteAgentEndpoint(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteDataIngestionJob.go.html to see an example of how to use DeleteDataIngestionJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteDataIngestionJob.go.html to see an example of how to use DeleteDataIngestionJob API.
 // A default retry strategy applies to this operation DeleteDataIngestionJob()
 func (client GenerativeAiAgentClient) DeleteDataIngestionJob(ctx context.Context, request DeleteDataIngestionJobRequest) (response DeleteDataIngestionJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -838,7 +838,7 @@ func (client GenerativeAiAgentClient) deleteDataIngestionJob(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteDataSource.go.html to see an example of how to use DeleteDataSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteDataSource.go.html to see an example of how to use DeleteDataSource API.
 // A default retry strategy applies to this operation DeleteDataSource()
 func (client GenerativeAiAgentClient) DeleteDataSource(ctx context.Context, request DeleteDataSourceRequest) (response DeleteDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -896,7 +896,7 @@ func (client GenerativeAiAgentClient) deleteDataSource(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBase API.
 // A default retry strategy applies to this operation DeleteKnowledgeBase()
 func (client GenerativeAiAgentClient) DeleteKnowledgeBase(ctx context.Context, request DeleteKnowledgeBaseRequest) (response DeleteKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -954,7 +954,7 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetAgent.go.html to see an example of how to use GetAgent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetAgent.go.html to see an example of how to use GetAgent API.
 // A default retry strategy applies to this operation GetAgent()
 func (client GenerativeAiAgentClient) GetAgent(ctx context.Context, request GetAgentRequest) (response GetAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1012,7 +1012,7 @@ func (client GenerativeAiAgentClient) getAgent(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetAgentEndpoint.go.html to see an example of how to use GetAgentEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetAgentEndpoint.go.html to see an example of how to use GetAgentEndpoint API.
 // A default retry strategy applies to this operation GetAgentEndpoint()
 func (client GenerativeAiAgentClient) GetAgentEndpoint(ctx context.Context, request GetAgentEndpointRequest) (response GetAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1070,7 +1070,7 @@ func (client GenerativeAiAgentClient) getAgentEndpoint(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataIngestionJob.go.html to see an example of how to use GetDataIngestionJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataIngestionJob.go.html to see an example of how to use GetDataIngestionJob API.
 // A default retry strategy applies to this operation GetDataIngestionJob()
 func (client GenerativeAiAgentClient) GetDataIngestionJob(ctx context.Context, request GetDataIngestionJobRequest) (response GetDataIngestionJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1128,7 +1128,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJob(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataIngestionJobLogContent.go.html to see an example of how to use GetDataIngestionJobLogContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataIngestionJobLogContent.go.html to see an example of how to use GetDataIngestionJobLogContent API.
 // A default retry strategy applies to this operation GetDataIngestionJobLogContent()
 func (client GenerativeAiAgentClient) GetDataIngestionJobLogContent(ctx context.Context, request GetDataIngestionJobLogContentRequest) (response GetDataIngestionJobLogContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1185,7 +1185,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJobLogContent(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataSource.go.html to see an example of how to use GetDataSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataSource.go.html to see an example of how to use GetDataSource API.
 // A default retry strategy applies to this operation GetDataSource()
 func (client GenerativeAiAgentClient) GetDataSource(ctx context.Context, request GetDataSourceRequest) (response GetDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1243,7 +1243,7 @@ func (client GenerativeAiAgentClient) getDataSource(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetKnowledgeBase.go.html to see an example of how to use GetKnowledgeBase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetKnowledgeBase.go.html to see an example of how to use GetKnowledgeBase API.
 // A default retry strategy applies to this operation GetKnowledgeBase()
 func (client GenerativeAiAgentClient) GetKnowledgeBase(ctx context.Context, request GetKnowledgeBaseRequest) (response GetKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1301,7 +1301,7 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client GenerativeAiAgentClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1359,7 +1359,7 @@ func (client GenerativeAiAgentClient) getWorkRequest(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListAgentEndpoints.go.html to see an example of how to use ListAgentEndpoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListAgentEndpoints.go.html to see an example of how to use ListAgentEndpoints API.
 // A default retry strategy applies to this operation ListAgentEndpoints()
 func (client GenerativeAiAgentClient) ListAgentEndpoints(ctx context.Context, request ListAgentEndpointsRequest) (response ListAgentEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1417,7 +1417,7 @@ func (client GenerativeAiAgentClient) listAgentEndpoints(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListAgents.go.html to see an example of how to use ListAgents API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListAgents.go.html to see an example of how to use ListAgents API.
 // A default retry strategy applies to this operation ListAgents()
 func (client GenerativeAiAgentClient) ListAgents(ctx context.Context, request ListAgentsRequest) (response ListAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1475,7 +1475,7 @@ func (client GenerativeAiAgentClient) listAgents(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListDataIngestionJobs.go.html to see an example of how to use ListDataIngestionJobs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListDataIngestionJobs.go.html to see an example of how to use ListDataIngestionJobs API.
 // A default retry strategy applies to this operation ListDataIngestionJobs()
 func (client GenerativeAiAgentClient) ListDataIngestionJobs(ctx context.Context, request ListDataIngestionJobsRequest) (response ListDataIngestionJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1533,7 +1533,7 @@ func (client GenerativeAiAgentClient) listDataIngestionJobs(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListDataSources.go.html to see an example of how to use ListDataSources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListDataSources.go.html to see an example of how to use ListDataSources API.
 // A default retry strategy applies to this operation ListDataSources()
 func (client GenerativeAiAgentClient) ListDataSources(ctx context.Context, request ListDataSourcesRequest) (response ListDataSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1591,7 +1591,7 @@ func (client GenerativeAiAgentClient) listDataSources(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListKnowledgeBases.go.html to see an example of how to use ListKnowledgeBases API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListKnowledgeBases.go.html to see an example of how to use ListKnowledgeBases API.
 // A default retry strategy applies to this operation ListKnowledgeBases()
 func (client GenerativeAiAgentClient) ListKnowledgeBases(ctx context.Context, request ListKnowledgeBasesRequest) (response ListKnowledgeBasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1649,7 +1649,7 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client GenerativeAiAgentClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1707,7 +1707,7 @@ func (client GenerativeAiAgentClient) listWorkRequestErrors(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client GenerativeAiAgentClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1765,7 +1765,7 @@ func (client GenerativeAiAgentClient) listWorkRequestLogs(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client GenerativeAiAgentClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1823,7 +1823,7 @@ func (client GenerativeAiAgentClient) listWorkRequests(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateAgent.go.html to see an example of how to use UpdateAgent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateAgent.go.html to see an example of how to use UpdateAgent API.
 // A default retry strategy applies to this operation UpdateAgent()
 func (client GenerativeAiAgentClient) UpdateAgent(ctx context.Context, request UpdateAgentRequest) (response UpdateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1881,7 +1881,7 @@ func (client GenerativeAiAgentClient) updateAgent(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateAgentEndpoint.go.html to see an example of how to use UpdateAgentEndpoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateAgentEndpoint.go.html to see an example of how to use UpdateAgentEndpoint API.
 // A default retry strategy applies to this operation UpdateAgentEndpoint()
 func (client GenerativeAiAgentClient) UpdateAgentEndpoint(ctx context.Context, request UpdateAgentEndpointRequest) (response UpdateAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1939,7 +1939,7 @@ func (client GenerativeAiAgentClient) updateAgentEndpoint(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateDataSource.go.html to see an example of how to use UpdateDataSource API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateDataSource.go.html to see an example of how to use UpdateDataSource API.
 // A default retry strategy applies to this operation UpdateDataSource()
 func (client GenerativeAiAgentClient) UpdateDataSource(ctx context.Context, request UpdateDataSourceRequest) (response UpdateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1997,7 +1997,7 @@ func (client GenerativeAiAgentClient) updateDataSource(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateKnowledgeBase.go.html to see an example of how to use UpdateKnowledgeBase API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateKnowledgeBase.go.html to see an example of how to use UpdateKnowledgeBase API.
 // A default retry strategy applies to this operation UpdateKnowledgeBase()
 func (client GenerativeAiAgentClient) UpdateKnowledgeBase(ctx context.Context, request UpdateKnowledgeBaseRequest) (response UpdateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse

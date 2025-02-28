@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamDistributionChannelLock.go.html to see an example of how to use AddStreamDistributionChannelLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamDistributionChannelLock.go.html to see an example of how to use AddStreamDistributionChannelLockRequest.
 type AddStreamDistributionChannelLockRequest struct {
 
 	// AddResourceLockDetails body parameter

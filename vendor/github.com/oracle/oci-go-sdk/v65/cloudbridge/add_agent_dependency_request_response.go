@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/AddAgentDependency.go.html to see an example of how to use AddAgentDependencyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/AddAgentDependency.go.html to see an example of how to use AddAgentDependencyRequest.
 type AddAgentDependencyRequest struct {
 
 	// Unique environment identifier.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteRunbook.go.html to see an example of how to use DeleteRunbookRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteRunbook.go.html to see an example of how to use DeleteRunbookRequest.
 type DeleteRunbookRequest struct {
 
 	// Unique Runbook identifier

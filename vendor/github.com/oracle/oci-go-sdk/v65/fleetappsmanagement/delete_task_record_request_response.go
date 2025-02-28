@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteTaskRecord.go.html to see an example of how to use DeleteTaskRecordRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteTaskRecord.go.html to see an example of how to use DeleteTaskRecordRequest.
 type DeleteTaskRecordRequest struct {
 
 	// unique TaskDetail identifier
