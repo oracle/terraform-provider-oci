@@ -34,9 +34,9 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 		health_checks {
 			#Required
 			health_check_type = var.container_instance_containers_health_checks_health_check_type
+			port = var.container_instance_containers_health_checks_port
 
 			#Optional
-			command = var.container_instance_containers_health_checks_command
 			failure_action = var.container_instance_containers_health_checks_failure_action
 			failure_threshold = var.container_instance_containers_health_checks_failure_threshold
 			headers {
@@ -49,7 +49,6 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 			interval_in_seconds = var.container_instance_containers_health_checks_interval_in_seconds
 			name = var.container_instance_containers_health_checks_name
 			path = var.container_instance_containers_health_checks_path
-			port = var.container_instance_containers_health_checks_port
 			success_threshold = var.container_instance_containers_health_checks_success_threshold
 			timeout_in_seconds = var.container_instance_containers_health_checks_timeout_in_seconds
 		}
@@ -172,8 +171,7 @@ The following arguments are supported:
 
 		The total size of all environment variables combined, name and values, must be 64 KB or smaller. 
 	* `freeform_tags` - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-	* `health_checks` - (Optional) list of container health checks to check container status and take appropriate action if container status is failed. There are three types of health checks that we currently support HTTP, TCP, and Command. 
-		* `command` - (Required when health_check_type=COMMAND) The list of strings that will be simplified to a single command for checking the status of the container. 
+	* `health_checks` - (Optional) list of container health checks to check container status and take appropriate action if container status is failed. There are two types of health checks that we currently support HTTP and TCP. 
 		* `failure_action` - (Optional) The action will be triggered when the container health check fails. There are two types of action: KILL or NONE. The default action is KILL. If failure action is KILL, the container will be subject to the container restart policy. 
 		* `failure_threshold` - (Optional) Number of consecutive failures at which we consider the check failed.
 		* `headers` - (Applicable when health_check_type=HTTP) Container health check HTTP headers.
@@ -184,7 +182,7 @@ The following arguments are supported:
 		* `interval_in_seconds` - (Optional) Number of seconds between two consecutive runs for checking container health.
 		* `name` - (Optional) Health check name.
 		* `path` - (Required when health_check_type=HTTP) Container health check HTTP path.
-		* `port` - (Required when health_check_type=HTTP | TCP) Container health check HTTP port.
+		* `port` - (Required) Container health check HTTP port.
 		* `success_threshold` - (Optional) Number of consecutive successes at which we consider the check succeeded again after it was in failure state.
 		* `timeout_in_seconds` - (Optional) Length of waiting time in seconds before marking health check failed.
 	* `image_url` - (Required) A URL identifying the image that the container runs in, such as docker.io/library/busybox:latest. If you do not provide a tag, the tag will default to latest.
@@ -301,6 +299,7 @@ The following attributes are exported:
 	* `processor_description` - A short description of the container instance's processor (CPU). 
 * `state` - The current state of the container instance.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. 
+* `tenant_id` - TenantId id of the container instance.
 * `time_created` - The time the container instance was created, in the format defined by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `time_updated` - The time the container instance was updated, in the format defined by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `vnics` - The virtual networks available to the containers in the container instance.
