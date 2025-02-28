@@ -237,6 +237,29 @@ var (
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
 
+	DatabaseUpdateRepresentation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseUpdateRepresentation},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.24.0.0`},
+		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		//"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	databaseUpdateRepresentation = map[string]interface{}{
+		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `myTestDb`},
+		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseUpdateDbBackupConfigRepresentation},
+		//"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_exacs`}, //It can be auto generated
+		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"pdb_name":       acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
+		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
+		// "tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `tdeWalletPassword`},	exadata doesn't support it.
+	}
+
 	databaseDatabaseRepresentation2 = map[string]interface{}{
 		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `myTestDb`},
@@ -478,8 +501,7 @@ var (
 	}
 
 	DatabaseDatabaseDatabaseDbBackupConfigDbrsBackupDestinationDetailsRepresentation = map[string]interface{}{
-		"dbrs_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `DbrsPolicyId`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: `DBRS`},
+		"type": acctest.Representation{RepType: acctest.Optional, Create: `AWS`, Update: `OBJECT_STORE`},
 	}
 
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
@@ -495,6 +517,15 @@ var (
 		"auto_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"auto_backup_window":      acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
 		"recovery_window_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+
+	databaseUpdateDbBackupConfigRepresentation = map[string]interface{}{
+		"auto_backup_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"auto_backup_window":         acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"run_immediate_full_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"backup_deletion_policy":     acctest.Representation{RepType: acctest.Optional, Create: `DELETE_IMMEDIATELY`, Update: `DELETE_AFTER_RETENTION_PERIOD`},
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigDbrsBackupDestinationDetailsRepresentation},
 	}
 
 	databaseDatabaseDbBackupConfigBackupDestinationDetailsRepresentation = map[string]interface{}{
@@ -552,6 +583,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseVmClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation)
 )
+
+var existingResourceId string
 
 // issue-routing-tag: database/default
 func TestDatabaseDatabaseResource_basic(t *testing.T) {
@@ -786,6 +819,104 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 			ResourceName: resourceName,
 		},
 	})
+}
+
+func TestDatabaseDatabaseResource_update(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResource_update")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
+	resourceName := "oci_database_database.test_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseResourceDependencies+kmsKeyIdVariableStr+vaultIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation), "database", "database", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseUpdateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_day", "SUNDAY"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "false"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_IMMEDIATELY"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "AWS"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "19.24.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) error {
+					resourceData := s.Modules[0].Resources[resourceName].Primary.Attributes
+					fmt.Printf("attribute: %s", resourceData["id"])
+					existingResourceId = resourceData["id"]
+					return nil
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseUpdateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) error {
+					resourceData := s.Modules[0].Resources[resourceName].Primary.Attributes
+					actualID := resourceData["id"]
+					fmt.Printf("Validating Resource ID: Expected=%s, Got=%s\n", existingResourceId, actualID)
+					resource.TestCheckResourceAttr(resourceName, "id", existingResourceId)
+					return nil
+				},
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_day", "SUNDAY"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "true"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_AFTER_RETENTION_PERIOD"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "OBJECT_STORE"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "19.24.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
+	})
+
 }
 
 func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
@@ -1093,7 +1224,7 @@ func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*client.OracleClients).DatabaseClient()
+	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_database" {
 			noResourceFound = false
