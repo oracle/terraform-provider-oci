@@ -367,8 +367,9 @@ func (s *ApigatewayGatewayResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
-		set := networkSecurityGroupIds.(*schema.Set)
+	// Always set network security group IDs if provided, even if empty.
+	if v, ok := s.D.GetOk("network_security_group_ids"); ok {
+		set := v.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
@@ -376,9 +377,7 @@ func (s *ApigatewayGatewayResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
-			request.NetworkSecurityGroupIds = tmp
-		}
+		request.NetworkSecurityGroupIds = tmp
 	}
 
 	if responseCacheDetails, ok := s.D.GetOkExists("response_cache_details"); ok {
@@ -611,8 +610,9 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.GatewayId = &tmp
 
-	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
-		set := networkSecurityGroupIds.(*schema.Set)
+	// Always update the network security group IDs if there is a change—even when removing all NSGs.
+	if s.D.HasChange("network_security_group_ids") {
+		set := s.D.Get("network_security_group_ids").(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
@@ -620,9 +620,7 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
-			request.NetworkSecurityGroupIds = tmp
-		}
+		request.NetworkSecurityGroupIds = tmp
 	}
 
 	if responseCacheDetails, ok := s.D.GetOkExists("response_cache_details"); ok {
