@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Filter.go.html to see an example of how to use FilterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Filter.go.html to see an example of how to use FilterRequest.
 type FilterRequest struct {
 
 	// The Logging Analytics namespace used for the request.

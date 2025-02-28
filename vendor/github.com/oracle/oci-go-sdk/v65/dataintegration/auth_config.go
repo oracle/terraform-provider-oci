@@ -69,7 +69,7 @@ func (m *authconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for AuthConfig: %s.", m.ModelType)
+		common.Logf("Received unsupported enum value for AuthConfig: %s.", m.ModelType)
 		return *m, nil
 	}
 }

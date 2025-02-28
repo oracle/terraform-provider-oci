@@ -5,7 +5,7 @@
 // Management Agent API
 //
 // Use the Management Agent API to manage your infrastructure's management agents, including their plugins and install keys.
-// For more information, see Management Agent (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
+// For more information, see Management Agent (https://docs.oracle.com/iaas/management-agents/index.html).
 //
 
 package managementagent
@@ -20,7 +20,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
+	// (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm)
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.

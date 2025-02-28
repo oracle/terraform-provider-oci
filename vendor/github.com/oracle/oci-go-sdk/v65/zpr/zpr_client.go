@@ -4,7 +4,7 @@
 
 // Zero Trust Packet Routing Control Plane API
 //
-// Use the Zero Trust Packet Routing Control Plane API to manage ZPR configuration and policy. See the Zero Trust Packet Routing (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/home.htm) documentation for more information.
+// Use the Zero Trust Packet Routing Control Plane API to manage ZPR configuration and policy. See the Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/home.htm) documentation for more information.
 //
 
 package zpr
@@ -96,7 +96,7 @@ func (client *ZprClient) ConfigurationProvider() *common.ConfigurationProvider {
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/CreateConfiguration.go.html to see an example of how to use CreateConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/CreateConfiguration.go.html to see an example of how to use CreateConfiguration API.
 // A default retry strategy applies to this operation CreateConfiguration()
 func (client ZprClient) CreateConfiguration(ctx context.Context, request CreateConfigurationRequest) (response CreateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,7 +159,7 @@ func (client ZprClient) createConfiguration(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/CreateZprPolicy.go.html to see an example of how to use CreateZprPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/CreateZprPolicy.go.html to see an example of how to use CreateZprPolicy API.
 // A default retry strategy applies to this operation CreateZprPolicy()
 func (client ZprClient) CreateZprPolicy(ctx context.Context, request CreateZprPolicyRequest) (response CreateZprPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,7 +222,7 @@ func (client ZprClient) createZprPolicy(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/DeleteZprPolicy.go.html to see an example of how to use DeleteZprPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/DeleteZprPolicy.go.html to see an example of how to use DeleteZprPolicy API.
 // A default retry strategy applies to this operation DeleteZprPolicy()
 func (client ZprClient) DeleteZprPolicy(ctx context.Context, request DeleteZprPolicyRequest) (response DeleteZprPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -281,7 +281,7 @@ func (client ZprClient) deleteZprPolicy(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 // A default retry strategy applies to this operation GetConfiguration()
 func (client ZprClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -339,7 +339,7 @@ func (client ZprClient) getConfiguration(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetZprConfigurationWorkRequest.go.html to see an example of how to use GetZprConfigurationWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetZprConfigurationWorkRequest.go.html to see an example of how to use GetZprConfigurationWorkRequest API.
 // A default retry strategy applies to this operation GetZprConfigurationWorkRequest()
 func (client ZprClient) GetZprConfigurationWorkRequest(ctx context.Context, request GetZprConfigurationWorkRequestRequest) (response GetZprConfigurationWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -397,7 +397,7 @@ func (client ZprClient) getZprConfigurationWorkRequest(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetZprPolicy.go.html to see an example of how to use GetZprPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetZprPolicy.go.html to see an example of how to use GetZprPolicy API.
 // A default retry strategy applies to this operation GetZprPolicy()
 func (client ZprClient) GetZprPolicy(ctx context.Context, request GetZprPolicyRequest) (response GetZprPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -455,7 +455,7 @@ func (client ZprClient) getZprPolicy(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetZprPolicyWorkRequest.go.html to see an example of how to use GetZprPolicyWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/GetZprPolicyWorkRequest.go.html to see an example of how to use GetZprPolicyWorkRequest API.
 // A default retry strategy applies to this operation GetZprPolicyWorkRequest()
 func (client ZprClient) GetZprPolicyWorkRequest(ctx context.Context, request GetZprPolicyWorkRequestRequest) (response GetZprPolicyWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -513,7 +513,7 @@ func (client ZprClient) getZprPolicyWorkRequest(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprConfigurationWorkRequestErrors.go.html to see an example of how to use ListZprConfigurationWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprConfigurationWorkRequestErrors.go.html to see an example of how to use ListZprConfigurationWorkRequestErrors API.
 // A default retry strategy applies to this operation ListZprConfigurationWorkRequestErrors()
 func (client ZprClient) ListZprConfigurationWorkRequestErrors(ctx context.Context, request ListZprConfigurationWorkRequestErrorsRequest) (response ListZprConfigurationWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -571,7 +571,7 @@ func (client ZprClient) listZprConfigurationWorkRequestErrors(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprConfigurationWorkRequestLogs.go.html to see an example of how to use ListZprConfigurationWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprConfigurationWorkRequestLogs.go.html to see an example of how to use ListZprConfigurationWorkRequestLogs API.
 // A default retry strategy applies to this operation ListZprConfigurationWorkRequestLogs()
 func (client ZprClient) ListZprConfigurationWorkRequestLogs(ctx context.Context, request ListZprConfigurationWorkRequestLogsRequest) (response ListZprConfigurationWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -629,7 +629,7 @@ func (client ZprClient) listZprConfigurationWorkRequestLogs(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprConfigurationWorkRequests.go.html to see an example of how to use ListZprConfigurationWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprConfigurationWorkRequests.go.html to see an example of how to use ListZprConfigurationWorkRequests API.
 // A default retry strategy applies to this operation ListZprConfigurationWorkRequests()
 func (client ZprClient) ListZprConfigurationWorkRequests(ctx context.Context, request ListZprConfigurationWorkRequestsRequest) (response ListZprConfigurationWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -687,7 +687,7 @@ func (client ZprClient) listZprConfigurationWorkRequests(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicies.go.html to see an example of how to use ListZprPolicies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicies.go.html to see an example of how to use ListZprPolicies API.
 // A default retry strategy applies to this operation ListZprPolicies()
 func (client ZprClient) ListZprPolicies(ctx context.Context, request ListZprPoliciesRequest) (response ListZprPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -745,7 +745,7 @@ func (client ZprClient) listZprPolicies(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicyWorkRequestErrors.go.html to see an example of how to use ListZprPolicyWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicyWorkRequestErrors.go.html to see an example of how to use ListZprPolicyWorkRequestErrors API.
 // A default retry strategy applies to this operation ListZprPolicyWorkRequestErrors()
 func (client ZprClient) ListZprPolicyWorkRequestErrors(ctx context.Context, request ListZprPolicyWorkRequestErrorsRequest) (response ListZprPolicyWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -803,7 +803,7 @@ func (client ZprClient) listZprPolicyWorkRequestErrors(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicyWorkRequestLogs.go.html to see an example of how to use ListZprPolicyWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicyWorkRequestLogs.go.html to see an example of how to use ListZprPolicyWorkRequestLogs API.
 // A default retry strategy applies to this operation ListZprPolicyWorkRequestLogs()
 func (client ZprClient) ListZprPolicyWorkRequestLogs(ctx context.Context, request ListZprPolicyWorkRequestLogsRequest) (response ListZprPolicyWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -861,7 +861,7 @@ func (client ZprClient) listZprPolicyWorkRequestLogs(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicyWorkRequests.go.html to see an example of how to use ListZprPolicyWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/ListZprPolicyWorkRequests.go.html to see an example of how to use ListZprPolicyWorkRequests API.
 // A default retry strategy applies to this operation ListZprPolicyWorkRequests()
 func (client ZprClient) ListZprPolicyWorkRequests(ctx context.Context, request ListZprPolicyWorkRequestsRequest) (response ListZprPolicyWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -919,7 +919,7 @@ func (client ZprClient) listZprPolicyWorkRequests(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/UpdateZprPolicy.go.html to see an example of how to use UpdateZprPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/zpr/UpdateZprPolicy.go.html to see an example of how to use UpdateZprPolicy API.
 // A default retry strategy applies to this operation UpdateZprPolicy()
 func (client ZprClient) UpdateZprPolicy(ctx context.Context, request UpdateZprPolicyRequest) (response UpdateZprPolicyResponse, err error) {
 	var ociResponse common.OCIResponse

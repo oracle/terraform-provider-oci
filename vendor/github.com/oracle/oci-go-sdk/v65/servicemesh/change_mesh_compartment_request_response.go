@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeMeshCompartment.go.html to see an example of how to use ChangeMeshCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeMeshCompartment.go.html to see an example of how to use ChangeMeshCompartmentRequest.
 type ChangeMeshCompartmentRequest struct {
 
 	// Unique Mesh identifier.

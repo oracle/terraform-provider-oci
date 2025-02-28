@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteCompliancePolicyRule.go.html to see an example of how to use DeleteCompliancePolicyRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteCompliancePolicyRule.go.html to see an example of how to use DeleteCompliancePolicyRuleRequest.
 type DeleteCompliancePolicyRuleRequest struct {
 
 	// unique CompliancePolicyRule identifier.

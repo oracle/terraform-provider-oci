@@ -24,7 +24,7 @@ type NotebookSessionConfigDetails struct {
 	// A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs.
 	BlockStorageSizeInGBs *int `mandatory:"false" json:"blockStorageSizeInGBs"`
 
-	// A notebook session instance is provided with a VNIC for network access.  This specifies the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.
+	// A notebook session instance is provided with a VNIC for network access.  This specifies the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The OCID of a Data Science private endpoint.

@@ -20,16 +20,16 @@ import (
 // WebAppFirewallLoadBalancer WebAppFirewall to a LoadBalancer resource.
 type WebAppFirewallLoadBalancer struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
 	Id *string `mandatory:"true" json:"id"`
 
 	// WebAppFirewall display name, can be renamed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
 	WebAppFirewallPolicyId *string `mandatory:"true" json:"webAppFirewallPolicyId"`
 
 	// The time the WebAppFirewall was created. An RFC3339 formatted datetime string.
@@ -47,7 +47,7 @@ type WebAppFirewallLoadBalancer struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 
-	// LoadBalancer OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to which the WebAppFirewallPolicy is attached to.
+	// LoadBalancer OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the WebAppFirewallPolicy is attached to.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The time the WebAppFirewall was updated. An RFC3339 formatted datetime string.

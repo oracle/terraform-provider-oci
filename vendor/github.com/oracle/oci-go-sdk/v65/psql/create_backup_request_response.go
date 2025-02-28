@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateBackup.go.html to see an example of how to use CreateBackupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateBackup.go.html to see an example of how to use CreateBackupRequest.
 type CreateBackupRequest struct {
 
 	// Details for the new backup.

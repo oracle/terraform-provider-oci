@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelKeyVersionDeletion.go.html to see an example of how to use CancelKeyVersionDeletionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelKeyVersionDeletion.go.html to see an example of how to use CancelKeyVersionDeletionRequest.
 type CancelKeyVersionDeletionRequest struct {
 
 	// The OCID of the key.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchGrant.go.html to see an example of how to use PatchGrantRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchGrant.go.html to see an example of how to use PatchGrantRequest.
 type PatchGrantRequest struct {
 
 	// ID of the resource

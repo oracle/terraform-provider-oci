@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteNetworkPerimeter.go.html to see an example of how to use DeleteNetworkPerimeterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteNetworkPerimeter.go.html to see an example of how to use DeleteNetworkPerimeterRequest.
 type DeleteNetworkPerimeterRequest struct {
 
 	// ID of the resource

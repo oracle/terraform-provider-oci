@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteAsset.go.html to see an example of how to use DeleteAssetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteAsset.go.html to see an example of how to use DeleteAssetRequest.
 type DeleteAssetRequest struct {
 
 	// Unique asset identifier.

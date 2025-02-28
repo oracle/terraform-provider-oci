@@ -59,7 +59,7 @@ func (m *leveltypedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for LevelTypeDetails: %s.", m.LevelType)
+		common.Logf("Received unsupported enum value for LevelTypeDetails: %s.", m.LevelType)
 		return *m, nil
 	}
 }

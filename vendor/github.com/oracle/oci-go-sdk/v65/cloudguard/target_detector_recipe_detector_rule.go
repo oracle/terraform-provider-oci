@@ -4,7 +4,7 @@
 
 // Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.oracle.com/iaas/security-zone/home.htm) documentation.
 // **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
@@ -45,9 +45,9 @@ type TargetDetectorRecipeDetectorRule struct {
 	// The type of resource which is monitored by the detector rule.
 	// For example, Instance, Database, VCN, Policy. To find the resource type for a
 	// particular rule, see Detector Recipe Reference
-	//  (https://docs.cloud.oracle.com/iaas/cloud-guard/using/detect-recipes.htm#detect-recipes-reference).
+	//  (https://docs.oracle.com/iaas/cloud-guard/using/detect-recipes.htm#detect-recipes-reference).
 	// Or try Detector Recipe Reference
-	//  (https://docs.cloud.oracle.com/cloud-guard/using/detect-recipes.htm#detect-recipes-reference).
+	//  (https://docs.oracle.com/iaas/cloud-guard/using/detect-recipes.htm#detect-recipes-reference).
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
 	// Display name for TargetDetectorRecipeDetectorRule resource

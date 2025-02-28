@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListWlpAgents.go.html to see an example of how to use ListWlpAgentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListWlpAgents.go.html to see an example of how to use ListWlpAgentsRequest.
 type ListWlpAgentsRequest struct {
 
 	// The OCID of the compartment in which to list resources.

@@ -4,7 +4,7 @@
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -95,7 +95,7 @@ func (client *LicenseManagerClient) ConfigurationProvider() *common.Configuratio
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/BulkUploadLicenseRecords.go.html to see an example of how to use BulkUploadLicenseRecords API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/BulkUploadLicenseRecords.go.html to see an example of how to use BulkUploadLicenseRecords API.
 // A default retry strategy applies to this operation BulkUploadLicenseRecords()
 func (client LicenseManagerClient) BulkUploadLicenseRecords(ctx context.Context, request BulkUploadLicenseRecordsRequest) (response BulkUploadLicenseRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +153,7 @@ func (client LicenseManagerClient) bulkUploadLicenseRecords(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateLicenseRecord.go.html to see an example of how to use CreateLicenseRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateLicenseRecord.go.html to see an example of how to use CreateLicenseRecord API.
 // A default retry strategy applies to this operation CreateLicenseRecord()
 func (client LicenseManagerClient) CreateLicenseRecord(ctx context.Context, request CreateLicenseRecordRequest) (response CreateLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -216,7 +216,7 @@ func (client LicenseManagerClient) createLicenseRecord(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateProductLicense.go.html to see an example of how to use CreateProductLicense API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateProductLicense.go.html to see an example of how to use CreateProductLicense API.
 // A default retry strategy applies to this operation CreateProductLicense()
 func (client LicenseManagerClient) CreateProductLicense(ctx context.Context, request CreateProductLicenseRequest) (response CreateProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -279,7 +279,7 @@ func (client LicenseManagerClient) createProductLicense(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteLicenseRecord.go.html to see an example of how to use DeleteLicenseRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteLicenseRecord.go.html to see an example of how to use DeleteLicenseRecord API.
 // A default retry strategy applies to this operation DeleteLicenseRecord()
 func (client LicenseManagerClient) DeleteLicenseRecord(ctx context.Context, request DeleteLicenseRecordRequest) (response DeleteLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -337,7 +337,7 @@ func (client LicenseManagerClient) deleteLicenseRecord(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteProductLicense.go.html to see an example of how to use DeleteProductLicense API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteProductLicense.go.html to see an example of how to use DeleteProductLicense API.
 // A default retry strategy applies to this operation DeleteProductLicense()
 func (client LicenseManagerClient) DeleteProductLicense(ctx context.Context, request DeleteProductLicenseRequest) (response DeleteProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client LicenseManagerClient) deleteProductLicense(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetBulkUploadTemplate.go.html to see an example of how to use GetBulkUploadTemplate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetBulkUploadTemplate.go.html to see an example of how to use GetBulkUploadTemplate API.
 // A default retry strategy applies to this operation GetBulkUploadTemplate()
 func (client LicenseManagerClient) GetBulkUploadTemplate(ctx context.Context, request GetBulkUploadTemplateRequest) (response GetBulkUploadTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -453,7 +453,7 @@ func (client LicenseManagerClient) getBulkUploadTemplate(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 // A default retry strategy applies to this operation GetConfiguration()
 func (client LicenseManagerClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -511,7 +511,7 @@ func (client LicenseManagerClient) getConfiguration(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseMetric.go.html to see an example of how to use GetLicenseMetric API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseMetric.go.html to see an example of how to use GetLicenseMetric API.
 // A default retry strategy applies to this operation GetLicenseMetric()
 func (client LicenseManagerClient) GetLicenseMetric(ctx context.Context, request GetLicenseMetricRequest) (response GetLicenseMetricResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -569,7 +569,7 @@ func (client LicenseManagerClient) getLicenseMetric(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseRecord.go.html to see an example of how to use GetLicenseRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseRecord.go.html to see an example of how to use GetLicenseRecord API.
 // A default retry strategy applies to this operation GetLicenseRecord()
 func (client LicenseManagerClient) GetLicenseRecord(ctx context.Context, request GetLicenseRecordRequest) (response GetLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -627,7 +627,7 @@ func (client LicenseManagerClient) getLicenseRecord(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetProductLicense.go.html to see an example of how to use GetProductLicense API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetProductLicense.go.html to see an example of how to use GetProductLicense API.
 // A default retry strategy applies to this operation GetProductLicense()
 func (client LicenseManagerClient) GetProductLicense(ctx context.Context, request GetProductLicenseRequest) (response GetProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -685,7 +685,7 @@ func (client LicenseManagerClient) getProductLicense(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListLicenseRecords.go.html to see an example of how to use ListLicenseRecords API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListLicenseRecords.go.html to see an example of how to use ListLicenseRecords API.
 // A default retry strategy applies to this operation ListLicenseRecords()
 func (client LicenseManagerClient) ListLicenseRecords(ctx context.Context, request ListLicenseRecordsRequest) (response ListLicenseRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -743,7 +743,7 @@ func (client LicenseManagerClient) listLicenseRecords(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenseConsumers.go.html to see an example of how to use ListProductLicenseConsumers API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenseConsumers.go.html to see an example of how to use ListProductLicenseConsumers API.
 // A default retry strategy applies to this operation ListProductLicenseConsumers()
 func (client LicenseManagerClient) ListProductLicenseConsumers(ctx context.Context, request ListProductLicenseConsumersRequest) (response ListProductLicenseConsumersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -801,7 +801,7 @@ func (client LicenseManagerClient) listProductLicenseConsumers(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenses.go.html to see an example of how to use ListProductLicenses API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenses.go.html to see an example of how to use ListProductLicenses API.
 // A default retry strategy applies to this operation ListProductLicenses()
 func (client LicenseManagerClient) ListProductLicenses(ctx context.Context, request ListProductLicensesRequest) (response ListProductLicensesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -859,7 +859,7 @@ func (client LicenseManagerClient) listProductLicenses(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedProductLicenses.go.html to see an example of how to use ListTopUtilizedProductLicenses API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedProductLicenses.go.html to see an example of how to use ListTopUtilizedProductLicenses API.
 // A default retry strategy applies to this operation ListTopUtilizedProductLicenses()
 func (client LicenseManagerClient) ListTopUtilizedProductLicenses(ctx context.Context, request ListTopUtilizedProductLicensesRequest) (response ListTopUtilizedProductLicensesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -917,7 +917,7 @@ func (client LicenseManagerClient) listTopUtilizedProductLicenses(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedResources.go.html to see an example of how to use ListTopUtilizedResources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedResources.go.html to see an example of how to use ListTopUtilizedResources API.
 // A default retry strategy applies to this operation ListTopUtilizedResources()
 func (client LicenseManagerClient) ListTopUtilizedResources(ctx context.Context, request ListTopUtilizedResourcesRequest) (response ListTopUtilizedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -975,7 +975,7 @@ func (client LicenseManagerClient) listTopUtilizedResources(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
 // A default retry strategy applies to this operation UpdateConfiguration()
 func (client LicenseManagerClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1033,7 +1033,7 @@ func (client LicenseManagerClient) updateConfiguration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateLicenseRecord.go.html to see an example of how to use UpdateLicenseRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateLicenseRecord.go.html to see an example of how to use UpdateLicenseRecord API.
 // A default retry strategy applies to this operation UpdateLicenseRecord()
 func (client LicenseManagerClient) UpdateLicenseRecord(ctx context.Context, request UpdateLicenseRecordRequest) (response UpdateLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1091,7 +1091,7 @@ func (client LicenseManagerClient) updateLicenseRecord(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateProductLicense.go.html to see an example of how to use UpdateProductLicense API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateProductLicense.go.html to see an example of how to use UpdateProductLicense API.
 // A default retry strategy applies to this operation UpdateProductLicense()
 func (client LicenseManagerClient) UpdateProductLicense(ctx context.Context, request UpdateProductLicenseRequest) (response UpdateProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse

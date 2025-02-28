@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RevokeDelegatedResourceAccessRequest.go.html to see an example of how to use RevokeDelegatedResourceAccessRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RevokeDelegatedResourceAccessRequest.go.html to see an example of how to use RevokeDelegatedResourceAccessRequestRequest.
 type RevokeDelegatedResourceAccessRequestRequest struct {
 
 	// Unique Delegated Resource Access Request identifier
@@ -89,7 +89,7 @@ type RevokeDelegatedResourceAccessRequestResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

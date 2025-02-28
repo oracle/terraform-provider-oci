@@ -95,7 +95,7 @@ func (client *ApmSyntheticClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/AggregateNetworkData.go.html to see an example of how to use AggregateNetworkData API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/AggregateNetworkData.go.html to see an example of how to use AggregateNetworkData API.
 // A default retry strategy applies to this operation AggregateNetworkData()
 func (client ApmSyntheticClient) AggregateNetworkData(ctx context.Context, request AggregateNetworkDataRequest) (response AggregateNetworkDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client ApmSyntheticClient) aggregateNetworkData(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateDedicatedVantagePoint.go.html to see an example of how to use CreateDedicatedVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateDedicatedVantagePoint.go.html to see an example of how to use CreateDedicatedVantagePoint API.
 // A default retry strategy applies to this operation CreateDedicatedVantagePoint()
 func (client ApmSyntheticClient) CreateDedicatedVantagePoint(ctx context.Context, request CreateDedicatedVantagePointRequest) (response CreateDedicatedVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -221,7 +221,7 @@ func (client ApmSyntheticClient) createDedicatedVantagePoint(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateMonitor.go.html to see an example of how to use CreateMonitor API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateMonitor.go.html to see an example of how to use CreateMonitor API.
 // A default retry strategy applies to this operation CreateMonitor()
 func (client ApmSyntheticClient) CreateMonitor(ctx context.Context, request CreateMonitorRequest) (response CreateMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -284,7 +284,7 @@ func (client ApmSyntheticClient) createMonitor(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateOnPremiseVantagePoint.go.html to see an example of how to use CreateOnPremiseVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateOnPremiseVantagePoint.go.html to see an example of how to use CreateOnPremiseVantagePoint API.
 // A default retry strategy applies to this operation CreateOnPremiseVantagePoint()
 func (client ApmSyntheticClient) CreateOnPremiseVantagePoint(ctx context.Context, request CreateOnPremiseVantagePointRequest) (response CreateOnPremiseVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -347,7 +347,7 @@ func (client ApmSyntheticClient) createOnPremiseVantagePoint(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateScript.go.html to see an example of how to use CreateScript API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateScript.go.html to see an example of how to use CreateScript API.
 // A default retry strategy applies to this operation CreateScript()
 func (client ApmSyntheticClient) CreateScript(ctx context.Context, request CreateScriptRequest) (response CreateScriptResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -410,7 +410,7 @@ func (client ApmSyntheticClient) createScript(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateWorker.go.html to see an example of how to use CreateWorker API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateWorker.go.html to see an example of how to use CreateWorker API.
 // A default retry strategy applies to this operation CreateWorker()
 func (client ApmSyntheticClient) CreateWorker(ctx context.Context, request CreateWorkerRequest) (response CreateWorkerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -473,7 +473,7 @@ func (client ApmSyntheticClient) createWorker(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteDedicatedVantagePoint.go.html to see an example of how to use DeleteDedicatedVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteDedicatedVantagePoint.go.html to see an example of how to use DeleteDedicatedVantagePoint API.
 // A default retry strategy applies to this operation DeleteDedicatedVantagePoint()
 func (client ApmSyntheticClient) DeleteDedicatedVantagePoint(ctx context.Context, request DeleteDedicatedVantagePointRequest) (response DeleteDedicatedVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -531,7 +531,7 @@ func (client ApmSyntheticClient) deleteDedicatedVantagePoint(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteMonitor.go.html to see an example of how to use DeleteMonitor API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteMonitor.go.html to see an example of how to use DeleteMonitor API.
 // A default retry strategy applies to this operation DeleteMonitor()
 func (client ApmSyntheticClient) DeleteMonitor(ctx context.Context, request DeleteMonitorRequest) (response DeleteMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -589,7 +589,7 @@ func (client ApmSyntheticClient) deleteMonitor(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteOnPremiseVantagePoint.go.html to see an example of how to use DeleteOnPremiseVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteOnPremiseVantagePoint.go.html to see an example of how to use DeleteOnPremiseVantagePoint API.
 // A default retry strategy applies to this operation DeleteOnPremiseVantagePoint()
 func (client ApmSyntheticClient) DeleteOnPremiseVantagePoint(ctx context.Context, request DeleteOnPremiseVantagePointRequest) (response DeleteOnPremiseVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -647,7 +647,7 @@ func (client ApmSyntheticClient) deleteOnPremiseVantagePoint(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteScript.go.html to see an example of how to use DeleteScript API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteScript.go.html to see an example of how to use DeleteScript API.
 // A default retry strategy applies to this operation DeleteScript()
 func (client ApmSyntheticClient) DeleteScript(ctx context.Context, request DeleteScriptRequest) (response DeleteScriptResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -705,7 +705,7 @@ func (client ApmSyntheticClient) deleteScript(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteWorker.go.html to see an example of how to use DeleteWorker API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteWorker.go.html to see an example of how to use DeleteWorker API.
 // A default retry strategy applies to this operation DeleteWorker()
 func (client ApmSyntheticClient) DeleteWorker(ctx context.Context, request DeleteWorkerRequest) (response DeleteWorkerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -763,7 +763,7 @@ func (client ApmSyntheticClient) deleteWorker(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetDedicatedVantagePoint.go.html to see an example of how to use GetDedicatedVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetDedicatedVantagePoint.go.html to see an example of how to use GetDedicatedVantagePoint API.
 // A default retry strategy applies to this operation GetDedicatedVantagePoint()
 func (client ApmSyntheticClient) GetDedicatedVantagePoint(ctx context.Context, request GetDedicatedVantagePointRequest) (response GetDedicatedVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -821,7 +821,7 @@ func (client ApmSyntheticClient) getDedicatedVantagePoint(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitor.go.html to see an example of how to use GetMonitor API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitor.go.html to see an example of how to use GetMonitor API.
 // A default retry strategy applies to this operation GetMonitor()
 func (client ApmSyntheticClient) GetMonitor(ctx context.Context, request GetMonitorRequest) (response GetMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -879,7 +879,7 @@ func (client ApmSyntheticClient) getMonitor(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitorResult.go.html to see an example of how to use GetMonitorResult API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitorResult.go.html to see an example of how to use GetMonitorResult API.
 // A default retry strategy applies to this operation GetMonitorResult()
 func (client ApmSyntheticClient) GetMonitorResult(ctx context.Context, request GetMonitorResultRequest) (response GetMonitorResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -937,7 +937,7 @@ func (client ApmSyntheticClient) getMonitorResult(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetOnPremiseVantagePoint.go.html to see an example of how to use GetOnPremiseVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetOnPremiseVantagePoint.go.html to see an example of how to use GetOnPremiseVantagePoint API.
 // A default retry strategy applies to this operation GetOnPremiseVantagePoint()
 func (client ApmSyntheticClient) GetOnPremiseVantagePoint(ctx context.Context, request GetOnPremiseVantagePointRequest) (response GetOnPremiseVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -995,7 +995,7 @@ func (client ApmSyntheticClient) getOnPremiseVantagePoint(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetScript.go.html to see an example of how to use GetScript API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetScript.go.html to see an example of how to use GetScript API.
 // A default retry strategy applies to this operation GetScript()
 func (client ApmSyntheticClient) GetScript(ctx context.Context, request GetScriptRequest) (response GetScriptResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1053,7 +1053,7 @@ func (client ApmSyntheticClient) getScript(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetWorker.go.html to see an example of how to use GetWorker API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetWorker.go.html to see an example of how to use GetWorker API.
 // A default retry strategy applies to this operation GetWorker()
 func (client ApmSyntheticClient) GetWorker(ctx context.Context, request GetWorkerRequest) (response GetWorkerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1111,7 +1111,7 @@ func (client ApmSyntheticClient) getWorker(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePoints API.
 // A default retry strategy applies to this operation ListDedicatedVantagePoints()
 func (client ApmSyntheticClient) ListDedicatedVantagePoints(ctx context.Context, request ListDedicatedVantagePointsRequest) (response ListDedicatedVantagePointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1169,7 +1169,7 @@ func (client ApmSyntheticClient) listDedicatedVantagePoints(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListMonitors.go.html to see an example of how to use ListMonitors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListMonitors.go.html to see an example of how to use ListMonitors API.
 // A default retry strategy applies to this operation ListMonitors()
 func (client ApmSyntheticClient) ListMonitors(ctx context.Context, request ListMonitorsRequest) (response ListMonitorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1227,7 +1227,7 @@ func (client ApmSyntheticClient) listMonitors(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListOnPremiseVantagePoints.go.html to see an example of how to use ListOnPremiseVantagePoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListOnPremiseVantagePoints.go.html to see an example of how to use ListOnPremiseVantagePoints API.
 // A default retry strategy applies to this operation ListOnPremiseVantagePoints()
 func (client ApmSyntheticClient) ListOnPremiseVantagePoints(ctx context.Context, request ListOnPremiseVantagePointsRequest) (response ListOnPremiseVantagePointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1285,7 +1285,7 @@ func (client ApmSyntheticClient) listOnPremiseVantagePoints(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListPublicVantagePoints.go.html to see an example of how to use ListPublicVantagePoints API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListPublicVantagePoints.go.html to see an example of how to use ListPublicVantagePoints API.
 // A default retry strategy applies to this operation ListPublicVantagePoints()
 func (client ApmSyntheticClient) ListPublicVantagePoints(ctx context.Context, request ListPublicVantagePointsRequest) (response ListPublicVantagePointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1343,7 +1343,7 @@ func (client ApmSyntheticClient) listPublicVantagePoints(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListScripts.go.html to see an example of how to use ListScripts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListScripts.go.html to see an example of how to use ListScripts API.
 // A default retry strategy applies to this operation ListScripts()
 func (client ApmSyntheticClient) ListScripts(ctx context.Context, request ListScriptsRequest) (response ListScriptsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1401,7 +1401,7 @@ func (client ApmSyntheticClient) listScripts(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListWorkers.go.html to see an example of how to use ListWorkers API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListWorkers.go.html to see an example of how to use ListWorkers API.
 // A default retry strategy applies to this operation ListWorkers()
 func (client ApmSyntheticClient) ListWorkers(ctx context.Context, request ListWorkersRequest) (response ListWorkersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1459,7 +1459,7 @@ func (client ApmSyntheticClient) listWorkers(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateDedicatedVantagePoint.go.html to see an example of how to use UpdateDedicatedVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateDedicatedVantagePoint.go.html to see an example of how to use UpdateDedicatedVantagePoint API.
 // A default retry strategy applies to this operation UpdateDedicatedVantagePoint()
 func (client ApmSyntheticClient) UpdateDedicatedVantagePoint(ctx context.Context, request UpdateDedicatedVantagePointRequest) (response UpdateDedicatedVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1517,7 +1517,7 @@ func (client ApmSyntheticClient) updateDedicatedVantagePoint(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateMonitor.go.html to see an example of how to use UpdateMonitor API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateMonitor.go.html to see an example of how to use UpdateMonitor API.
 // A default retry strategy applies to this operation UpdateMonitor()
 func (client ApmSyntheticClient) UpdateMonitor(ctx context.Context, request UpdateMonitorRequest) (response UpdateMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1575,7 +1575,7 @@ func (client ApmSyntheticClient) updateMonitor(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateOnPremiseVantagePoint.go.html to see an example of how to use UpdateOnPremiseVantagePoint API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateOnPremiseVantagePoint.go.html to see an example of how to use UpdateOnPremiseVantagePoint API.
 // A default retry strategy applies to this operation UpdateOnPremiseVantagePoint()
 func (client ApmSyntheticClient) UpdateOnPremiseVantagePoint(ctx context.Context, request UpdateOnPremiseVantagePointRequest) (response UpdateOnPremiseVantagePointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1633,7 +1633,7 @@ func (client ApmSyntheticClient) updateOnPremiseVantagePoint(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateScript.go.html to see an example of how to use UpdateScript API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateScript.go.html to see an example of how to use UpdateScript API.
 // A default retry strategy applies to this operation UpdateScript()
 func (client ApmSyntheticClient) UpdateScript(ctx context.Context, request UpdateScriptRequest) (response UpdateScriptResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1691,7 +1691,7 @@ func (client ApmSyntheticClient) updateScript(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateWorker.go.html to see an example of how to use UpdateWorker API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateWorker.go.html to see an example of how to use UpdateWorker API.
 // A default retry strategy applies to this operation UpdateWorker()
 func (client ApmSyntheticClient) UpdateWorker(ctx context.Context, request UpdateWorkerRequest) (response UpdateWorkerResponse, err error) {
 	var ociResponse common.OCIResponse

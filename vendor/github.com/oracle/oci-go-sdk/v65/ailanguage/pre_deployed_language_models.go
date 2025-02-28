@@ -23,7 +23,7 @@ type PreDeployedLanguageModels struct {
 	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) Compartment Identifier
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Language Entities Description

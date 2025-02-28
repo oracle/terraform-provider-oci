@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallPolicyCompartment.go.html to see an example of how to use ChangeNetworkFirewallPolicyCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallPolicyCompartment.go.html to see an example of how to use ChangeNetworkFirewallPolicyCompartmentRequest.
 type ChangeNetworkFirewallPolicyCompartmentRequest struct {
 
 	// Unique Network Firewall Policy identifier

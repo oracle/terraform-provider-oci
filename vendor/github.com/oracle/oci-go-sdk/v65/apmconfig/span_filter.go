@@ -20,7 +20,7 @@ import (
 // SpanFilter A named setting that specifies the filter criteria to match a subset of the spans.
 type SpanFilter struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	Id *string `mandatory:"false" json:"id"`
 
@@ -34,10 +34,10 @@ type SpanFilter struct {
 	// Example: `2020-02-13T22:47:12.613Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
 
 	// For optimistic concurrency control. See `if-match`.

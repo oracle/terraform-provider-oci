@@ -19,7 +19,7 @@ import (
 // PrivateAddresses A pair of VCN OCID and private IP address prefix in CIDR notation.
 type PrivateAddresses struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// A private IP address or CIDR IP address range.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetCredentials.go.html to see an example of how to use ListFleetCredentialsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetCredentials.go.html to see an example of how to use ListFleetCredentialsRequest.
 type ListFleetCredentialsRequest struct {
 
 	// Unique Fleet identifier.

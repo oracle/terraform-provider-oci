@@ -95,7 +95,7 @@ func (client *JavaDownloadClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client JavaDownloadClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,7 +154,7 @@ func (client JavaDownloadClient) cancelWorkRequest(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadReport.go.html to see an example of how to use CreateJavaDownloadReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadReport.go.html to see an example of how to use CreateJavaDownloadReport API.
 // A default retry strategy applies to this operation CreateJavaDownloadReport()
 func (client JavaDownloadClient) CreateJavaDownloadReport(ctx context.Context, request CreateJavaDownloadReportRequest) (response CreateJavaDownloadReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -218,7 +218,7 @@ func (client JavaDownloadClient) createJavaDownloadReport(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadToken.go.html to see an example of how to use CreateJavaDownloadToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadToken.go.html to see an example of how to use CreateJavaDownloadToken API.
 // A default retry strategy applies to this operation CreateJavaDownloadToken()
 func (client JavaDownloadClient) CreateJavaDownloadToken(ctx context.Context, request CreateJavaDownloadTokenRequest) (response CreateJavaDownloadTokenResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -281,7 +281,7 @@ func (client JavaDownloadClient) createJavaDownloadToken(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaLicenseAcceptanceRecord.go.html to see an example of how to use CreateJavaLicenseAcceptanceRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaLicenseAcceptanceRecord.go.html to see an example of how to use CreateJavaLicenseAcceptanceRecord API.
 // A default retry strategy applies to this operation CreateJavaLicenseAcceptanceRecord()
 func (client JavaDownloadClient) CreateJavaLicenseAcceptanceRecord(ctx context.Context, request CreateJavaLicenseAcceptanceRecordRequest) (response CreateJavaLicenseAcceptanceRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -344,7 +344,7 @@ func (client JavaDownloadClient) createJavaLicenseAcceptanceRecord(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaDownloadReport.go.html to see an example of how to use DeleteJavaDownloadReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaDownloadReport.go.html to see an example of how to use DeleteJavaDownloadReport API.
 // A default retry strategy applies to this operation DeleteJavaDownloadReport()
 func (client JavaDownloadClient) DeleteJavaDownloadReport(ctx context.Context, request DeleteJavaDownloadReportRequest) (response DeleteJavaDownloadReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -402,7 +402,7 @@ func (client JavaDownloadClient) deleteJavaDownloadReport(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaDownloadToken.go.html to see an example of how to use DeleteJavaDownloadToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaDownloadToken.go.html to see an example of how to use DeleteJavaDownloadToken API.
 // A default retry strategy applies to this operation DeleteJavaDownloadToken()
 func (client JavaDownloadClient) DeleteJavaDownloadToken(ctx context.Context, request DeleteJavaDownloadTokenRequest) (response DeleteJavaDownloadTokenResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -460,7 +460,7 @@ func (client JavaDownloadClient) deleteJavaDownloadToken(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaLicenseAcceptanceRecord.go.html to see an example of how to use DeleteJavaLicenseAcceptanceRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaLicenseAcceptanceRecord.go.html to see an example of how to use DeleteJavaLicenseAcceptanceRecord API.
 // A default retry strategy applies to this operation DeleteJavaLicenseAcceptanceRecord()
 func (client JavaDownloadClient) DeleteJavaLicenseAcceptanceRecord(ctx context.Context, request DeleteJavaLicenseAcceptanceRecordRequest) (response DeleteJavaLicenseAcceptanceRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -522,7 +522,7 @@ func (client JavaDownloadClient) deleteJavaLicenseAcceptanceRecord(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GenerateArtifactDownloadUrl.go.html to see an example of how to use GenerateArtifactDownloadUrl API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GenerateArtifactDownloadUrl.go.html to see an example of how to use GenerateArtifactDownloadUrl API.
 // A default retry strategy applies to this operation GenerateArtifactDownloadUrl()
 func (client JavaDownloadClient) GenerateArtifactDownloadUrl(ctx context.Context, request GenerateArtifactDownloadUrlRequest) (response GenerateArtifactDownloadUrlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -580,7 +580,7 @@ func (client JavaDownloadClient) generateArtifactDownloadUrl(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReport.go.html to see an example of how to use GetJavaDownloadReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReport.go.html to see an example of how to use GetJavaDownloadReport API.
 // A default retry strategy applies to this operation GetJavaDownloadReport()
 func (client JavaDownloadClient) GetJavaDownloadReport(ctx context.Context, request GetJavaDownloadReportRequest) (response GetJavaDownloadReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -638,7 +638,7 @@ func (client JavaDownloadClient) getJavaDownloadReport(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReportContent.go.html to see an example of how to use GetJavaDownloadReportContent API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReportContent.go.html to see an example of how to use GetJavaDownloadReportContent API.
 // A default retry strategy applies to this operation GetJavaDownloadReportContent()
 func (client JavaDownloadClient) GetJavaDownloadReportContent(ctx context.Context, request GetJavaDownloadReportContentRequest) (response GetJavaDownloadReportContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -695,7 +695,7 @@ func (client JavaDownloadClient) getJavaDownloadReportContent(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadToken.go.html to see an example of how to use GetJavaDownloadToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadToken.go.html to see an example of how to use GetJavaDownloadToken API.
 // A default retry strategy applies to this operation GetJavaDownloadToken()
 func (client JavaDownloadClient) GetJavaDownloadToken(ctx context.Context, request GetJavaDownloadTokenRequest) (response GetJavaDownloadTokenResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -753,7 +753,7 @@ func (client JavaDownloadClient) getJavaDownloadToken(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaLicense.go.html to see an example of how to use GetJavaLicense API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaLicense.go.html to see an example of how to use GetJavaLicense API.
 // A default retry strategy applies to this operation GetJavaLicense()
 func (client JavaDownloadClient) GetJavaLicense(ctx context.Context, request GetJavaLicenseRequest) (response GetJavaLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -811,7 +811,7 @@ func (client JavaDownloadClient) getJavaLicense(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaLicenseAcceptanceRecord.go.html to see an example of how to use GetJavaLicenseAcceptanceRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaLicenseAcceptanceRecord.go.html to see an example of how to use GetJavaLicenseAcceptanceRecord API.
 // A default retry strategy applies to this operation GetJavaLicenseAcceptanceRecord()
 func (client JavaDownloadClient) GetJavaLicenseAcceptanceRecord(ctx context.Context, request GetJavaLicenseAcceptanceRecordRequest) (response GetJavaLicenseAcceptanceRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -869,7 +869,7 @@ func (client JavaDownloadClient) getJavaLicenseAcceptanceRecord(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client JavaDownloadClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -929,7 +929,7 @@ func (client JavaDownloadClient) getWorkRequest(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadRecords.go.html to see an example of how to use ListJavaDownloadRecords API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadRecords.go.html to see an example of how to use ListJavaDownloadRecords API.
 // A default retry strategy applies to this operation ListJavaDownloadRecords()
 func (client JavaDownloadClient) ListJavaDownloadRecords(ctx context.Context, request ListJavaDownloadRecordsRequest) (response ListJavaDownloadRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -987,7 +987,7 @@ func (client JavaDownloadClient) listJavaDownloadRecords(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadReports.go.html to see an example of how to use ListJavaDownloadReports API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadReports.go.html to see an example of how to use ListJavaDownloadReports API.
 // A default retry strategy applies to this operation ListJavaDownloadReports()
 func (client JavaDownloadClient) ListJavaDownloadReports(ctx context.Context, request ListJavaDownloadReportsRequest) (response ListJavaDownloadReportsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1045,7 +1045,7 @@ func (client JavaDownloadClient) listJavaDownloadReports(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadTokens.go.html to see an example of how to use ListJavaDownloadTokens API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadTokens.go.html to see an example of how to use ListJavaDownloadTokens API.
 // A default retry strategy applies to this operation ListJavaDownloadTokens()
 func (client JavaDownloadClient) ListJavaDownloadTokens(ctx context.Context, request ListJavaDownloadTokensRequest) (response ListJavaDownloadTokensResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1103,7 +1103,7 @@ func (client JavaDownloadClient) listJavaDownloadTokens(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaLicenseAcceptanceRecords.go.html to see an example of how to use ListJavaLicenseAcceptanceRecords API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaLicenseAcceptanceRecords.go.html to see an example of how to use ListJavaLicenseAcceptanceRecords API.
 // A default retry strategy applies to this operation ListJavaLicenseAcceptanceRecords()
 func (client JavaDownloadClient) ListJavaLicenseAcceptanceRecords(ctx context.Context, request ListJavaLicenseAcceptanceRecordsRequest) (response ListJavaLicenseAcceptanceRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1161,7 +1161,7 @@ func (client JavaDownloadClient) listJavaLicenseAcceptanceRecords(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaLicenses.go.html to see an example of how to use ListJavaLicenses API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaLicenses.go.html to see an example of how to use ListJavaLicenses API.
 // A default retry strategy applies to this operation ListJavaLicenses()
 func (client JavaDownloadClient) ListJavaLicenses(ctx context.Context, request ListJavaLicensesRequest) (response ListJavaLicensesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1219,7 +1219,7 @@ func (client JavaDownloadClient) listJavaLicenses(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client JavaDownloadClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1277,7 +1277,7 @@ func (client JavaDownloadClient) listWorkRequestErrors(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client JavaDownloadClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1335,7 +1335,7 @@ func (client JavaDownloadClient) listWorkRequestLogs(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client JavaDownloadClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1393,7 +1393,7 @@ func (client JavaDownloadClient) listWorkRequests(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/RequestSummarizedJavaDownloadCounts.go.html to see an example of how to use RequestSummarizedJavaDownloadCounts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/RequestSummarizedJavaDownloadCounts.go.html to see an example of how to use RequestSummarizedJavaDownloadCounts API.
 // A default retry strategy applies to this operation RequestSummarizedJavaDownloadCounts()
 func (client JavaDownloadClient) RequestSummarizedJavaDownloadCounts(ctx context.Context, request RequestSummarizedJavaDownloadCountsRequest) (response RequestSummarizedJavaDownloadCountsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1451,7 +1451,7 @@ func (client JavaDownloadClient) requestSummarizedJavaDownloadCounts(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaDownloadToken.go.html to see an example of how to use UpdateJavaDownloadToken API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaDownloadToken.go.html to see an example of how to use UpdateJavaDownloadToken API.
 // A default retry strategy applies to this operation UpdateJavaDownloadToken()
 func (client JavaDownloadClient) UpdateJavaDownloadToken(ctx context.Context, request UpdateJavaDownloadTokenRequest) (response UpdateJavaDownloadTokenResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1509,7 +1509,7 @@ func (client JavaDownloadClient) updateJavaDownloadToken(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaLicenseAcceptanceRecord.go.html to see an example of how to use UpdateJavaLicenseAcceptanceRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaLicenseAcceptanceRecord.go.html to see an example of how to use UpdateJavaLicenseAcceptanceRecord API.
 // A default retry strategy applies to this operation UpdateJavaLicenseAcceptanceRecord()
 func (client JavaDownloadClient) UpdateJavaLicenseAcceptanceRecord(ctx context.Context, request UpdateJavaLicenseAcceptanceRecordRequest) (response UpdateJavaLicenseAcceptanceRecordResponse, err error) {
 	var ociResponse common.OCIResponse

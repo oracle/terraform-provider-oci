@@ -18,7 +18,7 @@ import (
 // ChangeModelVersionSetCompartmentDetails Details for changing the compartment of a model version set.
 type ChangeModelVersionSetCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// where the resource should be moved to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

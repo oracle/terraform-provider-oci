@@ -21,7 +21,7 @@ type PrivateApplication struct {
 	// The lifecycle state of the private application.
 	LifecycleState PrivateApplicationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the private application resides.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the private application resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The unique identifier for the private application in Marketplace.

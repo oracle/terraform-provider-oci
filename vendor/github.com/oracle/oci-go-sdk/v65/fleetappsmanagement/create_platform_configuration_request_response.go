@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePlatformConfiguration.go.html to see an example of how to use CreatePlatformConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePlatformConfiguration.go.html to see an example of how to use CreatePlatformConfigurationRequest.
 type CreatePlatformConfigurationRequest struct {
 
 	// Details for the new PlatformConfiguration.

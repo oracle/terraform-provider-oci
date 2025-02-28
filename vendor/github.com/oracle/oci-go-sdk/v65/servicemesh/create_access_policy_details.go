@@ -26,7 +26,7 @@ type CreateAccessPolicyDetails struct {
 	// The OCID of the service mesh in which this access policy is created.
 	MeshId *string `mandatory:"true" json:"meshId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of applicable rules

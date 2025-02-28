@@ -21,7 +21,7 @@ import (
 // Not supported for TaskType ACCELERATION.
 type CreateStandardTaskDetails struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Schedules, typically a single schedule.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrProtectionGroups.go.html to see an example of how to use ListDrProtectionGroupsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrProtectionGroups.go.html to see an example of how to use ListDrProtectionGroupsRequest.
 type ListDrProtectionGroupsRequest struct {
 
 	// The ID (OCID) of the compartment in which to list resources.
@@ -37,14 +37,14 @@ type ListDrProtectionGroupsRequest struct {
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 1000 is the maximum.
 	// For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `100`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response
 	// header from the previous "List" call.
 	// For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either 'asc' or 'desc'.

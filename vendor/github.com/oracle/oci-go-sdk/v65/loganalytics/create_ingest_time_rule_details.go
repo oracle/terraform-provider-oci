@@ -19,7 +19,7 @@ import (
 // CreateIngestTimeRuleDetails The information required to create an ingest time rule.
 type CreateIngestTimeRuleDetails struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The ingest time rule display name.

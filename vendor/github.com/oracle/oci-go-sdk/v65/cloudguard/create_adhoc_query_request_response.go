@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateAdhocQuery.go.html to see an example of how to use CreateAdhocQueryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateAdhocQuery.go.html to see an example of how to use CreateAdhocQueryRequest.
 type CreateAdhocQueryRequest struct {
 
 	// Details for the new AdhocQuery resource

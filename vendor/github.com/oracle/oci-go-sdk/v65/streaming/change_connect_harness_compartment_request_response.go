@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeConnectHarnessCompartment.go.html to see an example of how to use ChangeConnectHarnessCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeConnectHarnessCompartment.go.html to see an example of how to use ChangeConnectHarnessCompartmentRequest.
 type ChangeConnectHarnessCompartmentRequest struct {
 
 	// The OCID of the connect harness.

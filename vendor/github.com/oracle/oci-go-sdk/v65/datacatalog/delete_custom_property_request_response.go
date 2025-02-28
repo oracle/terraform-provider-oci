@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCustomProperty.go.html to see an example of how to use DeleteCustomPropertyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCustomProperty.go.html to see an example of how to use DeleteCustomPropertyRequest.
 type DeleteCustomPropertyRequest struct {
 
 	// Unique catalog identifier.

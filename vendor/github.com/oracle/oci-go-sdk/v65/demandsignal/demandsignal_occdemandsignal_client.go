@@ -92,11 +92,11 @@ func (client *OccDemandSignalClient) ConfigurationProvider() *common.Configurati
 }
 
 // ChangeOccDemandSignalCompartment Moves a OccDemandSignal into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/ChangeOccDemandSignalCompartment.go.html to see an example of how to use ChangeOccDemandSignalCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/ChangeOccDemandSignalCompartment.go.html to see an example of how to use ChangeOccDemandSignalCompartment API.
 // A default retry strategy applies to this operation ChangeOccDemandSignalCompartment()
 func (client OccDemandSignalClient) ChangeOccDemandSignalCompartment(ctx context.Context, request ChangeOccDemandSignalCompartmentRequest) (response ChangeOccDemandSignalCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,7 +154,7 @@ func (client OccDemandSignalClient) changeOccDemandSignalCompartment(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/CreateOccDemandSignal.go.html to see an example of how to use CreateOccDemandSignal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/CreateOccDemandSignal.go.html to see an example of how to use CreateOccDemandSignal API.
 // A default retry strategy applies to this operation CreateOccDemandSignal()
 func (client OccDemandSignalClient) CreateOccDemandSignal(ctx context.Context, request CreateOccDemandSignalRequest) (response CreateOccDemandSignalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -217,7 +217,7 @@ func (client OccDemandSignalClient) createOccDemandSignal(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/DeleteOccDemandSignal.go.html to see an example of how to use DeleteOccDemandSignal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/DeleteOccDemandSignal.go.html to see an example of how to use DeleteOccDemandSignal API.
 // A default retry strategy applies to this operation DeleteOccDemandSignal()
 func (client OccDemandSignalClient) DeleteOccDemandSignal(ctx context.Context, request DeleteOccDemandSignalRequest) (response DeleteOccDemandSignalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -275,7 +275,7 @@ func (client OccDemandSignalClient) deleteOccDemandSignal(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/GetOccDemandSignal.go.html to see an example of how to use GetOccDemandSignal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/GetOccDemandSignal.go.html to see an example of how to use GetOccDemandSignal API.
 // A default retry strategy applies to this operation GetOccDemandSignal()
 func (client OccDemandSignalClient) GetOccDemandSignal(ctx context.Context, request GetOccDemandSignalRequest) (response GetOccDemandSignalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -333,7 +333,7 @@ func (client OccDemandSignalClient) getOccDemandSignal(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/ListOccDemandSignals.go.html to see an example of how to use ListOccDemandSignals API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/ListOccDemandSignals.go.html to see an example of how to use ListOccDemandSignals API.
 // A default retry strategy applies to this operation ListOccDemandSignals()
 func (client OccDemandSignalClient) ListOccDemandSignals(ctx context.Context, request ListOccDemandSignalsRequest) (response ListOccDemandSignalsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -391,7 +391,7 @@ func (client OccDemandSignalClient) listOccDemandSignals(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/PatchOccDemandSignal.go.html to see an example of how to use PatchOccDemandSignal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/PatchOccDemandSignal.go.html to see an example of how to use PatchOccDemandSignal API.
 // A default retry strategy applies to this operation PatchOccDemandSignal()
 func (client OccDemandSignalClient) PatchOccDemandSignal(ctx context.Context, request PatchOccDemandSignalRequest) (response PatchOccDemandSignalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -449,7 +449,7 @@ func (client OccDemandSignalClient) patchOccDemandSignal(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/UpdateOccDemandSignal.go.html to see an example of how to use UpdateOccDemandSignal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/demandsignal/UpdateOccDemandSignal.go.html to see an example of how to use UpdateOccDemandSignal API.
 // A default retry strategy applies to this operation UpdateOccDemandSignal()
 func (client OccDemandSignalClient) UpdateOccDemandSignal(ctx context.Context, request UpdateOccDemandSignalRequest) (response UpdateOccDemandSignalResponse, err error) {
 	var ociResponse common.OCIResponse

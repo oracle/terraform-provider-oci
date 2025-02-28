@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -21,10 +21,10 @@ import (
 // ManagedDatabase The details of a Managed Database.
 type ManagedDatabase struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name of the Managed Database.
@@ -52,18 +52,18 @@ type ManagedDatabase struct {
 	// The workload type of the Autonomous Database.
 	WorkloadType WorkloadTypeEnum `mandatory:"false" json:"workloadType,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the parent Container Database
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database
 	// if Managed Database is a Pluggable Database.
 	ParentContainerId *string `mandatory:"false" json:"parentContainerId"`
 
 	// A list of Managed Database Groups that the Managed Database belongs to.
 	ManagedDatabaseGroups []ParentGroup `mandatory:"false" json:"managedDatabaseGroups"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external
 	// DB system that this Managed Database is part of.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the storage DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the storage DB system.
 	StorageSystemId *string `mandatory:"false" json:"storageSystemId"`
 
 	// The Oracle Database version.
@@ -76,7 +76,7 @@ type ManagedDatabase struct {
 	// The name of the parent Container Database.
 	ParentContainerName *string `mandatory:"false" json:"parentContainerName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// in which the parent Container Database resides, if the Managed Database
 	// is a Pluggable Database (PDB).
 	ParentContainerCompartmentId *string `mandatory:"false" json:"parentContainerCompartmentId"`
@@ -98,17 +98,17 @@ type ManagedDatabase struct {
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// System tags can be viewed by users, but can only be created by the system.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

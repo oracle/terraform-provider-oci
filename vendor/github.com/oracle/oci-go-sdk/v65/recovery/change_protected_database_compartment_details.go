@@ -18,7 +18,7 @@ import (
 // ChangeProtectedDatabaseCompartmentDetails The configuration details required to move a protected database from the existing compartment to a specified compartment.
 type ChangeProtectedDatabaseCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the protected database should be moved.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment into which the protected database should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

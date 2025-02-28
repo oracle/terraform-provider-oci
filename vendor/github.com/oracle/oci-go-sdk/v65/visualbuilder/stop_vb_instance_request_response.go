@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StopVbInstance.go.html to see an example of how to use StopVbInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StopVbInstance.go.html to see an example of how to use StopVbInstanceRequest.
 type StopVbInstanceRequest struct {
 
 	// Unique Vb Instance identifier.

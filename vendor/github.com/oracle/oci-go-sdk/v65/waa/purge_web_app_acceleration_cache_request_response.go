@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/PurgeWebAppAccelerationCache.go.html to see an example of how to use PurgeWebAppAccelerationCacheRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/PurgeWebAppAccelerationCache.go.html to see an example of how to use PurgeWebAppAccelerationCacheRequest.
 type PurgeWebAppAccelerationCacheRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.
 	WebAppAccelerationId *string `mandatory:"true" contributesTo:"path" name:"webAppAccelerationId"`
 
 	// Options for the cache purge.

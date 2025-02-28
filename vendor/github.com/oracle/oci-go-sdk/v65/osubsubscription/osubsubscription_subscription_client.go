@@ -98,7 +98,7 @@ func (client *SubscriptionClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 func (client SubscriptionClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

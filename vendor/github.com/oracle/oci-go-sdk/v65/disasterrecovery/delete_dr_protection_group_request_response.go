@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrProtectionGroup.go.html to see an example of how to use DeleteDrProtectionGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrProtectionGroup.go.html to see an example of how to use DeleteDrProtectionGroupRequest.
 type DeleteDrProtectionGroupRequest struct {
 
 	// The OCID of the DR protection group.

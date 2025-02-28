@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalMysqlAssociatedService.go.html to see an example of how to use EnableExternalMysqlAssociatedServiceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalMysqlAssociatedService.go.html to see an example of how to use EnableExternalMysqlAssociatedServiceRequest.
 type EnableExternalMysqlAssociatedServiceRequest struct {
 
 	// The OCID of the External MySQL Database.

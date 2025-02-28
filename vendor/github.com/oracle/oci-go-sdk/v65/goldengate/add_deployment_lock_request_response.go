@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddDeploymentLock.go.html to see an example of how to use AddDeploymentLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/AddDeploymentLock.go.html to see an example of how to use AddDeploymentLockRequest.
 type AddDeploymentLockRequest struct {
 
 	// A unique Deployment identifier.

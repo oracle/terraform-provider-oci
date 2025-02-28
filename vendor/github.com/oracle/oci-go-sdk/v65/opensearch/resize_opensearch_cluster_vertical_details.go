@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ResizeOpensearchClusterVerticalDetails The OCPU and memory configuration to update on an existing OpenSearch cluster for vertical resizing (https://docs.cloud.oracle.com/iaas/Content/search-opensearch/Tasks/resizingacluster.htm#vertical).
+// ResizeOpensearchClusterVerticalDetails The OCPU and memory configuration to update on an existing OpenSearch cluster for vertical resizing (https://docs.oracle.com/iaas/Content/search-opensearch/Tasks/resizingacluster.htm#vertical).
 type ResizeOpensearchClusterVerticalDetails struct {
 
 	// The number of OCPUs to configure for the cluster's master nodes.

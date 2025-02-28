@@ -84,6 +84,12 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"database_server_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -212,6 +218,12 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"storage_server_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -230,6 +242,10 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 			},
 			"available_storage_size_in_gbs": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"compute_model": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"cpu_count": {
@@ -470,6 +486,11 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 		}
 	}
 
+	if databaseServerType, ok := s.D.GetOkExists("database_server_type"); ok {
+		tmp := databaseServerType.(string)
+		request.DatabaseServerType = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -506,6 +527,11 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
 		tmp := storageCount.(int)
 		request.StorageCount = &tmp
+	}
+
+	if storageServerType, ok := s.D.GetOkExists("storage_server_type"); ok {
+		tmp := storageServerType.(string)
+		request.StorageServerType = &tmp
 	}
 
 	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
@@ -707,6 +733,8 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuCount != nil {
 		s.D.Set("cpu_count", *s.Res.CpuCount)
 	}
@@ -719,6 +747,10 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DatabaseServerType != nil {
+		s.D.Set("database_server_type", *s.Res.DatabaseServerType)
 	}
 
 	if s.Res.DbNodeStorageSizeInGBs != nil {
@@ -803,6 +835,10 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerType != nil {
+		s.D.Set("storage_server_type", *s.Res.StorageServerType)
 	}
 
 	if s.Res.StorageServerVersion != nil {

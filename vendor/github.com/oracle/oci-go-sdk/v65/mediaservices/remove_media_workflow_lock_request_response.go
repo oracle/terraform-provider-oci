@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowLock.go.html to see an example of how to use RemoveMediaWorkflowLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowLock.go.html to see an example of how to use RemoveMediaWorkflowLockRequest.
 type RemoveMediaWorkflowLockRequest struct {
 
 	// RemoveResourceLockDetails body parameter

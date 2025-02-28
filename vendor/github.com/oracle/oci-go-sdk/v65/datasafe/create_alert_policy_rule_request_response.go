@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateAlertPolicyRule.go.html to see an example of how to use CreateAlertPolicyRuleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateAlertPolicyRule.go.html to see an example of how to use CreateAlertPolicyRuleRequest.
 type CreateAlertPolicyRuleRequest struct {
 
 	// The details used to create a new alert policy rule.
@@ -84,7 +84,7 @@ type CreateAlertPolicyRuleResponse struct {
 	// The AlertPolicyRule instance
 	AlertPolicyRule `presentIn:"body"`
 
-	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// The OCID of the work request. Use GetWorkRequest with this OCID to track the status of the request.

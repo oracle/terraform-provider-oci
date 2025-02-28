@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RefreshActivity An environment refresh copies data from a source environment to a target environment, making a copy of the source environment onto the target environment. For more information, see Refreshing an Environment (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/refresh-environment.htm).
+// RefreshActivity An environment refresh copies data from a source environment to a target environment, making a copy of the source environment onto the target environment. For more information, see Refreshing an Environment (https://docs.oracle.com/iaas/Content/fusion-applications/refresh-environment.htm).
 type RefreshActivity struct {
 
 	// The unique identifier (OCID) of the refresh activity. Can't be changed after creation.

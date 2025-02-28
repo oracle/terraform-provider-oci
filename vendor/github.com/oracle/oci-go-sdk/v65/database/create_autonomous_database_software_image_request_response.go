@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAutonomousDatabaseSoftwareImage.go.html to see an example of how to use CreateAutonomousDatabaseSoftwareImageRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAutonomousDatabaseSoftwareImage.go.html to see an example of how to use CreateAutonomousDatabaseSoftwareImageRequest.
 type CreateAutonomousDatabaseSoftwareImageRequest struct {
 
 	// Request to create Autonomous Database Software Image.
@@ -82,7 +82,7 @@ type CreateAutonomousDatabaseSoftwareImageResponse struct {
 	// The AutonomousDatabaseSoftwareImage instance
 	AutonomousDatabaseSoftwareImage `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

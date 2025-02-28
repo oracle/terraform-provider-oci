@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSmtpCredential.go.html to see an example of how to use GetSmtpCredentialRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSmtpCredential.go.html to see an example of how to use GetSmtpCredentialRequest.
 type GetSmtpCredentialRequest struct {
 
 	// ID of the resource

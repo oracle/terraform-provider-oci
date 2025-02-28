@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalMySqlDatabase.go.html to see an example of how to use CreateExternalMySqlDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalMySqlDatabase.go.html to see an example of how to use CreateExternalMySqlDatabaseRequest.
 type CreateExternalMySqlDatabaseRequest struct {
 
 	// The details required to create an external MySQL database resource.

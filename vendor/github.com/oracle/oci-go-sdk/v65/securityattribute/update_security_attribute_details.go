@@ -4,7 +4,7 @@
 
 // Security Attribute API
 //
-// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
+// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 //
 
 package securityattribute
@@ -23,7 +23,7 @@ type UpdateSecurityAttributeDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// Whether the security attribute is retired.
-	// See Managing Security Attributes (https://docs.cloud.oracle.com/Content/zero-trust-packet-routing/managing-security-attributes.htm).
+	// See Managing Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm).
 	IsRetired *bool `mandatory:"false" json:"isRetired"`
 
 	Validator BaseSecurityAttributeValidator `mandatory:"false" json:"validator"`

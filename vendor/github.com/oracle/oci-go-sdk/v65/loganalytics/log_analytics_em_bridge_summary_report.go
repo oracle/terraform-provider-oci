@@ -18,7 +18,7 @@ import (
 // LogAnalyticsEmBridgeSummaryReport Log-Analytics EM Bridge counts summary.
 type LogAnalyticsEmBridgeSummaryReport struct {
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Total number of ACTIVE enterprise manager bridges.

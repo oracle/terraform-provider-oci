@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/GetLogGroup.go.html to see an example of how to use GetLogGroupRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/GetLogGroup.go.html to see an example of how to use GetLogGroupRequest.
 type GetLogGroupRequest struct {
 
 	// OCID of a log group to work with.

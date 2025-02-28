@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreKeyFromFile.go.html to see an example of how to use RestoreKeyFromFileRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreKeyFromFile.go.html to see an example of how to use RestoreKeyFromFileRequest.
 type RestoreKeyFromFileRequest struct {
 
 	// The content length of the body.

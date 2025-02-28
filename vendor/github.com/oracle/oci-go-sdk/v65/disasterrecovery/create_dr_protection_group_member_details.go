@@ -108,7 +108,7 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateDrProtectionGroupMemberDetails: %s.", m.MemberType)
+		common.Logf("Received unsupported enum value for CreateDrProtectionGroupMemberDetails: %s.", m.MemberType)
 		return *m, nil
 	}
 }

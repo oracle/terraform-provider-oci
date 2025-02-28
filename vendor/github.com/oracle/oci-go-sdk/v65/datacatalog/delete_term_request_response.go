@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteTerm.go.html to see an example of how to use DeleteTermRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteTerm.go.html to see an example of how to use DeleteTermRequest.
 type DeleteTermRequest struct {
 
 	// Unique catalog identifier.

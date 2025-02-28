@@ -159,6 +159,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `datascience` - Discovers datascience resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
+    * `dblm` - Discovers dblm resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
@@ -698,6 +699,10 @@ desktops
     
 * oci\_desktops\_desktop\_pool
 
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
+
 devops
     
 * oci\_devops\_project
@@ -740,6 +745,7 @@ email
 * oci\_email\_sender
 * oci\_email\_email\_domain
 * oci\_email\_dkim
+* oci\_email\_email\_return\_path
 
 events
     

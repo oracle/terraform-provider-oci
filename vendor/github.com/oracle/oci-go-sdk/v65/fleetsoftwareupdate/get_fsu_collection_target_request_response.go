@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCollectionTarget.go.html to see an example of how to use GetFsuCollectionTargetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuCollectionTarget.go.html to see an example of how to use GetFsuCollectionTargetRequest.
 type GetFsuCollectionTargetRequest struct {
 
 	// Unique Exadata Fleet Update Collection identifier.

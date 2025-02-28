@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretVersionDeletion.go.html to see an example of how to use ScheduleSecretVersionDeletionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretVersionDeletion.go.html to see an example of how to use ScheduleSecretVersionDeletionRequest.
 type ScheduleSecretVersionDeletionRequest struct {
 
 	// The OCID of the secret.

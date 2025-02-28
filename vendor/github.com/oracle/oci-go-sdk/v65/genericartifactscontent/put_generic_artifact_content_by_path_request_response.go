@@ -16,10 +16,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/PutGenericArtifactContentByPath.go.html to see an example of how to use PutGenericArtifactContentByPathRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/PutGenericArtifactContentByPath.go.html to see an example of how to use PutGenericArtifactContentByPathRequest.
 type PutGenericArtifactContentByPathRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.
 	// Example: `ocid1.repository.oc1..exampleuniqueID`
 	RepositoryId *string `mandatory:"true" contributesTo:"path" name:"repositoryId"`
 
@@ -37,7 +37,7 @@ type PutGenericArtifactContentByPathRequest struct {
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.  The resource will be updated or deleted only if the `etag` you provide matches the resource's current `etag` value. When 'if-match' is provided and its value does not exactly match the 'etag' of the resource on the server, the request fails with the 412 response code.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Unique Oracle-assigned request ID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm)
+	// Unique Oracle-assigned request ID (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm)
 	// Example: `bxxxxxxx-fxxx-4xxx-9xxx-bxxxxxxxxxxx`
 	// If you contact Oracle about a request, provide this request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

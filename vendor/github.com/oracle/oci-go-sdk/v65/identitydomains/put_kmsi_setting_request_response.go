@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutKmsiSetting.go.html to see an example of how to use PutKmsiSettingRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutKmsiSetting.go.html to see an example of how to use PutKmsiSettingRequest.
 type PutKmsiSettingRequest struct {
 
 	// ID of the resource

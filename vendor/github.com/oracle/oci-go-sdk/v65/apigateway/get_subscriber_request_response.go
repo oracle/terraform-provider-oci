@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSubscriber.go.html to see an example of how to use GetSubscriberRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSubscriber.go.html to see an example of how to use GetSubscriberRequest.
 type GetSubscriberRequest struct {
 
 	// The ocid of the subscriber.

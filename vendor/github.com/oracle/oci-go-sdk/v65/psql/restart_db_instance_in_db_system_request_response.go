@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/RestartDbInstanceInDbSystem.go.html to see an example of how to use RestartDbInstanceInDbSystemRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/RestartDbInstanceInDbSystem.go.html to see an example of how to use RestartDbInstanceInDbSystemRequest.
 type RestartDbInstanceInDbSystemRequest struct {
 
 	// A unique identifier for the database system.

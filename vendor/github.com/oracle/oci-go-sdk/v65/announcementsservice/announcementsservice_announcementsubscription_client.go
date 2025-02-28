@@ -96,7 +96,7 @@ func (client *AnnouncementSubscriptionClient) ConfigurationProvider() *common.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ChangeAnnouncementSubscriptionCompartment.go.html to see an example of how to use ChangeAnnouncementSubscriptionCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ChangeAnnouncementSubscriptionCompartment.go.html to see an example of how to use ChangeAnnouncementSubscriptionCompartment API.
 func (client AnnouncementSubscriptionClient) ChangeAnnouncementSubscriptionCompartment(ctx context.Context, request ChangeAnnouncementSubscriptionCompartmentRequest) (response ChangeAnnouncementSubscriptionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -154,7 +154,7 @@ func (client AnnouncementSubscriptionClient) changeAnnouncementSubscriptionCompa
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementSubscription.go.html to see an example of how to use CreateAnnouncementSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementSubscription.go.html to see an example of how to use CreateAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) CreateAnnouncementSubscription(ctx context.Context, request CreateAnnouncementSubscriptionRequest) (response CreateAnnouncementSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -217,7 +217,7 @@ func (client AnnouncementSubscriptionClient) createAnnouncementSubscription(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateFilterGroup.go.html to see an example of how to use CreateFilterGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateFilterGroup.go.html to see an example of how to use CreateFilterGroup API.
 func (client AnnouncementSubscriptionClient) CreateFilterGroup(ctx context.Context, request CreateFilterGroupRequest) (response CreateFilterGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -280,7 +280,7 @@ func (client AnnouncementSubscriptionClient) createFilterGroup(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteAnnouncementSubscription.go.html to see an example of how to use DeleteAnnouncementSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteAnnouncementSubscription.go.html to see an example of how to use DeleteAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) DeleteAnnouncementSubscription(ctx context.Context, request DeleteAnnouncementSubscriptionRequest) (response DeleteAnnouncementSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -338,7 +338,7 @@ func (client AnnouncementSubscriptionClient) deleteAnnouncementSubscription(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteFilterGroup.go.html to see an example of how to use DeleteFilterGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteFilterGroup.go.html to see an example of how to use DeleteFilterGroup API.
 func (client AnnouncementSubscriptionClient) DeleteFilterGroup(ctx context.Context, request DeleteFilterGroupRequest) (response DeleteFilterGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -396,7 +396,7 @@ func (client AnnouncementSubscriptionClient) deleteFilterGroup(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementSubscription.go.html to see an example of how to use GetAnnouncementSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementSubscription.go.html to see an example of how to use GetAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) GetAnnouncementSubscription(ctx context.Context, request GetAnnouncementSubscriptionRequest) (response GetAnnouncementSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -454,7 +454,7 @@ func (client AnnouncementSubscriptionClient) getAnnouncementSubscription(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncementSubscriptions.go.html to see an example of how to use ListAnnouncementSubscriptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncementSubscriptions.go.html to see an example of how to use ListAnnouncementSubscriptions API.
 func (client AnnouncementSubscriptionClient) ListAnnouncementSubscriptions(ctx context.Context, request ListAnnouncementSubscriptionsRequest) (response ListAnnouncementSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -512,7 +512,7 @@ func (client AnnouncementSubscriptionClient) listAnnouncementSubscriptions(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementSubscription.go.html to see an example of how to use UpdateAnnouncementSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementSubscription.go.html to see an example of how to use UpdateAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) UpdateAnnouncementSubscription(ctx context.Context, request UpdateAnnouncementSubscriptionRequest) (response UpdateAnnouncementSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -570,7 +570,7 @@ func (client AnnouncementSubscriptionClient) updateAnnouncementSubscription(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateFilterGroup.go.html to see an example of how to use UpdateFilterGroup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateFilterGroup.go.html to see an example of how to use UpdateFilterGroup API.
 func (client AnnouncementSubscriptionClient) UpdateFilterGroup(ctx context.Context, request UpdateFilterGroupRequest) (response UpdateFilterGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

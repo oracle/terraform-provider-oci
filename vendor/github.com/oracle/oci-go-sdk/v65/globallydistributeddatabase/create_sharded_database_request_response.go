@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreateShardedDatabase.go.html to see an example of how to use CreateShardedDatabaseRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/CreateShardedDatabase.go.html to see an example of how to use CreateShardedDatabaseRequest.
 type CreateShardedDatabaseRequest struct {
 
 	// Details of Sharded database to be created.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateDiscoverySchedule.go.html to see an example of how to use CreateDiscoveryScheduleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateDiscoverySchedule.go.html to see an example of how to use CreateDiscoveryScheduleRequest.
 type CreateDiscoveryScheduleRequest struct {
 
 	// Information about the discovery schedule being created.

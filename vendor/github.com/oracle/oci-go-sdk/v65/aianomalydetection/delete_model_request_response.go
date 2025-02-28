@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteModel.go.html to see an example of how to use DeleteModelRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteModel.go.html to see an example of how to use DeleteModelRequest.
 type DeleteModelRequest struct {
 
 	// The OCID of the Model.

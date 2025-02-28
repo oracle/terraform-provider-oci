@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPullRequestFileChanges.go.html to see an example of how to use ListPullRequestFileChangesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPullRequestFileChanges.go.html to see an example of how to use ListPullRequestFileChangesRequest.
 type ListPullRequestFileChangesRequest struct {
 
 	// unique PullRequest identifier

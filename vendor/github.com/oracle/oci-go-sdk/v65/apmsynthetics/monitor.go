@@ -19,7 +19,7 @@ import (
 // Monitor The information about a monitor.
 type Monitor struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitor.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique name that can be edited. The name should not contain any confidential information.
@@ -34,7 +34,7 @@ type Monitor struct {
 	// Number of vantage points where monitor is running.
 	VantagePointCount *int `mandatory:"true" json:"vantagePointCount"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the script.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script.
 	// scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null.
 	ScriptId *string `mandatory:"true" json:"scriptId"`
 

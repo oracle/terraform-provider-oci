@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflowConfiguration.go.html to see an example of how to use DeleteMediaWorkflowConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflowConfiguration.go.html to see an example of how to use DeleteMediaWorkflowConfigurationRequest.
 type DeleteMediaWorkflowConfigurationRequest struct {
 
 	// Unique MediaWorkflowConfiguration identifier.

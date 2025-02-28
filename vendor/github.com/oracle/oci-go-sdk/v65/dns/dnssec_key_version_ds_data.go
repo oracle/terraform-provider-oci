@@ -5,7 +5,7 @@
 // DNS API
 //
 // API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
-// For more information, see Overview of the DNS Service (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// For more information, see Overview of the DNS Service (https://docs.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -20,7 +20,7 @@ import (
 type DnssecKeyVersionDsData struct {
 
 	// Presentation-format DS record data that must be added to the parent zone. For more information about RDATA,
-	// see Supported DNS Resource Record Types (https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)
+	// see Supported DNS Resource Record Types (https://docs.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)
 	Rdata *string `mandatory:"false" json:"rdata"`
 
 	// The type of the digest associated with the rdata.

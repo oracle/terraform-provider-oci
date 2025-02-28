@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePlatformConfiguration.go.html to see an example of how to use DeletePlatformConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePlatformConfiguration.go.html to see an example of how to use DeletePlatformConfigurationRequest.
 type DeletePlatformConfigurationRequest struct {
 
 	// unique PlatformConfiguration identifier

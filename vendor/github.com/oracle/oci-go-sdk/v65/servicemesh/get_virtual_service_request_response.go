@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualService.go.html to see an example of how to use GetVirtualServiceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualService.go.html to see an example of how to use GetVirtualServiceRequest.
 type GetVirtualServiceRequest struct {
 
 	// Unique VirtualService identifier.

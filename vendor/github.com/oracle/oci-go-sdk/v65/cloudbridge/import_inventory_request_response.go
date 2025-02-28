@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ImportInventory.go.html to see an example of how to use ImportInventoryRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ImportInventory.go.html to see an example of how to use ImportInventoryRequest.
 type ImportInventoryRequest struct {
 
 	// The file input to create resources.

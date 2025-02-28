@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualServiceRouteTableCompartment.go.html to see an example of how to use ChangeVirtualServiceRouteTableCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeVirtualServiceRouteTableCompartment.go.html to see an example of how to use ChangeVirtualServiceRouteTableCompartmentRequest.
 type ChangeVirtualServiceRouteTableCompartmentRequest struct {
 
 	// Unique VirtualServiceRouteTable identifier.

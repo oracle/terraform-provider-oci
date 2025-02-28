@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktop.go.html to see an example of how to use StartDesktopRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktop.go.html to see an example of how to use StartDesktopRequest.
 type StartDesktopRequest struct {
 
 	// The OCID of the desktop.

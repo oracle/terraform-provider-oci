@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -20,9 +20,9 @@ import (
 // packets to (a target).
 type RouteRule struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the route rule's target. For information about the type of
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the route rule's target. For information about the type of
 	// targets you can specify, see
-	// Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
+	// Route Tables (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 	NetworkEntityId *string `mandatory:"true" json:"networkEntityId"`
 
 	// Deprecated. Instead use `destination` and `destinationType`. Requests that include both
@@ -40,7 +40,7 @@ type RouteRule struct {
 	//   or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target
 	//   can only be a DRG or internet gateway.
 	//   IPv6 addressing is supported for all commercial and government regions.
-	//   See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	//   See IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a route rule for traffic destined for a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ChangeSecurityAttributeNamespaceCompartment.go.html to see an example of how to use ChangeSecurityAttributeNamespaceCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/securityattribute/ChangeSecurityAttributeNamespaceCompartment.go.html to see an example of how to use ChangeSecurityAttributeNamespaceCompartmentRequest.
 type ChangeSecurityAttributeNamespaceCompartmentRequest struct {
 
 	// The OCID of the security attribute namespace.

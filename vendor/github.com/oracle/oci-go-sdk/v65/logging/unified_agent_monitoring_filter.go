@@ -6,7 +6,7 @@
 //
 // Use the Logging Management API to create, read, list, update, move and delete
 // log groups, log objects, log saved searches, and agent configurations.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// For more information, see Logging Overview (https://docs.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -66,7 +66,7 @@ func (m *unifiedagentmonitoringfilter) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UnifiedAgentMonitoringFilter: %s.", m.FilterType)
+		common.Logf("Received unsupported enum value for UnifiedAgentMonitoringFilter: %s.", m.FilterType)
 		return *m, nil
 	}
 }

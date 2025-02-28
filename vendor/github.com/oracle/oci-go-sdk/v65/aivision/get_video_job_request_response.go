@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetVideoJob.go.html to see an example of how to use GetVideoJobRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetVideoJob.go.html to see an example of how to use GetVideoJobRequest.
 type GetVideoJobRequest struct {
 
 	// Video job id.

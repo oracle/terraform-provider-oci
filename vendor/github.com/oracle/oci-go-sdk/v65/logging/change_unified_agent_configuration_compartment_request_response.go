@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ChangeUnifiedAgentConfigurationCompartment.go.html to see an example of how to use ChangeUnifiedAgentConfigurationCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ChangeUnifiedAgentConfigurationCompartment.go.html to see an example of how to use ChangeUnifiedAgentConfigurationCompartmentRequest.
 type ChangeUnifiedAgentConfigurationCompartmentRequest struct {
 
 	// The OCID of the Unified Agent configuration.

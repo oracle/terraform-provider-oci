@@ -19,7 +19,7 @@ import (
 // PreBuiltFunctionSourceDetails The source of the Function which is based on a Pre-Built Function Listing (PbfListing).
 type PreBuiltFunctionSourceDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this
 	// function is sourced from.
 	PbfListingId *string `mandatory:"true" json:"pbfListingId"`
 }

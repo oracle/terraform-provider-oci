@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ChangeReplicationScheduleCompartment.go.html to see an example of how to use ChangeReplicationScheduleCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ChangeReplicationScheduleCompartment.go.html to see an example of how to use ChangeReplicationScheduleCompartmentRequest.
 type ChangeReplicationScheduleCompartmentRequest struct {
 
 	// Unique replication schedule identifier in path

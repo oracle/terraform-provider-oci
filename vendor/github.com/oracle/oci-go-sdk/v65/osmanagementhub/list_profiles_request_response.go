@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListProfiles.go.html to see an example of how to use ListProfilesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListProfiles.go.html to see an example of how to use ListProfilesRequest.
 type ListProfilesRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
@@ -30,7 +30,7 @@ type ListProfilesRequest struct {
 	// A filter to return registration profiles that match the given profile type.
 	ProfileType []ProfileTypeEnum `contributesTo:"query" name:"profileType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile. A filter used to return the specified profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile. A filter used to return the specified profile.
 	ProfileId *string `mandatory:"false" contributesTo:"query" name:"profileId"`
 
 	// A filter to return only resources that match the given operating system family.
@@ -42,22 +42,33 @@ type ListProfilesRequest struct {
 	// A filter to return profiles that match the given instance type.
 	RegistrationType []ProfileRegistrationTypeEnum `contributesTo:"query" name:"registrationType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A boolean variable that is used to list only the default profile resources.
+	// A filter to return only default profiles.
 	IsDefaultProfile *bool `mandatory:"false" contributesTo:"query" name:"isDefaultProfile"`
 
 	// A filter to return only service-provided profiles.
 	IsServiceProvidedProfile *bool `mandatory:"false" contributesTo:"query" name:"isServiceProvidedProfile"`
 
+	// A filter to return resources that are associated with the specified management
+	// station OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStation []string `contributesTo:"query" name:"managementStation" collectionFormat:"multi"`
+
+	// A filter to return resources that aren't associated with the specified management
+	// station OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStationNotEqualTo []string `contributesTo:"query" name:"managementStationNotEqualTo" collectionFormat:"multi"`
+
+	// The version of the registration profile.
+	ProfileVersion *string `mandatory:"false" contributesTo:"query" name:"profileVersion"`
+
 	// A filter to return only resources that match the given vendor name.
 	VendorName ListProfilesVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
@@ -160,8 +171,11 @@ type ListProfilesResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// The total number of items in the result. Used for pagination of a list of items.
+	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 }
 
 func (response ListProfilesResponse) String() string {
@@ -249,6 +263,7 @@ const (
 	ListProfilesArchTypeI686    ListProfilesArchTypeEnum = "I686"
 	ListProfilesArchTypeNoarch  ListProfilesArchTypeEnum = "NOARCH"
 	ListProfilesArchTypeSrc     ListProfilesArchTypeEnum = "SRC"
+	ListProfilesArchTypeI386    ListProfilesArchTypeEnum = "I386"
 )
 
 var mappingListProfilesArchTypeEnum = map[string]ListProfilesArchTypeEnum{
@@ -257,6 +272,7 @@ var mappingListProfilesArchTypeEnum = map[string]ListProfilesArchTypeEnum{
 	"I686":    ListProfilesArchTypeI686,
 	"NOARCH":  ListProfilesArchTypeNoarch,
 	"SRC":     ListProfilesArchTypeSrc,
+	"I386":    ListProfilesArchTypeI386,
 }
 
 var mappingListProfilesArchTypeEnumLowerCase = map[string]ListProfilesArchTypeEnum{
@@ -265,6 +281,7 @@ var mappingListProfilesArchTypeEnumLowerCase = map[string]ListProfilesArchTypeEn
 	"i686":    ListProfilesArchTypeI686,
 	"noarch":  ListProfilesArchTypeNoarch,
 	"src":     ListProfilesArchTypeSrc,
+	"i386":    ListProfilesArchTypeI386,
 }
 
 // GetListProfilesArchTypeEnumValues Enumerates the set of values for ListProfilesArchTypeEnum
@@ -284,6 +301,7 @@ func GetListProfilesArchTypeEnumStringValues() []string {
 		"I686",
 		"NOARCH",
 		"SRC",
+		"I386",
 	}
 }
 

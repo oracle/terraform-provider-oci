@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuDiscoveryTargets.go.html to see an example of how to use ListFsuDiscoveryTargetsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuDiscoveryTargets.go.html to see an example of how to use ListFsuDiscoveryTargetsRequest.
 type ListFsuDiscoveryTargetsRequest struct {
 
 	// Unique Exadata Fleet Update Discovery identifier.

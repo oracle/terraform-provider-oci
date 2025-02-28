@@ -18,7 +18,7 @@ import (
 // WorkerSummary Information about On-premise VP worker.
 type WorkerSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the On-premise VP worker.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the On-premise VP worker.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique On-premise VP worker name that cannot be edited. The name should not contain any confidential information.

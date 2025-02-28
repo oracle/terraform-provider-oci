@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutAppStatusChanger.go.html to see an example of how to use PutAppStatusChangerRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutAppStatusChanger.go.html to see an example of how to use PutAppStatusChangerRequest.
 type PutAppStatusChangerRequest struct {
 
 	// ID of the resource

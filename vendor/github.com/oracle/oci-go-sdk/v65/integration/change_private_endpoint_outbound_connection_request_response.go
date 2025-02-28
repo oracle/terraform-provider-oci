@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangePrivateEndpointOutboundConnection.go.html to see an example of how to use ChangePrivateEndpointOutboundConnectionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangePrivateEndpointOutboundConnection.go.html to see an example of how to use ChangePrivateEndpointOutboundConnectionRequest.
 type ChangePrivateEndpointOutboundConnectionRequest struct {
 
 	// Unique Integration Instance identifier.

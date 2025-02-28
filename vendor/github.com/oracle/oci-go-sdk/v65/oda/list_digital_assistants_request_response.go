@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListDigitalAssistants.go.html to see an example of how to use ListDigitalAssistantsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListDigitalAssistants.go.html to see an example of how to use ListDigitalAssistantsRequest.
 type ListDigitalAssistantsRequest struct {
 
 	// Unique Digital Assistant instance identifier.

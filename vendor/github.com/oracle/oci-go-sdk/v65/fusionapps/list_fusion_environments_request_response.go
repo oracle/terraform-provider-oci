@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListFusionEnvironments.go.html to see an example of how to use ListFusionEnvironmentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListFusionEnvironments.go.html to see an example of how to use ListFusionEnvironmentsRequest.
 type ListFusionEnvironmentsRequest struct {
 
 	// The ID of the compartment in which to list resources.

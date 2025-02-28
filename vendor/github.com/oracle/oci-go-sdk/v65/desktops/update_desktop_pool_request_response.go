@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktopPool.go.html to see an example of how to use UpdateDesktopPoolRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktopPool.go.html to see an example of how to use UpdateDesktopPoolRequest.
 type UpdateDesktopPoolRequest struct {
 
 	// The OCID of the desktop pool.

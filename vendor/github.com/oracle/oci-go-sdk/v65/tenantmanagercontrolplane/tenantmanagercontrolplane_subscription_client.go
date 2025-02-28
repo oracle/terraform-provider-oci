@@ -4,7 +4,7 @@
 
 // Organizations API
 //
-// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
+// Use the Organizations API to consolidate multiple OCI tenancies into an organization, and centrally manage your tenancies and organization resources. For more information, see Organization Management Overview (https://docs.oracle.com/iaas/Content/General/Concepts/organization_management_overview.htm).
 //
 
 package tenantmanagercontrolplane
@@ -95,7 +95,7 @@ func (client *SubscriptionClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateSubscriptionMapping.go.html to see an example of how to use CreateSubscriptionMapping API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/CreateSubscriptionMapping.go.html to see an example of how to use CreateSubscriptionMapping API.
 func (client SubscriptionClient) CreateSubscriptionMapping(ctx context.Context, request CreateSubscriptionMappingRequest) (response CreateSubscriptionMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -157,7 +157,7 @@ func (client SubscriptionClient) createSubscriptionMapping(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteSubscriptionMapping.go.html to see an example of how to use DeleteSubscriptionMapping API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/DeleteSubscriptionMapping.go.html to see an example of how to use DeleteSubscriptionMapping API.
 func (client SubscriptionClient) DeleteSubscriptionMapping(ctx context.Context, request DeleteSubscriptionMappingRequest) (response DeleteSubscriptionMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,7 +214,7 @@ func (client SubscriptionClient) deleteSubscriptionMapping(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetAssignedSubscription.go.html to see an example of how to use GetAssignedSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetAssignedSubscription.go.html to see an example of how to use GetAssignedSubscription API.
 func (client SubscriptionClient) GetAssignedSubscription(ctx context.Context, request GetAssignedSubscriptionRequest) (response GetAssignedSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -271,7 +271,7 @@ func (client SubscriptionClient) getAssignedSubscription(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetSubscription.go.html to see an example of how to use GetSubscription API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetSubscription.go.html to see an example of how to use GetSubscription API.
 func (client SubscriptionClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -328,7 +328,7 @@ func (client SubscriptionClient) getSubscription(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetSubscriptionMapping.go.html to see an example of how to use GetSubscriptionMapping API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetSubscriptionMapping.go.html to see an example of how to use GetSubscriptionMapping API.
 func (client SubscriptionClient) GetSubscriptionMapping(ctx context.Context, request GetSubscriptionMappingRequest) (response GetSubscriptionMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -385,7 +385,7 @@ func (client SubscriptionClient) getSubscriptionMapping(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListAssignedSubscriptionLineItems.go.html to see an example of how to use ListAssignedSubscriptionLineItems API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListAssignedSubscriptionLineItems.go.html to see an example of how to use ListAssignedSubscriptionLineItems API.
 // A default retry strategy applies to this operation ListAssignedSubscriptionLineItems()
 func (client SubscriptionClient) ListAssignedSubscriptionLineItems(ctx context.Context, request ListAssignedSubscriptionLineItemsRequest) (response ListAssignedSubscriptionLineItemsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -443,7 +443,7 @@ func (client SubscriptionClient) listAssignedSubscriptionLineItems(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListAssignedSubscriptions.go.html to see an example of how to use ListAssignedSubscriptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListAssignedSubscriptions.go.html to see an example of how to use ListAssignedSubscriptions API.
 func (client SubscriptionClient) ListAssignedSubscriptions(ctx context.Context, request ListAssignedSubscriptionsRequest) (response ListAssignedSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -500,7 +500,7 @@ func (client SubscriptionClient) listAssignedSubscriptions(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListAvailableRegions.go.html to see an example of how to use ListAvailableRegions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListAvailableRegions.go.html to see an example of how to use ListAvailableRegions API.
 func (client SubscriptionClient) ListAvailableRegions(ctx context.Context, request ListAvailableRegionsRequest) (response ListAvailableRegionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -557,7 +557,7 @@ func (client SubscriptionClient) listAvailableRegions(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptionLineItems.go.html to see an example of how to use ListSubscriptionLineItems API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptionLineItems.go.html to see an example of how to use ListSubscriptionLineItems API.
 // A default retry strategy applies to this operation ListSubscriptionLineItems()
 func (client SubscriptionClient) ListSubscriptionLineItems(ctx context.Context, request ListSubscriptionLineItemsRequest) (response ListSubscriptionLineItemsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -615,7 +615,7 @@ func (client SubscriptionClient) listSubscriptionLineItems(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptionMappings.go.html to see an example of how to use ListSubscriptionMappings API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptionMappings.go.html to see an example of how to use ListSubscriptionMappings API.
 func (client SubscriptionClient) ListSubscriptionMappings(ctx context.Context, request ListSubscriptionMappingsRequest) (response ListSubscriptionMappingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -672,7 +672,7 @@ func (client SubscriptionClient) listSubscriptionMappings(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 func (client SubscriptionClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateLog.go.html to see an example of how to use UpdateLogRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateLog.go.html to see an example of how to use UpdateLogRequest.
 type UpdateLogRequest struct {
 
 	// OCID of a log group to work with.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateOnDemandHttpProbe.go.html to see an example of how to use CreateOnDemandHttpProbeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateOnDemandHttpProbe.go.html to see an example of how to use CreateOnDemandHttpProbeRequest.
 type CreateOnDemandHttpProbeRequest struct {
 
 	// The configuration of the HTTP probe.

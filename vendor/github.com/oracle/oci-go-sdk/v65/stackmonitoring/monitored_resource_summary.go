@@ -18,7 +18,7 @@ import (
 // MonitoredResourceSummary The information about monitored resource.
 type MonitoredResourceSummary struct {
 
-	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Monitored resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Monitored Resource Name.
@@ -30,17 +30,17 @@ type MonitoredResourceSummary struct {
 	// Monitored resource display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
-	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// External resource is any OCI resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Management Agent Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
 	// Monitored resource creation time. An RFC3339 formatted datetime string.

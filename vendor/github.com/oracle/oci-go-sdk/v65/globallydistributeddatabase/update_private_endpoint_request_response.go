@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpointRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/globallydistributeddatabase/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpointRequest.
 type UpdatePrivateEndpointRequest struct {
 
 	// Oracle Sharded Database PrivateEndpoint identifier

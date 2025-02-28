@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteReplicationPolicy.go.html to see an example of how to use DeleteReplicationPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteReplicationPolicy.go.html to see an example of how to use DeleteReplicationPolicyRequest.
 type DeleteReplicationPolicyRequest struct {
 
 	// The Object Storage namespace used for the request.

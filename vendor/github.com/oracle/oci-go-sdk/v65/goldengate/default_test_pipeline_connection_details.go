@@ -19,7 +19,7 @@ import (
 // DefaultTestPipelineConnectionDetails Additional attribute with which to test the pipeline's connection. The connectionId must be one of the pipeline's assigned connections.
 type DefaultTestPipelineConnectionDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection being
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
 	// referenced.
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 }

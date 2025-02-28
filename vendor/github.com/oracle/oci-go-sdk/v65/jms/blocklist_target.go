@@ -18,10 +18,10 @@ import (
 // BlocklistTarget A resource to blocklist for certain operation.
 type BlocklistTarget struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"false" json:"managedInstanceId"`
 
 	// The unique identifier for the installation of Java Runtime at a specific path on a specific operating system.

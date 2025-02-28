@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.oracle.com/iaas/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -17,7 +17,7 @@ import (
 )
 
 // StructuredSearchDetails A request that uses Search's structured query language to specify filter conditions to
-// apply to search listings. For more information about writing search queries, see Search Language Syntax (https://docs.cloud.oracle.com/Content/Search/Concepts/querysyntax.htm).
+// apply to search listings. For more information about writing search queries, see Search Language Syntax (https://docs.oracle.com/iaas/Content/Search/Concepts/querysyntax.htm).
 type StructuredSearchDetails struct {
 
 	// The structured query describing which resources to search for.

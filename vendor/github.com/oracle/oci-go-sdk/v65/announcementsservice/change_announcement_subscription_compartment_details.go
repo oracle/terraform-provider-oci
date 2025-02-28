@@ -18,7 +18,7 @@ import (
 // ChangeAnnouncementSubscriptionCompartmentDetails The details of the request to change the compartment of the announcement subscription.
 type ChangeAnnouncementSubscriptionCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// into which you want to move the announcement subscription.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

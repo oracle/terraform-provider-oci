@@ -18,7 +18,7 @@ import (
 // ChangeDatabaseRegistrationCompartmentDetails The new compartment for a DatabaseRegistration.
 type ChangeDatabaseRegistrationCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

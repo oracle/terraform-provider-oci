@@ -18,7 +18,7 @@ import (
 // WorkRequestSummary Summary information for a work request.
 type WorkRequestSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The type of work the work request is doing.
@@ -27,7 +27,7 @@ type WorkRequestSummary struct {
 	// The current status of the work request.
 	Status WorkRequestStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request's compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Percentage of the request completed.

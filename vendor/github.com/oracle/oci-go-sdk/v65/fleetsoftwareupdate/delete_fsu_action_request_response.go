@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuAction.go.html to see an example of how to use DeleteFsuActionRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuAction.go.html to see an example of how to use DeleteFsuActionRequest.
 type DeleteFsuActionRequest struct {
 
 	// Unique Exadata Fleet Update Action identifier.

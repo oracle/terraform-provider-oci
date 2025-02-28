@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,34 +16,40 @@ import (
 	"strings"
 )
 
-// MirrorSummary Summary of a Mirror
+// MirrorSummary Provides summary information for a software source mirror.
 type MirrorSummary struct {
 
-	// OCID of a software source
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Current state of the mirror
+	// Current state of the software source mirror.
 	State MirrorStateEnum `mandatory:"true" json:"state"`
 
-	// A decimal number representing the completness percentage
+	// A decimal number representing the percentage of the software source that has been synced.
 	Percentage *int `mandatory:"true" json:"percentage"`
 
-	// Timestamp of the last time the mirror was sync
+	// Time that the software source was last synced (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeLastSynced *common.SDKTime `mandatory:"true" json:"timeLastSynced"`
 
 	// The current log from the management station plugin.
 	Log *string `mandatory:"true" json:"log"`
 
-	// Display name of the mirror
+	// The number of packages within the mirrored software source.
+	PackageCount *int `mandatory:"true" json:"packageCount"`
+
+	// The size the mirrored software source in bytes.
+	Size *int64 `mandatory:"true" json:"size"`
+
+	// Display name of the mirror.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Type of the mirror
+	// Type of software source.
 	Type MirrorTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// The OS family the Software Source belongs to
+	// The OS family of the software source.
 	OsFamily OsFamilyEnum `mandatory:"false" json:"osFamily,omitempty"`
 
-	// The architecture type supported by the Software Source
+	// The architecture type supported by the software source.
 	ArchType ArchTypeEnum `mandatory:"false" json:"archType,omitempty"`
 }
 

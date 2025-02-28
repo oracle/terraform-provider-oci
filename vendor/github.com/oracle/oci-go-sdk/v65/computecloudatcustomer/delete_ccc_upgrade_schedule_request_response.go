@@ -15,11 +15,11 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/DeleteCccUpgradeSchedule.go.html to see an example of how to use DeleteCccUpgradeScheduleRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/DeleteCccUpgradeSchedule.go.html to see an example of how to use DeleteCccUpgradeScheduleRequest.
 type DeleteCccUpgradeScheduleRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CccUpgradeScheduleId *string `mandatory:"true" contributesTo:"path" name:"cccUpgradeScheduleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -29,7 +29,7 @@ type DeleteCccUpgradeScheduleRequest struct {
 	// provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The client request OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
+	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

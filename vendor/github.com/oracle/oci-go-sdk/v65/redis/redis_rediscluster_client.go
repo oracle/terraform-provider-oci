@@ -4,7 +4,7 @@
 
 // OCI Cache API
 //
-// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -95,7 +95,7 @@ func (client *RedisClusterClient) ConfigurationProvider() *common.ConfigurationP
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client RedisClusterClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -149,11 +149,11 @@ func (client RedisClusterClient) cancelWorkRequest(ctx context.Context, request 
 	return response, err
 }
 
-// ChangeRedisClusterCompartment Moves an OCI Cache cluster into a different compartment within the same tenancy. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// ChangeRedisClusterCompartment Moves an OCI Cache cluster into a different compartment within the same tenancy. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ChangeRedisClusterCompartment.go.html to see an example of how to use ChangeRedisClusterCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ChangeRedisClusterCompartment.go.html to see an example of how to use ChangeRedisClusterCompartment API.
 // A default retry strategy applies to this operation ChangeRedisClusterCompartment()
 func (client RedisClusterClient) ChangeRedisClusterCompartment(ctx context.Context, request ChangeRedisClusterCompartmentRequest) (response ChangeRedisClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -212,11 +212,11 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 	return response, err
 }
 
-// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/CreateRedisCluster.go.html to see an example of how to use CreateRedisCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/CreateRedisCluster.go.html to see an example of how to use CreateRedisCluster API.
 // A default retry strategy applies to this operation CreateRedisCluster()
 func (client RedisClusterClient) CreateRedisCluster(ctx context.Context, request CreateRedisClusterRequest) (response CreateRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -275,11 +275,11 @@ func (client RedisClusterClient) createRedisCluster(ctx context.Context, request
 	return response, err
 }
 
-// DeleteRedisCluster Deletes the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// DeleteRedisCluster Deletes the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/DeleteRedisCluster.go.html to see an example of how to use DeleteRedisCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/DeleteRedisCluster.go.html to see an example of how to use DeleteRedisCluster API.
 // A default retry strategy applies to this operation DeleteRedisCluster()
 func (client RedisClusterClient) DeleteRedisCluster(ctx context.Context, request DeleteRedisClusterRequest) (response DeleteRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -333,11 +333,11 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 	return response, err
 }
 
-// GetRedisCluster Retrieves the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// GetRedisCluster Retrieves the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/GetRedisCluster.go.html to see an example of how to use GetRedisCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/GetRedisCluster.go.html to see an example of how to use GetRedisCluster API.
 // A default retry strategy applies to this operation GetRedisCluster()
 func (client RedisClusterClient) GetRedisCluster(ctx context.Context, request GetRedisClusterRequest) (response GetRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client RedisClusterClient) getRedisCluster(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client RedisClusterClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -453,7 +453,7 @@ func (client RedisClusterClient) getWorkRequest(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusterNodes.go.html to see an example of how to use ListRedisClusterNodes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusterNodes.go.html to see an example of how to use ListRedisClusterNodes API.
 // A default retry strategy applies to this operation ListRedisClusterNodes()
 func (client RedisClusterClient) ListRedisClusterNodes(ctx context.Context, request ListRedisClusterNodesRequest) (response ListRedisClusterNodesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -507,11 +507,11 @@ func (client RedisClusterClient) listRedisClusterNodes(ctx context.Context, requ
 	return response, err
 }
 
-// ListRedisClusters Lists the OCI Cache clusters in the specified compartment. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// ListRedisClusters Lists the OCI Cache clusters in the specified compartment. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusters.go.html to see an example of how to use ListRedisClusters API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusters.go.html to see an example of how to use ListRedisClusters API.
 // A default retry strategy applies to this operation ListRedisClusters()
 func (client RedisClusterClient) ListRedisClusters(ctx context.Context, request ListRedisClustersRequest) (response ListRedisClustersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -569,7 +569,7 @@ func (client RedisClusterClient) listRedisClusters(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client RedisClusterClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -627,7 +627,7 @@ func (client RedisClusterClient) listWorkRequestErrors(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client RedisClusterClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -685,7 +685,7 @@ func (client RedisClusterClient) listWorkRequestLogs(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client RedisClusterClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -739,11 +739,11 @@ func (client RedisClusterClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateRedisCluster Updates the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+// UpdateRedisCluster Updates the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/UpdateRedisCluster.go.html to see an example of how to use UpdateRedisCluster API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/UpdateRedisCluster.go.html to see an example of how to use UpdateRedisCluster API.
 // A default retry strategy applies to this operation UpdateRedisCluster()
 func (client RedisClusterClient) UpdateRedisCluster(ctx context.Context, request UpdateRedisClusterRequest) (response UpdateRedisClusterResponse, err error) {
 	var ociResponse common.OCIResponse

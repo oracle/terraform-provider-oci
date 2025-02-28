@@ -19,20 +19,20 @@ import (
 // Pipeline A Pipeline to orchestrate and execute machine learning workflows.
 type Pipeline struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The date and time the resource was created in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: 2020-08-06T21:10:29.41Z
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the pipeline.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the pipeline.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the pipeline.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the pipeline.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly display name for the resource.
@@ -57,14 +57,17 @@ type Pipeline struct {
 
 	InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"infrastructureConfigurationDetails"`
 
+	// The storage mount details to mount to the instance running the pipeline step.
+	StorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationDetailsList"`
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -95,23 +98,24 @@ func (m Pipeline) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeUpdated                        *common.SDKTime                             `json:"timeUpdated"`
-		Description                        *string                                     `json:"description"`
-		ConfigurationDetails               pipelineconfigurationdetails                `json:"configurationDetails"`
-		LogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
-		InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
-		LifecycleDetails                   *string                                     `json:"lifecycleDetails"`
-		FreeformTags                       map[string]string                           `json:"freeformTags"`
-		DefinedTags                        map[string]map[string]interface{}           `json:"definedTags"`
-		SystemTags                         map[string]map[string]interface{}           `json:"systemTags"`
-		Id                                 *string                                     `json:"id"`
-		TimeCreated                        *common.SDKTime                             `json:"timeCreated"`
-		CreatedBy                          *string                                     `json:"createdBy"`
-		ProjectId                          *string                                     `json:"projectId"`
-		CompartmentId                      *string                                     `json:"compartmentId"`
-		DisplayName                        *string                                     `json:"displayName"`
-		StepDetails                        []pipelinestepdetails                       `json:"stepDetails"`
-		LifecycleState                     PipelineLifecycleStateEnum                  `json:"lifecycleState"`
+		TimeUpdated                          *common.SDKTime                             `json:"timeUpdated"`
+		Description                          *string                                     `json:"description"`
+		ConfigurationDetails                 pipelineconfigurationdetails                `json:"configurationDetails"`
+		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
+		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
+		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
+		LifecycleDetails                     *string                                     `json:"lifecycleDetails"`
+		FreeformTags                         map[string]string                           `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags                           map[string]map[string]interface{}           `json:"systemTags"`
+		Id                                   *string                                     `json:"id"`
+		TimeCreated                          *common.SDKTime                             `json:"timeCreated"`
+		CreatedBy                            *string                                     `json:"createdBy"`
+		ProjectId                            *string                                     `json:"projectId"`
+		CompartmentId                        *string                                     `json:"compartmentId"`
+		DisplayName                          *string                                     `json:"displayName"`
+		StepDetails                          []pipelinestepdetails                       `json:"stepDetails"`
+		LifecycleState                       PipelineLifecycleStateEnum                  `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -137,6 +141,18 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 
 	m.InfrastructureConfigurationDetails = model.InfrastructureConfigurationDetails
 
+	m.StorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StorageMountConfigurationDetailsList))
+	for i, n := range model.StorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StorageMountConfigurationDetailsList[i] = nil
+		}
+	}
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

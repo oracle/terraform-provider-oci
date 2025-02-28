@@ -5,7 +5,7 @@
 // Audit API
 //
 // API for the Audit Service. Use this API for compliance monitoring in your tenancy.
-// For more information, see Overview of Audit (https://docs.cloud.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
+// For more information, see Overview of Audit (https://docs.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
 // **Tip**: This API is good for queries, but not bulk-export operations.
 //
 
@@ -97,7 +97,7 @@ func (client *AuditClient) ConfigurationProvider() *common.ConfigurationProvider
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 func (client AuditClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -150,7 +150,7 @@ func (client AuditClient) getConfiguration(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/ListEvents.go.html to see an example of how to use ListEvents API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/ListEvents.go.html to see an example of how to use ListEvents API.
 func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -207,7 +207,7 @@ func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
 func (client AuditClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

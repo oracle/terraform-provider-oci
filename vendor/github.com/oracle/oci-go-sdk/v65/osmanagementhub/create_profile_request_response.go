@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateProfile.go.html to see an example of how to use CreateProfileRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateProfile.go.html to see an example of how to use CreateProfileRequest.
 type CreateProfileRequest struct {
 
 	// Provides the information used to create the registration profile.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOciConsoleSignOnPolicyConsent.go.html to see an example of how to use GetOciConsoleSignOnPolicyConsentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOciConsoleSignOnPolicyConsent.go.html to see an example of how to use GetOciConsoleSignOnPolicyConsentRequest.
 type GetOciConsoleSignOnPolicyConsentRequest struct {
 
 	// ID of the resource

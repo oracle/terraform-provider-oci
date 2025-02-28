@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetService.go.html to see an example of how to use GetServiceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetService.go.html to see an example of how to use GetServiceRequest.
 type GetServiceRequest struct {
 
 	// Unique Network Firewall Policy identifier

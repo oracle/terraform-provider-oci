@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateReplica.go.html to see an example of how to use CreateReplicaRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateReplica.go.html to see an example of how to use CreateReplicaRequest.
 type CreateReplicaRequest struct {
 
 	// The parameters of the request to create the read replica.

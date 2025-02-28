@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadToken.go.html to see an example of how to use CreateJavaDownloadTokenRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaDownloadToken.go.html to see an example of how to use CreateJavaDownloadTokenRequest.
 type CreateJavaDownloadTokenRequest struct {
 
 	// Details for the new JavaDownloadToken.

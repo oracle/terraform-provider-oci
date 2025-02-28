@@ -95,7 +95,7 @@ func (client *FleetAppsManagementOperationsClient) ConfigurationProvider() *comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePatch.go.html to see an example of how to use CreatePatch API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreatePatch.go.html to see an example of how to use CreatePatch API.
 // A default retry strategy applies to this operation CreatePatch()
 func (client FleetAppsManagementOperationsClient) CreatePatch(ctx context.Context, request CreatePatchRequest) (response CreatePatchResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client FleetAppsManagementOperationsClient) createPatch(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateSchedulerDefinition.go.html to see an example of how to use CreateSchedulerDefinition API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateSchedulerDefinition.go.html to see an example of how to use CreateSchedulerDefinition API.
 // A default retry strategy applies to this operation CreateSchedulerDefinition()
 func (client FleetAppsManagementOperationsClient) CreateSchedulerDefinition(ctx context.Context, request CreateSchedulerDefinitionRequest) (response CreateSchedulerDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -221,7 +221,7 @@ func (client FleetAppsManagementOperationsClient) createSchedulerDefinition(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePatch.go.html to see an example of how to use DeletePatch API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePatch.go.html to see an example of how to use DeletePatch API.
 // A default retry strategy applies to this operation DeletePatch()
 func (client FleetAppsManagementOperationsClient) DeletePatch(ctx context.Context, request DeletePatchRequest) (response DeletePatchResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -279,7 +279,7 @@ func (client FleetAppsManagementOperationsClient) deletePatch(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteSchedulerDefinition.go.html to see an example of how to use DeleteSchedulerDefinition API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteSchedulerDefinition.go.html to see an example of how to use DeleteSchedulerDefinition API.
 // A default retry strategy applies to this operation DeleteSchedulerDefinition()
 func (client FleetAppsManagementOperationsClient) DeleteSchedulerDefinition(ctx context.Context, request DeleteSchedulerDefinitionRequest) (response DeleteSchedulerDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -337,7 +337,7 @@ func (client FleetAppsManagementOperationsClient) deleteSchedulerDefinition(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteSchedulerJob.go.html to see an example of how to use DeleteSchedulerJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteSchedulerJob.go.html to see an example of how to use DeleteSchedulerJob API.
 // A default retry strategy applies to this operation DeleteSchedulerJob()
 func (client FleetAppsManagementOperationsClient) DeleteSchedulerJob(ctx context.Context, request DeleteSchedulerJobRequest) (response DeleteSchedulerJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client FleetAppsManagementOperationsClient) deleteSchedulerJob(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ExportComplianceReport.go.html to see an example of how to use ExportComplianceReport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ExportComplianceReport.go.html to see an example of how to use ExportComplianceReport API.
 // A default retry strategy applies to this operation ExportComplianceReport()
 func (client FleetAppsManagementOperationsClient) ExportComplianceReport(ctx context.Context, request ExportComplianceReportRequest) (response ExportComplianceReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -457,7 +457,7 @@ func (client FleetAppsManagementOperationsClient) exportComplianceReport(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetExecution.go.html to see an example of how to use GetExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetExecution.go.html to see an example of how to use GetExecution API.
 // A default retry strategy applies to this operation GetExecution()
 func (client FleetAppsManagementOperationsClient) GetExecution(ctx context.Context, request GetExecutionRequest) (response GetExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -515,7 +515,7 @@ func (client FleetAppsManagementOperationsClient) getExecution(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetJobActivity.go.html to see an example of how to use GetJobActivity API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetJobActivity.go.html to see an example of how to use GetJobActivity API.
 // A default retry strategy applies to this operation GetJobActivity()
 func (client FleetAppsManagementOperationsClient) GetJobActivity(ctx context.Context, request GetJobActivityRequest) (response GetJobActivityResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -573,7 +573,7 @@ func (client FleetAppsManagementOperationsClient) getJobActivity(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetPatch.go.html to see an example of how to use GetPatch API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetPatch.go.html to see an example of how to use GetPatch API.
 // A default retry strategy applies to this operation GetPatch()
 func (client FleetAppsManagementOperationsClient) GetPatch(ctx context.Context, request GetPatchRequest) (response GetPatchResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -631,7 +631,7 @@ func (client FleetAppsManagementOperationsClient) getPatch(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetSchedulerDefinition.go.html to see an example of how to use GetSchedulerDefinition API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetSchedulerDefinition.go.html to see an example of how to use GetSchedulerDefinition API.
 // A default retry strategy applies to this operation GetSchedulerDefinition()
 func (client FleetAppsManagementOperationsClient) GetSchedulerDefinition(ctx context.Context, request GetSchedulerDefinitionRequest) (response GetSchedulerDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -689,7 +689,7 @@ func (client FleetAppsManagementOperationsClient) getSchedulerDefinition(ctx con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetSchedulerJob.go.html to see an example of how to use GetSchedulerJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetSchedulerJob.go.html to see an example of how to use GetSchedulerJob API.
 // A default retry strategy applies to this operation GetSchedulerJob()
 func (client FleetAppsManagementOperationsClient) GetSchedulerJob(ctx context.Context, request GetSchedulerJobRequest) (response GetSchedulerJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -747,7 +747,7 @@ func (client FleetAppsManagementOperationsClient) getSchedulerJob(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListComplianceRecords.go.html to see an example of how to use ListComplianceRecords API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListComplianceRecords.go.html to see an example of how to use ListComplianceRecords API.
 // A default retry strategy applies to this operation ListComplianceRecords()
 func (client FleetAppsManagementOperationsClient) ListComplianceRecords(ctx context.Context, request ListComplianceRecordsRequest) (response ListComplianceRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -805,7 +805,7 @@ func (client FleetAppsManagementOperationsClient) listComplianceRecords(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListExecutions.go.html to see an example of how to use ListExecutions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListExecutions.go.html to see an example of how to use ListExecutions API.
 // A default retry strategy applies to this operation ListExecutions()
 func (client FleetAppsManagementOperationsClient) ListExecutions(ctx context.Context, request ListExecutionsRequest) (response ListExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -863,7 +863,7 @@ func (client FleetAppsManagementOperationsClient) listExecutions(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListPatches.go.html to see an example of how to use ListPatches API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListPatches.go.html to see an example of how to use ListPatches API.
 // A default retry strategy applies to this operation ListPatches()
 func (client FleetAppsManagementOperationsClient) ListPatches(ctx context.Context, request ListPatchesRequest) (response ListPatchesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -921,7 +921,7 @@ func (client FleetAppsManagementOperationsClient) listPatches(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListResources.go.html to see an example of how to use ListResources API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListResources.go.html to see an example of how to use ListResources API.
 // A default retry strategy applies to this operation ListResources()
 func (client FleetAppsManagementOperationsClient) ListResources(ctx context.Context, request ListResourcesRequest) (response ListResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -979,7 +979,7 @@ func (client FleetAppsManagementOperationsClient) listResources(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListScheduledFleets.go.html to see an example of how to use ListScheduledFleets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListScheduledFleets.go.html to see an example of how to use ListScheduledFleets API.
 // A default retry strategy applies to this operation ListScheduledFleets()
 func (client FleetAppsManagementOperationsClient) ListScheduledFleets(ctx context.Context, request ListScheduledFleetsRequest) (response ListScheduledFleetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1037,7 +1037,7 @@ func (client FleetAppsManagementOperationsClient) listScheduledFleets(ctx contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListSchedulerDefinitions.go.html to see an example of how to use ListSchedulerDefinitions API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListSchedulerDefinitions.go.html to see an example of how to use ListSchedulerDefinitions API.
 // A default retry strategy applies to this operation ListSchedulerDefinitions()
 func (client FleetAppsManagementOperationsClient) ListSchedulerDefinitions(ctx context.Context, request ListSchedulerDefinitionsRequest) (response ListSchedulerDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1095,7 +1095,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerDefinitions(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListSchedulerJobs.go.html to see an example of how to use ListSchedulerJobs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListSchedulerJobs.go.html to see an example of how to use ListSchedulerJobs API.
 // A default retry strategy applies to this operation ListSchedulerJobs()
 func (client FleetAppsManagementOperationsClient) ListSchedulerJobs(ctx context.Context, request ListSchedulerJobsRequest) (response ListSchedulerJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1153,7 +1153,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerJobs(ctx context.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListSteps.go.html to see an example of how to use ListSteps API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListSteps.go.html to see an example of how to use ListSteps API.
 // A default retry strategy applies to this operation ListSteps()
 func (client FleetAppsManagementOperationsClient) ListSteps(ctx context.Context, request ListStepsRequest) (response ListStepsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1211,7 +1211,7 @@ func (client FleetAppsManagementOperationsClient) listSteps(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageJobExecution.go.html to see an example of how to use ManageJobExecution API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ManageJobExecution.go.html to see an example of how to use ManageJobExecution API.
 // A default retry strategy applies to this operation ManageJobExecution()
 func (client FleetAppsManagementOperationsClient) ManageJobExecution(ctx context.Context, request ManageJobExecutionRequest) (response ManageJobExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1274,7 +1274,7 @@ func (client FleetAppsManagementOperationsClient) manageJobExecution(ctx context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeComplianceRecordCounts.go.html to see an example of how to use SummarizeComplianceRecordCounts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeComplianceRecordCounts.go.html to see an example of how to use SummarizeComplianceRecordCounts API.
 // A default retry strategy applies to this operation SummarizeComplianceRecordCounts()
 func (client FleetAppsManagementOperationsClient) SummarizeComplianceRecordCounts(ctx context.Context, request SummarizeComplianceRecordCountsRequest) (response SummarizeComplianceRecordCountsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1332,7 +1332,7 @@ func (client FleetAppsManagementOperationsClient) summarizeComplianceRecordCount
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeManagedEntityCounts.go.html to see an example of how to use SummarizeManagedEntityCounts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeManagedEntityCounts.go.html to see an example of how to use SummarizeManagedEntityCounts API.
 // A default retry strategy applies to this operation SummarizeManagedEntityCounts()
 func (client FleetAppsManagementOperationsClient) SummarizeManagedEntityCounts(ctx context.Context, request SummarizeManagedEntityCountsRequest) (response SummarizeManagedEntityCountsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1390,7 +1390,7 @@ func (client FleetAppsManagementOperationsClient) summarizeManagedEntityCounts(c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeSchedulerJobCounts.go.html to see an example of how to use SummarizeSchedulerJobCounts API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SummarizeSchedulerJobCounts.go.html to see an example of how to use SummarizeSchedulerJobCounts API.
 // A default retry strategy applies to this operation SummarizeSchedulerJobCounts()
 func (client FleetAppsManagementOperationsClient) SummarizeSchedulerJobCounts(ctx context.Context, request SummarizeSchedulerJobCountsRequest) (response SummarizeSchedulerJobCountsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1448,7 +1448,7 @@ func (client FleetAppsManagementOperationsClient) summarizeSchedulerJobCounts(ct
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdatePatch.go.html to see an example of how to use UpdatePatch API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdatePatch.go.html to see an example of how to use UpdatePatch API.
 // A default retry strategy applies to this operation UpdatePatch()
 func (client FleetAppsManagementOperationsClient) UpdatePatch(ctx context.Context, request UpdatePatchRequest) (response UpdatePatchResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1506,7 +1506,7 @@ func (client FleetAppsManagementOperationsClient) updatePatch(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateSchedulerDefinition.go.html to see an example of how to use UpdateSchedulerDefinition API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateSchedulerDefinition.go.html to see an example of how to use UpdateSchedulerDefinition API.
 // A default retry strategy applies to this operation UpdateSchedulerDefinition()
 func (client FleetAppsManagementOperationsClient) UpdateSchedulerDefinition(ctx context.Context, request UpdateSchedulerDefinitionRequest) (response UpdateSchedulerDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1564,7 +1564,7 @@ func (client FleetAppsManagementOperationsClient) updateSchedulerDefinition(ctx 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateSchedulerJob.go.html to see an example of how to use UpdateSchedulerJob API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateSchedulerJob.go.html to see an example of how to use UpdateSchedulerJob API.
 // A default retry strategy applies to this operation UpdateSchedulerJob()
 func (client FleetAppsManagementOperationsClient) UpdateSchedulerJob(ctx context.Context, request UpdateSchedulerJobRequest) (response UpdateSchedulerJobResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveFilesystemSnapshotPolicyLock.go.html to see an example of how to use RemoveFilesystemSnapshotPolicyLockRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveFilesystemSnapshotPolicyLock.go.html to see an example of how to use RemoveFilesystemSnapshotPolicyLockRequest.
 type RemoveFilesystemSnapshotPolicyLockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	FilesystemSnapshotPolicyId *string `mandatory:"true" contributesTo:"path" name:"filesystemSnapshotPolicyId"`
 
 	// The details to be updated for the RemoveLock.

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentEnvironments.go.html to see an example of how to use ListDeploymentEnvironmentsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentEnvironments.go.html to see an example of how to use ListDeploymentEnvironmentsRequest.
 type ListDeploymentEnvironmentsRequest struct {
 
 	// The OCID of the compartment that contains the work request. Work requests should be scoped

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamPoolCompartment.go.html to see an example of how to use ChangeStreamPoolCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamPoolCompartment.go.html to see an example of how to use ChangeStreamPoolCompartmentRequest.
 type ChangeStreamPoolCompartmentRequest struct {
 
 	// The OCID of the stream pool.

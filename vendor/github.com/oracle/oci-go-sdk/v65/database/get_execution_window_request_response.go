@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExecutionWindow.go.html to see an example of how to use GetExecutionWindowRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExecutionWindow.go.html to see an example of how to use GetExecutionWindowRequest.
 type GetExecutionWindowRequest struct {
 
-	// The execution window OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The execution window OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExecutionWindowId *string `mandatory:"true" contributesTo:"path" name:"executionWindowId"`
 
 	// Unique identifier for the request.

@@ -108,7 +108,7 @@ func (m *shardeddatabase) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ShardedDatabase: %s.", m.DbDeploymentType)
+		common.Logf("Received unsupported enum value for ShardedDatabase: %s.", m.DbDeploymentType)
 		return *m, nil
 	}
 }

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListServices.go.html to see an example of how to use ListServicesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListServices.go.html to see an example of how to use ListServicesRequest.
 type ListServicesRequest struct {
 
 	// The OCID of the compartment.

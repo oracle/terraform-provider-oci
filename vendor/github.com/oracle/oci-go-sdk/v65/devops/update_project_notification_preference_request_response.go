@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateProjectNotificationPreference.go.html to see an example of how to use UpdateProjectNotificationPreferenceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateProjectNotificationPreference.go.html to see an example of how to use UpdateProjectNotificationPreferenceRequest.
 type UpdateProjectNotificationPreferenceRequest struct {
 
 	// The information to be updated.

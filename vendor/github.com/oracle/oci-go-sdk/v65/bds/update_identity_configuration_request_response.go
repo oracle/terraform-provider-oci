@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateIdentityConfiguration.go.html to see an example of how to use UpdateIdentityConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateIdentityConfiguration.go.html to see an example of how to use UpdateIdentityConfigurationRequest.
 type UpdateIdentityConfigurationRequest struct {
 
 	// The OCID of the cluster.

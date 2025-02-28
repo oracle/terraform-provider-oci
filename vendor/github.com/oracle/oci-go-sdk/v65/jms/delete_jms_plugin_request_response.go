@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteJmsPlugin.go.html to see an example of how to use DeleteJmsPluginRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteJmsPlugin.go.html to see an example of how to use DeleteJmsPluginRequest.
 type DeleteJmsPluginRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the JmsPlugin.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the JmsPlugin.
 	JmsPluginId *string `mandatory:"true" contributesTo:"path" name:"jmsPluginId"`
 
 	// The client request ID for tracing.

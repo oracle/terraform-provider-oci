@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityPropagationTrust.go.html to see an example of how to use PatchIdentityPropagationTrustRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityPropagationTrust.go.html to see an example of how to use PatchIdentityPropagationTrustRequest.
 type PatchIdentityPropagationTrustRequest struct {
 
 	// ID of the resource

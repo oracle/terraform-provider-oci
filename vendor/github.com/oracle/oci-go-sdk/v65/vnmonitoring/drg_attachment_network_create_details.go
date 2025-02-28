@@ -5,7 +5,7 @@
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -20,7 +20,7 @@ import (
 // DrgAttachmentNetworkCreateDetails The representation of DrgAttachmentNetworkCreateDetails
 type DrgAttachmentNetworkCreateDetails interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	GetId() *string
 }
 
@@ -61,7 +61,7 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DrgAttachmentNetworkCreateDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for DrgAttachmentNetworkCreateDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

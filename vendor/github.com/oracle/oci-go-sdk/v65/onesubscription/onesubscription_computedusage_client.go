@@ -95,7 +95,7 @@ func (client *ComputedUsageClient) ConfigurationProvider() *common.Configuration
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetComputedUsage.go.html to see an example of how to use GetComputedUsage API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetComputedUsage.go.html to see an example of how to use GetComputedUsage API.
 func (client ComputedUsageClient) GetComputedUsage(ctx context.Context, request GetComputedUsageRequest) (response GetComputedUsageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,7 +152,7 @@ func (client ComputedUsageClient) getComputedUsage(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListAggregatedComputedUsages.go.html to see an example of how to use ListAggregatedComputedUsages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListAggregatedComputedUsages.go.html to see an example of how to use ListAggregatedComputedUsages API.
 func (client ComputedUsageClient) ListAggregatedComputedUsages(ctx context.Context, request ListAggregatedComputedUsagesRequest) (response ListAggregatedComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -209,7 +209,7 @@ func (client ComputedUsageClient) listAggregatedComputedUsages(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListComputedUsages.go.html to see an example of how to use ListComputedUsages API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListComputedUsages.go.html to see an example of how to use ListComputedUsages API.
 func (client ComputedUsageClient) ListComputedUsages(ctx context.Context, request ListComputedUsagesRequest) (response ListComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

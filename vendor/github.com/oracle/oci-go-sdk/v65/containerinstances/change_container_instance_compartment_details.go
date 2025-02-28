@@ -18,7 +18,7 @@ import (
 // ChangeContainerInstanceCompartmentDetails The configuration details for the move operation.
 type ChangeContainerInstanceCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the container instance to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the container instance to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

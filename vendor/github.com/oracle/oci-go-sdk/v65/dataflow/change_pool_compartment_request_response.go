@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangePoolCompartment.go.html to see an example of how to use ChangePoolCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangePoolCompartment.go.html to see an example of how to use ChangePoolCompartmentRequest.
 type ChangePoolCompartmentRequest struct {
 
 	// The unique ID for a pool.

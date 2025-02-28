@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/CreateUnifiedAgentConfiguration.go.html to see an example of how to use CreateUnifiedAgentConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/CreateUnifiedAgentConfiguration.go.html to see an example of how to use CreateUnifiedAgentConfigurationRequest.
 type CreateUnifiedAgentConfigurationRequest struct {
 
 	// Unified agent configuration creation object.

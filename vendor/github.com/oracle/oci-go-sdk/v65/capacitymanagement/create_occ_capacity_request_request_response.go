@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCapacityRequest.go.html to see an example of how to use CreateOccCapacityRequestRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCapacityRequest.go.html to see an example of how to use CreateOccCapacityRequestRequest.
 type CreateOccCapacityRequestRequest struct {
 
 	// The request details for creating a capacity request.

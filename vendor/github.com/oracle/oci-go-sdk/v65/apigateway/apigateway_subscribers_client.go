@@ -6,7 +6,7 @@
 //
 // API for the API Gateway service. Use this API to manage gateways, deployments, and related items.
 // For more information, see
-// Overview of API Gateway (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
+// Overview of API Gateway (https://docs.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
 //
 
 package apigateway
@@ -97,7 +97,7 @@ func (client *SubscribersClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeSubscriberCompartment.go.html to see an example of how to use ChangeSubscriberCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeSubscriberCompartment.go.html to see an example of how to use ChangeSubscriberCompartment API.
 func (client SubscribersClient) ChangeSubscriberCompartment(ctx context.Context, request ChangeSubscriberCompartmentRequest) (response ChangeSubscriberCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -159,7 +159,7 @@ func (client SubscribersClient) changeSubscriberCompartment(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateSubscriber.go.html to see an example of how to use CreateSubscriber API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateSubscriber.go.html to see an example of how to use CreateSubscriber API.
 // A default retry strategy applies to this operation CreateSubscriber()
 func (client SubscribersClient) CreateSubscriber(ctx context.Context, request CreateSubscriberRequest) (response CreateSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,7 +222,7 @@ func (client SubscribersClient) createSubscriber(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteSubscriber.go.html to see an example of how to use DeleteSubscriber API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteSubscriber.go.html to see an example of how to use DeleteSubscriber API.
 func (client SubscribersClient) DeleteSubscriber(ctx context.Context, request DeleteSubscriberRequest) (response DeleteSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -279,7 +279,7 @@ func (client SubscribersClient) deleteSubscriber(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSubscriber.go.html to see an example of how to use GetSubscriber API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSubscriber.go.html to see an example of how to use GetSubscriber API.
 // A default retry strategy applies to this operation GetSubscriber()
 func (client SubscribersClient) GetSubscriber(ctx context.Context, request GetSubscriberRequest) (response GetSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -337,7 +337,7 @@ func (client SubscribersClient) getSubscriber(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSubscribers.go.html to see an example of how to use ListSubscribers API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSubscribers.go.html to see an example of how to use ListSubscribers API.
 // A default retry strategy applies to this operation ListSubscribers()
 func (client SubscribersClient) ListSubscribers(ctx context.Context, request ListSubscribersRequest) (response ListSubscribersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client SubscribersClient) listSubscribers(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateSubscriber.go.html to see an example of how to use UpdateSubscriber API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateSubscriber.go.html to see an example of how to use UpdateSubscriber API.
 func (client SubscribersClient) UpdateSubscriber(ctx context.Context, request UpdateSubscriberRequest) (response UpdateSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

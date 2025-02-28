@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamPackagingConfig.go.html to see an example of how to use DeleteStreamPackagingConfigRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamPackagingConfig.go.html to see an example of how to use DeleteStreamPackagingConfigRequest.
 type DeleteStreamPackagingConfigRequest struct {
 
 	// Unique Stream Packaging Configuration path identifier.

@@ -19,10 +19,10 @@ import (
 // PrivateApplicationPackage A base object for all types of private application packages.
 type PrivateApplicationPackage interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private application package.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private application package.
 	GetId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private application where the package is hosted.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private application where the package is hosted.
 	GetPrivateApplicationId() *string
 
 	// The package version.
@@ -82,7 +82,7 @@ func (m *privateapplicationpackage) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PrivateApplicationPackage: %s.", m.PackageType)
+		common.Logf("Received unsupported enum value for PrivateApplicationPackage: %s.", m.PackageType)
 		return *m, nil
 	}
 }

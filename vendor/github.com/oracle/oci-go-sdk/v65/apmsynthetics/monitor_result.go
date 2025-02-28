@@ -29,7 +29,7 @@ type MonitorResult struct {
 	// Monitor result data set.
 	ResultDataSet []MonitorResultData `mandatory:"false" json:"resultDataSet"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitor.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
 	MonitorId *string `mandatory:"false" json:"monitorId"`
 
 	// The name of the public or dedicated vantage point.

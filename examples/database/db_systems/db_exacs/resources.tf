@@ -12,6 +12,8 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
   subscription_id = var.tenant_subscription_id
   compute_count = var.cloud_exadata_infrastructure_compute_count
   storage_count = var.cloud_exadata_infrastructure_storage_count
+  database_server_type = var.cloud_exadata_infrastructure_database_server_type
+  storage_server_type = var.cloud_exadata_infrastructure_storage_server_type
 }
 
 resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {

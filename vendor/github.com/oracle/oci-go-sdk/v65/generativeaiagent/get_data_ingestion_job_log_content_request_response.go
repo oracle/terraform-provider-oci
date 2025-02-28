@@ -16,10 +16,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataIngestionJobLogContent.go.html to see an example of how to use GetDataIngestionJobLogContentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetDataIngestionJobLogContent.go.html to see an example of how to use GetDataIngestionJobLogContentRequest.
 type GetDataIngestionJobLogContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data ingestion job.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data ingestion job.
 	DataIngestionJobId *string `mandatory:"true" contributesTo:"path" name:"dataIngestionJobId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

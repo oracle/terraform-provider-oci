@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -19,16 +19,16 @@ import (
 // ManagedInstanceSummary Provides summary information for a managed instance.
 type ManagedInstanceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	Id *string `mandatory:"true" json:"id"`
 
 	// User-friendly name for the managed instance.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy this managed instance resides in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy this managed instance resides in.
 	TenancyId *string `mandatory:"true" json:"tenancyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Current status of the managed instance.
@@ -61,13 +61,16 @@ type ManagedInstanceSummary struct {
 	// Whether this managed instance is acting as an on-premises management station.
 	IsManagementStation *bool `mandatory:"false" json:"isManagementStation"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
 	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
 
 	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
 
 	// Indicates whether Autonomous Linux manages this instance.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The version of osmh-agent running on the managed instance
+	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 }
 
 func (m ManagedInstanceSummary) String() string {

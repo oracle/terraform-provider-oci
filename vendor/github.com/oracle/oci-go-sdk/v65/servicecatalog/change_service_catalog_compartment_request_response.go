@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ChangeServiceCatalogCompartment.go.html to see an example of how to use ChangeServiceCatalogCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ChangeServiceCatalogCompartment.go.html to see an example of how to use ChangeServiceCatalogCompartmentRequest.
 type ChangeServiceCatalogCompartmentRequest struct {
 
 	// The unique identifier for the service catalog.

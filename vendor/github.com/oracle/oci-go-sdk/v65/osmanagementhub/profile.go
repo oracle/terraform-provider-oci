@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -20,10 +20,10 @@ import (
 // Profile Object that defines the registration profile.
 type Profile interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	GetId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	GetCompartmentId() *string
 
 	// A user-friendly name for the profile.
@@ -41,11 +41,18 @@ type Profile interface {
 	// The description of the registration profile.
 	GetDescription() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an
+	// instance once registered. Management stations are only used by non-OCI instances.
 	GetManagementStationId() *string
 
 	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeCreated() *common.SDKTime
+
+	// The time the registration profile was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	GetTimeModified() *common.SDKTime
+
+	// The version of the profile. The version is automatically incremented each time the profiled is edited.
+	GetProfileVersion() *string
 
 	// The current state of the registration profile.
 	GetLifecycleState() ProfileLifecycleStateEnum
@@ -60,12 +67,12 @@ type Profile interface {
 	GetIsServiceProvidedProfile() *bool
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
@@ -79,6 +86,8 @@ type profile struct {
 	Description              *string                           `mandatory:"false" json:"description"`
 	ManagementStationId      *string                           `mandatory:"false" json:"managementStationId"`
 	TimeCreated              *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeModified             *common.SDKTime                   `mandatory:"false" json:"timeModified"`
+	ProfileVersion           *string                           `mandatory:"false" json:"profileVersion"`
 	LifecycleState           ProfileLifecycleStateEnum         `mandatory:"false" json:"lifecycleState,omitempty"`
 	RegistrationType         ProfileRegistrationTypeEnum       `mandatory:"false" json:"registrationType,omitempty"`
 	IsDefaultProfile         *bool                             `mandatory:"false" json:"isDefaultProfile"`
@@ -115,6 +124,8 @@ func (m *profile) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.ManagementStationId = s.Model.ManagementStationId
 	m.TimeCreated = s.Model.TimeCreated
+	m.TimeModified = s.Model.TimeModified
+	m.ProfileVersion = s.Model.ProfileVersion
 	m.LifecycleState = s.Model.LifecycleState
 	m.RegistrationType = s.Model.RegistrationType
 	m.IsDefaultProfile = s.Model.IsDefaultProfile
@@ -157,7 +168,7 @@ func (m *profile) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Profile: %s.", m.ProfileType)
+		common.Logf("Received unsupported enum value for Profile: %s.", m.ProfileType)
 		return *m, nil
 	}
 }
@@ -175,6 +186,16 @@ func (m profile) GetManagementStationId() *string {
 // GetTimeCreated returns TimeCreated
 func (m profile) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+// GetTimeModified returns TimeModified
+func (m profile) GetTimeModified() *common.SDKTime {
+	return m.TimeModified
+}
+
+// GetProfileVersion returns ProfileVersion
+func (m profile) GetProfileVersion() *string {
+	return m.ProfileVersion
 }
 
 // GetLifecycleState returns LifecycleState
@@ -281,6 +302,7 @@ const (
 	ProfileLifecycleStateCreating ProfileLifecycleStateEnum = "CREATING"
 	ProfileLifecycleStateUpdating ProfileLifecycleStateEnum = "UPDATING"
 	ProfileLifecycleStateActive   ProfileLifecycleStateEnum = "ACTIVE"
+	ProfileLifecycleStateInactive ProfileLifecycleStateEnum = "INACTIVE"
 	ProfileLifecycleStateDeleting ProfileLifecycleStateEnum = "DELETING"
 	ProfileLifecycleStateDeleted  ProfileLifecycleStateEnum = "DELETED"
 	ProfileLifecycleStateFailed   ProfileLifecycleStateEnum = "FAILED"
@@ -290,6 +312,7 @@ var mappingProfileLifecycleStateEnum = map[string]ProfileLifecycleStateEnum{
 	"CREATING": ProfileLifecycleStateCreating,
 	"UPDATING": ProfileLifecycleStateUpdating,
 	"ACTIVE":   ProfileLifecycleStateActive,
+	"INACTIVE": ProfileLifecycleStateInactive,
 	"DELETING": ProfileLifecycleStateDeleting,
 	"DELETED":  ProfileLifecycleStateDeleted,
 	"FAILED":   ProfileLifecycleStateFailed,
@@ -299,6 +322,7 @@ var mappingProfileLifecycleStateEnumLowerCase = map[string]ProfileLifecycleState
 	"creating": ProfileLifecycleStateCreating,
 	"updating": ProfileLifecycleStateUpdating,
 	"active":   ProfileLifecycleStateActive,
+	"inactive": ProfileLifecycleStateInactive,
 	"deleting": ProfileLifecycleStateDeleting,
 	"deleted":  ProfileLifecycleStateDeleted,
 	"failed":   ProfileLifecycleStateFailed,
@@ -319,6 +343,7 @@ func GetProfileLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

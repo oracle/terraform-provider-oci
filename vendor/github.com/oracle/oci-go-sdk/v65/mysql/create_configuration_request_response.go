@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateConfiguration.go.html to see an example of how to use CreateConfigurationRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateConfiguration.go.html to see an example of how to use CreateConfigurationRequest.
 type CreateConfigurationRequest struct {
 
 	// Request to create a Configuration.

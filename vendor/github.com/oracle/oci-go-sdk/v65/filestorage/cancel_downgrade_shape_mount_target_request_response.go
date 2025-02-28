@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CancelDowngradeShapeMountTarget.go.html to see an example of how to use CancelDowngradeShapeMountTargetRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CancelDowngradeShapeMountTarget.go.html to see an example of how to use CancelDowngradeShapeMountTargetRequest.
 type CancelDowngradeShapeMountTargetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

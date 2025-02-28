@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkCreateSensitiveTypes.go.html to see an example of how to use BulkCreateSensitiveTypesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkCreateSensitiveTypes.go.html to see an example of how to use BulkCreateSensitiveTypesRequest.
 type BulkCreateSensitiveTypesRequest struct {
 
 	// Details to upload a sensitive types file and create all.

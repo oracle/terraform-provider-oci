@@ -95,7 +95,7 @@ func (client *FleetAppsManagementRunbooksClient) ConfigurationProvider() *common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateRunbook.go.html to see an example of how to use CreateRunbook API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateRunbook.go.html to see an example of how to use CreateRunbook API.
 // A default retry strategy applies to this operation CreateRunbook()
 func (client FleetAppsManagementRunbooksClient) CreateRunbook(ctx context.Context, request CreateRunbookRequest) (response CreateRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -158,7 +158,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbook(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateTaskRecord.go.html to see an example of how to use CreateTaskRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateTaskRecord.go.html to see an example of how to use CreateTaskRecord API.
 // A default retry strategy applies to this operation CreateTaskRecord()
 func (client FleetAppsManagementRunbooksClient) CreateTaskRecord(ctx context.Context, request CreateTaskRecordRequest) (response CreateTaskRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -221,7 +221,7 @@ func (client FleetAppsManagementRunbooksClient) createTaskRecord(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteRunbook.go.html to see an example of how to use DeleteRunbook API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteRunbook.go.html to see an example of how to use DeleteRunbook API.
 // A default retry strategy applies to this operation DeleteRunbook()
 func (client FleetAppsManagementRunbooksClient) DeleteRunbook(ctx context.Context, request DeleteRunbookRequest) (response DeleteRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -279,7 +279,7 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbook(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteTaskRecord.go.html to see an example of how to use DeleteTaskRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteTaskRecord.go.html to see an example of how to use DeleteTaskRecord API.
 // A default retry strategy applies to this operation DeleteTaskRecord()
 func (client FleetAppsManagementRunbooksClient) DeleteTaskRecord(ctx context.Context, request DeleteTaskRecordRequest) (response DeleteTaskRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -337,7 +337,7 @@ func (client FleetAppsManagementRunbooksClient) deleteTaskRecord(ctx context.Con
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbook.go.html to see an example of how to use GetRunbook API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbook.go.html to see an example of how to use GetRunbook API.
 // A default retry strategy applies to this operation GetRunbook()
 func (client FleetAppsManagementRunbooksClient) GetRunbook(ctx context.Context, request GetRunbookRequest) (response GetRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,7 +395,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbook(ctx context.Context, 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetTaskRecord.go.html to see an example of how to use GetTaskRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetTaskRecord.go.html to see an example of how to use GetTaskRecord API.
 // A default retry strategy applies to this operation GetTaskRecord()
 func (client FleetAppsManagementRunbooksClient) GetTaskRecord(ctx context.Context, request GetTaskRecordRequest) (response GetTaskRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -453,7 +453,7 @@ func (client FleetAppsManagementRunbooksClient) getTaskRecord(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListRunbooks.go.html to see an example of how to use ListRunbooks API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListRunbooks.go.html to see an example of how to use ListRunbooks API.
 // A default retry strategy applies to this operation ListRunbooks()
 func (client FleetAppsManagementRunbooksClient) ListRunbooks(ctx context.Context, request ListRunbooksRequest) (response ListRunbooksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -511,7 +511,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbooks(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListTaskRecords.go.html to see an example of how to use ListTaskRecords API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListTaskRecords.go.html to see an example of how to use ListTaskRecords API.
 // A default retry strategy applies to this operation ListTaskRecords()
 func (client FleetAppsManagementRunbooksClient) ListTaskRecords(ctx context.Context, request ListTaskRecordsRequest) (response ListTaskRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -569,7 +569,7 @@ func (client FleetAppsManagementRunbooksClient) listTaskRecords(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/PublishRunbook.go.html to see an example of how to use PublishRunbook API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/PublishRunbook.go.html to see an example of how to use PublishRunbook API.
 // A default retry strategy applies to this operation PublishRunbook()
 func (client FleetAppsManagementRunbooksClient) PublishRunbook(ctx context.Context, request PublishRunbookRequest) (response PublishRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -632,7 +632,7 @@ func (client FleetAppsManagementRunbooksClient) publishRunbook(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SetDefaultRunbook.go.html to see an example of how to use SetDefaultRunbook API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SetDefaultRunbook.go.html to see an example of how to use SetDefaultRunbook API.
 // A default retry strategy applies to this operation SetDefaultRunbook()
 func (client FleetAppsManagementRunbooksClient) SetDefaultRunbook(ctx context.Context, request SetDefaultRunbookRequest) (response SetDefaultRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -695,7 +695,7 @@ func (client FleetAppsManagementRunbooksClient) setDefaultRunbook(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateRunbook.go.html to see an example of how to use UpdateRunbook API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateRunbook.go.html to see an example of how to use UpdateRunbook API.
 // A default retry strategy applies to this operation UpdateRunbook()
 func (client FleetAppsManagementRunbooksClient) UpdateRunbook(ctx context.Context, request UpdateRunbookRequest) (response UpdateRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -753,7 +753,7 @@ func (client FleetAppsManagementRunbooksClient) updateRunbook(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateTaskRecord.go.html to see an example of how to use UpdateTaskRecord API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateTaskRecord.go.html to see an example of how to use UpdateTaskRecord API.
 // A default retry strategy applies to this operation UpdateTaskRecord()
 func (client FleetAppsManagementRunbooksClient) UpdateTaskRecord(ctx context.Context, request UpdateTaskRecordRequest) (response UpdateTaskRecordResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationControl.go.html to see an example of how to use GetDelegationControlRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationControl.go.html to see an example of how to use GetDelegationControlRequest.
 type GetDelegationControlRequest struct {
 
 	// unique Delegation Control identifier

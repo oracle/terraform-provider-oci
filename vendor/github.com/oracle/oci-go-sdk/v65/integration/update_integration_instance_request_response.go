@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/UpdateIntegrationInstance.go.html to see an example of how to use UpdateIntegrationInstanceRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/UpdateIntegrationInstance.go.html to see an example of how to use UpdateIntegrationInstanceRequest.
 type UpdateIntegrationInstanceRequest struct {
 
 	// Unique Integration Instance identifier.

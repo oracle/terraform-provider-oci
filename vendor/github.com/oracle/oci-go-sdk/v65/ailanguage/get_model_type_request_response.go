@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetModelType.go.html to see an example of how to use GetModelTypeRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetModelType.go.html to see an example of how to use GetModelTypeRequest.
 type GetModelTypeRequest struct {
 
 	// Results like version and model supported info by specifying model type
