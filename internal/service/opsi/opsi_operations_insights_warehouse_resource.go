@@ -45,6 +45,11 @@ func OpsiOperationsInsightsWarehouseResource() *schema.Resource {
 			},
 
 			// Optional
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -184,6 +189,10 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		request.ComputeModel = oci_opsi.OperationsInsightsWarehouseComputeModelEnum(computeModel.(string))
 	}
 
 	if cpuAllocated, ok := s.D.GetOkExists("cpu_allocated"); ok {
@@ -373,6 +382,10 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Update() error {
 	}
 	request := oci_opsi.UpdateOperationsInsightsWarehouseRequest{}
 
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		request.ComputeModel = oci_opsi.OperationsInsightsWarehouseComputeModelEnum(computeModel.(string))
+	}
+
 	if cpuAllocated, ok := s.D.GetOkExists("cpu_allocated"); ok {
 		tmp := cpuAllocated.(float64)
 		request.CpuAllocated = &tmp
@@ -439,6 +452,8 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuAllocated != nil {
 		s.D.Set("cpu_allocated", *s.Res.CpuAllocated)
 	}
@@ -504,6 +519,8 @@ func OperationsInsightsWarehouseSummaryToMap(obj oci_opsi.OperationsInsightsWare
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
+
+	result["compute_model"] = string(obj.ComputeModel)
 
 	if obj.CpuAllocated != nil {
 		result["cpu_allocated"] = float64(*obj.CpuAllocated)
