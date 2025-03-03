@@ -1297,6 +1297,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat 
 		result.SourceDatabaseId = &tmp
 	}
 
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
+	}
+
 	if sourceTdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_tde_wallet_password")); ok {
 		tmp := sourceTdeWalletPassword.(string)
 		result.SourceTdeWalletPassword = &tmp
