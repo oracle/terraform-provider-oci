@@ -61,6 +61,8 @@ resource "oci_opsi_host_insight" "test_host_insight" {
   defined_tags                          = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.host_insight_defined_tags_value}")}"
   freeform_tags                         = var.host_insight_freeform_tags
   status                                = var.resource_status
+
+
 }
 
 

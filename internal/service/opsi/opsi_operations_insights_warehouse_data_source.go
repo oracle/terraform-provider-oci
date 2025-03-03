@@ -70,6 +70,8 @@ func (s *OpsiOperationsInsightsWarehouseDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuAllocated != nil {
 		s.D.Set("cpu_allocated", *s.Res.CpuAllocated)
 	}
