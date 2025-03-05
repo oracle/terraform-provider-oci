@@ -1,4 +1,4 @@
-## 6.28.0 (Unreleased)
+## 6.28.0 (February 28, 2025)
 
 ### Added
 - Support for OIDC multi issuer support
