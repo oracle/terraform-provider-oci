@@ -92,6 +92,69 @@ func (client *PostgresqlClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
+// BackupCopy Backup Copy Request to copy back up in remote region. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/BackupCopy.go.html to see an example of how to use BackupCopy API.
+// A default retry strategy applies to this operation BackupCopy()
+func (client PostgresqlClient) BackupCopy(ctx context.Context, request BackupCopyRequest) (response BackupCopyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.backupCopy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BackupCopyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BackupCopyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BackupCopyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BackupCopyResponse")
+	}
+	return
+}
+
+// backupCopy implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) backupCopy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backups/{backupId}/actions/copy", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BackupCopyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Backup/BackupCopy"
+		err = common.PostProcessServiceError(err, "Postgresql", "BackupCopy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeBackupCompartment Moves a backup from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also

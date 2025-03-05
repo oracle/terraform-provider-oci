@@ -26,6 +26,8 @@ type WeeklyBackupPolicy struct {
 	// How many days the data should be stored after the database system deletion.
 	RetentionDays *int `mandatory:"false" json:"retentionDays"`
 
+	CopyPolicy *BackupCopyPolicy `mandatory:"false" json:"copyPolicy"`
+
 	// The day of the week that the backup starts.
 	DaysOfTheWeek []WeeklyBackupPolicyDaysOfTheWeekEnum `mandatory:"true" json:"daysOfTheWeek"`
 }
@@ -33,6 +35,11 @@ type WeeklyBackupPolicy struct {
 // GetRetentionDays returns RetentionDays
 func (m WeeklyBackupPolicy) GetRetentionDays() *int {
 	return m.RetentionDays
+}
+
+// GetCopyPolicy returns CopyPolicy
+func (m WeeklyBackupPolicy) GetCopyPolicy() *BackupCopyPolicy {
+	return m.CopyPolicy
 }
 
 func (m WeeklyBackupPolicy) String() string {

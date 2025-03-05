@@ -61,6 +61,9 @@ type CreateFileSystemDetails struct {
 	// controls the frequency of snapshot creation and retention period of the taken snapshots.
 	// May be unset as a blank value.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
+
+	// Specifies the enforcement of quota rules on the file system.
+	AreQuotaRulesEnabled *bool `mandatory:"false" json:"areQuotaRulesEnabled"`
 }
 
 func (m CreateFileSystemDetails) String() string {

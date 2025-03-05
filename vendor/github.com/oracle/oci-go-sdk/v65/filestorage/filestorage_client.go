@@ -1216,6 +1216,69 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
+// CreateQuotaRule Create a file system, user, or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
+// `isHardQuota` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateQuotaRule.go.html to see an example of how to use CreateQuotaRule API.
+func (client FileStorageClient) CreateQuotaRule(ctx context.Context, request CreateQuotaRuleRequest) (response CreateQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateQuotaRuleResponse")
+	}
+	return
+}
+
+// createQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) createQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/quotaRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/CreateQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateReplication Creates a new replication in the specified compartment.
 // Replications are the primary resource that governs the policy of cross-region replication between source
 // and target file systems. Replications are associated with a secondary resource called a ReplicationTarget
@@ -1645,6 +1708,63 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnector/DeleteOutboundConnector"
 		err = common.PostProcessServiceError(err, "FileStorage", "DeleteOutboundConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteQuotaRule Remove a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteQuotaRule.go.html to see an example of how to use DeleteQuotaRule API.
+func (client FileStorageClient) DeleteQuotaRule(ctx context.Context, request DeleteQuotaRuleRequest) (response DeleteQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteQuotaRuleResponse")
+	}
+	return
+}
+
+// deleteQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) deleteQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/DeleteQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteQuotaRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2282,6 +2402,63 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 	return response, err
 }
 
+// GetQuotaRule Get a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetQuotaRule.go.html to see an example of how to use GetQuotaRule API.
+func (client FileStorageClient) GetQuotaRule(ctx context.Context, request GetQuotaRuleRequest) (response GetQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetQuotaRuleResponse")
+	}
+	return
+}
+
+// getQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) getQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/GetQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReplication Gets the specified replication's information.
 //
 // # See also
@@ -2811,6 +2988,63 @@ func (client FileStorageClient) listOutboundConnectors(ctx context.Context, requ
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &listoutboundconnectorsummary{})
+	return response, err
+}
+
+// ListQuotaRules List user or group usages and their quota rules by certain principal type.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListQuotaRules.go.html to see an example of how to use ListQuotaRules API.
+func (client FileStorageClient) ListQuotaRules(ctx context.Context, request ListQuotaRulesRequest) (response ListQuotaRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listQuotaRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListQuotaRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListQuotaRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListQuotaRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListQuotaRulesResponse")
+	}
+	return
+}
+
+// listQuotaRules implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) listQuotaRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/quotaRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListQuotaRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ListQuotaRules"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListQuotaRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -3506,6 +3740,70 @@ func (client FileStorageClient) scheduleDowngradeShapeMountTarget(ctx context.Co
 	return response, err
 }
 
+// ToggleQuotaRules Enable or disable quota enforcement for the file system.
+// If `areQuotaRulesEnabled` = `true`, then the quota enforcement will be enabled.
+// If `areQuotaRulesEnabled` = `false`, then the quota enforcement will be disabled.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ToggleQuotaRules.go.html to see an example of how to use ToggleQuotaRules API.
+func (client FileStorageClient) ToggleQuotaRules(ctx context.Context, request ToggleQuotaRulesRequest) (response ToggleQuotaRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.toggleQuotaRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ToggleQuotaRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ToggleQuotaRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ToggleQuotaRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ToggleQuotaRulesResponse")
+	}
+	return
+}
+
+// toggleQuotaRules implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) toggleQuotaRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/toggleQuotaRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ToggleQuotaRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ToggleQuotaRules"
+		err = common.PostProcessServiceError(err, "FileStorage", "ToggleQuotaRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnpauseFilesystemSnapshotPolicy This operation unpauses a paused file system snapshot policy and updates the lifecycle state of the file system snapshot policy from
 // INACTIVE to ACTIVE. By default, file system snapshot policies are in the ACTIVE state. When a file system snapshot policy is not paused, or in the ACTIVE state, file systems that are associated with the
 // policy will have snapshots created and deleted according to the schedules defined in the policy.
@@ -3906,6 +4204,63 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &outboundconnector{})
+	return response, err
+}
+
+// UpdateQuotaRule Edit a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateQuotaRule.go.html to see an example of how to use UpdateQuotaRule API.
+func (client FileStorageClient) UpdateQuotaRule(ctx context.Context, request UpdateQuotaRuleRequest) (response UpdateQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateQuotaRuleResponse")
+	}
+	return
+}
+
+// updateQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) updateQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/UpdateQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

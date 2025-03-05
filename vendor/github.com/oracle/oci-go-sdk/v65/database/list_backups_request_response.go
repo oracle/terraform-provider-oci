@@ -33,6 +33,24 @@ type ListBackupsRequest struct {
 	// If provided, filters the results to the set of database versions which are supported for the given shape family.
 	ShapeFamily ListBackupsShapeFamilyEnum `mandatory:"false" contributesTo:"query" name:"shapeFamily" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given database version.
+	Version *string `mandatory:"false" contributesTo:"query" name:"version"`
+
+	// A filter to return only backups that matches with the given type of Backup.
+	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
+
+	// A filter to return only resources that match the given lifecycle state exactly.
+	LifecycleState BackupSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// The start of date-time range of expiration for the long term backups to be fetched.
+	TimeExpiryScheduledGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeExpiryScheduledGreaterThanOrEqualTo"`
+
+	// The end of date-time range of expiration for the long term backups to be fetched.
+	TimeExpiryScheduledLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeExpiryScheduledLessThan"`
+
+	// A filter to return only resources that match the given backup destination type.
+	BackupDestinationType *string `mandatory:"false" contributesTo:"query" name:"backupDestinationType"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -75,6 +93,9 @@ func (request ListBackupsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListBackupsShapeFamilyEnum(string(request.ShapeFamily)); !ok && request.ShapeFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeFamily: %s. Supported values are: %s.", request.ShapeFamily, strings.Join(GetListBackupsShapeFamilyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBackupSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBackupSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
