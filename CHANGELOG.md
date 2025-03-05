@@ -1,3 +1,13 @@
+## 6.29.0 (Unreleased)
+
+### Added
+- Support for Long-term backup retention Phase 1
+- Support for Allow admins to specify user Quotas for their filesystems
+- OpenSearch API update for Major version upgrade
+- Support for Oracle Database @ Azure in ExaDB-XS service
+- Support for Cross Region Replication
+- Container Instance : Remoed unsupported COMMAND
+
 ## 6.28.0 (Unreleased)
 
 ### Added
