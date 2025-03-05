@@ -127,6 +127,12 @@ func (s *GoldenGatePipelineDataSourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
+		if v.PipelineDiagnosticData != nil {
+			s.D.Set("pipeline_diagnostic_data", []interface{}{PipelineDiagnosticDataToMap(v.PipelineDiagnosticData)})
+		} else {
+			s.D.Set("pipeline_diagnostic_data", nil)
+		}
+
 		if v.SourceConnectionDetails != nil {
 			s.D.Set("source_connection_details", []interface{}{SourcePipelineConnectionDetailsToMap(v.SourceConnectionDetails)})
 		} else {

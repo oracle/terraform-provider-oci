@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_golden_gate_pipeline_running_processes
 This data source provides the list of Pipeline Running Processes in Oracle Cloud Infrastructure Golden Gate service.
 
-Retrieves a Pipeline's running replication process's status like extracts/replicats.
+Retrieves a Pipeline's running replication process's status like Capture/Apply.
 
 
 ## Example Usage
