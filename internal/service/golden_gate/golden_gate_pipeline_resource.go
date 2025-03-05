@@ -209,6 +209,11 @@ func GoldenGatePipelineResource() *schema.Resource {
 						},
 
 						// Optional
+						"start_using_default_mapping": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -251,6 +256,39 @@ func GoldenGatePipelineResource() *schema.Resource {
 							Computed: true,
 						},
 						"target": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"pipeline_diagnostic_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"bucket": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"diagnostic_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"object": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_last_collected": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -623,6 +661,12 @@ func (s *GoldenGatePipelineResourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
+		if v.PipelineDiagnosticData != nil {
+			s.D.Set("pipeline_diagnostic_data", []interface{}{PipelineDiagnosticDataToMap(v.PipelineDiagnosticData)})
+		} else {
+			s.D.Set("pipeline_diagnostic_data", nil)
+		}
+
 		if v.SourceConnectionDetails != nil {
 			s.D.Set("source_connection_details", []interface{}{SourcePipelineConnectionDetailsToMap(v.SourceConnectionDetails)})
 		} else {
@@ -715,6 +759,30 @@ func MappingRuleToMap(obj oci_golden_gate.MappingRule) map[string]interface{} {
 	return result
 }
 
+func PipelineDiagnosticDataToMap(obj *oci_golden_gate.PipelineDiagnosticData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	result["diagnostic_state"] = string(obj.DiagnosticState)
+
+	if obj.NamespaceName != nil {
+		result["namespace"] = string(*obj.NamespaceName)
+	}
+
+	if obj.ObjectName != nil {
+		result["object"] = string(*obj.ObjectName)
+	}
+
+	if obj.TimeLastCollected != nil {
+		result["time_last_collected"] = obj.TimeLastCollected.String()
+	}
+
+	return result
+}
+
 func PipelineSummaryToMap(obj oci_golden_gate.PipelineSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
@@ -765,6 +833,10 @@ func (s *GoldenGatePipelineResourceCrud) mapToProcessOptions(fieldKeyFormat stri
 		result.ShouldRestartOnFailure = oci_golden_gate.ProcessOptionsShouldRestartOnFailureEnum(shouldRestartOnFailure.(string))
 	}
 
+	if startUsingDefaultMapping, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "start_using_default_mapping")); ok {
+		result.StartUsingDefaultMapping = oci_golden_gate.ProcessOptionsStartUsingDefaultMappingEnum(startUsingDefaultMapping.(string))
+	}
+
 	return result, nil
 }
 
@@ -780,6 +852,8 @@ func ProcessOptionsToMap(obj *oci_golden_gate.ProcessOptions) map[string]interfa
 	}
 
 	result["should_restart_on_failure"] = string(obj.ShouldRestartOnFailure)
+
+	result["start_using_default_mapping"] = string(obj.StartUsingDefaultMapping)
 
 	return result
 }

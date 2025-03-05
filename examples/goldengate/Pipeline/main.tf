@@ -8,7 +8,7 @@ variable "region" {}
 variable "source_connection_id" { }
 variable "target_connection_id" { }
 variable "display_name" {
-  default = "Pipeline display Name"
+  default = "Data fabric pipeline display name"
 }
 variable "license_model" {
   default = "LICENSE_INCLUDED"
@@ -26,6 +26,7 @@ provider "oci" {
 }
 
 resource "oci_golden_gate_pipeline" "test_pipeline" {
+  # Required
   compartment_id = var.compartment_id
   display_name = var.display_name
   license_model = var.license_model
