@@ -18,6 +18,10 @@ func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 		Read: readDatabaseExascaleDbStorageVaults,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -59,6 +63,11 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) VoidState() {
 
 func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 	request := oci_database.ListExascaleDbStorageVaultsRequest{}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -118,6 +127,10 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 			exascaleDbStorageVault["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.ClusterPlacementGroupId != nil {
+			exascaleDbStorageVault["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
+
 		if r.DefinedTags != nil {
 			exascaleDbStorageVault["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -147,6 +160,10 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 		}
 
 		exascaleDbStorageVault["state"] = r.LifecycleState
+
+		if r.SubscriptionId != nil {
+			exascaleDbStorageVault["subscription_id"] = *r.SubscriptionId
+		}
 
 		if r.SystemTags != nil {
 			exascaleDbStorageVault["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)

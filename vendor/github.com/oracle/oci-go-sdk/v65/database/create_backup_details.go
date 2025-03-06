@@ -24,6 +24,12 @@ type CreateBackupDetails struct {
 
 	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// The retention period of the long term backup in days.
+	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
+
+	// The retention period of the long term backup in years.
+	RetentionPeriodInYears *int `mandatory:"false" json:"retentionPeriodInYears"`
 }
 
 func (m CreateBackupDetails) String() string {

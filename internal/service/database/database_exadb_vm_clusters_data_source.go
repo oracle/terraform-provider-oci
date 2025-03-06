@@ -19,6 +19,10 @@ func DatabaseExadbVmClustersDataSource() *schema.Resource {
 		Read: readDatabaseExadbVmClusters,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -64,6 +68,11 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) VoidState() {
 
 func (s *DatabaseExadbVmClustersDataSourceCrud) Get() error {
 	request := oci_database.ListExadbVmClustersRequest{}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -132,6 +141,10 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) SetData() error {
 
 		if r.ClusterName != nil {
 			exadbVmCluster["cluster_name"] = *r.ClusterName
+		}
+
+		if r.ClusterPlacementGroupId != nil {
+			exadbVmCluster["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
 		}
 
 		if r.DataCollectionOptions != nil {
@@ -230,6 +243,10 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) SetData() error {
 
 		if r.SubnetId != nil {
 			exadbVmCluster["subnet_id"] = *r.SubnetId
+		}
+
+		if r.SubscriptionId != nil {
+			exadbVmCluster["subscription_id"] = *r.SubscriptionId
 		}
 
 		if r.SystemTags != nil {

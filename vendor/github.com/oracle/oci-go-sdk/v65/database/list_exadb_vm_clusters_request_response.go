@@ -39,6 +39,9 @@ type ListExadbVmClustersRequest struct {
 	// A filter to return only Exadata VM clusters on Exascale Infrastructure that match the given Exascale Database Storage Vault ID.
 	ExascaleDbStorageVaultId *string `mandatory:"false" contributesTo:"query" name:"exascaleDbStorageVaultId"`
 
+	// A filter to return only resources that match the given cluster placement group ID exactly.
+	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

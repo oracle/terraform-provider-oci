@@ -61,6 +61,10 @@ The following attributes are exported:
 * `management_policy` - PostgreSQL database system management policy.
 	* `backup_policy` - PostgreSQL database system backup policy.
 		* `backup_start` - Hour of the day when the backup starts.
+		* `copy_policy` - Backup copy details
+			* `compartment_id` - target compartment to place a new backup
+			* `regions` - List of region names of the remote region
+			* `retention_period` - Retention period in days of the backup copy.
 		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day. 
 		* `days_of_the_week` - The day of the week that the backup starts.
 		* `kind` - The kind of backup policy.

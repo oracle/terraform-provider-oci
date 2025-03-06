@@ -10,6 +10,8 @@ resource "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_vaul
     total_size_in_gbs = 800
   }
   additional_flash_cache_in_percent = 20
+  cluster_placement_group_id        = var.cpg_id
+  subscription_id                   = var.subscription_id
 }
 
 data "oci_database_exascale_db_storage_vaults" "test_exascale_db_storage_vaults" {
