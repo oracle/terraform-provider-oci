@@ -106,7 +106,7 @@ variable "opensearch_cluster_opendashboard_node_host_ocpu_count" {
 }
 
 variable "opensearch_cluster_software_version" {
-  default = "2.11.0"
+  default = "2.15.0"
 }
 
 variable "opensearch_cluster_state" {

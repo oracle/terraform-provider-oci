@@ -24,6 +24,9 @@ type ListConfigurationsRequest struct {
 	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only resources if their `configType` matches the given `configType`.
+	ConfigType ConfigurationConfigTypeEnum `mandatory:"false" contributesTo:"query" name:"configType" omitEmpty:"true"`
+
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -90,6 +93,9 @@ func (request ListConfigurationsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingConfigurationLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingConfigurationConfigTypeEnum(string(request.ConfigType)); !ok && request.ConfigType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigType: %s. Supported values are: %s.", request.ConfigType, strings.Join(GetConfigurationConfigTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListConfigurationsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConfigurationsSortOrderEnumStringValues(), ",")))

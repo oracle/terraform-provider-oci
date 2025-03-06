@@ -24,6 +24,11 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
+/*
+Pre-requisite to run the tests:
+1. create a cluster placement group and set its ocid to env variable TF_VAR_cpg_id
+2. set env variable TF_VAR_grid_image_id to the ocid of a valid gridImage
+*/
 var (
 	DatabaseExadbVmClusterRequiredOnlyResource = DatabaseExadbVmClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadb_vm_cluster", "test_exadb_vm_cluster", acctest.Required, acctest.Create, DatabaseExadbVmClusterRepresentation)
@@ -37,6 +42,7 @@ var (
 
 	DatabaseExadbVmClusterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cluster_placement_group_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.cpg_id}`},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `TFExadbVmCluster`, Update: `TFExadbVmClusterUpdatedName`},
 		"exascale_db_storage_vault_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_exascale_db_storage_vault.test_exascale_db_storage_vault.id}`},
 		"state":                        acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
@@ -194,10 +200,16 @@ var (
         }
 `
 
-	// Note: set env variable TF_VAR_grid_image_id before running this test
-	GridImageIdDependency                      = `variable "grid_image_id" {}`
-	DatabaseExadbVmClusterResourceDependencies = AvailabilityDomainConfig + ExadbVmClusterNetwork + GridImageIdDependency +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageVaultRepresentation)
+	ExadbVmClusterVariables = `
+        variable "grid_image_id" {}
+        variable "cpg_id" {} 
+`
+
+	DatabaseExadbVmClusterResourceDependencies = AvailabilityDomainConfig + ExadbVmClusterNetwork + ExadbVmClusterVariables +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(DatabaseExascaleDbStorageVaultRepresentation, map[string]interface{}{
+				"cluster_placement_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.cpg_id}`},
+			}))
 )
 
 // issue-routing-tag: database/ExaCS
@@ -207,6 +219,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	cpgId := utils.GetRequiredEnvSetting("cpg_id")
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -230,6 +243,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExadbVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exascale_db_storage_vault_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "gi_version"),
@@ -264,6 +278,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadb_vm_cluster", "test_exadb_vm_cluster", acctest.Optional, acctest.Create, DatabaseExadbVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExadbVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exascale_db_storage_vault_id"),
@@ -324,6 +339,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExadbVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exascale_db_storage_vault_id"),
@@ -379,6 +395,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadb_vm_cluster", "test_exadb_vm_cluster", acctest.Optional, acctest.Update, DatabaseExadbVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExadbVmClusterUpdatedName"),
 				resource.TestCheckResourceAttrSet(resourceName, "exascale_db_storage_vault_id"),
@@ -434,6 +451,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseExadbVmClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadb_vm_cluster", "test_exadb_vm_cluster", acctest.Optional, acctest.Update, DatabaseExadbVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "TFExadbVmClusterUpdatedName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vault_id"),
@@ -475,6 +493,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "exadb_vm_clusters.0.freeform_tags.Department", "Accounting"),
 				resource.TestCheckResourceAttr(datasourceName, "exadb_vm_clusters.0.system_tags.%", "0"),
 				// computed fields
+				resource.TestCheckResourceAttr(datasourceName, "exadb_vm_clusters.0.cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadb_vm_clusters.0.listener_port"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadb_vm_clusters.0.scan_dns_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadb_vm_clusters.0.scan_dns_record_id"),
@@ -530,6 +549,7 @@ func TestDatabaseExadbVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.Department", "Accounting"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				// computed fields
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_port"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scan_dns_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scan_dns_record_id"),

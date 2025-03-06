@@ -12,7 +12,7 @@ import (
 
 const (
 	major = "65"
-	minor = "84"
+	minor = "85"
 	patch = "0"
 	tag   = ""
 )

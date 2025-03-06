@@ -132,3 +132,17 @@ data "oci_file_storage_outbound_connectors" "outbound_connectors" {
   #id           = var.outbound_connector_id
   #state        = var.outbound_connector_state
 }
+
+# Gets the list of quota rules for a file-system and principal_type
+data "oci_file_storage_file_system_quota_rules" "file_system_quota_rules" {
+  #Required
+  file_system_id = oci_file_storage_file_system.my_fs_simple_quota_rule.id
+  principal_type = var.my_simple_quota_rule_principal_type
+}
+
+# Gets the quota rule for a file-system id and quota-rule id
+data "oci_file_storage_file_system_quota_rule" "file_system_quota_rule" {
+  #Required
+  file_system_id = oci_file_storage_file_system.my_fs_simple_quota_rule.id
+  quota_rule_id  = oci_file_storage_file_system_quota_rule.my_simple_quota_rule.id
+}
