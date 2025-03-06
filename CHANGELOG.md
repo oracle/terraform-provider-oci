@@ -1,4 +1,4 @@
-## 6.29.0 (Unreleased)
+## 6.29.0 (March 06, 2025)
 
 ### Added
 - Support for Long-term backup retention Phase 1
