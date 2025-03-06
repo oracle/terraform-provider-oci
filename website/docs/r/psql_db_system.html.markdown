@@ -76,6 +76,14 @@ resource "oci_psql_db_system" "test_db_system" {
 
 			#Optional
 			backup_start = var.db_system_management_policy_backup_policy_backup_start
+			copy_policy {
+				#Required
+				compartment_id = var.compartment_id
+
+				#Optional
+				regions = var.db_system_management_policy_backup_policy_copy_policy_regions
+				retention_period = var.db_system_management_policy_backup_policy_copy_policy_retention_period
+			}
 			days_of_the_month = var.db_system_management_policy_backup_policy_days_of_the_month
 			days_of_the_week = var.db_system_management_policy_backup_policy_days_of_the_week
 			kind = var.db_system_management_policy_backup_policy_kind
@@ -134,6 +142,10 @@ The following arguments are supported:
 * `management_policy` - (Optional) (Updatable) PostgreSQL database system management policy update details.
 	* `backup_policy` - (Optional) (Updatable) PostgreSQL database system backup policy.
 		* `backup_start` - (Required when kind=DAILY | MONTHLY | WEEKLY) (Updatable) Hour of the day when the backup starts.
+		* `copy_policy` - (Optional) (Updatable) Backup copy details
+			* `compartment_id` - (Required) (Updatable) target compartment to place a new backup
+			* `regions` - (Optional) (Updatable) List of region names of the remote region
+			* `retention_period` - (Optional) (Updatable) Retention period in days of the backup copy.
 		* `days_of_the_month` - (Required when kind=MONTHLY) (Updatable) Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day. 
 		* `days_of_the_week` - (Required when kind=WEEKLY) (Updatable) The day of the week that the backup starts.
 		* `kind` - (Optional) (Updatable) The kind of backup policy.
@@ -195,6 +207,10 @@ The following attributes are exported:
 * `management_policy` - PostgreSQL database system management policy.
 	* `backup_policy` - PostgreSQL database system backup policy.
 		* `backup_start` - Hour of the day when the backup starts.
+		* `copy_policy` - Backup copy details
+			* `compartment_id` - target compartment to place a new backup
+			* `regions` - List of region names of the remote region
+			* `retention_period` - Retention period in days of the backup copy.
 		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day. 
 		* `days_of_the_week` - The day of the week that the backup starts.
 		* `kind` - The kind of backup policy.

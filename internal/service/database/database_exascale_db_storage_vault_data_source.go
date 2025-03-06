@@ -74,6 +74,10 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -103,6 +107,10 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))

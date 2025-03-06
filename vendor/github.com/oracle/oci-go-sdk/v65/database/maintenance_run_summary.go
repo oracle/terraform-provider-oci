@@ -66,6 +66,9 @@ type MaintenanceRunSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 	PeerMaintenanceRunId *string `mandatory:"false" json:"peerMaintenanceRunId"`
 
+	// The list of OCIDs for the maintenance runs associated with their Autonomous Data Guard peer container databases.
+	PeerMaintenanceRunIds []string `mandatory:"false" json:"peerMaintenanceRunIds"`
+
 	// Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 	// *IMPORTANT*: Non-rolling infrastructure patching involves system down time. See Oracle-Managed Infrastructure Maintenance Updates (https://docs.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information.
 	PatchingMode MaintenanceRunSummaryPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`

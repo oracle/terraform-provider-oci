@@ -157,16 +157,19 @@ type ConfigurationConfigTypeEnum string
 const (
 	ConfigurationConfigTypeDefault ConfigurationConfigTypeEnum = "DEFAULT"
 	ConfigurationConfigTypeCustom  ConfigurationConfigTypeEnum = "CUSTOM"
+	ConfigurationConfigTypeCopied  ConfigurationConfigTypeEnum = "COPIED"
 )
 
 var mappingConfigurationConfigTypeEnum = map[string]ConfigurationConfigTypeEnum{
 	"DEFAULT": ConfigurationConfigTypeDefault,
 	"CUSTOM":  ConfigurationConfigTypeCustom,
+	"COPIED":  ConfigurationConfigTypeCopied,
 }
 
 var mappingConfigurationConfigTypeEnumLowerCase = map[string]ConfigurationConfigTypeEnum{
 	"default": ConfigurationConfigTypeDefault,
 	"custom":  ConfigurationConfigTypeCustom,
+	"copied":  ConfigurationConfigTypeCopied,
 }
 
 // GetConfigurationConfigTypeEnumValues Enumerates the set of values for ConfigurationConfigTypeEnum
@@ -183,6 +186,7 @@ func GetConfigurationConfigTypeEnumStringValues() []string {
 	return []string{
 		"DEFAULT",
 		"CUSTOM",
+		"COPIED",
 	}
 }
 

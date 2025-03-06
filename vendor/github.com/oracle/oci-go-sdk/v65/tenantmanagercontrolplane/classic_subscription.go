@@ -87,6 +87,9 @@ type ClassicSubscription struct {
 	// Subscription end time.
 	EndDate *common.SDKTime `mandatory:"false" json:"endDate"`
 
+	// This list will contain up to 5 regions where the subscription has a physical presence
+	RegionAssignments []string `mandatory:"false" json:"regionAssignments"`
+
 	// Lifecycle state of the subscription.
 	LifecycleState ClassicSubscriptionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }

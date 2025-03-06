@@ -36,6 +36,9 @@ type ListExascaleDbStorageVaultsRequest struct {
 	// A filter to return only Exadata Database Storage Vaults that match the given lifecycle state exactly.
 	LifecycleState ExascaleDbStorageVaultLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given cluster placement group ID exactly.
+	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

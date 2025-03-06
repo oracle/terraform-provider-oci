@@ -21,6 +21,7 @@ data "oci_database_exascale_db_storage_vaults" "test_exascale_db_storage_vaults"
 	compartment_id = var.compartment_id
 
 	#Optional
+	cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cluster_placement_group.id
 	display_name = var.exascale_db_storage_vault_display_name
 	state = var.exascale_db_storage_vault_state
 }
@@ -30,6 +31,7 @@ data "oci_database_exascale_db_storage_vaults" "test_exascale_db_storage_vaults"
 
 The following arguments are supported:
 
+* `cluster_placement_group_id` - (Optional) A filter to return only resources that match the given cluster placement group ID exactly.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only Exadata Database Storage Vaults that match the given lifecycle state exactly.
@@ -47,6 +49,7 @@ The following attributes are exported:
 
 * `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage. 
 * `availability_domain` - The name of the availability domain in which the Exadata Database Storage Vault is located.
+* `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `description` - Exadata Database Storage Vault description.
@@ -58,6 +61,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the Exadata Database Storage Vault.
+* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time that the Exadata Database Storage Vault was created.
 * `time_zone` - The time zone that you want to use for the Exadata Database Storage Vault. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
