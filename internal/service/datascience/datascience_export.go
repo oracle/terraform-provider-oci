@@ -151,6 +151,16 @@ var exportDatascienceScheduleHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatascienceModelDefinedMetadataArtifactHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_datascience_model_defined_metadata_artifact",
+	ResourceAbbreviation: "model_defined_metadata_artifact",
+}
+
+var exportDatascienceModelCustomMetadataArtifactHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_datascience_model_custom_metadata_artifact",
+	ResourceAbbreviation: "model_custom_metadata_artifact",
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},

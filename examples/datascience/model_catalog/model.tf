@@ -58,6 +58,72 @@ variable "model_description" {
   default = "Model for terraform testing"
 }
 
+variable "model_category" {
+  default = "USER"
+}
+
+variable "model_custom_metadata_list_category" {
+  default = "category"
+}
+
+variable "model_custom_metadata_list_description" {
+  default = "description"
+}
+
+variable "model_custom_metadata_list_has_artifact" {
+  default = false
+}
+
+variable "model_custom_metadata_list_key" {
+  default = "key"
+}
+
+variable "model_custom_metadata_list_keywords" {
+  default = []
+}
+
+variable "model_custom_metadata_list_value" {
+  default = "value"
+}
+
+variable "model_defined_metadata_list_category" {
+  default = "category"
+}
+
+variable "model_defined_metadata_list_description" {
+  default = "description"
+}
+
+variable "model_defined_metadata_list_has_artifact" {
+  default = false
+}
+
+variable "model_defined_metadata_list_key" {
+  default = "key"
+}
+
+variable "model_defined_metadata_list_keywords" {
+  default = []
+}
+
+variable "model_defined_metadata_list_value" {
+  default = "value"
+}
+
+variable "model_custom_metadata_artifact_model_custom_metadatum_artifact" {
+  default = "modelCustomMetadatumArtifact"
+}
+
+variable "model_custom_metadata_artifact_content_disposition" {
+  default = "contentDisposition"
+}
+
+variable "model_custom_metadata_artifact_content_length" {
+  default = 10
+}
+
+
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -68,6 +134,26 @@ provider "oci" {
 
 resource "oci_datascience_project" "tf_project" {
   compartment_id = var.compartment_id
+}
+
+variable "model_custom_metadata_artifact_content_range" {
+  default = "range"
+}
+
+variable "model_defined_metadata_artifact_content_range" {
+  default = "range"
+}
+
+variable "model_defined_metadata_artifact_model_defined_metadatum_artifact" {
+  default = "modelDefinedMetadatumArtifact"
+}
+
+variable "model_defined_metadata_artifact_content_disposition" {
+  default = "contentDisposition"
+}
+
+variable "model_defined_metadata_artifact_content_length" {
+  default = 10
 }
 
 # A model resource configurations for creating a new model
@@ -83,3 +169,82 @@ resource "oci_datascience_model" "tf_model" {
   description                  = var.model_description
   display_name                 = var.model_display_name
 }
+
+resource "oci_datascience_model" "test_model_new" {
+  #Required
+  compartment_id = var.compartment_id
+  project_id     = oci_datascience_project.tf_project.id
+
+  custom_metadata_list {
+
+    #Optional
+    category    = var.model_custom_metadata_list_category
+    description = var.model_custom_metadata_list_description
+    key         = var.model_custom_metadata_list_key
+    value       = var.model_custom_metadata_list_value
+    category     = var.model_custom_metadata_list_category
+    description  = var.model_custom_metadata_list_description
+    has_artifact = var.model_custom_metadata_list_has_artifact
+    key          = var.model_custom_metadata_list_key
+    keywords     = var.model_custom_metadata_list_keywords
+    value        = var.model_custom_metadata_list_value
+  }
+  defined_metadata_list {
+
+    #Optional
+    category    = var.model_defined_metadata_list_category
+    description = var.model_defined_metadata_list_description
+    key         = var.model_defined_metadata_list_key
+    value       = var.model_defined_metadata_list_value
+    category     = var.model_defined_metadata_list_category
+    description  = var.model_defined_metadata_list_description
+    has_artifact = var.model_defined_metadata_list_has_artifact
+    key          = var.model_defined_metadata_list_key
+    keywords     = var.model_defined_metadata_list_keywords
+    value        = var.model_defined_metadata_list_value
+  }
+  description          = var.model_description
+  display_name         = var.model_display_name
+}
+
+data "oci_datascience_model_custom_metadata_artifact_contents" "test_model_custom_metadata_artifact_contents" {
+  #Required
+  metadatum_key_name = "metadatumkeyname"
+  model_id           = oci_datascience_model.tf_model.id
+
+  #Optional
+  range = var.model_custom_metadata_artifact_content_range
+}
+
+resource "oci_datascience_model_custom_metadata_artifact" "test_model_custom_metadata_artifact" {
+  #Required
+  model_custom_metadatum_artifact = var.model_custom_metadata_artifact_model_custom_metadatum_artifact
+  content_length                  = var.model_custom_metadata_artifact_content_length
+  metadatum_key_name              = "metadatumkeyname"
+  model_id                        = oci_datascience_model.tf_model.id
+
+  #Optional
+  content_disposition = var.model_custom_metadata_artifact_content_disposition
+}
+
+data "oci_datascience_model_defined_metadata_artifact_contents" "test_model_defined_metadata_artifact_contents" {
+  #Required
+  metadatum_key_name = "metadatumkeyname"
+  model_id           = oci_datascience_model.tf_model.id
+
+  #Optional
+  range = var.model_defined_metadata_artifact_content_range
+}
+
+resource "oci_datascience_model_defined_metadata_artifact" "test_model_defined_metadata_artifact" {
+  #Required
+  model_defined_metadatum_artifact = var.model_defined_metadata_artifact_model_defined_metadatum_artifact
+  content_length                   = var.model_defined_metadata_artifact_content_length
+  metadatum_key_name               = "metadatumkeyname"
+  model_id                         = oci_datascience_model.tf_model.id
+
+  #Optional
+  content_disposition = var.model_defined_metadata_artifact_content_disposition
+}
+
+
