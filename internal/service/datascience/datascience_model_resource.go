@@ -121,10 +121,23 @@ func DatascienceModelResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"has_artifact": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"key": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"keywords": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"value": {
 							Type:     schema.TypeString,
@@ -150,10 +163,23 @@ func DatascienceModelResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"has_artifact": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"key": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"keywords": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"value": {
 							Type:     schema.TypeString,
@@ -263,6 +289,14 @@ func DatascienceModelResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_model_by_reference": {
+				Type:     schema.TypeBool,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -734,6 +768,8 @@ func (s *DatascienceModelResourceCrud) SetData() error {
 		s.D.Set("backup_setting", nil)
 	}
 
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -782,6 +818,10 @@ func (s *DatascienceModelResourceCrud) SetData() error {
 
 	if s.Res.InputSchema != nil {
 		s.D.Set("input_schema", *s.Res.InputSchema)
+	}
+
+	if s.Res.IsModelByReference != nil {
+		s.D.Set("is_model_by_reference", *s.Res.IsModelByReference)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -882,9 +922,27 @@ func (s *DatascienceModelResourceCrud) mapToMetadata(fieldKeyFormat string) (oci
 		result.Description = &tmp
 	}
 
+	if hasArtifact, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "has_artifact")); ok {
+		tmp := hasArtifact.(bool)
+		result.HasArtifact = &tmp
+	}
+
 	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
 		tmp := key.(string)
 		result.Key = &tmp
+	}
+
+	if keywords, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "keywords")); ok {
+		interfaces := keywords.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "keywords")) {
+			result.Keywords = tmp
+		}
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
@@ -925,9 +983,15 @@ func MetadataToMap(obj oci_datascience.Metadata) map[string]interface{} {
 		result["description"] = string(*obj.Description)
 	}
 
+	if obj.HasArtifact != nil {
+		result["has_artifact"] = bool(*obj.HasArtifact)
+	}
+
 	if obj.Key != nil {
 		result["key"] = string(*obj.Key)
 	}
+
+	result["keywords"] = obj.Keywords
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)

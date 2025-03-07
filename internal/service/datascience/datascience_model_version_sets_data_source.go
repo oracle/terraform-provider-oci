@@ -18,6 +18,10 @@ func DatascienceModelVersionSetsDataSource() *schema.Resource {
 		Read: readDatascienceModelVersionSets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"category": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -71,6 +75,10 @@ func (s *DatascienceModelVersionSetsDataSourceCrud) VoidState() {
 
 func (s *DatascienceModelVersionSetsDataSourceCrud) Get() error {
 	request := oci_datascience.ListModelVersionSetsRequest{}
+
+	if category, ok := s.D.GetOkExists("category"); ok {
+		request.Category = oci_datascience.ListModelVersionSetsCategoryEnum(category.(string))
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -136,6 +144,8 @@ func (s *DatascienceModelVersionSetsDataSourceCrud) SetData() error {
 		modelVersionSet := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		modelVersionSet["category"] = r.Category
 
 		if r.CreatedBy != nil {
 			modelVersionSet["created_by"] = *r.CreatedBy

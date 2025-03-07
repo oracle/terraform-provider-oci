@@ -99,6 +99,8 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 		s.D.Set("backup_setting", nil)
 	}
 
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -151,6 +153,10 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 
 	if s.Res.InputSchema != nil {
 		s.D.Set("input_schema", *s.Res.InputSchema)
+	}
+
+	if s.Res.IsModelByReference != nil {
+		s.D.Set("is_model_by_reference", *s.Res.IsModelByReference)
 	}
 
 	if s.Res.LifecycleDetails != nil {
