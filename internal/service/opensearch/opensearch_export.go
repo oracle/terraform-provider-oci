@@ -25,8 +25,21 @@ var exportOpensearchOpensearchClusterHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOpensearchOpensearchClusterPipelineHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_opensearch_opensearch_cluster_pipeline",
+	DatasourceClass:        "oci_opensearch_opensearch_cluster_pipelines",
+	DatasourceItemsAttr:    "opensearch_cluster_pipeline_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "opensearch_cluster_pipeline",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_opensearch.OpensearchClusterPipelineLifecycleStateActive),
+	},
+}
+
 var opensearchResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpensearchOpensearchClusterHints},
+		{TerraformResourceHints: exportOpensearchOpensearchClusterPipelineHints},
 	},
 }
