@@ -700,6 +700,17 @@ datascience
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
 * oci\_datascience\_schedule
+* oci\_datascience\_model\_defined\_metadata\_artifact
+* oci\_datascience\_model\_custom\_metadata\_artifact
+
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
+
+delegate_access_control
+    
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
 
 dblm
     
