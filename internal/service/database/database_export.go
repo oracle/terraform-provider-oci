@@ -530,6 +530,14 @@ var exportDatabaseAutonomousDatabaseSoftwareImageHints = &tf_export.TerraformRes
 	},
 }
 
+var exportDatabaseDatabaseSnapshotStandybyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_database_snapshot_standyby",
+	ResourceAbbreviation: "database_snapshot_standyby",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.DatabaseLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseExecutionWindowHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_database_execution_window",
 	DatasourceClass:      "oci_database_execution_windows",
