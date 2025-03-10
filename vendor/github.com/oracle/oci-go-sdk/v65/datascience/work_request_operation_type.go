@@ -48,6 +48,7 @@ const (
 	WorkRequestOperationTypeScheduleMove              WorkRequestOperationTypeEnum = "SCHEDULE_MOVE"
 	WorkRequestOperationTypeScheduleActivate          WorkRequestOperationTypeEnum = "SCHEDULE_ACTIVATE"
 	WorkRequestOperationTypeScheduleDeactivate        WorkRequestOperationTypeEnum = "SCHEDULE_DEACTIVATE"
+	WorkRequestOperationTypeRegisterModelArtifact     WorkRequestOperationTypeEnum = "REGISTER_MODEL_ARTIFACT"
 	WorkRequestOperationTypeRestoreArchivedModel      WorkRequestOperationTypeEnum = "RESTORE_ARCHIVED_MODEL"
 )
 
@@ -82,6 +83,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"SCHEDULE_MOVE":               WorkRequestOperationTypeScheduleMove,
 	"SCHEDULE_ACTIVATE":           WorkRequestOperationTypeScheduleActivate,
 	"SCHEDULE_DEACTIVATE":         WorkRequestOperationTypeScheduleDeactivate,
+	"REGISTER_MODEL_ARTIFACT":     WorkRequestOperationTypeRegisterModelArtifact,
 	"RESTORE_ARCHIVED_MODEL":      WorkRequestOperationTypeRestoreArchivedModel,
 }
 
@@ -116,6 +118,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"schedule_move":               WorkRequestOperationTypeScheduleMove,
 	"schedule_activate":           WorkRequestOperationTypeScheduleActivate,
 	"schedule_deactivate":         WorkRequestOperationTypeScheduleDeactivate,
+	"register_model_artifact":     WorkRequestOperationTypeRegisterModelArtifact,
 	"restore_archived_model":      WorkRequestOperationTypeRestoreArchivedModel,
 }
 
@@ -161,6 +164,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"SCHEDULE_MOVE",
 		"SCHEDULE_ACTIVATE",
 		"SCHEDULE_DEACTIVATE",
+		"REGISTER_MODEL_ARTIFACT",
 		"RESTORE_ARCHIVED_MODEL",
 	}
 }

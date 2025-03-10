@@ -139,6 +139,9 @@ type CreateCloudVmClusterDetails struct {
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
+
+	// The vmcluster type for the VM cluster/Cloud VM cluster.
+	VmClusterType CreateCloudVmClusterDetailsVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
 }
 
 func (m CreateCloudVmClusterDetails) String() string {
@@ -153,6 +156,9 @@ func (m CreateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCreateCloudVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateCloudVmClusterDetailsVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetCreateCloudVmClusterDetailsVmClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -199,5 +205,47 @@ func GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues() []string {
 // GetMappingCreateCloudVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateCloudVmClusterDetailsLicenseModelEnum(val string) (CreateCloudVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingCreateCloudVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateCloudVmClusterDetailsVmClusterTypeEnum Enum with underlying type: string
+type CreateCloudVmClusterDetailsVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for CreateCloudVmClusterDetailsVmClusterTypeEnum
+const (
+	CreateCloudVmClusterDetailsVmClusterTypeRegular   CreateCloudVmClusterDetailsVmClusterTypeEnum = "REGULAR"
+	CreateCloudVmClusterDetailsVmClusterTypeDeveloper CreateCloudVmClusterDetailsVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingCreateCloudVmClusterDetailsVmClusterTypeEnum = map[string]CreateCloudVmClusterDetailsVmClusterTypeEnum{
+	"REGULAR":   CreateCloudVmClusterDetailsVmClusterTypeRegular,
+	"DEVELOPER": CreateCloudVmClusterDetailsVmClusterTypeDeveloper,
+}
+
+var mappingCreateCloudVmClusterDetailsVmClusterTypeEnumLowerCase = map[string]CreateCloudVmClusterDetailsVmClusterTypeEnum{
+	"regular":   CreateCloudVmClusterDetailsVmClusterTypeRegular,
+	"developer": CreateCloudVmClusterDetailsVmClusterTypeDeveloper,
+}
+
+// GetCreateCloudVmClusterDetailsVmClusterTypeEnumValues Enumerates the set of values for CreateCloudVmClusterDetailsVmClusterTypeEnum
+func GetCreateCloudVmClusterDetailsVmClusterTypeEnumValues() []CreateCloudVmClusterDetailsVmClusterTypeEnum {
+	values := make([]CreateCloudVmClusterDetailsVmClusterTypeEnum, 0)
+	for _, v := range mappingCreateCloudVmClusterDetailsVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateCloudVmClusterDetailsVmClusterTypeEnumStringValues Enumerates the set of values in String for CreateCloudVmClusterDetailsVmClusterTypeEnum
+func GetCreateCloudVmClusterDetailsVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingCreateCloudVmClusterDetailsVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateCloudVmClusterDetailsVmClusterTypeEnum(val string) (CreateCloudVmClusterDetailsVmClusterTypeEnum, bool) {
+	enum, ok := mappingCreateCloudVmClusterDetailsVmClusterTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

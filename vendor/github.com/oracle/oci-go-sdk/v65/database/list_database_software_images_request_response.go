@@ -49,6 +49,9 @@ type ListDatabaseSoftwareImagesRequest struct {
 	// A filter to return only resources with `patchSet` greater than or equal to given value.
 	PatchSetGreaterThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"patchSetGreaterThanOrEqualTo"`
 
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
+	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
+
 	// If provided, filters the results to the set of database versions which are supported for Upgrade.
 	IsUpgradeSupported *bool `mandatory:"false" contributesTo:"query" name:"isUpgradeSupported"`
 

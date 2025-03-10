@@ -34,6 +34,12 @@ type MaskDataDetails struct {
 	// masking steps and not doing the whole masking again.
 	IsRerun *bool `mandatory:"false" json:"isRerun"`
 
+	// Specifies the step from which masking needs to be rerun. This param will be used only when isRerun attribute is true.
+	// If PRE_MASKING_SCRIPT is passed, it will rerun the pre-masking script, followed by masking, and then the post-masking script.
+	// If POST_MASKING_SCRIPT is passed, it will rerun only the post-masking script.
+	// If this field is not set and isRerun is set to true, then it will default to the last failed step.
+	ReRunFromStep MaskDataDetailsReRunFromStepEnum `mandatory:"false" json:"reRunFromStep,omitempty"`
+
 	// The tablespace that should be used to create the mapping tables, DMASK objects, and other temporary tables for data masking.
 	// If no tablespace is provided, the DEFAULT tablespace is used.
 	Tablespace *string `mandatory:"false" json:"tablespace"`
@@ -100,8 +106,53 @@ func (m MaskDataDetails) String() string {
 func (m MaskDataDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMaskDataDetailsReRunFromStepEnum(string(m.ReRunFromStep)); !ok && m.ReRunFromStep != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReRunFromStep: %s. Supported values are: %s.", m.ReRunFromStep, strings.Join(GetMaskDataDetailsReRunFromStepEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MaskDataDetailsReRunFromStepEnum Enum with underlying type: string
+type MaskDataDetailsReRunFromStepEnum string
+
+// Set of constants representing the allowable values for MaskDataDetailsReRunFromStepEnum
+const (
+	MaskDataDetailsReRunFromStepPreMaskingScript  MaskDataDetailsReRunFromStepEnum = "PRE_MASKING_SCRIPT"
+	MaskDataDetailsReRunFromStepPostMaskingScript MaskDataDetailsReRunFromStepEnum = "POST_MASKING_SCRIPT"
+)
+
+var mappingMaskDataDetailsReRunFromStepEnum = map[string]MaskDataDetailsReRunFromStepEnum{
+	"PRE_MASKING_SCRIPT":  MaskDataDetailsReRunFromStepPreMaskingScript,
+	"POST_MASKING_SCRIPT": MaskDataDetailsReRunFromStepPostMaskingScript,
+}
+
+var mappingMaskDataDetailsReRunFromStepEnumLowerCase = map[string]MaskDataDetailsReRunFromStepEnum{
+	"pre_masking_script":  MaskDataDetailsReRunFromStepPreMaskingScript,
+	"post_masking_script": MaskDataDetailsReRunFromStepPostMaskingScript,
+}
+
+// GetMaskDataDetailsReRunFromStepEnumValues Enumerates the set of values for MaskDataDetailsReRunFromStepEnum
+func GetMaskDataDetailsReRunFromStepEnumValues() []MaskDataDetailsReRunFromStepEnum {
+	values := make([]MaskDataDetailsReRunFromStepEnum, 0)
+	for _, v := range mappingMaskDataDetailsReRunFromStepEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMaskDataDetailsReRunFromStepEnumStringValues Enumerates the set of values in String for MaskDataDetailsReRunFromStepEnum
+func GetMaskDataDetailsReRunFromStepEnumStringValues() []string {
+	return []string{
+		"PRE_MASKING_SCRIPT",
+		"POST_MASKING_SCRIPT",
+	}
+}
+
+// GetMappingMaskDataDetailsReRunFromStepEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMaskDataDetailsReRunFromStepEnum(val string) (MaskDataDetailsReRunFromStepEnum, bool) {
+	enum, ok := mappingMaskDataDetailsReRunFromStepEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
