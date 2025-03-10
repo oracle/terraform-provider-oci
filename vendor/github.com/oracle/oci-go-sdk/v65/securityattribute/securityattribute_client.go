@@ -4,7 +4,7 @@
 
 // Security Attribute API
 //
-// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
+// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Namespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 //
 
 package securityattribute
@@ -103,9 +103,9 @@ func (client *SecurityAttributeClient) ConfigurationProvider() *common.Configura
 // When all security attributes have been removed, the state changes to DELETED. You cannot restore a deleted security attribute. After the security attribute state
 // changes to DELETED, you can use the same security attribute name again.
 //
-// After you start this operation, you cannot start either the DeleteSecurityAttribute or the CascadeDeleteSecurityAttributeNamespace operation until this process completes.
+// After you start this operation, you cannot start either the DeleteSecurityAttribute or the CascadingDeleteSecurityAttributeNamespace operation until this process completes.
 //
-// In order to delete security attribute, you must first retire the security attribute. Use UpdateSecurityAttribute
+// In order to delete security attribute, you must first retire the security attribute. Use UpdateSecurityAttributeNamespace
 // to retire a security attribute.
 //
 // # See also
@@ -467,7 +467,7 @@ func (client SecurityAttributeClient) createSecurityAttribute(ctx context.Contex
 // If you specify a name that's already in use in the tenancy, a 409 error is returned.
 // You must also specify a *description* for the namespace.
 // It does not have to be unique, and you can change it with
-// SecurityAttributeNamespace.
+// UpdateSecurityAttributeNamespace.
 //
 // # See also
 //
@@ -537,7 +537,7 @@ func (client SecurityAttributeClient) createSecurityAttributeNamespace(ctx conte
 // were tagged as well as the regions in which those resources reside.
 // When all attributes have been removed, the state changes to DELETED. You cannot restore a deleted attribute. Once the deleted attribute
 // changes its state to DELETED, you can use the same security attribute name again.
-// After you start this operation, you cannot start either the BulkDeleteSecurityAttributes or the CascadeDeleteTagNamespace operation until this process completes.
+// After you start this operation, you cannot start either the BulkDeleteSecurityAttributes or the CascadingDeleteSecurityAttributeNamespace operation until this process completes.
 // To delete a security attribute, you must first retire it. Use UpdateSecurityAttribute
 // to retire a security attribute.
 //
@@ -1199,7 +1199,7 @@ func (client SecurityAttributeClient) updateSecurityAttribute(ctx context.Contex
 // Updating `isRetired` to 'true' retires the namespace and all the security attributes in the namespace. Reactivating a
 // namespace (changing `isRetired` from 'true' to 'false') does not reactivate security attributes.
 // To reactivate the security attributes, you must reactivate each one individually *after* you reactivate the namespace,
-// using UpdateTag. For more information about retiring security attribute namespaces, see
+// using UpdateSecurityAttribute. For more information about retiring security attribute namespaces, see
 // Managing Security Attribute Namespaces (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 // You can't add a namespace with the same name as a retired namespace in the same tenancy.
 //

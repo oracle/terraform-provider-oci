@@ -21,35 +21,41 @@ type CreateOpensearchClusterPipelineDetails struct {
 	// The name of the cluster pipeline. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The maximum pipeline capacity, in OCPUs.
-	MaxOcpuCount *int `mandatory:"true" json:"maxOcpuCount"`
+	// The number of OCPUs configured for each pipeline node.
+	OcpuCount *int `mandatory:"true" json:"ocpuCount"`
 
-	// The minimum pipeline capacity, in OCPUs.
-	MinOcpuCount *int `mandatory:"true" json:"minOcpuCount"`
+	// The amount of memory in GB, for each pipeline node.
+	MemoryGB *int `mandatory:"true" json:"memoryGB"`
 
-	// The maximum amount of memory in GB, for the pipeline.
-	MaxMemoryGB *int `mandatory:"true" json:"maxMemoryGB"`
-
-	// The minimum amount of memory in GB, for the pipeline.
-	MinMemoryGB *int `mandatory:"true" json:"minMemoryGB"`
+	// The number of nodes configured for the pipeline.
+	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
 	// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
 	PipelineConfigurationBody *string `mandatory:"true" json:"pipelineConfigurationBody"`
+
+	// The data prepper config in YAML format. The command accepts the data prepper config as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
+	DataPrepperConfigurationBody *string `mandatory:"true" json:"dataPrepperConfigurationBody"`
 
 	// The OCID of the compartment to create the pipeline in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the pipeline's VCN.
-	VcnId *string `mandatory:"true" json:"vcnId"`
+	VcnId *string `mandatory:"false" json:"vcnId"`
 
 	// The OCID of the pipeline's subnet.
-	SubnetId *string `mandatory:"true" json:"subnetId"`
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The OCID for the compartment where the pipeline's VCN is located.
-	VcnCompartmentId *string `mandatory:"true" json:"vcnCompartmentId"`
+	VcnCompartmentId *string `mandatory:"false" json:"vcnCompartmentId"`
 
-	// The OCID for the compartment where the pipwline's subnet is located.
-	SubnetCompartmentId *string `mandatory:"true" json:"subnetCompartmentId"`
+	// The OCID for the compartment where the pipeline's subnet is located.
+	SubnetCompartmentId *string `mandatory:"false" json:"subnetCompartmentId"`
+
+	// The OCID of the NSG where the pipeline private endpoint vnic will be attached.
+	NsgId *string `mandatory:"false" json:"nsgId"`
+
+	// The customer IP and the corresponding fully qualified domain name that the pipeline will connect to.
+	ReverseConnectionEndpoints []OpensearchPipelineReverseConnectionEndpoint `mandatory:"false" json:"reverseConnectionEndpoints"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -58,10 +64,6 @@ type CreateOpensearchClusterPipelineDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m CreateOpensearchClusterPipelineDetails) String() string {

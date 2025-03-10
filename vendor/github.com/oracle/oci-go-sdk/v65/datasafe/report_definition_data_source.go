@@ -18,24 +18,27 @@ type ReportDefinitionDataSourceEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionDataSourceEnum
 const (
-	ReportDefinitionDataSourceEvents     ReportDefinitionDataSourceEnum = "EVENTS"
-	ReportDefinitionDataSourceAlerts     ReportDefinitionDataSourceEnum = "ALERTS"
-	ReportDefinitionDataSourceViolations ReportDefinitionDataSourceEnum = "VIOLATIONS"
-	ReportDefinitionDataSourceAllowedSql ReportDefinitionDataSourceEnum = "ALLOWED_SQL"
+	ReportDefinitionDataSourceEvents             ReportDefinitionDataSourceEnum = "EVENTS"
+	ReportDefinitionDataSourceAlerts             ReportDefinitionDataSourceEnum = "ALERTS"
+	ReportDefinitionDataSourceSecurityAssessment ReportDefinitionDataSourceEnum = "SECURITY_ASSESSMENT"
+	ReportDefinitionDataSourceViolations         ReportDefinitionDataSourceEnum = "VIOLATIONS"
+	ReportDefinitionDataSourceAllowedSql         ReportDefinitionDataSourceEnum = "ALLOWED_SQL"
 )
 
 var mappingReportDefinitionDataSourceEnum = map[string]ReportDefinitionDataSourceEnum{
-	"EVENTS":      ReportDefinitionDataSourceEvents,
-	"ALERTS":      ReportDefinitionDataSourceAlerts,
-	"VIOLATIONS":  ReportDefinitionDataSourceViolations,
-	"ALLOWED_SQL": ReportDefinitionDataSourceAllowedSql,
+	"EVENTS":              ReportDefinitionDataSourceEvents,
+	"ALERTS":              ReportDefinitionDataSourceAlerts,
+	"SECURITY_ASSESSMENT": ReportDefinitionDataSourceSecurityAssessment,
+	"VIOLATIONS":          ReportDefinitionDataSourceViolations,
+	"ALLOWED_SQL":         ReportDefinitionDataSourceAllowedSql,
 }
 
 var mappingReportDefinitionDataSourceEnumLowerCase = map[string]ReportDefinitionDataSourceEnum{
-	"events":      ReportDefinitionDataSourceEvents,
-	"alerts":      ReportDefinitionDataSourceAlerts,
-	"violations":  ReportDefinitionDataSourceViolations,
-	"allowed_sql": ReportDefinitionDataSourceAllowedSql,
+	"events":              ReportDefinitionDataSourceEvents,
+	"alerts":              ReportDefinitionDataSourceAlerts,
+	"security_assessment": ReportDefinitionDataSourceSecurityAssessment,
+	"violations":          ReportDefinitionDataSourceViolations,
+	"allowed_sql":         ReportDefinitionDataSourceAllowedSql,
 }
 
 // GetReportDefinitionDataSourceEnumValues Enumerates the set of values for ReportDefinitionDataSourceEnum
@@ -52,6 +55,7 @@ func GetReportDefinitionDataSourceEnumStringValues() []string {
 	return []string{
 		"EVENTS",
 		"ALERTS",
+		"SECURITY_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}

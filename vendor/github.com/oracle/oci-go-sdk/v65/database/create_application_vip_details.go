@@ -30,8 +30,11 @@ type CreateApplicationVipDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB node associated with the application virtual IP (VIP) address.
 	DbNodeId *string `mandatory:"false" json:"dbNodeId"`
 
-	// The application virtual IP (VIP) address.
+	// The application virtual IP (VIP) IPv4 address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
+
+	// The application virtual IP (VIP) IPv6 address.
+	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
 }
 
 func (m CreateApplicationVipDetails) String() string {

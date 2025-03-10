@@ -46,6 +46,10 @@ type CreateDiscoveryJobDetails struct {
 	// attribute of the sensitive data model is used to get the list of sensitive types.
 	SensitiveTypeIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeIdsForDiscovery"`
 
+	// The OCIDs of the sensitive type groups to be used by the discovery job. All the sensitive types present in
+	// sensitive type group will be used for discovery.
+	SensitiveTypeGroupIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeGroupIdsForDiscovery"`
+
 	// Indicates if the discovery job should collect and store sample data values for the discovered columns. Sample data
 	// helps review the discovered columns and ensure that they actually contain sensitive data. As it collects original
 	// data from the target database, it's disabled by default and should be used only if it's acceptable to store sample

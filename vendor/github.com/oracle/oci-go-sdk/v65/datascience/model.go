@@ -55,6 +55,12 @@ type Model struct {
 	// The version label can add an additional description of the lifecycle state of the model or the application using and training the model.
 	VersionLabel *string `mandatory:"true" json:"versionLabel"`
 
+	// The category of the model.
+	Category ModelCategoryEnum `mandatory:"true" json:"category"`
+
+	// Identifier to indicate whether a model artifact resides in the Service Tenancy or Customer Tenancy.
+	IsModelByReference *bool `mandatory:"true" json:"isModelByReference"`
+
 	RetentionSetting *RetentionSetting `mandatory:"true" json:"retentionSetting"`
 
 	BackupSetting *BackupSetting `mandatory:"true" json:"backupSetting"`
@@ -98,6 +104,9 @@ func (m Model) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingModelLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetModelLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingModelCategoryEnum(string(m.Category)); !ok && m.Category != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Category: %s. Supported values are: %s.", m.Category, strings.Join(GetModelCategoryEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

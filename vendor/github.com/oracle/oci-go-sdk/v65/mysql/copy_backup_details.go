@@ -36,6 +36,10 @@ type CopyBackupDetails struct {
 	// A user-supplied display name for the DB system backup.
 	// By default, the source backup display name will be used.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Number of days to retain the copied DB system backup.
+	// **Note:** The maximum value for an automatic backup is 35, and the maximum value for a manual backup is 365.
+	BackupCopyRetentionInDays *int `mandatory:"false" json:"backupCopyRetentionInDays"`
 }
 
 func (m CopyBackupDetails) String() string {
