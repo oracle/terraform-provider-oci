@@ -27,6 +27,8 @@ const (
 	OperationTypeUpdateRedisConfigSet OperationTypeEnum = "UPDATE_REDIS_CONFIG_SET"
 	OperationTypeDeleteRedisConfigSet OperationTypeEnum = "DELETE_REDIS_CONFIG_SET"
 	OperationTypeMoveRedisConfigSet   OperationTypeEnum = "MOVE_REDIS_CONFIG_SET"
+	OperationTypeMigrateCluster       OperationTypeEnum = "MIGRATE_CLUSTER"
+	OperationTypeClusterRollback      OperationTypeEnum = "CLUSTER_ROLLBACK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -39,6 +41,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_REDIS_CONFIG_SET": OperationTypeUpdateRedisConfigSet,
 	"DELETE_REDIS_CONFIG_SET": OperationTypeDeleteRedisConfigSet,
 	"MOVE_REDIS_CONFIG_SET":   OperationTypeMoveRedisConfigSet,
+	"MIGRATE_CLUSTER":         OperationTypeMigrateCluster,
+	"CLUSTER_ROLLBACK":        OperationTypeClusterRollback,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -51,6 +55,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_redis_config_set": OperationTypeUpdateRedisConfigSet,
 	"delete_redis_config_set": OperationTypeDeleteRedisConfigSet,
 	"move_redis_config_set":   OperationTypeMoveRedisConfigSet,
+	"migrate_cluster":         OperationTypeMigrateCluster,
+	"cluster_rollback":        OperationTypeClusterRollback,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -74,6 +80,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_REDIS_CONFIG_SET",
 		"DELETE_REDIS_CONFIG_SET",
 		"MOVE_REDIS_CONFIG_SET",
+		"MIGRATE_CLUSTER",
+		"CLUSTER_ROLLBACK",
 	}
 }
 

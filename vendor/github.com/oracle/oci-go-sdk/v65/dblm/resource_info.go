@@ -50,6 +50,9 @@ type ResourceInfo struct {
 
 	// True if it is a cluster db.
 	IsClusterDb *bool `mandatory:"false" json:"isClusterDb"`
+
+	// The agent Id of the agent managing the resource.
+	AgentId *string `mandatory:"false" json:"agentId"`
 }
 
 func (m ResourceInfo) String() string {

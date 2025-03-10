@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// DrgUpgradeState A dynamic routing gateway (DRG) can be in different states during upgrade -  Classical, Migrated, Upgraded(Transit-Hub)
+// DrgUpgradeState A dynamic routing gateway (DRG) can be in different states during upgrade -  Classical, Migrated, Upgraded(Transit-Hub), Rolled Back
 type DrgUpgradeState struct {
 
 	// The type of the DRG.
@@ -52,21 +52,24 @@ type DrgUpgradeStateStateEnum string
 
 // Set of constants representing the allowable values for DrgUpgradeStateStateEnum
 const (
-	DrgUpgradeStateStateClassical DrgUpgradeStateStateEnum = "CLASSICAL"
-	DrgUpgradeStateStateMigrated  DrgUpgradeStateStateEnum = "MIGRATED"
-	DrgUpgradeStateStateUpgraded  DrgUpgradeStateStateEnum = "UPGRADED"
+	DrgUpgradeStateStateClassical  DrgUpgradeStateStateEnum = "CLASSICAL"
+	DrgUpgradeStateStateMigrated   DrgUpgradeStateStateEnum = "MIGRATED"
+	DrgUpgradeStateStateUpgraded   DrgUpgradeStateStateEnum = "UPGRADED"
+	DrgUpgradeStateStateRolledBack DrgUpgradeStateStateEnum = "ROLLED_BACK"
 )
 
 var mappingDrgUpgradeStateStateEnum = map[string]DrgUpgradeStateStateEnum{
-	"CLASSICAL": DrgUpgradeStateStateClassical,
-	"MIGRATED":  DrgUpgradeStateStateMigrated,
-	"UPGRADED":  DrgUpgradeStateStateUpgraded,
+	"CLASSICAL":   DrgUpgradeStateStateClassical,
+	"MIGRATED":    DrgUpgradeStateStateMigrated,
+	"UPGRADED":    DrgUpgradeStateStateUpgraded,
+	"ROLLED_BACK": DrgUpgradeStateStateRolledBack,
 }
 
 var mappingDrgUpgradeStateStateEnumLowerCase = map[string]DrgUpgradeStateStateEnum{
-	"classical": DrgUpgradeStateStateClassical,
-	"migrated":  DrgUpgradeStateStateMigrated,
-	"upgraded":  DrgUpgradeStateStateUpgraded,
+	"classical":   DrgUpgradeStateStateClassical,
+	"migrated":    DrgUpgradeStateStateMigrated,
+	"upgraded":    DrgUpgradeStateStateUpgraded,
+	"rolled_back": DrgUpgradeStateStateRolledBack,
 }
 
 // GetDrgUpgradeStateStateEnumValues Enumerates the set of values for DrgUpgradeStateStateEnum
@@ -84,6 +87,7 @@ func GetDrgUpgradeStateStateEnumStringValues() []string {
 		"CLASSICAL",
 		"MIGRATED",
 		"UPGRADED",
+		"ROLLED_BACK",
 	}
 }
 

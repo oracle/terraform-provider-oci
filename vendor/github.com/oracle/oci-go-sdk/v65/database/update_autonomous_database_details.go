@@ -286,6 +286,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
+	// External Authentication applies to the Autonomous databases.
+	ExternalAuthentication []ExternalAuthenticationBase `mandatory:"false" json:"externalAuthentication"`
+
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID. This cannot be used in conjunction with adminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
@@ -400,6 +403,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IsAutoScalingForStorageEnabled       *bool                                                                `json:"isAutoScalingForStorageEnabled"`
 		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum                         `json:"databaseEdition"`
 		DbToolsDetails                       []DatabaseTool                                                       `json:"dbToolsDetails"`
+		ExternalAuthentication               []externalauthenticationbase                                         `json:"externalAuthentication"`
 		SecretId                             *string                                                              `json:"secretId"`
 		SecretVersionNumber                  *int                                                                 `json:"secretVersionNumber"`
 		EncryptionKey                        autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
@@ -521,6 +525,18 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
 	copy(m.DbToolsDetails, model.DbToolsDetails)
+	m.ExternalAuthentication = make([]ExternalAuthenticationBase, len(model.ExternalAuthentication))
+	for i, n := range model.ExternalAuthentication {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ExternalAuthentication[i] = nn.(ExternalAuthenticationBase)
+		} else {
+			m.ExternalAuthentication[i] = nil
+		}
+	}
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber

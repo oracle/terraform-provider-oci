@@ -93,7 +93,8 @@ func (client *ManagedMySqlDatabasesClient) ConfigurationProvider() *common.Confi
 	return client.config
 }
 
-// ChangeMysqlDatabaseManagementType Changes the management option for a HeatWave MySQL instance, from BASIC to FULL and vice versa.
+// ChangeMysqlDatabaseManagementType Changes the management type for a HeatWave MySQL instance, from BASIC to FULL and vice versa.
+// It can also be used to enable or disable database management.
 // A default retry strategy applies to this operation ChangeMysqlDatabaseManagementType()
 func (client ManagedMySqlDatabasesClient) ChangeMysqlDatabaseManagementType(ctx context.Context, request ChangeMysqlDatabaseManagementTypeRequest) (response ChangeMysqlDatabaseManagementTypeResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -925,6 +925,73 @@ func (client VirtualNetworkClient) advertiseByoipRange(ctx context.Context, requ
 	return response, err
 }
 
+// AllocatePublicIp Allocate a public IP address for a particular public IP OCID. If the address is already allocated for the
+// specified public IP OCID, the allocated address is returned.
+// A default retry strategy applies to this operation AllocatePublicIp()
+func (client VirtualNetworkClient) AllocatePublicIp(ctx context.Context, request AllocatePublicIpRequest) (response AllocatePublicIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.allocatePublicIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AllocatePublicIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AllocatePublicIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AllocatePublicIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AllocatePublicIpResponse")
+	}
+	return
+}
+
+// allocatePublicIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) allocatePublicIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIp/allocate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response AllocatePublicIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AllocatePublicIpDetails/AllocatePublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AllocatePublicIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AssociateSecurityAttributesToVnics Request to update Security Attributes for the provided list of VNICs
 func (client VirtualNetworkClient) AssociateSecurityAttributesToVnics(ctx context.Context, request AssociateSecurityAttributesToVnicsRequest) (response AssociateSecurityAttributesToVnicsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4165,6 +4232,72 @@ func (client VirtualNetworkClient) completeUnpromotion(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/CompleteUnpromotion"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "CompleteUnpromotion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConfirmPublicIpAllocation Confirm public IP allocation.
+// A default retry strategy applies to this operation ConfirmPublicIpAllocation()
+func (client VirtualNetworkClient) ConfirmPublicIpAllocation(ctx context.Context, request ConfirmPublicIpAllocationRequest) (response ConfirmPublicIpAllocationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.confirmPublicIpAllocation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfirmPublicIpAllocationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfirmPublicIpAllocationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfirmPublicIpAllocationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfirmPublicIpAllocationResponse")
+	}
+	return
+}
+
+// confirmPublicIpAllocation implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) confirmPublicIpAllocation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIp/confirmAllocation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ConfirmPublicIpAllocationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConfirmPublicIpAllocationDetails/ConfirmPublicIpAllocation"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ConfirmPublicIpAllocation", apiReferenceLink)
 		return response, err
 	}
 
@@ -9210,6 +9343,67 @@ func (client VirtualNetworkClient) deleteByoipRange(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/DeleteByoipRange"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteByoipRange", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteByoipWorkRequestDetails Delete Byoip Workrequest for the provided BYOIP range in the path.
+// A default retry strategy applies to this operation DeleteByoipWorkRequestDetails()
+func (client VirtualNetworkClient) DeleteByoipWorkRequestDetails(ctx context.Context, request DeleteByoipWorkRequestDetailsRequest) (response DeleteByoipWorkRequestDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteByoipWorkRequestDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteByoipWorkRequestDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteByoipWorkRequestDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteByoipWorkRequestDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteByoipWorkRequestDetailsResponse")
+	}
+	return
+}
+
+// deleteByoipWorkRequestDetails implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteByoipWorkRequestDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/byoipRanges/{byoipRangeId}/deleteByoipWorkRequest", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteByoipWorkRequestDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/DeleteByoipWorkRequestDetails"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteByoipWorkRequestDetails", apiReferenceLink)
 		return response, err
 	}
 
@@ -14607,6 +14801,72 @@ func (client VirtualNetworkClient) enqueueDeviceJob(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EnqueueDeviceJobDetails/EnqueueDeviceJob"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "EnqueueDeviceJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FailByoipRangeDetails Move BYOIP range to Fail lifecycleDetails.
+// A default retry strategy applies to this operation FailByoipRangeDetails()
+func (client VirtualNetworkClient) FailByoipRangeDetails(ctx context.Context, request FailByoipRangeDetailsRequest) (response FailByoipRangeDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.failByoipRangeDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FailByoipRangeDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FailByoipRangeDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FailByoipRangeDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FailByoipRangeDetailsResponse")
+	}
+	return
+}
+
+// failByoipRangeDetails implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) failByoipRangeDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/byoipRanges/{byoipRangeId}/failByoipRange", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response FailByoipRangeDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/FailByoipRangeDetails"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "FailByoipRangeDetails", apiReferenceLink)
 		return response, err
 	}
 
@@ -29482,6 +29742,72 @@ func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request co
 	return response, err
 }
 
+// MoveByoipRangeToDeletedDetails Move Byoip Range To Deleted state.
+// A default retry strategy applies to this operation MoveByoipRangeToDeletedDetails()
+func (client VirtualNetworkClient) MoveByoipRangeToDeletedDetails(ctx context.Context, request MoveByoipRangeToDeletedDetailsRequest) (response MoveByoipRangeToDeletedDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.moveByoipRangeToDeletedDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MoveByoipRangeToDeletedDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MoveByoipRangeToDeletedDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MoveByoipRangeToDeletedDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MoveByoipRangeToDeletedDetailsResponse")
+	}
+	return
+}
+
+// moveByoipRangeToDeletedDetails implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) moveByoipRangeToDeletedDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/byoipRanges/{byoipRangeId}/moveRangeToDeleted", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response MoveByoipRangeToDeletedDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/MoveByoipRangeToDeletedDetails"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "MoveByoipRangeToDeletedDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PollNcpJob poll NCP job
 // A default retry strategy applies to this operation PollNcpJob()
 func (client VirtualNetworkClient) PollNcpJob(ctx context.Context, request PollNcpJobRequest) (response PollNcpJobResponse, err error) {
@@ -29601,6 +29927,204 @@ func (client VirtualNetworkClient) privateIpVnicDetach(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/PrivateIpVnicDetach"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "PrivateIpVnicDetach", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ProvisionByoipRangeDetails Provision byoipRange provided in the path.
+// A default retry strategy applies to this operation ProvisionByoipRangeDetails()
+func (client VirtualNetworkClient) ProvisionByoipRangeDetails(ctx context.Context, request ProvisionByoipRangeDetailsRequest) (response ProvisionByoipRangeDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.provisionByoipRangeDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ProvisionByoipRangeDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ProvisionByoipRangeDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ProvisionByoipRangeDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ProvisionByoipRangeDetailsResponse")
+	}
+	return
+}
+
+// provisionByoipRangeDetails implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) provisionByoipRangeDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/byoipRanges/{byoipRangeId}/provisionRange", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ProvisionByoipRangeDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/ProvisionByoipRangeDetails"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ProvisionByoipRangeDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PublicIpAllocationStatus Retrieve the status of a public IP allocation either by the address or the associated public IP OCID.
+// A default retry strategy applies to this operation PublicIpAllocationStatus()
+func (client VirtualNetworkClient) PublicIpAllocationStatus(ctx context.Context, request PublicIpAllocationStatusRequest) (response PublicIpAllocationStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.publicIpAllocationStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PublicIpAllocationStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PublicIpAllocationStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PublicIpAllocationStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PublicIpAllocationStatusResponse")
+	}
+	return
+}
+
+// publicIpAllocationStatus implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) publicIpAllocationStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIp/getAllocationStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response PublicIpAllocationStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpAllocationStatusDetails/PublicIpAllocationStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "PublicIpAllocationStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReleasePublicIp Release public IP allocation
+// A default retry strategy applies to this operation ReleasePublicIp()
+func (client VirtualNetworkClient) ReleasePublicIp(ctx context.Context, request ReleasePublicIpRequest) (response ReleasePublicIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.releasePublicIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReleasePublicIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReleasePublicIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReleasePublicIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReleasePublicIpResponse")
+	}
+	return
+}
+
+// releasePublicIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) releasePublicIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIp/release", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ReleasePublicIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ReleasePublicIpDetails/ReleasePublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ReleasePublicIp", apiReferenceLink)
 		return response, err
 	}
 

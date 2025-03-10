@@ -102,18 +102,27 @@ const (
 	ScheduledActionSummaryActionTypeDbServerFullSoftwareUpdate      ScheduledActionSummaryActionTypeEnum = "DB_SERVER_FULL_SOFTWARE_UPDATE"
 	ScheduledActionSummaryActionTypeStorageServerFullSoftwareUpdate ScheduledActionSummaryActionTypeEnum = "STORAGE_SERVER_FULL_SOFTWARE_UPDATE"
 	ScheduledActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate ScheduledActionSummaryActionTypeEnum = "NETWORK_SWITCH_FULL_SOFTWARE_UPDATE"
+	ScheduledActionSummaryActionTypeFsuVmClusterOsSoftwareUpdate    ScheduledActionSummaryActionTypeEnum = "FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE"
+	ScheduledActionSummaryActionTypeFsuVmClusterGiSoftwareUpdate    ScheduledActionSummaryActionTypeEnum = "FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE"
+	ScheduledActionSummaryActionTypeFsuVmClusterGiOsSoftwareUpdate  ScheduledActionSummaryActionTypeEnum = "FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE"
 )
 
 var mappingScheduledActionSummaryActionTypeEnum = map[string]ScheduledActionSummaryActionTypeEnum{
-	"DB_SERVER_FULL_SOFTWARE_UPDATE":      ScheduledActionSummaryActionTypeDbServerFullSoftwareUpdate,
-	"STORAGE_SERVER_FULL_SOFTWARE_UPDATE": ScheduledActionSummaryActionTypeStorageServerFullSoftwareUpdate,
-	"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE": ScheduledActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate,
+	"DB_SERVER_FULL_SOFTWARE_UPDATE":       ScheduledActionSummaryActionTypeDbServerFullSoftwareUpdate,
+	"STORAGE_SERVER_FULL_SOFTWARE_UPDATE":  ScheduledActionSummaryActionTypeStorageServerFullSoftwareUpdate,
+	"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE":  ScheduledActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate,
+	"FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE":    ScheduledActionSummaryActionTypeFsuVmClusterOsSoftwareUpdate,
+	"FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE":    ScheduledActionSummaryActionTypeFsuVmClusterGiSoftwareUpdate,
+	"FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE": ScheduledActionSummaryActionTypeFsuVmClusterGiOsSoftwareUpdate,
 }
 
 var mappingScheduledActionSummaryActionTypeEnumLowerCase = map[string]ScheduledActionSummaryActionTypeEnum{
-	"db_server_full_software_update":      ScheduledActionSummaryActionTypeDbServerFullSoftwareUpdate,
-	"storage_server_full_software_update": ScheduledActionSummaryActionTypeStorageServerFullSoftwareUpdate,
-	"network_switch_full_software_update": ScheduledActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate,
+	"db_server_full_software_update":       ScheduledActionSummaryActionTypeDbServerFullSoftwareUpdate,
+	"storage_server_full_software_update":  ScheduledActionSummaryActionTypeStorageServerFullSoftwareUpdate,
+	"network_switch_full_software_update":  ScheduledActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate,
+	"fsu_vm_cluster_os_software_update":    ScheduledActionSummaryActionTypeFsuVmClusterOsSoftwareUpdate,
+	"fsu_vm_cluster_gi_software_update":    ScheduledActionSummaryActionTypeFsuVmClusterGiSoftwareUpdate,
+	"fsu_vm_cluster_gi_os_software_update": ScheduledActionSummaryActionTypeFsuVmClusterGiOsSoftwareUpdate,
 }
 
 // GetScheduledActionSummaryActionTypeEnumValues Enumerates the set of values for ScheduledActionSummaryActionTypeEnum
@@ -131,6 +140,9 @@ func GetScheduledActionSummaryActionTypeEnumStringValues() []string {
 		"DB_SERVER_FULL_SOFTWARE_UPDATE",
 		"STORAGE_SERVER_FULL_SOFTWARE_UPDATE",
 		"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE",
+		"FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE",
+		"FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE",
+		"FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE",
 	}
 }
 

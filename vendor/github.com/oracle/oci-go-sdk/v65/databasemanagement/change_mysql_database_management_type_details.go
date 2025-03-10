@@ -22,6 +22,9 @@ type ChangeMysqlDatabaseManagementTypeDetails struct {
 
 	// The type of HeatWave management.
 	ManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"true" json:"managementType"`
+
+	// The type of operation to perform: update managementType, enable or disable database management.
+	Operation ChangeMysqlDatabaseManagementTypeDetailsOperationEnum `mandatory:"false" json:"operation,omitempty"`
 }
 
 func (m ChangeMysqlDatabaseManagementTypeDetails) String() string {
@@ -37,8 +40,57 @@ func (m ChangeMysqlDatabaseManagementTypeDetails) ValidateEnumValue() (bool, err
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementType: %s. Supported values are: %s.", m.ManagementType, strings.Join(GetManagedMySqlDatabaseHeatWaveManagementTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingChangeMysqlDatabaseManagementTypeDetailsOperationEnum(string(m.Operation)); !ok && m.Operation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetChangeMysqlDatabaseManagementTypeDetailsOperationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ChangeMysqlDatabaseManagementTypeDetailsOperationEnum Enum with underlying type: string
+type ChangeMysqlDatabaseManagementTypeDetailsOperationEnum string
+
+// Set of constants representing the allowable values for ChangeMysqlDatabaseManagementTypeDetailsOperationEnum
+const (
+	ChangeMysqlDatabaseManagementTypeDetailsOperationEnableDbmgmt     ChangeMysqlDatabaseManagementTypeDetailsOperationEnum = "ENABLE_DBMGMT"
+	ChangeMysqlDatabaseManagementTypeDetailsOperationUpdateDbmgmtType ChangeMysqlDatabaseManagementTypeDetailsOperationEnum = "UPDATE_DBMGMT_TYPE"
+	ChangeMysqlDatabaseManagementTypeDetailsOperationDisableDbmgmt    ChangeMysqlDatabaseManagementTypeDetailsOperationEnum = "DISABLE_DBMGMT"
+)
+
+var mappingChangeMysqlDatabaseManagementTypeDetailsOperationEnum = map[string]ChangeMysqlDatabaseManagementTypeDetailsOperationEnum{
+	"ENABLE_DBMGMT":      ChangeMysqlDatabaseManagementTypeDetailsOperationEnableDbmgmt,
+	"UPDATE_DBMGMT_TYPE": ChangeMysqlDatabaseManagementTypeDetailsOperationUpdateDbmgmtType,
+	"DISABLE_DBMGMT":     ChangeMysqlDatabaseManagementTypeDetailsOperationDisableDbmgmt,
+}
+
+var mappingChangeMysqlDatabaseManagementTypeDetailsOperationEnumLowerCase = map[string]ChangeMysqlDatabaseManagementTypeDetailsOperationEnum{
+	"enable_dbmgmt":      ChangeMysqlDatabaseManagementTypeDetailsOperationEnableDbmgmt,
+	"update_dbmgmt_type": ChangeMysqlDatabaseManagementTypeDetailsOperationUpdateDbmgmtType,
+	"disable_dbmgmt":     ChangeMysqlDatabaseManagementTypeDetailsOperationDisableDbmgmt,
+}
+
+// GetChangeMysqlDatabaseManagementTypeDetailsOperationEnumValues Enumerates the set of values for ChangeMysqlDatabaseManagementTypeDetailsOperationEnum
+func GetChangeMysqlDatabaseManagementTypeDetailsOperationEnumValues() []ChangeMysqlDatabaseManagementTypeDetailsOperationEnum {
+	values := make([]ChangeMysqlDatabaseManagementTypeDetailsOperationEnum, 0)
+	for _, v := range mappingChangeMysqlDatabaseManagementTypeDetailsOperationEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetChangeMysqlDatabaseManagementTypeDetailsOperationEnumStringValues Enumerates the set of values in String for ChangeMysqlDatabaseManagementTypeDetailsOperationEnum
+func GetChangeMysqlDatabaseManagementTypeDetailsOperationEnumStringValues() []string {
+	return []string{
+		"ENABLE_DBMGMT",
+		"UPDATE_DBMGMT_TYPE",
+		"DISABLE_DBMGMT",
+	}
+}
+
+// GetMappingChangeMysqlDatabaseManagementTypeDetailsOperationEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingChangeMysqlDatabaseManagementTypeDetailsOperationEnum(val string) (ChangeMysqlDatabaseManagementTypeDetailsOperationEnum, bool) {
+	enum, ok := mappingChangeMysqlDatabaseManagementTypeDetailsOperationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

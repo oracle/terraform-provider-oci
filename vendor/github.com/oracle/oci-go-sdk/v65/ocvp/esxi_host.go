@@ -144,6 +144,9 @@ type EsxiHost struct {
 
 	// List of DatastoreAttachment objects containing information about attachment details
 	DatastoreAttachments []DatastoreAttachment `mandatory:"false" json:"datastoreAttachments"`
+
+	// MAC address of ESXi host's compute instance primary VNIC.
+	PrimaryVnicMacAddress *string `mandatory:"false" json:"primaryVnicMacAddress"`
 }
 
 func (m EsxiHost) String() string {

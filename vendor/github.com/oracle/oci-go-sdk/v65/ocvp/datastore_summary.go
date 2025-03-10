@@ -59,6 +59,9 @@ type DatastoreSummary struct {
 	// Datastore belongs to.
 	DatastoreClusterId *string `mandatory:"false" json:"datastoreClusterId"`
 
+	// Total size of the datastore in GB.
+	CapacityInGBs *float64 `mandatory:"false" json:"capacityInGBs"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -56,8 +56,7 @@ type ManagedDatabaseSummary struct {
 	// if the Managed Database is a Pluggable Database.
 	ParentContainerId *string `mandatory:"false" json:"parentContainerId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external
-	// DB system that this Managed Database is part of.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system that this Managed Database is part of.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the storage DB system.

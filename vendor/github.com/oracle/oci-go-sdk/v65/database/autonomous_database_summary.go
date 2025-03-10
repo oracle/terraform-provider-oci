@@ -504,6 +504,9 @@ type AutonomousDatabaseSummary struct {
 	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
 	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
 
+	// External Authentication applies to the Autonomous databases.
+	ExternalAuthentication []ExternalAuthenticationBase `mandatory:"false" json:"externalAuthentication"`
+
 	// The Autonomous Database clone type.
 	CloneType AutonomousDatabaseSummaryCloneTypeEnum `mandatory:"false" json:"cloneType,omitempty"`
 
@@ -723,6 +726,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                        `json:"clusterPlacementGroupId"`
 		CloneTableSpaceList                     []int                                                          `json:"cloneTableSpaceList"`
+		ExternalAuthentication                  []externalauthenticationbase                                   `json:"externalAuthentication"`
 		CloneType                               AutonomousDatabaseSummaryCloneTypeEnum                         `json:"cloneType"`
 		FawInstanceId                           *string                                                        `json:"fawInstanceId"`
 		Id                                      *string                                                        `json:"id"`
@@ -1004,6 +1008,18 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
+	m.ExternalAuthentication = make([]ExternalAuthenticationBase, len(model.ExternalAuthentication))
+	for i, n := range model.ExternalAuthentication {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ExternalAuthentication[i] = nn.(ExternalAuthenticationBase)
+		} else {
+			m.ExternalAuthentication[i] = nil
+		}
+	}
 	m.CloneType = model.CloneType
 
 	m.FawInstanceId = model.FawInstanceId

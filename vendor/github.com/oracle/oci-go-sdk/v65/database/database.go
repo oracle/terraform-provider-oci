@@ -125,6 +125,8 @@ type Database struct {
 	DataGuardGroup *DataGuardGroup `mandatory:"false" json:"dataGuardGroup"`
 
 	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
+
+	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 }
 
 func (m Database) String() string {
@@ -179,6 +181,7 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 		KeyStoreWalletName                         *string                           `json:"keyStoreWalletName"`
 		DataGuardGroup                             *DataGuardGroup                   `json:"dataGuardGroup"`
 		EncryptionKeyLocationDetails               encryptionkeylocationdetails      `json:"encryptionKeyLocationDetails"`
+		StorageSizeDetails                         *DatabaseStorageSizeDetails       `json:"storageSizeDetails"`
 		Id                                         *string                           `json:"id"`
 		CompartmentId                              *string                           `json:"compartmentId"`
 		DbName                                     *string                           `json:"dbName"`
@@ -258,6 +261,8 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.EncryptionKeyLocationDetails = nil
 	}
+
+	m.StorageSizeDetails = model.StorageSizeDetails
 
 	m.Id = model.Id
 

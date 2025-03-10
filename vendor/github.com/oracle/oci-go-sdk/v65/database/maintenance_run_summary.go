@@ -162,39 +162,42 @@ type MaintenanceRunSummaryLifecycleStateEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunSummaryLifecycleStateEnum
 const (
-	MaintenanceRunSummaryLifecycleStateScheduled  MaintenanceRunSummaryLifecycleStateEnum = "SCHEDULED"
-	MaintenanceRunSummaryLifecycleStateInProgress MaintenanceRunSummaryLifecycleStateEnum = "IN_PROGRESS"
-	MaintenanceRunSummaryLifecycleStateSucceeded  MaintenanceRunSummaryLifecycleStateEnum = "SUCCEEDED"
-	MaintenanceRunSummaryLifecycleStateSkipped    MaintenanceRunSummaryLifecycleStateEnum = "SKIPPED"
-	MaintenanceRunSummaryLifecycleStateFailed     MaintenanceRunSummaryLifecycleStateEnum = "FAILED"
-	MaintenanceRunSummaryLifecycleStateUpdating   MaintenanceRunSummaryLifecycleStateEnum = "UPDATING"
-	MaintenanceRunSummaryLifecycleStateDeleting   MaintenanceRunSummaryLifecycleStateEnum = "DELETING"
-	MaintenanceRunSummaryLifecycleStateDeleted    MaintenanceRunSummaryLifecycleStateEnum = "DELETED"
-	MaintenanceRunSummaryLifecycleStateCanceled   MaintenanceRunSummaryLifecycleStateEnum = "CANCELED"
+	MaintenanceRunSummaryLifecycleStateScheduled      MaintenanceRunSummaryLifecycleStateEnum = "SCHEDULED"
+	MaintenanceRunSummaryLifecycleStateInProgress     MaintenanceRunSummaryLifecycleStateEnum = "IN_PROGRESS"
+	MaintenanceRunSummaryLifecycleStateSucceeded      MaintenanceRunSummaryLifecycleStateEnum = "SUCCEEDED"
+	MaintenanceRunSummaryLifecycleStateSkipped        MaintenanceRunSummaryLifecycleStateEnum = "SKIPPED"
+	MaintenanceRunSummaryLifecycleStateFailed         MaintenanceRunSummaryLifecycleStateEnum = "FAILED"
+	MaintenanceRunSummaryLifecycleStateUpdating       MaintenanceRunSummaryLifecycleStateEnum = "UPDATING"
+	MaintenanceRunSummaryLifecycleStateDeleting       MaintenanceRunSummaryLifecycleStateEnum = "DELETING"
+	MaintenanceRunSummaryLifecycleStateDeleted        MaintenanceRunSummaryLifecycleStateEnum = "DELETED"
+	MaintenanceRunSummaryLifecycleStateCanceled       MaintenanceRunSummaryLifecycleStateEnum = "CANCELED"
+	MaintenanceRunSummaryLifecycleStatePartialSuccess MaintenanceRunSummaryLifecycleStateEnum = "PARTIAL_SUCCESS"
 )
 
 var mappingMaintenanceRunSummaryLifecycleStateEnum = map[string]MaintenanceRunSummaryLifecycleStateEnum{
-	"SCHEDULED":   MaintenanceRunSummaryLifecycleStateScheduled,
-	"IN_PROGRESS": MaintenanceRunSummaryLifecycleStateInProgress,
-	"SUCCEEDED":   MaintenanceRunSummaryLifecycleStateSucceeded,
-	"SKIPPED":     MaintenanceRunSummaryLifecycleStateSkipped,
-	"FAILED":      MaintenanceRunSummaryLifecycleStateFailed,
-	"UPDATING":    MaintenanceRunSummaryLifecycleStateUpdating,
-	"DELETING":    MaintenanceRunSummaryLifecycleStateDeleting,
-	"DELETED":     MaintenanceRunSummaryLifecycleStateDeleted,
-	"CANCELED":    MaintenanceRunSummaryLifecycleStateCanceled,
+	"SCHEDULED":       MaintenanceRunSummaryLifecycleStateScheduled,
+	"IN_PROGRESS":     MaintenanceRunSummaryLifecycleStateInProgress,
+	"SUCCEEDED":       MaintenanceRunSummaryLifecycleStateSucceeded,
+	"SKIPPED":         MaintenanceRunSummaryLifecycleStateSkipped,
+	"FAILED":          MaintenanceRunSummaryLifecycleStateFailed,
+	"UPDATING":        MaintenanceRunSummaryLifecycleStateUpdating,
+	"DELETING":        MaintenanceRunSummaryLifecycleStateDeleting,
+	"DELETED":         MaintenanceRunSummaryLifecycleStateDeleted,
+	"CANCELED":        MaintenanceRunSummaryLifecycleStateCanceled,
+	"PARTIAL_SUCCESS": MaintenanceRunSummaryLifecycleStatePartialSuccess,
 }
 
 var mappingMaintenanceRunSummaryLifecycleStateEnumLowerCase = map[string]MaintenanceRunSummaryLifecycleStateEnum{
-	"scheduled":   MaintenanceRunSummaryLifecycleStateScheduled,
-	"in_progress": MaintenanceRunSummaryLifecycleStateInProgress,
-	"succeeded":   MaintenanceRunSummaryLifecycleStateSucceeded,
-	"skipped":     MaintenanceRunSummaryLifecycleStateSkipped,
-	"failed":      MaintenanceRunSummaryLifecycleStateFailed,
-	"updating":    MaintenanceRunSummaryLifecycleStateUpdating,
-	"deleting":    MaintenanceRunSummaryLifecycleStateDeleting,
-	"deleted":     MaintenanceRunSummaryLifecycleStateDeleted,
-	"canceled":    MaintenanceRunSummaryLifecycleStateCanceled,
+	"scheduled":       MaintenanceRunSummaryLifecycleStateScheduled,
+	"in_progress":     MaintenanceRunSummaryLifecycleStateInProgress,
+	"succeeded":       MaintenanceRunSummaryLifecycleStateSucceeded,
+	"skipped":         MaintenanceRunSummaryLifecycleStateSkipped,
+	"failed":          MaintenanceRunSummaryLifecycleStateFailed,
+	"updating":        MaintenanceRunSummaryLifecycleStateUpdating,
+	"deleting":        MaintenanceRunSummaryLifecycleStateDeleting,
+	"deleted":         MaintenanceRunSummaryLifecycleStateDeleted,
+	"canceled":        MaintenanceRunSummaryLifecycleStateCanceled,
+	"partial_success": MaintenanceRunSummaryLifecycleStatePartialSuccess,
 }
 
 // GetMaintenanceRunSummaryLifecycleStateEnumValues Enumerates the set of values for MaintenanceRunSummaryLifecycleStateEnum
@@ -218,6 +221,7 @@ func GetMaintenanceRunSummaryLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"CANCELED",
+		"PARTIAL_SUCCESS",
 	}
 }
 
@@ -455,18 +459,24 @@ const (
 	MaintenanceRunSummaryPatchingStatusPatching  MaintenanceRunSummaryPatchingStatusEnum = "PATCHING"
 	MaintenanceRunSummaryPatchingStatusWaiting   MaintenanceRunSummaryPatchingStatusEnum = "WAITING"
 	MaintenanceRunSummaryPatchingStatusScheduled MaintenanceRunSummaryPatchingStatusEnum = "SCHEDULED"
+	MaintenanceRunSummaryPatchingStatusComplete  MaintenanceRunSummaryPatchingStatusEnum = "COMPLETE"
+	MaintenanceRunSummaryPatchingStatusFailed    MaintenanceRunSummaryPatchingStatusEnum = "FAILED"
 )
 
 var mappingMaintenanceRunSummaryPatchingStatusEnum = map[string]MaintenanceRunSummaryPatchingStatusEnum{
 	"PATCHING":  MaintenanceRunSummaryPatchingStatusPatching,
 	"WAITING":   MaintenanceRunSummaryPatchingStatusWaiting,
 	"SCHEDULED": MaintenanceRunSummaryPatchingStatusScheduled,
+	"COMPLETE":  MaintenanceRunSummaryPatchingStatusComplete,
+	"FAILED":    MaintenanceRunSummaryPatchingStatusFailed,
 }
 
 var mappingMaintenanceRunSummaryPatchingStatusEnumLowerCase = map[string]MaintenanceRunSummaryPatchingStatusEnum{
 	"patching":  MaintenanceRunSummaryPatchingStatusPatching,
 	"waiting":   MaintenanceRunSummaryPatchingStatusWaiting,
 	"scheduled": MaintenanceRunSummaryPatchingStatusScheduled,
+	"complete":  MaintenanceRunSummaryPatchingStatusComplete,
+	"failed":    MaintenanceRunSummaryPatchingStatusFailed,
 }
 
 // GetMaintenanceRunSummaryPatchingStatusEnumValues Enumerates the set of values for MaintenanceRunSummaryPatchingStatusEnum
@@ -484,6 +494,8 @@ func GetMaintenanceRunSummaryPatchingStatusEnumStringValues() []string {
 		"PATCHING",
 		"WAITING",
 		"SCHEDULED",
+		"COMPLETE",
+		"FAILED",
 	}
 }
 

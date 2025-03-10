@@ -41,6 +41,8 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// The list of pluggable databases that needs to be restored into new database.
 	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
+
+	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {
@@ -68,6 +70,7 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 		DbName                             *string                      `json:"dbName"`
 		SidPrefix                          *string                      `json:"sidPrefix"`
 		PluggableDatabases                 []string                     `json:"pluggableDatabases"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails  `json:"storageSizeDetails"`
 		BackupId                           *string                      `json:"backupId"`
 		AdminPassword                      *string                      `json:"adminPassword"`
 	}{}
@@ -97,6 +100,8 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.PluggableDatabases = make([]string, len(model.PluggableDatabases))
 	copy(m.PluggableDatabases, model.PluggableDatabases)
+	m.StorageSizeDetails = model.StorageSizeDetails
+
 	m.BackupId = model.BackupId
 
 	m.AdminPassword = model.AdminPassword

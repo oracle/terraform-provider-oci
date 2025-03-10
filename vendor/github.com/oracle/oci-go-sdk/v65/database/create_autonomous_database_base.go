@@ -259,6 +259,9 @@ type CreateAutonomousDatabaseBase interface {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	GetDbToolsDetails() []DatabaseTool
 
+	// External Authentication applies to the Autonomous databases.
+	GetExternalAuthentication() []ExternalAuthenticationBase
+
 	// True if the Autonomous Database is backup retention locked.
 	GetIsBackupRetentionLocked() *bool
 
@@ -324,6 +327,7 @@ type createautonomousdatabasebase struct {
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
 	DbToolsDetails                           []DatabaseTool                                                    `mandatory:"false" json:"dbToolsDetails"`
+	ExternalAuthentication                   json.RawMessage                                                   `mandatory:"false" json:"externalAuthentication"`
 	IsBackupRetentionLocked                  *bool                                                             `mandatory:"false" json:"isBackupRetentionLocked"`
 	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
 	SecretVersionNumber                      *int                                                              `mandatory:"false" json:"secretVersionNumber"`
@@ -394,6 +398,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.DatabaseEdition = s.Model.DatabaseEdition
 	m.DbToolsDetails = s.Model.DbToolsDetails
+	m.ExternalAuthentication = s.Model.ExternalAuthentication
 	m.IsBackupRetentionLocked = s.Model.IsBackupRetentionLocked
 	m.SecretId = s.Model.SecretId
 	m.SecretVersionNumber = s.Model.SecretVersionNumber
@@ -710,6 +715,11 @@ func (m createautonomousdatabasebase) GetDatabaseEdition() AutonomousDatabaseSum
 // GetDbToolsDetails returns DbToolsDetails
 func (m createautonomousdatabasebase) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
+}
+
+// GetExternalAuthentication returns ExternalAuthentication
+func (m createautonomousdatabasebase) GetExternalAuthentication() json.RawMessage {
+	return m.ExternalAuthentication
 }
 
 // GetIsBackupRetentionLocked returns IsBackupRetentionLocked

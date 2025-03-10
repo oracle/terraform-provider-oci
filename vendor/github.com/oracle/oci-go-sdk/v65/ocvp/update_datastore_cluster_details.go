@@ -22,7 +22,7 @@ type UpdateDatastoreClusterDetails struct {
 	// A descriptive name for the Datastore Cluster. It must be unique within a SDDC, start with a letter, and contain only letters, digits,
 	// whitespaces, dashes and underscores.
 	// Avoid entering confidential information.
-	DisplayName *string `mandatory:"true" json:"displayName"`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

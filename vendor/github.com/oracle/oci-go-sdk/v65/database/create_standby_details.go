@@ -54,6 +54,8 @@ type CreateStandbyDetails struct {
 
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
+
+	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 }
 
 func (m CreateStandbyDetails) String() string {
@@ -85,6 +87,7 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 		IsActiveDataGuardEnabled           *bool                                  `json:"isActiveDataGuardEnabled"`
 		DbUniqueName                       *string                                `json:"dbUniqueName"`
 		SidPrefix                          *string                                `json:"sidPrefix"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails            `json:"storageSizeDetails"`
 		SourceDatabaseId                   *string                                `json:"sourceDatabaseId"`
 		DatabaseAdminPassword              *string                                `json:"databaseAdminPassword"`
 		SourceTdeWalletPassword            *string                                `json:"sourceTdeWalletPassword"`
@@ -112,6 +115,8 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DbUniqueName = model.DbUniqueName
 
 	m.SidPrefix = model.SidPrefix
+
+	m.StorageSizeDetails = model.StorageSizeDetails
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 

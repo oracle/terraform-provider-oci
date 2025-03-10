@@ -78,6 +78,8 @@ type CreateDatabaseDetails struct {
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
+
+	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 }
 
 func (m CreateDatabaseDetails) String() string {
@@ -118,6 +120,7 @@ func (m *CreateDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		SidPrefix                    *string                             `json:"sidPrefix"`
 		KeyStoreId                   *string                             `json:"keyStoreId"`
 		EncryptionKeyLocationDetails encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
+		StorageSizeDetails           *DatabaseStorageSizeDetails         `json:"storageSizeDetails"`
 		DbName                       *string                             `json:"dbName"`
 		AdminPassword                *string                             `json:"adminPassword"`
 	}{}
@@ -166,6 +169,8 @@ func (m *CreateDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.EncryptionKeyLocationDetails = nil
 	}
+
+	m.StorageSizeDetails = model.StorageSizeDetails
 
 	m.DbName = model.DbName
 

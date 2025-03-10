@@ -15,24 +15,21 @@ import (
 	"strings"
 )
 
-// ChangeCloudAutonomousVmClusterSubscriptionDetails The configuration details for associating the Cloud Autonomous VM cluster resource with a different subscription.
-type ChangeCloudAutonomousVmClusterSubscriptionDetails struct {
+// ResourcePoolMemberCollection A list of Autonomous Database resource pool member OCIDs.
+type ResourcePoolMemberCollection struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
-	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
-
-	// Indicates if the subscription is UCM or not.
-	IsDefault *bool `mandatory:"false" json:"isDefault"`
+	// List of resource pool member summary.
+	Items []ResourcePoolMemberSummary `mandatory:"true" json:"items"`
 }
 
-func (m ChangeCloudAutonomousVmClusterSubscriptionDetails) String() string {
+func (m ResourcePoolMemberCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ChangeCloudAutonomousVmClusterSubscriptionDetails) ValidateEnumValue() (bool, error) {
+func (m ResourcePoolMemberCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

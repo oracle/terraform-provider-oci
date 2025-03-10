@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package database
+package core
 
 import (
 	"fmt"
@@ -11,14 +11,15 @@ import (
 	"strings"
 )
 
-// ChangeCloudAutonomousVmClusterSubscriptionRequest wrapper for the ChangeCloudAutonomousVmClusterSubscription operation
-type ChangeCloudAutonomousVmClusterSubscriptionRequest struct {
+// AllocatePublicIpRequest wrapper for the AllocatePublicIp operation
+type AllocatePublicIpRequest struct {
 
-	// Associate a Cloud Autonomous VM cluster with a different subscription.
-	ChangeCloudAutonomousVmClusterSubscriptionDetails `contributesTo:"body"`
+	// Details needed to allocate publicIp.
+	AllocatePublicIpDetails `contributesTo:"body"`
 
-	// The Cloud VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	CloudAutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudAutonomousVmClusterId"`
+	// Unique identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -27,11 +28,8 @@ type ChangeCloudAutonomousVmClusterSubscriptionRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique identifier for the request.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
-	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
@@ -40,12 +38,12 @@ type ChangeCloudAutonomousVmClusterSubscriptionRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) String() string {
+func (request AllocatePublicIpRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request AllocatePublicIpRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +53,26 @@ func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) HTTPRequest(met
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request AllocatePublicIpRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request AllocatePublicIpRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) RetryPolicy() *common.RetryPolicy {
+func (request AllocatePublicIpRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) ValidateEnumValue() (bool, error) {
+func (request AllocatePublicIpRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -77,25 +80,30 @@ func (request ChangeCloudAutonomousVmClusterSubscriptionRequest) ValidateEnumVal
 	return false, nil
 }
 
-// ChangeCloudAutonomousVmClusterSubscriptionResponse wrapper for the ChangeCloudAutonomousVmClusterSubscription operation
-type ChangeCloudAutonomousVmClusterSubscriptionResponse struct {
+// AllocatePublicIpResponse wrapper for the AllocatePublicIp operation
+type AllocatePublicIpResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+	// The PublicIpSummary instance
+	PublicIpSummary `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
+	// with this ID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response ChangeCloudAutonomousVmClusterSubscriptionResponse) String() string {
+func (response AllocatePublicIpResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ChangeCloudAutonomousVmClusterSubscriptionResponse) HTTPResponse() *http.Response {
+func (response AllocatePublicIpResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

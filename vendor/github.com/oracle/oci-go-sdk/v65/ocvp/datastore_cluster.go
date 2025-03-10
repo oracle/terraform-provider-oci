@@ -63,6 +63,9 @@ type DatastoreCluster struct {
 	// datastore to. All ESXi hosts must belong to the same VMware cluster.
 	EsxiHostIds []string `mandatory:"false" json:"esxiHostIds"`
 
+	// Total size of all datastores associated with the datastore cluster in GB.
+	CapacityInGBs *float64 `mandatory:"false" json:"capacityInGBs"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
