@@ -127,7 +127,6 @@ func createBackupInRegion(clients *tf_client.OracleClients, region string, dbSys
 	createMysqlBackupResponse, err := dbBackupsClient.CreateBackup(context.Background(), oci_mysql.CreateBackupRequest{
 		CreateBackupDetails: oci_mysql.CreateBackupDetails{
 			DbSystemId: dbSystemId,
-			SoftDelete: oci_mysql.SoftDeleteDisabled,
 		},
 	})
 	if err != nil {
