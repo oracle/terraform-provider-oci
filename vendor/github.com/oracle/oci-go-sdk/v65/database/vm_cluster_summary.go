@@ -110,6 +110,9 @@ type VmClusterSummary struct {
 	// Details of the file system configuration of the VM cluster.
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
+	// The vmcluster type for the VM cluster/Cloud VM cluster.
+	VmClusterType VmClusterSummaryVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
@@ -137,6 +140,9 @@ func (m VmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVmClusterSummaryLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetVmClusterSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterSummaryVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetVmClusterSummaryVmClusterTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingVmClusterSummaryStorageManagementTypeEnum(string(m.StorageManagementType)); !ok && m.StorageManagementType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageManagementType: %s. Supported values are: %s.", m.StorageManagementType, strings.Join(GetVmClusterSummaryStorageManagementTypeEnumStringValues(), ",")))
@@ -251,6 +257,48 @@ func GetVmClusterSummaryLicenseModelEnumStringValues() []string {
 // GetMappingVmClusterSummaryLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterSummaryLicenseModelEnum(val string) (VmClusterSummaryLicenseModelEnum, bool) {
 	enum, ok := mappingVmClusterSummaryLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterSummaryVmClusterTypeEnum Enum with underlying type: string
+type VmClusterSummaryVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for VmClusterSummaryVmClusterTypeEnum
+const (
+	VmClusterSummaryVmClusterTypeRegular   VmClusterSummaryVmClusterTypeEnum = "REGULAR"
+	VmClusterSummaryVmClusterTypeDeveloper VmClusterSummaryVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingVmClusterSummaryVmClusterTypeEnum = map[string]VmClusterSummaryVmClusterTypeEnum{
+	"REGULAR":   VmClusterSummaryVmClusterTypeRegular,
+	"DEVELOPER": VmClusterSummaryVmClusterTypeDeveloper,
+}
+
+var mappingVmClusterSummaryVmClusterTypeEnumLowerCase = map[string]VmClusterSummaryVmClusterTypeEnum{
+	"regular":   VmClusterSummaryVmClusterTypeRegular,
+	"developer": VmClusterSummaryVmClusterTypeDeveloper,
+}
+
+// GetVmClusterSummaryVmClusterTypeEnumValues Enumerates the set of values for VmClusterSummaryVmClusterTypeEnum
+func GetVmClusterSummaryVmClusterTypeEnumValues() []VmClusterSummaryVmClusterTypeEnum {
+	values := make([]VmClusterSummaryVmClusterTypeEnum, 0)
+	for _, v := range mappingVmClusterSummaryVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterSummaryVmClusterTypeEnumStringValues Enumerates the set of values in String for VmClusterSummaryVmClusterTypeEnum
+func GetVmClusterSummaryVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingVmClusterSummaryVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterSummaryVmClusterTypeEnum(val string) (VmClusterSummaryVmClusterTypeEnum, bool) {
+	enum, ok := mappingVmClusterSummaryVmClusterTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

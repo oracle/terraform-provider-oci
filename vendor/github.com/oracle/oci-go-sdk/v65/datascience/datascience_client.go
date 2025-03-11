@@ -1565,6 +1565,140 @@ func (client DataScienceClient) createModelArtifact(ctx context.Context, request
 	return response, err
 }
 
+// CreateModelCustomMetadatumArtifact Creates model custom metadata artifact for specified model.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelCustomMetadatumArtifact.go.html to see an example of how to use CreateModelCustomMetadatumArtifact API.
+func (client DataScienceClient) CreateModelCustomMetadatumArtifact(ctx context.Context, request CreateModelCustomMetadatumArtifactRequest) (response CreateModelCustomMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createModelCustomMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateModelCustomMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateModelCustomMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateModelCustomMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateModelCustomMetadatumArtifactResponse")
+	}
+	return
+}
+
+// createModelCustomMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createModelCustomMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/customMetadata/{metadatumKeyName}/artifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateModelCustomMetadatumArtifactResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModelCustomMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelCustomMetadatumArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateModelDefinedMetadatumArtifact Creates model defined metadata artifact for specified model.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelDefinedMetadatumArtifact.go.html to see an example of how to use CreateModelDefinedMetadatumArtifact API.
+func (client DataScienceClient) CreateModelDefinedMetadatumArtifact(ctx context.Context, request CreateModelDefinedMetadatumArtifactRequest) (response CreateModelDefinedMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createModelDefinedMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateModelDefinedMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateModelDefinedMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateModelDefinedMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateModelDefinedMetadatumArtifactResponse")
+	}
+	return
+}
+
+// createModelDefinedMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createModelDefinedMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/definedMetadata/{metadatumKeyName}/artifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateModelDefinedMetadatumArtifactResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModelDefinedMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelDefinedMetadatumArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateModelDeployment Creates a new model deployment.
 //
 // # See also
@@ -2607,6 +2741,122 @@ func (client DataScienceClient) deleteModel(ctx context.Context, request common.
 	return response, err
 }
 
+// DeleteModelCustomMetadatumArtifact Deletes model custom metadata artifact for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteModelCustomMetadatumArtifact.go.html to see an example of how to use DeleteModelCustomMetadatumArtifact API.
+// A default retry strategy applies to this operation DeleteModelCustomMetadatumArtifact()
+func (client DataScienceClient) DeleteModelCustomMetadatumArtifact(ctx context.Context, request DeleteModelCustomMetadatumArtifactRequest) (response DeleteModelCustomMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteModelCustomMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteModelCustomMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteModelCustomMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteModelCustomMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteModelCustomMetadatumArtifactResponse")
+	}
+	return
+}
+
+// deleteModelCustomMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteModelCustomMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/models/{modelId}/customMetadata/{metadatumKeyName}/artifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteModelCustomMetadatumArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/DeleteModelCustomMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteModelCustomMetadatumArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteModelDefinedMetadatumArtifact Deletes model defined metadata artifact for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteModelDefinedMetadatumArtifact.go.html to see an example of how to use DeleteModelDefinedMetadatumArtifact API.
+// A default retry strategy applies to this operation DeleteModelDefinedMetadatumArtifact()
+func (client DataScienceClient) DeleteModelDefinedMetadatumArtifact(ctx context.Context, request DeleteModelDefinedMetadatumArtifactRequest) (response DeleteModelDefinedMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteModelDefinedMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteModelDefinedMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteModelDefinedMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteModelDefinedMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteModelDefinedMetadatumArtifactResponse")
+	}
+	return
+}
+
+// deleteModelDefinedMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteModelDefinedMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/models/{modelId}/definedMetadata/{metadatumKeyName}/artifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteModelDefinedMetadatumArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/DeleteModelDefinedMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteModelDefinedMetadatumArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteModelDeployment Deletes the specified model deployment. Any unsaved work in this model deployment is lost.
 //
 // # See also
@@ -3419,6 +3669,120 @@ func (client DataScienceClient) getModelArtifactContent(ctx context.Context, req
 	return response, err
 }
 
+// GetModelCustomMetadatumArtifactContent Downloads model custom metadata artifact content for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelCustomMetadatumArtifactContent.go.html to see an example of how to use GetModelCustomMetadatumArtifactContent API.
+// A default retry strategy applies to this operation GetModelCustomMetadatumArtifactContent()
+func (client DataScienceClient) GetModelCustomMetadatumArtifactContent(ctx context.Context, request GetModelCustomMetadatumArtifactContentRequest) (response GetModelCustomMetadatumArtifactContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getModelCustomMetadatumArtifactContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetModelCustomMetadatumArtifactContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetModelCustomMetadatumArtifactContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetModelCustomMetadatumArtifactContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetModelCustomMetadatumArtifactContentResponse")
+	}
+	return
+}
+
+// getModelCustomMetadatumArtifactContent implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getModelCustomMetadatumArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/customMetadata/{metadatumKeyName}/artifact/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetModelCustomMetadatumArtifactContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelCustomMetadatumArtifactContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelCustomMetadatumArtifactContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetModelDefinedMetadatumArtifactContent Downloads model defined metadata artifact content for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelDefinedMetadatumArtifactContent.go.html to see an example of how to use GetModelDefinedMetadatumArtifactContent API.
+// A default retry strategy applies to this operation GetModelDefinedMetadatumArtifactContent()
+func (client DataScienceClient) GetModelDefinedMetadatumArtifactContent(ctx context.Context, request GetModelDefinedMetadatumArtifactContentRequest) (response GetModelDefinedMetadatumArtifactContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getModelDefinedMetadatumArtifactContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetModelDefinedMetadatumArtifactContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetModelDefinedMetadatumArtifactContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetModelDefinedMetadatumArtifactContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetModelDefinedMetadatumArtifactContentResponse")
+	}
+	return
+}
+
+// getModelDefinedMetadatumArtifactContent implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getModelDefinedMetadatumArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/definedMetadata/{metadatumKeyName}/artifact/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetModelDefinedMetadatumArtifactContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelDefinedMetadatumArtifactContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelDefinedMetadatumArtifactContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetModelDeployment Retrieves the model deployment for the specified `modelDeploymentId`.
 //
 // # See also
@@ -4117,6 +4481,122 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/HeadModelArtifact"
 		err = common.PostProcessServiceError(err, "DataScience", "HeadModelArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// HeadModelCustomMetadatumArtifact Gets custom metadata artifact metadata for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadModelCustomMetadatumArtifact.go.html to see an example of how to use HeadModelCustomMetadatumArtifact API.
+// A default retry strategy applies to this operation HeadModelCustomMetadatumArtifact()
+func (client DataScienceClient) HeadModelCustomMetadatumArtifact(ctx context.Context, request HeadModelCustomMetadatumArtifactRequest) (response HeadModelCustomMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.headModelCustomMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = HeadModelCustomMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = HeadModelCustomMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(HeadModelCustomMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into HeadModelCustomMetadatumArtifactResponse")
+	}
+	return
+}
+
+// headModelCustomMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) headModelCustomMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/models/{modelId}/customMetadata/{metadatumKeyName}/artifact/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response HeadModelCustomMetadatumArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/HeadModelCustomMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "HeadModelCustomMetadatumArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// HeadModelDefinedMetadatumArtifact Gets defined metadata artifact metadata for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadModelDefinedMetadatumArtifact.go.html to see an example of how to use HeadModelDefinedMetadatumArtifact API.
+// A default retry strategy applies to this operation HeadModelDefinedMetadatumArtifact()
+func (client DataScienceClient) HeadModelDefinedMetadatumArtifact(ctx context.Context, request HeadModelDefinedMetadatumArtifactRequest) (response HeadModelDefinedMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.headModelDefinedMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = HeadModelDefinedMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = HeadModelDefinedMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(HeadModelDefinedMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into HeadModelDefinedMetadatumArtifactResponse")
+	}
+	return
+}
+
+// headModelDefinedMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) headModelDefinedMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/models/{modelId}/definedMetadata/{metadatumKeyName}/artifact/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response HeadModelDefinedMetadatumArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/HeadModelDefinedMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "HeadModelDefinedMetadatumArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -5341,6 +5821,69 @@ func (client DataScienceClient) listWorkRequests(ctx context.Context, request co
 	return response, err
 }
 
+// RegisterModelArtifactReference Registers model artifact reference metadata
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/RegisterModelArtifactReference.go.html to see an example of how to use RegisterModelArtifactReference API.
+// A default retry strategy applies to this operation RegisterModelArtifactReference()
+func (client DataScienceClient) RegisterModelArtifactReference(ctx context.Context, request RegisterModelArtifactReferenceRequest) (response RegisterModelArtifactReferenceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerModelArtifactReference, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterModelArtifactReferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterModelArtifactReferenceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterModelArtifactReferenceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterModelArtifactReferenceResponse")
+	}
+	return
+}
+
+// registerModelArtifactReference implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) registerModelArtifactReference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/registerArtifactReference", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterModelArtifactReferenceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/RegisterModelArtifactReferenceDetails/RegisterModelArtifactReference"
+		err = common.PostProcessServiceError(err, "DataScience", "RegisterModelArtifactReference", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RestoreArchivedModelArtifact Restore archived model artifact
 //
 // # See also
@@ -5630,6 +6173,142 @@ func (client DataScienceClient) updateModel(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "DataScience", "UpdateModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateModelCustomMetadatumArtifact Updates model custom metadata artifact for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelCustomMetadatumArtifact.go.html to see an example of how to use UpdateModelCustomMetadatumArtifact API.
+// A default retry strategy applies to this operation UpdateModelCustomMetadatumArtifact()
+func (client DataScienceClient) UpdateModelCustomMetadatumArtifact(ctx context.Context, request UpdateModelCustomMetadatumArtifactRequest) (response UpdateModelCustomMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateModelCustomMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateModelCustomMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateModelCustomMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateModelCustomMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateModelCustomMetadatumArtifactResponse")
+	}
+	return
+}
+
+// updateModelCustomMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateModelCustomMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}/customMetadata/{metadatumKeyName}/artifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateModelCustomMetadatumArtifactResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/UpdateModelCustomMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelCustomMetadatumArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateModelDefinedMetadatumArtifact Updates model defined metadata artifact for specified model metadata key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelDefinedMetadatumArtifact.go.html to see an example of how to use UpdateModelDefinedMetadatumArtifact API.
+// A default retry strategy applies to this operation UpdateModelDefinedMetadatumArtifact()
+func (client DataScienceClient) UpdateModelDefinedMetadatumArtifact(ctx context.Context, request UpdateModelDefinedMetadatumArtifactRequest) (response UpdateModelDefinedMetadatumArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateModelDefinedMetadatumArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateModelDefinedMetadatumArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateModelDefinedMetadatumArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateModelDefinedMetadatumArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateModelDefinedMetadatumArtifactResponse")
+	}
+	return
+}
+
+// updateModelDefinedMetadatumArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateModelDefinedMetadatumArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}/definedMetadata/{metadatumKeyName}/artifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateModelDefinedMetadatumArtifactResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/UpdateModelDefinedMetadatumArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelDefinedMetadatumArtifact", apiReferenceLink)
 		return response, err
 	}
 

@@ -162,6 +162,7 @@ const (
 	ReportDefinitionCategoryCustomReports      ReportDefinitionCategoryEnum = "CUSTOM_REPORTS"
 	ReportDefinitionCategorySummary            ReportDefinitionCategoryEnum = "SUMMARY"
 	ReportDefinitionCategoryActivityAuditing   ReportDefinitionCategoryEnum = "ACTIVITY_AUDITING"
+	ReportDefinitionCategorySecurityAssessment ReportDefinitionCategoryEnum = "SECURITY_ASSESSMENT"
 	ReportDefinitionCategoryFirewallViolations ReportDefinitionCategoryEnum = "FIREWALL_VIOLATIONS"
 	ReportDefinitionCategoryAllowedSql         ReportDefinitionCategoryEnum = "ALLOWED_SQL"
 )
@@ -170,6 +171,7 @@ var mappingReportDefinitionCategoryEnum = map[string]ReportDefinitionCategoryEnu
 	"CUSTOM_REPORTS":      ReportDefinitionCategoryCustomReports,
 	"SUMMARY":             ReportDefinitionCategorySummary,
 	"ACTIVITY_AUDITING":   ReportDefinitionCategoryActivityAuditing,
+	"SECURITY_ASSESSMENT": ReportDefinitionCategorySecurityAssessment,
 	"FIREWALL_VIOLATIONS": ReportDefinitionCategoryFirewallViolations,
 	"ALLOWED_SQL":         ReportDefinitionCategoryAllowedSql,
 }
@@ -178,6 +180,7 @@ var mappingReportDefinitionCategoryEnumLowerCase = map[string]ReportDefinitionCa
 	"custom_reports":      ReportDefinitionCategoryCustomReports,
 	"summary":             ReportDefinitionCategorySummary,
 	"activity_auditing":   ReportDefinitionCategoryActivityAuditing,
+	"security_assessment": ReportDefinitionCategorySecurityAssessment,
 	"firewall_violations": ReportDefinitionCategoryFirewallViolations,
 	"allowed_sql":         ReportDefinitionCategoryAllowedSql,
 }
@@ -197,6 +200,7 @@ func GetReportDefinitionCategoryEnumStringValues() []string {
 		"CUSTOM_REPORTS",
 		"SUMMARY",
 		"ACTIVITY_AUDITING",
+		"SECURITY_ASSESSMENT",
 		"FIREWALL_VIOLATIONS",
 		"ALLOWED_SQL",
 	}

@@ -20,6 +20,7 @@ data "oci_datascience_model_version_sets" "test_model_version_sets" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	category = var.model_version_set_category
 	created_by = var.model_version_set_created_by
 	id = var.model_version_set_id
 	name = var.model_version_set_name
@@ -32,6 +33,7 @@ data "oci_datascience_model_version_sets" "test_model_version_sets" {
 
 The following arguments are supported:
 
+* `category` - (Optional) Specifies the type of model version sets to list. By default, user model version sets are listed. 
 * `compartment_id` - (Required) <b>Filter</b> results by the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `created_by` - (Optional) <b>Filter</b> results by the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the resource.
 * `id` - (Optional) <b>Filter</b> results by [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type. 
@@ -50,6 +52,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `category` - The category of the model version set.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model version set compartment.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model version set.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 

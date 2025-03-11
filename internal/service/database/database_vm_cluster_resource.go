@@ -211,6 +211,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"exascale_db_storage_vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"file_system_configuration_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -280,6 +286,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"availability_domain": {
@@ -311,6 +323,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_management_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -488,6 +504,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.ExadataInfrastructureId = &tmp
 	}
 
+	if exascaleDbStorageVaultId, ok := s.D.GetOkExists("exascale_db_storage_vault_id"); ok {
+		tmp := exascaleDbStorageVaultId.(string)
+		request.ExascaleDbStorageVaultId = &tmp
+	}
+
 	if fileSystemConfigurationDetails, ok := s.D.GetOkExists("file_system_configuration_details"); ok {
 		interfaces := fileSystemConfigurationDetails.([]interface{})
 		tmp := make([]oci_database.FileSystemConfigurationDetail, len(interfaces))
@@ -566,6 +587,10 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 	if vmClusterNetworkId, ok := s.D.GetOkExists("vm_cluster_network_id"); ok {
 		tmp := vmClusterNetworkId.(string)
 		request.VmClusterNetworkId = &tmp
+	}
+
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.CreateVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -786,6 +811,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
 
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
+	}
+
 	fileSystemConfigurationDetails := []interface{}{}
 	for _, item := range s.Res.FileSystemConfigurationDetails {
 		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -836,6 +865,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
+
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
@@ -851,6 +882,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }

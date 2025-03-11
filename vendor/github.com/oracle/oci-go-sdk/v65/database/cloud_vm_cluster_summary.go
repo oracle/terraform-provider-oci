@@ -137,17 +137,29 @@ type CloudVmClusterSummary struct {
 	// HIGH is 3-way redundancy.
 	DiskRedundancy CloudVmClusterSummaryDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster.
-	// SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv4 addresses associated with the cloud VM cluster.
+	// SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface.
 	// Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 	// **Note:** For a single-node DB system, this list is empty.
 	ScanIpIds []string `mandatory:"false" json:"scanIpIds"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the cloud VM cluster.
-	// The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) IPv4 addresses associated with the cloud VM cluster.
+	// The Cluster Ready Services (CRS) creates and maintains one VIP IPv4 address for each node in the Exadata Cloud Service instance to
 	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 	// **Note:** For a single-node DB system, this list is empty.
 	VipIds []string `mandatory:"false" json:"vipIds"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv6 addresses associated with the cloud VM cluster.
+	// SCAN IPv6 addresses are typically used for load balancing and are not assigned to any interface.
+	// Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+	// **Note:** For a single-node DB system, this list is empty.
+	ScanIpv6Ids []string `mandatory:"false" json:"scanIpv6Ids"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) IPv6 addresses associated with the cloud VM cluster.
+	// The Cluster Ready Services (CRS) creates and maintains one VIP IPv6 address for each node in the Exadata Cloud Service instance to
+	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+	// **Note:** For a single-node DB system, this list is empty.
+	Vipv6Ids []string `mandatory:"false" json:"vipv6Ids"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster.
 	ScanDnsRecordId *string `mandatory:"false" json:"scanDnsRecordId"`
@@ -192,6 +204,9 @@ type CloudVmClusterSummary struct {
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 
+	// The vmcluster type for the VM cluster/Cloud VM cluster.
+	VmClusterType CloudVmClusterSummaryVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 	ComputeModel CloudVmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
@@ -214,6 +229,9 @@ func (m CloudVmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudVmClusterSummaryDiskRedundancyEnum(string(m.DiskRedundancy)); !ok && m.DiskRedundancy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetCloudVmClusterSummaryDiskRedundancyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudVmClusterSummaryVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetCloudVmClusterSummaryVmClusterTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingCloudVmClusterSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCloudVmClusterSummaryComputeModelEnumStringValues(), ",")))
@@ -367,6 +385,48 @@ func GetCloudVmClusterSummaryDiskRedundancyEnumStringValues() []string {
 // GetMappingCloudVmClusterSummaryDiskRedundancyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudVmClusterSummaryDiskRedundancyEnum(val string) (CloudVmClusterSummaryDiskRedundancyEnum, bool) {
 	enum, ok := mappingCloudVmClusterSummaryDiskRedundancyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudVmClusterSummaryVmClusterTypeEnum Enum with underlying type: string
+type CloudVmClusterSummaryVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for CloudVmClusterSummaryVmClusterTypeEnum
+const (
+	CloudVmClusterSummaryVmClusterTypeRegular   CloudVmClusterSummaryVmClusterTypeEnum = "REGULAR"
+	CloudVmClusterSummaryVmClusterTypeDeveloper CloudVmClusterSummaryVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingCloudVmClusterSummaryVmClusterTypeEnum = map[string]CloudVmClusterSummaryVmClusterTypeEnum{
+	"REGULAR":   CloudVmClusterSummaryVmClusterTypeRegular,
+	"DEVELOPER": CloudVmClusterSummaryVmClusterTypeDeveloper,
+}
+
+var mappingCloudVmClusterSummaryVmClusterTypeEnumLowerCase = map[string]CloudVmClusterSummaryVmClusterTypeEnum{
+	"regular":   CloudVmClusterSummaryVmClusterTypeRegular,
+	"developer": CloudVmClusterSummaryVmClusterTypeDeveloper,
+}
+
+// GetCloudVmClusterSummaryVmClusterTypeEnumValues Enumerates the set of values for CloudVmClusterSummaryVmClusterTypeEnum
+func GetCloudVmClusterSummaryVmClusterTypeEnumValues() []CloudVmClusterSummaryVmClusterTypeEnum {
+	values := make([]CloudVmClusterSummaryVmClusterTypeEnum, 0)
+	for _, v := range mappingCloudVmClusterSummaryVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudVmClusterSummaryVmClusterTypeEnumStringValues Enumerates the set of values in String for CloudVmClusterSummaryVmClusterTypeEnum
+func GetCloudVmClusterSummaryVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingCloudVmClusterSummaryVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudVmClusterSummaryVmClusterTypeEnum(val string) (CloudVmClusterSummaryVmClusterTypeEnum, bool) {
+	enum, ok := mappingCloudVmClusterSummaryVmClusterTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

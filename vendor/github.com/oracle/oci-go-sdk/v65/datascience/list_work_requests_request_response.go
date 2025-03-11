@@ -169,6 +169,7 @@ const (
 	ListWorkRequestsOperationTypeScheduleMove              ListWorkRequestsOperationTypeEnum = "SCHEDULE_MOVE"
 	ListWorkRequestsOperationTypeScheduleActivate          ListWorkRequestsOperationTypeEnum = "SCHEDULE_ACTIVATE"
 	ListWorkRequestsOperationTypeScheduleDeactivate        ListWorkRequestsOperationTypeEnum = "SCHEDULE_DEACTIVATE"
+	ListWorkRequestsOperationTypeRegisterModelArtifact     ListWorkRequestsOperationTypeEnum = "REGISTER_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeRestoreArchivedModel      ListWorkRequestsOperationTypeEnum = "RESTORE_ARCHIVED_MODEL"
 )
 
@@ -203,6 +204,7 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"SCHEDULE_MOVE":               ListWorkRequestsOperationTypeScheduleMove,
 	"SCHEDULE_ACTIVATE":           ListWorkRequestsOperationTypeScheduleActivate,
 	"SCHEDULE_DEACTIVATE":         ListWorkRequestsOperationTypeScheduleDeactivate,
+	"REGISTER_MODEL_ARTIFACT":     ListWorkRequestsOperationTypeRegisterModelArtifact,
 	"RESTORE_ARCHIVED_MODEL":      ListWorkRequestsOperationTypeRestoreArchivedModel,
 }
 
@@ -237,6 +239,7 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"schedule_move":               ListWorkRequestsOperationTypeScheduleMove,
 	"schedule_activate":           ListWorkRequestsOperationTypeScheduleActivate,
 	"schedule_deactivate":         ListWorkRequestsOperationTypeScheduleDeactivate,
+	"register_model_artifact":     ListWorkRequestsOperationTypeRegisterModelArtifact,
 	"restore_archived_model":      ListWorkRequestsOperationTypeRestoreArchivedModel,
 }
 
@@ -282,6 +285,7 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"SCHEDULE_MOVE",
 		"SCHEDULE_ACTIVATE",
 		"SCHEDULE_DEACTIVATE",
+		"REGISTER_MODEL_ARTIFACT",
 		"RESTORE_ARCHIVED_MODEL",
 	}
 }

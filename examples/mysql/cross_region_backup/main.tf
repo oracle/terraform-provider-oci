@@ -54,4 +54,5 @@ resource "oci_mysql_mysql_backup" "test_mysql_backup_cross_region_backup_copy" {
   # Optional
   display_name = "CrossRegionBackupCopy"
   description = "test backup copy created by terraform"
+  retention_in_days = "5"
 }

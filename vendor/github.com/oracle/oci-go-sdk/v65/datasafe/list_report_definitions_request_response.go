@@ -283,24 +283,27 @@ type ListReportDefinitionsDataSourceEnum string
 
 // Set of constants representing the allowable values for ListReportDefinitionsDataSourceEnum
 const (
-	ListReportDefinitionsDataSourceEvents     ListReportDefinitionsDataSourceEnum = "EVENTS"
-	ListReportDefinitionsDataSourceAlerts     ListReportDefinitionsDataSourceEnum = "ALERTS"
-	ListReportDefinitionsDataSourceViolations ListReportDefinitionsDataSourceEnum = "VIOLATIONS"
-	ListReportDefinitionsDataSourceAllowedSql ListReportDefinitionsDataSourceEnum = "ALLOWED_SQL"
+	ListReportDefinitionsDataSourceEvents             ListReportDefinitionsDataSourceEnum = "EVENTS"
+	ListReportDefinitionsDataSourceAlerts             ListReportDefinitionsDataSourceEnum = "ALERTS"
+	ListReportDefinitionsDataSourceSecurityAssessment ListReportDefinitionsDataSourceEnum = "SECURITY_ASSESSMENT"
+	ListReportDefinitionsDataSourceViolations         ListReportDefinitionsDataSourceEnum = "VIOLATIONS"
+	ListReportDefinitionsDataSourceAllowedSql         ListReportDefinitionsDataSourceEnum = "ALLOWED_SQL"
 )
 
 var mappingListReportDefinitionsDataSourceEnum = map[string]ListReportDefinitionsDataSourceEnum{
-	"EVENTS":      ListReportDefinitionsDataSourceEvents,
-	"ALERTS":      ListReportDefinitionsDataSourceAlerts,
-	"VIOLATIONS":  ListReportDefinitionsDataSourceViolations,
-	"ALLOWED_SQL": ListReportDefinitionsDataSourceAllowedSql,
+	"EVENTS":              ListReportDefinitionsDataSourceEvents,
+	"ALERTS":              ListReportDefinitionsDataSourceAlerts,
+	"SECURITY_ASSESSMENT": ListReportDefinitionsDataSourceSecurityAssessment,
+	"VIOLATIONS":          ListReportDefinitionsDataSourceViolations,
+	"ALLOWED_SQL":         ListReportDefinitionsDataSourceAllowedSql,
 }
 
 var mappingListReportDefinitionsDataSourceEnumLowerCase = map[string]ListReportDefinitionsDataSourceEnum{
-	"events":      ListReportDefinitionsDataSourceEvents,
-	"alerts":      ListReportDefinitionsDataSourceAlerts,
-	"violations":  ListReportDefinitionsDataSourceViolations,
-	"allowed_sql": ListReportDefinitionsDataSourceAllowedSql,
+	"events":              ListReportDefinitionsDataSourceEvents,
+	"alerts":              ListReportDefinitionsDataSourceAlerts,
+	"security_assessment": ListReportDefinitionsDataSourceSecurityAssessment,
+	"violations":          ListReportDefinitionsDataSourceViolations,
+	"allowed_sql":         ListReportDefinitionsDataSourceAllowedSql,
 }
 
 // GetListReportDefinitionsDataSourceEnumValues Enumerates the set of values for ListReportDefinitionsDataSourceEnum
@@ -317,6 +320,7 @@ func GetListReportDefinitionsDataSourceEnumStringValues() []string {
 	return []string{
 		"EVENTS",
 		"ALERTS",
+		"SECURITY_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}

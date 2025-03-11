@@ -104,6 +104,15 @@ func DataSafeDiscoveryJobResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"sensitive_type_group_ids_for_discovery": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"sensitive_type_ids_for_discovery": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -326,6 +335,19 @@ func (s *DataSafeDiscoveryJobResourceCrud) Create() error {
 	if sensitiveDataModelId, ok := s.D.GetOkExists("sensitive_data_model_id"); ok {
 		tmp := sensitiveDataModelId.(string)
 		request.SensitiveDataModelId = &tmp
+	}
+
+	if sensitiveTypeGroupIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_group_ids_for_discovery"); ok {
+		interfaces := sensitiveTypeGroupIdsForDiscovery.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("sensitive_type_group_ids_for_discovery") {
+			request.SensitiveTypeGroupIdsForDiscovery = tmp
+		}
 	}
 
 	if sensitiveTypeIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_ids_for_discovery"); ok {
@@ -590,6 +612,8 @@ func (s *DataSafeDiscoveryJobResourceCrud) SetData() error {
 	if s.Res.SensitiveDataModelId != nil {
 		s.D.Set("sensitive_data_model_id", *s.Res.SensitiveDataModelId)
 	}
+
+	s.D.Set("sensitive_type_group_ids_for_discovery", s.Res.SensitiveTypeGroupIdsForDiscovery)
 
 	s.D.Set("sensitive_type_ids_for_discovery", s.Res.SensitiveTypeIdsForDiscovery)
 

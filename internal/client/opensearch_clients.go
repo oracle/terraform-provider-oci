@@ -11,6 +11,7 @@ import (
 
 func init() {
 	RegisterOracleClient("oci_opensearch.OpensearchClusterClient", &OracleClient{InitClientFn: initOpensearchOpensearchClusterClient})
+	RegisterOracleClient("oci_opensearch.OpensearchClusterPipelineClient", &OracleClient{InitClientFn: initOpensearchOpensearchClusterPipelineClient})
 }
 
 func initOpensearchOpensearchClusterClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -31,4 +32,24 @@ func initOpensearchOpensearchClusterClient(configProvider oci_common.Configurati
 
 func (m *OracleClients) OpensearchClusterClient() *oci_opensearch.OpensearchClusterClient {
 	return m.GetClient("oci_opensearch.OpensearchClusterClient").(*oci_opensearch.OpensearchClusterClient)
+}
+
+func initOpensearchOpensearchClusterPipelineClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_opensearch.NewOpensearchClusterPipelineClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) OpensearchClusterPipelineClient() *oci_opensearch.OpensearchClusterPipelineClient {
+	return m.GetClient("oci_opensearch.OpensearchClusterPipelineClient").(*oci_opensearch.OpensearchClusterPipelineClient)
 }

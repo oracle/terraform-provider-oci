@@ -88,6 +88,12 @@ func DatabaseExascaleDbStorageVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -263,6 +269,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+		tmp := exadataInfrastructureId.(string)
+		request.ExadataInfrastructureId = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -456,6 +467,10 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.ExadataInfrastructureId != nil {
+		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

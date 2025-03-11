@@ -55,6 +55,12 @@ func DatabaseApplicationVipResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"ipv6address": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -173,6 +179,11 @@ func (s *DatabaseApplicationVipResourceCrud) Create() error {
 		request.IpAddress = &tmp
 	}
 
+	if ipv6Address, ok := s.D.GetOkExists("ipv6address"); ok {
+		tmp := ipv6Address.(string)
+		request.Ipv6Address = &tmp
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -269,6 +280,10 @@ func (s *DatabaseApplicationVipResourceCrud) SetData() error {
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.Ipv6Address != nil {
+		s.D.Set("ipv6address", *s.Res.Ipv6Address)
 	}
 
 	if s.Res.LifecycleDetails != nil {

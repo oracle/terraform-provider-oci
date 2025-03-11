@@ -179,6 +179,10 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"exascale_db_storage_vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"file_system_configuration_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -248,6 +252,10 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"storage_management_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"system_version": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -261,6 +269,10 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 				Computed: true,
 			},
 			"vm_cluster_network_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vm_cluster_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -402,6 +414,10 @@ func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) SetData() error {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
 
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
+	}
+
 	fileSystemConfigurationDetails := []interface{}{}
 	for _, item := range s.Res.FileSystemConfigurationDetails {
 		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -444,6 +460,8 @@ func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
+
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
@@ -459,6 +477,8 @@ func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }

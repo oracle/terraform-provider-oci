@@ -19,6 +19,10 @@ func DatascienceModelsDataSource() *schema.Resource {
 		Read: readDatascienceModels,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"category": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,6 +88,10 @@ func (s *DatascienceModelsDataSourceCrud) VoidState() {
 
 func (s *DatascienceModelsDataSourceCrud) Get() error {
 	request := oci_datascience.ListModelsRequest{}
+
+	if category, ok := s.D.GetOkExists("category"); ok {
+		request.Category = oci_datascience.ListModelsCategoryEnum(category.(string))
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -160,6 +168,8 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		model["category"] = r.Category
+
 		if r.CreatedBy != nil {
 			model["created_by"] = *r.CreatedBy
 		}
@@ -176,6 +186,10 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			model["id"] = *r.Id
+		}
+
+		if r.IsModelByReference != nil {
+			model["is_model_by_reference"] = *r.IsModelByReference
 		}
 
 		if r.LifecycleDetails != nil {

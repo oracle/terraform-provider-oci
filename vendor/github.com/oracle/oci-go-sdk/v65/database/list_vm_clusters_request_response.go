@@ -45,6 +45,9 @@ type ListVmClustersRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only vmclusters that match the given vmcluster type exactly.
+	VmClusterType VmClusterSummaryVmClusterTypeEnum `mandatory:"false" contributesTo:"query" name:"vmClusterType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -89,6 +92,9 @@ func (request ListVmClustersRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVmClusterSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterSummaryVmClusterTypeEnum(string(request.VmClusterType)); !ok && request.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", request.VmClusterType, strings.Join(GetVmClusterSummaryVmClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

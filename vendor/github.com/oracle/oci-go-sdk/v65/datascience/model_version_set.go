@@ -47,6 +47,9 @@ type ModelVersionSet struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model version set.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
+	// The category of the model version set.
+	Category ModelVersionSetCategoryEnum `mandatory:"true" json:"category"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -71,6 +74,9 @@ func (m ModelVersionSet) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingModelVersionSetLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetModelVersionSetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingModelVersionSetCategoryEnum(string(m.Category)); !ok && m.Category != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Category: %s. Supported values are: %s.", m.Category, strings.Join(GetModelVersionSetCategoryEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

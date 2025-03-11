@@ -93,7 +93,7 @@ func DevopsDeploymentResource() *schema.Resource {
 									"value": {
 										Type:     schema.TypeString,
 										Optional: true,
-										Computed: true,
+										Default:  "{value}",
 										ForceNew: true,
 									},
 
@@ -935,7 +935,7 @@ func (s *DevopsDeploymentResourceCrud) mapToDeployArtifactOverrideArgument(field
 		result.Name = &tmp
 	}
 
-	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+	if value := s.D.Get(fmt.Sprintf(fieldKeyFormat, "value")); value != "{value}" {
 		tmp := value.(string)
 		result.Value = &tmp
 	}

@@ -58,6 +58,9 @@ type MaskingReport struct {
 	// The current state of the masking report.
 	LifecycleState MaskingLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The status of the masking job.
+	MaskingStatus MaskingReportMaskingStatusEnum `mandatory:"true" json:"maskingStatus"`
+
 	// The date and time the masking report was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -75,6 +78,12 @@ type MaskingReport struct {
 
 	// Indicates how invalid objects were recompiled post the masking operation.
 	Recompile *string `mandatory:"false" json:"recompile"`
+
+	// The total number of errors in pre-masking script.
+	TotalPreMaskingScriptErrors *int64 `mandatory:"false" json:"totalPreMaskingScriptErrors"`
+
+	// The total number of errors in post-masking script.
+	TotalPostMaskingScriptErrors *int64 `mandatory:"false" json:"totalPostMaskingScriptErrors"`
 }
 
 func (m MaskingReport) String() string {
@@ -89,9 +98,54 @@ func (m MaskingReport) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingMaskingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMaskingLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingMaskingReportMaskingStatusEnum(string(m.MaskingStatus)); !ok && m.MaskingStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaskingStatus: %s. Supported values are: %s.", m.MaskingStatus, strings.Join(GetMaskingReportMaskingStatusEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MaskingReportMaskingStatusEnum Enum with underlying type: string
+type MaskingReportMaskingStatusEnum string
+
+// Set of constants representing the allowable values for MaskingReportMaskingStatusEnum
+const (
+	MaskingReportMaskingStatusFailed  MaskingReportMaskingStatusEnum = "FAILED"
+	MaskingReportMaskingStatusSuccess MaskingReportMaskingStatusEnum = "SUCCESS"
+)
+
+var mappingMaskingReportMaskingStatusEnum = map[string]MaskingReportMaskingStatusEnum{
+	"FAILED":  MaskingReportMaskingStatusFailed,
+	"SUCCESS": MaskingReportMaskingStatusSuccess,
+}
+
+var mappingMaskingReportMaskingStatusEnumLowerCase = map[string]MaskingReportMaskingStatusEnum{
+	"failed":  MaskingReportMaskingStatusFailed,
+	"success": MaskingReportMaskingStatusSuccess,
+}
+
+// GetMaskingReportMaskingStatusEnumValues Enumerates the set of values for MaskingReportMaskingStatusEnum
+func GetMaskingReportMaskingStatusEnumValues() []MaskingReportMaskingStatusEnum {
+	values := make([]MaskingReportMaskingStatusEnum, 0)
+	for _, v := range mappingMaskingReportMaskingStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMaskingReportMaskingStatusEnumStringValues Enumerates the set of values in String for MaskingReportMaskingStatusEnum
+func GetMaskingReportMaskingStatusEnumStringValues() []string {
+	return []string{
+		"FAILED",
+		"SUCCESS",
+	}
+}
+
+// GetMappingMaskingReportMaskingStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMaskingReportMaskingStatusEnum(val string) (MaskingReportMaskingStatusEnum, bool) {
+	enum, ok := mappingMaskingReportMaskingStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

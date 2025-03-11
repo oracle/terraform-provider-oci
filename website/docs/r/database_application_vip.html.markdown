@@ -25,6 +25,7 @@ resource "oci_database_application_vip" "test_application_vip" {
 	#Optional
 	db_node_id = oci_database_db_node.test_db_node.id
 	ip_address = var.application_vip_ip_address
+	ipv6address = var.application_vip_ipv6address
 }
 ```
 
@@ -35,7 +36,8 @@ The following arguments are supported:
 * `cloud_vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud VM cluster associated with the application virtual IP (VIP) address.
 * `db_node_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB node associated with the application virtual IP (VIP) address.
 * `hostname_label` - (Required) The hostname of the application virtual IP (VIP) address.
-* `ip_address` - (Optional) The application virtual IP (VIP) address.
+* `ip_address` - (Optional) The application virtual IP (VIP) IPv4 address.
+* `ipv6address` - (Optional) The application virtual IP (VIP) IPv6 address.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.
 
 
@@ -52,7 +54,8 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname_label` - The hostname of the application virtual IP (VIP) address.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application virtual IP (VIP) address.
-* `ip_address` - The application virtual IP (VIP) address.
+* `ip_address` - The application virtual IP (VIP) IPv4 address.
+* `ipv6address` - The application virtual IP (VIP) IPv6 address.
 * `lifecycle_details` - Additional information about the current lifecycle state of the application virtual IP (VIP) address.
 * `state` - The current lifecycle state of the application virtual IP (VIP) address.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.
