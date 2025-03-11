@@ -96,6 +96,8 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 		s.D.Set("configuration", nil)
 	}
 
+	s.D.Set("content_type", s.Res.ContentType)
+
 	if s.Res.CreatedBy != nil {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}

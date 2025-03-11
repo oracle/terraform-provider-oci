@@ -234,7 +234,7 @@ The following arguments are supported:
 		* `username` - (Required when config_type=FTP_CONFIG) (Updatable) Username for authentication.
 	* `ftp_protocol` - (Applicable when config_type=FTP_CONFIG) (Updatable) FTP protocol type.
 	* `ftp_request_type` - (Applicable when config_type=FTP_CONFIG) (Updatable) FTP monitor request type.
-	* `is_active_mode` - (Applicable when config_type=FTP_CONFIG) (Updatable) If enabled, Active mode will be used for the FTP connection.
+	* `is_active_mode` - (Applicable when config_type=FTP_CONFIG) (Updatable) If enabled, Active mode will be used for the FTP connection. Not supported for SFTP protocol.
 	* `is_certificate_validation_enabled` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_default_snapshot_enabled` - (Applicable when config_type=BROWSER_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - (Optional) (Updatable) If isFailureRetried is enabled, then a failed call will be retried.
@@ -341,7 +341,7 @@ The following attributes are exported:
 		* `username` - Username for authentication.
 	* `ftp_protocol` - FTP protocol type.
 	* `ftp_request_type` - FTP monitor request type.
-	* `is_active_mode` - If enabled, Active mode will be used for the FTP connection.
+	* `is_active_mode` - If enabled, Active mode will be used for the FTP connection. Not supported for SFTP protocol.
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_default_snapshot_enabled` - If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
@@ -382,6 +382,7 @@ The following attributes are exported:
 	* `verify_response_content` - Verify response content against regular expression based string. If response content does not match the verifyResponseContent value, then it will be considered a failure. 
 	* `verify_texts` - Verifies all the search strings present in the response. If any search string is not present in the response, then it will be considered as a failure. 
 		* `text` - Verification text in the response.
+* `content_type` - Content type of the script.
 * `created_by` - Name of the user that created the monitor.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Unique name that can be edited. The name should not contain any confidential information.
