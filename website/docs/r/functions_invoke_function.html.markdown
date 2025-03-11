@@ -23,6 +23,7 @@ resource "oci_functions_invoke_function" "test_invoke_function" {
 	invoke_function_body = var.invoke_function_invoke_function_body
 	fn_intent = var.invoke_function_fn_intent
 	fn_invoke_type = var.invoke_function_fn_invoke_type
+	is_dry_run = var.invoke_function_is_dry_run
 	base64_encode_content = false
 }
 ```
@@ -36,6 +37,8 @@ The following arguments are supported:
 * `fn_intent` - (Optional) An optional intent header that indicates to the FDK the way the event should be interpreted. E.g. 'httprequest', 'cloudevent'. 
 * `fn_invoke_type` - (Optional) Indicates whether Oracle Functions should execute the request and return the result ('sync') of the execution,  or whether Oracle Functions should return as soon as processing has begun ('detached') and leave result handling to the function. 
 * `function_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this function. 
+* `is_dry_run` - (Optional) Indicates that the request is a dry run, if set to "true". A dry run request does not execute the function. 
+
 * `invoke_function_body_base64_encoded` - (Optional) The Base64 encoded body of the function invocation. Base64 encoded input avoids corruption in Terraform state. Cannot be defined if `invoke_function_body` or `input_body_source_path` is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit. 
 * `input_body_source_path` - (Optional) An absolute path to a file on the local system that contains the input to be provided to the function. Cannot be defined if `invoke_function_body` or `invoke_function_body_base64_encoded` is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
 
