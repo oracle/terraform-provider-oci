@@ -829,6 +829,10 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 			},
 
 			// Computed
+			"content_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"created_by": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1303,6 +1307,8 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 	} else {
 		s.D.Set("configuration", nil)
 	}
+
+	s.D.Set("content_type", s.Res.ContentType)
 
 	if s.Res.CreatedBy != nil {
 		s.D.Set("created_by", *s.Res.CreatedBy)

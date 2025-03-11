@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_apm_synthetics_result
 This data source provides details about a specific Result resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
-Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, Console Log or Network details.
+Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, Console Log, Network details, Diagnostics or Script Content.
 
 
 ## Example Usage
@@ -35,7 +35,7 @@ The following arguments are supported:
 * `execution_time` - (Required) The time the object was posted. 
 * `monitor_id` - (Required) The OCID of the monitor.
 * `result_content_type` - (Required) The result content type: zip or raw. 
-* `result_type` - (Required) The result type: har, screenshot, log, or network. 
+* `result_type` - (Required) The result type: har, screenshot, log, network, diagnostics or script. 
 * `vantage_point` - (Required) The vantagePoint name. 
 
 
@@ -51,6 +51,6 @@ The following attributes are exported:
 	* `name` - Name of the data.
 	* `string_content` - Data content in string format. Example: HAR. 
 	* `timestamp` - The time when the data was generated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
-* `result_type` - Type of result. Example: HAR, Screenshot, Log or Network. 
+* `result_type` - Type of result. Example: har, screenshot, log, network, diagnostics or script. 
 * `vantage_point` - The name of the public or dedicated vantage point.
 
