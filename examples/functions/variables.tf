@@ -69,6 +69,10 @@ variable "function_image" {
 variable "function_image_digest" {
 }
 
+variable "dry_run" {
+  default = "false"
+}
+
 variable "function_trace_config" {
   type = object({
     is_enabled = bool
