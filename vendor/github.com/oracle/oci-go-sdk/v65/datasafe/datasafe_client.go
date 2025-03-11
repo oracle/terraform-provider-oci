@@ -2095,6 +2095,69 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 	return response, err
 }
 
+// ChangeSensitiveTypeGroupCompartment Moves the sensitive type group to the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveTypeGroupCompartment.go.html to see an example of how to use ChangeSensitiveTypeGroupCompartment API.
+// A default retry strategy applies to this operation ChangeSensitiveTypeGroupCompartment()
+func (client DataSafeClient) ChangeSensitiveTypeGroupCompartment(ctx context.Context, request ChangeSensitiveTypeGroupCompartmentRequest) (response ChangeSensitiveTypeGroupCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSensitiveTypeGroupCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSensitiveTypeGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSensitiveTypeGroupCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSensitiveTypeGroupCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSensitiveTypeGroupCompartmentResponse")
+	}
+	return
+}
+
+// changeSensitiveTypeGroupCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSensitiveTypeGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveTypeGroups/{sensitiveTypeGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSensitiveTypeGroupCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/ChangeSensitiveTypeGroupCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSensitiveTypeGroupCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSensitiveTypesExportCompartment Moves the specified sensitive types export into a different compartment.
 //
 // # See also
@@ -3726,6 +3789,69 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 	return response, err
 }
 
+// CreateSensitiveTypeGroup Creates a new sensitive type group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveTypeGroup.go.html to see an example of how to use CreateSensitiveTypeGroup API.
+// A default retry strategy applies to this operation CreateSensitiveTypeGroup()
+func (client DataSafeClient) CreateSensitiveTypeGroup(ctx context.Context, request CreateSensitiveTypeGroupRequest) (response CreateSensitiveTypeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSensitiveTypeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSensitiveTypeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSensitiveTypeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSensitiveTypeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSensitiveTypeGroupResponse")
+	}
+	return
+}
+
+// createSensitiveTypeGroup implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSensitiveTypeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveTypeGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSensitiveTypeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/CreateSensitiveTypeGroup"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSensitiveTypeGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSensitiveTypesExport Generates a downloadable file corresponding to the specified list of sensitive types. It's a prerequisite for the
 // DownloadSensitiveTypesExport operation. Use this endpoint to generate a sensitive Types Export file and then use
 // DownloadSensitiveTypesExport to download the generated file.
@@ -4747,6 +4873,64 @@ func (client DataSafeClient) deleteMaskingPolicyHealthReport(ctx context.Context
 	return response, err
 }
 
+// DeleteMaskingReport Deletes the specified masking report.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingReport.go.html to see an example of how to use DeleteMaskingReport API.
+// A default retry strategy applies to this operation DeleteMaskingReport()
+func (client DataSafeClient) DeleteMaskingReport(ctx context.Context, request DeleteMaskingReportRequest) (response DeleteMaskingReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMaskingReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMaskingReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMaskingReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMaskingReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMaskingReportResponse")
+	}
+	return
+}
+
+// deleteMaskingReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteMaskingReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/maskingReports/{maskingReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMaskingReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingReport/DeleteMaskingReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteMaskingReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteOnPremConnector Deletes the specified on-premises connector.
 //
 // # See also
@@ -5265,6 +5449,64 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/DeleteSensitiveType"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSensitiveTypeGroup Deletes the specified sensitive type group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveTypeGroup.go.html to see an example of how to use DeleteSensitiveTypeGroup API.
+// A default retry strategy applies to this operation DeleteSensitiveTypeGroup()
+func (client DataSafeClient) DeleteSensitiveTypeGroup(ctx context.Context, request DeleteSensitiveTypeGroupRequest) (response DeleteSensitiveTypeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSensitiveTypeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSensitiveTypeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSensitiveTypeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSensitiveTypeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSensitiveTypeGroupResponse")
+	}
+	return
+}
+
+// deleteSensitiveTypeGroup implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSensitiveTypeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sensitiveTypeGroups/{sensitiveTypeGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSensitiveTypeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/DeleteSensitiveTypeGroup"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveTypeGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -9244,6 +9486,64 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 	return response, err
 }
 
+// GetSensitiveTypeGroup Gets the details of the specified sensitive type group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSensitiveTypeGroup.go.html to see an example of how to use GetSensitiveTypeGroup API.
+// A default retry strategy applies to this operation GetSensitiveTypeGroup()
+func (client DataSafeClient) GetSensitiveTypeGroup(ctx context.Context, request GetSensitiveTypeGroupRequest) (response GetSensitiveTypeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSensitiveTypeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSensitiveTypeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSensitiveTypeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSensitiveTypeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSensitiveTypeGroupResponse")
+	}
+	return
+}
+
+// getSensitiveTypeGroup implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSensitiveTypeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveTypeGroups/{sensitiveTypeGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSensitiveTypeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/GetSensitiveTypeGroup"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSensitiveTypeGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSensitiveTypesExport Gets the details of the specified sensitive types export by identifier.
 //
 // # See also
@@ -11510,6 +11810,64 @@ func (client DataSafeClient) listGrants(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// ListGroupedSensitiveTypes Gets the list of sensitive type Ids present in the specified sensitive type group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListGroupedSensitiveTypes.go.html to see an example of how to use ListGroupedSensitiveTypes API.
+// A default retry strategy applies to this operation ListGroupedSensitiveTypes()
+func (client DataSafeClient) ListGroupedSensitiveTypes(ctx context.Context, request ListGroupedSensitiveTypesRequest) (response ListGroupedSensitiveTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGroupedSensitiveTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGroupedSensitiveTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGroupedSensitiveTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGroupedSensitiveTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGroupedSensitiveTypesResponse")
+	}
+	return
+}
+
+// listGroupedSensitiveTypes implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listGroupedSensitiveTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveTypeGroups/{sensitiveTypeGroupId}/groupedSensitiveTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGroupedSensitiveTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/ListGroupedSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListGroupedSensitiveTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListLibraryMaskingFormats Gets a list of library masking formats based on the specified query parameters.
 //
 // # See also
@@ -11737,6 +12095,64 @@ func (client DataSafeClient) listMaskingColumns(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/ListMaskingColumns"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingColumns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMaskingErrors Gets a list of masking errors in a masking run based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingErrors.go.html to see an example of how to use ListMaskingErrors API.
+// A default retry strategy applies to this operation ListMaskingErrors()
+func (client DataSafeClient) ListMaskingErrors(ctx context.Context, request ListMaskingErrorsRequest) (response ListMaskingErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaskingErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaskingErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaskingErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaskingErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaskingErrorsResponse")
+	}
+	return
+}
+
+// listMaskingErrors implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listMaskingErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingReports/{maskingReportId}/maskingErrors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaskingErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingErrorSummary/ListMaskingErrors"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -13338,6 +13754,71 @@ func (client DataSafeClient) listSecurityPolicyReports(ctx context.Context, requ
 	return response, err
 }
 
+// ListSensitiveColumnAnalytics Gets consolidated sensitive columns analytics data based on the specified query parameters.
+// When you perform the ListSensitiveColumnAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
+// permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+// root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
+// compartmentId, then "Not Authorized" is returned.
+// To use ListSensitiveColumnAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
+// set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveColumnAnalytics.go.html to see an example of how to use ListSensitiveColumnAnalytics API.
+// A default retry strategy applies to this operation ListSensitiveColumnAnalytics()
+func (client DataSafeClient) ListSensitiveColumnAnalytics(ctx context.Context, request ListSensitiveColumnAnalyticsRequest) (response ListSensitiveColumnAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveColumnAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveColumnAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveColumnAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveColumnAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveColumnAnalyticsResponse")
+	}
+	return
+}
+
+// listSensitiveColumnAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveColumnAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveColumnAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveColumnAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ListSensitiveColumnAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveColumnAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSensitiveColumns Gets a list of sensitive columns present in the specified sensitive data model based on the specified query parameters.
 //
 // # See also
@@ -13621,6 +14102,64 @@ func (client DataSafeClient) listSensitiveSchemas(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveSchemaCollection/ListSensitiveSchemas"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveSchemas", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSensitiveTypeGroups Gets a list of sensitive type groups based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveTypeGroups.go.html to see an example of how to use ListSensitiveTypeGroups API.
+// A default retry strategy applies to this operation ListSensitiveTypeGroups()
+func (client DataSafeClient) ListSensitiveTypeGroups(ctx context.Context, request ListSensitiveTypeGroupsRequest) (response ListSensitiveTypeGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveTypeGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveTypeGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveTypeGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveTypeGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveTypeGroupsResponse")
+	}
+	return
+}
+
+// listSensitiveTypeGroups implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveTypeGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveTypeGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveTypeGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroupSummary/ListSensitiveTypeGroups"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveTypeGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -14951,6 +15490,11 @@ func (client DataSafeClient) MaskData(ctx context.Context, request MaskDataReque
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.maskData, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -15167,6 +15711,65 @@ func (client DataSafeClient) patchDiscoveryJobResults(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/PatchDiscoveryJobResults"
 		err = common.PostProcessServiceError(err, "DataSafe", "PatchDiscoveryJobResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchGroupedSensitiveTypes Patches one or more sensitive types in a sensitive type group. You can use this operation to add or remove
+// sensitive type ids in a sensitive type group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchGroupedSensitiveTypes.go.html to see an example of how to use PatchGroupedSensitiveTypes API.
+// A default retry strategy applies to this operation PatchGroupedSensitiveTypes()
+func (client DataSafeClient) PatchGroupedSensitiveTypes(ctx context.Context, request PatchGroupedSensitiveTypesRequest) (response PatchGroupedSensitiveTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchGroupedSensitiveTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchGroupedSensitiveTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchGroupedSensitiveTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchGroupedSensitiveTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchGroupedSensitiveTypesResponse")
+	}
+	return
+}
+
+// patchGroupedSensitiveTypes implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) patchGroupedSensitiveTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/sensitiveTypeGroups/{sensitiveTypeGroupId}/groupedSensitiveTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchGroupedSensitiveTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/PatchGroupedSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchGroupedSensitiveTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -18260,6 +18863,64 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/UpdateSensitiveType"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSensitiveTypeGroup Updates one or more attributes of the specified sensitive type group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSensitiveTypeGroup.go.html to see an example of how to use UpdateSensitiveTypeGroup API.
+// A default retry strategy applies to this operation UpdateSensitiveTypeGroup()
+func (client DataSafeClient) UpdateSensitiveTypeGroup(ctx context.Context, request UpdateSensitiveTypeGroupRequest) (response UpdateSensitiveTypeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSensitiveTypeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSensitiveTypeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSensitiveTypeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSensitiveTypeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSensitiveTypeGroupResponse")
+	}
+	return
+}
+
+// updateSensitiveTypeGroup implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSensitiveTypeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sensitiveTypeGroups/{sensitiveTypeGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSensitiveTypeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypeGroup/UpdateSensitiveTypeGroup"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveTypeGroup", apiReferenceLink)
 		return response, err
 	}
 

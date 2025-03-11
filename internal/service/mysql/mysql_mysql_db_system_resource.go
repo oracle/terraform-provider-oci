@@ -88,6 +88,29 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"copy_policies": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"copy_to_region": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"backup_copy_retention_in_days": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"defined_tags": {
 							Type:             schema.TypeMap,
 							Optional:         true,
@@ -1865,8 +1888,41 @@ func ChannelTargetToMap(obj *oci_mysql.ChannelTarget) map[string]interface{} {
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCopyPolicy(fieldKeyFormat string) (oci_mysql.CopyPolicy, error) {
+	result := oci_mysql.CopyPolicy{}
+
+	if backupCopyRetentionInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_copy_retention_in_days")); ok {
+		tmp := backupCopyRetentionInDays.(int)
+		result.BackupCopyRetentionInDays = &tmp
+	}
+
+	if copyToRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_to_region")); ok {
+		tmp := copyToRegion.(string)
+		result.CopyToRegion = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.CreateBackupPolicyDetails, error) {
 	result := oci_mysql.CreateBackupPolicyDetails{}
+
+	if copyPolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_policies")); ok {
+		interfaces := copyPolicies.([]interface{})
+		tmp := make([]oci_mysql.CopyPolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "copy_policies"), stateDataIndex)
+			converted, err := s.mapToCopyPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "copy_policies")) {
+			result.CopyPolicies = tmp
+		}
+	}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -2344,6 +2400,23 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 				return result, fmt.Errorf("unable to convert pitr_policy, encountered error: %v", err)
 			}
 			result.PitrPolicy = &tmp
+		}
+	}
+
+	if copyPolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_policies")); ok {
+		interfaces := copyPolicies.([]interface{})
+		tmp := make([]oci_mysql.CopyPolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "copy_policies"), stateDataIndex)
+			converted, err := s.mapToCopyPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "copy_policies")) {
+			result.CopyPolicies = tmp
 		}
 	}
 

@@ -68,6 +68,10 @@ func DatascienceModelVersionSetResource() *schema.Resource {
 			},
 
 			// Computed
+			"category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"created_by": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -418,6 +422,8 @@ func (s *DatascienceModelVersionSetResourceCrud) Delete() error {
 }
 
 func (s *DatascienceModelVersionSetResourceCrud) SetData() error {
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

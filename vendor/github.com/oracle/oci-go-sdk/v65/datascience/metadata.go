@@ -26,6 +26,11 @@ type Metadata struct {
 	//          * estimatorClass
 	//          * hyperParameters
 	//          * testArtifactresults
+	//          * fineTuningConfiguration
+	//          * deploymentConfiguration
+	//          * readme
+	//          * license
+	//          * evaluationConfiguration
 	Key *string `mandatory:"false" json:"key"`
 
 	// Allowed values for useCaseType:
@@ -43,6 +48,12 @@ type Metadata struct {
 
 	// Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,Reports,Readme,other".
 	Category *string `mandatory:"false" json:"category"`
+
+	// list of keywords for searching
+	Keywords []string `mandatory:"false" json:"keywords"`
+
+	// Is there any artifact present for the metadata.
+	HasArtifact *bool `mandatory:"false" json:"hasArtifact"`
 }
 
 func (m Metadata) String() string {

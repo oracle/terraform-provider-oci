@@ -1,3 +1,18 @@
+## 6.30.0 (March 11, 2025)
+
+### Added
+- Support for ExaDB-C@C Exascale Integration
+- Support for ExaDB-D | IPV6 Support
+- Support for OCI Data Science Model Store changes for AQUA
+- Support for NewDev - ExaCC/ExaCS
+- Support for HeatWave Service: Scheduled Cross-Region Backup Copy
+Terraform support for OpenSearch Data Prepper Pipeline
+tests for datasafe security assessment
+- Support for Data Safe - Discovery and Masking enhancements
+### Bug Fix
+
+- database_database_resource.go update handling
+
 ## 6.29.0 (March 06, 2025)
 
 ### Added

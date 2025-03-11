@@ -34,6 +34,10 @@ func DatabaseVmClustersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"vm_clusters": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -81,6 +85,10 @@ func (s *DatabaseVmClustersDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.VmClusterSummaryLifecycleStateEnum(state.(string))
+	}
+
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.VmClusterSummaryVmClusterTypeEnum(vmClusterType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -168,6 +176,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
 		}
 
+		if r.ExascaleDbStorageVaultId != nil {
+			vmCluster["exascale_db_storage_vault_id"] = *r.ExascaleDbStorageVaultId
+		}
+
 		fileSystemConfigurationDetails := []interface{}{}
 		for _, item := range r.FileSystemConfigurationDetails {
 			fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -218,6 +230,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		vmCluster["state"] = r.LifecycleState
 
+		vmCluster["storage_management_type"] = r.StorageManagementType
+
 		if r.SystemVersion != nil {
 			vmCluster["system_version"] = *r.SystemVersion
 		}
@@ -233,6 +247,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 		if r.VmClusterNetworkId != nil {
 			vmCluster["vm_cluster_network_id"] = *r.VmClusterNetworkId
 		}
+
+		vmCluster["vm_cluster_type"] = r.VmClusterType
 
 		resources = append(resources, vmCluster)
 	}

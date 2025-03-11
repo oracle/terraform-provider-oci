@@ -129,6 +129,10 @@ func (s *DatabaseApplicationVipsDataSourceCrud) SetData() error {
 			applicationVip["ip_address"] = *r.IpAddress
 		}
 
+		if r.Ipv6Address != nil {
+			applicationVip["ipv6address"] = *r.Ipv6Address
+		}
+
 		if r.LifecycleDetails != nil {
 			applicationVip["lifecycle_details"] = *r.LifecycleDetails
 		}

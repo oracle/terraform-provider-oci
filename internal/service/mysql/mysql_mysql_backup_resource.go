@@ -26,6 +26,7 @@ func MysqlMysqlBackupResource() *schema.Resource {
 		Update:   updateMysqlMysqlBackup,
 		Delete:   deleteMysqlMysqlBackup,
 		Schema: map[string]*schema.Schema{
+			// Optional
 			"db_system_id": {
 				Type:          schema.TypeString,
 				Optional:      true,
@@ -62,7 +63,6 @@ func MysqlMysqlBackupResource() *schema.Resource {
 				},
 			},
 
-			// Optional
 			"backup_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -149,6 +149,27 @@ func MysqlMysqlBackupResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"copy_policies": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"backup_copy_retention_in_days": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"copy_to_region": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -604,17 +625,7 @@ func (s *MysqlMysqlBackupResourceCrud) UpdatedTarget() []string {
 
 func (s *MysqlMysqlBackupResourceCrud) Create() error {
 	if s.isCopyCreate() {
-		err := s.createMysqlBackupCopy()
-		if err != nil {
-			return err
-		}
-		s.D.SetId(*s.Res.Id)
-		err = tfresource.WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_mysql.BackupLifecycleStateActive }, s.D.Timeout(schema.TimeoutCreate))
-		if err != nil {
-			return err
-		}
-		// Update for some fields that can't be created by copy
-		return s.Update()
+		return s.createMysqlBackupCopy()
 	}
 
 	return s.createMysqlBackup()
@@ -692,6 +703,21 @@ func (s *MysqlMysqlBackupResourceCrud) createMysqlBackupCopy() error {
 		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
 	}
 
+	if backupCopyRetentionInDays, ok := s.D.GetOkExists("retention_in_days"); ok && backupCopyRetentionInDays != nil {
+		tmp := backupCopyRetentionInDays.(int)
+		copyMysqlBackupRequest.BackupCopyRetentionInDays = &tmp
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok && description != nil {
+		tmp := description.(string)
+		copyMysqlBackupRequest.Description = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		copyMysqlBackupRequest.DisplayName = &tmp
+	}
+
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok && sourceDetails != nil {
 		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
 
@@ -722,6 +748,12 @@ func (s *MysqlMysqlBackupResourceCrud) createMysqlBackupCopy() error {
 	}
 
 	s.Res = &response.Backup
+
+	s.D.SetId(*s.Res.Id)
+	err = tfresource.WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_mysql.BackupLifecycleStateActive }, s.D.Timeout(schema.TimeoutCreate))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -904,6 +936,12 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	copyPolicies := []interface{}{}
+	for _, item := range obj.CopyPolicies {
+		copyPolicies = append(copyPolicies, CopyPolicyToMap(item))
+	}
+	result["copy_policies"] = copyPolicies
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
@@ -924,6 +962,20 @@ func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 
 	if obj.WindowStartTime != nil {
 		result["window_start_time"] = string(*obj.WindowStartTime)
+	}
+
+	return result
+}
+
+func CopyPolicyToMap(obj oci_mysql.CopyPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BackupCopyRetentionInDays != nil {
+		result["backup_copy_retention_in_days"] = int(*obj.BackupCopyRetentionInDays)
+	}
+
+	if obj.CopyToRegion != nil {
+		result["copy_to_region"] = string(*obj.CopyToRegion)
 	}
 
 	return result

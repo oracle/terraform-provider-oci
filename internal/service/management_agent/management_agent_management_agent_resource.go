@@ -371,9 +371,7 @@ func deleteManagementAgentManagementAgent(d *schema.ResourceData, m interface{})
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	//Destroy does not remove the item from the Management Agent backend.. only removes from state
-	sync.VoidState()
-	return nil
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ManagementAgentManagementAgentResourceCrud struct {

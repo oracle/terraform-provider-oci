@@ -104,7 +104,7 @@ func createDbSystemInRegion(clients *tf_client.OracleClients, region string) (st
 	}
 
 	retryPolicy := tfresource.GetRetryPolicy(false, "mysql")
-	retryPolicy.ShouldRetryOperation = acctest.ConditionShouldRetry(15*time.Minute, dbSystemActiveWaitCondition, "mysql", false)
+	retryPolicy.ShouldRetryOperation = acctest.ConditionShouldRetry(20*time.Minute, dbSystemActiveWaitCondition, "mysql", false)
 
 	_, err = dbSystemClient.GetDbSystem(context.Background(), oci_mysql.GetDbSystemRequest{
 		DbSystemId: createDbSystemResponse.Id,
@@ -134,7 +134,7 @@ func createBackupInRegion(clients *tf_client.OracleClients, region string, dbSys
 
 	}
 
-	retryPolicy := tfresource.GetRetryPolicy(false, "core")
+	retryPolicy := tfresource.GetRetryPolicy(false, "mysql")
 	retryPolicy.ShouldRetryOperation = acctest.ConditionShouldRetry(10*time.Minute, mysqlBackupActiveWaitCondition, "mysql", false)
 	_, err = dbBackupsClient.GetBackup(context.Background(), oci_mysql.GetBackupRequest{
 		BackupId: createMysqlBackupResponse.Id,

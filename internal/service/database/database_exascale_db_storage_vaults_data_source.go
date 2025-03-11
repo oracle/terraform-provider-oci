@@ -30,6 +30,10 @@ func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -77,6 +81,11 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+		tmp := exadataInfrastructureId.(string)
+		request.ExadataInfrastructureId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -141,6 +150,10 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 
 		if r.DisplayName != nil {
 			exascaleDbStorageVault["display_name"] = *r.DisplayName
+		}
+
+		if r.ExadataInfrastructureId != nil {
+			exascaleDbStorageVault["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
 		}
 
 		exascaleDbStorageVault["freeform_tags"] = r.FreeformTags

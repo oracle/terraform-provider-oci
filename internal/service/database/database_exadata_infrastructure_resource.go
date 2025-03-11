@@ -406,6 +406,27 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"exascale_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"available_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"total_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"is_scheduling_policy_associated": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -1084,6 +1105,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	s.D.Set("dns_server", s.Res.DnsServer)
 
+	if s.Res.ExascaleConfig != nil {
+		s.D.Set("exascale_config", []interface{}{ExascaleConfigDetailsToMap(s.Res.ExascaleConfig)})
+	} else {
+		s.D.Set("exascale_config", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Gateway != nil {
@@ -1261,6 +1288,20 @@ func ExadataInfrastructureContactToMap(obj oci_database.ExadataInfrastructureCon
 
 	if obj.PhoneNumber != nil {
 		result["phone_number"] = string(*obj.PhoneNumber)
+	}
+
+	return result
+}
+
+func ExascaleConfigDetailsToMap(obj *oci_database.ExascaleConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailableStorageInGBs != nil {
+		result["available_storage_in_gbs"] = int(*obj.AvailableStorageInGBs)
+	}
+
+	if obj.TotalStorageInGBs != nil {
+		result["total_storage_in_gbs"] = int(*obj.TotalStorageInGBs)
 	}
 
 	return result

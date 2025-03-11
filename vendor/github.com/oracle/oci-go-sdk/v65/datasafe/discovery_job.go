@@ -98,6 +98,9 @@ type DiscoveryJob struct {
 	// The OCIDs of the sensitive types used for data discovery.
 	SensitiveTypeIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeIdsForDiscovery"`
 
+	// The OCIDs of the sensitive type groups to be used by data discovery jobs.
+	SensitiveTypeGroupIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeGroupIdsForDiscovery"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

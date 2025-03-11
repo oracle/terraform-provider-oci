@@ -15,26 +15,52 @@ import (
 	"strings"
 )
 
-// UpdateOpensearchClusterPipelineDetails The configuration to update on an existing OpenSearch cluster pipeline. You can only edit capaccity limits and pipeline configuration. You can't edit its name or network settings.
+// UpdateOpensearchClusterPipelineDetails The configuration to update on an existing OpenSearch cluster pipeline. You can only edit capacity limits and pipeline configurations. You can't edit its network settings.
 type UpdateOpensearchClusterPipelineDetails struct {
 
 	// The name of the pipeline. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The maximum pipeline capacity, in OCPUs.
-	MaxOcpuCount *int `mandatory:"false" json:"maxOcpuCount"`
+	// The number of OCPUs configured for each pipeline node.
+	OcpuCount *int `mandatory:"false" json:"ocpuCount"`
 
-	// The minimum pipeline capacity, in OCPUs.
-	MinOcpuCount *int `mandatory:"false" json:"minOcpuCount"`
+	// The amount of memory in GB, for each pipeline node.
+	MemoryGB *int `mandatory:"false" json:"memoryGB"`
 
-	// The maximum amount of memory in GB, for the pipeline.
-	MaxMemoryGB *int `mandatory:"false" json:"maxMemoryGB"`
-
-	// The minimum amount of memory in GB, for the pipeline.
-	MinMemoryGB *int `mandatory:"false" json:"minMemoryGB"`
+	// The number of nodes configured for the pipeline.
+	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
 	// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
 	PipelineConfigurationBody *string `mandatory:"false" json:"pipelineConfigurationBody"`
+
+	// The data prepper config in YAML format. The command accepts the data prepper config as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
+	DataPrepperConfigurationBody *string `mandatory:"false" json:"dataPrepperConfigurationBody"`
+
+	// The OCID of the pipeline's VCN.
+	VcnId *string `mandatory:"false" json:"vcnId"`
+
+	// The OCID of the pipeline's subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// The OCID for the compartment where the pipeline's VCN is located.
+	VcnCompartmentId *string `mandatory:"false" json:"vcnCompartmentId"`
+
+	// The OCID for the compartment where the pipeline's subnet is located.
+	SubnetCompartmentId *string `mandatory:"false" json:"subnetCompartmentId"`
+
+	// The OCID of the NSG where the pipeline private endpoint vnic will be attached.
+	NsgId *string `mandatory:"false" json:"nsgId"`
+
+	// The customer IP and the corresponding fully qualified domain name that the pipeline will connect to.
+	ReverseConnectionEndpoints []OpensearchPipelineReverseConnectionEndpoint `mandatory:"false" json:"reverseConnectionEndpoints"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateOpensearchClusterPipelineDetails) String() string {

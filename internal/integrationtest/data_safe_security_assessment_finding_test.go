@@ -22,7 +22,20 @@ var (
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `findingKey`},
-		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `HIGH`},
+		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `high`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
+		"is_top_finding":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	DataSafesecurityAssessmentFindingScimDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"security_assessment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"field":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`field`}},
+		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `findingKey`},
+		"scim_query":                acctest.Representation{RepType: acctest.Optional, Create: `severity eq \"EVALUATE\"`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
 		"is_top_finding":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -57,13 +70,35 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 				compartmentIdVariableStr + targetIdVariableStr + securityAssessmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "severity", "HIGH"),
-				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.target_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.has_target_db_risk_level_changed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_risk_modified"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "findings.0.oneline"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.oracle_defined_severity"),
+				resource.TestCheckResourceAttr(datasourceName, "findings.0.references.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_top_finding"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.remarks"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.severity"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.summary"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.target_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.title"),
+			),
+		},
+
+		// verify datasource with scim filter
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Required, acctest.Create, DataSafesecurityAssessmentFindingScimDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + securityAssessmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "security_assessment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.has_target_db_risk_level_changed"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_risk_modified"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.oracle_defined_severity"),
 				resource.TestCheckResourceAttr(datasourceName, "findings.0.references.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_top_finding"),

@@ -39,8 +39,11 @@ type ApplicationVipSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The application virtual IP (VIP) address.
+	// The application virtual IP (VIP) IPv4 address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
+
+	// The application virtual IP (VIP) IPv6 address.
+	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
 
 	// Additional information about the current lifecycle state of the application virtual IP (VIP) address.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`

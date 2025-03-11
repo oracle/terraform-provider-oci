@@ -27,7 +27,7 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-  region           = var.region
+  region           = var.region 
 }
 
 resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {

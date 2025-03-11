@@ -35,8 +35,8 @@ var (
 		"user_profile":                                        acctest.Representation{RepType: acctest.Optional, Create: `userProfile`},
 		"user_role":                                           acctest.Representation{RepType: acctest.Optional, Create: `userRole`},
 		"user_type":                                           acctest.Representation{RepType: acctest.Optional, Create: `userType`},
-		"time_password_expiry_greater_than_or_equal_to":       acctest.Representation{RepType: acctest.Required, Create: `2024-10-30T00:00:00Z`},
-		"time_password_expiry_less_than":                      acctest.Representation{RepType: acctest.Required, Create: `2024-10-30T00:00:00Z`},
+		"time_password_expiry_greater_than_or_equal_to":       acctest.Representation{RepType: acctest.Required, Create: `2023-10-30T00:00:00Z`},
+		"time_password_expiry_less_than":                      acctest.Representation{RepType: acctest.Required, Create: `2030-10-30T00:00:00Z`},
 	}
 
 	DataSafeUserAssessmentUserResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)

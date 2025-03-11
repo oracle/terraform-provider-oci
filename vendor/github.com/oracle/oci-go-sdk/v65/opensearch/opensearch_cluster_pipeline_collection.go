@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// OpensearchClusterPipelineCollection The list of cluster pieplines returned in a cluster pipeline search.
+// OpensearchClusterPipelineCollection The list of cluster pipelines returned in a cluster pipeline search.
 type OpensearchClusterPipelineCollection struct {
 
 	// The list of cluster pipeline.

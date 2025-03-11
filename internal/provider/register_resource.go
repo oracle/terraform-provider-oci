@@ -257,17 +257,20 @@ func init() {
 	if common.CheckForEnabledServices("datascience") {
 		tf_datascience.RegisterResource()
 	}
+	if common.CheckForEnabledServices("dblm") {
+		tf_dblm.RegisterResource()
+	}
 	if common.CheckForEnabledServices("delegateaccesscontrol") {
 		tf_delegate_access_control.RegisterResource()
 	}
 	if common.CheckForEnabledServices("demandsignal") {
 		tf_demand_signal.RegisterResource()
 	}
-	if common.CheckForEnabledServices("dblm") {
-		tf_dblm.RegisterResource()
-	}
 	if common.CheckForEnabledServices("desktops") {
 		tf_desktops.RegisterResource()
+	}
+	if common.CheckForEnabledServices("dblm") {
+		tf_dblm.RegisterResource()
 	}
 	if common.CheckForEnabledServices("devops") {
 		tf_devops.RegisterResource()
@@ -287,11 +290,11 @@ func init() {
 	if common.CheckForEnabledServices("filestorage") {
 		tf_file_storage.RegisterResource()
 	}
-	if common.CheckForEnabledServices("fleetsoftwareupdate") {
-		tf_fleet_software_update.RegisterResource()
-	}
 	if common.CheckForEnabledServices("fleetappsmanagement") {
 		tf_fleet_apps_management.RegisterResource()
+	}
+	if common.CheckForEnabledServices("fleetsoftwareupdate") {
+		tf_fleet_software_update.RegisterResource()
 	}
 	if common.CheckForEnabledServices("functions") {
 		tf_functions.RegisterResource()
@@ -416,7 +419,7 @@ func init() {
 	if common.CheckForEnabledServices("optimizer") {
 		tf_optimizer.RegisterResource()
 	}
-	if common.CheckForEnabledServices("os_management_hub") {
+	if common.CheckForEnabledServices("osmanagementhub") {
 		tf_os_management_hub.RegisterResource()
 	}
 	if common.CheckForEnabledServices("osmanagement") {
