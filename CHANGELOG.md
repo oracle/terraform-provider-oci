@@ -1,4 +1,4 @@
-## 6.30.0 (Unreleased)
+## 6.30.0 (March 11, 2025)
 
 ### Added
 - Support for ExaDB-C@C Exascale Integration
