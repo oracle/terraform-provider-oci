@@ -47,13 +47,10 @@ type UpdateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreDetails `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the Customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
 	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientDetails `mandatory:"false" json:"proxyClient"`
-
-	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
-	RuntimeIdentity RuntimeIdentityEnum `mandatory:"false" json:"runtimeIdentity,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -71,11 +68,6 @@ func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) GetFreeformTags() ma
 	return m.FreeformTags
 }
 
-// GetRuntimeIdentity returns RuntimeIdentity
-func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) GetRuntimeIdentity() RuntimeIdentityEnum {
-	return m.RuntimeIdentity
-}
-
 func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -86,9 +78,6 @@ func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) String() string {
 func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -115,7 +104,6 @@ func (m *UpdateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 		DisplayName        *string                                                 `json:"displayName"`
 		DefinedTags        map[string]map[string]interface{}                       `json:"definedTags"`
 		FreeformTags       map[string]string                                       `json:"freeformTags"`
-		RuntimeIdentity    RuntimeIdentityEnum                                     `json:"runtimeIdentity"`
 		RelatedResource    *UpdateDatabaseToolsRelatedResourceDetails              `json:"relatedResource"`
 		ConnectionString   *string                                                 `json:"connectionString"`
 		UserName           *string                                                 `json:"userName"`
@@ -136,8 +124,6 @@ func (m *UpdateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
-
-	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.RelatedResource = model.RelatedResource
 

@@ -33,7 +33,7 @@ type UpdateAgentEndpointDetails struct {
 	GuardrailConfig *GuardrailConfig `mandatory:"false" json:"guardrailConfig"`
 
 	// Key-value pairs to allow additional configurations.
-	Metadata *interface{} `mandatory:"false" json:"metadata"`
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
 	HumanInputConfig *HumanInputConfig `mandatory:"false" json:"humanInputConfig"`
 

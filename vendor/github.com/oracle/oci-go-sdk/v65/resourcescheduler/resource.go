@@ -31,6 +31,8 @@ type Resource struct {
 	//       }
 	//     }
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
+	Parameters *Parameters `mandatory:"false" json:"parameters"`
 }
 
 func (m Resource) String() string {

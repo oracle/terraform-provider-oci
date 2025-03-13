@@ -107,8 +107,14 @@ type CreateComputeClusterDetails struct {
 	// Cluster Key of the cluster.
 	ClusterKey *string `mandatory:"false" json:"clusterKey"`
 
+	// Specify the logId to publish spark diagnostic logs.
+	LogId *string `mandatory:"false" json:"logId"`
+
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
+
+	// Indicates whether this compute cluster should be created as default cluster
+	IsDefaultComputeCluster *bool `mandatory:"false" json:"isDefaultComputeCluster"`
 }
 
 func (m CreateComputeClusterDetails) String() string {

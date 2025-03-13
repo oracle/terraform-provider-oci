@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ValidateDatabaseToolsIdentityCredentialOracleDatabaseResourcePrincipalResult The Database Tools Identity Validate Credentials result for the Oracle Database Resource Principal Identity type.
+// ValidateDatabaseToolsIdentityCredentialOracleDatabaseResourcePrincipalResult The Database Tools identity validate credentials result for the Oracle Database resource principal identity type.
 type ValidateDatabaseToolsIdentityCredentialOracleDatabaseResourcePrincipalResult struct {
 
 	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.

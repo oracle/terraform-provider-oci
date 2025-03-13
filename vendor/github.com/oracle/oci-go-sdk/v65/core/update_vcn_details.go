@@ -61,6 +61,9 @@ type UpdateVcnDetails struct {
 	// Indicates whether traffic within the VCN is encrypted.
 	// For more information, see VN Encryption (https://docs.oracle.com/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#encryption).
 	IsEncrypted *bool `mandatory:"false" json:"isEncrypted"`
+
+	// Indicates whether Zpr Only Mode is enforced.
+	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 
 func (m UpdateVcnDetails) String() string {

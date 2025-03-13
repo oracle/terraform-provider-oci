@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsIdentity Description of the Database Tools identity.
+// DatabaseToolsIdentity Manages credentials in a database to access service resources.
 type DatabaseToolsIdentity interface {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools identity.
@@ -28,7 +28,7 @@ type DatabaseToolsIdentity interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools connection.
 	GetDatabaseToolsConnectionId() *string
 
 	// The current state of the Database Tools identity.

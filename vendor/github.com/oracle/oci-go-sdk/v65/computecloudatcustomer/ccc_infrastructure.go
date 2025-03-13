@@ -61,7 +61,7 @@ type CccInfrastructure struct {
 	ConnectionDetails *string `mandatory:"false" json:"connectionDetails"`
 
 	// Schedule used for upgrades. If no schedule is associated with the infrastructure,
-	// it can be updated at any time.
+	// the infrastructure can be updated at any time.
 	CccUpgradeScheduleId *string `mandatory:"false" json:"cccUpgradeScheduleId"`
 
 	// Fingerprint of a Compute Cloud@Customer infrastructure in a data center generated

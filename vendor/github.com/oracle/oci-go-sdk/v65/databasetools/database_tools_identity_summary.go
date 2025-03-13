@@ -28,7 +28,7 @@ type DatabaseToolsIdentitySummary interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools connection.
 	GetDatabaseToolsConnectionId() *string
 
 	// The current state of the Database Tools identity.

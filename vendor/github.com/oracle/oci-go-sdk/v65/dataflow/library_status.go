@@ -20,6 +20,7 @@ type LibraryStatusEnum string
 const (
 	LibraryStatusPending            LibraryStatusEnum = "PENDING"
 	LibraryStatusDownloading        LibraryStatusEnum = "DOWNLOADING"
+	LibraryStatusInstallOnRestart   LibraryStatusEnum = "INSTALL_ON_RESTART"
 	LibraryStatusInstalling         LibraryStatusEnum = "INSTALLING"
 	LibraryStatusInstalled          LibraryStatusEnum = "INSTALLED"
 	LibraryStatusFailed             LibraryStatusEnum = "FAILED"
@@ -31,6 +32,7 @@ const (
 var mappingLibraryStatusEnum = map[string]LibraryStatusEnum{
 	"PENDING":              LibraryStatusPending,
 	"DOWNLOADING":          LibraryStatusDownloading,
+	"INSTALL_ON_RESTART":   LibraryStatusInstallOnRestart,
 	"INSTALLING":           LibraryStatusInstalling,
 	"INSTALLED":            LibraryStatusInstalled,
 	"FAILED":               LibraryStatusFailed,
@@ -42,6 +44,7 @@ var mappingLibraryStatusEnum = map[string]LibraryStatusEnum{
 var mappingLibraryStatusEnumLowerCase = map[string]LibraryStatusEnum{
 	"pending":              LibraryStatusPending,
 	"downloading":          LibraryStatusDownloading,
+	"install_on_restart":   LibraryStatusInstallOnRestart,
 	"installing":           LibraryStatusInstalling,
 	"installed":            LibraryStatusInstalled,
 	"failed":               LibraryStatusFailed,
@@ -64,6 +67,7 @@ func GetLibraryStatusEnumStringValues() []string {
 	return []string{
 		"PENDING",
 		"DOWNLOADING",
+		"INSTALL_ON_RESTART",
 		"INSTALLING",
 		"INSTALLED",
 		"FAILED",

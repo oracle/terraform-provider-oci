@@ -149,12 +149,6 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
-
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	IsLocalDataGuardEnabled *bool `mandatory:"false" json:"isLocalDataGuardEnabled"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -256,9 +250,6 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
-
-	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
-	AutoRefreshPolicy CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
 
 	// Indicates the Autonomous Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
@@ -448,16 +439,6 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetStandbyWhitelistedIp
 	return m.StandbyWhitelistedIps
 }
 
-// GetIsDataGuardEnabled returns IsDataGuardEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsDataGuardEnabled() *bool {
-	return m.IsDataGuardEnabled
-}
-
-// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsLocalDataGuardEnabled() *bool {
-	return m.IsLocalDataGuardEnabled
-}
-
 // GetSubnetId returns SubnetId
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetSubnetId() *string {
 	return m.SubnetId
@@ -585,9 +566,6 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bo
 	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(string(m.RefreshableMode)); !ok && m.RefreshableMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum(string(m.AutoRefreshPolicy)); !ok && m.AutoRefreshPolicy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(string(m.OpenMode)); !ok && m.OpenMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(), ",")))
 	}
@@ -633,70 +611,67 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) MarshalJSON() (buff []b
 // UnmarshalJSON unmarshals from json
 func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SubscriptionId                           *string                                                              `json:"subscriptionId"`
-		CharacterSet                             *string                                                              `json:"characterSet"`
-		NcharacterSet                            *string                                                              `json:"ncharacterSet"`
-		DbName                                   *string                                                              `json:"dbName"`
-		CpuCoreCount                             *int                                                                 `json:"cpuCoreCount"`
-		BackupRetentionPeriodInDays              *int                                                                 `json:"backupRetentionPeriodInDays"`
-		ComputeModel                             CreateAutonomousDatabaseBaseComputeModelEnum                         `json:"computeModel"`
-		ComputeCount                             *float32                                                             `json:"computeCount"`
-		OcpuCount                                *float32                                                             `json:"ocpuCount"`
-		DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                           `json:"dbWorkload"`
-		DataStorageSizeInTBs                     *int                                                                 `json:"dataStorageSizeInTBs"`
-		DataStorageSizeInGBs                     *int                                                                 `json:"dataStorageSizeInGBs"`
-		IsFreeTier                               *bool                                                                `json:"isFreeTier"`
-		KmsKeyId                                 *string                                                              `json:"kmsKeyId"`
-		VaultId                                  *string                                                              `json:"vaultId"`
-		EncryptionKey                            autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
-		AdminPassword                            *string                                                              `json:"adminPassword"`
-		DisplayName                              *string                                                              `json:"displayName"`
-		LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                         `json:"licenseModel"`
-		ByolComputeCountLimit                    *float32                                                             `json:"byolComputeCountLimit"`
-		IsPreviewVersionWithServiceTermsAccepted *bool                                                                `json:"isPreviewVersionWithServiceTermsAccepted"`
-		IsAutoScalingEnabled                     *bool                                                                `json:"isAutoScalingEnabled"`
-		IsDevTier                                *bool                                                                `json:"isDevTier"`
-		IsDedicated                              *bool                                                                `json:"isDedicated"`
-		AutonomousContainerDatabaseId            *string                                                              `json:"autonomousContainerDatabaseId"`
-		InMemoryPercentage                       *int                                                                 `json:"inMemoryPercentage"`
-		IsAccessControlEnabled                   *bool                                                                `json:"isAccessControlEnabled"`
-		WhitelistedIps                           []string                                                             `json:"whitelistedIps"`
-		ArePrimaryWhitelistedIpsUsed             *bool                                                                `json:"arePrimaryWhitelistedIpsUsed"`
-		StandbyWhitelistedIps                    []string                                                             `json:"standbyWhitelistedIps"`
-		IsDataGuardEnabled                       *bool                                                                `json:"isDataGuardEnabled"`
-		IsLocalDataGuardEnabled                  *bool                                                                `json:"isLocalDataGuardEnabled"`
-		SubnetId                                 *string                                                              `json:"subnetId"`
-		NsgIds                                   []string                                                             `json:"nsgIds"`
-		PrivateEndpointLabel                     *string                                                              `json:"privateEndpointLabel"`
-		FreeformTags                             map[string]string                                                    `json:"freeformTags"`
-		DefinedTags                              map[string]map[string]interface{}                                    `json:"definedTags"`
-		SecurityAttributes                       map[string]map[string]interface{}                                    `json:"securityAttributes"`
-		PrivateEndpointIp                        *string                                                              `json:"privateEndpointIp"`
-		DbVersion                                *string                                                              `json:"dbVersion"`
-		CustomerContacts                         []CustomerContact                                                    `json:"customerContacts"`
-		IsMtlsConnectionRequired                 *bool                                                                `json:"isMtlsConnectionRequired"`
-		ResourcePoolLeaderId                     *string                                                              `json:"resourcePoolLeaderId"`
-		ResourcePoolSummary                      *ResourcePoolSummary                                                 `json:"resourcePoolSummary"`
-		AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum    `json:"autonomousMaintenanceScheduleType"`
-		IsOracleServiceGatewayAllowed            *bool                                                                `json:"isOracleServiceGatewayAllowed"`
-		ScheduledOperations                      []ScheduledOperationDetails                                          `json:"scheduledOperations"`
-		IsAutoScalingForStorageEnabled           *bool                                                                `json:"isAutoScalingForStorageEnabled"`
-		DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                         `json:"databaseEdition"`
-		DbToolsDetails                           []DatabaseTool                                                       `json:"dbToolsDetails"`
-		ExternalAuthentication                   []externalauthenticationbase                                         `json:"externalAuthentication"`
-		IsBackupRetentionLocked                  *bool                                                                `json:"isBackupRetentionLocked"`
-		SecretId                                 *string                                                              `json:"secretId"`
-		SecretVersionNumber                      *int                                                                 `json:"secretVersionNumber"`
-		TransportableTablespace                  *ImportTransportableTablespaceDetails                                `json:"transportableTablespace"`
-		RefreshableMode                          CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum   `json:"refreshableMode"`
-		AutoRefreshPolicy                        CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum `json:"autoRefreshPolicy"`
-		AutoRefreshFrequencyInSeconds            *int                                                                 `json:"autoRefreshFrequencyInSeconds"`
-		AutoRefreshPointLagInSeconds             *int                                                                 `json:"autoRefreshPointLagInSeconds"`
-		TimeOfAutoRefreshStart                   *common.SDKTime                                                      `json:"timeOfAutoRefreshStart"`
-		OpenMode                                 CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum          `json:"openMode"`
-		CloneType                                CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum         `json:"cloneType"`
-		CompartmentId                            *string                                                              `json:"compartmentId"`
-		SourceId                                 *string                                                              `json:"sourceId"`
+		SubscriptionId                           *string                                                            `json:"subscriptionId"`
+		CharacterSet                             *string                                                            `json:"characterSet"`
+		NcharacterSet                            *string                                                            `json:"ncharacterSet"`
+		DbName                                   *string                                                            `json:"dbName"`
+		CpuCoreCount                             *int                                                               `json:"cpuCoreCount"`
+		BackupRetentionPeriodInDays              *int                                                               `json:"backupRetentionPeriodInDays"`
+		ComputeModel                             CreateAutonomousDatabaseBaseComputeModelEnum                       `json:"computeModel"`
+		ComputeCount                             *float32                                                           `json:"computeCount"`
+		OcpuCount                                *float32                                                           `json:"ocpuCount"`
+		DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                         `json:"dbWorkload"`
+		DataStorageSizeInTBs                     *int                                                               `json:"dataStorageSizeInTBs"`
+		DataStorageSizeInGBs                     *int                                                               `json:"dataStorageSizeInGBs"`
+		IsFreeTier                               *bool                                                              `json:"isFreeTier"`
+		KmsKeyId                                 *string                                                            `json:"kmsKeyId"`
+		VaultId                                  *string                                                            `json:"vaultId"`
+		EncryptionKey                            autonomousdatabaseencryptionkeydetails                             `json:"encryptionKey"`
+		AdminPassword                            *string                                                            `json:"adminPassword"`
+		DisplayName                              *string                                                            `json:"displayName"`
+		LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                       `json:"licenseModel"`
+		ByolComputeCountLimit                    *float32                                                           `json:"byolComputeCountLimit"`
+		IsPreviewVersionWithServiceTermsAccepted *bool                                                              `json:"isPreviewVersionWithServiceTermsAccepted"`
+		IsAutoScalingEnabled                     *bool                                                              `json:"isAutoScalingEnabled"`
+		IsDevTier                                *bool                                                              `json:"isDevTier"`
+		IsDedicated                              *bool                                                              `json:"isDedicated"`
+		AutonomousContainerDatabaseId            *string                                                            `json:"autonomousContainerDatabaseId"`
+		InMemoryPercentage                       *int                                                               `json:"inMemoryPercentage"`
+		IsAccessControlEnabled                   *bool                                                              `json:"isAccessControlEnabled"`
+		WhitelistedIps                           []string                                                           `json:"whitelistedIps"`
+		ArePrimaryWhitelistedIpsUsed             *bool                                                              `json:"arePrimaryWhitelistedIpsUsed"`
+		StandbyWhitelistedIps                    []string                                                           `json:"standbyWhitelistedIps"`
+		SubnetId                                 *string                                                            `json:"subnetId"`
+		NsgIds                                   []string                                                           `json:"nsgIds"`
+		PrivateEndpointLabel                     *string                                                            `json:"privateEndpointLabel"`
+		FreeformTags                             map[string]string                                                  `json:"freeformTags"`
+		DefinedTags                              map[string]map[string]interface{}                                  `json:"definedTags"`
+		SecurityAttributes                       map[string]map[string]interface{}                                  `json:"securityAttributes"`
+		PrivateEndpointIp                        *string                                                            `json:"privateEndpointIp"`
+		DbVersion                                *string                                                            `json:"dbVersion"`
+		CustomerContacts                         []CustomerContact                                                  `json:"customerContacts"`
+		IsMtlsConnectionRequired                 *bool                                                              `json:"isMtlsConnectionRequired"`
+		ResourcePoolLeaderId                     *string                                                            `json:"resourcePoolLeaderId"`
+		ResourcePoolSummary                      *ResourcePoolSummary                                               `json:"resourcePoolSummary"`
+		AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum  `json:"autonomousMaintenanceScheduleType"`
+		IsOracleServiceGatewayAllowed            *bool                                                              `json:"isOracleServiceGatewayAllowed"`
+		ScheduledOperations                      []ScheduledOperationDetails                                        `json:"scheduledOperations"`
+		IsAutoScalingForStorageEnabled           *bool                                                              `json:"isAutoScalingForStorageEnabled"`
+		DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                       `json:"databaseEdition"`
+		DbToolsDetails                           []DatabaseTool                                                     `json:"dbToolsDetails"`
+		ExternalAuthentication                   []externalauthenticationbase                                       `json:"externalAuthentication"`
+		IsBackupRetentionLocked                  *bool                                                              `json:"isBackupRetentionLocked"`
+		SecretId                                 *string                                                            `json:"secretId"`
+		SecretVersionNumber                      *int                                                               `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                              `json:"transportableTablespace"`
+		RefreshableMode                          CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `json:"refreshableMode"`
+		AutoRefreshFrequencyInSeconds            *int                                                               `json:"autoRefreshFrequencyInSeconds"`
+		AutoRefreshPointLagInSeconds             *int                                                               `json:"autoRefreshPointLagInSeconds"`
+		TimeOfAutoRefreshStart                   *common.SDKTime                                                    `json:"timeOfAutoRefreshStart"`
+		OpenMode                                 CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum        `json:"openMode"`
+		CloneType                                CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum       `json:"cloneType"`
+		CompartmentId                            *string                                                            `json:"compartmentId"`
+		SourceId                                 *string                                                            `json:"sourceId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -772,10 +747,6 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 
 	m.StandbyWhitelistedIps = make([]string, len(model.StandbyWhitelistedIps))
 	copy(m.StandbyWhitelistedIps, model.StandbyWhitelistedIps)
-	m.IsDataGuardEnabled = model.IsDataGuardEnabled
-
-	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
-
 	m.SubnetId = model.SubnetId
 
 	m.NsgIds = make([]string, len(model.NsgIds))
@@ -834,8 +805,6 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 
 	m.RefreshableMode = model.RefreshableMode
 
-	m.AutoRefreshPolicy = model.AutoRefreshPolicy
-
 	m.AutoRefreshFrequencyInSeconds = model.AutoRefreshFrequencyInSeconds
 
 	m.AutoRefreshPointLagInSeconds = model.AutoRefreshPointLagInSeconds
@@ -892,48 +861,6 @@ func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumString
 // GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum, bool) {
 	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum Enum with underlying type: string
-type CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum string
-
-// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
-const (
-	CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = "CONTINUOUS"
-	CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = "CUSTOM"
-)
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum{
-	"CONTINUOUS": CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous,
-	"CUSTOM":     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom,
-}
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum{
-	"continuous": CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous,
-	"custom":     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom,
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum {
-	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues() []string {
-	return []string{
-		"CONTINUOUS",
-		"CUSTOM",
-	}
-}
-
-// GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum, bool) {
-	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -175,9 +175,6 @@ type AutonomousDatabase struct {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The URL of the Service Console for the Autonomous Database.
-	ServiceConsoleUrl *string `mandatory:"false" json:"serviceConsoleUrl"`
-
 	// The connection string used to connect to the Autonomous Database. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Database for the password value.
 	ConnectionStrings *AutonomousDatabaseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
@@ -361,9 +358,6 @@ type AutonomousDatabase struct {
 	// The timestamp of the last failover operation.
 	TimeOfLastFailover *common.SDKTime `mandatory:"false" json:"timeOfLastFailover"`
 
-	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
-
 	// Indicates the number of seconds of data loss for a Data Guard failover.
 	FailedDataRecoveryInSeconds *int `mandatory:"false" json:"failedDataRecoveryInSeconds"`
 
@@ -410,12 +404,6 @@ type AutonomousDatabase struct {
 
 	// The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.
 	TimeLocalDataGuardEnabled *common.SDKTime `mandatory:"false" json:"timeLocalDataGuardEnabled"`
-
-	// **Deprecated.** The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Database Serverless, Autonomous Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Autonomous Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Autonomous Data Guard association, and cannot be performed when the database using the primary role is operating in a remote Autonomous Data Guard standby region.
-	DataguardRegionType AutonomousDatabaseDataguardRegionTypeEnum `mandatory:"false" json:"dataguardRegionType,omitempty"`
-
-	// The date and time the Autonomous Data Guard role was switched for the Autonomous Database. For databases that have standbys in both the primary Data Guard region and a remote Data Guard standby region, this is the latest timestamp of either the database using the "primary" role in the primary Data Guard region, or database located in the remote Data Guard standby region.
-	TimeDataGuardRoleChanged *common.SDKTime `mandatory:"false" json:"timeDataGuardRoleChanged"`
 
 	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for Autonomous Database Serverless instances, standby databases located in the same region as the source primary database do not have OCIDs.
 	PeerDbIds []string `mandatory:"false" json:"peerDbIds"`
@@ -508,6 +496,9 @@ type AutonomousDatabase struct {
 	// The Autonomous Database clone type.
 	CloneType AutonomousDatabaseCloneTypeEnum `mandatory:"false" json:"cloneType,omitempty"`
 
+	// Indicates the probable data loss for cross region standby on failover in seconds.
+	RemoteDisasterRecoveryPotentialDataLoss *int64 `mandatory:"false" json:"remoteDisasterRecoveryPotentialDataLoss"`
+
 	// The FDI(FAW) Instance ID that provisioned the ADB
 	FawInstanceId *string `mandatory:"false" json:"fawInstanceId"`
 }
@@ -563,9 +554,6 @@ func (m AutonomousDatabase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseAutoRefreshPolicyEnum(string(m.AutoRefreshPolicy)); !ok && m.AutoRefreshPolicy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetAutonomousDatabaseAutoRefreshPolicyEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingAutonomousDatabaseDataguardRegionTypeEnum(string(m.DataguardRegionType)); !ok && m.DataguardRegionType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataguardRegionType: %s. Supported values are: %s.", m.DataguardRegionType, strings.Join(GetAutonomousDatabaseDataguardRegionTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
@@ -637,7 +625,6 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		TimeScheduledDbUpgrade                  *common.SDKTime                                         `json:"timeScheduledDbUpgrade"`
 		TimeCreated                             *common.SDKTime                                         `json:"timeCreated"`
 		DisplayName                             *string                                                 `json:"displayName"`
-		ServiceConsoleUrl                       *string                                                 `json:"serviceConsoleUrl"`
 		ConnectionStrings                       *AutonomousDatabaseConnectionStrings                    `json:"connectionStrings"`
 		ConnectionUrls                          *AutonomousDatabaseConnectionUrls                       `json:"connectionUrls"`
 		PublicConnectionUrls                    *AutonomousDatabaseConnectionUrls                       `json:"publicConnectionUrls"`
@@ -681,7 +668,6 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		IsVirtualClone                          *bool                                                   `json:"isVirtualClone"`
 		TimeOfLastSwitchover                    *common.SDKTime                                         `json:"timeOfLastSwitchover"`
 		TimeOfLastFailover                      *common.SDKTime                                         `json:"timeOfLastFailover"`
-		IsDataGuardEnabled                      *bool                                                   `json:"isDataGuardEnabled"`
 		FailedDataRecoveryInSeconds             *int                                                    `json:"failedDataRecoveryInSeconds"`
 		StandbyDb                               *AutonomousDatabaseStandbySummary                       `json:"standbyDb"`
 		IsLocalDataGuardEnabled                 *bool                                                   `json:"isLocalDataGuardEnabled"`
@@ -698,8 +684,6 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		SupportedRegionsToCloneTo               []string                                                `json:"supportedRegionsToCloneTo"`
 		CustomerContacts                        []CustomerContact                                       `json:"customerContacts"`
 		TimeLocalDataGuardEnabled               *common.SDKTime                                         `json:"timeLocalDataGuardEnabled"`
-		DataguardRegionType                     AutonomousDatabaseDataguardRegionTypeEnum               `json:"dataguardRegionType"`
-		TimeDataGuardRoleChanged                *common.SDKTime                                         `json:"timeDataGuardRoleChanged"`
 		PeerDbIds                               []string                                                `json:"peerDbIds"`
 		IsMtlsConnectionRequired                *bool                                                   `json:"isMtlsConnectionRequired"`
 		TimeOfJoiningResourcePool               *common.SDKTime                                         `json:"timeOfJoiningResourcePool"`
@@ -726,6 +710,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		CloneTableSpaceList                     []int                                                   `json:"cloneTableSpaceList"`
 		ExternalAuthentication                  []externalauthenticationbase                            `json:"externalAuthentication"`
 		CloneType                               AutonomousDatabaseCloneTypeEnum                         `json:"cloneType"`
+		RemoteDisasterRecoveryPotentialDataLoss *int64                                                  `json:"remoteDisasterRecoveryPotentialDataLoss"`
 		FawInstanceId                           *string                                                 `json:"fawInstanceId"`
 		Id                                      *string                                                 `json:"id"`
 		CompartmentId                           *string                                                 `json:"compartmentId"`
@@ -832,8 +817,6 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.DisplayName = model.DisplayName
 
-	m.ServiceConsoleUrl = model.ServiceConsoleUrl
-
 	m.ConnectionStrings = model.ConnectionStrings
 
 	m.ConnectionUrls = model.ConnectionUrls
@@ -920,8 +903,6 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeOfLastFailover = model.TimeOfLastFailover
 
-	m.IsDataGuardEnabled = model.IsDataGuardEnabled
-
 	m.FailedDataRecoveryInSeconds = model.FailedDataRecoveryInSeconds
 
 	m.StandbyDb = model.StandbyDb
@@ -953,10 +934,6 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
 	copy(m.CustomerContacts, model.CustomerContacts)
 	m.TimeLocalDataGuardEnabled = model.TimeLocalDataGuardEnabled
-
-	m.DataguardRegionType = model.DataguardRegionType
-
-	m.TimeDataGuardRoleChanged = model.TimeDataGuardRoleChanged
 
 	m.PeerDbIds = make([]string, len(model.PeerDbIds))
 	copy(m.PeerDbIds, model.PeerDbIds)
@@ -1019,6 +996,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.CloneType = model.CloneType
+
+	m.RemoteDisasterRecoveryPotentialDataLoss = model.RemoteDisasterRecoveryPotentialDataLoss
 
 	m.FawInstanceId = model.FawInstanceId
 
@@ -1762,48 +1741,6 @@ func GetAutonomousDatabaseAutoRefreshPolicyEnumStringValues() []string {
 // GetMappingAutonomousDatabaseAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseAutoRefreshPolicyEnum(val string) (AutonomousDatabaseAutoRefreshPolicyEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// AutonomousDatabaseDataguardRegionTypeEnum Enum with underlying type: string
-type AutonomousDatabaseDataguardRegionTypeEnum string
-
-// Set of constants representing the allowable values for AutonomousDatabaseDataguardRegionTypeEnum
-const (
-	AutonomousDatabaseDataguardRegionTypePrimaryDgRegion       AutonomousDatabaseDataguardRegionTypeEnum = "PRIMARY_DG_REGION"
-	AutonomousDatabaseDataguardRegionTypeRemoteStandbyDgRegion AutonomousDatabaseDataguardRegionTypeEnum = "REMOTE_STANDBY_DG_REGION"
-)
-
-var mappingAutonomousDatabaseDataguardRegionTypeEnum = map[string]AutonomousDatabaseDataguardRegionTypeEnum{
-	"PRIMARY_DG_REGION":        AutonomousDatabaseDataguardRegionTypePrimaryDgRegion,
-	"REMOTE_STANDBY_DG_REGION": AutonomousDatabaseDataguardRegionTypeRemoteStandbyDgRegion,
-}
-
-var mappingAutonomousDatabaseDataguardRegionTypeEnumLowerCase = map[string]AutonomousDatabaseDataguardRegionTypeEnum{
-	"primary_dg_region":        AutonomousDatabaseDataguardRegionTypePrimaryDgRegion,
-	"remote_standby_dg_region": AutonomousDatabaseDataguardRegionTypeRemoteStandbyDgRegion,
-}
-
-// GetAutonomousDatabaseDataguardRegionTypeEnumValues Enumerates the set of values for AutonomousDatabaseDataguardRegionTypeEnum
-func GetAutonomousDatabaseDataguardRegionTypeEnumValues() []AutonomousDatabaseDataguardRegionTypeEnum {
-	values := make([]AutonomousDatabaseDataguardRegionTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardRegionTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetAutonomousDatabaseDataguardRegionTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardRegionTypeEnum
-func GetAutonomousDatabaseDataguardRegionTypeEnumStringValues() []string {
-	return []string{
-		"PRIMARY_DG_REGION",
-		"REMOTE_STANDBY_DG_REGION",
-	}
-}
-
-// GetMappingAutonomousDatabaseDataguardRegionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAutonomousDatabaseDataguardRegionTypeEnum(val string) (AutonomousDatabaseDataguardRegionTypeEnum, bool) {
-	enum, ok := mappingAutonomousDatabaseDataguardRegionTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

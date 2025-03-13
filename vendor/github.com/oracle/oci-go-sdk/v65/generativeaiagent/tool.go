@@ -53,7 +53,7 @@ type Tool struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Key-value pairs to allow additional configurations.
-	Metadata *interface{} `mandatory:"false" json:"metadata"`
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -94,7 +94,7 @@ func (m *Tool) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		TimeUpdated    *common.SDKTime                   `json:"timeUpdated"`
 		DisplayName    *string                           `json:"displayName"`
-		Metadata       *interface{}                      `json:"metadata"`
+		Metadata       map[string]string                 `json:"metadata"`
 		FreeformTags   map[string]string                 `json:"freeformTags"`
 		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags     map[string]map[string]interface{} `json:"systemTags"`

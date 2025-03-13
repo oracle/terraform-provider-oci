@@ -18,24 +18,27 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeStartResource  OperationTypeEnum = "START_RESOURCE"
-	OperationTypeStopResource   OperationTypeEnum = "STOP_RESOURCE"
-	OperationTypeCreateSchedule OperationTypeEnum = "CREATE_SCHEDULE"
-	OperationTypeUpdateSchedule OperationTypeEnum = "UPDATE_SCHEDULE"
+	OperationTypeStartResource             OperationTypeEnum = "START_RESOURCE"
+	OperationTypeStopResource              OperationTypeEnum = "STOP_RESOURCE"
+	OperationTypeChangeScheduleCompartment OperationTypeEnum = "CHANGE_SCHEDULE_COMPARTMENT"
+	OperationTypeCreateSchedule            OperationTypeEnum = "CREATE_SCHEDULE"
+	OperationTypeUpdateSchedule            OperationTypeEnum = "UPDATE_SCHEDULE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"START_RESOURCE":  OperationTypeStartResource,
-	"STOP_RESOURCE":   OperationTypeStopResource,
-	"CREATE_SCHEDULE": OperationTypeCreateSchedule,
-	"UPDATE_SCHEDULE": OperationTypeUpdateSchedule,
+	"START_RESOURCE":              OperationTypeStartResource,
+	"STOP_RESOURCE":               OperationTypeStopResource,
+	"CHANGE_SCHEDULE_COMPARTMENT": OperationTypeChangeScheduleCompartment,
+	"CREATE_SCHEDULE":             OperationTypeCreateSchedule,
+	"UPDATE_SCHEDULE":             OperationTypeUpdateSchedule,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"start_resource":  OperationTypeStartResource,
-	"stop_resource":   OperationTypeStopResource,
-	"create_schedule": OperationTypeCreateSchedule,
-	"update_schedule": OperationTypeUpdateSchedule,
+	"start_resource":              OperationTypeStartResource,
+	"stop_resource":               OperationTypeStopResource,
+	"change_schedule_compartment": OperationTypeChangeScheduleCompartment,
+	"create_schedule":             OperationTypeCreateSchedule,
+	"update_schedule":             OperationTypeUpdateSchedule,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -52,6 +55,7 @@ func GetOperationTypeEnumStringValues() []string {
 	return []string{
 		"START_RESOURCE",
 		"STOP_RESOURCE",
+		"CHANGE_SCHEDULE_COMPARTMENT",
 		"CREATE_SCHEDULE",
 		"UPDATE_SCHEDULE",
 	}

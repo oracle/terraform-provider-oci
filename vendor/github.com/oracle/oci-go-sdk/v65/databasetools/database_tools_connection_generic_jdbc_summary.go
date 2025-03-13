@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsConnectionGenericJdbcSummary DatabaseToolsConnectionSummary of a Generic JDBC database system.
+// DatabaseToolsConnectionGenericJdbcSummary Database Tools connection summary of a Generic JDBC database system.
 type DatabaseToolsConnectionGenericJdbcSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools connection.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

@@ -44,9 +44,6 @@ type UpdateDatabaseToolsConnectionGenericJdbcDetails struct {
 	// The CA certificate to verify the server's certificate and
 	// the client private key and associated certificate required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreGenericJdbcDetails `mandatory:"false" json:"keyStores"`
-
-	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
-	RuntimeIdentity RuntimeIdentityEnum `mandatory:"false" json:"runtimeIdentity,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -64,11 +61,6 @@ func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) GetFreeformTags() map[s
 	return m.FreeformTags
 }
 
-// GetRuntimeIdentity returns RuntimeIdentity
-func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) GetRuntimeIdentity() RuntimeIdentityEnum {
-	return m.RuntimeIdentity
-}
-
 func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) String() string {
 	return common.PointerString(m)
 }
@@ -79,9 +71,6 @@ func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) String() string {
 func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -108,7 +97,6 @@ func (m *UpdateDatabaseToolsConnectionGenericJdbcDetails) UnmarshalJSON(data []b
 		DisplayName        *string                                   `json:"displayName"`
 		DefinedTags        map[string]map[string]interface{}         `json:"definedTags"`
 		FreeformTags       map[string]string                         `json:"freeformTags"`
-		RuntimeIdentity    RuntimeIdentityEnum                       `json:"runtimeIdentity"`
 		Url                *string                                   `json:"url"`
 		UserName           *string                                   `json:"userName"`
 		UserPassword       databasetoolsuserpassworddetails          `json:"userPassword"`
@@ -126,8 +114,6 @@ func (m *UpdateDatabaseToolsConnectionGenericJdbcDetails) UnmarshalJSON(data []b
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
-
-	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.Url = model.Url
 

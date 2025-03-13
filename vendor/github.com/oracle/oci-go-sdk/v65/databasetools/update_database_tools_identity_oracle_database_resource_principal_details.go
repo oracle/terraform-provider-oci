@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails Database Tools identity information to be updated for the Oracle Database Resource Principal Identity type.
+// UpdateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails Database Tools identity information to be updated for the Oracle Database resource principal identity type.
 type UpdateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

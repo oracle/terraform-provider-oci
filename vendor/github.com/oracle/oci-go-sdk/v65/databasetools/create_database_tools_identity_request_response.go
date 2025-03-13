@@ -14,7 +14,7 @@ import (
 // CreateDatabaseToolsIdentityRequest wrapper for the CreateDatabaseToolsIdentity operation
 type CreateDatabaseToolsIdentityRequest struct {
 
-	// Details for the new `DatabaseToolsIdentity`.
+	// Details for the new Database Tools identity.
 	CreateDatabaseToolsIdentityDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

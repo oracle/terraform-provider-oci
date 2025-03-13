@@ -17,7 +17,7 @@ type ValidateDatabaseToolsIdentityCredentialRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
 	DatabaseToolsIdentityId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsIdentityId"`
 
-	// Request to validate a DatabaseToolsIdentity Credential.
+	// Request to validate a Database Tools identity Credential.
 	ValidateDatabaseToolsIdentityCredentialDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

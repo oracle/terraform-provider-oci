@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsPrivateEndpoint Description of Database Tools private endpoint.
+// DatabaseToolsPrivateEndpoint Allows the Database Tools service to connect to databases in a customer's virtual cloud network (VCN).
 type DatabaseToolsPrivateEndpoint struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools private endpoint.

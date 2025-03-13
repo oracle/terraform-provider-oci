@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// RefreshDatabaseToolsIdentityOracleDatabaseResourcePrincipalCredentialDetails The Database Tools Identity Refresh Credentials Details for the Oracle Database Resource Principal Identity type.
+// RefreshDatabaseToolsIdentityOracleDatabaseResourcePrincipalCredentialDetails The Database Tools identity refresh credential details for the Oracle Database resource principal identity type.
 type RefreshDatabaseToolsIdentityOracleDatabaseResourcePrincipalCredentialDetails struct {
 }
 

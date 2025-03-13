@@ -1129,7 +1129,7 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 	return response, err
 }
 
-// ListDatabaseToolsIdentities Returns the list of Database Tools identity.
+// ListDatabaseToolsIdentities Returns a list of Database Tools identities.
 // A default retry strategy applies to this operation ListDatabaseToolsIdentities()
 func (client DatabaseToolsClient) ListDatabaseToolsIdentities(ctx context.Context, request ListDatabaseToolsIdentitiesRequest) (response ListDatabaseToolsIdentitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1399,7 +1399,7 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 	return response, err
 }
 
-// RefreshDatabaseToolsIdentityCredential Refresh Database Tools Identity credential.
+// RefreshDatabaseToolsIdentityCredential Refresh Database Tools identity credential.
 func (client DatabaseToolsClient) RefreshDatabaseToolsIdentityCredential(ctx context.Context, request RefreshDatabaseToolsIdentityCredentialRequest) (response RefreshDatabaseToolsIdentityCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

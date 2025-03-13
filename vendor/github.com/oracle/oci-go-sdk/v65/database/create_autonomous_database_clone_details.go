@@ -149,12 +149,6 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
-
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	IsLocalDataGuardEnabled *bool `mandatory:"false" json:"isLocalDataGuardEnabled"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -429,16 +423,6 @@ func (m CreateAutonomousDatabaseCloneDetails) GetStandbyWhitelistedIps() []strin
 	return m.StandbyWhitelistedIps
 }
 
-// GetIsDataGuardEnabled returns IsDataGuardEnabled
-func (m CreateAutonomousDatabaseCloneDetails) GetIsDataGuardEnabled() *bool {
-	return m.IsDataGuardEnabled
-}
-
-// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
-func (m CreateAutonomousDatabaseCloneDetails) GetIsLocalDataGuardEnabled() *bool {
-	return m.IsLocalDataGuardEnabled
-}
-
 // GetSubnetId returns SubnetId
 func (m CreateAutonomousDatabaseCloneDetails) GetSubnetId() *string {
 	return m.SubnetId
@@ -635,8 +619,6 @@ func (m *CreateAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e err
 		WhitelistedIps                           []string                                                          `json:"whitelistedIps"`
 		ArePrimaryWhitelistedIpsUsed             *bool                                                             `json:"arePrimaryWhitelistedIpsUsed"`
 		StandbyWhitelistedIps                    []string                                                          `json:"standbyWhitelistedIps"`
-		IsDataGuardEnabled                       *bool                                                             `json:"isDataGuardEnabled"`
-		IsLocalDataGuardEnabled                  *bool                                                             `json:"isLocalDataGuardEnabled"`
 		SubnetId                                 *string                                                           `json:"subnetId"`
 		NsgIds                                   []string                                                          `json:"nsgIds"`
 		PrivateEndpointLabel                     *string                                                           `json:"privateEndpointLabel"`
@@ -738,10 +720,6 @@ func (m *CreateAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e err
 
 	m.StandbyWhitelistedIps = make([]string, len(model.StandbyWhitelistedIps))
 	copy(m.StandbyWhitelistedIps, model.StandbyWhitelistedIps)
-	m.IsDataGuardEnabled = model.IsDataGuardEnabled
-
-	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
-
 	m.SubnetId = model.SubnetId
 
 	m.NsgIds = make([]string, len(model.NsgIds))

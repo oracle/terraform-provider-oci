@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// RefreshDatabaseToolsIdentityCredentialDetails The Database Tools Identity Refresh Credentials Details.
+// RefreshDatabaseToolsIdentityCredentialDetails The Database Tools identity refresh credential details.
 type RefreshDatabaseToolsIdentityCredentialDetails interface {
 }
 

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsIdentityOracleDatabaseResourcePrincipal Description of the Database Tools identity for the Oracle Database Resource Principal Identity type.
+// DatabaseToolsIdentityOracleDatabaseResourcePrincipal Manages credentials in a database to access service resources.
 type DatabaseToolsIdentityOracleDatabaseResourcePrincipal struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools identity.
@@ -28,7 +28,7 @@ type DatabaseToolsIdentityOracleDatabaseResourcePrincipal struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" json:"databaseToolsConnectionId"`
 
 	// The time the Database Tools identity was created. An RFC3339 formatted datetime string.
@@ -37,7 +37,7 @@ type DatabaseToolsIdentityOracleDatabaseResourcePrincipal struct {
 	// The time the Database Tools identity was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The name of the credential object created in the Oracle database.
+	// The name of the credential object created in the Oracle Database.
 	CredentialKey *string `mandatory:"true" json:"credentialKey"`
 
 	// A message describing the current state in more detail. For example, this message can be used to provide actionable information for a resource in the Failed state.

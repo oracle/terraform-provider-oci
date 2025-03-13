@@ -32,8 +32,6 @@ type SqlToolConfig struct {
 	// To enable/disable self correction.
 	ShouldEnableSelfCorrection *bool `mandatory:"false" json:"shouldEnableSelfCorrection"`
 
-	TableOrColumnDescription InputLocation `mandatory:"false" json:"tableOrColumnDescription"`
-
 	TableAndColumnDescription InputLocation `mandatory:"false" json:"tableAndColumnDescription"`
 
 	GenerationLlmCustomization *LlmCustomization `mandatory:"false" json:"generationLlmCustomization"`
@@ -90,7 +88,6 @@ func (m *SqlToolConfig) UnmarshalJSON(data []byte) (e error) {
 		ShouldEnableSqlExecution   *bool                      `json:"shouldEnableSqlExecution"`
 		ModelSize                  SqlToolConfigModelSizeEnum `json:"modelSize"`
 		ShouldEnableSelfCorrection *bool                      `json:"shouldEnableSelfCorrection"`
-		TableOrColumnDescription   inputlocation              `json:"tableOrColumnDescription"`
 		TableAndColumnDescription  inputlocation              `json:"tableAndColumnDescription"`
 		GenerationLlmCustomization *LlmCustomization          `json:"generationLlmCustomization"`
 		DatabaseConnection         databaseconnection         `json:"databaseConnection"`
@@ -118,16 +115,6 @@ func (m *SqlToolConfig) UnmarshalJSON(data []byte) (e error) {
 	m.ModelSize = model.ModelSize
 
 	m.ShouldEnableSelfCorrection = model.ShouldEnableSelfCorrection
-
-	nn, e = model.TableOrColumnDescription.UnmarshalPolymorphicJSON(model.TableOrColumnDescription.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TableOrColumnDescription = nn.(InputLocation)
-	} else {
-		m.TableOrColumnDescription = nil
-	}
 
 	nn, e = model.TableAndColumnDescription.UnmarshalPolymorphicJSON(model.TableAndColumnDescription.JsonData)
 	if e != nil {

@@ -102,6 +102,7 @@ type CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum s
 // Set of constants representing the allowable values for CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum
 const (
 	CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionAuto                    CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum = "AUTO"
+	CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionOff                     CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum = "OFF"
 	CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionFireCodeFec             CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum = "FIRE_CODE_FEC"
 	CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionReedSolomonConsortium16 CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum = "REED_SOLOMON_CONSORTIUM_16"
 	CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionReedSolomonFec          CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum = "REED_SOLOMON_FEC"
@@ -110,6 +111,7 @@ const (
 
 var mappingCccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum = map[string]CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum{
 	"AUTO":                       CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionAuto,
+	"OFF":                        CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionOff,
 	"FIRE_CODE_FEC":              CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionFireCodeFec,
 	"REED_SOLOMON_CONSORTIUM_16": CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionReedSolomonConsortium16,
 	"REED_SOLOMON_FEC":           CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionReedSolomonFec,
@@ -118,6 +120,7 @@ var mappingCccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrection
 
 var mappingCccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnumLowerCase = map[string]CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnum{
 	"auto":                       CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionAuto,
+	"off":                        CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionOff,
 	"fire_code_fec":              CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionFireCodeFec,
 	"reed_solomon_consortium_16": CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionReedSolomonConsortium16,
 	"reed_solomon_fec":           CccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionReedSolomonFec,
@@ -137,6 +140,7 @@ func GetCccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnu
 func GetCccInfrastructureNetworkConfigurationUplinkPortForwardErrorCorrectionEnumStringValues() []string {
 	return []string{
 		"AUTO",
+		"OFF",
 		"FIRE_CODE_FEC",
 		"REED_SOLOMON_CONSORTIUM_16",
 		"REED_SOLOMON_FEC",

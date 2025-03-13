@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsConnectionCollection List of `DatabaseToolsConnectionSummary` items.
+// DatabaseToolsConnectionCollection List of Database Tools connection summary items.
 type DatabaseToolsConnectionCollection struct {
 
-	// Array of `DatabaseToolsConnectionSummary` items.
+	// Array of Database Tools connection summary items.
 	Items []DatabaseToolsConnectionSummary `mandatory:"true" json:"items"`
 }
 

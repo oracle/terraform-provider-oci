@@ -207,9 +207,8 @@ func (client DatabaseClient) addDbnodeSnapshotsForExadbVmCluster(ctx context.Con
 	return response, err
 }
 
-// AddStandbyAutonomousContainerDatabase Create Standby Autonomous Container Database.
-// For more information about changing Autonomous Container Databases Add Standby, see
-// Create Standby Autonomous Container Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+// AddStandbyAutonomousContainerDatabase Add a standby Autonomous Container Database. For more information about Autonomous Data Guard,see
+// Protect Critical Databases from Failures and Disasters Using Autonomous Data Guard (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbau/GUID-C57B9A6E-7471-4CDC-8F10-B8386538E31C).
 func (client DatabaseClient) AddStandbyAutonomousContainerDatabase(ctx context.Context, request AddStandbyAutonomousContainerDatabaseRequest) (response AddStandbyAutonomousContainerDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -786,7 +785,7 @@ func (client DatabaseClient) cascadingDeleteSchedulingPlan(ctx context.Context, 
 
 // ChangeAutonomousContainerDatabaseCompartment Move the Autonomous Container Database and its dependent resources to the specified compartment.
 // For more information about moving Autonomous Container Databases, see
-// Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// Moving Database Resources to a Different Compartment (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/raqyy/#articletitle.html).
 func (client DatabaseClient) ChangeAutonomousContainerDatabaseCompartment(ctx context.Context, request ChangeAutonomousContainerDatabaseCompartmentRequest) (response ChangeAutonomousContainerDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1548,8 +1547,8 @@ func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.
 	return response, err
 }
 
-// ChangeDataguardRole Switch the Autonomous Container Database role between Standby and Snapshot Standby.
-// For more information about changing Autonomous Container Databases Dataguard Role, see
+// ChangeDataguardRole **Deprecated.** Use the ConvertStandbyAutonomousContainerDatabase operation to switch the Autonomous Container Database (ACD) role between Standby and Snapshot Standby.
+// For more information about changing ACD Role, see
 // Convert Physical Standby to Snapshot Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
 func (client DatabaseClient) ChangeDataguardRole(ctx context.Context, request ChangeDataguardRoleRequest) (response ChangeDataguardRoleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3065,9 +3064,8 @@ func (client DatabaseClient) confirmKeyStoreDetailsAreCorrect(ctx context.Contex
 	return response, err
 }
 
-// ConvertStandbyAutonomousContainerDatabase Convert between and SnapshotStandby Standby Autonomous Container Database .
-// For more information about changing Autonomous Container Databases Add Standby, see
-// Convert Standby Autonomous Container Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+// ConvertStandbyAutonomousContainerDatabase Convert the standby Autonomous Container Database (ACD) between physical standby and snapshot standby ACD. For more information about converting standby ACDs, see
+// Convert Physical Standby to Snapshot Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
 func (client DatabaseClient) ConvertStandbyAutonomousContainerDatabase(ctx context.Context, request ConvertStandbyAutonomousContainerDatabaseRequest) (response ConvertStandbyAutonomousContainerDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3528,13 +3526,8 @@ func (client DatabaseClient) createAutonomousContainerDatabase(ctx context.Conte
 	return response, err
 }
 
-// CreateAutonomousContainerDatabaseDataguardAssociation Create a new Autonomous Data Guard association. An Autonomous Data Guard association represents the replication relationship between the
-// specified Autonomous Container database and a peer Autonomous Container database. For more information, see Using Oracle Data Guard (https://docs.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm).
-// All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
-// called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
-// You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
-// resource in the Console. For more information, see
-// Resource Identifiers (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// CreateAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the AddStandbyAutonomousContainerDatabase operation to create a new Autonomous Data Guard association. An Autonomous Data Guard association represents the replication relationship between the
+// specified Autonomous Container database and a peer Autonomous Container database. For more information, see Using Oracle Data Guard (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbau/#articletitle.html).
 func (client DatabaseClient) CreateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request CreateAutonomousContainerDatabaseDataguardAssociationRequest) (response CreateAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3641,7 +3634,7 @@ func (client DatabaseClient) createAutonomousDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/CreateAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Database", "CreateAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -8712,9 +8705,8 @@ func (client DatabaseClient) downloadVmClusterNetworkConfigFile(ctx context.Cont
 	return response, err
 }
 
-// EditAutonomousContainerDatabaseDataguard Edit Autonomous Container Database Dataguard.
-// For more information about changing Autonomous Container Databases Add Standby, see
-// Update Autonomous Container Database Dataguard (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+// EditAutonomousContainerDatabaseDataguard Modify Autonomous Container Database Data Guard settings such as protection mode, automatic failover, and fast start failover lag limit. For more information, see
+// Update Autonomous Container Database Dataguard (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-3A936EC7-7A49-4FD2-9F39-8DB6B22011CE).
 func (client DatabaseClient) EditAutonomousContainerDatabaseDataguard(ctx context.Context, request EditAutonomousContainerDatabaseDataguardRequest) (response EditAutonomousContainerDatabaseDataguardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9527,7 +9519,8 @@ func (client DatabaseClient) failOverAutonomousDatabase(ctx context.Context, req
 	return response, err
 }
 
-// FailoverAutonomousContainerDatabaseDataguard Failover Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+// FailoverAutonomousContainerDatabaseDataguard Performs failover to a standby Autonomous Container Database (ACD) identified by the autonomousContainerDatabaseId parameter. This standby ACD will become the new primary ACD when the failover completes successfully. For more information, see
+// Fail Over to the Standby in an Autonomous Data Guard Configuration (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-C8FFA343-223C-4F41-9656-AEC356AD90A0).
 func (client DatabaseClient) FailoverAutonomousContainerDatabaseDataguard(ctx context.Context, request FailoverAutonomousContainerDatabaseDataguardRequest) (response FailoverAutonomousContainerDatabaseDataguardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9580,7 +9573,7 @@ func (client DatabaseClient) failoverAutonomousContainerDatabaseDataguard(ctx co
 	return response, err
 }
 
-// FailoverAutonomousContainerDatabaseDataguardAssociation Fails over the standby Autonomous Container Database identified by the autonomousContainerDatabaseId parameter to the primary Autonomous Container Database after the existing primary Autonomous Container Database fails or becomes unreachable.
+// FailoverAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the FailoverAutonomousContainerDatabaseDataguard operation to fail over the standby Autonomous Container Database (ACD) to the primary ACD after the existing primary ACD fails or becomes unreachable.
 // A failover can result in data loss, depending on the protection mode in effect at the time the primary Autonomous Container Database fails.
 func (client DatabaseClient) FailoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request FailoverAutonomousContainerDatabaseDataguardAssociationRequest) (response FailoverAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9973,7 +9966,7 @@ func (client DatabaseClient) getAutonomousContainerDatabase(ctx context.Context,
 	return response, err
 }
 
-// GetAutonomousContainerDatabaseDataguardAssociation Gets an Autonomous Container Database enabled with Autonomous Data Guard associated with the specified Autonomous Container Database.
+// GetAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the GetAutonomousContainerDatabase operation to get the details of an Autonomous Container Database (ACD) enabled with Autonomous Data Guard associated with the specified ACD.
 func (client DatabaseClient) GetAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request GetAutonomousContainerDatabaseDataguardAssociationRequest) (response GetAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10185,7 +10178,7 @@ func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, re
 	return response, err
 }
 
-// GetAutonomousDatabaseDataguardAssociation Gets an Autonomous Data Guard-enabled database associated with the specified Autonomous Database.
+// GetAutonomousDatabaseDataguardAssociation *Deprecated.* Use the GetAutonomousContainerDatabase operation to gets an Autonomous Data Guard-enabled database associated with the specified Autonomous Database.
 func (client DatabaseClient) GetAutonomousDatabaseDataguardAssociation(ctx context.Context, request GetAutonomousDatabaseDataguardAssociationRequest) (response GetAutonomousDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14357,7 +14350,7 @@ func (client DatabaseClient) listAutonomousContainerDatabaseBackups(ctx context.
 	return response, err
 }
 
-// ListAutonomousContainerDatabaseDataguardAssociations Gets a list of the Autonomous Container Databases with Autonomous Data Guard-enabled associated with the specified Autonomous Container Database.
+// ListAutonomousContainerDatabaseDataguardAssociations **Deprecated.** Use the ListAutonomousContainerDatabases operation to get a list of the Autonomous Container Databases (ACDs)with Autonomous Data Guard-enabled associated with the specified ACD.
 func (client DatabaseClient) ListAutonomousContainerDatabaseDataguardAssociations(ctx context.Context, request ListAutonomousContainerDatabaseDataguardAssociationsRequest) (response ListAutonomousContainerDatabaseDataguardAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14675,7 +14668,7 @@ func (client DatabaseClient) listAutonomousDatabaseClones(ctx context.Context, r
 	return response, err
 }
 
-// ListAutonomousDatabaseDataguardAssociations Gets a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous Database.
+// ListAutonomousDatabaseDataguardAssociations *Deprecated.* Use the GetAutonomousContainerDatabase operation to get a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous Database.
 func (client DatabaseClient) ListAutonomousDatabaseDataguardAssociations(ctx context.Context, request ListAutonomousDatabaseDataguardAssociationsRequest) (response ListAutonomousDatabaseDataguardAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -19680,7 +19673,8 @@ func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Cont
 	return response, err
 }
 
-// ReinstateAutonomousContainerDatabaseDataguard Reinstates a disabled standby Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+// ReinstateAutonomousContainerDatabaseDataguard Reinstates a disabled standby Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter to an active standby ACD. For more information, see
+// Reinstate the Disabled Standby in an Autonomous Data Guard Configuration (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-B5C6A90D-72E3-4F32-988D-8AECC0A2D947).
 func (client DatabaseClient) ReinstateAutonomousContainerDatabaseDataguard(ctx context.Context, request ReinstateAutonomousContainerDatabaseDataguardRequest) (response ReinstateAutonomousContainerDatabaseDataguardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -19733,7 +19727,7 @@ func (client DatabaseClient) reinstateAutonomousContainerDatabaseDataguard(ctx c
 	return response, err
 }
 
-// ReinstateAutonomousContainerDatabaseDataguardAssociation Reinstates a disabled standby Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+// ReinstateAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the ReinstateAutonomousContainerDatabaseDataguard operation to reinstate a disabled standby Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter, to an active standby ACD.
 func (client DatabaseClient) ReinstateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request ReinstateAutonomousContainerDatabaseDataguardAssociationRequest) (response ReinstateAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21721,7 +21715,8 @@ func (client DatabaseClient) switchOverDataGuard(ctx context.Context, request co
 	return response, err
 }
 
-// SwitchoverAutonomousContainerDatabaseDataguard Switchover Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+// SwitchoverAutonomousContainerDatabaseDataguard Switchover an Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter, to an active standby ACD. This standby ACD will become the new primary ACD when the switchover completes successfully. For more information, see
+// Switch Roles in an Autonomous Data Guard Configuration (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-A2AB31F6-D52D-493C-9BA7-D87A0F17078F).
 func (client DatabaseClient) SwitchoverAutonomousContainerDatabaseDataguard(ctx context.Context, request SwitchoverAutonomousContainerDatabaseDataguardRequest) (response SwitchoverAutonomousContainerDatabaseDataguardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21774,7 +21769,7 @@ func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguard(ctx 
 	return response, err
 }
 
-// SwitchoverAutonomousContainerDatabaseDataguardAssociation Switches over the primary Autonomous Container Database of an Autonomous Data Guard peer association to standby role. The standby Autonomous Container Database associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary Autonomous Container Database role.
+// SwitchoverAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the SwitchoverAutonomousContainerDatabaseDataguard operation to switches over the primary Autonomous Container Database (ACD) of an Autonomous Data Guard peer association to standby role. The standby ACD associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary ACD role.
 // A switchover incurs no data loss.
 func (client DatabaseClient) SwitchoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest) (response SwitchoverAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -22218,7 +22213,7 @@ func (client DatabaseClient) updateAutonomousContainerDatabase(ctx context.Conte
 	return response, err
 }
 
-// UpdateAutonomousContainerDatabaseDataguardAssociation Update Autonomous Data Guard association.
+// UpdateAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the EditAutonomousContainerDatabaseDataguard operation to update an Autonomous Data Guard association.
 func (client DatabaseClient) UpdateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request UpdateAutonomousContainerDatabaseDataguardAssociationRequest) (response UpdateAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22315,7 +22310,7 @@ func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/UpdateAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}

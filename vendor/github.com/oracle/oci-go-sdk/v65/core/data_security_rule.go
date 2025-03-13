@@ -53,6 +53,10 @@ type DataSecurityRule struct {
 	TcpOptions *TcpOptions `mandatory:"false" json:"tcpOptions"`
 
 	UdpOptions *UdpOptions `mandatory:"false" json:"udpOptions"`
+
+	DestinationVcnLabel *LabelDetails `mandatory:"false" json:"destinationVcnLabel"`
+
+	GatewayLabel *LabelDetails `mandatory:"false" json:"gatewayLabel"`
 }
 
 func (m DataSecurityRule) String() string {

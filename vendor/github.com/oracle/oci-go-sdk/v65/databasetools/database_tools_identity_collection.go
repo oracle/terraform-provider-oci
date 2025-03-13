@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsIdentityCollection List of `DatabaseToolsIdentitySummary` items.
+// DatabaseToolsIdentityCollection List of Database Tools identity summary items.
 type DatabaseToolsIdentityCollection struct {
 
-	// Array of `DatabaseToolsIdentitySummary` items.
+	// Array of Database Tools identity summary items.
 	Items []DatabaseToolsIdentitySummary `mandatory:"true" json:"items"`
 }
 

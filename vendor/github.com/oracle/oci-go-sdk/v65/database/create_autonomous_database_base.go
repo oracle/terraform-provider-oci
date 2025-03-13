@@ -171,12 +171,6 @@ type CreateAutonomousDatabaseBase interface {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetStandbyWhitelistedIps() []string
 
-	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	GetIsDataGuardEnabled() *bool
-
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-	GetIsLocalDataGuardEnabled() *bool
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -307,8 +301,6 @@ type createautonomousdatabasebase struct {
 	WhitelistedIps                           []string                                                          `mandatory:"false" json:"whitelistedIps"`
 	ArePrimaryWhitelistedIpsUsed             *bool                                                             `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
 	StandbyWhitelistedIps                    []string                                                          `mandatory:"false" json:"standbyWhitelistedIps"`
-	IsDataGuardEnabled                       *bool                                                             `mandatory:"false" json:"isDataGuardEnabled"`
-	IsLocalDataGuardEnabled                  *bool                                                             `mandatory:"false" json:"isLocalDataGuardEnabled"`
 	SubnetId                                 *string                                                           `mandatory:"false" json:"subnetId"`
 	NsgIds                                   []string                                                          `mandatory:"false" json:"nsgIds"`
 	PrivateEndpointLabel                     *string                                                           `mandatory:"false" json:"privateEndpointLabel"`
@@ -378,8 +370,6 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.WhitelistedIps = s.Model.WhitelistedIps
 	m.ArePrimaryWhitelistedIpsUsed = s.Model.ArePrimaryWhitelistedIpsUsed
 	m.StandbyWhitelistedIps = s.Model.StandbyWhitelistedIps
-	m.IsDataGuardEnabled = s.Model.IsDataGuardEnabled
-	m.IsLocalDataGuardEnabled = s.Model.IsLocalDataGuardEnabled
 	m.SubnetId = s.Model.SubnetId
 	m.NsgIds = s.Model.NsgIds
 	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
@@ -451,10 +441,6 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		return mm, err
 	case "REGISTER_CONTAINER":
 		mm := RegisterAsCustomerOwnedContainerDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CROSS_REGION_DATAGUARD":
-		mm := CreateCrossRegionAutonomousDatabaseDataGuardDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "NONE":
@@ -615,16 +601,6 @@ func (m createautonomousdatabasebase) GetArePrimaryWhitelistedIpsUsed() *bool {
 // GetStandbyWhitelistedIps returns StandbyWhitelistedIps
 func (m createautonomousdatabasebase) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
-}
-
-// GetIsDataGuardEnabled returns IsDataGuardEnabled
-func (m createautonomousdatabasebase) GetIsDataGuardEnabled() *bool {
-	return m.IsDataGuardEnabled
-}
-
-// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
-func (m createautonomousdatabasebase) GetIsLocalDataGuardEnabled() *bool {
-	return m.IsLocalDataGuardEnabled
 }
 
 // GetSubnetId returns SubnetId

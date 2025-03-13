@@ -17,7 +17,7 @@ type ChangeDatabaseToolsIdentityCompartmentRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
 	DatabaseToolsIdentityId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsIdentityId"`
 
-	// Request to change the compartment of the DatabaseToolsIdentity.
+	// Request to change the compartment of the Database Tools identity.
 	ChangeDatabaseToolsIdentityCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

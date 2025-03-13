@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ValidateDatabaseToolsIdentityCredentialOracleDatabaseResourcePrincipalDetails The Database Tools Identity Validate Credentials Details for the Oracle Database Resource Principal Identity type.
+// ValidateDatabaseToolsIdentityCredentialOracleDatabaseResourcePrincipalDetails The Database Tools identity validate credential details for the Oracle Database resource principal identity type.
 type ValidateDatabaseToolsIdentityCredentialOracleDatabaseResourcePrincipalDetails struct {
 }
 

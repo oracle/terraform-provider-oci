@@ -17,13 +17,13 @@ type ListDatabaseToolsIdentitiesRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their `databaseToolsIdentityLifecycleState` matches the specified `databaseToolsIdentityLifecycleState`.
+	// A filter to return resources only when their `databaseToolsIdentityLifecycleState` matches the specified `databaseToolsIdentityLifecycleState`.
 	LifecycleState ListDatabaseToolsIdentitiesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources their `databaseToolsConnectionId` matches the specified `databaseToolsConnectionId`.
+	// A filter to return only resources when their `databaseToolsConnectionId` matches the specified `databaseToolsConnectionId`.
 	DatabaseToolsConnectionId *string `mandatory:"false" contributesTo:"query" name:"databaseToolsConnectionId"`
 
 	// The maximum number of items to return.

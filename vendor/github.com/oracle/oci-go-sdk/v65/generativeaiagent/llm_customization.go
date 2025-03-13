@@ -22,9 +22,6 @@ import (
 // LlmCustomization Configuration to customize LLM.
 type LlmCustomization struct {
 
-	// (Deprecated) This field is deprecated and will be removed in future versions. Please use instruction instead. If specified, the default preamble is replaced with provided preamble.
-	PreambleOverride *string `mandatory:"false" json:"preambleOverride"`
-
 	// If specified, the default instruction is replaced with provided instruction.
 	Instruction *string `mandatory:"false" json:"instruction"`
 }

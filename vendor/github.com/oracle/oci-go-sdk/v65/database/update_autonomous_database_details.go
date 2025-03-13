@@ -223,9 +223,6 @@ type UpdateAutonomousDatabaseDetails struct {
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
-	AutoRefreshPolicy UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
-
 	// The frequency a refreshable clone is refreshed after auto-refresh is enabled. The minimum is 1 hour. The maximum is 7 days. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
 	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
 
@@ -300,6 +297,12 @@ type UpdateAutonomousDatabaseDetails struct {
 	// If true, this will disconnect the Autonomous Database from its peer and the Autonomous Database can work permanently as a standalone database.
 	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
 	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
+
+	// The included compute amount (CPUs) available for FAW provisioned database.
+	IncludedCompute *float32 `mandatory:"false" json:"includedCompute"`
+
+	// The included storage value for a FAW provisioned database, in terabytes.
+	IncludedDataStorageInTBs *float64 `mandatory:"false" json:"includedDataStorageInTBs"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -329,9 +332,6 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum(string(m.PermissionLevel)); !ok && m.PermissionLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PermissionLevel: %s. Supported values are: %s.", m.PermissionLevel, strings.Join(GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum(string(m.AutoRefreshPolicy)); !ok && m.AutoRefreshPolicy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
@@ -386,7 +386,6 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		PrivateEndpointLabel                 *string                                                              `json:"privateEndpointLabel"`
 		PrivateEndpointIp                    *string                                                              `json:"privateEndpointIp"`
 		NsgIds                               []string                                                             `json:"nsgIds"`
-		AutoRefreshPolicy                    UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum                 `json:"autoRefreshPolicy"`
 		AutoRefreshFrequencyInSeconds        *int                                                                 `json:"autoRefreshFrequencyInSeconds"`
 		AutoRefreshPointLagInSeconds         *int                                                                 `json:"autoRefreshPointLagInSeconds"`
 		TimeOfAutoRefreshStart               *common.SDKTime                                                      `json:"timeOfAutoRefreshStart"`
@@ -408,6 +407,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		SecretVersionNumber                  *int                                                                 `json:"secretVersionNumber"`
 		EncryptionKey                        autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
 		IsDisconnectPeer                     *bool                                                                `json:"isDisconnectPeer"`
+		IncludedCompute                      *float32                                                             `json:"includedCompute"`
+		IncludedDataStorageInTBs             *float64                                                             `json:"includedDataStorageInTBs"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -491,8 +492,6 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
-	m.AutoRefreshPolicy = model.AutoRefreshPolicy
-
 	m.AutoRefreshFrequencyInSeconds = model.AutoRefreshFrequencyInSeconds
 
 	m.AutoRefreshPointLagInSeconds = model.AutoRefreshPointLagInSeconds
@@ -552,6 +551,10 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.IsDisconnectPeer = model.IsDisconnectPeer
+
+	m.IncludedCompute = model.IncludedCompute
+
+	m.IncludedDataStorageInTBs = model.IncludedDataStorageInTBs
 
 	return
 }
@@ -813,48 +816,6 @@ func GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues() []strin
 // GetMappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum(val string) (UpdateAutonomousDatabaseDetailsPermissionLevelEnum, bool) {
 	enum, ok := mappingUpdateAutonomousDatabaseDetailsPermissionLevelEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum Enum with underlying type: string
-type UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum string
-
-// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum
-const (
-	UpdateAutonomousDatabaseDetailsAutoRefreshPolicyContinuous UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum = "CONTINUOUS"
-	UpdateAutonomousDatabaseDetailsAutoRefreshPolicyCustom     UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum = "CUSTOM"
-)
-
-var mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum = map[string]UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum{
-	"CONTINUOUS": UpdateAutonomousDatabaseDetailsAutoRefreshPolicyContinuous,
-	"CUSTOM":     UpdateAutonomousDatabaseDetailsAutoRefreshPolicyCustom,
-}
-
-var mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum{
-	"continuous": UpdateAutonomousDatabaseDetailsAutoRefreshPolicyContinuous,
-	"custom":     UpdateAutonomousDatabaseDetailsAutoRefreshPolicyCustom,
-}
-
-// GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum
-func GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumValues() []UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum {
-	values := make([]UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum
-func GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues() []string {
-	return []string{
-		"CONTINUOUS",
-		"CUSTOM",
-	}
-}
-
-// GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum(val string) (UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum, bool) {
-	enum, ok := mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

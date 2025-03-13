@@ -43,8 +43,8 @@ type CreateCccInfrastructureDetails struct {
 	// A message describing the current connection state in more detail.
 	ConnectionDetails *string `mandatory:"false" json:"connectionDetails"`
 
-	// Schedule used for upgrades. If no schedule is associated with the infrastructure,
-	// it can be upgraded at any time.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Compute Cloud@Customer upgrade
+	// schedule. If no schedule is associated with the infrastructure, the infrastructure can be upgraded at any time.
 	CccUpgradeScheduleId *string `mandatory:"false" json:"cccUpgradeScheduleId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

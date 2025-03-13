@@ -47,6 +47,9 @@ type LibrarySummary struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// A message describing the reason why the resource is in it's current state. Helps bubble up errors in state changes. For example, it can be used to provide actionable information for a resource in the Failed state.
+	StateMessage *string `mandatory:"false" json:"stateMessage"`
+
 	// The repository for referenced Library.
 	Repository *string `mandatory:"false" json:"repository"`
 
@@ -81,6 +84,21 @@ type LibrarySummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// UserId to install the library.
+	InstalledBy *string `mandatory:"false" json:"installedBy"`
+
+	// UserName to install the library.
+	InstalledByName *string `mandatory:"false" json:"installedByName"`
+
+	// DataLake Proxy Endpoint for Library.
+	DatalakeProxyEndpoint *string `mandatory:"false" json:"datalakeProxyEndpoint"`
+
+	// DataLake Id for Library.
+	DatalakeId *string `mandatory:"false" json:"datalakeId"`
+
+	// WorkspaceKey of the cluster.
+	WorkspaceKey *string `mandatory:"false" json:"workspaceKey"`
 }
 
 func (m LibrarySummary) String() string {

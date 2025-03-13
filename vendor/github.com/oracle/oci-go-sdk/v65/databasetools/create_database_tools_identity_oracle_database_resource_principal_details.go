@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails Details for the new Database Tools identity for the Oracle Database Resource Principal Identity type.
+// CreateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails Details for the new Database Tools identity for the Oracle Database resource principal identity type.
 type CreateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools identity.
@@ -25,10 +25,10 @@ type CreateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools Connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" json:"databaseToolsConnectionId"`
 
-	// The name of the credential object created in the Oracle database.
+	// The name of the credential object created in the Oracle Database.
 	CredentialKey *string `mandatory:"true" json:"credentialKey"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

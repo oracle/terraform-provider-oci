@@ -159,14 +159,17 @@ type ListWorkRequestsSortByEnum string
 // Set of constants representing the allowable values for ListWorkRequestsSortByEnum
 const (
 	ListWorkRequestsSortByTimeaccepted ListWorkRequestsSortByEnum = "timeAccepted"
+	ListWorkRequestsSortByTimeupdated  ListWorkRequestsSortByEnum = "timeUpdated"
 )
 
 var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
 	"timeAccepted": ListWorkRequestsSortByTimeaccepted,
+	"timeUpdated":  ListWorkRequestsSortByTimeupdated,
 }
 
 var mappingListWorkRequestsSortByEnumLowerCase = map[string]ListWorkRequestsSortByEnum{
 	"timeaccepted": ListWorkRequestsSortByTimeaccepted,
+	"timeupdated":  ListWorkRequestsSortByTimeupdated,
 }
 
 // GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
@@ -182,6 +185,7 @@ func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
 func GetListWorkRequestsSortByEnumStringValues() []string {
 	return []string{
 		"timeAccepted",
+		"timeUpdated",
 	}
 }
 

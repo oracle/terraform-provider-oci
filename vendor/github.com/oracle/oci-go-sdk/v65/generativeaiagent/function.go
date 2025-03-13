@@ -30,7 +30,7 @@ type Function struct {
 
 	// The parameters the function accepts, defined using a JSON Schema object.
 	// Refer to the guide for examples and the JSON Schema documentation for details on the format.
-	Parameters *interface{} `mandatory:"false" json:"parameters"`
+	Parameters map[string]string `mandatory:"false" json:"parameters"`
 }
 
 func (m Function) String() string {

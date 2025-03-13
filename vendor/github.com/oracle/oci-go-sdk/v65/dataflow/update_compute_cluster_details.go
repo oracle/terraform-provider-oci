@@ -95,6 +95,12 @@ type UpdateComputeClusterDetails struct {
 
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
+
+	// Specify the logId to publish spark diagnostic logs.
+	LogId *string `mandatory:"false" json:"logId"`
+
+	// Indicates whether this compute cluster should be created as default cluster
+	IsDefaultComputeCluster *bool `mandatory:"false" json:"isDefaultComputeCluster"`
 }
 
 func (m UpdateComputeClusterDetails) String() string {

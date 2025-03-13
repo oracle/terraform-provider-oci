@@ -204,6 +204,66 @@ func (client ScheduleClient) cancelWorkRequest(ctx context.Context, request comm
 	return response, err
 }
 
+// ChangeScheduleCompartment This API) moves a schedule into a different compartment within the same tenancy. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeScheduleCompartment()
+func (client ScheduleClient) ChangeScheduleCompartment(ctx context.Context, request ChangeScheduleCompartmentRequest) (response ChangeScheduleCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeScheduleCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeScheduleCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeScheduleCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeScheduleCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeScheduleCompartmentResponse")
+	}
+	return
+}
+
+// changeScheduleCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ScheduleClient) changeScheduleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/schedules/{scheduleId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeScheduleCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/ChangeScheduleCompartment"
+		err = common.PostProcessServiceError(err, "Schedule", "ChangeScheduleCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSchedule This API creates a schedule. You must provide either resources or resourceFilters.
 // A default retry strategy applies to this operation CreateSchedule()
 func (client ScheduleClient) CreateSchedule(ctx context.Context, request CreateScheduleRequest) (response CreateScheduleResponse, err error) {

@@ -27,9 +27,6 @@ type AutonomousDatabaseStandbySummary struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
-	TimeDataGuardRoleChanged *common.SDKTime `mandatory:"false" json:"timeDataGuardRoleChanged"`
-
 	// The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
 

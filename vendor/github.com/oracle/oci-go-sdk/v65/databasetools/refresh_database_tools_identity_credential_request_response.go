@@ -17,7 +17,7 @@ type RefreshDatabaseToolsIdentityCredentialRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools identity.
 	DatabaseToolsIdentityId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsIdentityId"`
 
-	// Request to refresh DatabaseToolsIdentity credential.
+	// Request to refresh Database Tools identity credential.
 	RefreshDatabaseToolsIdentityCredentialDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

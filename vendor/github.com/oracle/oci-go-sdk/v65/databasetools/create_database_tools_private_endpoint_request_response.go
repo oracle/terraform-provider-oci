@@ -14,7 +14,7 @@ import (
 // CreateDatabaseToolsPrivateEndpointRequest wrapper for the CreateDatabaseToolsPrivateEndpoint operation
 type CreateDatabaseToolsPrivateEndpointRequest struct {
 
-	// Details for the new DatabaseToolsPrivateEndpoint.
+	// Details for the new Database Tools private endpoint.
 	CreateDatabaseToolsPrivateEndpointDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
