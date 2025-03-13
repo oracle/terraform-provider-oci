@@ -460,10 +460,12 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 			return results, nil
 		}
 	}
-
+	utils.Debugf("[DEBUG] Initiating GET Datasource Call for %s", tfMeta.DatasourceClass)
 	if err := datasource.Read(d, clients); err != nil {
+		utils.Debugf("[DEBUG] GET Datasource Call Failure for %s\nError: %s", tfMeta.DatasourceClass, err)
 		return results, err
 	}
+	utils.Debugf("[DEBUG] GET Datasource Call Success for  %s", tfMeta.DatasourceClass)
 
 	if !tfMeta.DiscoversWithSingularDatasource() {
 		// Results are from a plural datasource

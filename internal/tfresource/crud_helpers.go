@@ -316,6 +316,7 @@ func CreateResource(d schemaResourceData, sync ResourceCreator) error {
 }
 
 func ReadResource(sync ResourceReader) error {
+	log.Printf("READ Resource START")
 	if e := sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)

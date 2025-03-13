@@ -427,8 +427,9 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 				utils.Debugf("[DEBUG] discoverWg done: step %d", i)
 				discoverWg.Done()
 			}()
-
+			utils.Debugf("[DEBUG] Started Discovery for step %d", i)
 			err := step.discover()
+			utils.Debugf("[DEBUG] Finished Discovery for step %d", i)
 			if err != nil {
 				// All errors in discover are added to the ctx.errorList
 				utils.Debugf("[ERROR] error occurred while discovering resources for step %d", i)
@@ -961,7 +962,7 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 		ch <- struct{}{}
 
 		go func(i int, childType tf_export.TerraformResourceAssociation) {
-			utils.Debugf("[DEBUG] findResources: finding resources for resource type index: %d", i)
+			utils.Debugf("[DEBUG] findResources: finding resources for resource type %s - index: %d", root.GetTerraformReference(), i)
 
 			defer func(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
 				<-ch
@@ -971,7 +972,7 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 					*err = returnErr
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] findResourcesWg done, resource type index: %d", i)
+				utils.Debugf("[DEBUG] findResourcesWg done, resource type %s - index: %d", root.GetTerraformReference(), i)
 				findResourcesWg.Done()
 			}(&childType, &err)
 
@@ -1032,7 +1033,7 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 				foundResources = append(foundResources, subResources...)
 				foundResourcesLock.Unlock()
 			}
-			utils.Debugf("[DEBUG] findResources: Completed for resource type index %d", i)
+			utils.Debugf("[DEBUG] findResources: Completed for resource type %s - index: %d", root.GetTerraformReference(), i)
 		}(i, childType)
 	}
 
