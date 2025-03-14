@@ -400,6 +400,7 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	utils.Logf("[INFO] Running export command\n")
 	utils.Logf("[INFO] parallelism: %d", ctx.Parallelism)
+	utils.Logf("[INFO] Compartment ID: %s", *ctx.CompartmentId)
 	defer ctx.PrintSummary()
 	exportStart := time.Now()
 	defer elapsed("entire export command", nil, 0)()
@@ -416,8 +417,8 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 		sem <- struct{}{}
 
 		go func(i int, step resourceDiscoveryStep) {
-			utils.Debugf("[DEBUG] discover: Running step %d", i)
-			defer elapsed(fmt.Sprintf("time taken in discovering resources for step %d", i), step.getBaseStep(), Discovery)()
+			utils.Debugf("[DEBUG] discover for compartment - %s: Running step %d", *ctx.CompartmentId, i)
+			defer elapsed(fmt.Sprintf("time taken in discovering resources for step %d for compartment %s", i, *ctx.CompartmentId), step.getBaseStep(), Discovery)()
 			defer func() {
 				<-sem
 				if r := recover(); r != nil {
@@ -425,15 +426,15 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 					utils.Logf("[ERROR] panic in discover goroutine")
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] discoverWg done: step %d", i)
+				utils.Debugf("[DEBUG] discoverWg done: step %d for compartment %s", i, *ctx.CompartmentId)
 				discoverWg.Done()
 			}()
-			utils.Debugf("[DEBUG] Started Discovery for step %d", i)
+			utils.Debugf("[DEBUG] Started Discovery for step %d for compartment %s", i, *ctx.CompartmentId)
 			err := step.discover()
-			utils.Debugf("[DEBUG] Finished Discovery for step %d", i)
+			utils.Debugf("[DEBUG] Finished Discovery for step %d for compartment %s", i, *ctx.CompartmentId)
 			if err != nil {
 				// All errors in discover are added to the ctx.errorList
-				utils.Debugf("[ERROR] error occurred while discovering resources for step %d", i)
+				utils.Debugf("[ERROR] error occurred while discovering resources for step %d for compartment %s", i, *ctx.CompartmentId)
 				utils.Logf("[ERROR] error occurred while discovering resources: %s", err.Error())
 				return
 			}
@@ -450,7 +451,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 				}
 			}
 
-			utils.Debugf("[DEBUG] discover: Completed step %d", i)
+			utils.Debugf("[DEBUG] discover: Completed step %d for compartment %s", i, *ctx.CompartmentId)
 			utils.Debugf("[DEBUG] discovered %d resources for step %d", len(step.getDiscoveredResources()), i)
 			totalDiscoveredResources += len(step.getDiscoveredResources())
 		}(i, step)
@@ -460,7 +461,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	// Wait for all steps to complete discovery
 	discoverWg.Wait()
 	totalDiscoveryTime := time.Since(discoveryStart)
-	utils.Debugf("discovering resources for all services took %v\n", totalDiscoveryTime)
+	utils.Debugf("discovering resources for all services took %v\n for compartment %s", totalDiscoveryTime, *ctx.CompartmentId)
 	utils.Debugf("Total Discovered Resources -  %d\n", totalDiscoveredResources)
 	ctx.TimeTakenToDiscover = totalDiscoveryTime
 	utils.Debug("[DEBUG] ~~~~~~ discover steps completed ~~~~~~")
@@ -945,10 +946,10 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 		return foundResources, nil
 	}
 
-	utils.Logf("[INFO] resource discovery: visiting %s\n", root.GetTerraformReference())
-	utils.Debugf("[DEBUG] resource discovery: visiting %s\n", root.GetTerraformReference())
+	utils.Logf("[INFO] resource discovery: visiting %s for compartment %s\n", root.GetTerraformReference(), root.CompartmentId)
+	utils.Debugf("[DEBUG] resource discovery: visiting %s for compartment %s\n", root.GetTerraformReference(), root.CompartmentId)
 
-	utils.Logf("[INFO] number of child resource types for %s: %d\n", root.GetTerraformReference(), len(childResourceTypes))
+	utils.Logf("[INFO] number of child resource types for %s: %d for compartment %s\n", root.GetTerraformReference(), len(childResourceTypes), root.CompartmentId)
 
 	findResourcesStart := time.Now()
 	var findResourcesWg sync.WaitGroup
@@ -969,17 +970,17 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 		ch <- struct{}{}
 
 		go func(i int, childType tf_export.TerraformResourceAssociation) {
-			utils.Debugf("[DEBUG] findResources: finding resources for resource type %s - index: %d", root.GetTerraformReference(), i)
+			utils.Debugf("[DEBUG] findResources: finding resources for resource type %s - index: %d for compartment %s", root.GetTerraformReference(), i, root.CompartmentId)
 
 			defer func(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
 				<-ch
 				if r := recover(); r != nil {
-					utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.ResourceClass)
-					returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.ResourceClass)
+					utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s for compartment %s\n continuing discovery...", tfMeta.ResourceClass, root.CompartmentId)
+					returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s for compartment %s", tfMeta.ResourceClass, root.CompartmentId)
 					*err = returnErr
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] findResourcesWg done, resource type %s - index: %d", root.GetTerraformReference(), i)
+				utils.Debugf("[DEBUG] findResourcesWg done, resource type %s - index: %d for compartment %s", root.GetTerraformReference(), i, root.CompartmentId)
 				findResourcesWg.Done()
 			}(&childType, &err)
 
@@ -1040,14 +1041,14 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 				foundResources = append(foundResources, subResources...)
 				foundResourcesLock.Unlock()
 			}
-			utils.Debugf("[DEBUG] findResources: Completed for resource type %s - index: %d", root.GetTerraformReference(), i)
+			utils.Debugf("[DEBUG] findResources: Completed for resource type %s - index: %d for compartment %s", root.GetTerraformReference(), i, root.CompartmentId)
 		}(i, childType)
 	}
 
 	// Wait for all steps to complete findResources
 	findResourcesWg.Wait()
 	totalFindResourcesTime := time.Since(findResourcesStart)
-	utils.Debugf("finding resources for %s took %v\n", root.GetTerraformReference(), totalFindResourcesTime)
+	utils.Debugf("finding resources for %s took %v for compartment %s\n", root.GetTerraformReference(), totalFindResourcesTime, root.CompartmentId)
 
 	// create copies of filters so that in each thread, they are not shared
 	// since number of filters is expected to be less than the number of threads running in parallel, this is a cost effective approach than locking
