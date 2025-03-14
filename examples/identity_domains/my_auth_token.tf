@@ -18,7 +18,7 @@ variable "my_auth_token_description" {
 }
 
 variable "my_auth_token_expires_on" {
-  default = "2030-01-01T00:00:00Z"
+  default = "2030-01-01T00:00:00.000Z"
 }
 
 variable "my_auth_token_start_index" {
