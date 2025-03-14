@@ -18,7 +18,7 @@ variable "user_db_credential_description" {
 }
 
 variable "user_db_credential_expires_on" {
-  default = "2030-01-01T00:00:00Z"
+  default = "2030-01-01T00:00:00.000Z"
 }
 
 variable "user_db_credential_start_index" {

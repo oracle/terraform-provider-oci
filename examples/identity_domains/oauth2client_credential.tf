@@ -14,7 +14,7 @@ variable "oauth2client_credential_description" {
 }
 
 variable "oauth2client_credential_expires_on" {
-  default = "2030-01-01T00:00:00Z"
+  default = "2030-01-01T00:00:00.000Z"
 }
 
 variable "oauth2client_credential_is_reset_secret" {

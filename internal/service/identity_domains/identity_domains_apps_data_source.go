@@ -204,7 +204,7 @@ func (s *IdentityDomainsAppsDataSourceCrud) SetData() error {
 
 	resources := []interface{}{}
 	for _, item := range s.Res.Resources {
-		resources = append(resources, AppToMap(item))
+		resources = append(resources, AppToMap(item, true))
 	}
 	s.D.Set("apps", resources)
 

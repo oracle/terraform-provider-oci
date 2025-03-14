@@ -4,12 +4,15 @@
 package identity_domains
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -93,9 +96,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"alias_apps": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      aliasAppsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -138,25 +142,28 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"allowed_grants": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
 			"allowed_operations": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
 			"allowed_scopes": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      allowedScopesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -180,9 +187,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				},
 			},
 			"allowed_tags": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      allowedTagsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -240,9 +248,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"apps_network_perimeters": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      appsNetworkPerimetersHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -286,9 +295,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				},
 			},
 			"attr_rendering_metadata": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      attrRenderingMetadataHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -399,9 +409,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"certificates": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      certificatesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -449,9 +460,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"delegated_service_names": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -471,6 +483,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"force_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"home_page_url": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -487,9 +503,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"identity_providers": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      identityProvidersHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -650,9 +667,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"post_logout_redirect_uris": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -673,9 +691,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				Computed: true,
 			},
 			"protectable_secondary_audiences": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      protectableSecondaryAudiencesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -711,7 +730,7 @@ func IdentityDomainsAppResource() *schema.Resource {
 						// Optional
 
 						// Computed
-						"ref": {
+						"_ref": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -719,9 +738,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				},
 			},
 			"redirect_uris": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -760,9 +780,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				},
 			},
 			"scopes": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      scopesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -801,17 +822,19 @@ func IdentityDomainsAppResource() *schema.Resource {
 				},
 			},
 			"secondary_audiences": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
 			"service_params": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      serviceParamsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -926,9 +949,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 				},
 			},
 			"trust_policies": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      trustPoliciesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1111,9 +1135,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							},
 						},
 						"app_resources": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      appResourcesHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1193,9 +1218,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"form_fill_url_match": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      formFillUrlMatchHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1271,9 +1297,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"form_fill_url_match": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      formFillUrlMatchHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1360,9 +1387,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"supported_encryption_salt_types": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -1394,9 +1422,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"bundle_configuration_properties": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      bundleConfigurationPropertiesHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1435,9 +1464,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 										Computed: true,
 									},
 									"value": {
-										Type:     schema.TypeList,
+										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -1509,9 +1539,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"flat_file_bundle_configuration_properties": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      flatFileBundleConfigurationPropertiesHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1550,9 +1581,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 										Computed: true,
 									},
 									"value": {
-										Type:     schema.TypeList,
+										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -1897,9 +1929,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"group_membership_to_return": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      groupMembershipToReturnHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -2015,9 +2048,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"group_assertion_attributes": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      groupAssertionAttributesHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -2133,9 +2167,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							Computed: true,
 						},
 						"user_assertion_attributes": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      userAssertionAttributesHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -2739,10 +2774,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if aliasApps, ok := s.D.GetOkExists("alias_apps"); ok {
-		interfaces := aliasApps.([]interface{})
+		set := aliasApps.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAliasApps, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := aliasAppsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "alias_apps", stateDataIndex)
 			converted, err := s.mapToAppAliasApps(fieldKeyFormat)
 			if err != nil {
@@ -2771,7 +2807,8 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if allowedGrants, ok := s.D.GetOkExists("allowed_grants"); ok {
-		interfaces := allowedGrants.([]interface{})
+		set := allowedGrants.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -2784,7 +2821,8 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if allowedOperations, ok := s.D.GetOkExists("allowed_operations"); ok {
-		interfaces := allowedOperations.([]interface{})
+		set := allowedOperations.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAllowedOperationsEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -2797,10 +2835,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if allowedScopes, ok := s.D.GetOkExists("allowed_scopes"); ok {
-		interfaces := allowedScopes.([]interface{})
+		set := allowedScopes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAllowedScopes, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := allowedScopesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "allowed_scopes", stateDataIndex)
 			converted, err := s.mapToAppAllowedScopes(fieldKeyFormat)
 			if err != nil {
@@ -2814,10 +2853,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if allowedTags, ok := s.D.GetOkExists("allowed_tags"); ok {
-		interfaces := allowedTags.([]interface{})
+		set := allowedTags.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAllowedTags, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := allowedTagsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "allowed_tags", stateDataIndex)
 			converted, err := s.mapToAppAllowedTags(fieldKeyFormat)
 			if err != nil {
@@ -2852,10 +2892,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if appsNetworkPerimeters, ok := s.D.GetOkExists("apps_network_perimeters"); ok {
-		interfaces := appsNetworkPerimeters.([]interface{})
+		set := appsNetworkPerimeters.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAppsNetworkPerimeters, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := appsNetworkPerimetersHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "apps_network_perimeters", stateDataIndex)
 			converted, err := s.mapToAppAppsNetworkPerimeters(fieldKeyFormat)
 			if err != nil {
@@ -2880,10 +2921,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if attrRenderingMetadata, ok := s.D.GetOkExists("attr_rendering_metadata"); ok {
-		interfaces := attrRenderingMetadata.([]interface{})
+		set := attrRenderingMetadata.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAttrRenderingMetadata, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := attrRenderingMetadataHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "attr_rendering_metadata", stateDataIndex)
 			converted, err := s.mapToAppAttrRenderingMetadata(fieldKeyFormat)
 			if err != nil {
@@ -2941,10 +2983,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if certificates, ok := s.D.GetOkExists("certificates"); ok {
-		interfaces := certificates.([]interface{})
+		set := certificates.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppCertificates, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := certificatesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "certificates", stateDataIndex)
 			converted, err := s.mapToAppCertificates(fieldKeyFormat)
 			if err != nil {
@@ -2971,7 +3014,8 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if delegatedServiceNames, ok := s.D.GetOkExists("delegated_service_names"); ok {
-		interfaces := delegatedServiceNames.([]interface{})
+		set := delegatedServiceNames.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3024,10 +3068,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if identityProviders, ok := s.D.GetOkExists("identity_providers"); ok {
-		interfaces := identityProviders.([]interface{})
+		set := identityProviders.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppIdentityProviders, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := identityProvidersHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "identity_providers", stateDataIndex)
 			converted, err := s.mapToAppIdentityProviders(fieldKeyFormat)
 			if err != nil {
@@ -3161,7 +3206,8 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if postLogoutRedirectUris, ok := s.D.GetOkExists("post_logout_redirect_uris"); ok {
-		interfaces := postLogoutRedirectUris.([]interface{})
+		set := postLogoutRedirectUris.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3189,10 +3235,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if protectableSecondaryAudiences, ok := s.D.GetOkExists("protectable_secondary_audiences"); ok {
-		interfaces := protectableSecondaryAudiences.([]interface{})
+		set := protectableSecondaryAudiences.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppProtectableSecondaryAudiences, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := protectableSecondaryAudiencesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "protectable_secondary_audiences", stateDataIndex)
 			converted, err := s.mapToAppProtectableSecondaryAudiences(fieldKeyFormat)
 			if err != nil {
@@ -3217,7 +3264,8 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if redirectUris, ok := s.D.GetOkExists("redirect_uris"); ok {
-		interfaces := redirectUris.([]interface{})
+		set := redirectUris.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3264,10 +3312,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if scopes, ok := s.D.GetOkExists("scopes"); ok {
-		interfaces := scopes.([]interface{})
+		set := scopes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppScopes, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := scopesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scopes", stateDataIndex)
 			converted, err := s.mapToAppScopes(fieldKeyFormat)
 			if err != nil {
@@ -3281,7 +3330,8 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if secondaryAudiences, ok := s.D.GetOkExists("secondary_audiences"); ok {
-		interfaces := secondaryAudiences.([]interface{})
+		set := secondaryAudiences.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3294,10 +3344,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if serviceParams, ok := s.D.GetOkExists("service_params"); ok {
-		interfaces := serviceParams.([]interface{})
+		set := serviceParams.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppServiceParams, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := serviceParamsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "service_params", stateDataIndex)
 			converted, err := s.mapToAppServiceParams(fieldKeyFormat)
 			if err != nil {
@@ -3370,10 +3421,11 @@ func (s *IdentityDomainsAppResourceCrud) Create() error {
 	}
 
 	if trustPolicies, ok := s.D.GetOkExists("trust_policies"); ok {
-		interfaces := trustPolicies.([]interface{})
+		set := trustPolicies.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppTrustPolicies, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := trustPoliciesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trust_policies", stateDataIndex)
 			converted, err := s.mapToAppTrustPolicies(fieldKeyFormat)
 			if err != nil {
@@ -3610,10 +3662,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if aliasApps, ok := s.D.GetOkExists("alias_apps"); ok {
-		interfaces := aliasApps.([]interface{})
+		set := aliasApps.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAliasApps, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := aliasAppsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "alias_apps", stateDataIndex)
 			converted, err := s.mapToAppAliasApps(fieldKeyFormat)
 			if err != nil {
@@ -3642,7 +3695,8 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if allowedGrants, ok := s.D.GetOkExists("allowed_grants"); ok {
-		interfaces := allowedGrants.([]interface{})
+		set := allowedGrants.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3655,7 +3709,8 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if allowedOperations, ok := s.D.GetOkExists("allowed_operations"); ok {
-		interfaces := allowedOperations.([]interface{})
+		set := allowedOperations.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAllowedOperationsEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3668,10 +3723,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if allowedScopes, ok := s.D.GetOkExists("allowed_scopes"); ok {
-		interfaces := allowedScopes.([]interface{})
+		set := allowedScopes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAllowedScopes, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := allowedScopesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "allowed_scopes", stateDataIndex)
 			converted, err := s.mapToAppAllowedScopes(fieldKeyFormat)
 			if err != nil {
@@ -3685,10 +3741,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if allowedTags, ok := s.D.GetOkExists("allowed_tags"); ok {
-		interfaces := allowedTags.([]interface{})
+		set := allowedTags.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAllowedTags, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := allowedTagsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "allowed_tags", stateDataIndex)
 			converted, err := s.mapToAppAllowedTags(fieldKeyFormat)
 			if err != nil {
@@ -3726,10 +3783,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if appsNetworkPerimeters, ok := s.D.GetOkExists("apps_network_perimeters"); ok {
-		interfaces := appsNetworkPerimeters.([]interface{})
+		set := appsNetworkPerimeters.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAppsNetworkPerimeters, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := appsNetworkPerimetersHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "apps_network_perimeters", stateDataIndex)
 			converted, err := s.mapToAppAppsNetworkPerimeters(fieldKeyFormat)
 			if err != nil {
@@ -3754,10 +3812,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if attrRenderingMetadata, ok := s.D.GetOkExists("attr_rendering_metadata"); ok {
-		interfaces := attrRenderingMetadata.([]interface{})
+		set := attrRenderingMetadata.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAttrRenderingMetadata, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := attrRenderingMetadataHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "attr_rendering_metadata", stateDataIndex)
 			converted, err := s.mapToAppAttrRenderingMetadata(fieldKeyFormat)
 			if err != nil {
@@ -3815,10 +3874,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if certificates, ok := s.D.GetOkExists("certificates"); ok {
-		interfaces := certificates.([]interface{})
+		set := certificates.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppCertificates, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := certificatesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "certificates", stateDataIndex)
 			converted, err := s.mapToAppCertificates(fieldKeyFormat)
 			if err != nil {
@@ -3845,7 +3905,8 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if delegatedServiceNames, ok := s.D.GetOkExists("delegated_service_names"); ok {
-		interfaces := delegatedServiceNames.([]interface{})
+		set := delegatedServiceNames.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -3896,10 +3957,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if identityProviders, ok := s.D.GetOkExists("identity_providers"); ok {
-		interfaces := identityProviders.([]interface{})
+		set := identityProviders.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppIdentityProviders, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := identityProvidersHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "identity_providers", stateDataIndex)
 			converted, err := s.mapToAppIdentityProviders(fieldKeyFormat)
 			if err != nil {
@@ -4018,7 +4080,8 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if postLogoutRedirectUris, ok := s.D.GetOkExists("post_logout_redirect_uris"); ok {
-		interfaces := postLogoutRedirectUris.([]interface{})
+		set := postLogoutRedirectUris.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -4046,10 +4109,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if protectableSecondaryAudiences, ok := s.D.GetOkExists("protectable_secondary_audiences"); ok {
-		interfaces := protectableSecondaryAudiences.([]interface{})
+		set := protectableSecondaryAudiences.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppProtectableSecondaryAudiences, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := protectableSecondaryAudiencesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "protectable_secondary_audiences", stateDataIndex)
 			converted, err := s.mapToAppProtectableSecondaryAudiences(fieldKeyFormat)
 			if err != nil {
@@ -4074,7 +4138,8 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if redirectUris, ok := s.D.GetOkExists("redirect_uris"); ok {
-		interfaces := redirectUris.([]interface{})
+		set := redirectUris.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -4121,10 +4186,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if scopes, ok := s.D.GetOkExists("scopes"); ok {
-		interfaces := scopes.([]interface{})
+		set := scopes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppScopes, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := scopesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scopes", stateDataIndex)
 			converted, err := s.mapToAppScopes(fieldKeyFormat)
 			if err != nil {
@@ -4138,7 +4204,8 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if secondaryAudiences, ok := s.D.GetOkExists("secondary_audiences"); ok {
-		interfaces := secondaryAudiences.([]interface{})
+		set := secondaryAudiences.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -4151,10 +4218,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if serviceParams, ok := s.D.GetOkExists("service_params"); ok {
-		interfaces := serviceParams.([]interface{})
+		set := serviceParams.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppServiceParams, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := serviceParamsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "service_params", stateDataIndex)
 			converted, err := s.mapToAppServiceParams(fieldKeyFormat)
 			if err != nil {
@@ -4227,10 +4295,11 @@ func (s *IdentityDomainsAppResourceCrud) Update() error {
 	}
 
 	if trustPolicies, ok := s.D.GetOkExists("trust_policies"); ok {
-		interfaces := trustPolicies.([]interface{})
+		set := trustPolicies.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppTrustPolicies, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := trustPoliciesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trust_policies", stateDataIndex)
 			converted, err := s.mapToAppTrustPolicies(fieldKeyFormat)
 			if err != nil {
@@ -4461,7 +4530,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.AliasApps {
 		aliasApps = append(aliasApps, AppAliasAppsToMap(item))
 	}
-	s.D.Set("alias_apps", aliasApps)
+	s.D.Set("alias_apps", schema.NewSet(aliasAppsHashCodeForSets, aliasApps))
 
 	if s.Res.AllUrlSchemesAllowed != nil {
 		s.D.Set("all_url_schemes_allowed", *s.Res.AllUrlSchemesAllowed)
@@ -4475,21 +4544,29 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 		s.D.Set("allow_offline", *s.Res.AllowOffline)
 	}
 
-	s.D.Set("allowed_grants", s.Res.AllowedGrants)
+	allowedGrants := []interface{}{}
+	for _, item := range s.Res.AllowedGrants {
+		allowedGrants = append(allowedGrants, item)
+	}
+	s.D.Set("allowed_grants", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowedGrants))
 
-	s.D.Set("allowed_operations", s.Res.AllowedOperations)
+	allowedOperations := []interface{}{}
+	for _, item := range s.Res.AllowedOperations {
+		allowedOperations = append(allowedOperations, item)
+	}
+	s.D.Set("allowed_operations", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowedOperations))
 
 	allowedScopes := []interface{}{}
 	for _, item := range s.Res.AllowedScopes {
 		allowedScopes = append(allowedScopes, AppAllowedScopesToMap(item))
 	}
-	s.D.Set("allowed_scopes", allowedScopes)
+	s.D.Set("allowed_scopes", schema.NewSet(allowedScopesHashCodeForSets, allowedScopes))
 
 	allowedTags := []interface{}{}
 	for _, item := range s.Res.AllowedTags {
 		allowedTags = append(allowedTags, AppAllowedTagsToMap(item))
 	}
-	s.D.Set("allowed_tags", allowedTags)
+	s.D.Set("allowed_tags", schema.NewSet(allowedTagsHashCodeForSets, allowedTags))
 
 	if s.Res.AppIcon != nil {
 		s.D.Set("app_icon", *s.Res.AppIcon)
@@ -4509,7 +4586,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.AppsNetworkPerimeters {
 		appsNetworkPerimeters = append(appsNetworkPerimeters, AppAppsNetworkPerimetersToMap(item))
 	}
-	s.D.Set("apps_network_perimeters", appsNetworkPerimeters)
+	s.D.Set("apps_network_perimeters", schema.NewSet(appsNetworkPerimetersHashCodeForSets, appsNetworkPerimeters))
 
 	if s.Res.AsOPCService != nil {
 		s.D.Set("as_opc_service", []interface{}{AppAsOPCServiceToMap(s.Res.AsOPCService)})
@@ -4521,7 +4598,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.AttrRenderingMetadata {
 		attrRenderingMetadata = append(attrRenderingMetadata, AppAttrRenderingMetadataToMap(item))
 	}
-	s.D.Set("attr_rendering_metadata", attrRenderingMetadata)
+	s.D.Set("attr_rendering_metadata", schema.NewSet(attrRenderingMetadataHashCodeForSets, attrRenderingMetadata))
 
 	if s.Res.Audience != nil {
 		s.D.Set("audience", *s.Res.Audience)
@@ -4545,7 +4622,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.Certificates {
 		certificates = append(certificates, AppCertificatesToMap(item))
 	}
-	s.D.Set("certificates", certificates)
+	s.D.Set("certificates", schema.NewSet(certificatesHashCodeForSets, certificates))
 
 	s.D.Set("client_ip_checking", s.Res.ClientIPChecking)
 
@@ -4569,7 +4646,11 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 		s.D.Set("contact_email_address", *s.Res.ContactEmailAddress)
 	}
 
-	s.D.Set("delegated_service_names", s.Res.DelegatedServiceNames)
+	delegatedServiceNames := []interface{}{}
+	for _, item := range s.Res.DelegatedServiceNames {
+		delegatedServiceNames = append(delegatedServiceNames, item)
+	}
+	s.D.Set("delegated_service_names", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, delegatedServiceNames))
 
 	if s.Res.DeleteInProgress != nil {
 		s.D.Set("delete_in_progress", *s.Res.DeleteInProgress)
@@ -4651,7 +4732,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.IdentityProviders {
 		identityProviders = append(identityProviders, AppIdentityProvidersToMap(item))
 	}
-	s.D.Set("identity_providers", identityProviders)
+	s.D.Set("identity_providers", schema.NewSet(identityProvidersHashCodeForSets, identityProviders))
 
 	if s.Res.IdpPolicy != nil {
 		s.D.Set("idp_policy", []interface{}{AppIdpPolicyToMap(s.Res.IdpPolicy)})
@@ -4775,7 +4856,11 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("post_logout_redirect_uris", s.Res.PostLogoutRedirectUris)
+	postLogoutRedirectUris := []interface{}{}
+	for _, item := range s.Res.PostLogoutRedirectUris {
+		postLogoutRedirectUris = append(postLogoutRedirectUris, item)
+	}
+	s.D.Set("post_logout_redirect_uris", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, postLogoutRedirectUris))
 
 	if s.Res.PrivacyPolicyUrl != nil {
 		s.D.Set("privacy_policy_url", *s.Res.PrivacyPolicyUrl)
@@ -4793,7 +4878,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.ProtectableSecondaryAudiences {
 		protectableSecondaryAudiences = append(protectableSecondaryAudiences, AppProtectableSecondaryAudiencesToMap(item))
 	}
-	s.D.Set("protectable_secondary_audiences", protectableSecondaryAudiences)
+	s.D.Set("protectable_secondary_audiences", schema.NewSet(protectableSecondaryAudiencesHashCodeForSets, protectableSecondaryAudiences))
 
 	if s.Res.RadiusPolicy != nil {
 		s.D.Set("radius_policy", []interface{}{AppRadiusPolicyToMap(s.Res.RadiusPolicy)})
@@ -4805,7 +4890,11 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 		s.D.Set("ready_to_upgrade", *s.Res.ReadyToUpgrade)
 	}
 
-	s.D.Set("redirect_uris", s.Res.RedirectUris)
+	redirectUris := []interface{}{}
+	for _, item := range s.Res.RedirectUris {
+		redirectUris = append(redirectUris, item)
+	}
+	s.D.Set("redirect_uris", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, redirectUris))
 
 	if s.Res.RefreshTokenExpiry != nil {
 		s.D.Set("refresh_token_expiry", *s.Res.RefreshTokenExpiry)
@@ -4823,15 +4912,19 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.Scopes {
 		scopes = append(scopes, AppScopesToMap(item))
 	}
-	s.D.Set("scopes", scopes)
+	s.D.Set("scopes", schema.NewSet(scopesHashCodeForSets, scopes))
 
-	s.D.Set("secondary_audiences", s.Res.SecondaryAudiences)
+	secondaryAudiences := []interface{}{}
+	for _, item := range s.Res.SecondaryAudiences {
+		secondaryAudiences = append(secondaryAudiences, item)
+	}
+	s.D.Set("secondary_audiences", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, secondaryAudiences))
 
 	serviceParams := []interface{}{}
 	for _, item := range s.Res.ServiceParams {
 		serviceParams = append(serviceParams, AppServiceParamsToMap(item))
 	}
-	s.D.Set("service_params", serviceParams)
+	s.D.Set("service_params", schema.NewSet(serviceParamsHashCodeForSets, serviceParams))
 
 	if s.Res.ServiceTypeURN != nil {
 		s.D.Set("service_type_urn", *s.Res.ServiceTypeURN)
@@ -4875,7 +4968,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	for _, item := range s.Res.TrustPolicies {
 		trustPolicies = append(trustPolicies, AppTrustPoliciesToMap(item))
 	}
-	s.D.Set("trust_policies", trustPolicies)
+	s.D.Set("trust_policies", schema.NewSet(trustPoliciesHashCodeForSets, trustPolicies))
 
 	s.D.Set("trust_scope", s.Res.TrustScope)
 
@@ -4892,31 +4985,31 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionenterprise_app_app", []interface{}{AppExtensionEnterpriseAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionenterprise_app_app", []interface{}{AppExtensionEnterpriseAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionenterprise_app_app", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_app", []interface{}{AppExtensionFormFillAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_app", []interface{}{AppExtensionFormFillAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_app", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template", []interface{}{AppExtensionFormFillAppTemplateAppTemplateToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template", []interface{}{AppExtensionFormFillAppTemplateAppTemplateToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app", []interface{}{AppExtensionKerberosRealmAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app", []interface{}{AppExtensionKerberosRealmAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionmanagedapp_app", []interface{}{AppExtensionManagedappAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionmanagedapp_app", []interface{}{AppExtensionManagedappAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionmanagedapp_app", nil)
 	}
@@ -4934,7 +5027,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionradius_app_app", []interface{}{AppExtensionRadiusAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionradius_app_app", []interface{}{AppExtensionRadiusAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionradius_app_app", nil)
 	}
@@ -4946,7 +5039,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app", []interface{}{AppExtensionSamlServiceProviderAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app", []interface{}{AppExtensionSamlServiceProviderAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app", nil)
 	}
@@ -4987,7 +5080,7 @@ func parseAppCompositeId(compositeId string) (appId string, err error) {
 	return
 }
 
-func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
+func AppToMap(obj oci_identity_domains.App, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AccessTokenExpiry != nil {
@@ -5014,7 +5107,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.AliasApps {
 		aliasApps = append(aliasApps, AppAliasAppsToMap(item))
 	}
-	result["alias_apps"] = aliasApps
+	if datasource {
+		result["alias_apps"] = aliasApps
+	} else {
+		result["alias_apps"] = schema.NewSet(aliasAppsHashCodeForSets, aliasApps)
+	}
 
 	if obj.AllUrlSchemesAllowed != nil {
 		result["all_url_schemes_allowed"] = bool(*obj.AllUrlSchemesAllowed)
@@ -5028,21 +5125,45 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 		result["allow_offline"] = bool(*obj.AllowOffline)
 	}
 
-	result["allowed_grants"] = obj.AllowedGrants
+	allowedGrants := []interface{}{}
+	for _, item := range obj.AllowedGrants {
+		allowedGrants = append(allowedGrants, item)
+	}
+	if datasource {
+		result["allowed_grants"] = allowedGrants
+	} else {
+		result["allowed_grants"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowedGrants)
+	}
 
-	result["allowed_operations"] = obj.AllowedOperations
+	allowedOperations := []interface{}{}
+	for _, item := range obj.AllowedOperations {
+		allowedOperations = append(allowedOperations, item)
+	}
+	if datasource {
+		result["allowed_operations"] = allowedOperations
+	} else {
+		result["allowed_operations"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowedOperations)
+	}
 
 	allowedScopes := []interface{}{}
 	for _, item := range obj.AllowedScopes {
 		allowedScopes = append(allowedScopes, AppAllowedScopesToMap(item))
 	}
-	result["allowed_scopes"] = allowedScopes
+	if datasource {
+		result["allowed_scopes"] = allowedScopes
+	} else {
+		result["allowed_scopes"] = schema.NewSet(allowedScopesHashCodeForSets, allowedScopes)
+	}
 
 	allowedTags := []interface{}{}
 	for _, item := range obj.AllowedTags {
 		allowedTags = append(allowedTags, AppAllowedTagsToMap(item))
 	}
-	result["allowed_tags"] = allowedTags
+	if datasource {
+		result["allowed_tags"] = allowedTags
+	} else {
+		result["allowed_tags"] = schema.NewSet(allowedTagsHashCodeForSets, allowedTags)
+	}
 
 	if obj.AppIcon != nil {
 		result["app_icon"] = string(*obj.AppIcon)
@@ -5060,7 +5181,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.AppsNetworkPerimeters {
 		appsNetworkPerimeters = append(appsNetworkPerimeters, AppAppsNetworkPerimetersToMap(item))
 	}
-	result["apps_network_perimeters"] = appsNetworkPerimeters
+	if datasource {
+		result["apps_network_perimeters"] = appsNetworkPerimeters
+	} else {
+		result["apps_network_perimeters"] = schema.NewSet(appsNetworkPerimetersHashCodeForSets, appsNetworkPerimeters)
+	}
 
 	if obj.AsOPCService != nil {
 		result["as_opc_service"] = []interface{}{AppAsOPCServiceToMap(obj.AsOPCService)}
@@ -5070,7 +5195,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.AttrRenderingMetadata {
 		attrRenderingMetadata = append(attrRenderingMetadata, AppAttrRenderingMetadataToMap(item))
 	}
-	result["attr_rendering_metadata"] = attrRenderingMetadata
+	if datasource {
+		result["attr_rendering_metadata"] = attrRenderingMetadata
+	} else {
+		result["attr_rendering_metadata"] = schema.NewSet(attrRenderingMetadataHashCodeForSets, attrRenderingMetadata)
+	}
 
 	if obj.Audience != nil {
 		result["audience"] = string(*obj.Audience)
@@ -5092,7 +5221,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.Certificates {
 		certificates = append(certificates, AppCertificatesToMap(item))
 	}
-	result["certificates"] = certificates
+	if datasource {
+		result["certificates"] = certificates
+	} else {
+		result["certificates"] = schema.NewSet(certificatesHashCodeForSets, certificates)
+	}
 
 	result["client_ip_checking"] = string(obj.ClientIPChecking)
 
@@ -5116,7 +5249,15 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 		result["contact_email_address"] = string(*obj.ContactEmailAddress)
 	}
 
-	result["delegated_service_names"] = obj.DelegatedServiceNames
+	delegatedServiceNames := []interface{}{}
+	for _, item := range obj.DelegatedServiceNames {
+		delegatedServiceNames = append(delegatedServiceNames, item)
+	}
+	if datasource {
+		result["delegated_service_names"] = delegatedServiceNames
+	} else {
+		result["delegated_service_names"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, delegatedServiceNames)
+	}
 
 	if obj.DeleteInProgress != nil {
 		result["delete_in_progress"] = bool(*obj.DeleteInProgress)
@@ -5198,7 +5339,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.IdentityProviders {
 		identityProviders = append(identityProviders, AppIdentityProvidersToMap(item))
 	}
-	result["identity_providers"] = identityProviders
+	if datasource {
+		result["identity_providers"] = identityProviders
+	} else {
+		result["identity_providers"] = schema.NewSet(identityProvidersHashCodeForSets, identityProviders)
+	}
 
 	if obj.IdpPolicy != nil {
 		result["idp_policy"] = []interface{}{AppIdpPolicyToMap(obj.IdpPolicy)}
@@ -5318,7 +5463,15 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["post_logout_redirect_uris"] = obj.PostLogoutRedirectUris
+	postLogoutRedirectUris := []interface{}{}
+	for _, item := range obj.PostLogoutRedirectUris {
+		postLogoutRedirectUris = append(postLogoutRedirectUris, item)
+	}
+	if datasource {
+		result["post_logout_redirect_uris"] = postLogoutRedirectUris
+	} else {
+		result["post_logout_redirect_uris"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, postLogoutRedirectUris)
+	}
 
 	if obj.PrivacyPolicyUrl != nil {
 		result["privacy_policy_url"] = string(*obj.PrivacyPolicyUrl)
@@ -5336,7 +5489,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.ProtectableSecondaryAudiences {
 		protectableSecondaryAudiences = append(protectableSecondaryAudiences, AppProtectableSecondaryAudiencesToMap(item))
 	}
-	result["protectable_secondary_audiences"] = protectableSecondaryAudiences
+	if datasource {
+		result["protectable_secondary_audiences"] = protectableSecondaryAudiences
+	} else {
+		result["protectable_secondary_audiences"] = schema.NewSet(protectableSecondaryAudiencesHashCodeForSets, protectableSecondaryAudiences)
+	}
 
 	if obj.RadiusPolicy != nil {
 		result["radius_policy"] = []interface{}{AppRadiusPolicyToMap(obj.RadiusPolicy)}
@@ -5346,7 +5503,15 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 		result["ready_to_upgrade"] = bool(*obj.ReadyToUpgrade)
 	}
 
-	result["redirect_uris"] = obj.RedirectUris
+	redirectUris := []interface{}{}
+	for _, item := range obj.RedirectUris {
+		redirectUris = append(redirectUris, item)
+	}
+	if datasource {
+		result["redirect_uris"] = redirectUris
+	} else {
+		result["redirect_uris"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, redirectUris)
+	}
 
 	if obj.RefreshTokenExpiry != nil {
 		result["refresh_token_expiry"] = int(*obj.RefreshTokenExpiry)
@@ -5362,15 +5527,31 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.Scopes {
 		scopes = append(scopes, AppScopesToMap(item))
 	}
-	result["scopes"] = scopes
+	if datasource {
+		result["scopes"] = scopes
+	} else {
+		result["scopes"] = schema.NewSet(scopesHashCodeForSets, scopes)
+	}
 
-	result["secondary_audiences"] = obj.SecondaryAudiences
+	secondaryAudiences := []interface{}{}
+	for _, item := range obj.SecondaryAudiences {
+		secondaryAudiences = append(secondaryAudiences, item)
+	}
+	if datasource {
+		result["secondary_audiences"] = secondaryAudiences
+	} else {
+		result["secondary_audiences"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, secondaryAudiences)
+	}
 
 	serviceParams := []interface{}{}
 	for _, item := range obj.ServiceParams {
 		serviceParams = append(serviceParams, AppServiceParamsToMap(item))
 	}
-	result["service_params"] = serviceParams
+	if datasource {
+		result["service_params"] = serviceParams
+	} else {
+		result["service_params"] = schema.NewSet(serviceParamsHashCodeForSets, serviceParams)
+	}
 
 	if obj.ServiceTypeURN != nil {
 		result["service_type_urn"] = string(*obj.ServiceTypeURN)
@@ -5410,7 +5591,11 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	for _, item := range obj.TrustPolicies {
 		trustPolicies = append(trustPolicies, AppTrustPoliciesToMap(item))
 	}
-	result["trust_policies"] = trustPolicies
+	if datasource {
+		result["trust_policies"] = trustPolicies
+	} else {
+		result["trust_policies"] = schema.NewSet(trustPoliciesHashCodeForSets, trustPolicies)
+	}
 
 	result["trust_scope"] = string(obj.TrustScope)
 
@@ -5423,23 +5608,23 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionenterprise_app_app"] = []interface{}{AppExtensionEnterpriseAppAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp)}
+		result["urnietfparamsscimschemasoracleidcsextensionenterprise_app_app"] = []interface{}{AppExtensionEnterpriseAppAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionform_fill_app_app"] = []interface{}{AppExtensionFormFillAppAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp)}
+		result["urnietfparamsscimschemasoracleidcsextensionform_fill_app_app"] = []interface{}{AppExtensionFormFillAppAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template"] = []interface{}{AppExtensionFormFillAppTemplateAppTemplateToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate)}
+		result["urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template"] = []interface{}{AppExtensionFormFillAppTemplateAppTemplateToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app"] = []interface{}{AppExtensionKerberosRealmAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp)}
+		result["urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app"] = []interface{}{AppExtensionKerberosRealmAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionmanagedapp_app"] = []interface{}{AppExtensionManagedappAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp)}
+		result["urnietfparamsscimschemasoracleidcsextensionmanagedapp_app"] = []interface{}{AppExtensionManagedappAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionMulticloudServiceAppApp != nil {
@@ -5451,7 +5636,7 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionradius_app_app"] = []interface{}{AppExtensionRadiusAppAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp)}
+		result["urnietfparamsscimschemasoracleidcsextensionradius_app_app"] = []interface{}{AppExtensionRadiusAppAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionRequestableApp != nil {
@@ -5459,7 +5644,7 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app"] = []interface{}{AppExtensionSamlServiceProviderAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp)}
+		result["urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app"] = []interface{}{AppExtensionSamlServiceProviderAppToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionWebTierPolicyApp != nil {
@@ -6026,7 +6211,8 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppBundleConfigurationProperties(f
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
-		interfaces := value.([]interface{})
+		set := value.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -6041,7 +6227,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppBundleConfigurationProperties(f
 	return result, nil
 }
 
-func AppBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppBundleConfigurationProperties) map[string]interface{} {
+func AppBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppBundleConfigurationProperties, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Confidential != nil {
@@ -6070,7 +6256,15 @@ func AppBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppBundleCon
 		result["required"] = bool(*obj.Required)
 	}
 
-	result["value"] = obj.Value
+	value := []interface{}{}
+	for _, item := range obj.Value {
+		value = append(value, item)
+	}
+	if datasource {
+		result["value"] = value
+	} else {
+		result["value"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, value)
+	}
 
 	return result
 }
@@ -6370,10 +6564,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionEnterpriseAppApp(field
 	}
 
 	if appResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "app_resources")); ok {
-		interfaces := appResources.([]interface{})
+		set := appResources.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppAppResources, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := appResourcesHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "app_resources"), stateDataIndex)
 			converted, err := s.mapToAppAppResources(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -6405,7 +6600,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionEnterpriseAppApp(field
 	return result, nil
 }
 
-func AppExtensionEnterpriseAppAppToMap(obj *oci_identity_domains.AppExtensionEnterpriseAppApp) map[string]interface{} {
+func AppExtensionEnterpriseAppAppToMap(obj *oci_identity_domains.AppExtensionEnterpriseAppApp, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AllowAuthzDecisionTTL != nil {
@@ -6420,7 +6615,11 @@ func AppExtensionEnterpriseAppAppToMap(obj *oci_identity_domains.AppExtensionEnt
 	for _, item := range obj.AppResources {
 		appResources = append(appResources, AppAppResourcesToMap(item))
 	}
-	result["app_resources"] = appResources
+	if datasource {
+		result["app_resources"] = appResources
+	} else {
+		result["app_resources"] = schema.NewSet(appResourcesHashCodeForSets, appResources)
+	}
 
 	if obj.DenyAuthzDecisionTTL != nil {
 		result["deny_authz_decision_ttl"] = int(*obj.DenyAuthzDecisionTTL)
@@ -6437,10 +6636,8 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionFormFillAppApp(fieldKe
 	result := oci_identity_domains.AppExtensionFormFillAppApp{}
 
 	if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
-		if !IsOptionalAndEmpty(IdentityDomainsAppResource(), s.D, fmt.Sprintf(fieldKeyFormat, "configuration")) {
-			tmp := configuration.(string)
-			result.Configuration = &tmp
-		}
+		tmp := configuration.(string)
+		result.Configuration = &tmp
 	}
 
 	if formCredMethod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "form_cred_method")); ok {
@@ -6448,17 +6645,16 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionFormFillAppApp(fieldKe
 	}
 
 	if formCredentialSharingGroupID, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "form_credential_sharing_group_id")); ok {
-		if !IsOptionalAndEmpty(IdentityDomainsAppResource(), s.D, fmt.Sprintf(fieldKeyFormat, "form_credential_sharing_group_id")) {
-			tmp := formCredentialSharingGroupID.(string)
-			result.FormCredentialSharingGroupID = &tmp
-		}
+		tmp := formCredentialSharingGroupID.(string)
+		result.FormCredentialSharingGroupID = &tmp
 	}
 
 	if formFillUrlMatch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "form_fill_url_match")); ok {
-		interfaces := formFillUrlMatch.([]interface{})
+		set := formFillUrlMatch.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppFormFillUrlMatch, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := formFillUrlMatchHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "form_fill_url_match"), stateDataIndex)
 			converted, err := s.mapToAppFormFillUrlMatch(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -6502,7 +6698,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionFormFillAppApp(fieldKe
 	return result, nil
 }
 
-func AppExtensionFormFillAppAppToMap(obj *oci_identity_domains.AppExtensionFormFillAppApp) map[string]interface{} {
+func AppExtensionFormFillAppAppToMap(obj *oci_identity_domains.AppExtensionFormFillAppApp, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Configuration != nil {
@@ -6519,7 +6715,11 @@ func AppExtensionFormFillAppAppToMap(obj *oci_identity_domains.AppExtensionFormF
 	for _, item := range obj.FormFillUrlMatch {
 		formFillUrlMatch = append(formFillUrlMatch, AppFormFillUrlMatchToMap(item))
 	}
-	result["form_fill_url_match"] = formFillUrlMatch
+	if datasource {
+		result["form_fill_url_match"] = formFillUrlMatch
+	} else {
+		result["form_fill_url_match"] = schema.NewSet(formFillUrlMatchHashCodeForSets, formFillUrlMatch)
+	}
 
 	result["form_type"] = string(obj.FormType)
 
@@ -6564,10 +6764,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionFormFillAppTemplateApp
 	}
 
 	if formFillUrlMatch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "form_fill_url_match")); ok {
-		interfaces := formFillUrlMatch.([]interface{})
+		set := formFillUrlMatch.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppFormFillUrlMatch, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := formFillUrlMatchHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "form_fill_url_match"), stateDataIndex)
 			converted, err := s.mapToAppFormFillUrlMatch(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -6611,7 +6812,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionFormFillAppTemplateApp
 	return result, nil
 }
 
-func AppExtensionFormFillAppTemplateAppTemplateToMap(obj *oci_identity_domains.AppExtensionFormFillAppTemplateAppTemplate) map[string]interface{} {
+func AppExtensionFormFillAppTemplateAppTemplateToMap(obj *oci_identity_domains.AppExtensionFormFillAppTemplateAppTemplate, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Configuration != nil {
@@ -6628,7 +6829,11 @@ func AppExtensionFormFillAppTemplateAppTemplateToMap(obj *oci_identity_domains.A
 	for _, item := range obj.FormFillUrlMatch {
 		formFillUrlMatch = append(formFillUrlMatch, AppFormFillUrlMatchToMap(item))
 	}
-	result["form_fill_url_match"] = formFillUrlMatch
+	if datasource {
+		result["form_fill_url_match"] = formFillUrlMatch
+	} else {
+		result["form_fill_url_match"] = schema.NewSet(formFillUrlMatchHashCodeForSets, formFillUrlMatch)
+	}
 
 	result["form_type"] = string(obj.FormType)
 
@@ -6686,7 +6891,8 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionKerberosRealmApp(field
 	}
 
 	if supportedEncryptionSaltTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "supported_encryption_salt_types")); ok {
-		interfaces := supportedEncryptionSaltTypes.([]interface{})
+		set := supportedEncryptionSaltTypes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -6708,7 +6914,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionKerberosRealmApp(field
 	return result, nil
 }
 
-func AppExtensionKerberosRealmAppToMap(obj *oci_identity_domains.AppExtensionKerberosRealmApp) map[string]interface{} {
+func AppExtensionKerberosRealmAppToMap(obj *oci_identity_domains.AppExtensionKerberosRealmApp, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.DefaultEncryptionSaltType != nil {
@@ -6731,7 +6937,15 @@ func AppExtensionKerberosRealmAppToMap(obj *oci_identity_domains.AppExtensionKer
 		result["realm_name"] = string(*obj.RealmName)
 	}
 
-	result["supported_encryption_salt_types"] = obj.SupportedEncryptionSaltTypes
+	supportedEncryptionSaltTypes := []interface{}{}
+	for _, item := range obj.SupportedEncryptionSaltTypes {
+		supportedEncryptionSaltTypes = append(supportedEncryptionSaltTypes, item)
+	}
+	if datasource {
+		result["supported_encryption_salt_types"] = supportedEncryptionSaltTypes
+	} else {
+		result["supported_encryption_salt_types"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, supportedEncryptionSaltTypes)
+	}
 
 	if obj.TicketFlags != nil {
 		result["ticket_flags"] = int(*obj.TicketFlags)
@@ -6754,10 +6968,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionManagedappApp(fieldKey
 	}
 
 	if bundleConfigurationProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bundle_configuration_properties")); ok {
-		interfaces := bundleConfigurationProperties.([]interface{})
+		set := bundleConfigurationProperties.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppBundleConfigurationProperties, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := bundleConfigurationPropertiesHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "bundle_configuration_properties"), stateDataIndex)
 			converted, err := s.mapToAppBundleConfigurationProperties(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -6818,10 +7033,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionManagedappApp(fieldKey
 	}
 
 	if flatFileBundleConfigurationProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "flat_file_bundle_configuration_properties")); ok {
-		interfaces := flatFileBundleConfigurationProperties.([]interface{})
+		set := flatFileBundleConfigurationProperties.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppFlatFileBundleConfigurationProperties, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := flatFileBundleConfigurationPropertiesHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "flat_file_bundle_configuration_properties"), stateDataIndex)
 			converted, err := s.mapToAppFlatFileBundleConfigurationProperties(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -6933,7 +7149,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionManagedappApp(fieldKey
 	return result, nil
 }
 
-func AppExtensionManagedappAppToMap(obj *oci_identity_domains.AppExtensionManagedappApp) map[string]interface{} {
+func AppExtensionManagedappAppToMap(obj *oci_identity_domains.AppExtensionManagedappApp, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AccountFormVisible != nil {
@@ -6946,9 +7162,13 @@ func AppExtensionManagedappAppToMap(obj *oci_identity_domains.AppExtensionManage
 
 	bundleConfigurationProperties := []interface{}{}
 	for _, item := range obj.BundleConfigurationProperties {
-		bundleConfigurationProperties = append(bundleConfigurationProperties, AppBundleConfigurationPropertiesToMap(item))
+		bundleConfigurationProperties = append(bundleConfigurationProperties, AppBundleConfigurationPropertiesToMap(item, datasource))
 	}
-	result["bundle_configuration_properties"] = bundleConfigurationProperties
+	if datasource {
+		result["bundle_configuration_properties"] = bundleConfigurationProperties
+	} else {
+		result["bundle_configuration_properties"] = schema.NewSet(bundleConfigurationPropertiesHashCodeForSets, bundleConfigurationProperties)
+	}
 
 	if obj.BundlePoolConfiguration != nil {
 		result["bundle_pool_configuration"] = []interface{}{AppBundlePoolConfigurationToMap(obj.BundlePoolConfiguration)}
@@ -6980,9 +7200,13 @@ func AppExtensionManagedappAppToMap(obj *oci_identity_domains.AppExtensionManage
 
 	flatFileBundleConfigurationProperties := []interface{}{}
 	for _, item := range obj.FlatFileBundleConfigurationProperties {
-		flatFileBundleConfigurationProperties = append(flatFileBundleConfigurationProperties, AppFlatFileBundleConfigurationPropertiesToMap(item))
+		flatFileBundleConfigurationProperties = append(flatFileBundleConfigurationProperties, AppFlatFileBundleConfigurationPropertiesToMap(item, datasource))
 	}
-	result["flat_file_bundle_configuration_properties"] = flatFileBundleConfigurationProperties
+	if datasource {
+		result["flat_file_bundle_configuration_properties"] = flatFileBundleConfigurationProperties
+	} else {
+		result["flat_file_bundle_configuration_properties"] = schema.NewSet(flatFileBundleConfigurationPropertiesHashCodeForSets, flatFileBundleConfigurationProperties)
+	}
 
 	if obj.FlatFileConnectorBundle != nil {
 		result["flat_file_connector_bundle"] = []interface{}{AppFlatFileConnectorBundleToMap(obj.FlatFileConnectorBundle)}
@@ -7166,10 +7390,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionRadiusAppApp(fieldKeyF
 	}
 
 	if groupMembershipToReturn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_membership_to_return")); ok {
-		interfaces := groupMembershipToReturn.([]interface{})
+		set := groupMembershipToReturn.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppGroupMembershipToReturn, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := groupMembershipToReturnHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "group_membership_to_return"), stateDataIndex)
 			converted, err := s.mapToAppGroupMembershipToReturn(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -7232,7 +7457,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionRadiusAppApp(fieldKeyF
 	return result, nil
 }
 
-func AppExtensionRadiusAppAppToMap(obj *oci_identity_domains.AppExtensionRadiusAppApp) map[string]interface{} {
+func AppExtensionRadiusAppAppToMap(obj *oci_identity_domains.AppExtensionRadiusAppApp, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CaptureClientIp != nil {
@@ -7259,7 +7484,11 @@ func AppExtensionRadiusAppAppToMap(obj *oci_identity_domains.AppExtensionRadiusA
 	for _, item := range obj.GroupMembershipToReturn {
 		groupMembershipToReturn = append(groupMembershipToReturn, AppGroupMembershipToReturnToMap(item))
 	}
-	result["group_membership_to_return"] = groupMembershipToReturn
+	if datasource {
+		result["group_membership_to_return"] = groupMembershipToReturn
+	} else {
+		result["group_membership_to_return"] = schema.NewSet(groupMembershipToReturnHashCodeForSets, groupMembershipToReturn)
+	}
 
 	if obj.GroupNameFormat != nil {
 		result["group_name_format"] = string(*obj.GroupNameFormat)
@@ -7350,10 +7579,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionSamlServiceProviderApp
 	}
 
 	if groupAssertionAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_assertion_attributes")); ok {
-		interfaces := groupAssertionAttributes.([]interface{})
+		set := groupAssertionAttributes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppGroupAssertionAttributes, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := groupAssertionAttributesHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "group_assertion_attributes"), stateDataIndex)
 			converted, err := s.mapToAppGroupAssertionAttributes(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -7468,10 +7698,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionSamlServiceProviderApp
 	}
 
 	if userAssertionAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_assertion_attributes")); ok {
-		interfaces := userAssertionAttributes.([]interface{})
+		set := userAssertionAttributes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.AppUserAssertionAttributes, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := userAssertionAttributesHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "user_assertion_attributes"), stateDataIndex)
 			converted, err := s.mapToAppUserAssertionAttributes(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -7487,7 +7718,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppExtensionSamlServiceProviderApp
 	return result, nil
 }
 
-func AppExtensionSamlServiceProviderAppToMap(obj *oci_identity_domains.AppExtensionSamlServiceProviderApp) map[string]interface{} {
+func AppExtensionSamlServiceProviderAppToMap(obj *oci_identity_domains.AppExtensionSamlServiceProviderApp, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AssertionConsumerUrl != nil {
@@ -7510,7 +7741,11 @@ func AppExtensionSamlServiceProviderAppToMap(obj *oci_identity_domains.AppExtens
 	for _, item := range obj.GroupAssertionAttributes {
 		groupAssertionAttributes = append(groupAssertionAttributes, AppGroupAssertionAttributesToMap(item))
 	}
-	result["group_assertion_attributes"] = groupAssertionAttributes
+	if datasource {
+		result["group_assertion_attributes"] = groupAssertionAttributes
+	} else {
+		result["group_assertion_attributes"] = schema.NewSet(groupAssertionAttributesHashCodeForSets, groupAssertionAttributes)
+	}
 
 	if obj.HokAcsUrl != nil {
 		result["hok_acs_url"] = string(*obj.HokAcsUrl)
@@ -7588,7 +7823,11 @@ func AppExtensionSamlServiceProviderAppToMap(obj *oci_identity_domains.AppExtens
 	for _, item := range obj.UserAssertionAttributes {
 		userAssertionAttributes = append(userAssertionAttributes, AppUserAssertionAttributesToMap(item))
 	}
-	result["user_assertion_attributes"] = userAssertionAttributes
+	if datasource {
+		result["user_assertion_attributes"] = userAssertionAttributes
+	} else {
+		result["user_assertion_attributes"] = schema.NewSet(userAssertionAttributesHashCodeForSets, userAssertionAttributes)
+	}
 
 	return result
 }
@@ -7667,7 +7906,8 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppFlatFileBundleConfigurationProp
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
-		interfaces := value.([]interface{})
+		set := value.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -7682,7 +7922,7 @@ func (s *IdentityDomainsAppResourceCrud) mapToAppFlatFileBundleConfigurationProp
 	return result, nil
 }
 
-func AppFlatFileBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppFlatFileBundleConfigurationProperties) map[string]interface{} {
+func AppFlatFileBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppFlatFileBundleConfigurationProperties, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Confidential != nil {
@@ -7711,7 +7951,15 @@ func AppFlatFileBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppF
 		result["required"] = bool(*obj.Required)
 	}
 
-	result["value"] = obj.Value
+	value := []interface{}{}
+	for _, item := range obj.Value {
+		value = append(value, item)
+	}
+	if datasource {
+		result["value"] = value
+	} else {
+		result["value"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, value)
+	}
 
 	return result
 }
@@ -8645,4 +8893,281 @@ func (s *IdentityDomainsAppResourceCrud) mapTotags(fieldKeyFormat string) (oci_i
 	}
 
 	return result, nil
+}
+
+func aliasAppsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func allowedScopesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if fqs, ok := m["fqs"]; ok && fqs != "" {
+		buf.WriteString(fmt.Sprintf("%v-", fqs))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func allowedTagsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if key, ok := m["key"]; ok && key != "" {
+		buf.WriteString(fmt.Sprintf("%v-", key))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func appResourcesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func appsNetworkPerimetersHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func attrRenderingMetadataHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if datatype, ok := m["datatype"]; ok && datatype != "" {
+		buf.WriteString(fmt.Sprintf("%v-", datatype))
+	}
+	if helptext, ok := m["helptext"]; ok && helptext != "" {
+		buf.WriteString(fmt.Sprintf("%v-", helptext))
+	}
+	if label, ok := m["label"]; ok && label != "" {
+		buf.WriteString(fmt.Sprintf("%v-", label))
+	}
+	if maxLength, ok := m["max_length"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", maxLength))
+	}
+	if maxSize, ok := m["max_size"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", maxSize))
+	}
+	if minLength, ok := m["min_length"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", minLength))
+	}
+	if minSize, ok := m["min_size"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", minSize))
+	}
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if order, ok := m["order"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", order))
+	}
+	if readOnly, ok := m["read_only"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", readOnly))
+	}
+	if regexp, ok := m["regexp"]; ok && regexp != "" {
+		buf.WriteString(fmt.Sprintf("%v-", regexp))
+	}
+	if required, ok := m["required"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", required))
+	}
+	if section, ok := m["section"]; ok && section != "" {
+		buf.WriteString(fmt.Sprintf("%v-", section))
+	}
+	if visible, ok := m["visible"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", visible))
+	}
+	if widget, ok := m["widget"]; ok && widget != "" {
+		buf.WriteString(fmt.Sprintf("%v-", widget))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func bundleConfigurationPropertiesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if confidential, ok := m["confidential"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", confidential))
+	}
+	if displayName, ok := m["display_name"]; ok && displayName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", displayName))
+	}
+	if helpMessage, ok := m["help_message"]; ok && helpMessage != "" {
+		buf.WriteString(fmt.Sprintf("%v-", helpMessage))
+	}
+	if icfType, ok := m["icf_type"]; ok && icfType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", icfType))
+	}
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if order, ok := m["order"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", order))
+	}
+	if required, ok := m["required"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", required))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func certificatesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if certAlias, ok := m["cert_alias"]; ok && certAlias != "" {
+		buf.WriteString(fmt.Sprintf("%v-", certAlias))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func flatFileBundleConfigurationPropertiesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if confidential, ok := m["confidential"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", confidential))
+	}
+	if displayName, ok := m["display_name"]; ok && displayName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", displayName))
+	}
+	if helpMessage, ok := m["help_message"]; ok && helpMessage != "" {
+		buf.WriteString(fmt.Sprintf("%v-", helpMessage))
+	}
+	if icfType, ok := m["icf_type"]; ok && icfType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", icfType))
+	}
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if order, ok := m["order"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", order))
+	}
+	if required, ok := m["required"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", required))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func formFillUrlMatchHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if formUrl, ok := m["form_url"]; ok && formUrl != "" {
+		buf.WriteString(fmt.Sprintf("%v-", formUrl))
+	}
+	if formUrlMatchType, ok := m["form_url_match_type"]; ok && formUrlMatchType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", formUrlMatchType))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func groupAssertionAttributesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if condition, ok := m["condition"]; ok && condition != "" {
+		buf.WriteString(fmt.Sprintf("%v-", condition))
+	}
+	if format, ok := m["format"]; ok && format != "" {
+		buf.WriteString(fmt.Sprintf("%v-", format))
+	}
+	if groupName, ok := m["group_name"]; ok && groupName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", groupName))
+	}
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func groupMembershipToReturnHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func identityProvidersHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func protectableSecondaryAudiencesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func scopesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if description, ok := m["description"]; ok && description != "" {
+		buf.WriteString(fmt.Sprintf("%v-", description))
+	}
+	if displayName, ok := m["display_name"]; ok && displayName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", displayName))
+	}
+	if requiresConsent, ok := m["requires_consent"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", requiresConsent))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func serviceParamsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func trustPoliciesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func userAssertionAttributesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if format, ok := m["format"]; ok && format != "" {
+		buf.WriteString(fmt.Sprintf("%v-", format))
+	}
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if userStoreAttributeName, ok := m["user_store_attribute_name"]; ok && userStoreAttributeName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", userStoreAttributeName))
+	}
+	return utils.GetStringHashcode(buf.String())
 }

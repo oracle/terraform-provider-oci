@@ -3,6 +3,7 @@ package identity_domains
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -76,7 +77,10 @@ func IsOptionalField(resource *schema.Resource, fieldPath []string) bool {
 
 	for i := 0; i < pathLen-1; i++ {
 		part := fieldPath[i]
-		if part == "0" {
+
+		// if part is a number, continue to next part
+		_, err := strconv.ParseFloat(part, 64)
+		if err == nil {
 			continue
 		}
 		currentSchemaMap = currentSchemaMap[part].Elem.(*schema.Resource).Schema

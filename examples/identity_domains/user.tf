@@ -759,6 +759,8 @@ resource "oci_identity_domains_user" "test_user" {
     primary = var.user_entitlements_primary
   }
   external_id = "externalId"
+  ## If set "force_delete" to true, `terraform destory` will be able to force delete the resource.
+  force_delete = true
   ims {
     #Required
     type  = var.user_ims_type

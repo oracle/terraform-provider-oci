@@ -107,6 +107,12 @@ resource "oci_identity_domains_user" "test_identity_propagation_trust_user" {
     primary = true
   }
 
+  emails {
+    #Required
+    type = "recovery"
+    value = "value@email.com"
+  }
+
   lifecycle {
     ignore_changes = [schemas]
   }
