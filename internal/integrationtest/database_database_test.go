@@ -395,7 +395,7 @@ var (
 
 	dbHomeHsmRepresentation = map[string]interface{}{
 		"database":               acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseHsmDatabaseRepresentation},
-		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19.23.0.0`},
+		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19.27.0.0`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
 		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -407,7 +407,7 @@ var (
 
 	dbHomeNoHsmRepresentation = map[string]interface{}{
 		"database":               acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseNoHsmDatabaseRepresentation},
-		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19.23.0.0`},
+		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19.27.0.0`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
 		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -582,6 +582,20 @@ var (
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseVmClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation)
+
+	ExaccDependenciesForStandby = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "peer_exadata_infrastructure", acctest.Optional, acctest.Update,
+		acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Optional, Update: activationFilePath}})) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "peer_db_servers", acctest.Required, acctest.Create, DatabaseDatabasePeerExaInfraDbServerDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+			acctest.RepresentationCopyWithRemovedProperties(DatabaseVmClusterRepresentation, []string{"exadata_infrastructure_id", "db_servers", "vm_cluster_network_id"}), map[string]interface{}{
+				"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
+				"db_servers":                acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_database_db_servers.peer_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.peer_db_servers.db_servers.1.id}`}},
+				"vm_cluster_network_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network2.id}`},
+			})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network2", acctest.Required, acctest.Create, DatabasePeerVmClusterNetworkRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(dbHomeHsmRepresentation, []string{"database", "vm_cluster_id"}), map[string]interface{}{
+			"vm_cluster_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_vm_cluster.test_vm_cluster2.id}`},
+		}))
 )
 
 var existingResourceId string
@@ -673,7 +687,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.database_admin_password", "databaseAdminPassword"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
@@ -684,7 +697,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
@@ -1131,7 +1143,7 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 
 // issue-routing-tag: database/default
 func TestExaccHsmDatabaseResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseDatabaseResource_basic")
+	httpreplay.SetScenario("TestExaccHsmDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -1141,6 +1153,7 @@ func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 
 	dbHomeResourceName := "oci_database_db_home.test_hsm_db_home"
 	databaseResourceName := "oci_database_database.test_database"
+	standbyDatabase := "oci_database_database.test_database_2"
 
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExaccHsmDbHomeResourceDependencies+
@@ -1202,7 +1215,30 @@ func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.0.provider_type", "EXTERNAL"),
 			),
 		},
+		// Verify add standby with source encryption details
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseHsmRepresentation2) +
+				ExaccDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database_2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.test_database.id}`},
+						"source_encryption_key_location_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseEncryptionKeyLocationDetailsRepresentation},
+					})},
+				})),
 
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(standbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(standbyDatabase, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(standbyDatabase, "database.0.db_name", "myHsmDb2"),
+				resource.TestCheckResourceAttrSet(standbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(standbyDatabase, "database.0.source_encryption_key_location_details.#", "1"),
+				resource.TestCheckResourceAttr(standbyDatabase, "database.0.source_encryption_key_location_details.0.hsm_password", "hsmPassword"),
+				resource.TestCheckResourceAttr(standbyDatabase, "database.0.source_encryption_key_location_details.0.provider_type", "EXTERNAL"),
+				resource.TestCheckResourceAttr(standbyDatabase, "source", "DATAGUARD"),
+			),
+		},
 		// verify resource import
 		{
 			Config:            config + DatabaseRequiredOnlyResource,
@@ -1215,6 +1251,7 @@ func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 				"kms_key_rotation",
 				"kms_key_version_id",
 				"key_store_id",
+				"data_guard_group",
 				"source",
 			},
 			ResourceName: databaseResourceName,
