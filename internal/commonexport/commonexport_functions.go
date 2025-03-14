@@ -861,10 +861,11 @@ var CheckDuplicateResourceName = func(terraformName string) string {
 	defer ResourceNameCountLock.Unlock() // Ensure the lock is released even if a panic occurs
 
 	originalName := terraformName
-
+	utils.Logf("[INFO] Checking Duplicate Resource Name for %s", originalName)
 	// Check if resource already exists
 	for {
 		if _, exists := ResourceNameCount[terraformName]; !exists {
+			utils.Logf("[INFO] Exiting Duplicate resource name for %s", originalName)
 			break
 		}
 		count := ResourceNameCount[originalName]
@@ -873,7 +874,7 @@ var CheckDuplicateResourceName = func(terraformName string) string {
 	}
 
 	ResourceNameCount[terraformName] = 1
-
+	utils.Logf("[INFO] Returning Handled Duplicate resource name for %s as %s", originalName, terraformName)
 	return terraformName
 }
 

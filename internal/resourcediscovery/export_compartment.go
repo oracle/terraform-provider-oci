@@ -652,6 +652,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	go func() {
 		utils.Debugf("[DEBUG] waiting for all stateWg threads to finish...")
 		stateWg.Wait()
+		utils.Debugf("[DEBUG] waiting over for all stateWg threads to finish  ...")
 		close(wgDone)
 	}()
 
@@ -714,6 +715,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	if err := ctx.Terraform.Init(backgroundCtx, initArgs...); err != nil {
 		return err
 	}
+	utils.Logf("[INFO] ~~~~~~ Generating State Parallelly Complete ~~~~~~")
 	return nil
 }
 
@@ -827,6 +829,8 @@ func importResource(ctx *tf_export.ResourceDiscoveryContext, resource *tf_export
 		ctx.AddErrorToList(rdError)
 
 	}
+	utils.Logf("[INFO] ===> Importing resource '%s' - DONE", resource.GetTerraformReference())
+	utils.Debugf("[DEBUG] ===> Importing resource '%s' - DONE", resource.GetTerraformReference())
 }
 
 func getDiscoverResourceSteps(ctx *tf_export.ResourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
