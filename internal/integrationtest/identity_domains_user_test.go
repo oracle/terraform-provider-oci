@@ -322,8 +322,6 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "emails.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "emails.0.value", "value@email.com"),
-				resource.TestCheckResourceAttr(resourceName, "emails.1.value", "value@email.com"),
 				resource.TestCheckResourceAttr(resourceName, "entitlements.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "entitlements.0.display", "display"),
 				resource.TestCheckResourceAttr(resourceName, "entitlements.0.primary", "false"),

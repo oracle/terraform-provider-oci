@@ -580,31 +580,31 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionenterprise_app_app", []interface{}{AppExtensionEnterpriseAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionenterprise_app_app", []interface{}{AppExtensionEnterpriseAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionenterprise_app_app", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_app", []interface{}{AppExtensionFormFillAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_app", []interface{}{AppExtensionFormFillAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_app", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template", []interface{}{AppExtensionFormFillAppTemplateAppTemplateToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template", []interface{}{AppExtensionFormFillAppTemplateAppTemplateToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionform_fill_app_template_app_template", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app", []interface{}{AppExtensionKerberosRealmAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app", []interface{}{AppExtensionKerberosRealmAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionkerberos_realm_app", nil)
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionmanagedapp_app", []interface{}{AppExtensionManagedappAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionmanagedapp_app", []interface{}{AppExtensionManagedappAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionmanagedapp_app", nil)
 	}
@@ -622,7 +622,7 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionradius_app_app", []interface{}{AppExtensionRadiusAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionradius_app_app", []interface{}{AppExtensionRadiusAppAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionradius_app_app", nil)
 	}
@@ -634,7 +634,7 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app", []interface{}{AppExtensionSamlServiceProviderAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app", []interface{}{AppExtensionSamlServiceProviderAppToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionsaml_service_provider_app", nil)
 	}
