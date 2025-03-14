@@ -407,6 +407,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	if err != nil {
 		return err
 	}
+	totalDiscoveredResources := 0
 	discoveryStart := time.Now()
 	var discoverWg sync.WaitGroup
 	discoverWg.Add(len(steps))
@@ -451,6 +452,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 
 			utils.Debugf("[DEBUG] discover: Completed step %d", i)
 			utils.Debugf("[DEBUG] discovered %d resources for step %d", len(step.getDiscoveredResources()), i)
+			totalDiscoveredResources += len(step.getDiscoveredResources())
 		}(i, step)
 
 	}
@@ -459,6 +461,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	discoverWg.Wait()
 	totalDiscoveryTime := time.Since(discoveryStart)
 	utils.Debugf("discovering resources for all services took %v\n", totalDiscoveryTime)
+	utils.Debugf("Total Discovered Resources -  %d\n", totalDiscoveredResources)
 	ctx.TimeTakenToDiscover = totalDiscoveryTime
 	utils.Debug("[DEBUG] ~~~~~~ discover steps completed ~~~~~~")
 
