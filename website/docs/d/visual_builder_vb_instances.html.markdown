@@ -64,10 +64,18 @@ The following attributes are exported:
 * `management_nat_gateway_ip` - The NAT gateway IP address for the VB management VCN
 * `management_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder management VCN
 * `network_endpoint_details` - Base representation of a network endpoint. In input payload to update an Visual Builder instance endpoint details, an empty payload will clear out any existing configuration for Public Visual Builder instance. 
-	* `network_endpoint_type` - The type of network endpoint. 
+	* `network_endpoint_type` - The type of network endpoint.
+
+    For private endpoint access
 	* `network_security_group_ids` - Network Security Group OCIDs for the Private Endpoint. 
 	* `private_endpoint_ip` - The IP address to be assigned to Private Endpoint
 	* `subnet_id` - The subnet OCID for the private endpoint. 
+
+    For public network access control 
+	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
+	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint. 
+		* `allowlisted_ip_cidrs` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
+		* `id` - The Virtual Cloud Network OCID. 
 * `node_count` - The number of Nodes
 * `service_nat_gateway_ip` - The NAT gateway IP address for the VB service VCN
 * `service_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder service VCN
