@@ -398,9 +398,8 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 }
 
 func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
-	utils.Logf("[INFO] Running export command\n")
+	utils.Logf("[INFO] Running export command for compartment %s", *ctx.CompartmentId)
 	utils.Logf("[INFO] parallelism: %d", ctx.Parallelism)
-	utils.Logf("[INFO] Compartment ID: %s", *ctx.CompartmentId)
 	defer ctx.PrintSummary()
 	exportStart := time.Now()
 	defer elapsed("entire export command", nil, 0)()
@@ -461,7 +460,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	// Wait for all steps to complete discovery
 	discoverWg.Wait()
 	totalDiscoveryTime := time.Since(discoveryStart)
-	utils.Debugf("discovering resources for all services took %v\n for compartment %s", totalDiscoveryTime, *ctx.CompartmentId)
+	utils.Debugf("discovering resources for all services took %v for compartment %s", totalDiscoveryTime, *ctx.CompartmentId)
 	utils.Debugf("Total Discovered Resources -  %d\n", totalDiscoveredResources)
 	ctx.TimeTakenToDiscover = totalDiscoveryTime
 	utils.Debug("[DEBUG] ~~~~~~ discover steps completed ~~~~~~")
@@ -470,12 +469,12 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 		stateStart := time.Now()
 		// Run import commands
 		if ctx.Parallelism > 1 {
-			utils.Debug("[DEBUG] Generating state in parallel")
+			utils.Debugf("[DEBUG] Generating state in parallel for compartment %s", *ctx.CompartmentId)
 			if err := generateStateParallel(ctx, steps); err != nil {
 				return err
 			}
 		} else {
-			utils.Debug("[DEBUG] Generating state sequentially")
+			utils.Debugf("[DEBUG] Generating state sequentially for compartment %s", *ctx.CompartmentId)
 			if err := generateState(ctx, steps); err != nil {
 				return err
 			}
@@ -487,7 +486,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 			deleteInvalidReferences(tf_export.ReferenceMap, ctx.DiscoveredResources)
 		}
 		timeForStateGeneration := time.Since(stateStart)
-		utils.Debugf("[DEBUG] state generation took %v\n", timeForStateGeneration)
+		utils.Debugf("[DEBUG] state generation took %v for compartment %s", timeForStateGeneration, *ctx.CompartmentId)
 		ctx.TimeTakenToGenerateState = timeForStateGeneration
 	}
 
@@ -507,26 +506,27 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	wgDone := make(chan bool)
 
 	// Write configuration for imported resources
+	utils.Debugf("[DEBUG] writing configuration for compartment %s", *ctx.CompartmentId)
 	configStart := time.Now()
 	for i, step := range steps {
 
 		sem <- struct{}{}
 		go func(i int, step resourceDiscoveryStep) {
-			utils.Debugf("[DEBUG] writeConfiguration: Running step %d", i)
+			utils.Debugf("[DEBUG] writeConfiguration for compartment %s: Running step %d", *ctx.CompartmentId, i)
 			defer func() {
 				<-sem
 				if r := recover(); r != nil {
-					utils.Logf("[ERROR] panic in writeConfiguration goroutine")
+					utils.Logf("[ERROR] panic in writeConfiguration goroutine for compartment %s", *ctx.CompartmentId)
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] configWg done: step %d", i)
+				utils.Debugf("[DEBUG] configWg done for compartment %s: step %d", *ctx.CompartmentId, i)
 				configWg.Done()
 			}()
 			if err := step.writeConfiguration(); err != nil {
-				errorChannel <- fmt.Errorf("[ERROR] error writing final configuration for resources found: %s", err.Error())
+				errorChannel <- fmt.Errorf("[ERROR] error writing final configuration for compartment %s for resources found: %s", *ctx.CompartmentId, err.Error())
 			}
 
-			utils.Debugf("[DEBUG] writeConfiguration: Completed step %d", i)
+			utils.Debugf("[DEBUG] writeConfiguration for compartment %s: Completed step %d", *ctx.CompartmentId, i)
 		}(i, step)
 	}
 
@@ -541,14 +541,14 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	select {
 	case <-wgDone:
 		utils.Debugf("[DEBUG] ~~~~~~ writeConfiguration steps completed ~~~~~~")
-		utils.Debugf("[DEBUG] writing config took %v\n", time.Since(configStart))
+		utils.Debugf("[DEBUG] writing config took %v for compartment %s", time.Since(configStart), *ctx.CompartmentId)
 		break
 	case errs := <-errorChannel:
 		close(errorChannel)
 		for i := 0; i < len(errorChannel); i++ {
 			errs = multierror.Append(errs, <-errorChannel)
 		}
-		utils.Logf("[ERROR] error writing final configuration for resources found: %s", errs.Error())
+		utils.Logf("[ERROR] error writing final configuration for compartment %s for resources found: %s", *ctx.CompartmentId, errs.Error())
 		return errs
 	}
 
@@ -616,14 +616,14 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 
 		go func(i int, step resourceDiscoveryStep) {
 			utils.Debugf("[DEBUG] writing temp config and state: Running step %d", i)
-			defer elapsed(fmt.Sprintf("time taken by step %s to generate state", fmt.Sprint(i)), step.getBaseStep(), GeneratingState)()
+			defer elapsed(fmt.Sprintf("time taken by step %s to generate state for compartment %s", fmt.Sprint(i), *ctx.CompartmentId), step.getBaseStep(), GeneratingState)()
 			defer func() {
 				<-sem
 				if r := recover(); r != nil {
 					utils.Logf("[ERROR] panic in writing temp config and state goroutine")
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] stateWg done: step %d", i)
+				utils.Debugf("[DEBUG] stateWg done for compartment %s: step %d", *ctx.CompartmentId, i)
 				stateWg.Done()
 			}()
 
@@ -632,7 +632,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 			   and also remove the references to failed resources from the referenceMap */
 			var err error = nil
 			if err = step.writeTmpConfigurationForImport(); err != nil {
-				errorChannel <- fmt.Errorf("[ERROR] error while writing temp config for resources found in step %d: %s", i, err.Error())
+				errorChannel <- fmt.Errorf("[ERROR] error while writing temp config for compartment %s for resources found in step %d: %s", *ctx.CompartmentId, i, err.Error())
 			}
 
 			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
@@ -648,7 +648,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 				}
 			}
 
-			utils.Debugf("writing temp config and state: Completed step %d", i)
+			utils.Debugf("writing temp config and state for compartment %s: Completed step %d", *ctx.CompartmentId, i)
 		}(i, step)
 	}
 
@@ -663,7 +663,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	// Wait until either stateWg is done or an error is received through the errorChannel
 	select {
 	case <-wgDone:
-		utils.Debugf("[DEBUG] ~~~~~~ writing temp config and state steps completed ~~~~~~")
+		utils.Debugf("[DEBUG] ~~~~~~ writing temp config and state steps completed for compartment %s ~~~~~~", *ctx.CompartmentId)
 		break
 	case errs := <-errorChannel:
 		close(errorChannel)
@@ -682,7 +682,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	}
 
 	if ctx.State == nil {
-		utils.Logf("[INFO] ~~~~~~ no resources were imported to the state file ~~~~~~")
+		utils.Logf("[INFO] ~~~~~~ no resources were imported to the state file for compartment %s ~~~~~~", *ctx.CompartmentId)
 		return nil
 	}
 
@@ -719,7 +719,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	if err := ctx.Terraform.Init(backgroundCtx, initArgs...); err != nil {
 		return err
 	}
-	utils.Logf("[INFO] ~~~~~~ Generating State Parallelly Complete ~~~~~~")
+	utils.Logf("[INFO] ~~~~~~ Generating State Parallelly Complete for compartment %s ~~~~~~", *ctx.CompartmentId)
 	return nil
 }
 
