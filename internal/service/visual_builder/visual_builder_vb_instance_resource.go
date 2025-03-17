@@ -148,11 +148,16 @@ func VisualBuilderVbInstanceResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"PRIVATE",
+								"PUBLIC",
 							}, true),
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true, // Since there can be PUBLIC endpoint type also. for validation see CustomizeDiff
+							ConflictsWith: []string{
+								"network_endpoint_details.allowlisted_http_ips",
+								"network_endpoint_details.allowlisted_http_vcns",
+							},
 						},
 
 						// Optional
@@ -164,15 +169,86 @@ func VisualBuilderVbInstanceResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+							ConflictsWith: []string{
+								"network_endpoint_details.allowlisted_http_ips",
+								"network_endpoint_details.allowlisted_http_vcns",
+							},
 						},
 						"private_endpoint_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+							ConflictsWith: []string{
+								"network_endpoint_details.allowlisted_http_ips",
+								"network_endpoint_details.allowlisted_http_vcns",
+							},
 						},
+						"allowlisted_http_ips": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+							ConflictsWith: []string{"network_endpoint_details.subnet_id", "network_endpoint_details.network_security_group_ids", "network_endpoint_details.private_endpoint_ip"},
+						},
+						"allowlisted_http_vcns": {
+							Type:          schema.TypeList,
+							Optional:      true,
+							Computed:      true,
+							ConflictsWith: []string{"network_endpoint_details.subnet_id", "network_endpoint_details.network_security_group_ids", "network_endpoint_details.private_endpoint_ip"},
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
 
-						// Computed
+									// Optional
+									"allowlisted_ip_cidrs": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
+					},
+					CustomizeDiff: func(ctx context.Context, diff *schema.ResourceDiff, meta interface{}) error {
+						networkEndpointType := diff.Get("network_endpoint_type").(string)
+
+						if networkEndpointType == "PRIVATE" {
+							if _, ok := diff.GetOk("subnet_id"); !ok {
+								return fmt.Errorf("subnet_id is required for PRIVATE network type")
+							}
+							if _, ok := diff.GetOk("allowlisted_http_ips"); ok {
+								return fmt.Errorf("allowlisted_http_ips cannot be used with PRIVATE network type")
+							}
+							if _, ok := diff.GetOk("allowlisted_http_vcns"); ok {
+								return fmt.Errorf("allowlisted_http_vcns cannot be used with PRIVATE network type")
+							}
+						}
+
+						if networkEndpointType == "PUBLIC" {
+							if _, ok := diff.GetOk("subnet_id"); ok {
+								return fmt.Errorf("subnet_id cannot be used with PUBLIC network type")
+							}
+							if _, ok := diff.GetOk("network_security_group_ids"); ok {
+								return fmt.Errorf("network_security_group_ids cannot be used with PUBLIC network type")
+							}
+							if _, ok := diff.GetOk("private_endpoint_ip"); ok {
+								return fmt.Errorf("private_endpoint_ip cannot be used with PUBLIC network type")
+							}
+							if _, ok := diff.GetOk("allowlisted_http_ips"); !ok && !diff.HasChange("allowlisted_http_vcns") {
+								return fmt.Errorf("either allowlisted_http_ips or allowlisted_http_vcns must be specified for PUBLIC network type")
+							}
+						}
+						return nil
 					},
 				},
 			},
@@ -859,6 +935,37 @@ func (s *VisualBuilderVbInstanceResourceCrud) mapToNetworkEndpointDetails(fieldK
 			details.SubnetId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("PUBLIC"):
+		details := oci_visual_builder.UpdatePublicEndpointDetails{}
+		if allowlistedHttpIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")); ok {
+			interfaces := allowlistedHttpIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")) {
+				details.AllowlistedHttpIps = tmp
+			}
+		}
+		if allowlistedHttpVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")); ok {
+			interfaces := allowlistedHttpVcns.([]interface{})
+			tmp := make([]oci_visual_builder.VirtualCloudNetwork, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns"), stateDataIndex)
+				converted, err := s.mapToVirtualCloudNetwork(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")) {
+				details.AllowlistedHttpVcns = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
 	}
@@ -896,6 +1003,37 @@ func (s *VisualBuilderVbInstanceResourceCrud) mapToUpdateNetworkEndpointDetails(
 			details.SubnetId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("PUBLIC"):
+		details := oci_visual_builder.UpdatePublicEndpointDetails{}
+		if allowlistedHttpIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")); ok {
+			interfaces := allowlistedHttpIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")) {
+				details.AllowlistedHttpIps = tmp
+			}
+		}
+		if allowlistedHttpVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")); ok {
+			interfaces := allowlistedHttpVcns.([]interface{})
+			tmp := make([]oci_visual_builder.VirtualCloudNetwork, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns"), stateDataIndex)
+				converted, err := s.mapToVirtualCloudNetwork(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")) {
+				details.AllowlistedHttpVcns = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
 	}
@@ -914,7 +1052,6 @@ func NetworkEndpointDetailsToMap(obj *oci_visual_builder.NetworkEndpointDetails,
 			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 		}
 		result["network_security_group_ids"] = networkSecurityGroupIds
-		log.Printf("Here => %s", result)
 
 		if v.SubnetId != nil {
 			result["subnet_id"] = string(*v.SubnetId)
@@ -938,6 +1075,26 @@ func NetworkEndpointDetailsToMap(obj *oci_visual_builder.NetworkEndpointDetails,
 		if v.SubnetId != nil {
 			result["subnet_id"] = string(*v.SubnetId)
 		}
+	case oci_visual_builder.PublicEndpointDetails:
+		result["network_endpoint_type"] = "PUBLIC"
+
+		result["allowlisted_http_ips"] = v.AllowlistedHttpIps
+
+		allowlistedHttpVcns := []interface{}{}
+		for _, item := range v.AllowlistedHttpVcns {
+			allowlistedHttpVcns = append(allowlistedHttpVcns, VirtualCloudNetworkToMap(item))
+		}
+		result["allowlisted_http_vcns"] = allowlistedHttpVcns
+	case oci_visual_builder.UpdatePublicEndpointDetails:
+		result["network_endpoint_type"] = "PUBLIC"
+
+		result["allowlisted_http_ips"] = v.AllowlistedHttpIps
+
+		allowlistedHttpVcns := []interface{}{}
+		for _, item := range v.AllowlistedHttpVcns {
+			allowlistedHttpVcns = append(allowlistedHttpVcns, VirtualCloudNetworkToMap(item))
+		}
+		result["allowlisted_http_vcns"] = allowlistedHttpVcns
 	default:
 		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
 		return nil
@@ -1015,6 +1172,42 @@ func VbInstanceSummaryToMap(obj oci_visual_builder.VbInstanceSummary) map[string
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *VisualBuilderVbInstanceResourceCrud) mapToVirtualCloudNetwork(fieldKeyFormat string) (oci_visual_builder.VirtualCloudNetwork, error) {
+	result := oci_visual_builder.VirtualCloudNetwork{}
+
+	if allowlistedIpCidrs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_ip_cidrs")); ok {
+		interfaces := allowlistedIpCidrs.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_ip_cidrs")) {
+			result.AllowlistedIpCidrs = tmp
+		}
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	return result, nil
+}
+
+func VirtualCloudNetworkToMap(obj oci_visual_builder.VirtualCloudNetwork) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowlisted_ip_cidrs"] = obj.AllowlistedIpCidrs
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	return result
