@@ -621,10 +621,10 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyFormat string) (oci_generative_ai_agent.LlmCustomization, error) {
 	result := oci_generative_ai_agent.LlmCustomization{}
 
-	if preambleOverride, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preamble_override")); ok {
+	/*if preambleOverride, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preamble_override")); ok {
 		tmp := preambleOverride.(string)
 		result.PreambleOverride = &tmp
-	}
+	}*/
 
 	return result, nil
 }
@@ -632,9 +632,9 @@ func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyForma
 func LlmCustomizationToMap(obj *oci_generative_ai_agent.LlmCustomization) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.PreambleOverride != nil {
+	/*if obj.PreambleOverride != nil {
 		result["preamble_override"] = string(*obj.PreambleOverride)
-	}
+	}*/
 
 	return result
 }

@@ -169,10 +169,10 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud) Update(
 		request.GracePeriod = &tmp
 	}
 
-	if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
+	/*if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
 		tmp := shouldRotate.(bool)
 		request.ShouldRotate = &tmp
-	}
+	}*/
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 

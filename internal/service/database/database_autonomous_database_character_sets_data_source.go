@@ -81,10 +81,10 @@ func (s *DatabaseAutonomousDatabaseCharacterSetsDataSourceCrud) Get() error {
 		request.IsDedicated = &tmp
 	}
 
-	if isShared, ok := s.D.GetOkExists("is_shared"); ok {
+	/*if isShared, ok := s.D.GetOkExists("is_shared"); ok {
 		tmp := isShared.(bool)
 		request.IsShared = &tmp
-	}
+	}*/
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 

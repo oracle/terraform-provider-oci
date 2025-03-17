@@ -2392,7 +2392,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
-	s.D.Set("dataguard_region_type", s.Res.DataguardRegionType)
+	//s.D.Set("dataguard_region_type", s.Res.DataguardRegionType)
 
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
@@ -2476,9 +2476,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_backup_retention_locked", *s.Res.IsBackupRetentionLocked)
 	}
 
-	if s.Res.IsDataGuardEnabled != nil {
+	/*if s.Res.IsDataGuardEnabled != nil {
 		s.D.Set("is_data_guard_enabled", *s.Res.IsDataGuardEnabled)
-	}
+	}*/
 
 	if s.Res.IsDedicated != nil {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
@@ -2669,9 +2669,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
-	if s.Res.ServiceConsoleUrl != nil {
+	/*if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
-	}
+	}*/
 
 	if s.Res.SourceId != nil {
 		s.D.Set("source_id", *s.Res.SourceId)
@@ -2705,9 +2705,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	if s.Res.TimeDataGuardRoleChanged != nil {
+	/*if s.Res.TimeDataGuardRoleChanged != nil {
 		s.D.Set("time_data_guard_role_changed", s.Res.TimeDataGuardRoleChanged.String())
-	}
+	}*/
 
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
@@ -3105,9 +3105,9 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 
 	result["state"] = string(obj.LifecycleState)
 
-	if obj.TimeDataGuardRoleChanged != nil {
+	/*if obj.TimeDataGuardRoleChanged != nil {
 		result["time_data_guard_role_changed"] = obj.TimeDataGuardRoleChanged.String()
-	}
+	}*/
 
 	if obj.TimeDisasterRecoveryRoleChanged != nil {
 		result["time_disaster_recovery_role_changed"] = obj.TimeDisasterRecoveryRoleChanged.String()
@@ -3535,7 +3535,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
+			//details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -3550,7 +3550,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsFreeTier = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
+			//details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -3855,7 +3855,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
+			//details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -3870,7 +3870,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsFreeTier = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
+			//details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -4158,7 +4158,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
+			//details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -4173,7 +4173,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsFreeTier = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
+			//details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -4316,283 +4316,283 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		request.CreateAutonomousDatabaseDetails = details
-	case strings.ToLower("CROSS_REGION_DATAGUARD"):
-		details := oci_database.CreateCrossRegionAutonomousDatabaseDataGuardDetails{}
-		if sourceId, ok := s.D.GetOkExists("source_id"); ok {
-			tmp := sourceId.(string)
-			details.SourceId = &tmp
-		}
-		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
-			tmp := adminPassword.(string)
-			details.AdminPassword = &tmp
-		}
-		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
-			tmp := arePrimaryWhitelistedIpsUsed.(bool)
-			details.ArePrimaryWhitelistedIpsUsed = &tmp
-		}
-		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
-			tmp := autonomousContainerDatabaseId.(string)
-			details.AutonomousContainerDatabaseId = &tmp
-		}
-		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
-			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
-		}
-		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
-			tmp := backupRetentionPeriodInDays.(int)
-			details.BackupRetentionPeriodInDays = &tmp
-		}
-		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
-			tmp := float32(byolComputeCountLimit.(float64))
-			details.ByolComputeCountLimit = &tmp
-		}
-		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-			tmp := compartmentId.(string)
-			details.CompartmentId = &tmp
-		}
-		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
-			tmp := float32(computeCount.(float64))
-			details.ComputeCount = &tmp
-		}
-		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
-			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
-		}
-		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
-			tmp := cpuCoreCount.(int)
-			details.CpuCoreCount = &tmp
-		}
-		if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
-			interfaces := customerContacts.([]interface{})
-			tmp := make([]oci_database.CustomerContact, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
-				converted, err := s.mapToCustomerContact(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
-				details.CustomerContacts = tmp
-			}
-		}
-		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
-			tmp := dataStorageSizeInGB.(int)
-			details.DataStorageSizeInGBs = &tmp
-		}
-		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
-			tmp := dataStorageSizeInTBs.(int)
-			details.DataStorageSizeInTBs = &tmp
-		}
-		if dbName, ok := s.D.GetOkExists("db_name"); ok {
-			tmp := dbName.(string)
-			details.DbName = &tmp
-		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			set := dbToolsDetails.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := dbToolsForSets(interfaces[i])
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
-		}
-		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
-			tmp := dbVersion.(string)
-			details.DbVersion = &tmp
-		}
-		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
-			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
-		}
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+	/*case strings.ToLower("CROSS_REGION_DATAGUARD"):
+	details := oci_database.CreateCrossRegionAutonomousDatabaseDataGuardDetails{}
+	if sourceId, ok := s.D.GetOkExists("source_id"); ok {
+		tmp := sourceId.(string)
+		details.SourceId = &tmp
+	}
+	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+		tmp := adminPassword.(string)
+		details.AdminPassword = &tmp
+	}
+	if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+		tmp := arePrimaryWhitelistedIpsUsed.(bool)
+		details.ArePrimaryWhitelistedIpsUsed = &tmp
+	}
+	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+		tmp := autonomousContainerDatabaseId.(string)
+		details.AutonomousContainerDatabaseId = &tmp
+	}
+	if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
+		details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+	}
+	if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+		tmp := backupRetentionPeriodInDays.(int)
+		details.BackupRetentionPeriodInDays = &tmp
+	}
+	if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+		tmp := float32(byolComputeCountLimit.(float64))
+		details.ByolComputeCountLimit = &tmp
+	}
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		details.CompartmentId = &tmp
+	}
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+		tmp := float32(computeCount.(float64))
+		details.ComputeCount = &tmp
+	}
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+	}
+	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+		tmp := cpuCoreCount.(int)
+		details.CpuCoreCount = &tmp
+	}
+	if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+		interfaces := customerContacts.([]interface{})
+		tmp := make([]oci_database.CustomerContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+			converted, err := s.mapToCustomerContact(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
-			details.DefinedTags = convertedDefinedTags
+			tmp[i] = converted
 		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
+		if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+			details.CustomerContacts = tmp
 		}
-		if encryptionKey, ok := s.D.GetOkExists("encryption_key"); ok {
-			if tmpList := encryptionKey.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_key", 0)
-				tmp, err := s.mapToAutonomousDatabaseEncryptionKeyDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.EncryptionKey = tmp
+	}
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(int)
+		details.DataStorageSizeInGBs = &tmp
+	}
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(int)
+		details.DataStorageSizeInTBs = &tmp
+	}
+	if dbName, ok := s.D.GetOkExists("db_name"); ok {
+		tmp := dbName.(string)
+		details.DbName = &tmp
+	}
+	if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
+		set := dbToolsDetails.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_database.DatabaseTool, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := dbToolsForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
+			converted, err := s.mapToDatabaseTool(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
+			details.DbToolsDetails = tmp
+		}
+	}
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		details.DbVersion = &tmp
+	}
+	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+		details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+	}
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		details.DefinedTags = convertedDefinedTags
+	}
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		details.DisplayName = &tmp
+	}
+	if encryptionKey, ok := s.D.GetOkExists("encryption_key"); ok {
+		if tmpList := encryptionKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_key", 0)
+			tmp, err := s.mapToAutonomousDatabaseEncryptionKeyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			details.EncryptionKey = tmp
+		}
+	}
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+	if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+		tmp := inMemoryPercentage.(int)
+		details.InMemoryPercentage = &tmp
+	}
+	if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+		tmp := isAccessControlEnabled.(bool)
+		details.IsAccessControlEnabled = &tmp
+	}
+	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+		tmp := isAutoScalingEnabled.(bool)
+		details.IsAutoScalingEnabled = &tmp
+	}
+	if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+		tmp := isBackupRetentionLocked.(bool)
+		details.IsBackupRetentionLocked = &tmp
+	}
+	if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+		details.IsDataGuardEnabled = nil
+	}
+	if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+		tmp := isDedicated.(bool)
+		details.IsDedicated = &tmp
+	}
+	if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+		tmp := isDevTier.(bool)
+		details.IsDevTier = &tmp
+	}
+	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+		tmp := isFreeTier.(bool)
+		details.IsFreeTier = &tmp
+	}
+	if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+		details.IsLocalDataGuardEnabled = nil
+	}
+	if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+		tmp := isMtlsConnectionRequired.(bool)
+		details.IsMtlsConnectionRequired = &tmp
+	}
+	if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+		tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+		details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+	}
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		details.KmsKeyId = &tmp
+	}
+	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+		details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+	}
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			details.NsgIds = tmp
 		}
-		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
-			tmp := inMemoryPercentage.(int)
-			details.InMemoryPercentage = &tmp
-		}
-		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
-			tmp := isAccessControlEnabled.(bool)
-			details.IsAccessControlEnabled = &tmp
-		}
-		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
-			tmp := isAutoScalingEnabled.(bool)
-			details.IsAutoScalingEnabled = &tmp
-		}
-		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
-			tmp := isBackupRetentionLocked.(bool)
-			details.IsBackupRetentionLocked = &tmp
-		}
-		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
-		}
-		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
-			tmp := isDedicated.(bool)
-			details.IsDedicated = &tmp
-		}
-		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
-			tmp := isDevTier.(bool)
-			details.IsDevTier = &tmp
-		}
-		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
-			tmp := isFreeTier.(bool)
-			details.IsFreeTier = &tmp
-		}
-		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
-		}
-		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
-			tmp := isMtlsConnectionRequired.(bool)
-			details.IsMtlsConnectionRequired = &tmp
-		}
-		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
-			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
-			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
-		}
-		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
-			tmp := kmsKeyId.(string)
-			details.KmsKeyId = &tmp
-		}
-		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
-			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
-		}
-		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
-			set := nsgIds.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
-				details.NsgIds = tmp
-			}
-		}
-		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float32)
-			details.OcpuCount = &tmp
-		}
-		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
-			tmp := privateEndpointIp.(string)
-			details.PrivateEndpointIp = &tmp
-		}
-		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
-			tmp := privateEndpointLabel.(string)
-			details.PrivateEndpointLabel = &tmp
-		}
+	}
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := ocpuCount.(float32)
+		details.OcpuCount = &tmp
+	}
+	if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+		tmp := privateEndpointIp.(string)
+		details.PrivateEndpointIp = &tmp
+	}
+	if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+		tmp := privateEndpointLabel.(string)
+		details.PrivateEndpointLabel = &tmp
+	}
 
-		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
-			tmp := resourcePoolLeaderId.(string)
-			details.ResourcePoolLeaderId = &tmp
+	if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+		tmp := resourcePoolLeaderId.(string)
+		details.ResourcePoolLeaderId = &tmp
+	}
+	if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+		t := fmt.Sprintf("%s rp create cross region DG", resourcePoolSummary)
+		_, _ = io.WriteString(os.Stdout, t)
+		if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+			tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			details.ResourcePoolSummary = &tmp
 		}
-		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
-			t := fmt.Sprintf("%s rp create cross region DG", resourcePoolSummary)
-			_, _ = io.WriteString(os.Stdout, t)
-			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
-				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.ResourcePoolSummary = &tmp
+	}
+	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+		set := scheduledOperations.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := scheduledOperationsForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+			converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+			details.ScheduledOperations = tmp
+		}
+	}
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		details.SecretId = &tmp
+	}
+	if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+		tmp := secretVersionNumber.(int)
+		details.SecretVersionNumber = &tmp
+	}
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+		interfaces := standbyWhitelistedIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			set := scheduledOperations.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := scheduledOperationsForSets(interfaces[i])
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
-				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
-				details.ScheduledOperations = tmp
-			}
+		if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+			details.StandbyWhitelistedIps = tmp
 		}
-		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
-			tmp := secretId.(string)
-			details.SecretId = &tmp
-		}
-		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
-			tmp := secretVersionNumber.(int)
-			details.SecretVersionNumber = &tmp
-		}
-		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-		}
-		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
-			interfaces := standbyWhitelistedIps.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
-				details.StandbyWhitelistedIps = tmp
+	}
+	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+		tmp := subnetId.(string)
+		details.SubnetId = &tmp
+	}
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		details.SubscriptionId = &tmp
+	}
+	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+		tmp := vaultId.(string)
+		details.VaultId = &tmp
+	}
+	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+		set := whitelistedIps.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-			tmp := subnetId.(string)
-			details.SubnetId = &tmp
+		if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+			details.WhitelistedIps = tmp
 		}
-		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
-			tmp := subscriptionId.(string)
-			details.SubscriptionId = &tmp
-		}
-		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
-			tmp := vaultId.(string)
-			details.VaultId = &tmp
-		}
-		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
-			set := whitelistedIps.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
-				details.WhitelistedIps = tmp
-			}
-		}
-		request.CreateAutonomousDatabaseDetails = details
+	}
+	request.CreateAutonomousDatabaseDetails = details */
 	case strings.ToLower("CROSS_REGION_DISASTER_RECOVERY"):
 		details := oci_database.CreateCrossRegionDisasterRecoveryDetails{}
 		if isReplicateAutomaticBackups, ok := s.D.GetOkExists("is_replicate_automatic_backups"); ok {
@@ -4736,10 +4736,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isBackupRetentionLocked.(bool)
 			details.IsBackupRetentionLocked = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+		/*if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
 			details.IsDataGuardEnabled = &tmp
-		}
+		}*/
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
@@ -4752,10 +4752,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+		/*if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
 			tmp := isLocalDataGuardEnabled.(bool)
 			details.IsLocalDataGuardEnabled = &tmp
-		}
+		}*/
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -4989,7 +4989,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
+			//details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -5004,7 +5004,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsFreeTier = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
+			//details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -5276,7 +5276,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
+			//details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -5291,7 +5291,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsFreeTier = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
+			//details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -5566,7 +5566,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			details.IsDataGuardEnabled = nil
+			//details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -5581,7 +5581,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.IsFreeTier = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			details.IsLocalDataGuardEnabled = nil
+			//details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -5839,10 +5839,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+		/*if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
 			details.IsDataGuardEnabled = &tmp
-		}
+		}*/
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
@@ -5851,10 +5851,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+		/*if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
 			tmp := isLocalDataGuardEnabled.(bool)
 			details.IsLocalDataGuardEnabled = &tmp
-		}
+		}*/
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp

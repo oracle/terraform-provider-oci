@@ -302,7 +302,7 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["database_management_status"] = r.DatabaseManagementStatus
 
-		autonomousDatabase["dataguard_region_type"] = r.DataguardRegionType
+		//autonomousDatabase["dataguard_region_type"] = r.DataguardRegionType
 
 		if r.DbName != nil {
 			autonomousDatabase["db_name"] = *r.DbName
@@ -382,9 +382,9 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_backup_retention_locked"] = *r.IsBackupRetentionLocked
 		}
 
-		if r.IsDataGuardEnabled != nil {
+		/*if r.IsDataGuardEnabled != nil {
 			autonomousDatabase["is_data_guard_enabled"] = *r.IsDataGuardEnabled
-		}
+		}*/
 
 		if r.IsDedicated != nil {
 			autonomousDatabase["is_dedicated"] = *r.IsDedicated
@@ -565,9 +565,9 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
 
-		if r.ServiceConsoleUrl != nil {
+		/*if r.ServiceConsoleUrl != nil {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl
-		}
+		}*/
 
 		if r.SourceId != nil {
 			autonomousDatabase["source_id"] = *r.SourceId
@@ -601,9 +601,9 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_created"] = r.TimeCreated.String()
 		}
 
-		if r.TimeDataGuardRoleChanged != nil {
+		/*if r.TimeDataGuardRoleChanged != nil {
 			autonomousDatabase["time_data_guard_role_changed"] = r.TimeDataGuardRoleChanged.String()
-		}
+		}*/
 
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()

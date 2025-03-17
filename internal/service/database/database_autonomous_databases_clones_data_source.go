@@ -1364,7 +1364,7 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		autonomousDatabasesClone["database_management_status"] = r.DatabaseManagementStatus
 
-		autonomousDatabasesClone["dataguard_region_type"] = r.DataguardRegionType
+		//autonomousDatabasesClone["dataguard_region_type"] = r.DataguardRegionType
 
 		if r.DbName != nil {
 			autonomousDatabasesClone["db_name"] = *r.DbName
@@ -1444,9 +1444,9 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["is_backup_retention_locked"] = *r.IsBackupRetentionLocked
 		}
 
-		if r.IsDataGuardEnabled != nil {
+		/*if r.IsDataGuardEnabled != nil {
 			autonomousDatabasesClone["is_data_guard_enabled"] = *r.IsDataGuardEnabled
-		}
+		}*/
 
 		if r.IsDedicated != nil {
 			autonomousDatabasesClone["is_dedicated"] = *r.IsDedicated
@@ -1623,9 +1623,9 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		autonomousDatabasesClone["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
 
-		if r.ServiceConsoleUrl != nil {
+		/*if r.ServiceConsoleUrl != nil {
 			autonomousDatabasesClone["service_console_url"] = *r.ServiceConsoleUrl
-		}
+		}*/
 
 		if r.SourceId != nil {
 			autonomousDatabasesClone["source_id"] = *r.SourceId
@@ -1659,9 +1659,9 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["time_created"] = r.TimeCreated.String()
 		}
 
-		if r.TimeDataGuardRoleChanged != nil {
+		/*if r.TimeDataGuardRoleChanged != nil {
 			autonomousDatabasesClone["time_data_guard_role_changed"] = r.TimeDataGuardRoleChanged.String()
-		}
+		}*/
 
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
