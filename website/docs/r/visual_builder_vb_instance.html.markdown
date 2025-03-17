@@ -52,6 +52,48 @@ resource "oci_visual_builder_vb_instance" "test_vb_instance" {
 		private_endpoint_ip = var.vb_instance_network_endpoint_details_private_endpoint_ip
 	}
 }
+
+resource "oci_visual_builder_vb_instance" "test_vb_instance" {
+  #Required
+  compartment_id = var.compartment_id
+  display_name = var.vb_instance_display_name
+  node_count = var.vb_instance_node_count
+
+  #Optional
+  alternate_custom_endpoints {
+    #Required
+    hostname = var.vb_instance_alternate_custom_endpoints_hostname
+
+    #Optional
+    certificate_secret_id = oci_vault_secret.test_secret.id
+  }
+  consumption_model = var.vb_instance_consumption_model
+  custom_endpoint {
+    #Required
+    hostname = var.vb_instance_custom_endpoint_hostname
+
+    #Optional
+    certificate_secret_id = oci_vault_secret.test_secret.id
+  }
+  defined_tags = {"foo-namespace.bar-key"= "value"}
+  freeform_tags = {"bar-key"= "value"}
+  idcs_open_id = oci_visual_builder_idcs_open.test_idcs_open.id
+  is_visual_builder_enabled = var.vb_instance_is_visual_builder_enabled
+  network_endpoint_details {
+    #Required
+    network_endpoint_type = var.vb_instance_network_endpoint_details_network_endpoint_type
+
+    #Optional
+    allowlisted_http_ips = var.vb_instance_network_endpoint_details_allowlisted_http_ips
+    allowlisted_http_vcns {
+      #Required
+      id = var.vb_instance_network_endpoint_details_allowlisted_http_vcns_id
+
+      #Optional
+      allowlisted_ip_cidrs = var.vb_instance_network_endpoint_details_allowlisted_http_vcns_allowlisted_ip_cidrs
+    }
+  }
+}
 ```
 
 ## Argument Reference
@@ -72,10 +114,18 @@ The following arguments are supported:
 * `idcs_open_id` - (Optional) (Updatable) Encrypted IDCS Open ID token. This is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
 * `is_visual_builder_enabled` - (Optional) (Updatable) Visual Builder is enabled or not.
 * `network_endpoint_details` - (Optional) (Updatable) Base representation of a network endpoint. In input payload to update an Visual Builder instance endpoint details, an empty payload will clear out any existing configuration for Public Visual Builder instance. 
-	* `network_endpoint_type` - (Required) (Updatable) The type of network endpoint. 
+	* `network_endpoint_type` - (Required) (Updatable) The type of network endpoint.
+	
+    For private endpoint access
 	* `network_security_group_ids` - (Optional) (Updatable) Network Security Group OCIDs for the Private Endpoint. 
 	* `private_endpoint_ip` - (Optional) The IP address to be assigned to Private Endpoint
-	* `subnet_id` - (Required) (Updatable) The subnet OCID for the private endpoint. 
+	* `subnet_id` - (Required) (Updatable) The subnet OCID for the private endpoint.
+
+    For public network access control
+	* `allowlisted_http_ips` - (Optional) (Updatable) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
+	* `allowlisted_http_vcns` - (Optional) (Updatable) Virtual Cloud Networks allowed to access this network endpoint. 
+		* `allowlisted_ip_cidrs` - (Optional) (Updatable) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
+		* `id` - (Required) (Updatable) The Virtual Cloud Network OCID. 
 * `node_count` - (Required) (Updatable) The number of Nodes
 
 
@@ -103,12 +153,20 @@ The following attributes are exported:
 * `instance_url` - The Vb Instance URL.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `management_nat_gateway_ip` - The NAT gateway IP address for the VB management VCN
-* `management_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder management VCN
+* `management_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder management VCN 
 * `network_endpoint_details` - Base representation of a network endpoint. In input payload to update an Visual Builder instance endpoint details, an empty payload will clear out any existing configuration for Public Visual Builder instance. 
 	* `network_endpoint_type` - The type of network endpoint. 
+
+    For private endpoint access
 	* `network_security_group_ids` - Network Security Group OCIDs for the Private Endpoint. 
 	* `private_endpoint_ip` - The IP address to be assigned to Private Endpoint
-	* `subnet_id` - The subnet OCID for the private endpoint. 
+	* `subnet_id` - The subnet OCID for the private endpoint.
+
+    For public network access control
+	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
+	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint. 
+		* `allowlisted_ip_cidrs` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
+		* `id` - The Virtual Cloud Network OCID. 
 * `node_count` - The number of Nodes
 * `service_nat_gateway_ip` - The NAT gateway IP address for the VB service VCN
 * `service_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder service VCN
