@@ -78,8 +78,16 @@ func (m *updateassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := UpdateVmAssetDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AWS_EBS":
+		mm := UpdateAwsEbsAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VMWARE_VM":
 		mm := UpdateVmwareVmAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AWS_EC2":
+		mm := UpdateAwsEc2AssetDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
