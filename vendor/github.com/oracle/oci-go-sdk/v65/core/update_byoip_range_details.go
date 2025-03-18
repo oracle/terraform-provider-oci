@@ -37,12 +37,6 @@ type UpdateByoipRangeDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `IpAnycast` resource.
-	IpAnycastId *string `mandatory:"false" json:"ipAnycastId"`
-
-	// The IP address of the CIDR for Prefix Monitoring.
-	MonitorIp *string `mandatory:"false" json:"monitorIp"`
 }
 
 func (m UpdateByoipRangeDetails) String() string {

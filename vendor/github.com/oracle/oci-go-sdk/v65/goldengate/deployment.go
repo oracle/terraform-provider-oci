@@ -167,6 +167,16 @@ type Deployment struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeOggVersionSupportedUntil *common.SDKTime `mandatory:"false" json:"timeOggVersionSupportedUntil"`
 
+	BackupSchedule *BackupSchedule `mandatory:"false" json:"backupSchedule"`
+
+	// The timestamp of last deployment backup scheduled. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`.
+	TimeLastBackupScheduled *common.SDKTime `mandatory:"false" json:"timeLastBackupScheduled"`
+
+	// The timestamp of next deployment backup scheduled. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`.
+	TimeNextBackupScheduled *common.SDKTime `mandatory:"false" json:"timeNextBackupScheduled"`
+
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`

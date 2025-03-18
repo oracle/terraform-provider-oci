@@ -121,8 +121,16 @@ func (m *asset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.AssetType {
+	case "AWS_EC2":
+		mm := AwsEc2Asset{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VMWARE_VM":
 		mm := VmwareVmAsset{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AWS_EBS":
+		mm := AwsEbsAsset{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VM":
