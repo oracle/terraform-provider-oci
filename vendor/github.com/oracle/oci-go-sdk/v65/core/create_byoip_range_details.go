@@ -31,12 +31,6 @@ type CreateByoipRangeDetails struct {
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `IpAnycast` resource.
-	IpAnycastId *string `mandatory:"false" json:"ipAnycastId"`
-
-	// The IP address of the CIDR for Prefix Monitoring.
-	MonitorIp *string `mandatory:"false" json:"monitorIp"`
-
 	// The BYOIPv6 prefix. You can assign some or all of it to a VCN after it is validated.
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
