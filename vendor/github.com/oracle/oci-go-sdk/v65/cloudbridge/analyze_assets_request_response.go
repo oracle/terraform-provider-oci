@@ -140,16 +140,22 @@ type AnalyzeAssetsAssetTypeEnum string
 const (
 	AnalyzeAssetsAssetTypeVmwareVm AnalyzeAssetsAssetTypeEnum = "VMWARE_VM"
 	AnalyzeAssetsAssetTypeVm       AnalyzeAssetsAssetTypeEnum = "VM"
+	AnalyzeAssetsAssetTypeAwsEc2   AnalyzeAssetsAssetTypeEnum = "AWS_EC2"
+	AnalyzeAssetsAssetTypeAwsEbs   AnalyzeAssetsAssetTypeEnum = "AWS_EBS"
 )
 
 var mappingAnalyzeAssetsAssetTypeEnum = map[string]AnalyzeAssetsAssetTypeEnum{
 	"VMWARE_VM": AnalyzeAssetsAssetTypeVmwareVm,
 	"VM":        AnalyzeAssetsAssetTypeVm,
+	"AWS_EC2":   AnalyzeAssetsAssetTypeAwsEc2,
+	"AWS_EBS":   AnalyzeAssetsAssetTypeAwsEbs,
 }
 
 var mappingAnalyzeAssetsAssetTypeEnumLowerCase = map[string]AnalyzeAssetsAssetTypeEnum{
 	"vmware_vm": AnalyzeAssetsAssetTypeVmwareVm,
 	"vm":        AnalyzeAssetsAssetTypeVm,
+	"aws_ec2":   AnalyzeAssetsAssetTypeAwsEc2,
+	"aws_ebs":   AnalyzeAssetsAssetTypeAwsEbs,
 }
 
 // GetAnalyzeAssetsAssetTypeEnumValues Enumerates the set of values for AnalyzeAssetsAssetTypeEnum
@@ -166,6 +172,8 @@ func GetAnalyzeAssetsAssetTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE_VM",
 		"VM",
+		"AWS_EC2",
+		"AWS_EBS",
 	}
 }
 
