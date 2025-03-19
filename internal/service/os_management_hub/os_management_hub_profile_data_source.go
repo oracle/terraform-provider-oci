@@ -110,6 +110,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		s.D.Set("os_family", v.OsFamily)
 
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
 		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
@@ -120,6 +124,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
 		}
 
 		s.D.Set("vendor_name", v.VendorName)
@@ -172,6 +180,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		s.D.Set("os_family", v.OsFamily)
 
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
 		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
@@ -182,6 +194,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
 		}
 
 		s.D.Set("vendor_name", v.VendorName)
@@ -228,6 +244,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		s.D.Set("os_family", v.OsFamily)
 
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
 		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
@@ -238,6 +258,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
 		}
 
 		s.D.Set("vendor_name", v.VendorName)
@@ -278,6 +302,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		s.D.Set("os_family", v.OsFamily)
 
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
 		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
@@ -288,6 +316,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
 		}
 
 		s.D.Set("vendor_name", v.VendorName)
@@ -328,6 +360,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		s.D.Set("os_family", v.OsFamily)
 
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
 		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
@@ -338,6 +374,10 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
 		}
 
 		s.D.Set("vendor_name", v.VendorName)

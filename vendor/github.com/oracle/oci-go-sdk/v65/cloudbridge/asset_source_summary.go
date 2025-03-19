@@ -126,6 +126,10 @@ func (m *assetsourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := VmWareAssetSourceSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AWS":
+		mm := AwsAssetSourceSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for AssetSourceSummary: %s.", m.Type)
 		return *m, nil

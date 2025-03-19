@@ -107,6 +107,8 @@ resource "oci_database_vm_cluster_network" "primary_vm_cluster_network" {
       "192.168.19.8",
     ]
     port = 1521
+    scan_listener_port_tcp = 1521
+    scan_listener_port_tcp_ssl = 2484
   }
   vm_networks {
     domain_name  = "oracle.com"
@@ -175,6 +177,8 @@ resource "oci_database_vm_cluster_network" "standby_vm_cluster_network" {
       "192.168.19.8",
     ]
     port = 1521
+    scan_listener_port_tcp = 1521
+    scan_listener_port_tcp_ssl = 2484
   }
   vm_networks {
     domain_name  = "oracle.com"
@@ -345,7 +349,7 @@ resource "oci_database_autonomous_container_database" "dg_autonomous_container_d
     recovery_window_in_days = "7"
   }
   compartment_id = var.compartment_ocid
-  db_unique_name = random_string.db_unique_name.result
+  #db_unique_name = random_string.db_unique_name.result
   display_name   = "PRIMARY-ACD-DG"
   freeform_tags = {
     "Department" = "Finance"
@@ -437,7 +441,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   autonomous_vm_cluster_id             = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster_primary.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.21.0.1.0"
+  db_version                           = "19.25.0.1.0"
   db_name                              = "PRIMARY"
 
   #Optional
@@ -510,7 +514,7 @@ resource "oci_database_autonomous_container_database_dataguard_association" "tes
       }
       recovery_window_in_days = "7"
     }
-  peer_db_unique_name                                 = "Y3Z69J5C_sea1835"
+  #peer_db_unique_name                                 = "Y3Z69J5C_sea1835"
 }
 
 #### End Resources ####

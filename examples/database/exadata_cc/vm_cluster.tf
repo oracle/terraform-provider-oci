@@ -184,7 +184,7 @@ data "oci_database_gi_versions" "gi_version" {
 resource "oci_database_vm_cluster" "test_vm_cluster" {
   #Required
   compartment_id            = var.compartment_ocid
-  cpu_core_count            = "4"
+  cpu_core_count            = "16"
   display_name              = "testVmCluster"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
   gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
@@ -459,7 +459,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network3" {
 resource "oci_database_vm_cluster" "test_exascale_vm_cluster" {
   #Required
   compartment_id            = var.compartment_ocid
-  cpu_core_count            = "4"
+  cpu_core_count            = "16"
   display_name              = "testVmCluster2"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
   gi_version                = "23.0.0.0.0"

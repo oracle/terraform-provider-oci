@@ -235,6 +235,8 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["peer_maintenance_run_id"] = *r.PeerMaintenanceRunId
 		}
 
+		maintenanceRun["peer_maintenance_run_ids"] = r.PeerMaintenanceRunIds
+
 		maintenanceRun["state"] = r.LifecycleState
 
 		if r.TargetDbServerVersion != nil {

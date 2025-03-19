@@ -45,6 +45,20 @@ func OsManagementHubProfilesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"management_station": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"management_station_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"os_family": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -59,6 +73,10 @@ func OsManagementHubProfilesDataSource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"profile_version": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"registration_type": {
 				Type:     schema.TypeList,
@@ -151,6 +169,32 @@ func (s *OsManagementHubProfilesDataSourceCrud) Get() error {
 		request.IsServiceProvidedProfile = &tmp
 	}
 
+	if managementStation, ok := s.D.GetOkExists("management_station"); ok {
+		interfaces := managementStation.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("management_station") {
+			request.ManagementStation = tmp
+		}
+	}
+
+	if managementStationNotEqualTo, ok := s.D.GetOkExists("management_station_not_equal_to"); ok {
+		interfaces := managementStationNotEqualTo.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("management_station_not_equal_to") {
+			request.ManagementStationNotEqualTo = tmp
+		}
+	}
+
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 		request.OsFamily = oci_os_management_hub.ListProfilesOsFamilyEnum(osFamily.(string))
 	}
@@ -171,6 +215,11 @@ func (s *OsManagementHubProfilesDataSourceCrud) Get() error {
 		if len(tmp) != 0 || s.D.HasChange("profile_type") {
 			request.ProfileType = tmp
 		}
+	}
+
+	if profileVersion, ok := s.D.GetOkExists("profile_version"); ok {
+		tmp := profileVersion.(string)
+		request.ProfileVersion = &tmp
 	}
 
 	if registrationType, ok := s.D.GetOkExists("registration_type"); ok {

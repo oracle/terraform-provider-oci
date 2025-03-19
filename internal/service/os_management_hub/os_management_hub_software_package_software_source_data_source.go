@@ -147,6 +147,10 @@ func OsManagementHubSoftwarePackageSoftwareSourceDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"is_mirror_sync_allowed": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"os_family": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -161,6 +165,10 @@ func OsManagementHubSoftwarePackageSoftwareSourceDataSource() *schema.Resource {
 									},
 									"size": {
 										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"software_source_sub_type": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"software_source_type": {
@@ -416,11 +424,145 @@ func SoftwareSourceSummaryToMap(obj oci_os_management_hub.SoftwareSourceSummary)
 	case oci_os_management_hub.CustomSoftwareSourceSummary:
 		result["software_source_type"] = "CUSTOM"
 
+		result["software_source_sub_type"] = string(v.SoftwareSourceSubType)
+
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
 			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
 		}
 		result["vendor_software_sources"] = vendorSoftwareSources
+
+		result["arch_type"] = string(v.ArchType)
+
+		result["availability"] = string(v.Availability)
+
+		result["availability_at_oci"] = string(v.AvailabilityAtOci)
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		result["os_family"] = string(v.OsFamily)
+
+		if v.PackageCount != nil {
+			result["package_count"] = strconv.FormatInt(*v.PackageCount, 10)
+		}
+
+		if v.RepoId != nil {
+			result["repo_id"] = string(*v.RepoId)
+		}
+
+		if v.Size != nil {
+			result["size"] = float64(*v.Size)
+		}
+
+		result["state"] = string(v.LifecycleState)
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+
+		if v.Url != nil {
+			result["url"] = string(*v.Url)
+		}
+	case oci_os_management_hub.PrivateSoftwareSourceSummary:
+		result["software_source_type"] = "PRIVATE"
+
+		if v.IsMirrorSyncAllowed != nil {
+			result["is_mirror_sync_allowed"] = bool(*v.IsMirrorSyncAllowed)
+		}
+
+		result["arch_type"] = string(v.ArchType)
+
+		result["availability"] = string(v.Availability)
+
+		result["availability_at_oci"] = string(v.AvailabilityAtOci)
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		result["os_family"] = string(v.OsFamily)
+
+		if v.PackageCount != nil {
+			result["package_count"] = strconv.FormatInt(*v.PackageCount, 10)
+		}
+
+		if v.RepoId != nil {
+			result["repo_id"] = string(*v.RepoId)
+		}
+
+		if v.Size != nil {
+			result["size"] = float64(*v.Size)
+		}
+
+		result["state"] = string(v.LifecycleState)
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+
+		if v.Url != nil {
+			result["url"] = string(*v.Url)
+		}
+	case oci_os_management_hub.ThirdPartySoftwareSourceSummary:
+		result["software_source_type"] = "THIRD_PARTY"
+
+		if v.IsMirrorSyncAllowed != nil {
+			result["is_mirror_sync_allowed"] = bool(*v.IsMirrorSyncAllowed)
+		}
 
 		result["arch_type"] = string(v.ArchType)
 
@@ -551,6 +693,8 @@ func SoftwareSourceSummaryToMap(obj oci_os_management_hub.SoftwareSourceSummary)
 		}
 	case oci_os_management_hub.VersionedCustomSoftwareSourceSummary:
 		result["software_source_type"] = "VERSIONED"
+
+		result["software_source_sub_type"] = string(v.SoftwareSourceSubType)
 
 		if v.SoftwareSourceVersion != nil {
 			result["software_source_version"] = string(*v.SoftwareSourceVersion)

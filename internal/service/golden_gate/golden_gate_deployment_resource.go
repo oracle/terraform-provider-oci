@@ -69,6 +69,47 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			},
 
 			// Optional
+			"backup_schedule": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"bucket": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"frequency_backup_scheduled": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"is_metadata_only": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"time_backup_scheduled": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -452,6 +493,14 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_last_backup_scheduled": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_next_backup_scheduled": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_of_next_maintenance": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -636,6 +685,17 @@ func (s *GoldenGateDeploymentResourceCrud) DeletedTarget() []string {
 
 func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	request := oci_golden_gate.CreateDeploymentRequest{}
+
+	if backupSchedule, ok := s.D.GetOkExists("backup_schedule"); ok {
+		if tmpList := backupSchedule.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_schedule", 0)
+			tmp, err := s.mapToCreateBackupScheduleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BackupSchedule = &tmp
+		}
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -935,6 +995,17 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	}
 	request := oci_golden_gate.UpdateDeploymentRequest{}
 
+	if backupSchedule, ok := s.D.GetOkExists("backup_schedule"); ok {
+		if tmpList := backupSchedule.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_schedule", 0)
+			tmp, err := s.mapToUpdateBackupScheduleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BackupSchedule = &tmp
+		}
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -1087,6 +1158,12 @@ func (s *GoldenGateDeploymentResourceCrud) Delete() error {
 }
 
 func (s *GoldenGateDeploymentResourceCrud) SetData() error {
+	if s.Res.BackupSchedule != nil {
+		s.D.Set("backup_schedule", []interface{}{BackupScheduleToMap(s.Res.BackupSchedule)})
+	} else {
+		s.D.Set("backup_schedule", nil)
+	}
+
 	s.D.Set("category", s.Res.Category)
 
 	if s.Res.CompartmentId != nil {
@@ -1237,6 +1314,14 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeLastBackupScheduled != nil {
+		s.D.Set("time_last_backup_scheduled", s.Res.TimeLastBackupScheduled.String())
+	}
+
+	if s.Res.TimeNextBackupScheduled != nil {
+		s.D.Set("time_next_backup_scheduled", s.Res.TimeNextBackupScheduled.String())
+	}
+
 	if s.Res.TimeOfNextMaintenance != nil {
 		s.D.Set("time_of_next_maintenance", s.Res.TimeOfNextMaintenance.String())
 	}
@@ -1287,6 +1372,110 @@ func ResourceLockToMap(obj oci_golden_gate.ResourceLock) map[string]interface{} 
 	}
 
 	result["type"] = string(obj.Type)
+
+	return result
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToCreateBackupScheduleDetails(fieldKeyFormat string) (oci_golden_gate.CreateBackupScheduleDetails, error) {
+	result := oci_golden_gate.CreateBackupScheduleDetails{}
+
+	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		tmp := bucket.(string)
+		result.BucketName = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if frequencyBackupScheduled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "frequency_backup_scheduled")); ok {
+		result.FrequencyBackupScheduled = oci_golden_gate.CreateBackupScheduleDetailsFrequencyBackupScheduledEnum(frequencyBackupScheduled.(string))
+	}
+
+	if isMetadataOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_metadata_only")); ok {
+		tmp := isMetadataOnly.(bool)
+		result.IsMetadataOnly = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
+	}
+
+	if timeBackupScheduled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_backup_scheduled")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeBackupScheduled.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeBackupScheduled = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToUpdateBackupScheduleDetails(fieldKeyFormat string) (oci_golden_gate.UpdateBackupScheduleDetails, error) {
+	result := oci_golden_gate.UpdateBackupScheduleDetails{}
+
+	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		tmp := bucket.(string)
+		result.BucketName = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if frequencyBackupScheduled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "frequency_backup_scheduled")); ok {
+		result.FrequencyBackupScheduled = oci_golden_gate.UpdateBackupScheduleDetailsFrequencyBackupScheduledEnum(frequencyBackupScheduled.(string))
+	}
+
+	if isMetadataOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_metadata_only")); ok {
+		tmp := isMetadataOnly.(bool)
+		result.IsMetadataOnly = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
+	}
+
+	if timeBackupScheduled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_backup_scheduled")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeBackupScheduled.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeBackupScheduled = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func BackupScheduleToMap(obj *oci_golden_gate.BackupSchedule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	result["frequency_backup_scheduled"] = string(obj.FrequencyBackupScheduled)
+
+	if obj.IsMetadataOnly != nil {
+		result["is_metadata_only"] = bool(*obj.IsMetadataOnly)
+	}
+
+	if obj.NamespaceName != nil {
+		result["namespace"] = string(*obj.NamespaceName)
+	}
+
+	if obj.TimeBackupScheduled != nil {
+		result["time_backup_scheduled"] = obj.TimeBackupScheduled.Format(time.RFC3339Nano)
+	}
 
 	return result
 }
@@ -1434,12 +1623,12 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 		result.AdminUsername = &tmp
 	}
 
-	if certificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate")); ok {
+	if certificate, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "certificate")); ok { // custom code, do not change
 		tmp := certificate.(string)
 		result.Certificate = &tmp
 	}
 
-	if credentialStore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok {
+	if credentialStore, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok { // custom code, do not change
 		result.CredentialStore = oci_golden_gate.CredentialStoreEnum(credentialStore.(string))
 	}
 
@@ -1496,12 +1685,12 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(field
 		result.AdminUsername = &tmp
 	}
 
-	if certificate, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "certificate")); ok { // custom code, do not change
+	if certificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate")); ok {
 		tmp := certificate.(string)
 		result.Certificate = &tmp
 	}
 
-	if credentialStore, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok { // custom code, do not change
+	if credentialStore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok {
 		result.CredentialStore = oci_golden_gate.CredentialStoreEnum(credentialStore.(string))
 	}
 

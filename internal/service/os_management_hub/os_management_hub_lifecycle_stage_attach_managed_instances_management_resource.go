@@ -35,12 +35,9 @@ func OsManagementHubLifecycleStageAttachManagedInstancesManagementResource() *sc
 				Required: true,
 				ForceNew: true,
 			},
-
-			// Optional
 			"managed_instance_details": {
 				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
+				Required: true,
 				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
@@ -91,6 +88,8 @@ func OsManagementHubLifecycleStageAttachManagedInstancesManagementResource() *sc
 					},
 				},
 			},
+
+			// Optional
 
 			// Computed
 		},

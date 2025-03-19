@@ -25,10 +25,10 @@ func CloudBridgeAgentPluginResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudBridgeAgentPlugin,
-		Read:     readCloudBridgeAgentPlugin,
-		Update:   updateCloudBridgeAgentPlugin,
-		Delete:   deleteCloudBridgeAgentPlugin,
+		//Create:   createCloudBridgeAgentPlugin,
+		Read: readCloudBridgeAgentPlugin,
+		//Update:   updateCloudBridgeAgentPlugin,
+		Delete: deleteCloudBridgeAgentPlugin,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"agent_id": {
@@ -93,13 +93,13 @@ func CloudBridgeAgentPluginResource() *schema.Resource {
 	}
 }
 
-func createCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
-	sync := &CloudBridgeAgentPluginResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
-
-	return tfresource.CreateResource(d, sync)
-}
+//func createCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
+//	sync := &CloudBridgeAgentPluginResourceCrud{}
+//	sync.D = d
+//	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
+//
+//	return tfresource.CreateResource(d, sync)
+//}
 
 func readCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeAgentPluginResourceCrud{}
@@ -109,13 +109,13 @@ func readCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
 	return tfresource.ReadResource(sync)
 }
 
-func updateCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
-	sync := &CloudBridgeAgentPluginResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
-
-	return tfresource.UpdateResource(d, sync)
-}
+//func updateCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
+//	sync := &CloudBridgeAgentPluginResourceCrud{}
+//	sync.D = d
+//	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
+//
+//	return tfresource.UpdateResource(d, sync)
+//}
 
 func deleteCloudBridgeAgentPlugin(d *schema.ResourceData, m interface{}) error {
 	return nil
@@ -153,33 +153,33 @@ func (s *CloudBridgeAgentPluginResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudBridgeAgentPluginResourceCrud) Create() error {
-	request := oci_cloud_bridge.UpdatePluginRequest{}
-
-	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
-		tmp := agentId.(string)
-		request.AgentId = &tmp
-	}
-
-	if desiredState, ok := s.D.GetOkExists("desired_state"); ok {
-		request.DesiredState = oci_cloud_bridge.PluginDesiredStateEnum(desiredState.(string))
-	}
-
-	if pluginName, ok := s.D.GetOkExists("plugin_name"); ok {
-		tmp := pluginName.(string)
-		request.PluginName = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
-
-	response, err := s.Client.UpdatePlugin(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.Plugin
-	return nil
-}
+//func (s *CloudBridgeAgentPluginResourceCrud) Create() error {
+//	request := oci_cloud_bridge.UpdatePluginRequest{}
+//
+//	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
+//		tmp := agentId.(string)
+//		request.AgentId = &tmp
+//	}
+//
+//	if desiredState, ok := s.D.GetOkExists("desired_state"); ok {
+//		request.DesiredState = oci_cloud_bridge.PluginDesiredStateEnum(desiredState.(string))
+//	}
+//
+//	if pluginName, ok := s.D.GetOkExists("plugin_name"); ok {
+//		tmp := pluginName.(string)
+//		request.PluginName = &tmp
+//	}
+//
+//	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
+//
+//	response, err := s.Client.UpdatePlugin(context.Background(), request)
+//	if err != nil {
+//		return err
+//	}
+//
+//	s.Res = &response.Plugin
+//	return nil
+//}
 
 func (s *CloudBridgeAgentPluginResourceCrud) Get() error {
 	request := oci_cloud_bridge.GetPluginRequest{}
@@ -213,33 +213,33 @@ func (s *CloudBridgeAgentPluginResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudBridgeAgentPluginResourceCrud) Update() error {
-	request := oci_cloud_bridge.UpdatePluginRequest{}
-
-	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
-		tmp := agentId.(string)
-		request.AgentId = &tmp
-	}
-
-	if desiredState, ok := s.D.GetOkExists("desired_state"); ok {
-		request.DesiredState = oci_cloud_bridge.PluginDesiredStateEnum(desiredState.(string))
-	}
-
-	if pluginName, ok := s.D.GetOkExists("plugin_name"); ok {
-		tmp := pluginName.(string)
-		request.PluginName = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
-
-	response, err := s.Client.UpdatePlugin(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.Plugin
-	return nil
-}
+//func (s *CloudBridgeAgentPluginResourceCrud) Update() error {
+//	request := oci_cloud_bridge.UpdatePluginRequest{}
+//
+//	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
+//		tmp := agentId.(string)
+//		request.AgentId = &tmp
+//	}
+//
+//	if desiredState, ok := s.D.GetOkExists("desired_state"); ok {
+//		request.DesiredState = oci_cloud_bridge.PluginDesiredStateEnum(desiredState.(string))
+//	}
+//
+//	if pluginName, ok := s.D.GetOkExists("plugin_name"); ok {
+//		tmp := pluginName.(string)
+//		request.PluginName = &tmp
+//	}
+//
+//	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
+//
+//	response, err := s.Client.UpdatePlugin(context.Background(), request)
+//	if err != nil {
+//		return err
+//	}
+//
+//	s.Res = &response.Plugin
+//	return nil
+//}
 
 func (s *CloudBridgeAgentPluginResourceCrud) SetData() error {
 

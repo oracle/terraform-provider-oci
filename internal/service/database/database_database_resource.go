@@ -56,10 +56,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 
 						// Optional
 						"admin_password": {
-							Type:      schema.TypeString,
-							Optional:  true,
-							Computed:  true,
-							ForceNew:  true,
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							//remove ForceNew field - TERSI-3772
+							//ForceNew:  true,
 							Sensitive: true,
 						},
 						"backup_id": {
@@ -1329,6 +1330,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat 
 
 	if transportType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_type")); ok {
 		result.TransportType = oci_database.CreateStandbyDetailsTransportTypeEnum(transportType.(string))
+	}
+
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
 	}
 
 	return result, nil

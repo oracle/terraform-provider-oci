@@ -63,6 +63,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job" {
 			}
 		}
 		package_names = var.scheduled_job_operations_package_names
+		reboot_timeout_in_mins = var.scheduled_job_operations_reboot_timeout_in_mins
 		software_source_ids = var.scheduled_job_operations_software_source_ids
 		switch_module_streams_details {
 			#Required
@@ -91,6 +92,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job" {
 	managed_instance_ids = var.scheduled_job_managed_instance_ids
 	recurring_rule = var.scheduled_job_recurring_rule
 	retry_intervals = var.scheduled_job_retry_intervals
+	work_request_id = oci_containerengine_work_request.test_work_request.id
 }
 ```
 
@@ -140,6 +142,7 @@ The following arguments are supported:
 			* `stream_name` - (Required) (Updatable) The name of a stream of the specified module.
 	* `operation_type` - (Required) (Updatable) The type of operation this scheduled job performs.
 	* `package_names` - (Optional) (Updatable) The names of the target packages. This parameter only applies when the scheduled job is for installing, updating, or removing packages.
+	* `reboot_timeout_in_mins` - (Optional) (Updatable) The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the  timeout, the service marks the reboot job as failed. 
 	* `software_source_ids` - (Optional) (Updatable) The software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).  This parameter only applies when the scheduled job is for attaching or detaching software sources. 
 	* `switch_module_streams_details` - (Optional) (Updatable) Provides the information used to update a module stream.
 		* `module_name` - (Required) (Updatable) The name of a module.
@@ -150,6 +153,7 @@ The following arguments are supported:
 * `retry_intervals` - (Optional) (Updatable) The amount of time in minutes to wait until retrying the scheduled job. If set, the service will automatically  retry a failed scheduled job after the interval. For example, you could set the interval to [2,5,10]. If the initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service  waits 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries. 
 * `schedule_type` - (Required) (Updatable) The type of scheduling frequency for the scheduled job.
 * `time_next_execution` - (Required) (Updatable) The desired time of the next execution of this scheduled job (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
+* `work_request_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
 
 
 ** IMPORTANT **
@@ -203,6 +207,7 @@ The following attributes are exported:
 			* `stream_name` - The name of a stream of the specified module.
 	* `operation_type` - The type of operation this scheduled job performs.
 	* `package_names` - The names of the target packages. This parameter only applies when the scheduled job is for installing, updating, or removing packages.
+	* `reboot_timeout_in_mins` - The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the  timeout, the service marks the reboot job as failed. 
 	* `software_source_ids` - The software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).  This parameter only applies when the scheduled job is for attaching or detaching software sources. 
 	* `switch_module_streams_details` - Provides the information used to update a module stream.
 		* `module_name` - The name of a module.
@@ -218,6 +223,7 @@ The following attributes are exported:
 * `time_last_execution` - The time of the last execution of this scheduled job (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
 * `time_next_execution` - The time of the next execution of this scheduled job (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
 * `time_updated` - The time this scheduled job was updated (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
+* `work_request_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
 * `work_request_ids` - The list of work request [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this scheduled job.
 
 ## Timeouts

@@ -57,31 +57,12 @@ func deleteOsManagementHubManagedInstanceDetachProfileManagement(d *schema.Resou
 type OsManagementHubManagedInstanceDetachProfileManagementResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_os_management_hub.ManagedInstanceClient
-	Res                    *oci_os_management_hub.GetManagedInstanceResponse
+	Res                    *string
 	DisableNotFoundRetries bool
 }
 
 func (s *OsManagementHubManagedInstanceDetachProfileManagementResourceCrud) ID() string {
-	return *s.Res.Id
-}
-
-func (s *OsManagementHubManagedInstanceDetachProfileManagementResourceCrud) Get() error {
-	request := oci_os_management_hub.GetManagedInstanceRequest{}
-
-	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
-		tmp := managedInstanceId.(string)
-		request.ManagedInstanceId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
-
-	response, err := s.Client.GetManagedInstance(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response
-	return nil
+	return *s.Res
 }
 
 func (s *OsManagementHubManagedInstanceDetachProfileManagementResourceCrud) Create() error {
@@ -90,6 +71,7 @@ func (s *OsManagementHubManagedInstanceDetachProfileManagementResourceCrud) Crea
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
 		tmp := managedInstanceId.(string)
 		request.ManagedInstanceId = &tmp
+		s.Res = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
@@ -99,7 +81,7 @@ func (s *OsManagementHubManagedInstanceDetachProfileManagementResourceCrud) Crea
 		return err
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *OsManagementHubManagedInstanceDetachProfileManagementResourceCrud) SetData() error {

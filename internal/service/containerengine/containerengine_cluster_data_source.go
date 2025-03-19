@@ -124,6 +124,10 @@ func (s *ContainerengineClusterDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.OpenIdConnectDiscoveryEndpoint != nil {
+		s.D.Set("open_id_connect_discovery_endpoint", *s.Res.OpenIdConnectDiscoveryEndpoint)
+	}
+
 	if s.Res.Options != nil {
 		s.D.Set("options", []interface{}{ClusterCreateOptionsToMap(s.Res.Options)})
 	} else {

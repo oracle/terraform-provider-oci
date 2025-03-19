@@ -149,6 +149,8 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
 	}
 
+	s.D.Set("peer_maintenance_run_ids", s.Res.PeerMaintenanceRunIds)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TargetDbServerVersion != nil {

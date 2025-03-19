@@ -83,6 +83,8 @@ type CreateDeploymentDetails struct {
 	MaintenanceWindow *CreateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
 
 	MaintenanceConfiguration *CreateMaintenanceConfigurationDetails `mandatory:"false" json:"maintenanceConfiguration"`
+
+	BackupSchedule *CreateBackupScheduleDetails `mandatory:"false" json:"backupSchedule"`
 }
 
 func (m CreateDeploymentDetails) String() string {

@@ -66,6 +66,10 @@ func (s *OsManagementHubManagedInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AgentVersion != nil {
+		s.D.Set("agent_version", *s.Res.AgentVersion)
+	}
+
 	s.D.Set("architecture", s.Res.Architecture)
 
 	if s.Res.AutonomousSettings != nil {
@@ -166,6 +170,10 @@ func (s *OsManagementHubManagedInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.Profile != nil {
 		s.D.Set("profile", *s.Res.Profile)
+	}
+
+	if s.Res.ProfileVersion != nil {
+		s.D.Set("profile_version", *s.Res.ProfileVersion)
 	}
 
 	if s.Res.ScheduledJobCount != nil {
