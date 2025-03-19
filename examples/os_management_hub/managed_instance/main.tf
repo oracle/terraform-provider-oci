@@ -5,11 +5,10 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 variable "osmh_managed_instance_ocid" {}
-variable "osmh_managed_instance_failed_ocid" {}
+variable "osmh_managed_instance_unregistered_ocid" {}
 variable "osmh_managed_instance_windows_ocid" {}
-variable "osmh_windows_update_id" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -25,11 +24,6 @@ resource "oci_os_management_hub_managed_instance" "test_managed_instance" {
   managed_instance_id = var.osmh_managed_instance_ocid
 }
 
-# OL8 instance in registration failure and agent turned off
-resource "oci_os_management_hub_managed_instance" "test_registration_failed_managed_instance" {
-  managed_instance_id = var.osmh_managed_instance_failed_ocid
-}
-
 # Windows 2022 instance
 resource "oci_os_management_hub_managed_instance" "test_managed_instance_windows" {
   managed_instance_id = var.osmh_managed_instance_windows_ocid
@@ -42,38 +36,39 @@ resource "oci_os_management_hub_managed_instance" "test_managed_instance_windows
 # 1. Attach profile to instance
 # Reference OL8 software source
 data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
-  arch_type = ["X86_64"]
-  availability = ["SELECTED"]
-  compartment_id = var.compartment_id
-  display_name = "ol8_baseos_latest-x86_64"
-  os_family = ["ORACLE_LINUX_8"]
+  arch_type            = ["X86_64"]
+  availability         = ["SELECTED"]
+  compartment_id       = var.compartment_ocid
+  display_name         = "ol8_baseos_latest-x86_64"
+  os_family            = ["ORACLE_LINUX_8"]
   software_source_type = ["VENDOR"]
-  state = ["ACTIVE"]
-  vendor_name = "ORACLE"
+  state                = ["ACTIVE"]
+  vendor_name          = "ORACLE"
 }
 
 # Create OL8 software source profile
 resource "oci_os_management_hub_profile" "test_profile" {
-  arch_type = "X86_64"
-  compartment_id = var.compartment_id
-  display_name = "displayNameExample"
-  os_family = "ORACLE_LINUX_8"
-  profile_type = "SOFTWARESOURCE"
+  arch_type         = "X86_64"
+  compartment_id    = var.compartment_ocid
+  display_name      = "displayNameExample"
+  os_family         = "ORACLE_LINUX_8"
+  profile_type      = "SOFTWARESOURCE"
   registration_type = "OCI_LINUX"
   software_source_ids = [
     data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
   ]
   vendor_name = "ORACLE"
 }
+
 resource "oci_os_management_hub_managed_instance_attach_profile_management" "test_managed_instance_attach_profile_management" {
-  managed_instance_id = oci_os_management_hub_managed_instance.test_registration_failed_managed_instance.id
-  profile_id = oci_os_management_hub_profile.test_profile.id
+  managed_instance_id = var.osmh_managed_instance_unregistered_ocid
+  profile_id          = oci_os_management_hub_profile.test_profile.id
 }
 
 # 2. Detach profile from instance
 resource "oci_os_management_hub_managed_instance_detach_profile_management" "test_managed_instance_detach_profile_management" {
-  managed_instance_id = oci_os_management_hub_managed_instance.test_registration_failed_managed_instance.id
-  depends_on = [oci_os_management_hub_managed_instance_attach_profile_management.test_managed_instance_attach_profile_management]
+  managed_instance_id = var.osmh_managed_instance_unregistered_ocid
+  depends_on          = [oci_os_management_hub_managed_instance_attach_profile_management.test_managed_instance_attach_profile_management]
 }
 
 # 3. List available packages
@@ -82,7 +77,7 @@ data "oci_os_management_hub_managed_instance_available_packages" "test_managed_i
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id        = var.compartment_ocid
   display_name_contains = "389-ds-base"
 }
 
@@ -92,7 +87,7 @@ data "oci_os_management_hub_managed_instance_installed_packages" "test_managed_i
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 # 5. List updatable packages
@@ -101,7 +96,7 @@ data "oci_os_management_hub_managed_instance_updatable_packages" "test_managed_i
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 # 6. List errata
@@ -110,7 +105,7 @@ data "oci_os_management_hub_managed_instance_errata" "test_managed_instance_erra
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 # 7. List modules
@@ -119,7 +114,7 @@ data "oci_os_management_hub_managed_instance_modules" "test_managed_instance_mod
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 # 8. Available software source
@@ -128,7 +123,15 @@ data "oci_os_management_hub_managed_instance_available_software_sources" "test_m
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
+}
+
+# 9. test reboot
+resource "oci_os_management_hub_managed_instance_reboot_management" "test_managed_instance_reboot_management" {
+  managed_instance_id = var.osmh_managed_instance_ocid
+
+  #optional
+  reboot_timeout_in_mins = "5"
 }
 
 ################################
@@ -141,7 +144,7 @@ data "oci_os_management_hub_managed_instance_available_windows_updates" "test_ma
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance_windows.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 # 2. List installed windows update
@@ -150,20 +153,15 @@ data "oci_os_management_hub_managed_instance_installed_windows_updates" "test_ma
   managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance_windows.id
 
   # Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 # 3. List windows updates
 data "oci_os_management_hub_windows_updates" "test_windows_updates" {
   # Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
-# 4. Get one windows update
-data "oci_os_management_hub_windows_update" "test_windows_update" {
-  # Required
-  windows_update_id = var.osmh_windows_update_id
-}
 
 # 5. Install windows update
 resource "oci_os_management_hub_managed_instance_install_windows_updates_management" "test_managed_instance_install_windows_updates_management_update_type" {
@@ -173,7 +171,7 @@ resource "oci_os_management_hub_managed_instance_install_windows_updates_managem
   # Optional
   windows_update_types = ["OTHER"]
   work_request_details {
-    description = "description"
+    description  = "description"
     display_name = "displayName"
   }
 }

@@ -185,6 +185,11 @@ func OsManagementHubScheduledJobResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"reboot_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"software_source_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -338,6 +343,12 @@ func OsManagementHubScheduledJobResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeInt,
 				},
+			},
+			"work_request_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -597,6 +608,11 @@ func (s *OsManagementHubScheduledJobResourceCrud) Create() error {
 		request.TimeNextExecution = &oci_common.SDKTime{Time: tmp}
 	}
 
+	if workRequestId, ok := s.D.GetOkExists("work_request_id"); ok {
+		tmp := workRequestId.(string)
+		request.WorkRequestId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
 	response, err := s.Client.CreateScheduledJob(context.Background(), request)
@@ -816,6 +832,10 @@ func (s *OsManagementHubScheduledJobResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.WorkRequestId != nil {
+		s.D.Set("work_request_id", *s.Res.WorkRequestId)
+	}
+
 	s.D.Set("work_request_ids", s.Res.WorkRequestIds)
 
 	return nil
@@ -1031,6 +1051,15 @@ func (s *OsManagementHubScheduledJobResourceCrud) mapToScheduledJobOperation(fie
 		}
 	}
 
+	if rebootTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reboot_timeout_in_mins")); ok {
+		tmp := rebootTimeoutInMins.(int)
+		result.RebootTimeoutInMins = &tmp
+	}
+
+	if result.RebootTimeoutInMins != nil && *result.RebootTimeoutInMins == 0 {
+		result.RebootTimeoutInMins = nil
+	}
+
 	if softwareSourceIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "software_source_ids")); ok {
 		interfaces := softwareSourceIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1084,6 +1113,10 @@ func ScheduledJobOperationToMap(obj oci_os_management_hub.ScheduledJobOperation)
 	result["operation_type"] = string(obj.OperationType)
 
 	result["package_names"] = obj.PackageNames
+
+	if obj.RebootTimeoutInMins != nil {
+		result["reboot_timeout_in_mins"] = int(*obj.RebootTimeoutInMins)
+	}
 
 	result["software_source_ids"] = obj.SoftwareSourceIds
 
@@ -1165,6 +1198,10 @@ func ScheduledJobSummaryToMap(obj oci_os_management_hub.ScheduledJobSummary) map
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.WorkRequestId != nil {
+		result["work_request_id"] = string(*obj.WorkRequestId)
 	}
 
 	return result

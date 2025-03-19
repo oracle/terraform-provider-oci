@@ -87,10 +87,6 @@ variable "cluster_options_open_id_connect_token_authentication_config_groups_cla
   default = "groupsClaim"
 }
 
-variable "cluster_options_open_id_connect_token_authentication_config_configuration_file" {
-  default = ""
-}
-
 variable "cluster_options_open_id_connect_token_authentication_config_groups_prefix" {
   default = "groupsPrefix"
 }
@@ -260,8 +256,6 @@ resource "oci_containerengine_cluster" "test_cluster" {
       ca_certificate = var.cluster_options_open_id_connect_token_authentication_config_ca_certificate
       groups_claim   = var.cluster_options_open_id_connect_token_authentication_config_groups_claim
       groups_prefix  = var.cluster_options_open_id_connect_token_authentication_config_groups_prefix
-      #Optional
-      configuration_file = var.cluster_options_open_id_connect_token_authentication_config_configuration_file
       required_claims {
 
         #Optional

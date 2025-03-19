@@ -48,13 +48,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of mirrors
-	* `arch_type` - The architecture type supported by the Software Source
-	* `display_name` - Display name of the mirror
-	* `id` - OCID of a software source
+	* `arch_type` - The architecture type supported by the software source.
+	* `display_name` - Display name of the mirror.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	* `log` - The current log from the management station plugin.
-	* `os_family` - The OS family the Software Source belongs to
-	* `percentage` - A decimal number representing the completness percentage
-	* `state` - Current state of the mirror
-	* `time_last_synced` - Timestamp of the last time the mirror was sync
-	* `type` - Type of the mirror
+	* `os_family` - The OS family of the software source.
+	* `package_count` - The number of packages within the mirrored software source.
+	* `percentage` - A decimal number representing the percentage of the software source that has been synced.
+	* `size` - The size the mirrored software source in bytes.
+	* `state` - Current state of the software source mirror.
+	* `time_last_synced` - Time that the software source was last synced (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
+	* `type` - Type of software source.
 

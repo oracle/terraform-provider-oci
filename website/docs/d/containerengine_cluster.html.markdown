@@ -74,10 +74,10 @@ The following attributes are exported:
 		* `is_tiller_enabled` - Whether or not to enable the Tiller add-on.
 	* `admission_controller_options` - Configurable cluster admission controllers
 		* `is_pod_security_policy_enabled` - Whether or not to enable the Pod Security Policy admission controller.
-	* `ip_families` - IP family to use for single stack or define the order of IP families for dual-stack
+	* `ip_families` - IP family to use for single stack or define the order of IP families for dual-stack. Available values are [] (defaults to IPv4), [IPv4] (IPv4), [IPv4, IPv6] (IPv4 preferred dual stack).
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
-		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
-		* `services_cidr` - The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional. For ipv4, defaults to 10.244.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0000::/96.
+		* `services_cidr` - The CIDR block for Kubernetes services. Optional. For ipv4, defaults to 10.96.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0001::/108.
 	* `open_id_connect_discovery` - The property that define the status of the OIDC Discovery feature for a cluster. 
 		* `is_open_id_connect_discovery_enabled` - Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint. 
 	* `open_id_connect_token_authentication_config` - The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 

@@ -27,6 +27,15 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	backup_schedule {
+		#Required
+		bucket = var.deployment_backup_schedule_bucket
+		compartment_id = var.compartment_id
+		frequency_backup_scheduled = var.deployment_backup_schedule_frequency_backup_scheduled
+		is_metadata_only = var.deployment_backup_schedule_is_metadata_only
+		namespace = var.deployment_backup_schedule_namespace
+		time_backup_scheduled = var.deployment_backup_schedule_time_backup_scheduled
+	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
 	description = var.deployment_description
@@ -88,6 +97,13 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 
 The following arguments are supported:
 
+* `backup_schedule` - (Optional) (Updatable) Defines the backup schedule details for create operation. 
+	* `bucket` - (Required) (Updatable) Name of the bucket where the object is to be uploaded in the object storage
+	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
+	* `frequency_backup_scheduled` - (Required) (Updatable) The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
+	* `is_metadata_only` - (Required) (Updatable) Parameter to allow users to create backup without trails
+	* `namespace` - (Required) (Updatable) Name of namespace that serves as a container for all of your buckets
+	* `time_backup_scheduled` - (Required) (Updatable) The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - (Required) (Updatable) The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
@@ -141,6 +157,13 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `backup_schedule` - Defines the schedule of the deployment backup. 
+	* `bucket` - Name of the bucket where the object is to be uploaded in the object storage
+	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
+	* `frequency_backup_scheduled` - The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
+	* `is_metadata_only` - Parameter to allow users to create backup without trails
+	* `namespace` - Name of namespace that serves as a container for all of your buckets
+	* `time_backup_scheduled` - The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
 * `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - The Minimum number of OCPUs to be made available for this Deployment. 
@@ -210,6 +233,8 @@ The following attributes are exported:
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_last_backup_scheduled` - The timestamp of last deployment backup scheduled. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
+* `time_next_backup_scheduled` - The timestamp of next deployment backup scheduled. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`. 
 * `time_of_next_maintenance` - The time of next maintenance schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_ogg_version_supported_until` - The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 

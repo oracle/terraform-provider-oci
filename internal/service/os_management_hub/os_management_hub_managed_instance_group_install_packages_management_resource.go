@@ -45,6 +45,12 @@ func OsManagementHubManagedInstanceGroupInstallPackagesManagementResource() *sch
 			},
 
 			// Optional
+			"is_latest": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"work_request_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -130,6 +136,11 @@ func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCru
 
 func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) Create() error {
 	request := oci_os_management_hub.InstallPackagesOnManagedInstanceGroupRequest{}
+
+	if isLatest, ok := s.D.GetOkExists("is_latest"); ok {
+		tmp := isLatest.(bool)
+		request.IsLatest = &tmp
+	}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("managed_instance_group_id"); ok {
 		tmp := managedInstanceGroupId.(string)

@@ -1,3 +1,16 @@
+## 6.31.0 (March 18,2025)
+
+### Added
+- Support for Compute GPU Memory Cluster and Fabric in GPU Control Plane
+- Support for Add second Standby to AuDG deployments | ADB-D and ADB-C@C
+- Support for Add schedules to customer-initiated backups.
+- Add support for private and 3rd party software repositories and rebooting of instances to OS Management Hub
+- README.md of service examples with magic button
+
+### Bug Fix
+- OKE terraform provider bug fix: add data source for oidc discovery endpoint, fix update issue for oidc auth and update docs
+- Database resource changes to support external keystore for add standby and update database admin password
+
 ## 6.30.0 (March 11, 2025)
 
 ### Added
