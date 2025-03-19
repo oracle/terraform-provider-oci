@@ -544,5 +544,11 @@
         "realmKey": "oc47",
         "regionIdentifier": "uk-london-3",
         "realmDomainComponent": "oraclecloud47.com"
+    },
+    {
+        "regionKey": "orf",
+        "realmKey": "oc1",
+        "regionIdentifier": "eu-madrid-3",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
