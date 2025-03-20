@@ -154,6 +154,12 @@ type LaunchDbSystemBase interface {
 	// If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet.
 	GetPrivateIpV6() *string
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure or Db System.
+	GetClusterPlacementGroupId() *string
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	GetSubscriptionId() *string
+
 	GetDataCollectionOptions() *DataCollectionOptions
 }
 
@@ -180,6 +186,8 @@ type launchdbsystembase struct {
 	SecurityAttributes           map[string]map[string]interface{}                  `mandatory:"false" json:"securityAttributes"`
 	PrivateIp                    *string                                            `mandatory:"false" json:"privateIp"`
 	PrivateIpV6                  *string                                            `mandatory:"false" json:"privateIpV6"`
+	ClusterPlacementGroupId      *string                                            `mandatory:"false" json:"clusterPlacementGroupId"`
+	SubscriptionId               *string                                            `mandatory:"false" json:"subscriptionId"`
 	DataCollectionOptions        *DataCollectionOptions                             `mandatory:"false" json:"dataCollectionOptions"`
 	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
 	AvailabilityDomain           *string                                            `mandatory:"true" json:"availabilityDomain"`
@@ -230,6 +238,8 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.PrivateIp = s.Model.PrivateIp
 	m.PrivateIpV6 = s.Model.PrivateIpV6
+	m.ClusterPlacementGroupId = s.Model.ClusterPlacementGroupId
+	m.SubscriptionId = s.Model.SubscriptionId
 	m.DataCollectionOptions = s.Model.DataCollectionOptions
 	m.Source = s.Model.Source
 
@@ -370,6 +380,16 @@ func (m launchdbsystembase) GetPrivateIp() *string {
 // GetPrivateIpV6 returns PrivateIpV6
 func (m launchdbsystembase) GetPrivateIpV6() *string {
 	return m.PrivateIpV6
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m launchdbsystembase) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m launchdbsystembase) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 // GetDataCollectionOptions returns DataCollectionOptions

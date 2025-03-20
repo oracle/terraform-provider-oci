@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateTaskRecordDetails The information to be updated.
+// UpdateTaskRecordDetails Attributes to update a task record.
 type UpdateTaskRecordDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

@@ -18,28 +18,25 @@ import (
 // CreateRunbookDetails The information about new Runbook.
 type CreateRunbookDetails struct {
 
-	// Type of runbook structure.
-	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"true" json:"runbookRelevance"`
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	// Example: `My new resource`
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The lifecycle operation performed by the task.
 	Operation *string `mandatory:"true" json:"operation"`
 
-	// The OS type for the runbook.
-	OsType OsTypeEnum `mandatory:"true" json:"osType"`
-
-	Associations *Associations `mandatory:"true" json:"associations"`
+	RunbookVersion *Version `mandatory:"true" json:"runbookVersion"`
 
 	// OCID of the compartment to which the resource belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
-	// Example: `My new resource`
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
 	// A user-friendly description. To provide some insight about the resource.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The OS type for the runbook.
+	OsType OsTypeEnum `mandatory:"false" json:"osType,omitempty"`
 
 	// The platform of the runbook.
 	Platform *string `mandatory:"false" json:"platform"`
@@ -47,7 +44,10 @@ type CreateRunbookDetails struct {
 	// Is the runbook default?
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
-	// Estimated time to successfully complete the runbook execution
+	// Does this runbook need SUDO access to execute?
+	IsSudoAccessNeeded *bool `mandatory:"false" json:"isSudoAccessNeeded"`
+
+	// Estimated time to successfully complete the runbook execution.
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -68,13 +68,10 @@ func (m CreateRunbookDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateRunbookDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRunbookRunbookRelevanceEnum(string(m.RunbookRelevance)); !ok && m.RunbookRelevance != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunbookRelevance: %s. Supported values are: %s.", m.RunbookRelevance, strings.Join(GetRunbookRunbookRelevanceEnumStringValues(), ",")))
-	}
+
 	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
 	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

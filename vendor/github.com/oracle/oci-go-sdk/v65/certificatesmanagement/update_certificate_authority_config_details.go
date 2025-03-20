@@ -62,12 +62,24 @@ func (m *updatecertificateauthorityconfigdetails) UnmarshalPolymorphicJSON(data 
 
 	var err error
 	switch m.ConfigType {
+	case "SUBORDINATE_CA_MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA":
+		mm := UpdateSubordinateCaManagedExternallyIssuedByInternalCaConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ROOT_CA_MANAGED_EXTERNALLY":
+		mm := UpdateRootCaManagedExternallyConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA":
 		mm := UpdateSubordinateCaIssuedByInternalCaConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ROOT_CA_GENERATED_INTERNALLY":
 		mm := UpdateRootCaByGeneratingInternallyConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA":
+		mm := UpdateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

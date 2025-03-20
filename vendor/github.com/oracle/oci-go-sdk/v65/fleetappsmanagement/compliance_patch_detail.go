@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CompliancePatchDetail Details of the Patch
+// CompliancePatchDetail Details of the Patch.
 type CompliancePatchDetail struct {
 
 	// patch Name.

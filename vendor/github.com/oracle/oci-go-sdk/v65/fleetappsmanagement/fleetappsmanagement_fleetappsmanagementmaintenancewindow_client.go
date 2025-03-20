@@ -60,7 +60,7 @@ func newFleetAppsManagementMaintenanceWindowClientFromBaseClient(baseClient comm
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = FleetAppsManagementMaintenanceWindowClient{BaseClient: baseClient}
-	client.BasePath = "20230831"
+	client.BasePath = "20250228"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -141,7 +141,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) createMaintenanceWindow
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/MaintenanceWindow/CreateMaintenanceWindow"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/CreateMaintenanceWindow"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "CreateMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) deleteMaintenanceWindow
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/MaintenanceWindow/DeleteMaintenanceWindow"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/DeleteMaintenanceWindow"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "DeleteMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) getMaintenanceWindow(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/MaintenanceWindow/GetMaintenanceWindow"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/GetMaintenanceWindow"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "GetMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
@@ -258,7 +258,8 @@ func (client FleetAppsManagementMaintenanceWindowClient) getMaintenanceWindow(ct
 	return response, err
 }
 
-// ListMaintenanceWindows List maintenance windows for a specified tenancy in Fleet Application Management.
+// ListMaintenanceWindows Returns a list of all the Maintenance Windows in the specified compartment.
+// The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 // A default retry strategy applies to this operation ListMaintenanceWindows()
 func (client FleetAppsManagementMaintenanceWindowClient) ListMaintenanceWindows(ctx context.Context, request ListMaintenanceWindowsRequest) (response ListMaintenanceWindowsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -303,7 +304,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) listMaintenanceWindows(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/MaintenanceWindowCollection/ListMaintenanceWindows"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindowCollection/ListMaintenanceWindows"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "ListMaintenanceWindows", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +358,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) updateMaintenanceWindow
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/MaintenanceWindow/UpdateMaintenanceWindow"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/UpdateMaintenanceWindow"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "UpdateMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}

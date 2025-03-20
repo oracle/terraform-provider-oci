@@ -10,6 +10,7 @@
 package fleetappsmanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -27,13 +28,18 @@ type UpdateFleetDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	NotificationPreferences *NotificationPreferences `mandatory:"false" json:"notificationPreferences"`
-
-	RuleSelectionCriteria *SelectionCriteria `mandatory:"false" json:"ruleSelectionCriteria"`
+	// Notification Preferences associated with the Fleet.
+	// An UPDATE operation replaces the existing notification preferences list entirely
+	NotificationPreferences []NotificationPreference `mandatory:"false" json:"notificationPreferences"`
 
 	// A value that represents if auto-confirming of the targets can be enabled.
 	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
+
+	ResourceSelection ResourceSelection `mandatory:"false" json:"resourceSelection"`
+
+	// Products associated with the Fleet.
+	Products []string `mandatory:"false" json:"products"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -58,4 +64,49 @@ func (m UpdateFleetDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateFleetDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName             *string                           `json:"displayName"`
+		Description             *string                           `json:"description"`
+		NotificationPreferences []NotificationPreference          `json:"notificationPreferences"`
+		IsTargetAutoConfirm     *bool                             `json:"isTargetAutoConfirm"`
+		ResourceSelection       resourceselection                 `json:"resourceSelection"`
+		Products                []string                          `json:"products"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.NotificationPreferences = make([]NotificationPreference, len(model.NotificationPreferences))
+	copy(m.NotificationPreferences, model.NotificationPreferences)
+	m.IsTargetAutoConfirm = model.IsTargetAutoConfirm
+
+	nn, e = model.ResourceSelection.UnmarshalPolymorphicJSON(model.ResourceSelection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResourceSelection = nn.(ResourceSelection)
+	} else {
+		m.ResourceSelection = nil
+	}
+
+	m.Products = make([]string, len(model.Products))
+	copy(m.Products, model.Products)
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

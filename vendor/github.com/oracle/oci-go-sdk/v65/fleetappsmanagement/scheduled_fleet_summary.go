@@ -21,13 +21,13 @@ type ScheduledFleetSummary struct {
 	// The OCID of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
+	// The OCID of the resource.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
-
-	// OCID of the tenancy to which the resource belongs to.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
 	// Count of Resources affected by the Schedule
 	CountOfAffectedResources *int `mandatory:"false" json:"countOfAffectedResources"`
@@ -35,11 +35,8 @@ type ScheduledFleetSummary struct {
 	// Count of Targets affected by the Schedule
 	CountOfAffectedTargets *int `mandatory:"false" json:"countOfAffectedTargets"`
 
-	// All ActionGroup Types part of the schedule.
-	ActionGroupTypes []LifeCycleActionGroupTypeEnum `mandatory:"false" json:"actionGroupTypes,omitempty"`
-
-	// All application types part of the schedule.
-	ApplicationTypes []string `mandatory:"false" json:"applicationTypes"`
+	// All products part of the schedule.
+	Products []string `mandatory:"false" json:"products"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -55,12 +52,6 @@ func (m ScheduledFleetSummary) String() string {
 // Not recommended for calling this function directly
 func (m ScheduledFleetSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
-	for _, val := range m.ActionGroupTypes {
-		if _, ok := GetMappingLifeCycleActionGroupTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionGroupTypes: %s. Supported values are: %s.", val, strings.Join(GetLifeCycleActionGroupTypeEnumStringValues(), ",")))
-		}
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

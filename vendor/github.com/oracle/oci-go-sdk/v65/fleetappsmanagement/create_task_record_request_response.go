@@ -14,7 +14,7 @@ import (
 // CreateTaskRecordRequest wrapper for the CreateTaskRecord operation
 type CreateTaskRecordRequest struct {
 
-	// Details for the new TaskRecord.
+	// Attributes to create a task record.
 	CreateTaskRecordDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

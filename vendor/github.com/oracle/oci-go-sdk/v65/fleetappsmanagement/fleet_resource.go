@@ -56,6 +56,9 @@ type FleetResource struct {
 	// Compliance State of the Resource.
 	ComplianceState ComplianceStateEnum `mandatory:"false" json:"complianceState,omitempty"`
 
+	// The compliance percentage.
+	PercentCompliant *float32 `mandatory:"false" json:"percentCompliant"`
+
 	// Resource Tenancy Name.
 	TenancyName *string `mandatory:"false" json:"tenancyName"`
 
@@ -68,10 +71,6 @@ type FleetResource struct {
 	// Product associated with the resource when the resource type is fleet.
 	// Will only be returned for PRODUCT fleets that are part of a GROUP Fleet.
 	Product *string `mandatory:"false" json:"product"`
-
-	// Application Type associated with the resource when the resource type is fleet.
-	// Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.
-	ApplicationType *string `mandatory:"false" json:"applicationType"`
 
 	// Environment Type associated with the Fleet when the resource type is fleet.
 	// Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.

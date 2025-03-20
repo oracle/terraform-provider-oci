@@ -47,8 +47,6 @@ type AgentSummary struct {
 	// Details about purpose and responsibility of the agent
 	WelcomeMessage *string `mandatory:"false" json:"welcomeMessage"`
 
-	GenerationLlmCustomization *LlmCustomization `mandatory:"false" json:"generationLlmCustomization"`
-
 	LlmConfig *LlmConfig `mandatory:"false" json:"llmConfig"`
 
 	// The date and time the agent was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).

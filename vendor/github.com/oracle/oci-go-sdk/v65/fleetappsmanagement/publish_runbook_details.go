@@ -20,6 +20,9 @@ type PublishRunbookDetails struct {
 
 	// The OCID of the resource.
 	RunbookId *string `mandatory:"true" json:"runbookId"`
+
+	// The OCID of the resource.
+	RunbookVersionId *string `mandatory:"true" json:"runbookVersionId"`
 }
 
 func (m PublishRunbookDetails) String() string {

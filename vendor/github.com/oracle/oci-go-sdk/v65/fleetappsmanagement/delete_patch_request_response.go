@@ -14,7 +14,7 @@ import (
 // DeletePatchRequest wrapper for the DeletePatch operation
 type DeletePatchRequest struct {
 
-	// unique Patch identifier
+	// Unique Patch identifier.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

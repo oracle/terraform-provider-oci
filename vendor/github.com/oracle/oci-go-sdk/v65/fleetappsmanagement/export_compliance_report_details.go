@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ExportComplianceReportDetails Details for generating Compliance Report
+// ExportComplianceReportDetails Details for generating Compliance Report.
 type ExportComplianceReportDetails struct {
 
 	// The OCID of the compartment.

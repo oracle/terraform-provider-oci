@@ -14,7 +14,7 @@ import (
 // DeleteTaskRecordRequest wrapper for the DeleteTaskRecord operation
 type DeleteTaskRecordRequest struct {
 
-	// unique TaskDetail identifier
+	// The OCID of the task record.
 	TaskRecordId *string `mandatory:"true" contributesTo:"path" name:"taskRecordId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

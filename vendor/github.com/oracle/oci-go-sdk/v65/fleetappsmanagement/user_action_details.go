@@ -101,16 +101,22 @@ type UserActionDetailsActionEnum string
 const (
 	UserActionDetailsActionRetry  UserActionDetailsActionEnum = "RETRY"
 	UserActionDetailsActionResume UserActionDetailsActionEnum = "RESUME"
+	UserActionDetailsActionIgnore UserActionDetailsActionEnum = "IGNORE"
+	UserActionDetailsActionAbort  UserActionDetailsActionEnum = "ABORT"
 )
 
 var mappingUserActionDetailsActionEnum = map[string]UserActionDetailsActionEnum{
 	"RETRY":  UserActionDetailsActionRetry,
 	"RESUME": UserActionDetailsActionResume,
+	"IGNORE": UserActionDetailsActionIgnore,
+	"ABORT":  UserActionDetailsActionAbort,
 }
 
 var mappingUserActionDetailsActionEnumLowerCase = map[string]UserActionDetailsActionEnum{
 	"retry":  UserActionDetailsActionRetry,
 	"resume": UserActionDetailsActionResume,
+	"ignore": UserActionDetailsActionIgnore,
+	"abort":  UserActionDetailsActionAbort,
 }
 
 // GetUserActionDetailsActionEnumValues Enumerates the set of values for UserActionDetailsActionEnum
@@ -127,6 +133,8 @@ func GetUserActionDetailsActionEnumStringValues() []string {
 	return []string{
 		"RETRY",
 		"RESUME",
+		"IGNORE",
+		"ABORT",
 	}
 }
 

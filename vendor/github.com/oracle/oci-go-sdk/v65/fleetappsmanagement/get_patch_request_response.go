@@ -14,7 +14,7 @@ import (
 // GetPatchRequest wrapper for the GetPatch operation
 type GetPatchRequest struct {
 
-	// unique Patch identifier
+	// Unique Patch identifier.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// The client request ID for tracing.

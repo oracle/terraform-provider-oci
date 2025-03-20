@@ -14,6 +14,9 @@ import (
 // ListOnboardingPoliciesRequest wrapper for the ListOnboardingPolicies operation
 type ListOnboardingPoliciesRequest struct {
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

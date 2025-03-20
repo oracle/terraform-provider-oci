@@ -18,7 +18,7 @@ import (
 
 // GenericArtifact Patch artifact metadata Details which is common for all platforms.
 type GenericArtifact struct {
-	Content ContentDetails `mandatory:"true" json:"content"`
+	Content PatchFileContentDetails `mandatory:"true" json:"content"`
 }
 
 func (m GenericArtifact) String() string {
@@ -40,7 +40,7 @@ func (m GenericArtifact) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *GenericArtifact) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Content contentdetails `json:"content"`
+		Content patchfilecontentdetails `json:"content"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -53,7 +53,7 @@ func (m *GenericArtifact) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	if nn != nil {
-		m.Content = nn.(ContentDetails)
+		m.Content = nn.(PatchFileContentDetails)
 	} else {
 		m.Content = nil
 	}

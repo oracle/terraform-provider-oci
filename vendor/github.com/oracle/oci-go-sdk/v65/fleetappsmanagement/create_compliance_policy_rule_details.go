@@ -24,18 +24,15 @@ type CreateCompliancePolicyRuleDetails struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// Unique OCID of the CompliancePolicy this CompliancePolicyRule belongs to.
+	CompliancePolicyId *string `mandatory:"true" json:"compliancePolicyId"`
+
 	ProductVersion *ProductVersionDetails `mandatory:"true" json:"productVersion"`
 
 	// PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
-	PatchType []string `mandatory:"true" json:"patchType"`
+	PatchTypeId []string `mandatory:"true" json:"patchTypeId"`
 
 	PatchSelection PatchSelectionDetails `mandatory:"true" json:"patchSelection"`
-
-	// The OCID of the compartment the CompliancePolicyRule belongs to.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// Unique OCID of the CompliancePolicy this CompliancePolicyRule belongs to.
-	CompliancePolicyId *string `mandatory:"false" json:"compliancePolicyId"`
 
 	// Severity to which this CompliancePolicyRule applies.
 	Severity []ComplianceRuleSeverityEnum `mandatory:"false" json:"severity,omitempty"`
@@ -78,16 +75,15 @@ func (m CreateCompliancePolicyRuleDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateCompliancePolicyRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CompliancePolicyId *string                           `json:"compliancePolicyId"`
 		Severity           []ComplianceRuleSeverityEnum      `json:"severity"`
 		GracePeriod        *string                           `json:"gracePeriod"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName        *string                           `json:"displayName"`
+		CompliancePolicyId *string                           `json:"compliancePolicyId"`
 		ProductVersion     *ProductVersionDetails            `json:"productVersion"`
-		PatchType          []string                          `json:"patchType"`
+		PatchTypeId        []string                          `json:"patchTypeId"`
 		PatchSelection     patchselectiondetails             `json:"patchSelection"`
-		CompartmentId      *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -95,8 +91,6 @@ func (m *CreateCompliancePolicyRuleDetails) UnmarshalJSON(data []byte) (e error)
 		return
 	}
 	var nn interface{}
-	m.CompliancePolicyId = model.CompliancePolicyId
-
 	m.Severity = make([]ComplianceRuleSeverityEnum, len(model.Severity))
 	copy(m.Severity, model.Severity)
 	m.GracePeriod = model.GracePeriod
@@ -107,10 +101,12 @@ func (m *CreateCompliancePolicyRuleDetails) UnmarshalJSON(data []byte) (e error)
 
 	m.DisplayName = model.DisplayName
 
+	m.CompliancePolicyId = model.CompliancePolicyId
+
 	m.ProductVersion = model.ProductVersion
 
-	m.PatchType = make([]string, len(model.PatchType))
-	copy(m.PatchType, model.PatchType)
+	m.PatchTypeId = make([]string, len(model.PatchTypeId))
+	copy(m.PatchTypeId, model.PatchTypeId)
 	nn, e = model.PatchSelection.UnmarshalPolymorphicJSON(model.PatchSelection.JsonData)
 	if e != nil {
 		return
@@ -120,8 +116,6 @@ func (m *CreateCompliancePolicyRuleDetails) UnmarshalJSON(data []byte) (e error)
 	} else {
 		m.PatchSelection = nil
 	}
-
-	m.CompartmentId = model.CompartmentId
 
 	return
 }

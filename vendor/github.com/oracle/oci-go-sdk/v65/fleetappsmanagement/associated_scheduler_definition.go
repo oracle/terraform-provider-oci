@@ -26,9 +26,6 @@ type AssociatedSchedulerDefinition struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// OCID of the tenancy to which the resource belongs to.
-	TenancyId *string `mandatory:"true" json:"tenancyId"`
-
 	// Is this a recurring schedule?
 	IsRecurring *bool `mandatory:"true" json:"isRecurring"`
 }

@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// TaskRecordCollection Results of a taskRecord search. Contains boh TaskRecordSummary items and other information, such as metadata.
+// TaskRecordCollection Results of a task record search. Contains boh TaskRecordSummary items and other information, such as metadata.
 type TaskRecordCollection struct {
 
-	// List of taskRecords.
+	// List of task records.
 	Items []TaskRecordSummary `mandatory:"true" json:"items"`
 }
 

@@ -18,18 +18,21 @@ type TaskExecutionTypeEnum string
 
 // Set of constants representing the allowable values for TaskExecutionTypeEnum
 const (
-	TaskExecutionTypeScript TaskExecutionTypeEnum = "SCRIPT"
-	TaskExecutionTypeApi    TaskExecutionTypeEnum = "API"
+	TaskExecutionTypeScript    TaskExecutionTypeEnum = "SCRIPT"
+	TaskExecutionTypeApi       TaskExecutionTypeEnum = "API"
+	TaskExecutionTypeTerraform TaskExecutionTypeEnum = "TERRAFORM"
 )
 
 var mappingTaskExecutionTypeEnum = map[string]TaskExecutionTypeEnum{
-	"SCRIPT": TaskExecutionTypeScript,
-	"API":    TaskExecutionTypeApi,
+	"SCRIPT":    TaskExecutionTypeScript,
+	"API":       TaskExecutionTypeApi,
+	"TERRAFORM": TaskExecutionTypeTerraform,
 }
 
 var mappingTaskExecutionTypeEnumLowerCase = map[string]TaskExecutionTypeEnum{
-	"script": TaskExecutionTypeScript,
-	"api":    TaskExecutionTypeApi,
+	"script":    TaskExecutionTypeScript,
+	"api":       TaskExecutionTypeApi,
+	"terraform": TaskExecutionTypeTerraform,
 }
 
 // GetTaskExecutionTypeEnumValues Enumerates the set of values for TaskExecutionTypeEnum
@@ -46,6 +49,7 @@ func GetTaskExecutionTypeEnumStringValues() []string {
 	return []string{
 		"SCRIPT",
 		"API",
+		"TERRAFORM",
 	}
 }
 

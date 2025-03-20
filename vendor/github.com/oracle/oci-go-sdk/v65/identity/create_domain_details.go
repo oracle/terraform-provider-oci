@@ -57,6 +57,9 @@ type CreateDomainDetails struct {
 	// Optional field to indicate whether users in the identity domain are required to have a primary email address or not. The default is true.
 	IsPrimaryEmailRequired *bool `mandatory:"false" json:"isPrimaryEmailRequired"`
 
+	// The fa pod base url of the identity domain.
+	FaPodBaseUrl *string `mandatory:"false" json:"faPodBaseUrl"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

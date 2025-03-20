@@ -14,7 +14,7 @@ import (
 // UpdatePatchRequest wrapper for the UpdatePatch operation
 type UpdatePatchRequest struct {
 
-	// unique Patch identifier
+	// Unique Patch identifier.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// The information to be updated.

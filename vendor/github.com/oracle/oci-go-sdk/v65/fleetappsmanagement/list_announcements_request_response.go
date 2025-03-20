@@ -14,6 +14,9 @@ import (
 // ListAnnouncementsRequest wrapper for the ListAnnouncements operation
 type ListAnnouncementsRequest struct {
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Filter the list of announcements that contains the given summary value.
 	SummaryContains *string `mandatory:"false" contributesTo:"query" name:"summaryContains"`
 

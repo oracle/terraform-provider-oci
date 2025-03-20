@@ -35,7 +35,7 @@ type CreateCertificateIssuedByPublicCaConfigDetails struct {
 	PublicCertificateAuthority PublicCertificateAuthorityEnum `mandatory:"false" json:"publicCertificateAuthority,omitempty"`
 
 	// The algorithm to use to create key pairs.
-	KeyAlgorithm KeyAlgorithmEnum `mandatory:"true" json:"keyAlgorithm"`
+	KeyAlgorithm KeyAlgorithmEnum `mandatory:"false" json:"keyAlgorithm,omitempty"`
 }
 
 // GetVersionName returns VersionName

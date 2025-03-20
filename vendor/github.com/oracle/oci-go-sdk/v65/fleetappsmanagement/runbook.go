@@ -30,17 +30,8 @@ type Runbook struct {
 	// The type of the runbook.
 	Type RunbookTypeEnum `mandatory:"true" json:"type"`
 
-	// Relevance of the runbook.
-	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"true" json:"runbookRelevance"`
-
 	// The lifecycle operation performed by the runbook.
 	Operation *string `mandatory:"true" json:"operation"`
-
-	// The OS type for the runbook.
-	OsType OsTypeEnum `mandatory:"true" json:"osType"`
-
-	// The platform of the runbook.
-	Platform *string `mandatory:"true" json:"platform"`
 
 	// Is the runbook default?
 	// Sets this runbook as the default for the chosen product/product stack for the specified lifecycle operation.
@@ -62,13 +53,28 @@ type Runbook struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OS type for the runbook.
+	OsType OsTypeEnum `mandatory:"false" json:"osType,omitempty"`
+
+	// The platform of the runbook.
+	Platform *string `mandatory:"false" json:"platform"`
+
+	// Does this runbook need SUDO access to execute?
+	IsSudoAccessNeeded *bool `mandatory:"false" json:"isSudoAccessNeeded"`
+
 	// Estimated time to successfully complete the runbook execution.
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
+
+	// Latest runbook version
+	LatestVersion *string `mandatory:"false" json:"latestVersion"`
+
+	// Does this runbook has draft versions?
+	HasDraftVersion *bool `mandatory:"false" json:"hasDraftVersion"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	Associations *Associations `mandatory:"false" json:"associations"`
+	RunbookVersion *Version `mandatory:"false" json:"runbookVersion"`
 
 	// Associated region
 	ResourceRegion *string `mandatory:"false" json:"resourceRegion"`
@@ -98,16 +104,13 @@ func (m Runbook) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingRunbookTypeEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetRunbookTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingRunbookRunbookRelevanceEnum(string(m.RunbookRelevance)); !ok && m.RunbookRelevance != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunbookRelevance: %s. Supported values are: %s.", m.RunbookRelevance, strings.Join(GetRunbookRunbookRelevanceEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingRunbookLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRunbookLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -157,48 +160,6 @@ func GetRunbookTypeEnumStringValues() []string {
 // GetMappingRunbookTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingRunbookTypeEnum(val string) (RunbookTypeEnum, bool) {
 	enum, ok := mappingRunbookTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// RunbookRunbookRelevanceEnum Enum with underlying type: string
-type RunbookRunbookRelevanceEnum string
-
-// Set of constants representing the allowable values for RunbookRunbookRelevanceEnum
-const (
-	RunbookRunbookRelevanceProductGroup RunbookRunbookRelevanceEnum = "PRODUCT_GROUP"
-	RunbookRunbookRelevanceProduct      RunbookRunbookRelevanceEnum = "PRODUCT"
-)
-
-var mappingRunbookRunbookRelevanceEnum = map[string]RunbookRunbookRelevanceEnum{
-	"PRODUCT_GROUP": RunbookRunbookRelevanceProductGroup,
-	"PRODUCT":       RunbookRunbookRelevanceProduct,
-}
-
-var mappingRunbookRunbookRelevanceEnumLowerCase = map[string]RunbookRunbookRelevanceEnum{
-	"product_group": RunbookRunbookRelevanceProductGroup,
-	"product":       RunbookRunbookRelevanceProduct,
-}
-
-// GetRunbookRunbookRelevanceEnumValues Enumerates the set of values for RunbookRunbookRelevanceEnum
-func GetRunbookRunbookRelevanceEnumValues() []RunbookRunbookRelevanceEnum {
-	values := make([]RunbookRunbookRelevanceEnum, 0)
-	for _, v := range mappingRunbookRunbookRelevanceEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetRunbookRunbookRelevanceEnumStringValues Enumerates the set of values in String for RunbookRunbookRelevanceEnum
-func GetRunbookRunbookRelevanceEnumStringValues() []string {
-	return []string{
-		"PRODUCT_GROUP",
-		"PRODUCT",
-	}
-}
-
-// GetMappingRunbookRunbookRelevanceEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingRunbookRunbookRelevanceEnum(val string) (RunbookRunbookRelevanceEnum, bool) {
-	enum, ok := mappingRunbookRunbookRelevanceEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -28,6 +28,12 @@ type ScriptBasedExecutionDetails struct {
 
 	// Credentials required for executing the task.
 	Credentials []ConfigAssociationDetails `mandatory:"false" json:"credentials"`
+
+	// Is the script locked to prevent changes directly in Object Storage?
+	IsLocked *bool `mandatory:"false" json:"isLocked"`
+
+	// Is the Content an executable file?
+	IsExecutableContent *bool `mandatory:"false" json:"isExecutableContent"`
 }
 
 func (m ScriptBasedExecutionDetails) String() string {
@@ -63,10 +69,12 @@ func (m ScriptBasedExecutionDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Variables   *TaskVariable              `json:"variables"`
-		Content     contentdetails             `json:"content"`
-		Command     *string                    `json:"command"`
-		Credentials []ConfigAssociationDetails `json:"credentials"`
+		Variables           *TaskVariable              `json:"variables"`
+		Content             contentdetails             `json:"content"`
+		Command             *string                    `json:"command"`
+		Credentials         []ConfigAssociationDetails `json:"credentials"`
+		IsLocked            *bool                      `json:"isLocked"`
+		IsExecutableContent *bool                      `json:"isExecutableContent"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -90,5 +98,9 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.Credentials = make([]ConfigAssociationDetails, len(model.Credentials))
 	copy(m.Credentials, model.Credentials)
+	m.IsLocked = model.IsLocked
+
+	m.IsExecutableContent = model.IsExecutableContent
+
 	return
 }

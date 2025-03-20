@@ -34,6 +34,9 @@ type JobActivity struct {
 	// OCID of the runbook associated with the Action Group.
 	RunbookId *string `mandatory:"false" json:"runbookId"`
 
+	// Name of the RunbookVersion associated with the Action Group.
+	RunbookVersionName *string `mandatory:"false" json:"runbookVersionName"`
+
 	// Name of the runbook associated with the Action Group.
 	RunbookName *string `mandatory:"false" json:"runbookName"`
 

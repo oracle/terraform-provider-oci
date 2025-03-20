@@ -27,10 +27,10 @@ type UpdateRunbookDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Type of runbook structure.
-	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"false" json:"runbookRelevance,omitempty"`
+	// Does this runbook need SUDO access to execute?
+	IsSudoAccessNeeded *bool `mandatory:"false" json:"isSudoAccessNeeded"`
 
-	// The lifecycle operation performed by the task.
+	// The lifecycle operation performed by the runbook.
 	Operation *string `mandatory:"false" json:"operation"`
 
 	// The OS type for the runbook.
@@ -42,10 +42,8 @@ type UpdateRunbookDetails struct {
 	// Is the runbook default?
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
-	// Estimated time to successfully complete the runbook execution
+	// Estimated time to successfully complete the runbook execution.
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
-
-	Associations *Associations `mandatory:"false" json:"associations"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -66,9 +64,6 @@ func (m UpdateRunbookDetails) String() string {
 func (m UpdateRunbookDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingRunbookRunbookRelevanceEnum(string(m.RunbookRelevance)); !ok && m.RunbookRelevance != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunbookRelevance: %s. Supported values are: %s.", m.RunbookRelevance, strings.Join(GetRunbookRunbookRelevanceEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
 	}

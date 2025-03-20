@@ -18,18 +18,27 @@ type CertificateAuthorityConfigTypeEnum string
 
 // Set of constants representing the allowable values for CertificateAuthorityConfigTypeEnum
 const (
-	CertificateAuthorityConfigTypeRootCaGeneratedInternally       CertificateAuthorityConfigTypeEnum = "ROOT_CA_GENERATED_INTERNALLY"
-	CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa CertificateAuthorityConfigTypeEnum = "SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA"
+	CertificateAuthorityConfigTypeRootCaGeneratedInternally                        CertificateAuthorityConfigTypeEnum = "ROOT_CA_GENERATED_INTERNALLY"
+	CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa                  CertificateAuthorityConfigTypeEnum = "SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA"
+	CertificateAuthorityConfigTypeRootCaManagedExternally                          CertificateAuthorityConfigTypeEnum = "ROOT_CA_MANAGED_EXTERNALLY"
+	CertificateAuthorityConfigTypeSubordinateCaManagedInternallyIssuedByExternalCa CertificateAuthorityConfigTypeEnum = "SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA"
+	CertificateAuthorityConfigTypeSubordinateCaManagedExternallyIssuedByInternalCa CertificateAuthorityConfigTypeEnum = "SUBORDINATE_CA_MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA"
 )
 
 var mappingCertificateAuthorityConfigTypeEnum = map[string]CertificateAuthorityConfigTypeEnum{
-	"ROOT_CA_GENERATED_INTERNALLY":         CertificateAuthorityConfigTypeRootCaGeneratedInternally,
-	"SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA": CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa,
+	"ROOT_CA_GENERATED_INTERNALLY":                            CertificateAuthorityConfigTypeRootCaGeneratedInternally,
+	"SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA":                    CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa,
+	"ROOT_CA_MANAGED_EXTERNALLY":                              CertificateAuthorityConfigTypeRootCaManagedExternally,
+	"SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA": CertificateAuthorityConfigTypeSubordinateCaManagedInternallyIssuedByExternalCa,
+	"SUBORDINATE_CA_MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA": CertificateAuthorityConfigTypeSubordinateCaManagedExternallyIssuedByInternalCa,
 }
 
 var mappingCertificateAuthorityConfigTypeEnumLowerCase = map[string]CertificateAuthorityConfigTypeEnum{
-	"root_ca_generated_internally":         CertificateAuthorityConfigTypeRootCaGeneratedInternally,
-	"subordinate_ca_issued_by_internal_ca": CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa,
+	"root_ca_generated_internally":                            CertificateAuthorityConfigTypeRootCaGeneratedInternally,
+	"subordinate_ca_issued_by_internal_ca":                    CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa,
+	"root_ca_managed_externally":                              CertificateAuthorityConfigTypeRootCaManagedExternally,
+	"subordinate_ca_managed_internally_issued_by_external_ca": CertificateAuthorityConfigTypeSubordinateCaManagedInternallyIssuedByExternalCa,
+	"subordinate_ca_managed_externally_issued_by_internal_ca": CertificateAuthorityConfigTypeSubordinateCaManagedExternallyIssuedByInternalCa,
 }
 
 // GetCertificateAuthorityConfigTypeEnumValues Enumerates the set of values for CertificateAuthorityConfigTypeEnum
@@ -46,6 +55,9 @@ func GetCertificateAuthorityConfigTypeEnumStringValues() []string {
 	return []string{
 		"ROOT_CA_GENERATED_INTERNALLY",
 		"SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA",
+		"ROOT_CA_MANAGED_EXTERNALLY",
+		"SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA",
+		"SUBORDINATE_CA_MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA",
 	}
 }
 

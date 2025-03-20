@@ -29,6 +29,9 @@ type UpdateCertificateAuthorityDetails struct {
 
 	CertificateRevocationListDetails *CertificateRevocationListDetails `mandatory:"false" json:"certificateRevocationListDetails"`
 
+	// Description of the externally managed key.
+	ExternalKeyDescription *string `mandatory:"false" json:"externalKeyDescription"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -64,6 +67,7 @@ func (m *UpdateCertificateAuthorityDetails) UnmarshalJSON(data []byte) (e error)
 		CurrentVersionNumber             *int64                                  `json:"currentVersionNumber"`
 		CertificateAuthorityConfig       updatecertificateauthorityconfigdetails `json:"certificateAuthorityConfig"`
 		CertificateRevocationListDetails *CertificateRevocationListDetails       `json:"certificateRevocationListDetails"`
+		ExternalKeyDescription           *string                                 `json:"externalKeyDescription"`
 		FreeformTags                     map[string]string                       `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{}       `json:"definedTags"`
 		CertificateAuthorityRules        []certificateauthorityrule              `json:"certificateAuthorityRules"`
@@ -89,6 +93,8 @@ func (m *UpdateCertificateAuthorityDetails) UnmarshalJSON(data []byte) (e error)
 	}
 
 	m.CertificateRevocationListDetails = model.CertificateRevocationListDetails
+
+	m.ExternalKeyDescription = model.ExternalKeyDescription
 
 	m.FreeformTags = model.FreeformTags
 

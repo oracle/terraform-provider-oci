@@ -21,7 +21,7 @@ type BulkUpdateAttributeDetail struct {
 	// Name of the attribute for which notes are to be updated.
 	AttributeName *string `mandatory:"true" json:"attributeName"`
 
-	// Unit of the attribute to be updated.
+	// Unit of the attribute to be updated.  If unit is not specified, it defaults to NONE.
 	Unit BulkUpdateAttributeDetailUnitEnum `mandatory:"false" json:"unit,omitempty"`
 
 	// Namespace of the attribute for which the properties are to be updated.

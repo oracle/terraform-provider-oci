@@ -27,6 +27,9 @@ type ComplianceReport struct {
 	// The last known compliance state of the fleet.
 	ComplianceState ComplianceStateEnum `mandatory:"true" json:"complianceState"`
 
+	// The compliance percentage.
+	PercentCompliant *float32 `mandatory:"false" json:"percentCompliant"`
+
 	// Resources associated with the Fleet.
 	Resources []ComplianceReportResource `mandatory:"false" json:"resources"`
 }

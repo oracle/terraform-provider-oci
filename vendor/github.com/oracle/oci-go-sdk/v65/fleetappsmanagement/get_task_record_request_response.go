@@ -14,7 +14,7 @@ import (
 // GetTaskRecordRequest wrapper for the GetTaskRecord operation
 type GetTaskRecordRequest struct {
 
-	// unique TaskDetail identifier
+	// The OCID of the task record.
 	TaskRecordId *string `mandatory:"true" contributesTo:"path" name:"taskRecordId"`
 
 	// The client request ID for tracing.

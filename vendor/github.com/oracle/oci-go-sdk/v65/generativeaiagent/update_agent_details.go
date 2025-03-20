@@ -34,8 +34,6 @@ type UpdateAgentDetails struct {
 	// Details about purpose and responsibility of the agent
 	WelcomeMessage *string `mandatory:"false" json:"welcomeMessage"`
 
-	GenerationLlmCustomization *LlmCustomization `mandatory:"false" json:"generationLlmCustomization"`
-
 	LlmConfig *LlmConfig `mandatory:"false" json:"llmConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

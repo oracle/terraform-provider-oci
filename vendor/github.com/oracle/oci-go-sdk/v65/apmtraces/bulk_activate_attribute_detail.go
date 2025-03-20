@@ -25,7 +25,7 @@ type BulkActivateAttributeDetail struct {
 	// Type of the attribute to be activated.
 	AttributeType BulkActivateAttributeDetailAttributeTypeEnum `mandatory:"true" json:"attributeType"`
 
-	// Unit of the attribute to be updated.
+	// Unit of the attribute to be updated.  If unit is not specified, it defaults to NONE.
 	Unit BulkActivateAttributeDetailUnitEnum `mandatory:"false" json:"unit,omitempty"`
 
 	// Namespace of the attribute to be activated.  The attributeNameSpace will default to TRACES if it is
