@@ -105,10 +105,10 @@ func (s *FleetAppsManagementFleetResourcesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_fleet_apps_management.FleetResourceLifecycleStateEnum(state.(string))
 	}
 
-	if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
-		tmp := tenancyId.(string)
-		request.TenancyId = &tmp
-	}
+	//if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
+	//	tmp := tenancyId.(string)
+	//	request.TenancyId = &tmp
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
@@ -143,10 +143,10 @@ func (s *FleetAppsManagementFleetResourcesDataSourceCrud) SetData() error {
 	fleetResource := map[string]interface{}{}
 
 	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, FleetResourceSummaryToMap(item))
-	}
-	fleetResource["items"] = items
+	//for _, item := range s.Res.Items {
+	//	items = append(items, FleetResourceSummaryToMap(item))
+	//}
+	//fleetResource["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementFleetResourcesDataSource().Schema["fleet_resource_collection"].Elem.(*schema.Resource).Schema)

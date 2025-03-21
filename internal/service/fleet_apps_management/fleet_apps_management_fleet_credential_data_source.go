@@ -85,29 +85,29 @@ func (s *FleetAppsManagementFleetCredentialDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	if s.Res.EntitySpecifics != nil {
-		entitySpecificsArray := []interface{}{}
-		if entitySpecificsMap := CredentialEntitySpecificDetailsToMap(&s.Res.EntitySpecifics); entitySpecificsMap != nil {
-			entitySpecificsArray = append(entitySpecificsArray, entitySpecificsMap)
-		}
-		s.D.Set("entity_specifics", entitySpecificsArray)
-	} else {
-		s.D.Set("entity_specifics", nil)
-	}
+	//if s.Res.EntitySpecifics != nil {
+	//	entitySpecificsArray := []interface{}{}
+	//	if entitySpecificsMap := CredentialEntitySpecificDetailsToMap(&s.Res.EntitySpecifics); entitySpecificsMap != nil {
+	//		entitySpecificsArray = append(entitySpecificsArray, entitySpecificsMap)
+	//	}
+	//	s.D.Set("entity_specifics", entitySpecificsArray)
+	//} else {
+	//	s.D.Set("entity_specifics", nil)
+	//}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	if s.Res.Password != nil {
-		passwordArray := []interface{}{}
-		if passwordMap := CredentialDetailsToMap(&s.Res.Password); passwordMap != nil {
-			passwordArray = append(passwordArray, passwordMap)
-		}
-		s.D.Set("password", passwordArray)
-	} else {
-		s.D.Set("password", nil)
-	}
+	//if s.Res.Password != nil {
+	//	passwordArray := []interface{}{}
+	//	if passwordMap := CredentialDetailsToMap(&s.Res.Password); passwordMap != nil {
+	//		passwordArray = append(passwordArray, passwordMap)
+	//	}
+	//	s.D.Set("password", passwordArray)
+	//} else {
+	//	s.D.Set("password", nil)
+	//}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -123,15 +123,15 @@ func (s *FleetAppsManagementFleetCredentialDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	if s.Res.User != nil {
-		userArray := []interface{}{}
-		if userMap := CredentialDetailsToMap(&s.Res.User); userMap != nil {
-			userArray = append(userArray, userMap)
-		}
-		s.D.Set("user", userArray)
-	} else {
-		s.D.Set("user", nil)
-	}
+	//if s.Res.User != nil {
+	//	userArray := []interface{}{}
+	//	if userMap := CredentialDetailsToMap(&s.Res.User); userMap != nil {
+	//		userArray = append(userArray, userMap)
+	//	}
+	//	s.D.Set("user", userArray)
+	//} else {
+	//	s.D.Set("user", nil)
+	//}
 
 	return nil
 }

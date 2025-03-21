@@ -119,11 +119,11 @@ func (s *FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSourceCrud) Vo
 
 func (s *FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSourceCrud) Get() error {
 	request := oci_fleet_apps_management.ListScheduledFleetsRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
+	//
+	//if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	//	tmp := compartmentId.(string)
+	//	request.CompartmentId = &tmp
+	//}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
@@ -189,9 +189,9 @@ func (s *FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSourceCrud) Se
 func ScheduledFleetSummaryToMap(obj oci_fleet_apps_management.ScheduledFleetSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["action_group_types"] = obj.ActionGroupTypes
-
-	result["application_types"] = obj.ApplicationTypes
+	//result["action_group_types"] = obj.ActionGroupTypes
+	//
+	//result["application_types"] = obj.ApplicationTypes
 
 	if obj.CountOfAffectedResources != nil {
 		result["count_of_affected_resources"] = int(*obj.CountOfAffectedResources)
@@ -213,9 +213,9 @@ func ScheduledFleetSummaryToMap(obj oci_fleet_apps_management.ScheduledFleetSumm
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
-	if obj.TenancyId != nil {
-		result["tenancy_id"] = string(*obj.TenancyId)
-	}
+	//if obj.TenancyId != nil {
+	//	result["tenancy_id"] = string(*obj.TenancyId)
+	//}
 
 	return result
 }

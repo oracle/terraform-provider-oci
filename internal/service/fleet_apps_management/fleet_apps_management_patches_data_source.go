@@ -194,16 +194,16 @@ func (s *FleetAppsManagementPatchesDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 	patch := map[string]interface{}{}
 
-	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, PatchSummaryToMap(item))
-	}
-	patch["items"] = items
+	//items := []interface{}{}
+	//for _, item := range s.Res.Items {
+	//	items = append(items, PatchSummaryToMap(item))
+	//}
+	//patch["items"] = items
 
-	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementPatchesDataSource().Schema["patch_collection"].Elem.(*schema.Resource).Schema)
-		patch["items"] = items
-	}
+	//if f, fOk := s.D.GetOkExists("filter"); fOk {
+	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementPatchesDataSource().Schema["patch_collection"].Elem.(*schema.Resource).Schema)
+	//	patch["items"] = items
+	//}
 
 	resources = append(resources, patch)
 	if err := s.D.Set("patch_collection", resources); err != nil {

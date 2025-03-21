@@ -159,10 +159,10 @@ func (s *FleetAppsManagementFleetPropertyResourceCrud) DeletedTarget() []string 
 func (s *FleetAppsManagementFleetPropertyResourceCrud) Create() error {
 	request := oci_fleet_apps_management.CreateFleetPropertyRequest{}
 
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
+	//if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	//	tmp := compartmentId.(string)
+	//	request.CompartmentId = &tmp
+	//}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
 		tmp := fleetId.(string)

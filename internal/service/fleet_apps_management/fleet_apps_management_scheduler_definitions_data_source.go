@@ -156,25 +156,25 @@ func (s *FleetAppsManagementSchedulerDefinitionsDataSourceCrud) SetData() error 
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementSchedulerDefinitionsDataSource-", FleetAppsManagementSchedulerDefinitionsDataSource(), s.D))
-	resources := []map[string]interface{}{}
-	schedulerDefinition := map[string]interface{}{}
+	//s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementSchedulerDefinitionsDataSource-", FleetAppsManagementSchedulerDefinitionsDataSource(), s.D))
+	//resources := []map[string]interface{}{}
+	//schedulerDefinition := map[string]interface{}{}
 
-	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, SchedulerDefinitionSummaryToMap(item))
-	}
-	schedulerDefinition["items"] = items
+	//items := []interface{}{}
+	//for _, item := range s.Res.Items {
+	//	items = append(items, SchedulerDefinitionSummaryToMap(item))
+	//}
+	//schedulerDefinition["items"] = items
 
-	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementSchedulerDefinitionsDataSource().Schema["scheduler_definition_collection"].Elem.(*schema.Resource).Schema)
-		schedulerDefinition["items"] = items
-	}
-
-	resources = append(resources, schedulerDefinition)
-	if err := s.D.Set("scheduler_definition_collection", resources); err != nil {
-		return err
-	}
+	//if f, fOk := s.D.GetOkExists("filter"); fOk {
+	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementSchedulerDefinitionsDataSource().Schema["scheduler_definition_collection"].Elem.(*schema.Resource).Schema)
+	//	schedulerDefinition["items"] = items
+	//}
+	//
+	//resources = append(resources, schedulerDefinition)
+	//if err := s.D.Set("scheduler_definition_collection", resources); err != nil {
+	//	return err
+	//}
 
 	return nil
 }

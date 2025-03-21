@@ -420,13 +420,13 @@ func ComplianceDetailPolicyToMap(obj *oci_fleet_apps_management.ComplianceDetail
 		result["grace_period"] = string(*obj.GracePeriod)
 	}
 
-	if obj.PatchSelection != nil {
-		patchSelectionArray := []interface{}{}
-		if patchSelectionMap := PatchSelectionDetailsToMap(&obj.PatchSelection); patchSelectionMap != nil {
-			patchSelectionArray = append(patchSelectionArray, patchSelectionMap)
-		}
-		result["patch_selection"] = patchSelectionArray
-	}
+	//if obj.PatchSelection != nil {
+	//	patchSelectionArray := []interface{}{}
+	//	if patchSelectionMap := PatchSelectionDetailsToMap(&obj.PatchSelection); patchSelectionMap != nil {
+	//		patchSelectionArray = append(patchSelectionArray, patchSelectionMap)
+	//	}
+	//	result["patch_selection"] = patchSelectionArray
+	//}
 
 	return result
 }

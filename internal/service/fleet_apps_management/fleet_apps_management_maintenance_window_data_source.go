@@ -103,7 +103,7 @@ func (s *FleetAppsManagementMaintenanceWindowDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	s.D.Set("maintenance_window_type", s.Res.MaintenanceWindowType)
+	//s.D.Set("maintenance_window_type", s.Res.MaintenanceWindowType)
 
 	if s.Res.Recurrences != nil {
 		s.D.Set("recurrences", *s.Res.Recurrences)
@@ -119,9 +119,9 @@ func (s *FleetAppsManagementMaintenanceWindowDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
-	if s.Res.TaskInitiationCutoff != nil {
-		s.D.Set("task_initiation_cutoff", *s.Res.TaskInitiationCutoff)
-	}
+	//if s.Res.TaskInitiationCutoff != nil {
+	//	s.D.Set("task_initiation_cutoff", *s.Res.TaskInitiationCutoff)
+	//}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

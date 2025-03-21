@@ -66,11 +66,11 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.Associations != nil {
-		s.D.Set("associations", []interface{}{AssociationsToMap(s.Res.Associations)})
-	} else {
-		s.D.Set("associations", nil)
-	}
+	//if s.Res.Associations != nil {
+	//	s.D.Set("associations", []interface{}{AssociationsToMap(s.Res.Associations)})
+	//} else {
+	//	s.D.Set("associations", nil)
+	//}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -118,7 +118,7 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) SetData() error {
 		s.D.Set("resource_region", *s.Res.ResourceRegion)
 	}
 
-	s.D.Set("runbook_relevance", s.Res.RunbookRelevance)
+	//s.D.Set("runbook_relevance", s.Res.RunbookRelevance)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

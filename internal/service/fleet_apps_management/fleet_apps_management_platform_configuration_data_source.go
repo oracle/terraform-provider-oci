@@ -70,15 +70,15 @@ func (s *FleetAppsManagementPlatformConfigurationDataSourceCrud) SetData() error
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	if s.Res.ConfigCategoryDetails != nil {
-		configCategoryDetailsArray := []interface{}{}
-		if configCategoryDetailsMap := ConfigCategoryDetailsToMap(&s.Res.ConfigCategoryDetails); configCategoryDetailsMap != nil {
-			configCategoryDetailsArray = append(configCategoryDetailsArray, configCategoryDetailsMap)
-		}
-		s.D.Set("config_category_details", configCategoryDetailsArray)
-	} else {
-		s.D.Set("config_category_details", nil)
-	}
+	//if s.Res.ConfigCategoryDetails != nil {
+	//	configCategoryDetailsArray := []interface{}{}
+	//	if configCategoryDetailsMap := ConfigCategoryDetailsToMap(&s.Res.ConfigCategoryDetails); configCategoryDetailsMap != nil {
+	//		configCategoryDetailsArray = append(configCategoryDetailsArray, configCategoryDetailsMap)
+	//	}
+	//	s.D.Set("config_category_details", configCategoryDetailsArray)
+	//} else {
+	//	s.D.Set("config_category_details", nil)
+	//}
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

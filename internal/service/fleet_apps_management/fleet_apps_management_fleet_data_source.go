@@ -66,9 +66,9 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.ApplicationType != nil {
-		s.D.Set("application_type", *s.Res.ApplicationType)
-	}
+	//if s.Res.ApplicationType != nil {
+	//	s.D.Set("application_type", *s.Res.ApplicationType)
+	//}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -92,11 +92,11 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("environment_type", *s.Res.EnvironmentType)
 	}
 
-	s.D.Set("fleet_type", s.Res.FleetType)
+	//s.D.Set("fleet_type", s.Res.FleetType)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	s.D.Set("group_type", s.Res.GroupType)
+	//s.D.Set("group_type", s.Res.GroupType)
 
 	if s.Res.IsTargetAutoConfirm != nil {
 		s.D.Set("is_target_auto_confirm", *s.Res.IsTargetAutoConfirm)
@@ -106,11 +106,11 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	if s.Res.NotificationPreferences != nil {
-		s.D.Set("notification_preferences", []interface{}{NotificationPreferencesToMap(s.Res.NotificationPreferences)})
-	} else {
-		s.D.Set("notification_preferences", nil)
-	}
+	//if s.Res.NotificationPreferences != nil {
+	//	s.D.Set("notification_preferences", []interface{}{NotificationPreferencesToMap(s.Res.NotificationPreferences)})
+	//} else {
+	//	s.D.Set("notification_preferences", nil)
+	//}
 
 	s.D.Set("products", s.Res.Products)
 
@@ -118,13 +118,13 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("resource_region", *s.Res.ResourceRegion)
 	}
 
-	s.D.Set("resource_selection_type", s.Res.ResourceSelectionType)
-
-	if s.Res.RuleSelectionCriteria != nil {
-		s.D.Set("rule_selection_criteria", []interface{}{SelectionCriteriaToMap(s.Res.RuleSelectionCriteria)})
-	} else {
-		s.D.Set("rule_selection_criteria", nil)
-	}
+	//s.D.Set("resource_selection_type", s.Res.ResourceSelectionType)
+	//
+	//if s.Res.RuleSelectionCriteria != nil {
+	//	s.D.Set("rule_selection_criteria", []interface{}{SelectionCriteriaToMap(s.Res.RuleSelectionCriteria)})
+	//} else {
+	//	s.D.Set("rule_selection_criteria", nil)
+	//}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

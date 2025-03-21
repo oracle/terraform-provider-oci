@@ -140,10 +140,10 @@ func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) SetData() error {
 	maintenanceWindow := map[string]interface{}{}
 
 	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, MaintenanceWindowSummaryToMap(item))
-	}
-	maintenanceWindow["items"] = items
+	//for _, item := range s.Res.Items {
+	//	items = append(items, MaintenanceWindowSummaryToMap(item))
+	//}
+	//maintenanceWindow["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementMaintenanceWindowsDataSource().Schema["maintenance_window_collection"].Elem.(*schema.Resource).Schema)

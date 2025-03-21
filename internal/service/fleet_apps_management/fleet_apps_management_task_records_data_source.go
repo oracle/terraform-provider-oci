@@ -137,25 +137,25 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementTaskRecordsDataSource-", FleetAppsManagementTaskRecordsDataSource(), s.D))
-	resources := []map[string]interface{}{}
-	taskRecord := map[string]interface{}{}
+	//s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementTaskRecordsDataSource-", FleetAppsManagementTaskRecordsDataSource(), s.D))
+	//resources := []map[string]interface{}{}
+	//taskRecord := map[string]interface{}{}
 
-	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, TaskRecordSummaryToMap(item))
-	}
-	taskRecord["items"] = items
+	//items := []interface{}{}
+	//for _, item := range s.Res.Items {
+	//	items = append(items, TaskRecordSummaryToMap(item))
+	//}
+	//taskRecord["items"] = items
 
-	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementTaskRecordsDataSource().Schema["task_record_collection"].Elem.(*schema.Resource).Schema)
-		taskRecord["items"] = items
-	}
-
-	resources = append(resources, taskRecord)
-	if err := s.D.Set("task_record_collection", resources); err != nil {
-		return err
-	}
+	//if f, fOk := s.D.GetOkExists("filter"); fOk {
+	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementTaskRecordsDataSource().Schema["task_record_collection"].Elem.(*schema.Resource).Schema)
+	//	taskRecord["items"] = items
+	//}
+	//
+	//resources = append(resources, taskRecord)
+	//if err := s.D.Set("task_record_collection", resources); err != nil {
+	//	return err
+	//}
 
 	return nil
 }

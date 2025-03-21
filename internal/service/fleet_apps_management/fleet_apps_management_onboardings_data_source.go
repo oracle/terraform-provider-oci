@@ -116,10 +116,10 @@ func (s *FleetAppsManagementOnboardingsDataSourceCrud) SetData() error {
 	onboarding := map[string]interface{}{}
 
 	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, OnboardingSummaryToMap(item))
-	}
-	onboarding["items"] = items
+	//for _, item := range s.Res.Items {
+	//	items = append(items, OnboardingSummaryToMap(item))
+	//}
+	//onboarding["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementOnboardingsDataSource().Schema["onboarding_collection"].Elem.(*schema.Resource).Schema)

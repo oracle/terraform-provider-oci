@@ -132,16 +132,16 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) SetData() erro
 	resources := []map[string]interface{}{}
 	platformConfiguration := map[string]interface{}{}
 
-	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, PlatformConfigurationSummaryToMap(item))
-	}
-	platformConfiguration["items"] = items
+	//items := []interface{}{}
+	//for _, item := range s.Res.Items {
+	//	items = append(items, PlatformConfigurationSummaryToMap(item))
+	//}
+	//platformConfiguration["items"] = items
 
-	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementPlatformConfigurationsDataSource().Schema["platform_configuration_collection"].Elem.(*schema.Resource).Schema)
-		platformConfiguration["items"] = items
-	}
+	//if f, fOk := s.D.GetOkExists("filter"); fOk {
+	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementPlatformConfigurationsDataSource().Schema["platform_configuration_collection"].Elem.(*schema.Resource).Schema)
+	//	platformConfiguration["items"] = items
+	//}
 
 	resources = append(resources, platformConfiguration)
 	if err := s.D.Set("platform_configuration_collection", resources); err != nil {

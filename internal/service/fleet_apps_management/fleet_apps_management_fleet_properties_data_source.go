@@ -77,10 +77,10 @@ func (s *FleetAppsManagementFleetPropertiesDataSourceCrud) VoidState() {
 func (s *FleetAppsManagementFleetPropertiesDataSourceCrud) Get() error {
 	request := oci_fleet_apps_management.ListFleetPropertiesRequest{}
 
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
+	//if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	//	tmp := compartmentId.(string)
+	//	request.CompartmentId = &tmp
+	//}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
