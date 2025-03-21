@@ -224,16 +224,16 @@ func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
-		if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
-			tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.GenerationLlmCustomization = &tmp
-		}
-	}
+	//if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
+	//	if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
+	//		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
+	//		tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
+	//		if err != nil {
+	//			return err
+	//		}
+	//		request.GenerationLlmCustomization = &tmp
+	//	}
+	//}
 
 	if knowledgeBaseIds, ok := s.D.GetOkExists("knowledge_base_ids"); ok {
 		interfaces := knowledgeBaseIds.([]interface{})
@@ -450,16 +450,16 @@ func (s *GenerativeAiAgentAgentResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
-		if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
-			tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.GenerationLlmCustomization = &tmp
-		}
-	}
+	//if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
+	//	if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
+	//		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
+	//		tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
+	//		if err != nil {
+	//			return err
+	//		}
+	//		request.GenerationLlmCustomization = &tmp
+	//	}
+	//}
 
 	if knowledgeBaseIds, ok := s.D.GetOkExists("knowledge_base_ids"); ok {
 		interfaces := knowledgeBaseIds.([]interface{})
@@ -529,11 +529,11 @@ func (s *GenerativeAiAgentAgentResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.GenerationLlmCustomization != nil {
-		s.D.Set("generation_llm_customization", []interface{}{LlmCustomizationToMap(s.Res.GenerationLlmCustomization)})
-	} else {
-		s.D.Set("generation_llm_customization", nil)
-	}
+	//if s.Res.GenerationLlmCustomization != nil {
+	//	s.D.Set("generation_llm_customization", []interface{}{LlmCustomizationToMap(s.Res.GenerationLlmCustomization)})
+	//} else {
+	//	s.D.Set("generation_llm_customization", nil)
+	//}
 
 	s.D.Set("knowledge_base_ids", s.Res.KnowledgeBaseIds)
 
@@ -583,9 +583,9 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 
 	result["freeform_tags"] = obj.FreeformTags
 
-	if obj.GenerationLlmCustomization != nil {
-		result["generation_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.GenerationLlmCustomization)}
-	}
+	//if obj.GenerationLlmCustomization != nil {
+	//	result["generation_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.GenerationLlmCustomization)}
+	//}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
