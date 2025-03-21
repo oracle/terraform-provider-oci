@@ -53,7 +53,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: `AUTO_PROMOTE`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `COMPUTE_AUTO_ACTIVATE_PLUGIN`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringConfigDataSourceFilterRepresentation}}
 	StackMonitoringConfigDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -88,9 +88,8 @@ var (
 	StackMonitoringConfigRepresentation = map[string]interface{}{
 
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"config_type":    acctest.Representation{RepType: acctest.Required, Create: `AUTO_PROMOTE`},
+		"config_type":    acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_AUTO_ACTIVATE_PLUGIN`},
 		"is_enabled":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
-		"resource_type":  acctest.Representation{RepType: acctest.Required, Create: `HOST`},
 		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -131,9 +130,8 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Required, acctest.Create, StackMonitoringConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -238,6 +236,7 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "version", "version2"),
 			),
 		},
+
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringConfigResourceDependencies,
@@ -248,12 +247,11 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Create, StackMonitoringConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -277,12 +275,11 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -301,14 +298,12 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Update, StackMonitoringConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -330,7 +325,7 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(datasourceName, "type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 
 				resource.TestCheckResourceAttr(datasourceName, "config_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "config_collection.0.items.#", "1"),
@@ -344,12 +339,11 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
