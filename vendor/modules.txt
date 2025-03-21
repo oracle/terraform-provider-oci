@@ -361,6 +361,7 @@ github.com/oracle/oci-go-sdk/v65/limits
 github.com/oracle/oci-go-sdk/v65/loadbalancer
 github.com/oracle/oci-go-sdk/v65/loganalytics
 github.com/oracle/oci-go-sdk/v65/logging
+github.com/oracle/oci-go-sdk/v65/lustrefilestorage
 github.com/oracle/oci-go-sdk/v65/managementagent
 github.com/oracle/oci-go-sdk/v65/managementdashboard
 github.com/oracle/oci-go-sdk/v65/marketplace
