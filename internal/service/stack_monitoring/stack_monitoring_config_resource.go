@@ -40,6 +40,7 @@ func StackMonitoringConfigResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"AUTO_PROMOTE",
+					"COMPUTE_AUTO_ACTIVATE_PLUGIN",
 					"LICENSE_AUTO_ASSIGN",
 					"LICENSE_ENTERPRISE_EXTENSIBILITY",
 					"ONBOARD",
@@ -377,6 +378,44 @@ func (s *StackMonitoringConfigResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_stack_monitoring.ComputeAutoActivatePluginConfigDetails:
+		s.D.Set("config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN")
+
+		if v.IsEnabled != nil {
+			s.D.Set("is_enabled", *v.IsEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_stack_monitoring.LicenseAutoAssignConfigDetails:
 		s.D.Set("config_type", "LICENSE_AUTO_ASSIGN")
 
@@ -582,6 +621,12 @@ func ConfigSummaryToMap(obj oci_stack_monitoring.ConfigSummary) map[string]inter
 		}
 
 		result["resource_type"] = string(v.ResourceType)
+	case oci_stack_monitoring.ComputeAutoActivatePluginConfigSummary:
+		result["config_type"] = "COMPUTE_AUTO_ACTIVATE_PLUGIN"
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
 	case oci_stack_monitoring.LicenseAutoAssignConfigSummary:
 		result["config_type"] = "LICENSE_AUTO_ASSIGN"
 
@@ -703,6 +748,31 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicCreateCon
 		}
 		if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
 			details.ResourceType = oci_stack_monitoring.CreateAutoPromoteConfigDetailsResourceTypeEnum(resourceType.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateConfigDetails = details
+	case strings.ToLower("COMPUTE_AUTO_ACTIVATE_PLUGIN"):
+		details := oci_stack_monitoring.CreateComputeAutoActivatePluginConfigDetails{}
+		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -873,6 +943,29 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicUpdateCon
 	switch strings.ToLower(configType) {
 	case strings.ToLower("AUTO_PROMOTE"):
 		details := oci_stack_monitoring.UpdateAutoPromoteConfigDetails{}
+		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConfigId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("COMPUTE_AUTO_ACTIVATE_PLUGIN"):
+		details := oci_stack_monitoring.UpdateComputeAutoActivatePluginConfigDetails{}
 		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 			tmp := isEnabled.(bool)
 			details.IsEnabled = &tmp

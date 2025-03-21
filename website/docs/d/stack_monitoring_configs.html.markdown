@@ -60,7 +60,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The Unique Oracle ID (OCID) that is immutable on creation.
 * `is_manually_onboarded` - True if customer decides marks configuration as manually configured.
-* `is_enabled` - True if automatic promotion or enterprise extensibility is enabled, false if it is not enabled.
+* `is_enabled` - True if automatic activation of the Management Agent plugin, automatic promotion or enterprise extensibility is enabled, false if it is not enabled.
 * `license` - License edition.
 * `policy_names` - List of policy names assigned for onboarding
 * `resource_type` - The type of resource to configure for automatic promotion.
