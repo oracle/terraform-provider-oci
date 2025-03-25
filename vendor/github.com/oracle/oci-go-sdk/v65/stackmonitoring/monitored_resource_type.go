@@ -26,7 +26,7 @@ type MonitoredResourceType struct {
 	// Name can not be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy containing the resource type.
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Monitored resource type display name.
@@ -37,6 +37,16 @@ type MonitoredResourceType struct {
 
 	// Metric namespace for resource type.
 	MetricNamespace *string `mandatory:"false" json:"metricNamespace"`
+
+	// Tenancy Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	TenancyId *string `mandatory:"false" json:"tenancyId"`
+
+	AvailabilityMetricsConfig *AvailabilityMetricsDetails `mandatory:"false" json:"availabilityMetricsConfig"`
+
+	HandlerConfig *AgentExtensionHandlerConfiguration `mandatory:"false" json:"handlerConfig"`
+
+	// If boolean flag is true, then the resource type cannot be modified or deleted.
+	IsSystemDefined *bool `mandatory:"false" json:"isSystemDefined"`
 
 	// Lifecycle state of the monitored resource type.
 	LifecycleState ResourceTypeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
@@ -101,22 +111,26 @@ func (m MonitoredResourceType) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceType) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName            *string                           `json:"displayName"`
-		Description            *string                           `json:"description"`
-		MetricNamespace        *string                           `json:"metricNamespace"`
-		LifecycleState         ResourceTypeLifecycleStateEnum    `json:"lifecycleState"`
-		SourceType             SourceTypeEnum                    `json:"sourceType"`
-		ResourceCategory       ResourceCategoryEnum              `json:"resourceCategory"`
-		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated            *common.SDKTime                   `json:"timeUpdated"`
-		AdditionalNamespaceMap map[string]string                 `json:"additionalNamespaceMap"`
-		Metadata               resourcetypemetadatadetails       `json:"metadata"`
-		FreeformTags           map[string]string                 `json:"freeformTags"`
-		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
-		Id                     *string                           `json:"id"`
-		Name                   *string                           `json:"name"`
-		CompartmentId          *string                           `json:"compartmentId"`
+		DisplayName               *string                             `json:"displayName"`
+		Description               *string                             `json:"description"`
+		MetricNamespace           *string                             `json:"metricNamespace"`
+		TenancyId                 *string                             `json:"tenancyId"`
+		AvailabilityMetricsConfig *AvailabilityMetricsDetails         `json:"availabilityMetricsConfig"`
+		HandlerConfig             *AgentExtensionHandlerConfiguration `json:"handlerConfig"`
+		IsSystemDefined           *bool                               `json:"isSystemDefined"`
+		LifecycleState            ResourceTypeLifecycleStateEnum      `json:"lifecycleState"`
+		SourceType                SourceTypeEnum                      `json:"sourceType"`
+		ResourceCategory          ResourceCategoryEnum                `json:"resourceCategory"`
+		TimeCreated               *common.SDKTime                     `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                     `json:"timeUpdated"`
+		AdditionalNamespaceMap    map[string]string                   `json:"additionalNamespaceMap"`
+		Metadata                  resourcetypemetadatadetails         `json:"metadata"`
+		FreeformTags              map[string]string                   `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags                map[string]map[string]interface{}   `json:"systemTags"`
+		Id                        *string                             `json:"id"`
+		Name                      *string                             `json:"name"`
+		CompartmentId             *string                             `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -129,6 +143,14 @@ func (m *MonitoredResourceType) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.MetricNamespace = model.MetricNamespace
+
+	m.TenancyId = model.TenancyId
+
+	m.AvailabilityMetricsConfig = model.AvailabilityMetricsConfig
+
+	m.HandlerConfig = model.HandlerConfig
+
+	m.IsSystemDefined = model.IsSystemDefined
 
 	m.LifecycleState = model.LifecycleState
 

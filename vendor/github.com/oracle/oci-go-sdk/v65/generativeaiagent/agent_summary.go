@@ -41,11 +41,13 @@ type AgentSummary struct {
 	// Description about the agent.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent.
+	// List of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent. This field is deprecated and will be removed after March 26 2026.
 	KnowledgeBaseIds []string `mandatory:"false" json:"knowledgeBaseIds"`
 
 	// Details about purpose and responsibility of the agent
 	WelcomeMessage *string `mandatory:"false" json:"welcomeMessage"`
+
+	LlmConfig *LlmConfig `mandatory:"false" json:"llmConfig"`
 
 	// The date and time the agent was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
