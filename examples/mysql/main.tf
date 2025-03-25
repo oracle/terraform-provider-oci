@@ -156,6 +156,12 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     is_auto_expand_storage_enabled = "false"
     max_storage_size_in_gbs = "100"
   }
+
+  #Optional
+  rest {
+    configuration = "DISABLED"
+    port = "443"
+  }
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {

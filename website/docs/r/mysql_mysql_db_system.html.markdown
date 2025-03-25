@@ -92,6 +92,13 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		read_endpoint_hostname_label = var.mysql_db_system_read_endpoint_read_endpoint_hostname_label
 		read_endpoint_ip_address = var.mysql_db_system_read_endpoint_read_endpoint_ip_address
 	}
+	rest {
+		#Required
+		configuration = var.mysql_db_system_rest_configuration
+
+		#Optional
+		port = var.mysql_db_system_rest_port
+	}
 	secure_connections {
 		#Required
 		certificate_generation_type = var.mysql_db_system_secure_connections_certificate_generation_type
@@ -213,6 +220,9 @@ The following arguments are supported:
 
 		Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 	* `read_endpoint_ip_address` - (Optional) (Updatable) The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
+* `rest` - (Optional) (Updatable) Details required to configure REST while creating a DB System. 
+	* `configuration` - (Required) (Updatable) Select how REST is configured across the DB System instances.
+	* `port` - (Optional) (Updatable) The port for REST to listen on. Supported port numbers are 443 and from 1024 to 65535.
 * `secure_connections` - (Optional) (Updatable) Secure connection configuration details. 
 	* `certificate_generation_type` - (Required) (Updatable) Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - (Optional) (Updatable) The OCID of the certificate to use.
@@ -403,6 +413,9 @@ The following attributes are exported:
 
 		Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 	* `read_endpoint_ip_address` - The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
+* `rest` - REST configuration details. 
+	* `configuration` - Select how REST is configured across the DB System instances.
+	* `port` - The port for REST to listen on. Supported port numbers are 443 and from 1024 to 65535.
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - The OCID of the certificate to use.
