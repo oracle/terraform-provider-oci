@@ -407,6 +407,31 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"rest": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"configuration": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"secure_connections": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1186,6 +1211,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		}
 	}
 
+	if rest, ok := s.D.GetOkExists("rest"); ok {
+		if tmpList := rest.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rest", 0)
+			tmp, err := s.mapToCreateRestDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Rest = &tmp
+		}
+	}
+
 	if secureConnections, ok := s.D.GetOkExists("secure_connections"); ok {
 		if tmpList := secureConnections.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secure_connections", 0)
@@ -1400,6 +1436,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if rest, ok := s.D.GetOkExists("rest"); ok && s.D.HasChange("rest") {
+		if tmpList := rest.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rest", 0)
+			tmp, err := s.mapToUpdateRestDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Rest = &tmp
+		}
+	}
+
 	if secureConnections, ok := s.D.GetOkExists("secure_connections"); ok && s.D.HasChange("secure_connections") {
 		if tmpList := secureConnections.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secure_connections", 0)
@@ -1583,6 +1630,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("read_endpoint", []interface{}{ReadEndpointDetailsToMap(s.Res.ReadEndpoint)})
 	} else {
 		s.D.Set("read_endpoint", nil)
+	}
+
+	if s.Res.Rest != nil {
+		s.D.Set("rest", []interface{}{RestDetailsToMap(s.Res.Rest)})
+	} else {
+		s.D.Set("rest", nil)
 	}
 
 	if s.Res.SecureConnections != nil {
@@ -2275,6 +2328,48 @@ func ReadEndpointDetailsToMap(obj *oci_mysql.ReadEndpointDetails) map[string]int
 
 	if obj.ReadEndpointIpAddress != nil {
 		result["read_endpoint_ip_address"] = string(*obj.ReadEndpointIpAddress)
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateRestDetails(fieldKeyFormat string) (oci_mysql.CreateRestDetails, error) {
+	result := oci_mysql.CreateRestDetails{}
+
+	if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+		result.Configuration = oci_mysql.RestConfigurationTypeEnum(configuration.(string))
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateRestDetails(fieldKeyFormat string) (oci_mysql.UpdateRestDetails, error) {
+	result := oci_mysql.UpdateRestDetails{}
+
+	if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+		result.Configuration = oci_mysql.RestConfigurationTypeEnum(configuration.(string))
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func RestDetailsToMap(obj *oci_mysql.RestDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["configuration"] = string(obj.Configuration)
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
 	}
 
 	return result
