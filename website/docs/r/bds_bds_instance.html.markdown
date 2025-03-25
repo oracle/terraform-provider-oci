@@ -182,6 +182,8 @@ The following arguments are supported:
 * `remove_kafka_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Kafka. Could be set to any integer value.
 * `remove_node` - (Optional) (Updatable) An optional property when used triggers Remove Node. Takes the node ocid as input.
 * `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
+* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`.
+* `remove_node` - (Optional) (Updatable) An optional property when used triggers Remove Node from an Active Cluster. Takes the node ocid as input
 * `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
 * `is_kafka_configured` - (Optional) Boolean flag specifying whether or not Kafka should be configured.
 * `os_patch_version`  - (Optional) (Updatable) The version of the patch to be upated.
