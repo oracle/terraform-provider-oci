@@ -550,5 +550,17 @@
         "realmKey": "oc1",
         "regionIdentifier": "eu-madrid-3",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "jsk",
+        "realmKey": "oc51",
+        "regionIdentifier": "eu-budapest-1",
+        "realmDomainComponent": "oraclecloud51.com"
+    },
+    {
+        "regionKey": "eem",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-quincy-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
