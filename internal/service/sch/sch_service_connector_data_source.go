@@ -94,7 +94,7 @@ func (s *SchServiceConnectorDataSourceCrud) SetData() error {
 
 	if s.Res.Source != nil {
 		sourceArray := []interface{}{}
-		if sourceMap := SourceDetailsToMap(&s.Res.Source); sourceMap != nil {
+		if sourceMap := SourceDetailsResponseToMap(&s.Res.Source); sourceMap != nil {
 			sourceArray = append(sourceArray, sourceMap)
 		}
 		s.D.Set("source", sourceArray)
@@ -110,7 +110,7 @@ func (s *SchServiceConnectorDataSourceCrud) SetData() error {
 
 	if s.Res.Target != nil {
 		targetArray := []interface{}{}
-		if targetMap := TargetDetailsToMap(&s.Res.Target); targetMap != nil {
+		if targetMap := TargetDetailsResponseToMap(&s.Res.Target); targetMap != nil {
 			targetArray = append(targetArray, targetMap)
 		}
 		s.D.Set("target", targetArray)
@@ -120,7 +120,7 @@ func (s *SchServiceConnectorDataSourceCrud) SetData() error {
 
 	tasks := []interface{}{}
 	for _, item := range s.Res.Tasks {
-		tasks = append(tasks, TaskDetailsToMap(item))
+		tasks = append(tasks, TaskDetailsResponseToMap(item))
 	}
 	s.D.Set("tasks", tasks)
 

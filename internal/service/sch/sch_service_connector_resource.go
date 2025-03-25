@@ -1459,10 +1459,10 @@ func (s *SchServiceConnectorResourceCrud) mapToSourceDetails(fieldKeyFormat stri
 	return baseObject, nil
 }
 
-func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]interface{} {
+func SourceDetailsResponseToMap(obj *oci_sch.SourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_sch.LoggingSourceDetailsResponse:
+	case oci_sch.LoggingSourceDetails:
 		result["kind"] = "logging"
 
 		logSources := []interface{}{}
@@ -1470,7 +1470,7 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 			logSources = append(logSources, LogSourceToMap(item))
 		}
 		result["log_sources"] = logSources
-	case oci_sch.MonitoringSourceDetailsResponse:
+	case oci_sch.MonitoringSourceDetails:
 		result["kind"] = "monitoring"
 
 		monitoringSources := []interface{}{}
@@ -1478,7 +1478,7 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 			monitoringSources = append(monitoringSources, MonitoringSourceToMap(item))
 		}
 		result["monitoring_sources"] = monitoringSources
-	case oci_sch.PluginSourceDetailsResponse:
+	case oci_sch.PluginSourceDetails:
 		result["kind"] = "plugin"
 
 		result["config_map"] = ConfigMapJsonObjectToString(v.ConfigMap)
@@ -1486,7 +1486,7 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 		if v.PluginName != nil {
 			result["plugin_name"] = string(*v.PluginName)
 		}
-	case oci_sch.StreamingSourceDetailsResponse:
+	case oci_sch.StreamingSourceDetails:
 		result["kind"] = "streaming"
 
 		if v.Cursor != nil {
@@ -1669,10 +1669,10 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 	return baseObject, nil
 }
 
-func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]interface{} {
+func TargetDetailsResponseToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_sch.FunctionsTargetDetailsResponse:
+	case oci_sch.FunctionsTargetDetails:
 		result["kind"] = "functions"
 
 		if v.BatchSizeInKbs != nil {
@@ -1690,7 +1690,7 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)
 		}
-	case oci_sch.LoggingAnalyticsTargetDetailsResponse:
+	case oci_sch.LoggingAnalyticsTargetDetails:
 		result["kind"] = "loggingAnalytics"
 
 		if v.LogGroupId != nil {
@@ -1700,7 +1700,7 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.LogSourceIdentifier != nil {
 			result["log_source_identifier"] = string(*v.LogSourceIdentifier)
 		}
-	case oci_sch.MonitoringTargetDetailsResponse:
+	case oci_sch.MonitoringTargetDetails:
 		result["kind"] = "monitoring"
 
 		if v.CompartmentId != nil {
@@ -1720,7 +1720,7 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.MetricNamespace != nil {
 			result["metric_namespace"] = string(*v.MetricNamespace)
 		}
-	case oci_sch.NotificationsTargetDetailsResponse:
+	case oci_sch.NotificationsTargetDetails:
 		result["kind"] = "notifications"
 
 		if v.EnableFormattedMessaging != nil {
@@ -1730,7 +1730,7 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.TopicId != nil {
 			result["topic_id"] = string(*v.TopicId)
 		}
-	case oci_sch.ObjectStorageTargetDetailsResponse:
+	case oci_sch.ObjectStorageTargetDetails:
 		result["kind"] = "objectStorage"
 
 		if v.BatchRolloverSizeInMBs != nil {
@@ -1752,7 +1752,7 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.ObjectNamePrefix != nil {
 			result["object_name_prefix"] = string(*v.ObjectNamePrefix)
 		}
-	case oci_sch.StreamingTargetDetailsResponse:
+	case oci_sch.StreamingTargetDetails:
 		result["kind"] = "streaming"
 
 		if v.StreamId != nil {
@@ -1805,10 +1805,10 @@ func (s *SchServiceConnectorResourceCrud) mapToTaskDetails(fieldKeyFormat string
 	return baseObject, nil
 }
 
-func TaskDetailsResponseToMap(obj oci_sch.TaskDetailsResponse) map[string]interface{} {
+func TaskDetailsResponseToMap(obj oci_sch.TaskDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
-	case oci_sch.FunctionTaskDetailsResponse:
+	case oci_sch.FunctionTaskDetails:
 		result["kind"] = "function"
 
 		if v.BatchSizeInKbs != nil {
@@ -1822,7 +1822,7 @@ func TaskDetailsResponseToMap(obj oci_sch.TaskDetailsResponse) map[string]interf
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)
 		}
-	case oci_sch.LogRuleTaskDetailsResponse:
+	case oci_sch.LogRuleTaskDetails:
 		result["kind"] = "logRule"
 
 		if v.Condition != nil {
