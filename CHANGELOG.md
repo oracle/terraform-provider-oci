@@ -1,3 +1,23 @@
+## 6.32.0 (Unreleased)
+
+### Added
+- Support for Stack Monitoring to detect OCI compute launch and auto-enable host monitoring
+- Support for Spec Change to Fix Misspelled Property
+- Support for Host API - Host visibility improvements
+- Tag Support for Maintenance Windows in Stack Monitoring
+- Support for Stack Monitoring: Easy Onboarding Phase 2
+- Support for Compute GPU Memory Cluster and Fabric in GPU Control Plane
+- Support for Add second Standby to AuDG deployments | ADB-D and ADB-C@C
+- Support for Add schedules to customer-initiated backups.
+- Add support for private and 3rd party software repositories and rebooting of instances to OS Management Hub
+- README.md of service examples with magic button
+- Release for v6.30.0
+### Bug Fix
+- Database vmcluster update to include cloudautomationupdate only when changed
+- IdentityDomains fixes for App resource; Doc update for User, Group
+- OKE terraform provider bug fix: add data source for oidc discovery endpoint, fix update issue for oidc auth and update docs
+Database resource changes to support external keystore for add standby and update database admin password
+
 ## 6.31.0 (March 18,2025)
 
 ### Added
