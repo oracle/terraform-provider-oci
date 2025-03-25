@@ -208,6 +208,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("read_endpoint", nil)
 	}
 
+	if s.Res.Rest != nil {
+		s.D.Set("rest", []interface{}{RestDetailsToMap(s.Res.Rest)})
+	} else {
+		s.D.Set("rest", nil)
+	}
+
 	if s.Res.SecureConnections != nil {
 		s.D.Set("secure_connections", []interface{}{SecureConnectionDetailsToMap(s.Res.SecureConnections)})
 	} else {

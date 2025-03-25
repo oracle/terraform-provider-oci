@@ -449,6 +449,27 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"rest": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"configuration": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"port": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"secure_connections": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -1136,6 +1157,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map
 
 	if obj.Region != nil {
 		result["region"] = string(*obj.Region)
+	}
+
+	if obj.Rest != nil {
+		result["rest"] = []interface{}{RestDetailsToMap(obj.Rest)}
 	}
 
 	if obj.SecureConnections != nil {
