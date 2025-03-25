@@ -102,8 +102,16 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ConfigType {
+	case "ONBOARD":
+		mm := OnboardConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := LicenseEnterpriseExtensibilityConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_AUTO_ACTIVATE_PLUGIN":
+		mm := ComputeAutoActivatePluginConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LICENSE_AUTO_ASSIGN":
@@ -248,20 +256,26 @@ type ConfigConfigTypeEnum string
 // Set of constants representing the allowable values for ConfigConfigTypeEnum
 const (
 	ConfigConfigTypeAutoPromote                    ConfigConfigTypeEnum = "AUTO_PROMOTE"
+	ConfigConfigTypeComputeAutoActivatePlugin      ConfigConfigTypeEnum = "COMPUTE_AUTO_ACTIVATE_PLUGIN"
 	ConfigConfigTypeLicenseAutoAssign              ConfigConfigTypeEnum = "LICENSE_AUTO_ASSIGN"
 	ConfigConfigTypeLicenseEnterpriseExtensibility ConfigConfigTypeEnum = "LICENSE_ENTERPRISE_EXTENSIBILITY"
+	ConfigConfigTypeOnboard                        ConfigConfigTypeEnum = "ONBOARD"
 )
 
 var mappingConfigConfigTypeEnum = map[string]ConfigConfigTypeEnum{
 	"AUTO_PROMOTE":                     ConfigConfigTypeAutoPromote,
+	"COMPUTE_AUTO_ACTIVATE_PLUGIN":     ConfigConfigTypeComputeAutoActivatePlugin,
 	"LICENSE_AUTO_ASSIGN":              ConfigConfigTypeLicenseAutoAssign,
 	"LICENSE_ENTERPRISE_EXTENSIBILITY": ConfigConfigTypeLicenseEnterpriseExtensibility,
+	"ONBOARD":                          ConfigConfigTypeOnboard,
 }
 
 var mappingConfigConfigTypeEnumLowerCase = map[string]ConfigConfigTypeEnum{
 	"auto_promote":                     ConfigConfigTypeAutoPromote,
+	"compute_auto_activate_plugin":     ConfigConfigTypeComputeAutoActivatePlugin,
 	"license_auto_assign":              ConfigConfigTypeLicenseAutoAssign,
 	"license_enterprise_extensibility": ConfigConfigTypeLicenseEnterpriseExtensibility,
+	"onboard":                          ConfigConfigTypeOnboard,
 }
 
 // GetConfigConfigTypeEnumValues Enumerates the set of values for ConfigConfigTypeEnum
@@ -277,8 +291,10 @@ func GetConfigConfigTypeEnumValues() []ConfigConfigTypeEnum {
 func GetConfigConfigTypeEnumStringValues() []string {
 	return []string{
 		"AUTO_PROMOTE",
+		"COMPUTE_AUTO_ACTIVATE_PLUGIN",
 		"LICENSE_AUTO_ASSIGN",
 		"LICENSE_ENTERPRISE_EXTENSIBILITY",
+		"ONBOARD",
 	}
 }
 

@@ -58,6 +58,9 @@ type DataSource struct {
 	// A description of the data source.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Key-value pairs to allow additional configurations.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
 	// The date and time the data source was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -94,6 +97,7 @@ func (m DataSource) ValidateEnumValue() (bool, error) {
 func (m *DataSource) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description      *string                           `json:"description"`
+		Metadata         map[string]string                 `json:"metadata"`
 		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails *string                           `json:"lifecycleDetails"`
 		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
@@ -114,6 +118,8 @@ func (m *DataSource) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.Metadata = model.Metadata
 
 	m.TimeUpdated = model.TimeUpdated
 

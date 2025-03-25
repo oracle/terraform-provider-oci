@@ -30,11 +30,23 @@ type UpdateAgentEndpointDetails struct {
 
 	ContentModerationConfig *ContentModerationConfig `mandatory:"false" json:"contentModerationConfig"`
 
+	GuardrailConfig *GuardrailConfig `mandatory:"false" json:"guardrailConfig"`
+
+	// Key-value pairs to allow additional configurations.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
+	HumanInputConfig *HumanInputConfig `mandatory:"false" json:"humanInputConfig"`
+
+	OutputConfig *OutputConfig `mandatory:"false" json:"outputConfig"`
+
 	// Whether to show traces in the chat result.
 	ShouldEnableTrace *bool `mandatory:"false" json:"shouldEnableTrace"`
 
 	// Whether to show citations in the chat result.
 	ShouldEnableCitation *bool `mandatory:"false" json:"shouldEnableCitation"`
+
+	// Whether to enable multi-language for chat.
+	ShouldEnableMultiLanguage *bool `mandatory:"false" json:"shouldEnableMultiLanguage"`
 
 	SessionConfig *SessionConfig `mandatory:"false" json:"sessionConfig"`
 

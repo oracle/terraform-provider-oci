@@ -34,6 +34,12 @@ type ListMonitoredResourceTypesRequest struct {
 	// A filter to return monitored resource types that has the matching namespace.
 	MetricNamespace *string `mandatory:"false" contributesTo:"query" name:"metricNamespace"`
 
+	// A filter to return only resources with matching source type.
+	SourceType ListMonitoredResourceTypesSourceTypeEnum `mandatory:"false" contributesTo:"query" name:"sourceType" omitEmpty:"true"`
+
+	// A filter to return only resources with matching resource category.
+	ResourceCategory ListMonitoredResourceTypesResourceCategoryEnum `mandatory:"false" contributesTo:"query" name:"resourceCategory" omitEmpty:"true"`
+
 	// The field to sort by. Only one sort order may be provided.
 	// Default order for 'timeUpdated' is descending. Default order for 'name' is ascending.
 	SortBy ListMonitoredResourceTypesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
@@ -118,6 +124,12 @@ func (request ListMonitoredResourceTypesRequest) ValidateEnumValue() (bool, erro
 	errMessage := []string{}
 	if _, ok := GetMappingListMonitoredResourceTypesStatusEnum(string(request.Status)); !ok && request.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListMonitoredResourceTypesStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListMonitoredResourceTypesSourceTypeEnum(string(request.SourceType)); !ok && request.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", request.SourceType, strings.Join(GetListMonitoredResourceTypesSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListMonitoredResourceTypesResourceCategoryEnum(string(request.ResourceCategory)); !ok && request.ResourceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceCategory: %s. Supported values are: %s.", request.ResourceCategory, strings.Join(GetListMonitoredResourceTypesResourceCategoryEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListMonitoredResourceTypesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMonitoredResourceTypesSortByEnumStringValues(), ",")))
@@ -217,6 +229,118 @@ func GetListMonitoredResourceTypesStatusEnumStringValues() []string {
 // GetMappingListMonitoredResourceTypesStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListMonitoredResourceTypesStatusEnum(val string) (ListMonitoredResourceTypesStatusEnum, bool) {
 	enum, ok := mappingListMonitoredResourceTypesStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListMonitoredResourceTypesSourceTypeEnum Enum with underlying type: string
+type ListMonitoredResourceTypesSourceTypeEnum string
+
+// Set of constants representing the allowable values for ListMonitoredResourceTypesSourceTypeEnum
+const (
+	ListMonitoredResourceTypesSourceTypeSmMgmtAgentMonitored ListMonitoredResourceTypesSourceTypeEnum = "SM_MGMT_AGENT_MONITORED"
+	ListMonitoredResourceTypesSourceTypeSmRepoOnly           ListMonitoredResourceTypesSourceTypeEnum = "SM_REPO_ONLY"
+	ListMonitoredResourceTypesSourceTypeOciNative            ListMonitoredResourceTypesSourceTypeEnum = "OCI_NATIVE"
+	ListMonitoredResourceTypesSourceTypePrometheus           ListMonitoredResourceTypesSourceTypeEnum = "PROMETHEUS"
+	ListMonitoredResourceTypesSourceTypeTelegraf             ListMonitoredResourceTypesSourceTypeEnum = "TELEGRAF"
+	ListMonitoredResourceTypesSourceTypeCollectd             ListMonitoredResourceTypesSourceTypeEnum = "COLLECTD"
+)
+
+var mappingListMonitoredResourceTypesSourceTypeEnum = map[string]ListMonitoredResourceTypesSourceTypeEnum{
+	"SM_MGMT_AGENT_MONITORED": ListMonitoredResourceTypesSourceTypeSmMgmtAgentMonitored,
+	"SM_REPO_ONLY":            ListMonitoredResourceTypesSourceTypeSmRepoOnly,
+	"OCI_NATIVE":              ListMonitoredResourceTypesSourceTypeOciNative,
+	"PROMETHEUS":              ListMonitoredResourceTypesSourceTypePrometheus,
+	"TELEGRAF":                ListMonitoredResourceTypesSourceTypeTelegraf,
+	"COLLECTD":                ListMonitoredResourceTypesSourceTypeCollectd,
+}
+
+var mappingListMonitoredResourceTypesSourceTypeEnumLowerCase = map[string]ListMonitoredResourceTypesSourceTypeEnum{
+	"sm_mgmt_agent_monitored": ListMonitoredResourceTypesSourceTypeSmMgmtAgentMonitored,
+	"sm_repo_only":            ListMonitoredResourceTypesSourceTypeSmRepoOnly,
+	"oci_native":              ListMonitoredResourceTypesSourceTypeOciNative,
+	"prometheus":              ListMonitoredResourceTypesSourceTypePrometheus,
+	"telegraf":                ListMonitoredResourceTypesSourceTypeTelegraf,
+	"collectd":                ListMonitoredResourceTypesSourceTypeCollectd,
+}
+
+// GetListMonitoredResourceTypesSourceTypeEnumValues Enumerates the set of values for ListMonitoredResourceTypesSourceTypeEnum
+func GetListMonitoredResourceTypesSourceTypeEnumValues() []ListMonitoredResourceTypesSourceTypeEnum {
+	values := make([]ListMonitoredResourceTypesSourceTypeEnum, 0)
+	for _, v := range mappingListMonitoredResourceTypesSourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListMonitoredResourceTypesSourceTypeEnumStringValues Enumerates the set of values in String for ListMonitoredResourceTypesSourceTypeEnum
+func GetListMonitoredResourceTypesSourceTypeEnumStringValues() []string {
+	return []string{
+		"SM_MGMT_AGENT_MONITORED",
+		"SM_REPO_ONLY",
+		"OCI_NATIVE",
+		"PROMETHEUS",
+		"TELEGRAF",
+		"COLLECTD",
+	}
+}
+
+// GetMappingListMonitoredResourceTypesSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListMonitoredResourceTypesSourceTypeEnum(val string) (ListMonitoredResourceTypesSourceTypeEnum, bool) {
+	enum, ok := mappingListMonitoredResourceTypesSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListMonitoredResourceTypesResourceCategoryEnum Enum with underlying type: string
+type ListMonitoredResourceTypesResourceCategoryEnum string
+
+// Set of constants representing the allowable values for ListMonitoredResourceTypesResourceCategoryEnum
+const (
+	ListMonitoredResourceTypesResourceCategoryApplication    ListMonitoredResourceTypesResourceCategoryEnum = "APPLICATION"
+	ListMonitoredResourceTypesResourceCategoryDatabase       ListMonitoredResourceTypesResourceCategoryEnum = "DATABASE"
+	ListMonitoredResourceTypesResourceCategoryMiddleware     ListMonitoredResourceTypesResourceCategoryEnum = "MIDDLEWARE"
+	ListMonitoredResourceTypesResourceCategoryInfrastructure ListMonitoredResourceTypesResourceCategoryEnum = "INFRASTRUCTURE"
+	ListMonitoredResourceTypesResourceCategoryUnknown        ListMonitoredResourceTypesResourceCategoryEnum = "UNKNOWN"
+)
+
+var mappingListMonitoredResourceTypesResourceCategoryEnum = map[string]ListMonitoredResourceTypesResourceCategoryEnum{
+	"APPLICATION":    ListMonitoredResourceTypesResourceCategoryApplication,
+	"DATABASE":       ListMonitoredResourceTypesResourceCategoryDatabase,
+	"MIDDLEWARE":     ListMonitoredResourceTypesResourceCategoryMiddleware,
+	"INFRASTRUCTURE": ListMonitoredResourceTypesResourceCategoryInfrastructure,
+	"UNKNOWN":        ListMonitoredResourceTypesResourceCategoryUnknown,
+}
+
+var mappingListMonitoredResourceTypesResourceCategoryEnumLowerCase = map[string]ListMonitoredResourceTypesResourceCategoryEnum{
+	"application":    ListMonitoredResourceTypesResourceCategoryApplication,
+	"database":       ListMonitoredResourceTypesResourceCategoryDatabase,
+	"middleware":     ListMonitoredResourceTypesResourceCategoryMiddleware,
+	"infrastructure": ListMonitoredResourceTypesResourceCategoryInfrastructure,
+	"unknown":        ListMonitoredResourceTypesResourceCategoryUnknown,
+}
+
+// GetListMonitoredResourceTypesResourceCategoryEnumValues Enumerates the set of values for ListMonitoredResourceTypesResourceCategoryEnum
+func GetListMonitoredResourceTypesResourceCategoryEnumValues() []ListMonitoredResourceTypesResourceCategoryEnum {
+	values := make([]ListMonitoredResourceTypesResourceCategoryEnum, 0)
+	for _, v := range mappingListMonitoredResourceTypesResourceCategoryEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListMonitoredResourceTypesResourceCategoryEnumStringValues Enumerates the set of values in String for ListMonitoredResourceTypesResourceCategoryEnum
+func GetListMonitoredResourceTypesResourceCategoryEnumStringValues() []string {
+	return []string{
+		"APPLICATION",
+		"DATABASE",
+		"MIDDLEWARE",
+		"INFRASTRUCTURE",
+		"UNKNOWN",
+	}
+}
+
+// GetMappingListMonitoredResourceTypesResourceCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListMonitoredResourceTypesResourceCategoryEnum(val string) (ListMonitoredResourceTypesResourceCategoryEnum, bool) {
+	enum, ok := mappingListMonitoredResourceTypesResourceCategoryEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -28,9 +28,11 @@ type FunctionsTargetDetails struct {
 	FunctionId *string `mandatory:"true" json:"functionId"`
 
 	// The batch rollover size in kilobytes.
+	// Only one size option can be specified: `batchSizeInKbs` or `batchSizeInNum`.
 	BatchSizeInKbs *int `mandatory:"false" json:"batchSizeInKbs"`
 
 	// The batch rollover size in number of messages.
+	// Only one size option can be specified: `batchSizeInKbs` or `batchSizeInNum`.
 	BatchSizeInNum *int `mandatory:"false" json:"batchSizeInNum"`
 
 	// The batch rollover time in seconds.

@@ -23,7 +23,7 @@ import (
 type KnowledgeBaseStatistics struct {
 
 	// Knowledge Base size in bytes.
-	SizeInBytes *int `mandatory:"false" json:"sizeInBytes"`
+	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 }
 
 func (m KnowledgeBaseStatistics) String() string {
