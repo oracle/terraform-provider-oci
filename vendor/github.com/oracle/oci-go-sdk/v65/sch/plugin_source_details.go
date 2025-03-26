@@ -25,12 +25,12 @@ import (
 type PluginSourceDetails struct {
 
 	// The name of the connector plugin. This name indicates the service to be called by the connector plugin. For example, `QueueSource` indicates the Queue service.
-	// To find names of connector plugins, list the plugin using (ListConnectorPlugin)[#/en/serviceconnectors/latest/ConnectorPluginSummary/ListConnectorPlugins].
+	// To find names of connector plugins, list the plugin using ListConnectorPlugins.
 	PluginName *string `mandatory:"true" json:"pluginName"`
 
 	// The configuration map for the connector plugin. This map includes parameters specific to the connector plugin type.
 	// For example, for `QueueSource`, the map lists the OCID of the selected queue.
-	// To find the parameters for a connector plugin, get the plugin using (GetConnectorPlugin)[#/en/serviceconnectors/latest/ConnectorPlugin/GetConnectorPlugin] and review its schema value.
+	// To find the parameters for a connector plugin, get the plugin using GetConnectorPlugin and review its schema value.
 	ConfigMap *interface{} `mandatory:"true" json:"configMap"`
 }
 

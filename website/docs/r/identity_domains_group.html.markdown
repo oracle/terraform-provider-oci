@@ -26,6 +26,7 @@ resource "oci_identity_domains_group" "test_group" {
 	attributes = ""
 	authorization = var.group_authorization
 	external_id = "externalId"
+	force_delete = var.group_force_delete
 	id = var.group_id
 	members {
 		#Required
@@ -152,6 +153,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+* `force_delete` - (Optional) (Updatable) To force delete the resource and all its references (if any). Need to `terraform apply` first before `terraform destroy`.
 * `id` - (Optional) (Updatable) Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider's entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.
 
 	**SCIM++ Properties:**

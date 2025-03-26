@@ -53,6 +53,12 @@ type ServiceConnector struct {
 	// A message describing the current state in more detail.
 	// For example, the message might provide actionable
 	// information for a resource in a `FAILED` state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// *Please note this property is deprecated and will be removed on January 27, 2026. Use `lifecycleDetails` instead.*
+	// A message describing the current state in more detail.
+	// For example, the message might provide actionable
+	// information for a resource in a `FAILED` state.
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
 
 	Source SourceDetails `mandatory:"false" json:"source"`
@@ -98,20 +104,21 @@ func (m ServiceConnector) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ServiceConnector) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description     *string                           `json:"description"`
-		LifecyleDetails *string                           `json:"lifecyleDetails"`
-		Source          sourcedetails                     `json:"source"`
-		Tasks           []taskdetails                     `json:"tasks"`
-		Target          targetdetails                     `json:"target"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags      map[string]map[string]interface{} `json:"systemTags"`
-		Id              *string                           `json:"id"`
-		DisplayName     *string                           `json:"displayName"`
-		CompartmentId   *string                           `json:"compartmentId"`
-		TimeCreated     *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated     *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState  LifecycleStateEnum                `json:"lifecycleState"`
+		Description      *string                           `json:"description"`
+		LifecycleDetails *string                           `json:"lifecycleDetails"`
+		LifecyleDetails  *string                           `json:"lifecyleDetails"`
+		Source           sourcedetails                     `json:"source"`
+		Tasks            []taskdetails                     `json:"tasks"`
+		Target           targetdetails                     `json:"target"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
+		Id               *string                           `json:"id"`
+		DisplayName      *string                           `json:"displayName"`
+		CompartmentId    *string                           `json:"compartmentId"`
+		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState   LifecycleStateEnum                `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -120,6 +127,8 @@ func (m *ServiceConnector) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.LifecycleDetails = model.LifecycleDetails
 
 	m.LifecyleDetails = model.LifecyleDetails
 

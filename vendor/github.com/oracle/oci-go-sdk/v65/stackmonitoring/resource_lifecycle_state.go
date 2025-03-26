@@ -21,6 +21,7 @@ const (
 	ResourceLifecycleStateCreating ResourceLifecycleStateEnum = "CREATING"
 	ResourceLifecycleStateUpdating ResourceLifecycleStateEnum = "UPDATING"
 	ResourceLifecycleStateActive   ResourceLifecycleStateEnum = "ACTIVE"
+	ResourceLifecycleStateInactive ResourceLifecycleStateEnum = "INACTIVE"
 	ResourceLifecycleStateDeleting ResourceLifecycleStateEnum = "DELETING"
 	ResourceLifecycleStateDeleted  ResourceLifecycleStateEnum = "DELETED"
 	ResourceLifecycleStateFailed   ResourceLifecycleStateEnum = "FAILED"
@@ -30,6 +31,7 @@ var mappingResourceLifecycleStateEnum = map[string]ResourceLifecycleStateEnum{
 	"CREATING": ResourceLifecycleStateCreating,
 	"UPDATING": ResourceLifecycleStateUpdating,
 	"ACTIVE":   ResourceLifecycleStateActive,
+	"INACTIVE": ResourceLifecycleStateInactive,
 	"DELETING": ResourceLifecycleStateDeleting,
 	"DELETED":  ResourceLifecycleStateDeleted,
 	"FAILED":   ResourceLifecycleStateFailed,
@@ -39,6 +41,7 @@ var mappingResourceLifecycleStateEnumLowerCase = map[string]ResourceLifecycleSta
 	"creating": ResourceLifecycleStateCreating,
 	"updating": ResourceLifecycleStateUpdating,
 	"active":   ResourceLifecycleStateActive,
+	"inactive": ResourceLifecycleStateInactive,
 	"deleting": ResourceLifecycleStateDeleting,
 	"deleted":  ResourceLifecycleStateDeleted,
 	"failed":   ResourceLifecycleStateFailed,
@@ -59,6 +62,7 @@ func GetResourceLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

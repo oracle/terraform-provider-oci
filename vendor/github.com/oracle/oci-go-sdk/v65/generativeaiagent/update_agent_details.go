@@ -28,11 +28,13 @@ type UpdateAgentDetails struct {
 	// Description about the agent.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent.
+	// List of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent. This field is deprecated and will be removed after March 26 2026.
 	KnowledgeBaseIds []string `mandatory:"false" json:"knowledgeBaseIds"`
 
 	// Details about purpose and responsibility of the agent
 	WelcomeMessage *string `mandatory:"false" json:"welcomeMessage"`
+
+	LlmConfig *LlmConfig `mandatory:"false" json:"llmConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

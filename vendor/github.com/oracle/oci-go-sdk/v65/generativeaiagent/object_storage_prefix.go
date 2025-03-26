@@ -28,7 +28,7 @@ type ObjectStoragePrefix struct {
 	// The bucket name of an object.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// The name of the object (file) or prefix (folder).
+	// The prefix of file object(s) or folder prefix.
 	Prefix *string `mandatory:"false" json:"prefix"`
 }
 
