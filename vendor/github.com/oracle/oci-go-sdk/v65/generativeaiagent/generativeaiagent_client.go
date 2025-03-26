@@ -660,6 +660,69 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 	return response, err
 }
 
+// CreateTool Creates a tool.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateTool.go.html to see an example of how to use CreateTool API.
+// A default retry strategy applies to this operation CreateTool()
+func (client GenerativeAiAgentClient) CreateTool(ctx context.Context, request CreateToolRequest) (response CreateToolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createTool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateToolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateToolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateToolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateToolResponse")
+	}
+	return
+}
+
+// createTool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) createTool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tools", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateToolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/CreateTool"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateTool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteAgent Deletes an agent.
 //
 // # See also
@@ -943,6 +1006,64 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/DeleteKnowledgeBase"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteKnowledgeBase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteTool Deletes a tool.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteTool.go.html to see an example of how to use DeleteTool API.
+// A default retry strategy applies to this operation DeleteTool()
+func (client GenerativeAiAgentClient) DeleteTool(ctx context.Context, request DeleteToolRequest) (response DeleteToolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteTool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteToolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteToolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteToolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteToolResponse")
+	}
+	return
+}
+
+// deleteTool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) deleteTool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tools/{toolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteToolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/DeleteTool"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteTool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1297,6 +1418,64 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 	return response, err
 }
 
+// GetTool Gets information about a tool.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetTool.go.html to see an example of how to use GetTool API.
+// A default retry strategy applies to this operation GetTool()
+func (client GenerativeAiAgentClient) GetTool(ctx context.Context, request GetToolRequest) (response GetToolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getTool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetToolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetToolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetToolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetToolResponse")
+	}
+	return
+}
+
+// getTool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) getTool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tools/{toolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetToolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/GetTool"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetTool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the details of a work request.
 //
 // # See also
@@ -1638,6 +1817,64 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/ListKnowledgeBases"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListKnowledgeBases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTools Gets a list of tools.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListTools.go.html to see an example of how to use ListTools API.
+// A default retry strategy applies to this operation ListTools()
+func (client GenerativeAiAgentClient) ListTools(ctx context.Context, request ListToolsRequest) (response ListToolsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTools, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListToolsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListToolsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListToolsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListToolsResponse")
+	}
+	return
+}
+
+// listTools implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) listTools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tools", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListToolsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/ListTools"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListTools", apiReferenceLink)
 		return response, err
 	}
 
@@ -2044,6 +2281,64 @@ func (client GenerativeAiAgentClient) updateKnowledgeBase(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/UpdateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateKnowledgeBase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateTool Updates a tool.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateTool.go.html to see an example of how to use UpdateTool API.
+// A default retry strategy applies to this operation UpdateTool()
+func (client GenerativeAiAgentClient) UpdateTool(ctx context.Context, request UpdateToolRequest) (response UpdateToolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateTool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateToolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateToolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateToolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateToolResponse")
+	}
+	return
+}
+
+// updateTool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) updateTool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tools/{toolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateToolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/UpdateTool"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateTool", apiReferenceLink)
 		return response, err
 	}
 

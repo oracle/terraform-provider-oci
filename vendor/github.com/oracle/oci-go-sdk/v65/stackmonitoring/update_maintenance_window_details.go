@@ -26,6 +26,14 @@ type UpdateMaintenanceWindowDetails struct {
 	Resources []CreateMaintenanceWindowResourceDetails `mandatory:"false" json:"resources"`
 
 	Schedule MaintenanceWindowSchedule `mandatory:"false" json:"schedule"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateMaintenanceWindowDetails) String() string {
@@ -47,9 +55,11 @@ func (m UpdateMaintenanceWindowDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateMaintenanceWindowDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description *string                                  `json:"description"`
-		Resources   []CreateMaintenanceWindowResourceDetails `json:"resources"`
-		Schedule    maintenancewindowschedule                `json:"schedule"`
+		Description  *string                                  `json:"description"`
+		Resources    []CreateMaintenanceWindowResourceDetails `json:"resources"`
+		Schedule     maintenancewindowschedule                `json:"schedule"`
+		FreeformTags map[string]string                        `json:"freeformTags"`
+		DefinedTags  map[string]map[string]interface{}        `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -70,6 +80,10 @@ func (m *UpdateMaintenanceWindowDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Schedule = nil
 	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	return
 }

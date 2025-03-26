@@ -47,7 +47,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Maintenance Window description.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of maintenance window. 
 * `lifecycle_details` - Lifecycle Details of the Maintenance Window.
 * `name` - Maintenance Window name.
@@ -66,6 +68,7 @@ The following attributes are exported:
 	* `time_maintenance_window_end` - Start time of Maintenance window. A RFC3339 formatted datetime string 
 	* `time_maintenance_window_start` - Start time of Maintenance window. A RFC3339 formatted datetime string 
 * `state` - Lifecycle state of the monitored resource.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the the maintenance window was created. An RFC3339 formatted datetime string 
 * `time_updated` - The time the the mainteance window was updated. An RFC3339 formatted datetime string 
 

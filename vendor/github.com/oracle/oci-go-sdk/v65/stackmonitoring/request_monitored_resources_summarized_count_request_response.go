@@ -143,18 +143,21 @@ const (
 	RequestMonitoredResourcesSummarizedCountGroupByResourcetype     RequestMonitoredResourcesSummarizedCountGroupByEnum = "resourceType"
 	RequestMonitoredResourcesSummarizedCountGroupByLicense          RequestMonitoredResourcesSummarizedCountGroupByEnum = "license"
 	RequestMonitoredResourcesSummarizedCountGroupByParentresourceid RequestMonitoredResourcesSummarizedCountGroupByEnum = "parentResourceId"
+	RequestMonitoredResourcesSummarizedCountGroupByNamespace        RequestMonitoredResourcesSummarizedCountGroupByEnum = "namespace"
 )
 
 var mappingRequestMonitoredResourcesSummarizedCountGroupByEnum = map[string]RequestMonitoredResourcesSummarizedCountGroupByEnum{
 	"resourceType":     RequestMonitoredResourcesSummarizedCountGroupByResourcetype,
 	"license":          RequestMonitoredResourcesSummarizedCountGroupByLicense,
 	"parentResourceId": RequestMonitoredResourcesSummarizedCountGroupByParentresourceid,
+	"namespace":        RequestMonitoredResourcesSummarizedCountGroupByNamespace,
 }
 
 var mappingRequestMonitoredResourcesSummarizedCountGroupByEnumLowerCase = map[string]RequestMonitoredResourcesSummarizedCountGroupByEnum{
 	"resourcetype":     RequestMonitoredResourcesSummarizedCountGroupByResourcetype,
 	"license":          RequestMonitoredResourcesSummarizedCountGroupByLicense,
 	"parentresourceid": RequestMonitoredResourcesSummarizedCountGroupByParentresourceid,
+	"namespace":        RequestMonitoredResourcesSummarizedCountGroupByNamespace,
 }
 
 // GetRequestMonitoredResourcesSummarizedCountGroupByEnumValues Enumerates the set of values for RequestMonitoredResourcesSummarizedCountGroupByEnum
@@ -172,6 +175,7 @@ func GetRequestMonitoredResourcesSummarizedCountGroupByEnumStringValues() []stri
 		"resourceType",
 		"license",
 		"parentResourceId",
+		"namespace",
 	}
 }
 

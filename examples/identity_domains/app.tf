@@ -1042,7 +1042,7 @@ variable "app_urnietfparamsscimschemasoracleidcsextensionmanagedapp_app_three_le
 }
 
 variable "app_urnietfparamsscimschemasoracleidcsextensionmanagedapp_app_three_legged_oauth_credential_access_token_expiry" {
-  default = "2032-01-01T00:00:00Z"
+  default = "2032-01-01T00:00:00.000Z"
 }
 
 variable "app_urnietfparamsscimschemasoracleidcsextensionmanagedapp_app_three_legged_oauth_credential_refresh_token" {
@@ -1380,6 +1380,8 @@ resource "oci_identity_domains_app" "test_app" {
   description                       = var.app_description
   disable_kmsi_token_authentication = var.app_disable_kmsi_token_authentication
   error_page_url                    = var.app_error_page_url
+  ## If set "force_delete" to true, `terraform destory` will be able to force delete the resource.
+  force_delete                      = true
   home_page_url                     = var.app_home_page_url
   icon                              = var.app_icon
   id_token_enc_algo                 = var.app_id_token_enc_algo

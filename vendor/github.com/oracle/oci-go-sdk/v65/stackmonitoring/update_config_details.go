@@ -67,6 +67,10 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.ConfigType {
+	case "COMPUTE_AUTO_ACTIVATE_PLUGIN":
+		mm := UpdateComputeAutoActivatePluginConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := UpdateLicenseEnterpriseExtensibilityConfigDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -77,6 +81,10 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		return mm, err
 	case "LICENSE_AUTO_ASSIGN":
 		mm := UpdateLicenseAutoAssignConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ONBOARD":
+		mm := UpdateOnboardConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

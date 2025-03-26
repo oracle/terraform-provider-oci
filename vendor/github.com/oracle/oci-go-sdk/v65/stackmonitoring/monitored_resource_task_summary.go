@@ -27,6 +27,9 @@ type MonitoredResourceTaskSummary struct {
 
 	TaskDetails MonitoredResourceTaskDetails `mandatory:"true" json:"taskDetails"`
 
+	// Type of the task.
+	Type *string `mandatory:"false" json:"type"`
+
 	// Identifiers OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
 	WorkRequestIds []string `mandatory:"false" json:"workRequestIds"`
 
@@ -76,6 +79,7 @@ func (m MonitoredResourceTaskSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceTaskSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Type           *string                                 `json:"type"`
 		WorkRequestIds []string                                `json:"workRequestIds"`
 		TimeCreated    *common.SDKTime                         `json:"timeCreated"`
 		TimeUpdated    *common.SDKTime                         `json:"timeUpdated"`
@@ -93,6 +97,8 @@ func (m *MonitoredResourceTaskSummary) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Type = model.Type
+
 	m.WorkRequestIds = make([]string, len(model.WorkRequestIds))
 	copy(m.WorkRequestIds, model.WorkRequestIds)
 	m.TimeCreated = model.TimeCreated
