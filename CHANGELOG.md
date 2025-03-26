@@ -1,4 +1,4 @@
-## 6.32.0 (Unreleased)
+## 6.32.0 (March 26, 2025)
 
 ### Added
 - Support for Stack Monitoring to detect OCI compute launch and auto-enable host monitoring
