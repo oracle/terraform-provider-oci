@@ -99,6 +99,7 @@ resource "oci_identity_domains_app" "test_app" {
 	description = var.app_description
 	disable_kmsi_token_authentication = var.app_disable_kmsi_token_authentication
 	error_page_url = var.app_error_page_url
+	force_delete = var.app_force_delete
 	home_page_url = var.app_home_page_url
 	icon = var.app_icon
 	id = var.app_id
@@ -1428,6 +1429,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+* `force_delete` - (Optional) (Updatable) To force delete the resource and all its references (if any). Need to `terraform apply` first before `terraform destroy`.
 * `granted_app_roles` - (Optional) (Updatable) A list of AppRoles that are granted to this App (and that are defined by other Apps). Within the Oracle Public Cloud infrastructure, this allows AppID-based association. Such an association allows this App to act as a consumer and thus to access resources of another App that acts as a producer.
 
 	**SCIM++ Properties:**

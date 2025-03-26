@@ -40,8 +40,10 @@ func StackMonitoringConfigResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"AUTO_PROMOTE",
+					"COMPUTE_AUTO_ACTIVATE_PLUGIN",
 					"LICENSE_AUTO_ASSIGN",
 					"LICENSE_ENTERPRISE_EXTENSIBILITY",
+					"ONBOARD",
 				}, true),
 			},
 			"is_enabled": {
@@ -62,6 +64,26 @@ func StackMonitoringConfigResource() *schema.Resource {
 			},
 
 			// Optional
+			"additional_configurations": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"properties_map": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Elem:     schema.TypeString,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -74,11 +96,79 @@ func StackMonitoringConfigResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"dynamic_groups": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"domain": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"stack_monitoring_assignment": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+
+			"is_manually_onboarded": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+
+			"policy_names": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+
+			"user_groups": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"domain": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"stack_monitoring_role": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"version": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 
 			// Computed
@@ -288,6 +378,44 @@ func (s *StackMonitoringConfigResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_stack_monitoring.ComputeAutoActivatePluginConfigDetails:
+		s.D.Set("config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN")
+
+		if v.IsEnabled != nil {
+			s.D.Set("is_enabled", *v.IsEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_stack_monitoring.LicenseAutoAssignConfigDetails:
 		s.D.Set("config_type", "LICENSE_AUTO_ASSIGN")
 
@@ -362,11 +490,91 @@ func (s *StackMonitoringConfigResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_stack_monitoring.OnboardConfigDetails:
+		s.D.Set("config_type", "ONBOARD")
+
+		if v.AdditionalConfigurations != nil {
+			s.D.Set("additional_configurations", []interface{}{AdditionalConfigurationDetailsToMap(v.AdditionalConfigurations)})
+		} else {
+			s.D.Set("additional_configurations", nil)
+		}
+
+		dynamicGroups := []interface{}{}
+		for _, item := range v.DynamicGroups {
+			dynamicGroups = append(dynamicGroups, DynamicGroupDetailsToMap(item))
+		}
+		s.D.Set("dynamic_groups", dynamicGroups)
+
+		if v.IsManuallyOnboarded != nil {
+			s.D.Set("is_manually_onboarded", *v.IsManuallyOnboarded)
+		}
+
+		s.D.Set("policy_names", v.PolicyNames)
+
+		userGroups := []interface{}{}
+		for _, item := range v.UserGroups {
+			userGroups = append(userGroups, GroupDetailsToMap(item))
+		}
+		s.D.Set("user_groups", userGroups)
+
+		if v.Version != nil {
+			s.D.Set("version", *v.Version)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", *s.Res)
 		return nil
 	}
 	return nil
+}
+
+func (s *StackMonitoringConfigResourceCrud) mapToAdditionalConfigurationDetails(fieldKeyFormat string) (oci_stack_monitoring.AdditionalConfigurationDetails, error) {
+	result := oci_stack_monitoring.AdditionalConfigurationDetails{}
+
+	if propertiesMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_map")); ok {
+		result.PropertiesMap = tfresource.ObjectMapToStringMap(propertiesMap.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func AdditionalConfigurationDetailsToMap(obj *oci_stack_monitoring.AdditionalConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["properties_map"] = obj.PropertiesMap
+
+	return result
 }
 
 func ConfigSummaryToMap(obj oci_stack_monitoring.ConfigSummary) map[string]interface{} {
@@ -413,6 +621,12 @@ func ConfigSummaryToMap(obj oci_stack_monitoring.ConfigSummary) map[string]inter
 		}
 
 		result["resource_type"] = string(v.ResourceType)
+	case oci_stack_monitoring.ComputeAutoActivatePluginConfigSummary:
+		result["config_type"] = "COMPUTE_AUTO_ACTIVATE_PLUGIN"
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
 	case oci_stack_monitoring.LicenseAutoAssignConfigSummary:
 		result["config_type"] = "LICENSE_AUTO_ASSIGN"
 
@@ -423,9 +637,94 @@ func ConfigSummaryToMap(obj oci_stack_monitoring.ConfigSummary) map[string]inter
 		if v.IsEnabled != nil {
 			result["is_enabled"] = bool(*v.IsEnabled)
 		}
+	case oci_stack_monitoring.OnboardConfigSummary:
+		result["config_type"] = "ONBOARD"
+
+		if v.IsManuallyOnboarded != nil {
+			result["is_manually_onboarded"] = bool(*v.IsManuallyOnboarded)
+		}
+
+		if v.Version != nil {
+			result["version"] = string(*v.Version)
+		}
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *StackMonitoringConfigResourceCrud) mapToDynamicGroupDetails(fieldKeyFormat string) (oci_stack_monitoring.DynamicGroupDetails, error) {
+	result := oci_stack_monitoring.DynamicGroupDetails{}
+
+	if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
+		tmp := domain.(string)
+		result.Domain = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if stackMonitoringAssignment, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stack_monitoring_assignment")); ok {
+		result.StackMonitoringAssignment = oci_stack_monitoring.DynamicGroupDetailsStackMonitoringAssignmentEnum(stackMonitoringAssignment.(string))
+	}
+
+	return result, nil
+}
+
+func DynamicGroupDetailsToMap(obj oci_stack_monitoring.DynamicGroupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Domain != nil {
+		result["domain"] = string(*obj.Domain)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["stack_monitoring_assignment"] = string(obj.StackMonitoringAssignment)
+
+	return result
+}
+
+func (s *StackMonitoringConfigResourceCrud) mapToGroupDetails(fieldKeyFormat string) (oci_stack_monitoring.GroupDetails, error) {
+	result := oci_stack_monitoring.GroupDetails{}
+
+	if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
+		tmp := domain.(string)
+		result.Domain = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if stackMonitoringRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stack_monitoring_role")); ok {
+		tmp := stackMonitoringRole.(string)
+		result.StackMonitoringRole = &tmp
+	}
+
+	return result, nil
+}
+
+func GroupDetailsToMap(obj oci_stack_monitoring.GroupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Domain != nil {
+		result["domain"] = string(*obj.Domain)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.StackMonitoringRole != nil {
+		result["stack_monitoring_role"] = string(*obj.StackMonitoringRole)
 	}
 
 	return result
@@ -449,6 +748,31 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicCreateCon
 		}
 		if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
 			details.ResourceType = oci_stack_monitoring.CreateAutoPromoteConfigDetailsResourceTypeEnum(resourceType.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateConfigDetails = details
+	case strings.ToLower("COMPUTE_AUTO_ACTIVATE_PLUGIN"):
+		details := oci_stack_monitoring.CreateComputeAutoActivatePluginConfigDetails{}
+		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -518,6 +842,89 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicCreateCon
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateConfigDetails = details
+	case strings.ToLower("ONBOARD"):
+		details := oci_stack_monitoring.CreateOnboardConfigDetails{}
+		if additionalConfigurations, ok := s.D.GetOkExists("additional_configurations"); ok {
+			if tmpList := additionalConfigurations.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_configurations", 0)
+				tmp, err := s.mapToAdditionalConfigurationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AdditionalConfigurations = &tmp
+			}
+		}
+		if dynamicGroups, ok := s.D.GetOkExists("dynamic_groups"); ok {
+			interfaces := dynamicGroups.([]interface{})
+			tmp := make([]oci_stack_monitoring.DynamicGroupDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dynamic_groups", stateDataIndex)
+				converted, err := s.mapToDynamicGroupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("dynamic_groups") {
+				details.DynamicGroups = tmp
+			}
+		}
+		if isManuallyOnboarded, ok := s.D.GetOkExists("is_manually_onboarded"); ok {
+			tmp := isManuallyOnboarded.(bool)
+			details.IsManuallyOnboarded = &tmp
+		}
+		if policyNames, ok := s.D.GetOkExists("policy_names"); ok {
+			interfaces := policyNames.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("policy_names") {
+				details.PolicyNames = tmp
+			}
+		}
+		if userGroups, ok := s.D.GetOkExists("user_groups"); ok {
+			interfaces := userGroups.([]interface{})
+			tmp := make([]oci_stack_monitoring.GroupDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "user_groups", stateDataIndex)
+				converted, err := s.mapToGroupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("user_groups") {
+				details.UserGroups = tmp
+			}
+		}
+		if version, ok := s.D.GetOkExists("version"); ok {
+			tmp := version.(string)
+			details.Version = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateConfigDetails = details
 	default:
 		return fmt.Errorf("unknown config_type '%v' was specified", configType)
 	}
@@ -536,6 +943,29 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicUpdateCon
 	switch strings.ToLower(configType) {
 	case strings.ToLower("AUTO_PROMOTE"):
 		details := oci_stack_monitoring.UpdateAutoPromoteConfigDetails{}
+		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConfigId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("COMPUTE_AUTO_ACTIVATE_PLUGIN"):
+		details := oci_stack_monitoring.UpdateComputeAutoActivatePluginConfigDetails{}
 		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 			tmp := isEnabled.(bool)
 			details.IsEnabled = &tmp
@@ -584,6 +1014,87 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicUpdateCon
 		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 			tmp := isEnabled.(bool)
 			details.IsEnabled = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConfigId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("ONBOARD"):
+		details := oci_stack_monitoring.UpdateOnboardConfigDetails{}
+		if additionalConfigurations, ok := s.D.GetOkExists("additional_configurations"); ok {
+			if tmpList := additionalConfigurations.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_configurations", 0)
+				tmp, err := s.mapToAdditionalConfigurationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AdditionalConfigurations = &tmp
+			}
+		}
+		if dynamicGroups, ok := s.D.GetOkExists("dynamic_groups"); ok {
+			interfaces := dynamicGroups.([]interface{})
+			tmp := make([]oci_stack_monitoring.DynamicGroupDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dynamic_groups", stateDataIndex)
+				converted, err := s.mapToDynamicGroupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("dynamic_groups") {
+				details.DynamicGroups = tmp
+			}
+		}
+		if isManuallyOnboarded, ok := s.D.GetOkExists("is_manually_onboarded"); ok {
+			tmp := isManuallyOnboarded.(bool)
+			details.IsManuallyOnboarded = &tmp
+		}
+		if policyNames, ok := s.D.GetOkExists("policy_names"); ok {
+			interfaces := policyNames.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("policy_names") {
+				details.PolicyNames = tmp
+			}
+		}
+		if userGroups, ok := s.D.GetOkExists("user_groups"); ok {
+			interfaces := userGroups.([]interface{})
+			tmp := make([]oci_stack_monitoring.GroupDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "user_groups", stateDataIndex)
+				converted, err := s.mapToGroupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("user_groups") {
+				details.UserGroups = tmp
+			}
+		}
+		if version, ok := s.D.GetOkExists("version"); ok {
+			tmp := version.(string)
+			details.Version = &tmp
 		}
 		tmp := s.D.Id()
 		request.ConfigId = &tmp

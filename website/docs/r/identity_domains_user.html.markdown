@@ -75,6 +75,7 @@ resource "oci_identity_domains_user" "test_user" {
 		primary = var.user_entitlements_primary
 	}
 	external_id = "externalId"
+	force_delete = var.user_force_delete
 	id = var.user_id
 	ims {
 		#Required
@@ -720,6 +721,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+* `force_delete` - (Optional) (Updatable) To force delete the resource and all its references (if any). Need to `terraform apply` first before `terraform destroy`.
 * `groups` - (Optional) (Updatable) A list of groups that the user belongs to, either thorough direct membership, nested groups, or dynamically calculated
 
 	**SCIM++ Properties:**

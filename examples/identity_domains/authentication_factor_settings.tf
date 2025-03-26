@@ -130,7 +130,7 @@ variable "authentication_factor_setting_endpoint_restrictions_trusted_endpoints_
 }
 
 variable "authentication_factor_setting_fido_authenticator_enabled" {
-  default = false
+  default = true
 }
 
 variable "authentication_factor_setting_hide_backup_factor_enabled" {
@@ -158,7 +158,7 @@ variable "authentication_factor_setting_phone_call_enabled" {
 }
 
 variable "authentication_factor_setting_push_enabled" {
-  default = false
+  default = true
 }
 
 variable "authentication_factor_setting_security_questions_enabled" {
@@ -166,7 +166,7 @@ variable "authentication_factor_setting_security_questions_enabled" {
 }
 
 variable "authentication_factor_setting_sms_enabled" {
-  default = "true"
+  default = false
 }
 
 variable "authentication_factor_setting_tags_key" {
@@ -186,7 +186,7 @@ variable "authentication_factor_setting_third_party_factor_duo_security" {
 }
 
 variable "authentication_factor_setting_totp_enabled" {
-  default = false
+  default = true
 }
 
 variable "authentication_factor_setting_totp_settings_email_otp_validity_duration_in_mins" {

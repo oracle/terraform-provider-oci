@@ -1,3 +1,15 @@
+## 6.32.0 (March 26, 2025)
+
+### Added
+- Support for Stack Monitoring to detect OCI compute launch and auto-enable host monitoring
+- Support for Spec Change to Fix Misspelled Property
+- Support for Host API - Host visibility improvements
+- Tag Support for Maintenance Windows in Stack Monitoring
+- Support for Stack Monitoring: Easy Onboarding Phase 2
+### Bug Fix
+- Database vmcluster update to include cloudautomationupdate only when changed
+- IdentityDomains fixes for App resource; Doc update for User, Group
+
 ## 6.31.0 (March 18,2025)
 
 ### Added

@@ -55,6 +55,7 @@ resource "oci_identity_domains_user" "test_grant_user" {
   }
 }
 
+### An test app to test grant
 data "oci_identity_domains_apps" "test_grant_apps" {
   idcs_endpoint = data.oci_identity_domain.test_domain.url
   app_filter                   = "displayName sw \"GrantTestApp\""

@@ -1,6 +1,5 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
-
 package sch
 
 import (
@@ -455,6 +454,10 @@ func SchServiceConnectorResource() *schema.Resource {
 			},
 
 			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecyle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -949,13 +952,17 @@ func (s *SchServiceConnectorResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.LifecyleDetails != nil {
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
 	}
 
 	if s.Res.Source != nil {
 		sourceArray := []interface{}{}
-		if sourceMap := SourceDetailsToMap(&s.Res.Source); sourceMap != nil {
+		if sourceMap := SourceDetailsResponseToMap(&s.Res.Source); sourceMap != nil {
 			sourceArray = append(sourceArray, sourceMap)
 		}
 		s.D.Set("source", sourceArray)
@@ -971,7 +978,7 @@ func (s *SchServiceConnectorResourceCrud) SetData() error {
 
 	if s.Res.Target != nil {
 		targetArray := []interface{}{}
-		if targetMap := TargetDetailsToMap(&s.Res.Target); targetMap != nil {
+		if targetMap := TargetDetailsResponseToMap(&s.Res.Target); targetMap != nil {
 			targetArray = append(targetArray, targetMap)
 		}
 		s.D.Set("target", targetArray)
@@ -981,7 +988,7 @@ func (s *SchServiceConnectorResourceCrud) SetData() error {
 
 	tasks := []interface{}{}
 	for _, item := range s.Res.Tasks {
-		tasks = append(tasks, TaskDetailsToMap(item))
+		tasks = append(tasks, TaskDetailsResponseToMap(item))
 	}
 	s.D.Set("tasks", tasks)
 
@@ -1323,6 +1330,7 @@ func ServiceConnectorSummaryToMap(obj oci_sch.ServiceConnectorSummary) map[strin
 	}
 
 	if obj.LifecycleDetails != nil {
+		result["lifecyle_details"] = string(*obj.LifecycleDetails)
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
@@ -1451,7 +1459,7 @@ func (s *SchServiceConnectorResourceCrud) mapToSourceDetails(fieldKeyFormat stri
 	return baseObject, nil
 }
 
-func SourceDetailsToMap(obj *oci_sch.SourceDetails) map[string]interface{} {
+func SourceDetailsResponseToMap(obj *oci_sch.SourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_sch.LoggingSourceDetails:
@@ -1661,7 +1669,7 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 	return baseObject, nil
 }
 
-func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
+func TargetDetailsResponseToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_sch.FunctionsTargetDetails:
@@ -1797,7 +1805,7 @@ func (s *SchServiceConnectorResourceCrud) mapToTaskDetails(fieldKeyFormat string
 	return baseObject, nil
 }
 
-func TaskDetailsToMap(obj oci_sch.TaskDetails) map[string]interface{} {
+func TaskDetailsResponseToMap(obj oci_sch.TaskDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
 	case oci_sch.FunctionTaskDetails:

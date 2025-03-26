@@ -30,6 +30,9 @@ type MonitoredResourceTask struct {
 
 	TaskDetails MonitoredResourceTaskDetails `mandatory:"true" json:"taskDetails"`
 
+	// Type of the task.
+	Type *string `mandatory:"false" json:"type"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy.
 	TenantId *string `mandatory:"false" json:"tenantId"`
 
@@ -82,6 +85,7 @@ func (m MonitoredResourceTask) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceTask) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Type           *string                                 `json:"type"`
 		TenantId       *string                                 `json:"tenantId"`
 		WorkRequestIds []string                                `json:"workRequestIds"`
 		TimeCreated    *common.SDKTime                         `json:"timeCreated"`
@@ -101,6 +105,8 @@ func (m *MonitoredResourceTask) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Type = model.Type
+
 	m.TenantId = model.TenantId
 
 	m.WorkRequestIds = make([]string, len(model.WorkRequestIds))

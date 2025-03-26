@@ -50,6 +50,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_core_compute_gpu_memory_clusters", CoreComputeGpuMemoryClustersDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_gpu_memory_fabric", CoreComputeGpuMemoryFabricDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_gpu_memory_fabrics", CoreComputeGpuMemoryFabricsDataSource())
+	tfresource.RegisterDatasource("oci_core_compute_host", CoreComputeHostDataSource())
+	tfresource.RegisterDatasource("oci_core_compute_hosts", CoreComputeHostsDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_image_capability_schema", CoreComputeImageCapabilitySchemaDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_image_capability_schemas", CoreComputeImageCapabilitySchemasDataSource())
 	tfresource.RegisterDatasource("oci_core_console_histories", CoreConsoleHistoriesDataSource())

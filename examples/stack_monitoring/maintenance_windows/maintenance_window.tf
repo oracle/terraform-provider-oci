@@ -18,11 +18,11 @@ variable "maintenance_window_schedule_schedule_type" {
 }
 
 variable "maintenance_window_schedule_time_maintenance_window_start" {
-  default = "2024-10-25T16:00:01.001Z"
+  default = "2025-02-25T16:00:01.001Z"
 }
 
 variable "maintenance_window_schedule_time_maintenance_window_end" {
-  default = "2024-10-26T16:00:01.001Z"
+  default = "2025-02-26T16:00:01.001Z"
 }
 
 provider "oci" {

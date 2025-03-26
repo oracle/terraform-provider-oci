@@ -103,6 +103,40 @@ func (s *StackMonitoringConfigDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_stack_monitoring.ComputeAutoActivatePluginConfigDetails:
+		s.D.Set("config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN")
+
+		if v.IsEnabled != nil {
+			s.D.Set("is_enabled", *v.IsEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_stack_monitoring.LicenseAutoAssignConfigDetails:
 		s.D.Set("config_type", "LICENSE_AUTO_ASSIGN")
 
@@ -140,6 +174,64 @@ func (s *StackMonitoringConfigDataSourceCrud) SetData() error {
 
 		if v.IsEnabled != nil {
 			s.D.Set("is_enabled", *v.IsEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_stack_monitoring.OnboardConfigDetails:
+		s.D.Set("config_type", "ONBOARD")
+
+		if v.AdditionalConfigurations != nil {
+			s.D.Set("additional_configurations", []interface{}{AdditionalConfigurationDetailsToMap(v.AdditionalConfigurations)})
+		} else {
+			s.D.Set("additional_configurations", nil)
+		}
+
+		dynamicGroups := []interface{}{}
+		for _, item := range v.DynamicGroups {
+			dynamicGroups = append(dynamicGroups, DynamicGroupDetailsToMap(item))
+		}
+		s.D.Set("dynamic_groups", dynamicGroups)
+
+		if v.IsManuallyOnboarded != nil {
+			s.D.Set("is_manually_onboarded", *v.IsManuallyOnboarded)
+		}
+
+		s.D.Set("policy_names", v.PolicyNames)
+
+		userGroups := []interface{}{}
+		for _, item := range v.UserGroups {
+			userGroups = append(userGroups, GroupDetailsToMap(item))
+		}
+		s.D.Set("user_groups", userGroups)
+
+		if v.Version != nil {
+			s.D.Set("version", *v.Version)
 		}
 
 		if v.CompartmentId != nil {

@@ -908,7 +908,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
-	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok {
+	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok && s.D.HasChange("cloud_automation_update_details") {
 		if tmpList := cloudAutomationUpdateDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cloud_automation_update_details", 0)
 			tmp, err := s.mapToCloudAutomationUpdateDetails(fieldKeyFormat)
@@ -1370,8 +1370,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 			result.ApplyUpdateTimePreference = &tmp
 		}
 	}
-
-	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok {
+	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "freeze_period")) {
 		if tmpList := freezePeriod.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "freeze_period"), 0)
 			tmp, err := s.mapToCloudAutomationFreezePeriod(fieldKeyFormatNextLevel)
@@ -1387,7 +1386,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 		result.IsEarlyAdoptionEnabled = &tmp
 	}
 
-	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok {
+	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")) {
 		tmp := isFreezePeriodEnabled.(bool)
 		result.IsFreezePeriodEnabled = &tmp
 	}

@@ -119,7 +119,7 @@ func init() {
 	exportIdentityDomainsMyRequestHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsMyRequestHints.FindResourcesOverrideFn = getFindMyResources("myRequests")
 
-	tf_export.RegisterTenancyGraphs("identity_domains", identityDomainsResourceGraph)
+	tf_export.RegisterCompartmentGraphs("identity_domains", identityDomainsResourceGraph)
 
 }
 
@@ -570,7 +570,7 @@ var exportIdentityDomainsSocialIdentityProviderHints = &tf_export.TerraformResou
 }
 
 var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
-	"oci_identity_tenancy": {
+	"oci_identity_compartment": {
 		{TerraformResourceHints: exportIdentityDomainHints},
 	},
 	"oci_identity_domain": {
