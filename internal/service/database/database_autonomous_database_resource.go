@@ -1966,7 +1966,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
@@ -2111,7 +2111,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.PeerDbId = &tmp
 	}
 
-	if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+	if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok && s.D.HasChange("private_endpoint_ip") {
 		tmp := privateEndpointIp.(string)
 		request.PrivateEndpointIp = &tmp
 	}
