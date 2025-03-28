@@ -64,6 +64,7 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 		#Optional
 		id = var.load_balancer_reserved_ips_id
 	}
+	security_attributes = var.load_balancer_security_attributes
 	shape_details {
 		#Required
 		maximum_bandwidth_in_mbps = var.load_balancer_shape_details_maximum_bandwidth_in_mbps
@@ -142,6 +143,7 @@ The following arguments are supported:
 		Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
 		Example: "ocid1.publicip.oc1.phx.unique_ID" Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
+* `security_attributes` - (Optional) (Updatable) Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}` 
 * `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `flexible` NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be `Flexible` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-Micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-Micro`.
 * `shape_details` - (Optional) (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is `Flexible`. 
 	* `maximum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
@@ -283,6 +285,7 @@ The following attributes are exported:
 			* `name` - The name can be one of these values: `FORWARD_TO_BACKENDSET`
 		* `condition` - A routing rule to evaluate defined conditions against the incoming HTTP request and perform an action. 
 		* `name` - A unique name for the routing policy rule. Avoid entering confidential information. 
+* `security_attributes` - Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}` 
 * `shape` - A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` 
 * `shape_details` - The configuration details to update load balancer to a different shape. 
 	* `maximum_bandwidth_in_mbps` - Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.

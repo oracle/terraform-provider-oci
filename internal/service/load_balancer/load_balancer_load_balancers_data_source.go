@@ -171,6 +171,9 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 			loadBalancer["request_id_header"] = *r.RequestIdHeader
 		}
 
+		if r.SecurityAttributes != nil {
+			loadBalancer["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+		}
 		if r.ShapeName != nil {
 			loadBalancer["shape"] = *r.ShapeName
 		}
