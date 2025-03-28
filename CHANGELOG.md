@@ -1,3 +1,16 @@
+## 6.33.0 (Unreleased)
+
+### Added
+- Support for ML Application Service
+- Support for Provision for additional checksums apart from MD5
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
 ## 6.32.0 (Unreleased)
 
 ### Added
