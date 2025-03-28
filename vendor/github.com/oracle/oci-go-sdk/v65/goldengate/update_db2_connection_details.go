@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,8 +46,11 @@ type UpdateDb2ConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// The name of the database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
@@ -63,17 +66,35 @@ type UpdateDb2ConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect the associated DB2 database.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// that Oracle GoldenGate uses to connect the associated DB2 database.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
 
 	// The base64 encoded keystore file created at the client containing the server certificate / CA root certificate.
+	// Deprecated: This field is deprecated and replaced by "sslClientKeystoredbSecretId". This field will be removed after February 15 2026.
 	SslClientKeystoredb *string `mandatory:"false" json:"sslClientKeystoredb"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystore file stored,
+	// which created at the client containing the server certificate / CA root certificate.
+	// Note: When provided, 'sslClientKeystoredb' field must not be provided.
+	SslClientKeystoredbSecretId *string `mandatory:"false" json:"sslClientKeystoredbSecretId"`
+
 	// The base64 encoded keystash file which contains the encrypted password to the key database file.
+	// Deprecated: This field is deprecated and replaced by "sslClientKeystashSecretId". This field will be removed after February 15 2026.
 	SslClientKeystash *string `mandatory:"false" json:"sslClientKeystash"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,
+	// which contains the encrypted password to the key database file.
+	// Note: When provided, 'sslClientKeystash' field must not be provided.
+	SslClientKeystashSecretId *string `mandatory:"false" json:"sslClientKeystashSecretId"`
 
 	// The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate.
 	SslServerCertificate *string `mandatory:"false" json:"sslServerCertificate"`
@@ -131,6 +152,11 @@ func (m UpdateDb2ConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m UpdateDb2ConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m UpdateDb2ConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m UpdateDb2ConnectionDetails) String() string {

@@ -15,9 +15,10 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	oci_apm_config "github.com/oracle/oci-go-sdk/v65/apmconfig"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
@@ -76,7 +77,7 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 	datasourceOptionsName := "data.oci_apm_config_configs.test_optionss"
 	singularOptionsDatasourceName := "data.oci_apm_config_config.test_options"
 
-	var resId string
+	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmConfigConfigResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Optional, acctest.Create, configOptionsRepresentation), "apmconfig", "config", t)
@@ -140,11 +141,37 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// Step 4: delete Options before next create
+			// Step 4: verify updates to Options updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Optional, acctest.Update, configOptionsRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(optionsResourceName, "apm_domain_id"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "id"),
+					resource.TestCheckResourceAttr(optionsResourceName, "config_type", configTypeOptions),
+					resource.TestCheckResourceAttr(optionsResourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(optionsResourceName, "group", "group2"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "options"),
+					resource.TestCheckResourceAttr(optionsResourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(optionsResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "etag"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, optionsResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// Step 5: delete Options before next create
 			{
 				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
-			// Step 5: verify datasource
+			// Step 6: verify datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_configs", "test_optionss", acctest.Optional, acctest.Update, configOptionsDataSourceRepresentation) +
@@ -159,7 +186,7 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceOptionsName, "config_collection.0.items.#", "1"),
 				),
 			},
-			// Step 6: verify singular datasource
+			// Step 7: verify singular datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Required, acctest.Create, configOptionsSingularDataSourceRepresentation) +
@@ -179,7 +206,7 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "updated_by"),
 				),
 			},
-			// Step 7 verify resource import
+			// Step 8 verify resource import
 			{
 				Config:            config + ConfigOptionsRequiredOnlyResource,
 				ImportState:       true,

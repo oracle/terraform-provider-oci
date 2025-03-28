@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 
 // BackendSet The configuration of a network load balancer backend set.
 // For more information about backend set configuration, see
-// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
+// Backend Sets for Network Load Balancers (https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/BackendSets/backend-set-management.htm).
 // **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type BackendSet struct {
 
@@ -44,6 +44,12 @@ type BackendSet struct {
 
 	// If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
 	IsInstantFailoverEnabled *bool `mandatory:"false" json:"isInstantFailoverEnabled"`
+
+	// If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.
+	IsInstantFailoverTcpResetEnabled *bool `mandatory:"false" json:"isInstantFailoverTcpResetEnabled"`
+
+	// If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy.
+	AreOperationallyActiveBackendsPreferred *bool `mandatory:"false" json:"areOperationallyActiveBackendsPreferred"`
 
 	// IP version associated with the backend set.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`

@@ -61,6 +61,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 			#Optional
 			is_pod_security_policy_enabled = var.cluster_options_admission_controller_options_is_pod_security_policy_enabled
 		}
+		ip_families = var.cluster_options_ip_families
 		kubernetes_network_config {
 
 			#Optional
@@ -74,6 +75,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 			#Optional
 			ca_certificate = var.cluster_options_open_id_connect_token_authentication_config_ca_certificate
 			client_id = oci_containerengine_client.test_client.id
+			configuration_file = var.cluster_options_open_id_connect_token_authentication_config_configuration_file
 			groups_claim = var.cluster_options_open_id_connect_token_authentication_config_groups_claim
 			groups_prefix = var.cluster_options_open_id_connect_token_authentication_config_groups_prefix
 			issuer_url = var.cluster_options_open_id_connect_token_authentication_config_issuer_url
@@ -136,12 +138,14 @@ The following arguments are supported:
 		* `is_tiller_enabled` - (Optional) Whether or not to enable the Tiller add-on.
 	* `admission_controller_options` - (Optional) (Updatable) Configurable cluster admission controllers
 		* `is_pod_security_policy_enabled` - (Optional) (Updatable) Whether or not to enable the Pod Security Policy admission controller.
+	* `ip_families` - (Optional) IP family to use for single stack or define the order of IP families for dual-stack. Available values are [] (defaults to IPv4), [IPv4] (IPv4), [IPv4, IPv6] (IPv4 preferred dual stack).
 	* `kubernetes_network_config` - (Optional) Network configuration for Kubernetes.
-		* `pods_cidr` - (Optional) The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
-		* `services_cidr` - (Optional) The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+		* `pods_cidr` - (Optional) The CIDR block for Kubernetes pods. Optional. For ipv4, defaults to 10.244.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0000::/96.
+		* `services_cidr` - (Optional) The CIDR block for Kubernetes services. Optional. For ipv4, defaults to 10.96.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0001::/108.
 	* `open_id_connect_token_authentication_config` - (Optional) (Updatable) The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 
 		* `ca_certificate` - (Optional) (Updatable) A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate. 
 		* `client_id` - (Optional) (Updatable) A client id that all tokens must be issued for. 
+		* `configuration_file` - (Optional) (Updatable) A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info [here](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration) 
 		* `groups_claim` - (Optional) (Updatable) JWT claim to use as the user's group. If the claim is present it must be an array of strings. 
 		* `groups_prefix` - (Optional) (Updatable) Prefix prepended to group claims to prevent clashes with existing names (such as system:groups). 
 		* `is_open_id_connect_auth_enabled` - (Required) (Updatable) Whether the cluster has OIDC Auth Config enabled. Defaults to false. 
@@ -182,6 +186,7 @@ The following attributes are exported:
 	* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `subnet_id` - The OCID of the regional subnet in which to place the Cluster endpoint.
 * `endpoints` - Endpoints served up by the cluster masters.
+	* `ipv6endpoint` - The IPv6 networking Kubernetes API server endpoint.
 	* `kubernetes` - The non-native networking Kubernetes API server endpoint.
 	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
 	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
@@ -214,12 +219,14 @@ The following attributes are exported:
 		* `is_tiller_enabled` - Whether or not to enable the Tiller add-on.
 	* `admission_controller_options` - Configurable cluster admission controllers
 		* `is_pod_security_policy_enabled` - Whether or not to enable the Pod Security Policy admission controller.
+	* `ip_families` - IP family to use for single stack or define the order of IP families for dual-stack. Available values are [] (defaults to IPv4), [IPv4] (IPv4), [IPv4, IPv6] (IPv4 preferred dual stack).
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
-		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
-		* `services_cidr` - The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional. For ipv4, defaults to 10.244.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0000::/96.
+		* `services_cidr` - The CIDR block for Kubernetes services. Optional. For ipv4, defaults to 10.96.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0001::/108.
 	* `open_id_connect_token_authentication_config` - The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 
 		* `ca_certificate` - A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate. 
 		* `client_id` - A client id that all tokens must be issued for. 
+		* `configuration_file` - A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info [here](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration) 
 		* `groups_claim` - JWT claim to use as the user's group. If the claim is present it must be an array of strings. 
 		* `groups_prefix` - Prefix prepended to group claims to prevent clashes with existing names (such as system:groups). 
 		* `is_open_id_connect_auth_enabled` - Whether the cluster has OIDC Auth Config enabled. Defaults to false. 

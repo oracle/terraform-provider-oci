@@ -34,6 +34,10 @@ func DatabaseVmClustersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"vm_clusters": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -83,6 +87,10 @@ func (s *DatabaseVmClustersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.VmClusterSummaryLifecycleStateEnum(state.(string))
 	}
 
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.VmClusterSummaryVmClusterTypeEnum(vmClusterType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListVmClusters(context.Background(), request)
@@ -129,6 +137,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["cloud_automation_update_details"] = nil
 		}
 
+		vmCluster["compute_model"] = r.ComputeModel
+
 		if r.CpusEnabled != nil {
 			vmCluster["cpus_enabled"] = *r.CpusEnabled
 			vmCluster["cpu_core_count"] = *r.CpusEnabled
@@ -164,6 +174,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		if r.ExadataInfrastructureId != nil {
 			vmCluster["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
+		}
+
+		if r.ExascaleDbStorageVaultId != nil {
+			vmCluster["exascale_db_storage_vault_id"] = *r.ExascaleDbStorageVaultId
 		}
 
 		fileSystemConfigurationDetails := []interface{}{}
@@ -216,6 +230,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		vmCluster["state"] = r.LifecycleState
 
+		vmCluster["storage_management_type"] = r.StorageManagementType
+
 		if r.SystemVersion != nil {
 			vmCluster["system_version"] = *r.SystemVersion
 		}
@@ -231,6 +247,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 		if r.VmClusterNetworkId != nil {
 			vmCluster["vm_cluster_network_id"] = *r.VmClusterNetworkId
 		}
+
+		vmCluster["vm_cluster_type"] = r.VmClusterType
 
 		resources = append(resources, vmCluster)
 	}

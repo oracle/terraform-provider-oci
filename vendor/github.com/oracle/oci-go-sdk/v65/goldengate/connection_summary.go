@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,14 +19,14 @@ import (
 // ConnectionSummary Summary of the Connection.
 type ConnectionSummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection being
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
 	// referenced.
 	GetId() *string
 
 	// An object's Display Name.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	GetCompartmentId() *string
 
 	// Possible lifecycle states for connection.
@@ -54,7 +54,7 @@ type ConnectionSummary interface {
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle
 	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
-	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	GetSystemTags() map[string]map[string]interface{}
 
@@ -78,7 +78,7 @@ type ConnectionSummary interface {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:
@@ -89,6 +89,9 @@ type ConnectionSummary interface {
 
 	// Locks associated with this resource.
 	GetLocks() []ResourceLock
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	GetDoesUseSecretIds() *bool
 }
 
 type connectionsummary struct {
@@ -105,6 +108,7 @@ type connectionsummary struct {
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
 	Locks            []ResourceLock                    `mandatory:"false" json:"locks"`
+	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -143,6 +147,7 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.Locks = s.Model.Locks
+	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -157,16 +162,12 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.ConnectionType {
-	case "GOLDENGATE":
-		mm := GoldenGateConnectionSummary{}
+	case "MICROSOFT_FABRIC":
+		mm := MicrosoftFabricConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA_SCHEMA_REGISTRY":
 		mm := KafkaSchemaRegistryConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "JAVA_MESSAGE_SERVICE":
-		mm := JavaMessageServiceConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MICROSOFT_SQLSERVER":
@@ -181,6 +182,46 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := OracleConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := OciObjectStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := AzureSynapseConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3ConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := MysqlConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ELASTICSEARCH":
+		mm := ElasticsearchConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_PUBSUB":
+		mm := GooglePubSubConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := GoogleCloudStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOLDENGATE":
+		mm := GoldenGateConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := SnowflakeConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -193,36 +234,16 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := RedisConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := OciObjectStorageConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AZURE_SYNAPSE_ANALYTICS":
-		mm := AzureSynapseConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MONGODB":
-		mm := MongoDbConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOOGLE_BIGQUERY":
 		mm := GoogleBigQueryConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMAZON_S3":
-		mm := AmazonS3ConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "POSTGRESQL":
 		mm := PostgresqlConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MYSQL":
-		mm := MysqlConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GENERIC":
@@ -233,10 +254,6 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := KafkaConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "ELASTICSEARCH":
-		mm := ElasticsearchConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DB2":
 		mm := Db2ConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -245,16 +262,16 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := AmazonRedshiftConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATABRICKS":
+		mm := DatabricksConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HDFS":
 		mm := HdfsConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "GOOGLE_CLOUD_STORAGE":
-		mm := GoogleCloudStorageConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ConnectionSummary: %s.", m.ConnectionType)
+		common.Logf("Received unsupported enum value for ConnectionSummary: %s.", m.ConnectionType)
 		return *m, nil
 	}
 }
@@ -317,6 +334,11 @@ func (m connectionsummary) GetRoutingMethod() RoutingMethodEnum {
 // GetLocks returns Locks
 func (m connectionsummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m connectionsummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 // GetId returns Id

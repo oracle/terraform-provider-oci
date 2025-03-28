@@ -15,7 +15,15 @@ variable "ssh_public_key" {
 variable "ssh_private_key" {}
 
 variable "cloud_exadata_infrastructure_shape" {
-  default = "Exadata.X8M"
+  default = "Exadata.X11M"
+}
+
+variable "cloud_exadata_infrastructure_database_server_type" {
+  default = "X11M"
+}
+
+variable "cloud_exadata_infrastructure_storage_server_type" {
+  default = "X11M-HC"
 }
 
 variable "cloud_exadata_infrastructure_cluster_placement_group_id" {
@@ -35,7 +43,7 @@ variable "cloud_exadata_infrastructure_storage_count" {
 }
 
 variable "cloud_vm_cluster_cpu_core_count" {
-  default = "8"
+  default = "16"
 }
 
 variable "cloud_vm_cluster_ocpu_count" {

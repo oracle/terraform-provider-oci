@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
 
@@ -52,12 +52,12 @@ var (
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `displayNameNonSharded`, Update: `displayNameNonSharded2`},
 		"node_count":         acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
 		"node_memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"software_version":   acctest.Representation{RepType: acctest.Required, Create: `REDIS_7_0`},
+		"software_version":   acctest.Representation{RepType: acctest.Required, Create: `REDIS_7_0`, Update: `VALKEY_7_2`},
 		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"cluster_mode":       acctest.Representation{RepType: acctest.Optional, Create: `NONSHARDED`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
 	}
 
@@ -72,7 +72,7 @@ var (
 		"cluster_mode":       acctest.Representation{RepType: acctest.Required, Create: `SHARDED`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
 	}
 
@@ -220,12 +220,12 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_collection.0.items.#", "5"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "5"),
 				resource.TestCheckResourceAttr(resourceName, "node_memory_in_gbs", "3"),
-				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "primary_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "primary_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_fqdn"),
-				resource.TestCheckResourceAttr(resourceName, "software_version", "REDIS_7_0"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "VALKEY_7_2"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -312,7 +312,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(shardedResourceName, "node_collection.0.items.#", "0"),
 				resource.TestCheckResourceAttr(shardedResourceName, "node_count", "3"),
 				resource.TestCheckResourceAttr(shardedResourceName, "node_memory_in_gbs", "3"),
-				resource.TestCheckResourceAttr(shardedResourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(shardedResourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(shardedResourceName, "shard_count", "5"),
 				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "V7_0_5"),
 				resource.TestCheckResourceAttrSet(shardedResourceName, "subnet_id"),
@@ -359,12 +359,12 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_collection.0.items.#", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_count", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_memory_in_gbs", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "primary_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "primary_fqdn"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas_fqdn"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "software_version", "REDIS_7_0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "software_version", "VALKEY_7_2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

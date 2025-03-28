@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -93,6 +93,14 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 				Computed: true,
 			},
 			"schemas_for_discovery": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"sensitive_type_group_ids_for_discovery": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
@@ -293,6 +301,19 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Create() error {
 		}
 	}
 
+	if sensitiveTypeGroupIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_group_ids_for_discovery"); ok {
+		interfaces := sensitiveTypeGroupIdsForDiscovery.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("sensitive_type_group_ids_for_discovery") {
+			request.SensitiveTypeGroupIdsForDiscovery = tmp
+		}
+	}
+
 	if sensitiveTypeIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_ids_for_discovery"); ok {
 		interfaces := sensitiveTypeIdsForDiscovery.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -399,7 +420,7 @@ func sensitiveDataModelWaitForWorkRequest(wId *string, entityType string, action
 	retryPolicy.ShouldRetryOperation = sensitiveDataModelWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_data_safe.WorkRequestStatusInProgress),
 			string(oci_data_safe.WorkRequestStatusAccepted),
@@ -552,6 +573,19 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SensitiveDataModelId = &tmp
 
+	if sensitiveTypeGroupIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_group_ids_for_discovery"); ok {
+		interfaces := sensitiveTypeGroupIdsForDiscovery.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("sensitive_type_group_ids_for_discovery") {
+			request.SensitiveTypeGroupIdsForDiscovery = tmp
+		}
+	}
+
 	if sensitiveTypeIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_ids_for_discovery"); ok {
 		interfaces := sensitiveTypeIdsForDiscovery.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -658,6 +692,8 @@ func (s *DataSafeSensitiveDataModelResourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas_for_discovery", s.Res.SchemasForDiscovery)
+
+	s.D.Set("sensitive_type_group_ids_for_discovery", s.Res.SensitiveTypeGroupIdsForDiscovery)
 
 	s.D.Set("sensitive_type_ids_for_discovery", s.Res.SensitiveTypeIdsForDiscovery)
 

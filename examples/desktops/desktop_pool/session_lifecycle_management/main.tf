@@ -37,6 +37,7 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
   # Important: Availability policy can not be set when DISCONNECT Session Lifecycle Action is being set but
   # "availability_policy" element without start nor stop schedules needs to be present
   availability_policy {
+
   }
 
   is_storage_enabled       = var.desktop_pool_is_storage_enabled

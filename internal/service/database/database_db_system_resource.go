@@ -362,6 +362,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"is_unified_auditing_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"id": {
@@ -706,6 +711,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"private_ip_v6": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -943,6 +954,13 @@ func DatabaseDbSystemResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"scan_ipv6ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -956,6 +974,13 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 			},
 			"vip_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"vipv6ids": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
@@ -1459,6 +1484,8 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
+	s.D.Set("scan_ipv6ids", s.Res.ScanIpv6Ids)
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -1498,6 +1525,8 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	s.D.Set("vipv6ids", s.Res.Vipv6Ids)
 
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)
@@ -1959,6 +1988,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat s
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isUnifiedAuditingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unified_auditing_enabled")); ok {
+		tmp := isUnifiedAuditingEnabled.(bool)
+		result.IsUnifiedAuditingEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1987,6 +2021,10 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.IsUnifiedAuditingEnabled != nil {
+		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
+	}
+
 	return result
 }
 
@@ -2014,6 +2052,15 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldK
 		result.DisplayName = &tmp
 	}
 
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isUnifiedAuditingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unified_auditing_enabled")); ok {
+		tmp := isUnifiedAuditingEnabled.(bool)
+		result.IsUnifiedAuditingEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -2030,6 +2077,12 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.IsUnifiedAuditingEnabled != nil {
+		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
 	}
 
 	return result
@@ -2572,6 +2625,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
+		if privateIpV6, ok := s.D.GetOkExists("private_ip_v6"); ok {
+			tmp := privateIpV6.(string)
+			details.PrivateIpV6 = &tmp
+		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
@@ -2756,6 +2813,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
+		if privateIpV6, ok := s.D.GetOkExists("private_ip_v6"); ok {
+			tmp := privateIpV6.(string)
+			details.PrivateIpV6 = &tmp
+		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
@@ -2937,6 +2998,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		}
 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if privateIpV6, ok := s.D.GetOkExists("private_ip_v6"); ok {
+			tmp := privateIpV6.(string)
+			details.PrivateIpV6 = &tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -3131,6 +3196,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		}
 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if privateIpV6, ok := s.D.GetOkExists("private_ip_v6"); ok {
+			tmp := privateIpV6.(string)
+			details.PrivateIpV6 = &tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -25,10 +25,10 @@ type NewsReportSummary struct {
 
 	ContentTypes *NewsContentTypes `mandatory:"true" json:"contentTypes"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the news report resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the news report resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Language of the news report.
@@ -40,7 +40,7 @@ type NewsReportSummary struct {
 	// The news report name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ONS topic.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ONS topic.
 	OnsTopicId *string `mandatory:"false" json:"onsTopicId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -75,6 +75,14 @@ type NewsReportSummary struct {
 
 	// A flag to consider the resources within a given compartment and all sub-compartments.
 	AreChildCompartmentsIncluded *bool `mandatory:"false" json:"areChildCompartmentsIncluded"`
+
+	// List of tag filters; each filter composed by a namespace, key, and value.
+	// Example for defined tags - '<TagNamespace>.<TagKey>=<TagValue>'.
+	// Example for freeform tags - '<TagKey>=<TagValue>'.
+	TagFilters []string `mandatory:"false" json:"tagFilters"`
+
+	// Match rule used for tag filters.
+	MatchRule MatchRuleEnum `mandatory:"false" json:"matchRule,omitempty"`
 }
 
 func (m NewsReportSummary) String() string {
@@ -101,6 +109,9 @@ func (m NewsReportSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDayOfWeekEnum(string(m.DayOfWeek)); !ok && m.DayOfWeek != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DayOfWeek: %s. Supported values are: %s.", m.DayOfWeek, strings.Join(GetDayOfWeekEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMatchRuleEnum(string(m.MatchRule)); !ok && m.MatchRule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchRule: %s. Supported values are: %s.", m.MatchRule, strings.Join(GetMatchRuleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

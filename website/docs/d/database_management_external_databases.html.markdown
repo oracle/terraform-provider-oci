@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_management_external_databases"
 sidebar_current: "docs-oci-datasource-database_management-external_databases"
 description: |-
-Provides the list of External Databases in Oracle Cloud Infrastructure Database Management service
+  Provides the list of External Databases in Oracle Cloud Infrastructure Database Management service
 ---
 
 # Data Source: oci_database_management_external_databases

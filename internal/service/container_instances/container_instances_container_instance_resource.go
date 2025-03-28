@@ -14,7 +14,7 @@ import (
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -118,22 +118,17 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 										ForceNew:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
-											"COMMAND",
 											"HTTP",
 											"TCP",
 										}, true),
 									},
+									"port": {
+										Type:     schema.TypeInt,
+										Required: true,
+										ForceNew: true,
+									},
 
 									// Optional
-									"command": {
-										Type:     schema.TypeList,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
 									"failure_action": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -193,12 +188,6 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 									},
 									"path": {
 										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-									},
-									"port": {
-										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
@@ -1148,7 +1137,7 @@ func containerInstanceWaitForWorkRequest(wId *string, entityType string, action 
 	retryPolicy.ShouldRetryOperation = containerInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_container_instances.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_container_instances.OperationStatusInProgress),
 			string(oci_container_instances.OperationStatusAccepted),
@@ -1962,48 +1951,6 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerHe
 		healthCheckType = "" // default value
 	}
 	switch strings.ToLower(healthCheckType) {
-	case strings.ToLower("COMMAND"):
-		details := oci_container_instances.CreateContainerCommandHealthCheckDetails{}
-		if command, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "command")); ok {
-			interfaces := command.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "command")) {
-				details.Command = tmp
-			}
-		}
-		if failureAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "failure_action")); ok {
-			details.FailureAction = oci_container_instances.ContainerHealthCheckFailureActionEnum(failureAction.(string))
-		}
-		if failureThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "failure_threshold")); ok {
-			tmp := failureThreshold.(int)
-			details.FailureThreshold = &tmp
-		}
-		if initialDelayInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "initial_delay_in_seconds")); ok {
-			tmp := initialDelayInSeconds.(int)
-			details.InitialDelayInSeconds = &tmp
-		}
-		if intervalInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interval_in_seconds")); ok {
-			tmp := intervalInSeconds.(int)
-			details.IntervalInSeconds = &tmp
-		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-			tmp := name.(string)
-			details.Name = &tmp
-		}
-		if successThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "success_threshold")); ok {
-			tmp := successThreshold.(int)
-			details.SuccessThreshold = &tmp
-		}
-		if timeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_seconds")); ok {
-			tmp := timeoutInSeconds.(int)
-			details.TimeoutInSeconds = &tmp
-		}
-		baseObject = details
 	case strings.ToLower("HTTP"):
 		details := oci_container_instances.CreateContainerHttpHealthCheckDetails{}
 		if headers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "headers")); ok {
@@ -2101,42 +2048,6 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerHe
 func ContainerHealthCheckToMap(obj oci_container_instances.ContainerHealthCheck) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
-	case oci_container_instances.ContainerCommandHealthCheck:
-		result["health_check_type"] = "COMMAND"
-
-		result["command"] = v.Command
-
-		result["failure_action"] = string(v.FailureAction)
-
-		if v.FailureThreshold != nil {
-			result["failure_threshold"] = int(*v.FailureThreshold)
-		}
-
-		if v.InitialDelayInSeconds != nil {
-			result["initial_delay_in_seconds"] = int(*v.InitialDelayInSeconds)
-		}
-
-		if v.IntervalInSeconds != nil {
-			result["interval_in_seconds"] = int(*v.IntervalInSeconds)
-		}
-
-		if v.Name != nil {
-			result["name"] = string(*v.Name)
-		}
-
-		result["status"] = string(v.Status)
-
-		if v.StatusDetails != nil {
-			result["status_details"] = string(*v.StatusDetails)
-		}
-
-		if v.SuccessThreshold != nil {
-			result["success_threshold"] = int(*v.SuccessThreshold)
-		}
-
-		if v.TimeoutInSeconds != nil {
-			result["timeout_in_seconds"] = int(*v.TimeoutInSeconds)
-		}
 	case oci_container_instances.ContainerHttpHealthCheck:
 		result["health_check_type"] = "HTTP"
 

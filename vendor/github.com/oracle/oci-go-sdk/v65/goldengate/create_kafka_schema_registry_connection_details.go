@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,7 +22,7 @@ type CreateKafkaSchemaRegistryConnectionDetails struct {
 	// An object's Display Name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Kafka Schema Registry URL.
@@ -56,32 +56,68 @@ type CreateKafkaSchemaRegistryConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The username to access Schema Registry using basic authentation.
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The username to access Schema Registry using basic authentication.
 	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
 	Username *string `mandatory:"false" json:"username"`
 
-	// The password to access Schema Registry using basic authentation.
+	// The password to access Schema Registry using basic authentication.
 	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Kafka Schema Registry password is stored,
+	// The password to access Schema Registry using basic authentication.
+	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
 	// The base64 encoded content of the TrustStore file.
+	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This field will be removed after February 15 2026.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the TrustStore file.
+	// Note: When provided, 'trustStore' field must not be provided.
+	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
+
 	// The TrustStore password.
+	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId". This field will be removed after February 15 2026.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl TrustStore password is stored.
+	// Note: When provided, 'trustStorePassword' field must not be provided.
+	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
+
 	// The base64 encoded content of the KeyStore file.
+	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the KeyStore file.
+	// Note: When provided, 'keyStore' field must not be provided.
+	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
+
 	// The KeyStore password.
+	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl KeyStore password is stored.
+	// Note: When provided, 'keyStorePassword' field must not be provided.
+	KeyStorePasswordSecretId *string `mandatory:"false" json:"keyStorePasswordSecretId"`
 
 	// The password for the cert inside the KeyStore.
 	// In case it differs from the KeyStore password, it should be provided.
+	// Deprecated: This field is deprecated and replaced by "sslKeyPasswordSecretId". This field will be removed after February 15 2026.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the cert inside the KeyStore.
+	// In case it differs from the KeyStore password, it should be provided.
+	// Note: When provided, 'sslKeyPassword' field must not be provided.
+	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
@@ -158,6 +194,11 @@ func (m CreateKafkaSchemaRegistryConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateKafkaSchemaRegistryConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateKafkaSchemaRegistryConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateKafkaSchemaRegistryConnectionDetails) String() string {

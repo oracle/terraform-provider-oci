@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -74,9 +74,8 @@ func TestSchConnectorPluginResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
 				resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
-				resource.TestCheckResourceAttr(resourceName, "target.0.batch_size_in_kbs", "6144"),
-				resource.TestCheckResourceAttr(resourceName, "target.0.batch_size_in_num", "6291456"),
-				resource.TestCheckResourceAttr(resourceName, "target.0.batch_time_in_sec", "600"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.batch_size_in_kbs", "5000"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.batch_time_in_sec", "60"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

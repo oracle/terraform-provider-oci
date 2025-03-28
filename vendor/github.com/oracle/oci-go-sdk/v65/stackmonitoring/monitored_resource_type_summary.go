@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,14 +19,14 @@ import (
 // MonitoredResourceTypeSummary The summary of monitored resource type.
 type MonitoredResourceTypeSummary struct {
 
-	// Monitored resource type identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Monitored resource type identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// A unique monitored resource type name. The name must be unique across tenancy.
 	// Name can not be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy containing the resource type.
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Monitored resource type display name.
@@ -38,6 +38,13 @@ type MonitoredResourceTypeSummary struct {
 	// Metric namespace for resource type.
 	MetricNamespace *string `mandatory:"false" json:"metricNamespace"`
 
+	AvailabilityMetricsConfig *AvailabilityMetricsDetails `mandatory:"false" json:"availabilityMetricsConfig"`
+
+	HandlerConfig *AgentExtensionHandlerConfiguration `mandatory:"false" json:"handlerConfig"`
+
+	// If boolean flag is true, then the resource type cannot be modified or deleted.
+	IsSystemDefined *bool `mandatory:"false" json:"isSystemDefined"`
+
 	// Lifecycle state of the monitored resource type.
 	LifecycleState ResourceTypeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -48,6 +55,9 @@ type MonitoredResourceTypeSummary struct {
 	ResourceCategory ResourceCategoryEnum `mandatory:"false" json:"resourceCategory,omitempty"`
 
 	Metadata ResourceTypeMetadataDetails `mandatory:"false" json:"metadata"`
+
+	// Key/Value pair for additional namespaces used by stack monitoring services for SYSTEM (SMB) resource types.
+	AdditionalNamespaceMap map[string]string `mandatory:"false" json:"additionalNamespaceMap"`
 
 	// The date and time when the monitored resource type was created, expressed in
 	// RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
@@ -98,21 +108,25 @@ func (m MonitoredResourceTypeSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName      *string                           `json:"displayName"`
-		Description      *string                           `json:"description"`
-		MetricNamespace  *string                           `json:"metricNamespace"`
-		LifecycleState   ResourceTypeLifecycleStateEnum    `json:"lifecycleState"`
-		SourceType       SourceTypeEnum                    `json:"sourceType"`
-		ResourceCategory ResourceCategoryEnum              `json:"resourceCategory"`
-		Metadata         resourcetypemetadatadetails       `json:"metadata"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		Name             *string                           `json:"name"`
-		CompartmentId    *string                           `json:"compartmentId"`
+		DisplayName               *string                             `json:"displayName"`
+		Description               *string                             `json:"description"`
+		MetricNamespace           *string                             `json:"metricNamespace"`
+		AvailabilityMetricsConfig *AvailabilityMetricsDetails         `json:"availabilityMetricsConfig"`
+		HandlerConfig             *AgentExtensionHandlerConfiguration `json:"handlerConfig"`
+		IsSystemDefined           *bool                               `json:"isSystemDefined"`
+		LifecycleState            ResourceTypeLifecycleStateEnum      `json:"lifecycleState"`
+		SourceType                SourceTypeEnum                      `json:"sourceType"`
+		ResourceCategory          ResourceCategoryEnum                `json:"resourceCategory"`
+		Metadata                  resourcetypemetadatadetails         `json:"metadata"`
+		AdditionalNamespaceMap    map[string]string                   `json:"additionalNamespaceMap"`
+		TimeCreated               *common.SDKTime                     `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                     `json:"timeUpdated"`
+		FreeformTags              map[string]string                   `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags                map[string]map[string]interface{}   `json:"systemTags"`
+		Id                        *string                             `json:"id"`
+		Name                      *string                             `json:"name"`
+		CompartmentId             *string                             `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -125,6 +139,12 @@ func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.MetricNamespace = model.MetricNamespace
+
+	m.AvailabilityMetricsConfig = model.AvailabilityMetricsConfig
+
+	m.HandlerConfig = model.HandlerConfig
+
+	m.IsSystemDefined = model.IsSystemDefined
 
 	m.LifecycleState = model.LifecycleState
 
@@ -141,6 +161,8 @@ func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Metadata = nil
 	}
+
+	m.AdditionalNamespaceMap = model.AdditionalNamespaceMap
 
 	m.TimeCreated = model.TimeCreated
 

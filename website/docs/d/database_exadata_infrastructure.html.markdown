@@ -48,6 +48,7 @@ The following attributes are exported:
 * `cloud_control_plane_server2` - The IP address for the second control plane server.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the Exadata infrastructure.
+* `compute_model` - The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
 	* `is_contact_mos_validated` - If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
@@ -58,6 +59,7 @@ The following attributes are exported:
 * `cpus_enabled` - The number of enabled CPU cores.
 * `csi_number` - The CSI Number of the Exadata infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `database_server_type` - The database server type of the Exadata infrastructure.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the Exadata infrastructure.
 * `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
@@ -68,12 +70,16 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Exadata Cloud@Customer infrastructure. The name does not need to be unique.
 * `dns_server` - The list of DNS server IP addresses. Maximum of 3 allowed.
+* `exascale_config` - The exascale config response details for the Exadata Cloud@Customer infrastructure or cloud Exadata infrastructure . Applies to both Exadata Cloud@Customer instances and Exadata Cloud Service instances. 
+	* `available_storage_in_gbs` - Available storage size for Exascale in GBs.
+	* `total_storage_in_gbs` - Storage size needed for Exascale in GBs.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway` - The gateway for the control plane network.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `infini_band_network_cidr` - The CIDR block for the Exadata InfiniBand interconnect.
 * `is_cps_offline_report_enabled` - Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration for both Oracle and the customer when they find the CPS in a disconnected state.You can enable offline diagnostic report during Exadata infrastructure provisioning. You can also disable or enable it at any time using the UpdateExadatainfrastructure API. 
 * `is_multi_rack_deployment` - Indicates if deployment is Multi-Rack or not.
+* `is_scheduling_policy_associated` - If true, the infrastructure is using granular maintenance scheduling preference.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_slo_status` - A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
@@ -91,7 +97,6 @@ The following attributes are exported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
-	* `skip_ru` - If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `max_cpu_count` - The total number of CPU cores available.
 * `max_data_storage_in_tbs` - The total available DATA disk group size.
@@ -110,6 +115,7 @@ The following attributes are exported:
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.
+* `storage_server_type` - The storage server type of the Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the Exadata infrastructure.
 * `time_created` - The date and time the Exadata infrastructure was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).

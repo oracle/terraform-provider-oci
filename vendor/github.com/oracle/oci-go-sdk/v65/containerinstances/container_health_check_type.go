@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,21 +18,18 @@ type ContainerHealthCheckTypeEnum string
 
 // Set of constants representing the allowable values for ContainerHealthCheckTypeEnum
 const (
-	ContainerHealthCheckTypeHttp    ContainerHealthCheckTypeEnum = "HTTP"
-	ContainerHealthCheckTypeTcp     ContainerHealthCheckTypeEnum = "TCP"
-	ContainerHealthCheckTypeCommand ContainerHealthCheckTypeEnum = "COMMAND"
+	ContainerHealthCheckTypeHttp ContainerHealthCheckTypeEnum = "HTTP"
+	ContainerHealthCheckTypeTcp  ContainerHealthCheckTypeEnum = "TCP"
 )
 
 var mappingContainerHealthCheckTypeEnum = map[string]ContainerHealthCheckTypeEnum{
-	"HTTP":    ContainerHealthCheckTypeHttp,
-	"TCP":     ContainerHealthCheckTypeTcp,
-	"COMMAND": ContainerHealthCheckTypeCommand,
+	"HTTP": ContainerHealthCheckTypeHttp,
+	"TCP":  ContainerHealthCheckTypeTcp,
 }
 
 var mappingContainerHealthCheckTypeEnumLowerCase = map[string]ContainerHealthCheckTypeEnum{
-	"http":    ContainerHealthCheckTypeHttp,
-	"tcp":     ContainerHealthCheckTypeTcp,
-	"command": ContainerHealthCheckTypeCommand,
+	"http": ContainerHealthCheckTypeHttp,
+	"tcp":  ContainerHealthCheckTypeTcp,
 }
 
 // GetContainerHealthCheckTypeEnumValues Enumerates the set of values for ContainerHealthCheckTypeEnum
@@ -49,7 +46,6 @@ func GetContainerHealthCheckTypeEnumStringValues() []string {
 	return []string{
 		"HTTP",
 		"TCP",
-		"COMMAND",
 	}
 }
 

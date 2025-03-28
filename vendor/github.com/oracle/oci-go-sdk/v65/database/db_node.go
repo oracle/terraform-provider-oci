@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,13 +18,13 @@ import (
 // DbNode The representation of DbNode
 type DbNode struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database node.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database node.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
 	// The current state of the database node.
@@ -33,26 +33,36 @@ type DbNode struct {
 	// The date and time that the database node was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup VNIC.
 	BackupVnicId *string `mandatory:"false" json:"backupVnicId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the host IP address associated with the database node. Use this OCID with either the
-	// GetPrivateIp or the GetPublicIpByPrivateIpId API to get the IP address
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host IPv4 address associated with the database node. Use this OCID with either the
+	// GetPrivateIp or the GetPublicIpByPrivateIpId API to get the IPv4 address
 	// needed to make a database connection.
 	// **Note:** Applies only to Exadata Cloud Service.
 	HostIpId *string `mandatory:"false" json:"hostIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup IP address associated with the database node. Use this OCID with either the
-	// GetPrivateIp or the GetPublicIpByPrivateIpId API to get the IP address
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup IPv4 address associated with the database node. Use this OCID with either the
+	// GetPrivateIp or the GetPublicIpByPrivateIpId API to get the IPv4 address
 	// needed to make a database connection.
 	// **Note:** Applies only to Exadata Cloud Service.
 	BackupIpId *string `mandatory:"false" json:"backupIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the second VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host IPv6 address associated with the database node. Use this OCID with the
+	// GetIpv6 API to get the IPv6 address needed to make a database connection.
+	// **Note:** Applies only to Exadata Cloud Service.
+	HostIpv6Id *string `mandatory:"false" json:"hostIpv6Id"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup IPv6 address associated with the database node. Use this OCID with the
+	// GetIpv6 API to get the IPv6 address needed to make a database connection.
+	// **Note:** Applies only to Exadata Cloud Service.
+	BackupIpv6Id *string `mandatory:"false" json:"backupIpv6Id"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second VNIC.
 	// **Note:** Applies only to Exadata Cloud Service.
 	Vnic2Id *string `mandatory:"false" json:"vnic2Id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the second backup VNIC.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second backup VNIC.
 	// **Note:** Applies only to Exadata Cloud Service.
 	BackupVnic2Id *string `mandatory:"false" json:"backupVnic2Id"`
 
@@ -78,12 +88,12 @@ type DbNode struct {
 	AdditionalDetails *string `mandatory:"false" json:"additionalDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Information about the current lifecycle state.
@@ -101,7 +111,7 @@ type DbNode struct {
 	// The total number of CPU cores reserved on the Db node.
 	TotalCpuCoreCount *int `mandatory:"false" json:"totalCpuCoreCount"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -65,7 +65,7 @@ type CreateContainerDetails struct {
 	ResourceConfig *CreateContainerResourceConfigDetails `mandatory:"false" json:"resourceConfig"`
 
 	// list of container health checks to check container status and take appropriate action if container status is failed.
-	// There are three types of health checks that we currently support HTTP, TCP, and Command.
+	// There are two types of health checks that we currently support HTTP and TCP.
 	HealthChecks []CreateContainerHealthCheckDetails `mandatory:"false" json:"healthChecks"`
 
 	SecurityContext CreateSecurityContextDetails `mandatory:"false" json:"securityContext"`

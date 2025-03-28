@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,18 +19,21 @@ type ApplicationLifecycleStateEnum string
 // Set of constants representing the allowable values for ApplicationLifecycleStateEnum
 const (
 	ApplicationLifecycleStateActive   ApplicationLifecycleStateEnum = "ACTIVE"
+	ApplicationLifecycleStateDeleting ApplicationLifecycleStateEnum = "DELETING"
 	ApplicationLifecycleStateDeleted  ApplicationLifecycleStateEnum = "DELETED"
 	ApplicationLifecycleStateInactive ApplicationLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingApplicationLifecycleStateEnum = map[string]ApplicationLifecycleStateEnum{
 	"ACTIVE":   ApplicationLifecycleStateActive,
+	"DELETING": ApplicationLifecycleStateDeleting,
 	"DELETED":  ApplicationLifecycleStateDeleted,
 	"INACTIVE": ApplicationLifecycleStateInactive,
 }
 
 var mappingApplicationLifecycleStateEnumLowerCase = map[string]ApplicationLifecycleStateEnum{
 	"active":   ApplicationLifecycleStateActive,
+	"deleting": ApplicationLifecycleStateDeleting,
 	"deleted":  ApplicationLifecycleStateDeleted,
 	"inactive": ApplicationLifecycleStateInactive,
 }
@@ -48,6 +51,7 @@ func GetApplicationLifecycleStateEnumValues() []ApplicationLifecycleStateEnum {
 func GetApplicationLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 		"DELETED",
 		"INACTIVE",
 	}

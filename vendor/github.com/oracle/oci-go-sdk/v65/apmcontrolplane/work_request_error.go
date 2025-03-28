@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Application Performance Monitoring Control Plane API
 //
 // Use the Application Performance Monitoring Control Plane API to perform operations such as creating, updating,
-// deleting and listing APM domains and monitoring the progress of these operations using the work request APIs. For more information, see Application Performance Monitoring (https://docs.cloud.oracle.com/iaas/application-performance-monitoring/index.html).
+// deleting and listing APM domains and monitoring the progress of these operations using the work request APIs. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmcontrolplane
@@ -20,7 +20,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occurred. Error codes are listed at
-	// API Errors (https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm)
+	// API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm)
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.

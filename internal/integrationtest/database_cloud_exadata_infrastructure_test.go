@@ -16,9 +16,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -80,6 +80,21 @@ var (
 		"storage_count":       acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`}, // required for shape Exadata.X8M
 	}
 
+	DatabaseCloudExadataInfrastructureX11MRepresentation = map[string]interface{}{
+		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra`, Update: `displayName2`},
+		"shape":                acctest.Representation{RepType: acctest.Required, Create: `Exadata.X11M`},
+		"compute_count":        acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"customer_contacts":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureCustomerContactsRepresentation},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowRepresentation},
+		"storage_count":        acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
+		"database_server_type": acctest.Representation{RepType: acctest.Optional, Create: `X11M`},
+		"storage_server_type":  acctest.Representation{RepType: acctest.Optional, Create: `X11M-HC`},
+	}
+
 	DatabaseCloudExadataInfrastructureCustomerContactsRepresentation = map[string]interface{}{
 		"email": acctest.Representation{RepType: acctest.Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
 	}
@@ -110,8 +125,7 @@ var (
 		"name": acctest.Representation{RepType: acctest.Required, Create: `NOVEMBER`, Update: `DECEMBER`},
 	}
 
-	DatabaseCloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig +
-		DefinedTagsDependencies
+	DatabaseCloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/ExaCS
@@ -307,13 +321,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compute_count", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_file_system_configurations.#", "9"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_file_system_configurations.#", "0"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.db_server_version"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.is_scheduling_policy_associated"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.last_maintenance_run_id"), // null for fake resource
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.custom_action_timeout_in_mins", "11"),
@@ -352,13 +367,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "9"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "0"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_server_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_scheduling_policy_associated"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_maintenance_run_id"), // null for fake resource
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.custom_action_timeout_in_mins", "11"),
@@ -531,6 +547,122 @@ func TestDatabaseCloudExadataInfrastructureResourceMVM(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "max_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(resourceName, "memory_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "4"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/ExaCS
+func TestDatabaseCloudExadataInfrastructureResourceX11M(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudExadataInfrastructureResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseCloudExadataInfrastructureResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation), "database", "cloudExadataInfrastructure", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseCloudExadataInfrastructureDestroy, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseCloudExadataInfrastructureX11MRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.is_custom_action_timeout_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X11M"),
+				resource.TestCheckResourceAttr(resourceName, "database_server_type", "X11M"),
+				resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureX11MRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "activated_storage_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "cpu_count"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_storage_size_in_tbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_node_storage_size_in_gbs"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.is_custom_action_timeout_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "JUNE"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "max_cpu_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "max_data_storage_in_tbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "max_db_node_storage_in_gbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "max_memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "memory_size_in_gbs"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X11M"),
+				resource.TestCheckResourceAttr(resourceName, "database_server_type", "X11M"),
+				resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "4"),
 

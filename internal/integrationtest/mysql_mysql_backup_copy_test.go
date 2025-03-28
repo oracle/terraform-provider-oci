@@ -8,9 +8,9 @@ import (
 	"log"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -21,16 +21,17 @@ var (
 	MysqlMysqlBackupCopyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup_copy", acctest.Required, acctest.Create, MysqlMysqlBackupCopyWithSourceDetailsRepresentation)
 
 	MysqlMysqlBackupCopyWithSourceDetailsRepresentation = map[string]interface{}{
-		"source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupCopySourceDetailsRepresentation},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"source_details":    acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupCopySourceDetailsRepresentation},
+		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `5`},
 	}
 
 	MysqlMysqlBackupCopySourceDetailsRepresentation = map[string]interface{}{}
 )
 
 // issue-routing-tag: mysql/default
-func TestMysqlMysqlBackupResource_copy(t *testing.T) {
+func TestMysqlMysqlBackupResource_crossRegionCopy(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlBackupResource_crossRegionCopy")
 	defer httpreplay.SaveScenario()
 
@@ -96,6 +97,7 @@ func TestMysqlMysqlBackupResource_copy(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "immediate_source_backup_id"),
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "original_source_backup_id"),
+				resource.TestCheckResourceAttr(resourceNameCopy, "retention_in_days", "5"),
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "time_copy_created"),
 
 				func(s *terraform.State) (err error) {

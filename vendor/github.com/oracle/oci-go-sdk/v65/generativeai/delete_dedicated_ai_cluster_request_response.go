@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteDedicatedAiCluster.go.html to see an example of how to use DeleteDedicatedAiClusterRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteDedicatedAiCluster.go.html to see an example of how to use DeleteDedicatedAiClusterRequest.
 type DeleteDedicatedAiClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
 	DedicatedAiClusterId *string `mandatory:"true" contributesTo:"path" name:"dedicatedAiClusterId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -81,7 +81,7 @@ type DeleteDedicatedAiClusterResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	// Use GetWorkRequest with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

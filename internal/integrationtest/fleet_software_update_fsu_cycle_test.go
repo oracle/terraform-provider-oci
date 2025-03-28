@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -627,6 +627,7 @@ func TestFleetSoftwareUpdateFsuCycleResource_DB_ImageIdDetails(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_keep_placement", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_drain_timeout_in_seconds", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "next_action_to_execute.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rollback_cycle_state", ""),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,24 +18,27 @@ type ReportDefinitionDataSourceEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionDataSourceEnum
 const (
-	ReportDefinitionDataSourceEvents     ReportDefinitionDataSourceEnum = "EVENTS"
-	ReportDefinitionDataSourceAlerts     ReportDefinitionDataSourceEnum = "ALERTS"
-	ReportDefinitionDataSourceViolations ReportDefinitionDataSourceEnum = "VIOLATIONS"
-	ReportDefinitionDataSourceAllowedSql ReportDefinitionDataSourceEnum = "ALLOWED_SQL"
+	ReportDefinitionDataSourceEvents             ReportDefinitionDataSourceEnum = "EVENTS"
+	ReportDefinitionDataSourceAlerts             ReportDefinitionDataSourceEnum = "ALERTS"
+	ReportDefinitionDataSourceSecurityAssessment ReportDefinitionDataSourceEnum = "SECURITY_ASSESSMENT"
+	ReportDefinitionDataSourceViolations         ReportDefinitionDataSourceEnum = "VIOLATIONS"
+	ReportDefinitionDataSourceAllowedSql         ReportDefinitionDataSourceEnum = "ALLOWED_SQL"
 )
 
 var mappingReportDefinitionDataSourceEnum = map[string]ReportDefinitionDataSourceEnum{
-	"EVENTS":      ReportDefinitionDataSourceEvents,
-	"ALERTS":      ReportDefinitionDataSourceAlerts,
-	"VIOLATIONS":  ReportDefinitionDataSourceViolations,
-	"ALLOWED_SQL": ReportDefinitionDataSourceAllowedSql,
+	"EVENTS":              ReportDefinitionDataSourceEvents,
+	"ALERTS":              ReportDefinitionDataSourceAlerts,
+	"SECURITY_ASSESSMENT": ReportDefinitionDataSourceSecurityAssessment,
+	"VIOLATIONS":          ReportDefinitionDataSourceViolations,
+	"ALLOWED_SQL":         ReportDefinitionDataSourceAllowedSql,
 }
 
 var mappingReportDefinitionDataSourceEnumLowerCase = map[string]ReportDefinitionDataSourceEnum{
-	"events":      ReportDefinitionDataSourceEvents,
-	"alerts":      ReportDefinitionDataSourceAlerts,
-	"violations":  ReportDefinitionDataSourceViolations,
-	"allowed_sql": ReportDefinitionDataSourceAllowedSql,
+	"events":              ReportDefinitionDataSourceEvents,
+	"alerts":              ReportDefinitionDataSourceAlerts,
+	"security_assessment": ReportDefinitionDataSourceSecurityAssessment,
+	"violations":          ReportDefinitionDataSourceViolations,
+	"allowed_sql":         ReportDefinitionDataSourceAllowedSql,
 }
 
 // GetReportDefinitionDataSourceEnumValues Enumerates the set of values for ReportDefinitionDataSourceEnum
@@ -52,6 +55,7 @@ func GetReportDefinitionDataSourceEnumStringValues() []string {
 	return []string{
 		"EVENTS",
 		"ALERTS",
+		"SECURITY_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}

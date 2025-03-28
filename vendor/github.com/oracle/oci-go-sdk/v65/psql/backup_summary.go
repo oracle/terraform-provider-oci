@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -25,7 +25,7 @@ type BackupSummary struct {
 	// A user-friendly display name for the backup. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the backup.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time the backup was created, expressed in
@@ -55,14 +55,23 @@ type BackupSummary struct {
 	// Specifies whether the backup was created manually, taken on schedule defined in the a backup policy, or copied from the remote location.
 	SourceType BackupSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 
+	// The date and time the backup was created.
+	// This is the time the actual point-in-time data snapshot was taken,
+	// expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeCreatedPrecise *common.SDKTime `mandatory:"false" json:"timeCreatedPrecise"`
+
 	// The size of the backup, in gigabytes.
 	BackupSize *int `mandatory:"false" json:"backupSize"`
 
-	// The backup's source database system's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The backup's source database system's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// Backup retention period in days.
 	RetentionPeriod *int `mandatory:"false" json:"retentionPeriod"`
+
+	// List of status for Backup Copy
+	CopyStatus []BackupCopyStatusDetails `mandatory:"false" json:"copyStatus"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`

@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -21,7 +21,7 @@ import (
 // referenced export set.
 type MountTarget struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the mount target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the mount target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -29,7 +29,7 @@ type MountTarget struct {
 	// Example: `My mount target`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Additional information about the current 'lifecycleState'.
@@ -41,7 +41,7 @@ type MountTarget struct {
 	// The OCIDs of the private IP addresses associated with this mount target.
 	PrivateIpIds []string `mandatory:"true" json:"privateIpIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the mount target is in.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the mount target is in.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The date and time the mount target was created, expressed
@@ -54,7 +54,7 @@ type MountTarget struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file
 	// systems will be exported through Network File System (NFS) protocol on this
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
@@ -64,10 +64,10 @@ type MountTarget struct {
 
 	LdapIdmap *LdapIdmap `mandatory:"false" json:"ldapIdmap"`
 
-	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
+	// A list of Network Security Group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
-	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// For more information about NSGs, see Security Rules (https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	Kerberos *Kerberos `mandatory:"false" json:"kerberos"`
@@ -93,14 +93,18 @@ type MountTarget struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m MountTarget) String() string {

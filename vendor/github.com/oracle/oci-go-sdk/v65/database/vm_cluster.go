@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,13 +18,13 @@ import (
 // VmCluster Details of the VM cluster resource. Applies to Exadata Cloud@Customer instances only.
 type VmCluster struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
 	LastPatchHistoryEntryId *string `mandatory:"false" json:"lastPatchHistoryEntryId"`
 
 	// The current state of the VM cluster.
@@ -39,19 +39,19 @@ type VmCluster struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// If true, database backup on local Exadata storage is configured for the VM cluster. If false, database backup on local Exadata storage is not available in the VM cluster.
 	IsLocalBackupEnabled *bool `mandatory:"false" json:"isLocalBackupEnabled"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExadataInfrastructureId *string `mandatory:"false" json:"exadataInfrastructureId"`
 
 	// If true, sparse disk group is configured for the VM cluster. If false, sparse disk group is not created.
 	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster network.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 	VmClusterNetworkId *string `mandatory:"false" json:"vmClusterNetworkId"`
 
 	// The number of enabled CPU cores.
@@ -94,23 +94,35 @@ type VmCluster struct {
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a grid infrastructure software image. This is a database software image of the type `GRID_IMAGE`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a grid infrastructure software image. This is a database software image of the type `GRID_IMAGE`.
 	GiSoftwareImageId *string `mandatory:"false" json:"giSoftwareImageId"`
 
 	// Details of the file system configuration of the VM cluster.
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
+	// The vmcluster type for the VM cluster/Cloud VM cluster.
+	VmClusterType VmClusterVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
+	ExascaleDbStorageVaultId *string `mandatory:"false" json:"exascaleDbStorageVaultId"`
+
+	// Specifies whether the type of storage management for the VM cluster is ASM or Exascale.
+	StorageManagementType VmClusterStorageManagementTypeEnum `mandatory:"false" json:"storageManagementType,omitempty"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel VmClusterComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m VmCluster) String() string {
@@ -128,6 +140,15 @@ func (m VmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVmClusterLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetVmClusterVmClusterTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterStorageManagementTypeEnum(string(m.StorageManagementType)); !ok && m.StorageManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageManagementType: %s. Supported values are: %s.", m.StorageManagementType, strings.Join(GetVmClusterStorageManagementTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetVmClusterComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -236,5 +257,131 @@ func GetVmClusterLicenseModelEnumStringValues() []string {
 // GetMappingVmClusterLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterLicenseModelEnum(val string) (VmClusterLicenseModelEnum, bool) {
 	enum, ok := mappingVmClusterLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterVmClusterTypeEnum Enum with underlying type: string
+type VmClusterVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for VmClusterVmClusterTypeEnum
+const (
+	VmClusterVmClusterTypeRegular   VmClusterVmClusterTypeEnum = "REGULAR"
+	VmClusterVmClusterTypeDeveloper VmClusterVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingVmClusterVmClusterTypeEnum = map[string]VmClusterVmClusterTypeEnum{
+	"REGULAR":   VmClusterVmClusterTypeRegular,
+	"DEVELOPER": VmClusterVmClusterTypeDeveloper,
+}
+
+var mappingVmClusterVmClusterTypeEnumLowerCase = map[string]VmClusterVmClusterTypeEnum{
+	"regular":   VmClusterVmClusterTypeRegular,
+	"developer": VmClusterVmClusterTypeDeveloper,
+}
+
+// GetVmClusterVmClusterTypeEnumValues Enumerates the set of values for VmClusterVmClusterTypeEnum
+func GetVmClusterVmClusterTypeEnumValues() []VmClusterVmClusterTypeEnum {
+	values := make([]VmClusterVmClusterTypeEnum, 0)
+	for _, v := range mappingVmClusterVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterVmClusterTypeEnumStringValues Enumerates the set of values in String for VmClusterVmClusterTypeEnum
+func GetVmClusterVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingVmClusterVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterVmClusterTypeEnum(val string) (VmClusterVmClusterTypeEnum, bool) {
+	enum, ok := mappingVmClusterVmClusterTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterStorageManagementTypeEnum Enum with underlying type: string
+type VmClusterStorageManagementTypeEnum string
+
+// Set of constants representing the allowable values for VmClusterStorageManagementTypeEnum
+const (
+	VmClusterStorageManagementTypeAsm      VmClusterStorageManagementTypeEnum = "ASM"
+	VmClusterStorageManagementTypeExascale VmClusterStorageManagementTypeEnum = "EXASCALE"
+)
+
+var mappingVmClusterStorageManagementTypeEnum = map[string]VmClusterStorageManagementTypeEnum{
+	"ASM":      VmClusterStorageManagementTypeAsm,
+	"EXASCALE": VmClusterStorageManagementTypeExascale,
+}
+
+var mappingVmClusterStorageManagementTypeEnumLowerCase = map[string]VmClusterStorageManagementTypeEnum{
+	"asm":      VmClusterStorageManagementTypeAsm,
+	"exascale": VmClusterStorageManagementTypeExascale,
+}
+
+// GetVmClusterStorageManagementTypeEnumValues Enumerates the set of values for VmClusterStorageManagementTypeEnum
+func GetVmClusterStorageManagementTypeEnumValues() []VmClusterStorageManagementTypeEnum {
+	values := make([]VmClusterStorageManagementTypeEnum, 0)
+	for _, v := range mappingVmClusterStorageManagementTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterStorageManagementTypeEnumStringValues Enumerates the set of values in String for VmClusterStorageManagementTypeEnum
+func GetVmClusterStorageManagementTypeEnumStringValues() []string {
+	return []string{
+		"ASM",
+		"EXASCALE",
+	}
+}
+
+// GetMappingVmClusterStorageManagementTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterStorageManagementTypeEnum(val string) (VmClusterStorageManagementTypeEnum, bool) {
+	enum, ok := mappingVmClusterStorageManagementTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterComputeModelEnum Enum with underlying type: string
+type VmClusterComputeModelEnum string
+
+// Set of constants representing the allowable values for VmClusterComputeModelEnum
+const (
+	VmClusterComputeModelEcpu VmClusterComputeModelEnum = "ECPU"
+	VmClusterComputeModelOcpu VmClusterComputeModelEnum = "OCPU"
+)
+
+var mappingVmClusterComputeModelEnum = map[string]VmClusterComputeModelEnum{
+	"ECPU": VmClusterComputeModelEcpu,
+	"OCPU": VmClusterComputeModelOcpu,
+}
+
+var mappingVmClusterComputeModelEnumLowerCase = map[string]VmClusterComputeModelEnum{
+	"ecpu": VmClusterComputeModelEcpu,
+	"ocpu": VmClusterComputeModelOcpu,
+}
+
+// GetVmClusterComputeModelEnumValues Enumerates the set of values for VmClusterComputeModelEnum
+func GetVmClusterComputeModelEnumValues() []VmClusterComputeModelEnum {
+	values := make([]VmClusterComputeModelEnum, 0)
+	for _, v := range mappingVmClusterComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterComputeModelEnumStringValues Enumerates the set of values in String for VmClusterComputeModelEnum
+func GetVmClusterComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingVmClusterComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterComputeModelEnum(val string) (VmClusterComputeModelEnum, bool) {
+	enum, ok := mappingVmClusterComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

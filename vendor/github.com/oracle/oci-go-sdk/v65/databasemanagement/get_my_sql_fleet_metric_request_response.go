@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetMySqlFleetMetric.go.html to see an example of how to use GetMySqlFleetMetricRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetMySqlFleetMetric.go.html to see an example of how to use GetMySqlFleetMetricRequest.
 type GetMySqlFleetMetricRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The start time of the time range to retrieve the health metrics of a Managed Database
@@ -40,6 +40,9 @@ type GetMySqlFleetMetricRequest struct {
 
 	// The parameter to filter by MySQL Database System type.
 	FilterByMdsDeploymentType GetMySqlFleetMetricFilterByMdsDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"filterByMdsDeploymentType" omitEmpty:"true"`
+
+	// The parameter to filter by MySQL database type. Allowed values are EXTERNAL or MDS.
+	FilterByMySqlDatabaseTypeParam GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum `mandatory:"false" contributesTo:"query" name:"filterByMySqlDatabaseTypeParam" omitEmpty:"true"`
 
 	// The parameter to filter by MySQL Database status.
 	FilterByMySqlStatus GetMySqlFleetMetricFilterByMySqlStatusEnum `mandatory:"false" contributesTo:"query" name:"filterByMySqlStatus" omitEmpty:"true"`
@@ -91,6 +94,9 @@ func (request GetMySqlFleetMetricRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingGetMySqlFleetMetricFilterByMdsDeploymentTypeEnum(string(request.FilterByMdsDeploymentType)); !ok && request.FilterByMdsDeploymentType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FilterByMdsDeploymentType: %s. Supported values are: %s.", request.FilterByMdsDeploymentType, strings.Join(GetGetMySqlFleetMetricFilterByMdsDeploymentTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum(string(request.FilterByMySqlDatabaseTypeParam)); !ok && request.FilterByMySqlDatabaseTypeParam != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FilterByMySqlDatabaseTypeParam: %s. Supported values are: %s.", request.FilterByMySqlDatabaseTypeParam, strings.Join(GetGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingGetMySqlFleetMetricFilterByMySqlStatusEnum(string(request.FilterByMySqlStatus)); !ok && request.FilterByMySqlStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FilterByMySqlStatus: %s. Supported values are: %s.", request.FilterByMySqlStatus, strings.Join(GetGetMySqlFleetMetricFilterByMySqlStatusEnumStringValues(), ",")))
@@ -209,6 +215,48 @@ func GetGetMySqlFleetMetricFilterByMdsDeploymentTypeEnumStringValues() []string 
 // GetMappingGetMySqlFleetMetricFilterByMdsDeploymentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingGetMySqlFleetMetricFilterByMdsDeploymentTypeEnum(val string) (GetMySqlFleetMetricFilterByMdsDeploymentTypeEnum, bool) {
 	enum, ok := mappingGetMySqlFleetMetricFilterByMdsDeploymentTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum Enum with underlying type: string
+type GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum string
+
+// Set of constants representing the allowable values for GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum
+const (
+	GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamExternal GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum = "EXTERNAL"
+	GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamMds      GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum = "MDS"
+)
+
+var mappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum = map[string]GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum{
+	"EXTERNAL": GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamExternal,
+	"MDS":      GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamMds,
+}
+
+var mappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumLowerCase = map[string]GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum{
+	"external": GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamExternal,
+	"mds":      GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamMds,
+}
+
+// GetGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumValues Enumerates the set of values for GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum
+func GetGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumValues() []GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum {
+	values := make([]GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum, 0)
+	for _, v := range mappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumStringValues Enumerates the set of values in String for GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum
+func GetGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumStringValues() []string {
+	return []string{
+		"EXTERNAL",
+		"MDS",
+	}
+}
+
+// GetMappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum(val string) (GetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnum, bool) {
+	enum, ok := mappingGetMySqlFleetMetricFilterByMySqlDatabaseTypeParamEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

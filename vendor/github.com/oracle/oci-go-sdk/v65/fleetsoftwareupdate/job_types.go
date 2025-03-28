@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,11 +19,12 @@ type JobTypesEnum string
 
 // Set of constants representing the allowable values for JobTypesEnum
 const (
-	JobTypesStage                   JobTypesEnum = "STAGE"
-	JobTypesPrecheck                JobTypesEnum = "PRECHECK"
-	JobTypesApply                   JobTypesEnum = "APPLY"
-	JobTypesRollbackAndRemoveTarget JobTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	JobTypesCleanup                 JobTypesEnum = "CLEANUP"
+	JobTypesStage                    JobTypesEnum = "STAGE"
+	JobTypesPrecheck                 JobTypesEnum = "PRECHECK"
+	JobTypesApply                    JobTypesEnum = "APPLY"
+	JobTypesRollbackAndRemoveTarget  JobTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	JobTypesRollbackMaintenanceCycle JobTypesEnum = "ROLLBACK_MAINTENANCE_CYCLE"
+	JobTypesCleanup                  JobTypesEnum = "CLEANUP"
 )
 
 var mappingJobTypesEnum = map[string]JobTypesEnum{
@@ -31,6 +32,7 @@ var mappingJobTypesEnum = map[string]JobTypesEnum{
 	"PRECHECK":                   JobTypesPrecheck,
 	"APPLY":                      JobTypesApply,
 	"ROLLBACK_AND_REMOVE_TARGET": JobTypesRollbackAndRemoveTarget,
+	"ROLLBACK_MAINTENANCE_CYCLE": JobTypesRollbackMaintenanceCycle,
 	"CLEANUP":                    JobTypesCleanup,
 }
 
@@ -39,6 +41,7 @@ var mappingJobTypesEnumLowerCase = map[string]JobTypesEnum{
 	"precheck":                   JobTypesPrecheck,
 	"apply":                      JobTypesApply,
 	"rollback_and_remove_target": JobTypesRollbackAndRemoveTarget,
+	"rollback_maintenance_cycle": JobTypesRollbackMaintenanceCycle,
 	"cleanup":                    JobTypesCleanup,
 }
 
@@ -58,6 +61,7 @@ func GetJobTypesEnumStringValues() []string {
 		"PRECHECK",
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 		"CLEANUP",
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,7 +21,7 @@ import (
 // portions of the configuration.
 type Config interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	GetId() *string
 
@@ -35,10 +35,10 @@ type Config interface {
 	// Example: `2020-02-13T22:47:12.613Z`
 	GetTimeUpdated() *common.SDKTime
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	GetCreatedBy() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user.
 	GetUpdatedBy() *string
 
 	// For optimistic concurrency control. See `if-match`.
@@ -116,7 +116,7 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Config: %s.", m.ConfigType)
+		common.Logf("Received unsupported enum value for Config: %s.", m.ConfigType)
 		return *m, nil
 	}
 }

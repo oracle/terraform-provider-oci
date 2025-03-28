@@ -18,11 +18,19 @@ func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 		Read: readDatabaseExascaleDbStorageVaults,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"exadata_infrastructure_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -60,6 +68,11 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) VoidState() {
 func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 	request := oci_database.ListExascaleDbStorageVaultsRequest{}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -68,6 +81,11 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+		tmp := exadataInfrastructureId.(string)
+		request.ExadataInfrastructureId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -118,6 +136,10 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 			exascaleDbStorageVault["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.ClusterPlacementGroupId != nil {
+			exascaleDbStorageVault["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
+
 		if r.DefinedTags != nil {
 			exascaleDbStorageVault["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -128,6 +150,10 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 
 		if r.DisplayName != nil {
 			exascaleDbStorageVault["display_name"] = *r.DisplayName
+		}
+
+		if r.ExadataInfrastructureId != nil {
+			exascaleDbStorageVault["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
 		}
 
 		exascaleDbStorageVault["freeform_tags"] = r.FreeformTags
@@ -147,6 +173,10 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 		}
 
 		exascaleDbStorageVault["state"] = r.LifecycleState
+
+		if r.SubscriptionId != nil {
+			exascaleDbStorageVault["subscription_id"] = *r.SubscriptionId
+		}
 
 		if r.SystemTags != nil {
 			exascaleDbStorageVault["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)

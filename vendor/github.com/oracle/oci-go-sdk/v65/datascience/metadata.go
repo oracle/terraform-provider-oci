@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -25,7 +25,12 @@ type Metadata struct {
 	//          * libraryVersion
 	//          * estimatorClass
 	//          * hyperParameters
-	//          * testartifactresults
+	//          * testArtifactresults
+	//          * fineTuningConfiguration
+	//          * deploymentConfiguration
+	//          * readme
+	//          * license
+	//          * evaluationConfiguration
 	Key *string `mandatory:"false" json:"key"`
 
 	// Allowed values for useCaseType:
@@ -41,8 +46,14 @@ type Metadata struct {
 	// Description of model metadata
 	Description *string `mandatory:"false" json:"description"`
 
-	// Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,other".
+	// Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,Reports,Readme,other".
 	Category *string `mandatory:"false" json:"category"`
+
+	// list of keywords for searching
+	Keywords []string `mandatory:"false" json:"keywords"`
+
+	// Is there any artifact present for the metadata.
+	HasArtifact *bool `mandatory:"false" json:"hasArtifact"`
 }
 
 func (m Metadata) String() string {

@@ -17,9 +17,10 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 
@@ -51,6 +52,7 @@ var (
 	FileStorageFileSystemRepresentation = map[string]interface{}{
 		"availability_domain":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"are_quota_rules_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"clone_attach_status":           acctest.Representation{RepType: acctest.Optional, Create: `DETACH`},
 		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
@@ -164,6 +166,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create, FileStorageFileSystemRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_quota_rules_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "clone_attach_status", "ATTACHED"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -202,8 +205,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_quota_rules_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "clone_attach_status", "DETACHING"),
+				resource.TestCheckResourceAttr(resourceName, "clone_attach_status", "ATTACHED"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
@@ -261,8 +265,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Update, FileStorageFileSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_quota_rules_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "clone_attach_status", "DETACHING"),
+				resource.TestCheckResourceAttr(resourceName, "clone_attach_status", "ATTACHED"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
@@ -303,7 +308,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.clone_attach_status", "DETACHING"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.clone_attach_status", "ATTACHED"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
@@ -311,6 +316,10 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				acctest.TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system2", "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_clone_parent"),
 				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_hydrated"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.locks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.metered_bytes"),
+				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.quota_enforcement_state"),
 				acctest.TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.kms_key_id", "oci_file_storage_file_system.test_file_system2", "kms_key_id"),
 				acctest.TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system2", "metered_bytes"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.source_details.#", "1"),

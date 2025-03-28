@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 type ChangeRetentionDetails struct {
 
 	// Indicates the number of months the audit records will be stored online in Oracle Data Safe audit repository for
-	// immediate reporting and analysis. Minimum: 1; Maximum:12 months
+	// immediate reporting and analysis. Minimum: 1; Maximum: 12 months
 	OnlineMonths *int `mandatory:"false" json:"onlineMonths"`
 
 	// Indicates the number of months the audit records will be stored offline in the Data Safe audit archive.

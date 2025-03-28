@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUtilizationInsight.go.html to see an example of how to use SummarizeDatabaseInsightResourceUtilizationInsightRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUtilizationInsight.go.html to see an example of how to use SummarizeDatabaseInsightResourceUtilizationInsightRequest.
 type SummarizeDatabaseInsightResourceUtilizationInsightRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Filter by resource metric.
@@ -48,13 +48,13 @@ type SummarizeDatabaseInsightResourceUtilizationInsightRequest struct {
 	// Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 	DatabaseType []SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum `contributesTo:"query" name:"databaseType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// Optional list of database OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
+	// Optional list of database OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
 	DatabaseId []string `contributesTo:"query" name:"databaseId" collectionFormat:"multi"`
 
-	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of database insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
-	// Optional list of exadata insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of exadata insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
 
 	// Number of days used for utilization forecast analysis.
@@ -70,7 +70,7 @@ type SummarizeDatabaseInsightResourceUtilizationInsightRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from
 	// the previous "List" call. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
@@ -217,6 +217,7 @@ const (
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeComanagedExaccPdb    SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "MDS-MYSQL"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalMysql        SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "EXTERNAL-MYSQL"
 )
 
 var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum{
@@ -239,6 +240,7 @@ var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = 
 	"COMANAGED-EXACC-PDB":    SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeComanagedExaccPdb,
 	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeMdsMysql,
+	"EXTERNAL-MYSQL":         SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalMysql,
 }
 
 var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum{
@@ -261,6 +263,7 @@ var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumLow
 	"comanaged-exacc-pdb":    SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeComanagedExaccPdb,
 	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeMdsMysql,
+	"external-mysql":         SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalMysql,
 }
 
 // GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum
@@ -294,6 +297,7 @@ func GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumString
 		"COMANAGED-EXACC-PDB",
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
+		"EXTERNAL-MYSQL",
 	}
 }
 

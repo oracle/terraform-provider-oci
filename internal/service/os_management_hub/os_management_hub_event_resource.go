@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -120,6 +120,13 @@ func OsManagementHubEventResource() *schema.Resource {
 								},
 							},
 						},
+						"attempted_resolutions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"content": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -157,6 +164,14 @@ func OsManagementHubEventResource() *schema.Resource {
 								},
 							},
 						},
+						"error_cause": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"error_log": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"event_fingerprint": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -165,11 +180,27 @@ func OsManagementHubEventResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"health_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"operation_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"reason": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"reboot_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resolution_log": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resolution_status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -421,7 +452,7 @@ func eventWaitForWorkRequest(wId *string, entityType string, action oci_os_manag
 	retryPolicy.ShouldRetryOperation = eventWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_os_management_hub.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_os_management_hub.OperationStatusInProgress),
 			string(oci_os_management_hub.OperationStatusAccepted),
@@ -980,6 +1011,72 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_os_management_hub.RebootEvent:
+		s.D.Set("type", "REBOOT")
+
+		if v.Data != nil {
+			s.D.Set("data", []interface{}{RebootEventDataToMap(v.Data)})
+		} else {
+			s.D.Set("data", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.EventDetails != nil {
+			s.D.Set("event_details", *v.EventDetails)
+		}
+
+		if v.EventSummary != nil {
+			s.D.Set("event_summary", *v.EventSummary)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.IsManagedByAutonomousLinux != nil {
+			s.D.Set("is_managed_by_autonomous_linux", *v.IsManagedByAutonomousLinux)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemDetails != nil {
+			s.D.Set("system_details", []interface{}{SystemDetailsToMap(v.SystemDetails)})
+		} else {
+			s.D.Set("system_details", nil)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeOccurred != nil {
+			s.D.Set("time_occurred", v.TimeOccurred.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_os_management_hub.SoftwareSourceEvent:
 		s.D.Set("type", "SOFTWARE_SOURCE")
 
@@ -1051,6 +1148,72 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 
 		if v.Data != nil {
 			s.D.Set("data", []interface{}{SoftwareUpdateEventDataToMap(v.Data)})
+		} else {
+			s.D.Set("data", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.EventDetails != nil {
+			s.D.Set("event_details", *v.EventDetails)
+		}
+
+		if v.EventSummary != nil {
+			s.D.Set("event_summary", *v.EventSummary)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.IsManagedByAutonomousLinux != nil {
+			s.D.Set("is_managed_by_autonomous_linux", *v.IsManagedByAutonomousLinux)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemDetails != nil {
+			s.D.Set("system_details", []interface{}{SystemDetailsToMap(v.SystemDetails)})
+		} else {
+			s.D.Set("system_details", nil)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeOccurred != nil {
+			s.D.Set("time_occurred", v.TimeOccurred.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_os_management_hub.SysadminEvent:
+		s.D.Set("type", "SYSADMIN")
+
+		if v.Data != nil {
+			s.D.Set("data", []interface{}{SysadminEventDataToMap(v.Data)})
 		} else {
 			s.D.Set("data", nil)
 		}
@@ -1558,6 +1721,10 @@ func (s *OsManagementHubEventResourceCrud) mapToManagementStationEventData(field
 		}
 	}
 
+	if healthState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "health_state")); ok {
+		result.HealthState = oci_os_management_hub.ManagementStationEventDataHealthStateEnum(healthState.(string))
+	}
+
 	if operationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operation_type")); ok {
 		result.OperationType = oci_os_management_hub.ManagementStationEventDataOperationTypeEnum(operationType.(string))
 	}
@@ -1576,9 +1743,44 @@ func ManagementStationEventDataToMap(obj *oci_os_management_hub.ManagementStatio
 		result["additional_details"] = []interface{}{WorkRequestEventDataAdditionalDetailsToMap(obj.AdditionalDetails)}
 	}
 
+	result["health_state"] = string(obj.HealthState)
+
 	result["operation_type"] = string(obj.OperationType)
 
 	result["status"] = string(obj.Status)
+
+	return result
+}
+
+func (s *OsManagementHubEventResourceCrud) mapToRebootEventData(fieldKeyFormat string) (oci_os_management_hub.RebootEventData, error) {
+	result := oci_os_management_hub.RebootEventData{}
+
+	if additionalDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_details")); ok {
+		if tmpList := additionalDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_details"), 0)
+			tmp, err := s.mapToWorkRequestEventDataAdditionalDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert additional_details, encountered error: %v", err)
+			}
+			result.AdditionalDetails = &tmp
+		}
+	}
+
+	if rebootStatus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reboot_status")); ok {
+		result.RebootStatus = oci_os_management_hub.RebootEventDataRebootStatusEnum(rebootStatus.(string))
+	}
+
+	return result, nil
+}
+
+func RebootEventDataToMap(obj *oci_os_management_hub.RebootEventData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdditionalDetails != nil {
+		result["additional_details"] = []interface{}{WorkRequestEventDataAdditionalDetailsToMap(obj.AdditionalDetails)}
+	}
+
+	result["reboot_status"] = string(obj.RebootStatus)
 
 	return result
 }
@@ -1657,6 +1859,81 @@ func SoftwareUpdateEventDataToMap(obj *oci_os_management_hub.SoftwareUpdateEvent
 	result["operation_type"] = string(obj.OperationType)
 
 	result["status"] = string(obj.Status)
+
+	return result
+}
+
+func (s *OsManagementHubEventResourceCrud) mapToSysadminEventData(fieldKeyFormat string) (oci_os_management_hub.SysadminEventData, error) {
+	result := oci_os_management_hub.SysadminEventData{}
+
+	if additionalDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_details")); ok {
+		if tmpList := additionalDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_details"), 0)
+			tmp, err := s.mapToWorkRequestEventDataAdditionalDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert additional_details, encountered error: %v", err)
+			}
+			result.AdditionalDetails = &tmp
+		}
+	}
+
+	if attemptedResolutions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attempted_resolutions")); ok {
+		interfaces := attemptedResolutions.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "attempted_resolutions")) {
+			result.AttemptedResolutions = tmp
+		}
+	}
+
+	if errorCause, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "error_cause")); ok {
+		tmp := errorCause.(string)
+		result.ErrorCause = &tmp
+	}
+
+	if errorLog, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "error_log")); ok {
+		tmp := errorLog.(string)
+		result.ErrorLog = &tmp
+	}
+
+	if resolutionLog, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resolution_log")); ok {
+		tmp := resolutionLog.(string)
+		result.ResolutionLog = &tmp
+	}
+
+	if resolutionStatus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resolution_status")); ok {
+		result.ResolutionStatus = oci_os_management_hub.EventStatusEnum(resolutionStatus.(string))
+	}
+
+	return result, nil
+}
+
+func SysadminEventDataToMap(obj *oci_os_management_hub.SysadminEventData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdditionalDetails != nil {
+		result["additional_details"] = []interface{}{WorkRequestEventDataAdditionalDetailsToMap(obj.AdditionalDetails)}
+	}
+
+	result["attempted_resolutions"] = obj.AttemptedResolutions
+
+	if obj.ErrorCause != nil {
+		result["error_cause"] = string(*obj.ErrorCause)
+	}
+
+	if obj.ErrorLog != nil {
+		result["error_log"] = string(*obj.ErrorLog)
+	}
+
+	if obj.ResolutionLog != nil {
+		result["resolution_log"] = string(*obj.ResolutionLog)
+	}
+
+	result["resolution_status"] = string(obj.ResolutionStatus)
 
 	return result
 }

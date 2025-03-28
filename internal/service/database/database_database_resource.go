@@ -53,18 +53,16 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"admin_password": {
-							Type:      schema.TypeString,
-							Required:  true,
-							Sensitive: true,
-						},
-						"db_name": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 
 						// Optional
+						"admin_password": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							//remove ForceNew field - TERSI-3772
+							//ForceNew:  true,
+							Sensitive: true,
+						},
 						"backup_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -81,6 +79,13 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"database_admin_password": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Sensitive:        true,
+							Computed:         true,
+							DiffSuppressFunc: dbAdminPasswordDiffSuppress,
 						},
 						"database_software_image_id": {
 							Type:     schema.TypeString,
@@ -125,13 +130,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"backup_destination_details": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -141,18 +144,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 												"id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 												"type": {
 													Type:     schema.TypeString,
 													Optional: true,
-													ForceNew: true,
 												},
 												"vpc_user": {
 													Type:     schema.TypeString,
@@ -177,6 +177,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 								},
 							},
 						},
+						"db_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"db_unique_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -196,11 +202,45 @@ func DatabaseDatabaseResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
 						},
+						"encryption_key_location_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"provider_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"EXTERNAL",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
 							Elem:     schema.TypeString,
+						},
+						"is_active_data_guard_enabled": {
+							Type:             schema.TypeBool,
+							Optional:         true,
+							DiffSuppressFunc: adgDiffSuppress,
 						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
@@ -235,17 +275,67 @@ func DatabaseDatabaseResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"protection_mode": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							DiffSuppressFunc: protectionModeDiffSuppress,
+						},
 						"sid_prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
 						},
+						"source_encryption_key_location_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"provider_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"EXTERNAL",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"source_database_id": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							DiffSuppressFunc: sourceDbIdDiffSuppress,
+						},
+						"source_tde_wallet_password": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Sensitive:        true,
+							DiffSuppressFunc: sourceDbDetailsDiffSuppress,
+						},
 						"tde_wallet_password": {
 							Type:      schema.TypeString,
 							Optional:  true,
 							Computed:  true,
 							Sensitive: true,
+						},
+						"transport_type": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							DiffSuppressFunc: transportTypeDiffSuppress,
 						},
 						"vault_id": {
 							Type:     schema.TypeString,
@@ -268,6 +358,7 @@ func DatabaseDatabaseResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"DATAGUARD",
 					"DB_BACKUP",
 					"NONE",
 				}, true),
@@ -296,6 +387,14 @@ func DatabaseDatabaseResource() *schema.Resource {
 			},
 			"kms_key_migration": {
 				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"action_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"data_guard_action": {
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			// Computed
@@ -327,6 +426,72 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"cdb_ip_default": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"data_guard_group": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"members": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"apply_lag": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"apply_rate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"db_system_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_active_data_guard_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"transport_lag": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"transport_lag_refresh": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"transport_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"protection_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -687,6 +852,12 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("connection_strings", nil)
 	}
 
+	if s.Res.DataGuardGroup != nil {
+		s.D.Set("data_guard_group", []interface{}{DataGuardGroupToMap(s.Res.DataGuardGroup)})
+	} else {
+		s.D.Set("data_guard_group", nil)
+	}
+
 	if s.Res.DatabaseManagementConfig != nil {
 		s.D.Set("database_management_config", []interface{}{CloudDatabaseManagementConfigToMap(s.Res.DatabaseManagementConfig)})
 	} else {
@@ -798,6 +969,37 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatabaseDatabaseResourceCrud) ChangeEncryptionKeyLocation(fieldKeyFormat string) error {
+	request := oci_database.ChangeEncryptionKeyLocationRequest{}
+
+	idTmp := s.D.Id()
+	request.DatabaseId = &idTmp
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			request.EncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeEncryptionKeyLocation(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
 func (s *DatabaseDatabaseResourceCrud) ChangeKeyStoreType() error {
 	if _, ok := s.D.GetOkExists("key_store_id"); ok && s.D.HasChange("key_store_id") {
 		request := oci_database.ChangeKeyStoreTypeRequest{}
@@ -849,6 +1051,36 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 	}
 
 	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
+		tmp := vpcUser.(string)
+		result.VpcUser = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")) {
+		tmp := dbrsPolicyId.(string)
+		result.DbrsPolicyId = &tmp
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "id")) {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "type")) {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_password")) {
+		tmp := vpcPassword.(string)
+		result.VpcPassword = &tmp
+	}
+
+	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_user")) {
 		tmp := vpcUser.(string)
 		result.VpcUser = &tmp
 	}
@@ -939,6 +1171,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
 		}
 		result.DefinedTags = tmp
+	}
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			result.EncryptionKeyLocationDetails = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
@@ -1034,7 +1277,125 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 		result.SidPrefix = &tmp
 	}
 
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
+	}
+
 	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat string) (oci_database.CreateStandbyDetails, error) {
+	result := oci_database.CreateStandbyDetails{}
+
+	if databaseAdminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
+		tmp := databaseAdminPassword.(string)
+		result.DatabaseAdminPassword = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if isActiveDataGuardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_active_data_guard_enabled")); ok {
+		tmp := isActiveDataGuardEnabled.(bool)
+		result.IsActiveDataGuardEnabled = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_mode")); ok {
+		result.ProtectionMode = oci_database.CreateStandbyDetailsProtectionModeEnum(protectionMode.(string))
+	}
+
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
+	}
+
+	if sourceDatabaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_database_id")); ok {
+		tmp := sourceDatabaseId.(string)
+		result.SourceDatabaseId = &tmp
+	}
+
+	if sourceTdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_tde_wallet_password")); ok {
+		tmp := sourceTdeWalletPassword.(string)
+		result.SourceTdeWalletPassword = &tmp
+	}
+
+	if transportType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_type")); ok {
+		result.TransportType = oci_database.CreateStandbyDetailsTransportTypeEnum(transportType.(string))
+	}
+
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func DataGuardGroupToMap(obj *oci_database.DataGuardGroup) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	members := []interface{}{}
+	for _, item := range obj.Members {
+		members = append(members, DataGuardGroupMemberToMap(item))
+	}
+	result["members"] = members
+
+	result["protection_mode"] = string(obj.ProtectionMode)
+
+	return result
+}
+
+func DataGuardGroupMemberToMap(obj oci_database.DataGuardGroupMember) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApplyLag != nil {
+		result["apply_lag"] = string(*obj.ApplyLag)
+	}
+
+	if obj.ApplyRate != nil {
+		result["apply_rate"] = string(*obj.ApplyRate)
+	}
+
+	if obj.DatabaseId != nil {
+		result["database_id"] = string(*obj.DatabaseId)
+	}
+
+	if obj.DbSystemId != nil {
+		result["db_system_id"] = string(*obj.DbSystemId)
+	}
+
+	if obj.IsActiveDataGuardEnabled != nil {
+		result["is_active_data_guard_enabled"] = bool(*obj.IsActiveDataGuardEnabled)
+	}
+
+	result["role"] = string(obj.Role)
+
+	if obj.TransportLag != nil {
+		result["transport_lag"] = string(*obj.TransportLag)
+	}
+
+	if obj.TransportLagRefresh != nil {
+		result["transport_lag_refresh"] = string(*obj.TransportLagRefresh)
+	}
+
+	result["transport_type"] = string(obj.TransportType)
+
+	return result
 }
 
 func DatabaseConnectionStringsToMap(obj *oci_database.DatabaseConnectionStrings) map[string]interface{} {
@@ -1107,6 +1468,45 @@ func (s *DatabaseDatabaseResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 	return result, nil
 }
 
+func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyFormat string) (oci_database.EncryptionKeyLocationDetails, error) {
+	var baseObject oci_database.EncryptionKeyLocationDetails
+	//discriminator
+	providerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "provider_type"))
+	var providerType string
+	if ok {
+		providerType = providerTypeRaw.(string)
+	} else {
+		providerType = "" // default value
+	}
+	switch strings.ToLower(providerType) {
+	case strings.ToLower("EXTERNAL"):
+		details := oci_database.ExternalHsmEncryptionDetails{}
+		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
+			tmp := hsmPassword.(string)
+			details.HsmPassword = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown provider_type '%v' was specified", providerType)
+	}
+	return baseObject, nil
+}
+
+func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails, hsmPassword string) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch (*obj).(type) {
+	case oci_database.ExternalHsmEncryptionDetails:
+		result["provider_type"] = "EXTERNAL"
+		result["hsm_password"] = hsmPassword
+
+	default:
+		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabaseRequest(request *oci_database.CreateDatabaseRequest) error {
 	//discriminator
 	sourceRaw, ok := s.D.GetOkExists("source")
@@ -1117,6 +1517,27 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 		source = "NONE" // default value
 	}
 	switch strings.ToLower(source) {
+	case strings.ToLower("DATAGUARD"):
+		details := oci_database.CreateStandByDatabaseDetails{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateStandbyDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
+			tmp := dbHomeId.(string)
+			details.DbHomeId = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		request.CreateNewDatabaseDetails = details
 	case strings.ToLower("DB_BACKUP"):
 		details := oci_database.CreateDatabaseFromBackup{}
 		if database, ok := s.D.GetOkExists("database"); ok {
@@ -1196,6 +1617,54 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DatabaseId = &tmp
 
+	//fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+
+	if _, ok := s.D.GetOkExists("action_trigger"); ok && s.D.HasChange("action_trigger") {
+		oldRaw, newRaw := s.D.GetChange("action_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			if dataguardActionType, ok := s.D.GetOkExists("data_guard_action"); ok {
+				action := dataguardActionType.(string)
+				if strings.EqualFold(action, "switchover") {
+					err := s.switchoverAction(tmp)
+					if err != nil {
+						return err
+					}
+				}
+				if strings.EqualFold(action, "failover") {
+					err := s.failoverAction(tmp)
+					if err != nil {
+						return err
+					}
+				}
+				if strings.EqualFold(action, "reinstate") {
+					err := s.reintateAction(tmp)
+					if err != nil {
+						return err
+					}
+				}
+				if strings.EqualFold(action, "convertToStandalone") {
+					err := s.convertToStandaloneAction(tmp)
+					if err != nil {
+						return err
+					}
+				}
+				if strings.EqualFold(action, "dgConfig") {
+					err := s.dataGuardConfigUpdate(tmp)
+					if err != nil {
+						return err
+					}
+				}
+
+			}
+		} else {
+			s.D.Set("action_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+
+	}
+
 	error := s.kmsRotation(tmp)
 	if error != nil {
 		return error
@@ -1221,7 +1690,6 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 			return fmt.Errorf("[ERROR] no support for migrate to Oracle now")
 		}
 	}
-
 	errKms := s.setDbKeyVersion(tmp)
 	if errKms != nil {
 		return errKms
@@ -1288,9 +1756,30 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 		result.RecoveryWindowInDays = &tmp
 	}
 
-	if runImmediateFullBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")); ok {
+	if runImmediateFullBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")) {
 		tmp := runImmediateFullBackup.(bool)
 		result.RunImmediateFullBackup = &tmp
+	}
+
+	if backup_deletion_policy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")) {
+		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backup_deletion_policy.(string))
+	}
+
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToUpdateBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
 	}
 
 	return result, nil
@@ -1298,6 +1787,25 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 
 func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
 	result := oci_database.UpdateDatabaseDetails{}
+
+	if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"))
+		oldList := oldRaw.([]interface{})
+		newList := newRaw.([]interface{})
+
+		if len(oldList) > 0 && len(newList) > 0 {
+			return result, fmt.Errorf("[ERROR] no support for updating External HSM now")
+		}
+		if len(oldList) == 0 {
+			err := s.ChangeEncryptionKeyLocation(fieldKeyFormat)
+			if err != nil {
+				return result, err
+			}
+		}
+		if len(newList) == 0 && len(oldList) > 0 {
+			return result, fmt.Errorf("[ERROR] no support for migrate from External HSM now")
+		}
+	}
 
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
@@ -1399,6 +1907,18 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 		result["sid_prefix"] = string(*obj.SidPrefix)
 	}
 
+	if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
+		if s.Res.EncryptionKeyLocationDetails != nil {
+			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, hsmPassword.(string))}
+		}
+	}
+
+	if sourceHsmPassword, ok := s.D.GetOkExists("database.0.source_encryption_key_location_details.0.hsm_password"); ok && sourceHsmPassword != nil {
+		if s.Res.EncryptionKeyLocationDetails != nil {
+			result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, sourceHsmPassword.(string))}
+		}
+	}
+
 	return result
 }
 
@@ -1427,6 +1947,152 @@ func (s *DatabaseDatabaseResourceCrud) setDbKeyVersion(databaseId string) error 
 			}
 		}
 	}
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) switchoverAction(databaseId string) error {
+	switchoverDataGuardRequest := oci_database.SwitchOverDataGuardRequest{}
+	switchoverDetails := oci_database.SwitchOverDataGuardDetails{}
+	switchoverDataGuardRequest.DatabaseId = &databaseId
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
+		tmp := adminPassword.(string)
+		switchoverDetails.DatabaseAdminPassword = &tmp
+	}
+	switchoverDataGuardRequest.SwitchOverDataGuardDetails = switchoverDetails
+	response, err := s.Client.SwitchOverDataGuard(context.Background(), switchoverDataGuardRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) failoverAction(databaseId string) error {
+	failoverDataGuardRequest := oci_database.FailoverDataGuardRequest{}
+	failoverDataGuardRequest.DatabaseId = &databaseId
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
+		tmp := adminPassword.(string)
+		failoverDataGuardRequest.FailoverDataGuardDetails.DatabaseAdminPassword = &tmp
+	}
+	response, err := s.Client.FailoverDataGuard(context.Background(), failoverDataGuardRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) reintateAction(databaseId string) error {
+	reinstateDataGuardRequest := oci_database.ReinstateDataGuardRequest{}
+	reinstateDataGuardRequest.DatabaseId = &databaseId
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
+		tmp := adminPassword.(string)
+		reinstateDataGuardRequest.ReinstateDataGuardDetails.DatabaseAdminPassword = &tmp
+	}
+	if sourceDatabaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_database_id")); ok {
+		tmp := sourceDatabaseId.(string)
+		reinstateDataGuardRequest.ReinstateDataGuardDetails.SourceDatabaseId = &tmp
+	}
+	response, err := s.Client.ReinstateDataGuard(context.Background(), reinstateDataGuardRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) convertToStandaloneAction(databaseId string) error {
+	convertToStandaloneRequest := oci_database.ConvertToStandaloneRequest{}
+	convertToStandaloneRequest.DatabaseId = &databaseId
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
+		tmp := adminPassword.(string)
+		convertToStandaloneRequest.ConvertToStandaloneDetails.DatabaseAdminPassword = &tmp
+	}
+	response, err := s.Client.ConvertToStandalone(context.Background(), convertToStandaloneRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) dataGuardConfigUpdate(databaseId string) error {
+	updateDataGuardRequest := oci_database.UpdateDataGuardRequest{}
+	updateDataGuardRequest.DatabaseId = &databaseId
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
+		tmp := adminPassword.(string)
+		updateDataGuardRequest.UpdateDataGuardDetails.DatabaseAdminPassword = &tmp
+	}
+	if transportType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_type")); ok {
+		updateDataGuardRequest.UpdateDataGuardDetails.TransportType = oci_database.UpdateDataGuardDetailsTransportTypeEnum(transportType.(string))
+	}
+	if protectionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_mode")); ok {
+		updateDataGuardRequest.UpdateDataGuardDetails.ProtectionMode = oci_database.UpdateDataGuardDetailsProtectionModeEnum(protectionMode.(string))
+	}
+	if activeDgEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_active_data_guard_enabled")); ok {
+		tmp := activeDgEnabled.(bool)
+		updateDataGuardRequest.UpdateDataGuardDetails.IsActiveDataGuardEnabled = &tmp
+	}
+	response, err := s.Client.UpdateDataGuard(context.Background(), updateDataGuardRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
 	return nil
 }
 
@@ -1517,4 +2183,167 @@ func getdatabaseRetryDurationFunction(retryTimeout time.Duration) expectedRetryD
 		}
 		return defaultRetryTime
 	}
+}
+
+func protectionModeDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
+	if v, ok := d.GetOk("data_guard_group"); ok {
+		if list, ok := v.([]interface{}); ok && len(list) > 0 {
+			if firstMap, ok := list[0].(map[string]interface{}); ok {
+				if fieldValue, exists := firstMap["protection_mode"]; exists {
+					return fieldValue.(string) == new
+				}
+			}
+		}
+	}
+	return false
+}
+
+func dbAdminPasswordDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
+	if _, ok := d.GetOkExists("action_trigger"); ok && d.HasChange("action_trigger") {
+		return false
+	}
+
+	if actionType, ok := d.GetOkExists("data_guard_action"); ok && strings.EqualFold(actionType.(string), "convertToStandalone") {
+		return true
+	}
+
+	dgGroup, ok := d.GetOk("data_guard_group")
+	if !ok {
+		return false
+	}
+	list, ok := dgGroup.([]interface{})
+	if !ok && !(len(list) > 0) {
+		return false
+	}
+	firstMap, ok := list[0].(map[string]interface{})
+	if !ok {
+		return false
+	}
+	members, ok := firstMap["members"].([]interface{})
+	if !ok && !(len(members) > 0) {
+		return false
+	}
+	for _, member := range members {
+		item, ok := member.(map[string]interface{})
+		if ok {
+			if databaseId, exists := item["database_id"]; exists && databaseId.(string) == d.Id() {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func transportTypeDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
+	dgGroup, ok := d.GetOk("data_guard_group")
+	if !ok {
+		return false
+	}
+	list, ok := dgGroup.([]interface{})
+	if !ok && !(len(list) > 0) {
+		return false
+	}
+	firstMap, ok := list[0].(map[string]interface{})
+	if !ok {
+		return false
+	}
+	members, ok := firstMap["members"].([]interface{})
+	if !ok && !(len(members) > 0) {
+		return false
+	}
+	for _, member := range members {
+		item, ok := member.(map[string]interface{})
+		if ok {
+			if databaseId, exists := item["database_id"]; exists && databaseId.(string) == d.Id() {
+				if fieldValue, exists := item["transport_type"]; exists {
+					return fieldValue.(string) == new
+				}
+			}
+		}
+	}
+	return false
+}
+
+func sourceDbIdDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
+	if _, ok := d.GetOkExists("action_trigger"); ok && d.HasChange("action_trigger") {
+		if dataguardActionType, ok := d.GetOkExists("data_guard_action"); ok {
+			action := dataguardActionType.(string)
+			if strings.EqualFold(action, "reinstate") {
+				return false
+			}
+		}
+	}
+	return sourceDbDetailsDiffSuppress(k, old, new, d)
+}
+
+func sourceDbDetailsDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
+	dgGroup, ok := d.GetOk("data_guard_group")
+	if !ok {
+		return false
+	}
+	list, ok := dgGroup.([]interface{})
+	if !ok && !(len(list) > 0) {
+		return false
+	}
+	firstMap, ok := list[0].(map[string]interface{})
+	if !ok {
+		return false
+	}
+	members, ok := firstMap["members"].([]interface{})
+	if !ok && !(len(members) > 0) {
+		return false
+	}
+	for _, member := range members {
+		item, ok := member.(map[string]interface{})
+		if ok {
+			if databaseId, exists := item["database_id"]; exists && databaseId.(string) == d.Id() {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func adgDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
+	dgGroup, ok := d.GetOk("data_guard_group")
+	if !ok {
+		return false
+	}
+	list, ok := dgGroup.([]interface{})
+	if !ok && !(len(list) > 0) {
+		return false
+	}
+	firstMap, ok := list[0].(map[string]interface{})
+	if !ok {
+		return false
+	}
+	members, ok := firstMap["members"].([]interface{})
+	if !ok && !(len(members) > 0) {
+		return false
+	}
+	for _, member := range members {
+		item, ok := member.(map[string]interface{})
+		if ok {
+			if databaseId, exists := item["database_id"]; exists && databaseId.(string) == d.Id() {
+				if fieldValue, exists := item["is_active_data_guard_enabled"]; exists {
+					return compareBooleanField(fieldValue, new)
+				}
+			}
+		}
+	}
+	return false
+}
+
+func compareBooleanField(fieldValue interface{}, new string) bool {
+	boolValue, _ := fieldValue.(bool)
+
+	newBool, err := strconv.ParseBool(new)
+	if err != nil {
+		if new == "" {
+			// Empty string case
+			return !boolValue
+		}
+		return false
+	}
+	return boolValue == newBool
 }

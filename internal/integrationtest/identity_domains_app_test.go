@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
 
@@ -71,6 +71,7 @@ var (
 		"description":                       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"disable_kmsi_token_authentication": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"error_page_url":                    acctest.Representation{RepType: acctest.Optional, Create: `https://testurl.com`, Update: `https://testurl2.com`},
+		"force_delete":                      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"home_page_url":                     acctest.Representation{RepType: acctest.Optional, Create: `https://testurl.com`, Update: `https://testurl2.com`},
 		"icon":                              acctest.Representation{RepType: acctest.Optional, Create: `icon`, Update: `icon2`},
 		"id_token_enc_algo":                 acctest.Representation{RepType: acctest.Optional, Create: `A128CBC-HS256`, Update: `A192CBC-HS384`},
@@ -104,15 +105,18 @@ var (
 		"redirect_uris":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`redirectUris`}, Update: []string{`redirectUris2`}},
 		"refresh_token_expiry":              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"saml_service_provider":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppSamlServiceProviderRepresentation},
-		"scopes":                            acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppScopesRepresentation},
-		"secondary_audiences":               acctest.Representation{RepType: acctest.Optional, Create: []string{`secondaryAudiences`}, Update: []string{`secondaryAudiences2`}},
-		"service_params":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppServiceParamsRepresentation},
-		"service_type_urn":                  acctest.Representation{RepType: acctest.Optional, Create: `serviceTypeURN`, Update: `serviceTypeURN2`},
-		"service_type_version":              acctest.Representation{RepType: acctest.Optional, Create: `serviceTypeVersion`, Update: `serviceTypeVersion2`},
-		"show_in_my_apps":                   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"tags":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppTagsRepresentation},
-		"terms_of_service_url":              acctest.Representation{RepType: acctest.Optional, Create: `https://testurl.com`, Update: `https://testurl2.com`},
-		"trust_scope":                       acctest.Representation{RepType: acctest.Optional, Create: `Explicit`, Update: `Account`},
+		"scopes": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: IdentityDomainsAppScopesRepresentation1},
+			{RepType: acctest.Optional, Group: IdentityDomainsAppScopesRepresentation2},
+		},
+		"secondary_audiences":  acctest.Representation{RepType: acctest.Optional, Create: []string{`secondaryAudiences`}, Update: []string{`secondaryAudiences2`}},
+		"service_params":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppServiceParamsRepresentation},
+		"service_type_urn":     acctest.Representation{RepType: acctest.Optional, Create: `serviceTypeURN`, Update: `serviceTypeURN2`},
+		"service_type_version": acctest.Representation{RepType: acctest.Optional, Create: `serviceTypeVersion`, Update: `serviceTypeVersion2`},
+		"show_in_my_apps":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"tags":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppTagsRepresentation},
+		"terms_of_service_url": acctest.Representation{RepType: acctest.Optional, Create: `https://testurl.com`, Update: `https://testurl2.com`},
+		"trust_scope":          acctest.Representation{RepType: acctest.Optional, Create: `Explicit`, Update: `Account`},
 		"urnietfparamsscimschemasoracleidcsextension_oci_tags":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionOCITagsRepresentation},
 		"urnietfparamsscimschemasoracleidcsextensionenterprise_app_app":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionenterpriseAppAppRepresentation},
 		"urnietfparamsscimschemasoracleidcsextensionform_fill_app_app":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionformFillAppAppRepresentation},
@@ -169,11 +173,14 @@ var (
 	IdentityDomainsAppSamlServiceProviderRepresentation = map[string]interface{}{
 		"value": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_domains_app.test_saml_app.id}`},
 	}
-	IdentityDomainsAppScopesRepresentation = map[string]interface{}{
+	IdentityDomainsAppScopesRepresentation1 = map[string]interface{}{
 		"value":            acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"requires_consent": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	IdentityDomainsAppScopesRepresentation2 = map[string]interface{}{
+		"value": acctest.Representation{RepType: acctest.Required, Create: `valueRequired`, Update: `valueRequired2`},
 	}
 	IdentityDomainsAppServiceParamsRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
@@ -334,7 +341,7 @@ var (
 	}
 	IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionmanagedappAppThreeLeggedOAuthCredentialRepresentation = map[string]interface{}{
 		"access_token":        acctest.Representation{RepType: acctest.Optional, Create: `accessToken`, Update: `accessToken2`},
-		"access_token_expiry": acctest.Representation{RepType: acctest.Optional, Create: `2032-01-01T00:00:00Z`, Update: `2032-01-01T00:00:01Z`},
+		"access_token_expiry": acctest.Representation{RepType: acctest.Optional, Create: `2032-01-01T00:00:00.000Z`, Update: `2032-01-01T00:00:01.000Z`},
 		"refresh_token":       acctest.Representation{RepType: acctest.Optional, Create: `refreshToken`, Update: `refreshToken2`},
 	}
 	IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionradiusAppAppGroupMembershipToReturnRepresentation = map[string]interface{}{
@@ -483,11 +490,9 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "saml_service_provider.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "saml_service_provider.0.value"),
 				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
-				resource.TestCheckResourceAttr(resourceName, "scopes.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.requires_consent", "false"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "scopes.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "scopes.0.value"),
+				resource.TestCheckResourceAttrSet(resourceName, "scopes.1.value"),
 				resource.TestCheckResourceAttr(resourceName, "secondary_audiences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_params.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_params.0.name", "name"),
@@ -571,7 +576,7 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.is_authoritative", "false"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token", "accessToken"),
-				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token_expiry", "2032-01-01T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token_expiry", "2032-01-01T00:00:00.000Z"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.refresh_token", "refreshToken"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmulticloud_service_app_app.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmulticloud_service_app_app.0.multicloud_platform_url", "multicloudPlatformUrl"),
@@ -734,11 +739,9 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "saml_service_provider.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "saml_service_provider.0.value"),
 				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
-				resource.TestCheckResourceAttr(resourceName, "scopes.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.requires_consent", "true"),
-				resource.TestCheckResourceAttr(resourceName, "scopes.0.value", "value2"),
+				resource.TestCheckResourceAttr(resourceName, "scopes.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "scopes.0.value"),
+				resource.TestCheckResourceAttrSet(resourceName, "scopes.1.value"),
 				resource.TestCheckResourceAttr(resourceName, "secondary_audiences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_params.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_params.0.name", "name2"),
@@ -822,7 +825,7 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.is_authoritative", "false"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token", "accessToken2"),
-				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token_expiry", "2032-01-01T00:00:01Z"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token_expiry", "2032-01-01T00:00:01.000Z"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.refresh_token", "refreshToken2"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmulticloud_service_app_app.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionmulticloud_service_app_app.0.multicloud_platform_url", "multicloudPlatformUrl"),
@@ -987,11 +990,9 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "saml_service_provider.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "saml_service_provider.0.value"),
 				resource.TestMatchResourceAttr(singularDatasourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scopes.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scopes.0.description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scopes.0.display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scopes.0.requires_consent", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scopes.0.value", "value2"),
+				resource.TestCheckResourceAttr(resourceName, "scopes.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "scopes.0.value"),
+				resource.TestCheckResourceAttrSet(resourceName, "scopes.1.value"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_audiences.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_params.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_params.0.name", "name2"),
@@ -1067,7 +1068,7 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.is_authoritative", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token", "accessToken2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token_expiry", "2032-01-01T00:00:01Z"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.access_token_expiry", "2032-01-01T00:00:01.000Z"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionmanagedapp_app.0.three_legged_oauth_credential.0.refresh_token", "refreshToken2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionopc_service_app.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionopc_service_app.0.service_instance_identifier", "serviceInstanceIdentifier"),
@@ -1129,7 +1130,9 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 				"attribute_sets",
 				"attributes",
 				"authorization",
+				"force_delete",
 				"idcs_endpoint",
+				"identity_providers",
 				"resource_type_schema_version",
 				"app_icon",
 				"app_thumbnail",

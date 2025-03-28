@@ -7,11 +7,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -44,12 +45,25 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"CUSTOM",
+					"PRIVATE",
+					"THIRD_PARTY",
 					"VENDOR",
 					"VERSIONED",
 				}, true),
 			},
 
 			// Optional
+			"advanced_repo_options": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"arch_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"custom_software_source_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -184,6 +198,11 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"gpg_key_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"is_auto_resolve_dependencies": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -200,7 +219,22 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_gpg_check_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_latest_content_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_mirror_sync_allowed": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_ssl_verify_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -211,14 +245,25 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"os_family": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"packages": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"software_source_sub_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"software_source_version": {
 				Type:     schema.TypeString,
@@ -226,10 +271,16 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-			"vendor_software_sources": {
-				Type:     schema.TypeList,
+			"url": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"vendor_software_sources": {
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: vendorSoftwareSourcesDiffSuppressFunc,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -252,10 +303,6 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 			},
 
 			// Computed
-			"arch_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"availability": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -276,16 +323,8 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gpg_key_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_mandatory_for_autonomous_linux": {
 				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"os_family": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"package_count": {
@@ -313,7 +352,7 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"url": {
+			"time_metadata_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -383,6 +422,7 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) CreatedPending() []string {
 func (s *OsManagementHubSoftwareSourceResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_os_management_hub.SoftwareSourceLifecycleStateActive),
+		string(oci_os_management_hub.SoftwareSourceLifecycleStateNeedsAttention),
 	}
 }
 
@@ -461,7 +501,7 @@ func softwareSourceWaitForWorkRequest(wId *string, entityType string, action oci
 	retryPolicy.ShouldRetryOperation = softwareSourceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_os_management_hub.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_os_management_hub.OperationStatusInProgress),
 			string(oci_os_management_hub.OperationStatusAccepted),
@@ -629,6 +669,12 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 
 		s.D.Set("packages", v.Packages)
 
+		s.D.Set("software_source_sub_type", v.SoftwareSourceSubType)
+
+		if v.TimeMetadataUpdated != nil {
+			s.D.Set("time_metadata_updated", v.TimeMetadataUpdated.Format(time.RFC3339Nano))
+		}
+
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
 			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
@@ -671,6 +717,186 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 
 		if v.GpgKeyUrl != nil {
 			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		if v.PackageCount != nil {
+			s.D.Set("package_count", strconv.FormatInt(*v.PackageCount, 10))
+		}
+
+		if v.RepoId != nil {
+			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Url != nil {
+			s.D.Set("url", *v.Url)
+		}
+	case oci_os_management_hub.PrivateSoftwareSource:
+		s.D.Set("software_source_type", "PRIVATE")
+
+		if v.AdvancedRepoOptions != nil {
+			s.D.Set("advanced_repo_options", *v.AdvancedRepoOptions)
+		}
+
+		if v.IsGpgCheckEnabled != nil {
+			s.D.Set("is_gpg_check_enabled", *v.IsGpgCheckEnabled)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
+		}
+
+		if v.IsSslVerifyEnabled != nil {
+			s.D.Set("is_ssl_verify_enabled", *v.IsSslVerifyEnabled)
+		}
+
+		s.D.Set("arch_type", v.ArchType)
+
+		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
+
+		s.D.Set("checksum_type", v.ChecksumType)
+
+		s.D.Set("packages", nil)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.GpgKeyFingerprint != nil {
+			s.D.Set("gpg_key_fingerprint", *v.GpgKeyFingerprint)
+		}
+
+		if v.GpgKeyId != nil {
+			s.D.Set("gpg_key_id", *v.GpgKeyId)
+		}
+
+		if v.GpgKeyUrl != nil {
+			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		if v.PackageCount != nil {
+			s.D.Set("package_count", strconv.FormatInt(*v.PackageCount, 10))
+		}
+
+		if v.RepoId != nil {
+			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Url != nil {
+			s.D.Set("url", *v.Url)
+		}
+	case oci_os_management_hub.ThirdPartySoftwareSource:
+		s.D.Set("software_source_type", "THIRD_PARTY")
+
+		if v.AdvancedRepoOptions != nil {
+			s.D.Set("advanced_repo_options", *v.AdvancedRepoOptions)
+		}
+
+		if v.IsGpgCheckEnabled != nil {
+			s.D.Set("is_gpg_check_enabled", *v.IsGpgCheckEnabled)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
+		}
+
+		if v.IsSslVerifyEnabled != nil {
+			s.D.Set("is_ssl_verify_enabled", *v.IsSslVerifyEnabled)
+		}
+
+		s.D.Set("arch_type", v.ArchType)
+
+		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
+
+		s.D.Set("checksum_type", v.ChecksumType)
+
+		s.D.Set("packages", nil)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.GpgKeyFingerprint != nil {
+			s.D.Set("gpg_key_fingerprint", *v.GpgKeyFingerprint)
+		}
+
+		if v.GpgKeyId != nil {
+			s.D.Set("gpg_key_id", *v.GpgKeyId)
+		}
+
+		if v.GpgKeyUrl != nil {
+			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
+		}
+
+		if v.IsMirrorSyncAllowed != nil {
+			s.D.Set("is_mirror_sync_allowed", *v.IsMirrorSyncAllowed)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
@@ -755,15 +981,13 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("id", *v.Id)
 		}
 
-		if v.IsMandatoryForAutonomousLinux != nil {
-			s.D.Set("is_mandatory_for_autonomous_linux", *v.IsMandatoryForAutonomousLinux)
-		}
-
 		s.D.Set("os_family", v.OsFamily)
 
 		if v.PackageCount != nil {
 			s.D.Set("package_count", strconv.FormatInt(*v.PackageCount, 10))
 		}
+
+		s.D.Set("packages", nil)
 
 		if v.RepoId != nil {
 			s.D.Set("repo_id", *v.RepoId)
@@ -811,8 +1035,14 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 
 		s.D.Set("packages", v.Packages)
 
+		s.D.Set("software_source_sub_type", v.SoftwareSourceSubType)
+
 		if v.SoftwareSourceVersion != nil {
 			s.D.Set("software_source_version", *v.SoftwareSourceVersion)
+		}
+
+		if v.TimeMetadataUpdated != nil {
+			s.D.Set("time_metadata_updated", v.TimeMetadataUpdated.Format(time.RFC3339Nano))
 		}
 
 		vendorSoftwareSources := []interface{}{}
@@ -857,10 +1087,6 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 
 		if v.GpgKeyUrl != nil {
 			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
-		}
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
@@ -1198,6 +1424,9 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 				details.Packages = tmp
 			}
 		}
+		if softwareSourceSubType, ok := s.D.GetOkExists("software_source_sub_type"); ok {
+			details.SoftwareSourceSubType = oci_os_management_hub.SoftwareSourceSubTypeEnum(softwareSourceSubType.(string))
+		}
 		if vendorSoftwareSources, ok := s.D.GetOkExists("vendor_software_sources"); ok {
 			interfaces := vendorSoftwareSources.([]interface{})
 			tmp := make([]oci_os_management_hub.Id, len(interfaces))
@@ -1235,6 +1464,152 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateSoftwareSourceDetails = details
+	case strings.ToLower("PRIVATE"):
+		details := oci_os_management_hub.CreatePrivateSoftwareSourceDetails{}
+		if advancedRepoOptions, ok := s.D.GetOkExists("advanced_repo_options"); ok {
+			tmp := advancedRepoOptions.(string)
+			details.AdvancedRepoOptions = &tmp
+		}
+		if archType, ok := s.D.GetOkExists("arch_type"); ok {
+			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isGpgCheckEnabled, ok := s.D.GetOkExists("is_gpg_check_enabled"); ok {
+			tmp := isGpgCheckEnabled.(bool)
+			details.IsGpgCheckEnabled = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		if isSslVerifyEnabled, ok := s.D.GetOkExists("is_ssl_verify_enabled"); ok {
+			tmp := isSslVerifyEnabled.(bool)
+			details.IsSslVerifyEnabled = &tmp
+		}
+		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if url, ok := s.D.GetOkExists("url"); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		if archType, ok := s.D.GetOkExists("arch_type"); ok {
+			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if url, ok := s.D.GetOkExists("url"); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		request.CreateSoftwareSourceDetails = details
+	case strings.ToLower("THIRD_PARTY"):
+		details := oci_os_management_hub.CreateThirdPartySoftwareSourceDetails{}
+		if advancedRepoOptions, ok := s.D.GetOkExists("advanced_repo_options"); ok {
+			tmp := advancedRepoOptions.(string)
+			details.AdvancedRepoOptions = &tmp
+		}
+		if archType, ok := s.D.GetOkExists("arch_type"); ok {
+			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isGpgCheckEnabled, ok := s.D.GetOkExists("is_gpg_check_enabled"); ok {
+			tmp := isGpgCheckEnabled.(bool)
+			details.IsGpgCheckEnabled = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		if isSslVerifyEnabled, ok := s.D.GetOkExists("is_ssl_verify_enabled"); ok {
+			tmp := isSslVerifyEnabled.(bool)
+			details.IsSslVerifyEnabled = &tmp
+		}
+		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if url, ok := s.D.GetOkExists("url"); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		if archType, ok := s.D.GetOkExists("arch_type"); ok {
+			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if url, ok := s.D.GetOkExists("url"); ok {
+			tmp := url.(string)
+			details.Url = &tmp
 		}
 		request.CreateSoftwareSourceDetails = details
 	case strings.ToLower("VENDOR"):
@@ -1301,6 +1676,9 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 			if len(tmp) != 0 || s.D.HasChange("packages") {
 				details.Packages = tmp
 			}
+		}
+		if softwareSourceSubType, ok := s.D.GetOkExists("software_source_sub_type"); ok {
+			details.SoftwareSourceSubType = oci_os_management_hub.SoftwareSourceSubTypeEnum(softwareSourceSubType.(string))
 		}
 		if softwareSourceVersion, ok := s.D.GetOkExists("software_source_version"); ok {
 			tmp := softwareSourceVersion.(string)
@@ -1426,6 +1804,124 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicU
 		tmp := s.D.Id()
 		request.SoftwareSourceId = &tmp
 		request.UpdateSoftwareSourceDetails = details
+	case strings.ToLower("PRIVATE"):
+		details := oci_os_management_hub.UpdatePrivateSoftwareSourceDetails{}
+		if advancedRepoOptions, ok := s.D.GetOkExists("advanced_repo_options"); ok {
+			tmp := advancedRepoOptions.(string)
+			details.AdvancedRepoOptions = &tmp
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isGpgCheckEnabled, ok := s.D.GetOkExists("is_gpg_check_enabled"); ok {
+			tmp := isGpgCheckEnabled.(bool)
+			details.IsGpgCheckEnabled = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		if isSslVerifyEnabled, ok := s.D.GetOkExists("is_ssl_verify_enabled"); ok {
+			tmp := isSslVerifyEnabled.(bool)
+			details.IsSslVerifyEnabled = &tmp
+		}
+		if url, ok := s.D.GetOkExists("url"); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		tmp := s.D.Id()
+		request.SoftwareSourceId = &tmp
+		request.UpdateSoftwareSourceDetails = details
+	case strings.ToLower("THIRD_PARTY"):
+		details := oci_os_management_hub.UpdateThirdPartySoftwareSourceDetails{}
+		if advancedRepoOptions, ok := s.D.GetOkExists("advanced_repo_options"); ok {
+			tmp := advancedRepoOptions.(string)
+			details.AdvancedRepoOptions = &tmp
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isGpgCheckEnabled, ok := s.D.GetOkExists("is_gpg_check_enabled"); ok {
+			tmp := isGpgCheckEnabled.(bool)
+			details.IsGpgCheckEnabled = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		if isSslVerifyEnabled, ok := s.D.GetOkExists("is_ssl_verify_enabled"); ok {
+			tmp := isSslVerifyEnabled.(bool)
+			details.IsSslVerifyEnabled = &tmp
+		}
+		if url, ok := s.D.GetOkExists("url"); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if gpgKeyUrl, ok := s.D.GetOkExists("gpg_key_url"); ok {
+			tmp := gpgKeyUrl.(string)
+			details.GpgKeyUrl = &tmp
+		}
+		if isMirrorSyncAllowed, ok := s.D.GetOkExists("is_mirror_sync_allowed"); ok {
+			tmp := isMirrorSyncAllowed.(bool)
+			details.IsMirrorSyncAllowed = &tmp
+		}
+		tmp := s.D.Id()
+		request.SoftwareSourceId = &tmp
+		request.UpdateSoftwareSourceDetails = details
 	case strings.ToLower("VENDOR"):
 		details := oci_os_management_hub.UpdateVendorSoftwareSourceDetails{}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1507,4 +2003,62 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) updateCompartment(compartmen
 	}
 
 	return nil
+}
+
+func vendorSoftwareSourcesDiffSuppressFunc(k, old, new string, d *schema.ResourceData) bool {
+	// Because Terraform passes sub-attribute keys like "vendor_software_sources.0.id",
+	// extract only the parent key (e.g. "vendor_software_sources")
+	parentKey := strings.Split(k, ".")[0]
+
+	oldRaw, newRaw := d.GetChange(parentKey)
+	if oldRaw == nil || newRaw == nil {
+		return false
+	}
+
+	oldSlice, okOld := oldRaw.([]interface{})
+	newSlice, okNew := newRaw.([]interface{})
+	if !okOld || !okNew {
+		// Not a slice-of-interfaces? Just do default diff.
+		return false
+	}
+
+	// If lengths differ, it's definitely a diff
+	if len(oldSlice) != len(newSlice) {
+		return false
+	}
+
+	// Gather "id" fields from old/new
+	getIDs := func(slice []interface{}) []string {
+		ids := make([]string, 0, len(slice))
+		for _, elem := range slice {
+			if m, ok := elem.(map[string]interface{}); ok {
+				// If missing or nil, skip or handle gracefully
+				if val, ok := m["id"].(string); ok {
+					ids = append(ids, val)
+				}
+			}
+		}
+		return ids
+	}
+
+	oldIDs := getIDs(oldSlice)
+	newIDs := getIDs(newSlice)
+
+	// If "id" extraction failed or count differs, it's a change
+	if len(oldIDs) != len(newIDs) {
+		return false
+	}
+
+	// Sort for order-insensitivity
+	sort.Strings(oldIDs)
+	sort.Strings(newIDs)
+
+	// If sorted lists of IDs match, suppress the diff
+	for i := range oldIDs {
+		if oldIDs[i] != newIDs[i] {
+			return false
+		}
+	}
+
+	return true
 }

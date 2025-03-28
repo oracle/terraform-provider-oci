@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -37,6 +37,7 @@ var (
 
 	DatascienceDatascienceModelVersionSetDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"category":       acctest.Representation{RepType: acctest.Optional, Create: `USER`},
 		"created_by":     acctest.Representation{RepType: acctest.Optional, Create: `createdBy`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_model_version_set.test_model_version_set.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name` + utils.RandomString(15, utils.CharsetWithoutDigits)},
@@ -69,11 +70,12 @@ func TestDatascienceModelVersionSetResource_basic(t *testing.T) {
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_datascience_model_version_set.test_model_version_set"
 
-	var resId string
+	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceModelVersionSetResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_version_set", "test_model_version_set", acctest.Optional, acctest.Create, DatascienceModelVersionSetRepresentation), "datascience", "modelVersionSet", t)
@@ -106,6 +108,7 @@ func TestDatascienceModelVersionSetResource_basic(t *testing.T) {
 						"name": acctest.Representation{RepType: acctest.Required, Create: `name` + utils.RandomString(15, utils.CharsetWithoutDigits)},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "category"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -123,6 +126,63 @@ func TestDatascienceModelVersionSetResource_basic(t *testing.T) {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + DatascienceModelVersionSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_version_set", "test_model_version_set", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatascienceModelVersionSetRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "category"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatascienceModelVersionSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_version_set", "test_model_version_set", acctest.Optional, acctest.Update, DatascienceModelVersionSetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "category"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					return err
 				},

@@ -19,9 +19,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
 
@@ -90,8 +90,9 @@ var (
 	}
 
 	PsqlDbSystemNetworkDetailsRepresentation = map[string]interface{}{
-		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"nsg_ids":   acctest.Representation{RepType: acctest.Required, Create: []string{`${var.nsg_id}`}, Update: []string{`${var.update_nsg_id}`}},
+		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"is_reader_endpoint_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"nsg_ids":                    acctest.Representation{RepType: acctest.Required, Create: []string{`${var.nsg_id}`}, Update: []string{`${var.update_nsg_id}`}},
 		//"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Optional, Create: `primaryDbEndpointPrivateIp`},
 	}
 	PsqlDbSystemStorageDetailsRepresentation = map[string]interface{}{
@@ -121,9 +122,16 @@ var (
 	}
 	PsqlDbSystemManagementPolicyBackupPolicyRepresentation = map[string]interface{}{
 		"backup_start":     acctest.Representation{RepType: acctest.Optional, Create: `02:00`, Update: `03:00`},
-		"kind":             acctest.Representation{RepType: acctest.Optional, Create: `WEEKLY`},
-		"retention_days":   acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"copy_policy":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyBackupPolicyCopyPolicyRepresentation},
 		"days_of_the_week": acctest.Representation{RepType: acctest.Optional, Create: []string{`SUNDAY`}},
+		"kind":             acctest.Representation{RepType: acctest.Optional, Create: `WEEKLY`},
+		"retention_days":   acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `11`},
+	}
+
+	PsqlDbSystemManagementPolicyBackupPolicyCopyPolicyRepresentation = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"regions":          acctest.Representation{RepType: acctest.Optional, Create: []string{`us-ashburn-1`}, Update: []string{`eu-paris-1`}},
+		"retention_period": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 	// Test with Vault Secret, Backup Source and Monthly backup, in a AD
 	PsqlDbSystemRepresentationMonthlyBackupVault = map[string]interface{}{
@@ -235,8 +243,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 	flexConfigId := utils.GetEnvSettingWithBlankDefault("flex_config_id")
 	flexConfigIdVariableStr := fmt.Sprintf("variable \"flex_config_id\" { default = \"%s\" }\n", flexConfigId)
 
-	//flexConfigIdU := utils.GetEnvSettingWithBlankDefault("flex_update_config_id")
-	//flexConfigIdUVariableStr := fmt.Sprintf("variable \"flex_update_config_id\" { default = \"%s\" }\n", flexConfigIdU)
+	flexConfigIdU := utils.GetEnvSettingWithBlankDefault("flex_update_config_id")
+	flexConfigIdUVariableStr := fmt.Sprintf("variable \"flex_update_config_id\" { default = \"%s\" }\n", flexConfigIdU)
 
 	vaultId := utils.GetEnvSettingWithBlankDefault("vault_ocid")
 	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
@@ -265,26 +273,22 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(test_flex_resourceName, "compartment_id", compartmentId),
 			),
 		},
-
 		// verify updates to updatable parameters
-		/*
-			{
-				Config: config + compartmentIdVariableStr + flexConfigIdUVariableStr + subnetIdVariableStr + flexConfigIdVariableStr + PsqlDbSystemResourceDependencies + backupIdVariableStr + nsgIdUVariableStr +
-					acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentationFlexShape),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(test_flex_resourceName, "compartment_id", compartmentId),
+		{
+			Config: config + compartmentIdVariableStr + flexConfigIdUVariableStr + subnetIdVariableStr + flexConfigIdVariableStr + PsqlDbSystemResourceDependencies + backupIdVariableStr + nsgIdUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentationFlexShape),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(test_flex_resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = acctest.FromInstanceState(s, test_flex_resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-		*/
-
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, test_flex_resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + flexConfigIdVariableStr + backupIdVariableStr + nsgIdVariableStr,
@@ -312,6 +316,20 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "storage_details.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.is_regionally_durable", "false"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.system_type", "OCI_OPTIMIZED_STORAGE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify update
+		{
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + nsgIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -384,11 +402,16 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "02:00"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.regions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.retention_period", "10"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.days_of_the_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
@@ -445,11 +468,16 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "02:00"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.regions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.retention_period", "10"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.days_of_the_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
@@ -501,11 +529,16 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.regions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.copy_policy.0.retention_period", "11"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.days_of_the_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
@@ -579,14 +612,19 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_memory_size_in_gbs", "32"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instances.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.days_of_the_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
-				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
-				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.copy_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.copy_policy.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.copy_policy.0.regions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.copy_policy.0.retention_period", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.days_of_the_week.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.retention_days", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_details.0.is_reader_endpoint_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),

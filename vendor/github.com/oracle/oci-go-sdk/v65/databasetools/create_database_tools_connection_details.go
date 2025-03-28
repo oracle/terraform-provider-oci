@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,7 +22,7 @@ type CreateDatabaseToolsConnectionDetails interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	GetCompartmentId() *string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -99,7 +99,7 @@ func (m *createdatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateDatabaseToolsConnectionDetails: %s.", m.Type)
+		common.Logf("Received unsupported enum value for CreateDatabaseToolsConnectionDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

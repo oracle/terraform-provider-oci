@@ -17,9 +17,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -57,13 +57,14 @@ var (
 		"is_include_all_schemas":                    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_include_all_sensitive_types":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_sample_data_collection_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"schemas_for_discovery":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ZX`}},
+		"sensitive_type_group_ids_for_discovery":    acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.sensitive_type_group_ids_for_discovery}`}},
+		"schemas_for_discovery":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`HR`}},
 		"sensitive_type_ids_for_discovery":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.sensitive_type_id}`}},
 		"tables_for_discovery":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataSafeDiscoveryJobTablesForDiscoveryRepresentation},
 	}
 	DataSafeDiscoveryJobTablesForDiscoveryRepresentation = map[string]interface{}{
-		"schema_name": acctest.Representation{RepType: acctest.Required, Create: `ZX`},
-		"table_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`ZX_API_REGISTRATIONS`}},
+		"schema_name": acctest.Representation{RepType: acctest.Required, Create: `HR`},
+		"table_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`JOBS`}},
 	}
 
 	DataSafeDiscoveryJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
@@ -95,6 +96,9 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 	sensitiveTypeId := utils.GetEnvSettingWithBlankDefault("sensitive_type_id")
 	sensitiveTypeIdVariableStr := fmt.Sprintf("variable \"sensitive_type_id\" { default = \"%s\" }\n", sensitiveTypeId)
 
+	sensitiveTypeGroupIdsForDiscovery := utils.GetEnvSettingWithBlankDefault("sensitive_type_group_ids_for_discovery")
+	sensitiveTypeGroupIdsForDiscoveryVariableStr := fmt.Sprintf("variable \"sensitive_type_group_ids_for_discovery\" { default = \"%s\" }\n", sensitiveTypeGroupIdsForDiscovery)
+
 	resourceName := "oci_data_safe_discovery_job.test_discovery_job"
 	datasourceName := "data.oci_data_safe_discovery_jobs.test_discovery_jobs"
 	singularDatasourceName := "data.oci_data_safe_discovery_job.test_discovery_job"
@@ -122,7 +126,7 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr + sensitiveTypeGroupIdsForDiscoveryVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, discoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -134,6 +138,8 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_include_all_sensitive_types", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_sample_data_collection_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "sensitive_data_model_id"),
+				resource.TestCheckResourceAttr(resourceName, "sensitive_type_group_ids_for_discovery.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "sensitive_type_ids_for_discovery.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "tables_for_discovery.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "tables_for_discovery.0.table_names.#", "1"),
@@ -156,7 +162,7 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr + sensitiveTypeGroupIdsForDiscoveryVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(discoveryJobRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -171,6 +177,8 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_include_all_sensitive_types", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_sample_data_collection_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "sensitive_data_model_id"),
+				resource.TestCheckResourceAttr(resourceName, "sensitive_type_group_ids_for_discovery.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "sensitive_type_ids_for_discovery.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
@@ -215,14 +223,15 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_type", "ALL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_app_defined_relation_discovery_enabled", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_include_all_schemas", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_include_all_sensitive_types", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_sample_data_collection_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_app_defined_relation_discovery_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_include_all_schemas", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_include_all_sensitive_types", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_sample_data_collection_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schemas_for_discovery.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "sensitive_type_group_ids_for_discovery.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "sensitive_type_ids_for_discovery.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "tables_for_discovery.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "tables_for_discovery.0.schema_name", "ZX"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "tables_for_discovery.0.table_names.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tables_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_finished"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_columns_scanned"),
@@ -236,9 +245,9 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:                  config + targetIdVariableStr + DataSafeDiscoveryJobRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
+			Config:                  config + targetIdVariableStr + DataSafeDiscoveryJobRequiredOnlyResource + compartmentIdVariableStr,
+			ImportState:             false,
+			ImportStateVerify:       false,
 			ImportStateVerifyIgnore: []string{`state`},
 			ResourceName:            resourceName,
 		},

@@ -138,6 +138,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["connection_strings"] = nil
 		}
 
+		if r.DataGuardGroup != nil {
+			database["data_guard_group"] = []interface{}{DataGuardGroupToMap(r.DataGuardGroup)}
+		} else {
+			database["data_guard_group"] = nil
+		}
+
 		if r.DatabaseManagementConfig != nil {
 			database["database_management_config"] = []interface{}{CloudDatabaseManagementConfigToMap(r.DatabaseManagementConfig)}
 		} else {
@@ -176,6 +182,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 
 		if r.DefinedTags != nil {
 			database["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
+		if r.EncryptionKeyLocationDetails != nil {
+			database["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&r.EncryptionKeyLocationDetails, "")}
 		}
 
 		database["freeform_tags"] = r.FreeformTags

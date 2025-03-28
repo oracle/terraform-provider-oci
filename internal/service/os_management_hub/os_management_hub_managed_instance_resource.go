@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -85,6 +85,10 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			"agent_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"architecture": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -217,6 +221,10 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"profile": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"profile_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -440,7 +448,7 @@ func managedInstanceWaitForWorkRequest(wId *string, entityType string, action oc
 	retryPolicy.ShouldRetryOperation = managedInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_os_management_hub.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_os_management_hub.OperationStatusInProgress),
 			string(oci_os_management_hub.OperationStatusAccepted),
@@ -598,6 +606,10 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Delete() error {
 }
 
 func (s *OsManagementHubManagedInstanceResourceCrud) SetData() error {
+	if s.Res.AgentVersion != nil {
+		s.D.Set("agent_version", *s.Res.AgentVersion)
+	}
+
 	s.D.Set("architecture", s.Res.Architecture)
 
 	if s.Res.AutonomousSettings != nil {
@@ -700,6 +712,10 @@ func (s *OsManagementHubManagedInstanceResourceCrud) SetData() error {
 		s.D.Set("profile", *s.Res.Profile)
 	}
 
+	if s.Res.ProfileVersion != nil {
+		s.D.Set("profile_version", *s.Res.ProfileVersion)
+	}
+
 	if s.Res.ScheduledJobCount != nil {
 		s.D.Set("scheduled_job_count", *s.Res.ScheduledJobCount)
 	}
@@ -781,6 +797,10 @@ func IdToMap(obj *oci_os_management_hub.Id) map[string]interface{} {
 
 func ManagedInstanceSummaryToMap(obj oci_os_management_hub.ManagedInstanceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AgentVersion != nil {
+		result["agent_version"] = string(*obj.AgentVersion)
+	}
 
 	result["architecture"] = string(obj.Architecture)
 

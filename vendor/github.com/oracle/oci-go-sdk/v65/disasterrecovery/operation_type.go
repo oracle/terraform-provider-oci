@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,6 +31,8 @@ const (
 	OperationTypeCreateDrPlan                  OperationTypeEnum = "CREATE_DR_PLAN"
 	OperationTypeUpdateDrPlan                  OperationTypeEnum = "UPDATE_DR_PLAN"
 	OperationTypeDeleteDrPlan                  OperationTypeEnum = "DELETE_DR_PLAN"
+	OperationTypeRefreshDrPlan                 OperationTypeEnum = "REFRESH_DR_PLAN"
+	OperationTypeVerifyDrPlan                  OperationTypeEnum = "VERIFY_DR_PLAN"
 	OperationTypeCreateDrPlanExecution         OperationTypeEnum = "CREATE_DR_PLAN_EXECUTION"
 	OperationTypeUpdateDrPlanExecution         OperationTypeEnum = "UPDATE_DR_PLAN_EXECUTION"
 	OperationTypeDeleteDrPlanExecution         OperationTypeEnum = "DELETE_DR_PLAN_EXECUTION"
@@ -52,6 +54,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_DR_PLAN":                   OperationTypeCreateDrPlan,
 	"UPDATE_DR_PLAN":                   OperationTypeUpdateDrPlan,
 	"DELETE_DR_PLAN":                   OperationTypeDeleteDrPlan,
+	"REFRESH_DR_PLAN":                  OperationTypeRefreshDrPlan,
+	"VERIFY_DR_PLAN":                   OperationTypeVerifyDrPlan,
 	"CREATE_DR_PLAN_EXECUTION":         OperationTypeCreateDrPlanExecution,
 	"UPDATE_DR_PLAN_EXECUTION":         OperationTypeUpdateDrPlanExecution,
 	"DELETE_DR_PLAN_EXECUTION":         OperationTypeDeleteDrPlanExecution,
@@ -73,6 +77,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"create_dr_plan":                   OperationTypeCreateDrPlan,
 	"update_dr_plan":                   OperationTypeUpdateDrPlan,
 	"delete_dr_plan":                   OperationTypeDeleteDrPlan,
+	"refresh_dr_plan":                  OperationTypeRefreshDrPlan,
+	"verify_dr_plan":                   OperationTypeVerifyDrPlan,
 	"create_dr_plan_execution":         OperationTypeCreateDrPlanExecution,
 	"update_dr_plan_execution":         OperationTypeUpdateDrPlanExecution,
 	"delete_dr_plan_execution":         OperationTypeDeleteDrPlanExecution,
@@ -105,6 +111,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_DR_PLAN",
 		"UPDATE_DR_PLAN",
 		"DELETE_DR_PLAN",
+		"REFRESH_DR_PLAN",
+		"VERIFY_DR_PLAN",
 		"CREATE_DR_PLAN_EXECUTION",
 		"UPDATE_DR_PLAN_EXECUTION",
 		"DELETE_DR_PLAN_EXECUTION",

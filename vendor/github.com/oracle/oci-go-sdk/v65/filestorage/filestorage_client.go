@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -96,7 +96,7 @@ func (client *FileStorageClient) ConfigurationProvider() *common.ConfigurationPr
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddExportLock.go.html to see an example of how to use AddExportLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddExportLock.go.html to see an example of how to use AddExportLock API.
 func (client FileStorageClient) AddExportLock(ctx context.Context, request AddExportLockRequest) (response AddExportLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -153,7 +153,7 @@ func (client FileStorageClient) addExportLock(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddFileSystemLock.go.html to see an example of how to use AddFileSystemLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddFileSystemLock.go.html to see an example of how to use AddFileSystemLock API.
 func (client FileStorageClient) AddFileSystemLock(ctx context.Context, request AddFileSystemLockRequest) (response AddFileSystemLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -210,7 +210,7 @@ func (client FileStorageClient) addFileSystemLock(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddFilesystemSnapshotPolicyLock.go.html to see an example of how to use AddFilesystemSnapshotPolicyLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddFilesystemSnapshotPolicyLock.go.html to see an example of how to use AddFilesystemSnapshotPolicyLock API.
 func (client FileStorageClient) AddFilesystemSnapshotPolicyLock(ctx context.Context, request AddFilesystemSnapshotPolicyLockRequest) (response AddFilesystemSnapshotPolicyLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -267,7 +267,7 @@ func (client FileStorageClient) addFilesystemSnapshotPolicyLock(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddMountTargetLock.go.html to see an example of how to use AddMountTargetLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddMountTargetLock.go.html to see an example of how to use AddMountTargetLock API.
 func (client FileStorageClient) AddMountTargetLock(ctx context.Context, request AddMountTargetLockRequest) (response AddMountTargetLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -324,7 +324,7 @@ func (client FileStorageClient) addMountTargetLock(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddOutboundConnectorLock.go.html to see an example of how to use AddOutboundConnectorLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddOutboundConnectorLock.go.html to see an example of how to use AddOutboundConnectorLock API.
 func (client FileStorageClient) AddOutboundConnectorLock(ctx context.Context, request AddOutboundConnectorLockRequest) (response AddOutboundConnectorLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -381,7 +381,7 @@ func (client FileStorageClient) addOutboundConnectorLock(ctx context.Context, re
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddReplicationLock.go.html to see an example of how to use AddReplicationLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddReplicationLock.go.html to see an example of how to use AddReplicationLock API.
 func (client FileStorageClient) AddReplicationLock(ctx context.Context, request AddReplicationLockRequest) (response AddReplicationLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -438,7 +438,7 @@ func (client FileStorageClient) addReplicationLock(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddSnapshotLock.go.html to see an example of how to use AddSnapshotLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/AddSnapshotLock.go.html to see an example of how to use AddSnapshotLock API.
 func (client FileStorageClient) AddSnapshotLock(ctx context.Context, request AddSnapshotLockRequest) (response AddSnapshotLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -495,7 +495,7 @@ func (client FileStorageClient) addSnapshotLock(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CancelDowngradeShapeMountTarget.go.html to see an example of how to use CancelDowngradeShapeMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CancelDowngradeShapeMountTarget.go.html to see an example of how to use CancelDowngradeShapeMountTarget API.
 func (client FileStorageClient) CancelDowngradeShapeMountTarget(ctx context.Context, request CancelDowngradeShapeMountTargetRequest) (response CancelDowngradeShapeMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -548,11 +548,11 @@ func (client FileStorageClient) cancelDowngradeShapeMountTarget(ctx context.Cont
 	return response, err
 }
 
-// ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFileSystemCompartment.go.html to see an example of how to use ChangeFileSystemCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFileSystemCompartment.go.html to see an example of how to use ChangeFileSystemCompartment API.
 func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context, request ChangeFileSystemCompartmentRequest) (response ChangeFileSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -605,11 +605,11 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 	return response, err
 }
 
-// ChangeFilesystemSnapshotPolicyCompartment Moves a file system snapshot policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeFilesystemSnapshotPolicyCompartment Moves a file system snapshot policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFilesystemSnapshotPolicyCompartment.go.html to see an example of how to use ChangeFilesystemSnapshotPolicyCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFilesystemSnapshotPolicyCompartment.go.html to see an example of how to use ChangeFilesystemSnapshotPolicyCompartment API.
 func (client FileStorageClient) ChangeFilesystemSnapshotPolicyCompartment(ctx context.Context, request ChangeFilesystemSnapshotPolicyCompartmentRequest) (response ChangeFilesystemSnapshotPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -662,11 +662,11 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 	return response, err
 }
 
-// ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeMountTargetCompartment.go.html to see an example of how to use ChangeMountTargetCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeMountTargetCompartment.go.html to see an example of how to use ChangeMountTargetCompartment API.
 func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context, request ChangeMountTargetCompartmentRequest) (response ChangeMountTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -721,11 +721,11 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 
 // ChangeOutboundConnectorCompartment Moves an outbound connector into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeOutboundConnectorCompartment.go.html to see an example of how to use ChangeOutboundConnectorCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeOutboundConnectorCompartment.go.html to see an example of how to use ChangeOutboundConnectorCompartment API.
 func (client FileStorageClient) ChangeOutboundConnectorCompartment(ctx context.Context, request ChangeOutboundConnectorCompartmentRequest) (response ChangeOutboundConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -779,11 +779,11 @@ func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.C
 }
 
 // ChangeReplicationCompartment Moves a replication and its replication target into a different compartment within the same tenancy.
-// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeReplicationCompartment.go.html to see an example of how to use ChangeReplicationCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeReplicationCompartment.go.html to see an example of how to use ChangeReplicationCompartment API.
 func (client FileStorageClient) ChangeReplicationCompartment(ctx context.Context, request ChangeReplicationCompartmentRequest) (response ChangeReplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -841,7 +841,7 @@ func (client FileStorageClient) changeReplicationCompartment(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateExport.go.html to see an example of how to use CreateExport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateExport.go.html to see an example of how to use CreateExport API.
 func (client FileStorageClient) CreateExport(ctx context.Context, request CreateExportRequest) (response CreateExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -909,24 +909,24 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 // mount target's IP address. You can associate a file system with
 // more than one mount target at a time.
 // For information about access control and compartments, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about Network Security Groups access control, see
-// Network Security Groups (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm).
+// Network Security Groups (https://docs.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure resources, including
 // file systems, get an Oracle-assigned, unique ID called an Oracle
-// Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type or by viewing the resource in the Console.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFileSystem.go.html to see an example of how to use CreateFileSystem API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFileSystem.go.html to see an example of how to use CreateFileSystem API.
 func (client FileStorageClient) CreateFileSystem(ctx context.Context, request CreateFileSystemRequest) (response CreateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -991,7 +991,7 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFilesystemSnapshotPolicy.go.html to see an example of how to use CreateFilesystemSnapshotPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFilesystemSnapshotPolicy.go.html to see an example of how to use CreateFilesystemSnapshotPolicy API.
 func (client FileStorageClient) CreateFilesystemSnapshotPolicy(ctx context.Context, request CreateFilesystemSnapshotPolicyRequest) (response CreateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1065,22 +1065,22 @@ func (client FileStorageClient) createFilesystemSnapshotPolicy(ctx context.Conte
 // Allow at least three IP addresses for each mount target.
 // For information about access control and compartments, see
 // Overview of the IAM
-// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure Services resources, including
 // mount targets, get an Oracle-assigned, unique ID called an
-// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateMountTarget.go.html to see an example of how to use CreateMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateMountTarget.go.html to see an example of how to use CreateMountTarget API.
 func (client FileStorageClient) CreateMountTarget(ctx context.Context, request CreateMountTargetRequest) (response CreateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1143,22 +1143,22 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 // they exist in the same availability domain.
 // For information about access control and compartments, see
 // Overview of the IAM
-// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure Services resources, including
 // outbound connectors, get an Oracle-assigned, unique ID called an
-// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateOutboundConnector.go.html to see an example of how to use CreateOutboundConnector API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateOutboundConnector.go.html to see an example of how to use CreateOutboundConnector API.
 func (client FileStorageClient) CreateOutboundConnector(ctx context.Context, request CreateOutboundConnectorRequest) (response CreateOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1216,6 +1216,69 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
+// CreateQuotaRule Create a file system, user, or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
+// `isHardQuota` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateQuotaRule.go.html to see an example of how to use CreateQuotaRule API.
+func (client FileStorageClient) CreateQuotaRule(ctx context.Context, request CreateQuotaRuleRequest) (response CreateQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateQuotaRuleResponse")
+	}
+	return
+}
+
+// createQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) createQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/quotaRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/CreateQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateReplication Creates a new replication in the specified compartment.
 // Replications are the primary resource that governs the policy of cross-region replication between source
 // and target file systems. Replications are associated with a secondary resource called a ReplicationTarget
@@ -1225,25 +1288,25 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 // and sends it to the associated `ReplicationTarget`, which retrieves the delta and applies it to the target
 // file system.
 // Only unexported file systems can be used as target file systems.
-// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
+// For more information, see Using Replication (https://docs.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 // For information about access control and compartments, see
 // Overview of the IAM
-// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see Regions and
-// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the
 // `ListAvailabilityDomains` operation in the Identity and Access
 // Management Service API.
 // All Oracle Cloud Infrastructure Services resources, including
 // replications, get an Oracle-assigned, unique ID called an
-// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateReplication.go.html to see an example of how to use CreateReplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateReplication.go.html to see an example of how to use CreateReplication API.
 func (client FileStorageClient) CreateReplication(ctx context.Context, request CreateReplicationRequest) (response CreateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1306,7 +1369,7 @@ func (client FileStorageClient) createReplication(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateSnapshot.go.html to see an example of how to use CreateSnapshot API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateSnapshot.go.html to see an example of how to use CreateSnapshot API.
 func (client FileStorageClient) CreateSnapshot(ctx context.Context, request CreateSnapshotRequest) (response CreateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1368,7 +1431,7 @@ func (client FileStorageClient) createSnapshot(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteExport.go.html to see an example of how to use DeleteExport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteExport.go.html to see an example of how to use DeleteExport API.
 func (client FileStorageClient) DeleteExport(ctx context.Context, request DeleteExportRequest) (response DeleteExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1427,7 +1490,7 @@ func (client FileStorageClient) deleteExport(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFileSystem.go.html to see an example of how to use DeleteFileSystem API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFileSystem.go.html to see an example of how to use DeleteFileSystem API.
 func (client FileStorageClient) DeleteFileSystem(ctx context.Context, request DeleteFileSystemRequest) (response DeleteFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1484,7 +1547,7 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFilesystemSnapshotPolicy.go.html to see an example of how to use DeleteFilesystemSnapshotPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFilesystemSnapshotPolicy.go.html to see an example of how to use DeleteFilesystemSnapshotPolicy API.
 func (client FileStorageClient) DeleteFilesystemSnapshotPolicy(ctx context.Context, request DeleteFilesystemSnapshotPolicyRequest) (response DeleteFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1542,7 +1605,7 @@ func (client FileStorageClient) deleteFilesystemSnapshotPolicy(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteMountTarget.go.html to see an example of how to use DeleteMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteMountTarget.go.html to see an example of how to use DeleteMountTarget API.
 func (client FileStorageClient) DeleteMountTarget(ctx context.Context, request DeleteMountTargetRequest) (response DeleteMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1599,7 +1662,7 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteOutboundConnector.go.html to see an example of how to use DeleteOutboundConnector API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteOutboundConnector.go.html to see an example of how to use DeleteOutboundConnector API.
 func (client FileStorageClient) DeleteOutboundConnector(ctx context.Context, request DeleteOutboundConnectorRequest) (response DeleteOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1652,11 +1715,68 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
+// DeleteQuotaRule Remove a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteQuotaRule.go.html to see an example of how to use DeleteQuotaRule API.
+func (client FileStorageClient) DeleteQuotaRule(ctx context.Context, request DeleteQuotaRuleRequest) (response DeleteQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteQuotaRuleResponse")
+	}
+	return
+}
+
+// deleteQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) deleteQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/DeleteQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteReplication Deletes the specified replication and the the associated replication target.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplication.go.html to see an example of how to use DeleteReplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplication.go.html to see an example of how to use DeleteReplication API.
 func (client FileStorageClient) DeleteReplication(ctx context.Context, request DeleteReplicationRequest) (response DeleteReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1716,7 +1836,7 @@ func (client FileStorageClient) deleteReplication(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplicationTarget.go.html to see an example of how to use DeleteReplicationTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplicationTarget.go.html to see an example of how to use DeleteReplicationTarget API.
 func (client FileStorageClient) DeleteReplicationTarget(ctx context.Context, request DeleteReplicationTargetRequest) (response DeleteReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1773,7 +1893,7 @@ func (client FileStorageClient) deleteReplicationTarget(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteSnapshot.go.html to see an example of how to use DeleteSnapshot API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteSnapshot.go.html to see an example of how to use DeleteSnapshot API.
 func (client FileStorageClient) DeleteSnapshot(ctx context.Context, request DeleteSnapshotRequest) (response DeleteSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1830,7 +1950,7 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DetachClone.go.html to see an example of how to use DetachClone API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DetachClone.go.html to see an example of how to use DetachClone API.
 func (client FileStorageClient) DetachClone(ctx context.Context, request DetachCloneRequest) (response DetachCloneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1887,7 +2007,7 @@ func (client FileStorageClient) detachClone(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/EstimateReplication.go.html to see an example of how to use EstimateReplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/EstimateReplication.go.html to see an example of how to use EstimateReplication API.
 func (client FileStorageClient) EstimateReplication(ctx context.Context, request EstimateReplicationRequest) (response EstimateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1944,7 +2064,7 @@ func (client FileStorageClient) estimateReplication(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExport.go.html to see an example of how to use GetExport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExport.go.html to see an example of how to use GetExport API.
 func (client FileStorageClient) GetExport(ctx context.Context, request GetExportRequest) (response GetExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2001,7 +2121,7 @@ func (client FileStorageClient) getExport(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExportSet.go.html to see an example of how to use GetExportSet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExportSet.go.html to see an example of how to use GetExportSet API.
 func (client FileStorageClient) GetExportSet(ctx context.Context, request GetExportSetRequest) (response GetExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2058,7 +2178,7 @@ func (client FileStorageClient) getExportSet(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFileSystem.go.html to see an example of how to use GetFileSystem API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFileSystem.go.html to see an example of how to use GetFileSystem API.
 func (client FileStorageClient) GetFileSystem(ctx context.Context, request GetFileSystemRequest) (response GetFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2115,7 +2235,7 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFilesystemSnapshotPolicy.go.html to see an example of how to use GetFilesystemSnapshotPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFilesystemSnapshotPolicy.go.html to see an example of how to use GetFilesystemSnapshotPolicy API.
 func (client FileStorageClient) GetFilesystemSnapshotPolicy(ctx context.Context, request GetFilesystemSnapshotPolicyRequest) (response GetFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2172,7 +2292,7 @@ func (client FileStorageClient) getFilesystemSnapshotPolicy(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetMountTarget.go.html to see an example of how to use GetMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetMountTarget.go.html to see an example of how to use GetMountTarget API.
 func (client FileStorageClient) GetMountTarget(ctx context.Context, request GetMountTargetRequest) (response GetMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2229,7 +2349,7 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetOutboundConnector.go.html to see an example of how to use GetOutboundConnector API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetOutboundConnector.go.html to see an example of how to use GetOutboundConnector API.
 func (client FileStorageClient) GetOutboundConnector(ctx context.Context, request GetOutboundConnectorRequest) (response GetOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2282,11 +2402,68 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 	return response, err
 }
 
+// GetQuotaRule Get a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetQuotaRule.go.html to see an example of how to use GetQuotaRule API.
+func (client FileStorageClient) GetQuotaRule(ctx context.Context, request GetQuotaRuleRequest) (response GetQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetQuotaRuleResponse")
+	}
+	return
+}
+
+// getQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) getQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/GetQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReplication Gets the specified replication's information.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplication.go.html to see an example of how to use GetReplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplication.go.html to see an example of how to use GetReplication API.
 func (client FileStorageClient) GetReplication(ctx context.Context, request GetReplicationRequest) (response GetReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2343,7 +2520,7 @@ func (client FileStorageClient) getReplication(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplicationTarget.go.html to see an example of how to use GetReplicationTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplicationTarget.go.html to see an example of how to use GetReplicationTarget API.
 func (client FileStorageClient) GetReplicationTarget(ctx context.Context, request GetReplicationTargetRequest) (response GetReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2400,7 +2577,7 @@ func (client FileStorageClient) getReplicationTarget(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetSnapshot.go.html to see an example of how to use GetSnapshot API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetSnapshot.go.html to see an example of how to use GetSnapshot API.
 func (client FileStorageClient) GetSnapshot(ctx context.Context, request GetSnapshotRequest) (response GetSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2457,7 +2634,7 @@ func (client FileStorageClient) getSnapshot(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExportSets.go.html to see an example of how to use ListExportSets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExportSets.go.html to see an example of how to use ListExportSets API.
 func (client FileStorageClient) ListExportSets(ctx context.Context, request ListExportSetsRequest) (response ListExportSetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2516,7 +2693,7 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExports.go.html to see an example of how to use ListExports API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExports.go.html to see an example of how to use ListExports API.
 func (client FileStorageClient) ListExports(ctx context.Context, request ListExportsRequest) (response ListExportsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2574,7 +2751,7 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystems API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystems API.
 func (client FileStorageClient) ListFileSystems(ctx context.Context, request ListFileSystemsRequest) (response ListFileSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2631,7 +2808,7 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFilesystemSnapshotPolicies.go.html to see an example of how to use ListFilesystemSnapshotPolicies API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFilesystemSnapshotPolicies.go.html to see an example of how to use ListFilesystemSnapshotPolicies API.
 func (client FileStorageClient) ListFilesystemSnapshotPolicies(ctx context.Context, request ListFilesystemSnapshotPoliciesRequest) (response ListFilesystemSnapshotPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2688,7 +2865,7 @@ func (client FileStorageClient) listFilesystemSnapshotPolicies(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListMountTargets.go.html to see an example of how to use ListMountTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListMountTargets.go.html to see an example of how to use ListMountTargets API.
 func (client FileStorageClient) ListMountTargets(ctx context.Context, request ListMountTargetsRequest) (response ListMountTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2761,7 +2938,7 @@ func (m *listoutboundconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (in
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListOutboundConnectors.go.html to see an example of how to use ListOutboundConnectors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListOutboundConnectors.go.html to see an example of how to use ListOutboundConnectors API.
 func (client FileStorageClient) ListOutboundConnectors(ctx context.Context, request ListOutboundConnectorsRequest) (response ListOutboundConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2814,11 +2991,68 @@ func (client FileStorageClient) listOutboundConnectors(ctx context.Context, requ
 	return response, err
 }
 
+// ListQuotaRules List user or group usages and their quota rules by certain principal type.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListQuotaRules.go.html to see an example of how to use ListQuotaRules API.
+func (client FileStorageClient) ListQuotaRules(ctx context.Context, request ListQuotaRulesRequest) (response ListQuotaRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listQuotaRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListQuotaRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListQuotaRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListQuotaRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListQuotaRulesResponse")
+	}
+	return
+}
+
+// listQuotaRules implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) listQuotaRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/quotaRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListQuotaRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ListQuotaRules"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListQuotaRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListReplicationTargets Lists the replication target resources in the specified compartment.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplicationTargets.go.html to see an example of how to use ListReplicationTargets API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplicationTargets.go.html to see an example of how to use ListReplicationTargets API.
 func (client FileStorageClient) ListReplicationTargets(ctx context.Context, request ListReplicationTargetsRequest) (response ListReplicationTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2875,7 +3109,7 @@ func (client FileStorageClient) listReplicationTargets(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplications.go.html to see an example of how to use ListReplications API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplications.go.html to see an example of how to use ListReplications API.
 func (client FileStorageClient) ListReplications(ctx context.Context, request ListReplicationsRequest) (response ListReplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2936,7 +3170,7 @@ func (client FileStorageClient) listReplications(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListSnapshots.go.html to see an example of how to use ListSnapshots API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListSnapshots.go.html to see an example of how to use ListSnapshots API.
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2997,7 +3231,7 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/PauseFilesystemSnapshotPolicy.go.html to see an example of how to use PauseFilesystemSnapshotPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/PauseFilesystemSnapshotPolicy.go.html to see an example of how to use PauseFilesystemSnapshotPolicy API.
 func (client FileStorageClient) PauseFilesystemSnapshotPolicy(ctx context.Context, request PauseFilesystemSnapshotPolicyRequest) (response PauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3054,7 +3288,7 @@ func (client FileStorageClient) pauseFilesystemSnapshotPolicy(ctx context.Contex
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveExportLock.go.html to see an example of how to use RemoveExportLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveExportLock.go.html to see an example of how to use RemoveExportLock API.
 func (client FileStorageClient) RemoveExportLock(ctx context.Context, request RemoveExportLockRequest) (response RemoveExportLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3111,7 +3345,7 @@ func (client FileStorageClient) removeExportLock(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveFileSystemLock.go.html to see an example of how to use RemoveFileSystemLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveFileSystemLock.go.html to see an example of how to use RemoveFileSystemLock API.
 func (client FileStorageClient) RemoveFileSystemLock(ctx context.Context, request RemoveFileSystemLockRequest) (response RemoveFileSystemLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3168,7 +3402,7 @@ func (client FileStorageClient) removeFileSystemLock(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveFilesystemSnapshotPolicyLock.go.html to see an example of how to use RemoveFilesystemSnapshotPolicyLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveFilesystemSnapshotPolicyLock.go.html to see an example of how to use RemoveFilesystemSnapshotPolicyLock API.
 func (client FileStorageClient) RemoveFilesystemSnapshotPolicyLock(ctx context.Context, request RemoveFilesystemSnapshotPolicyLockRequest) (response RemoveFilesystemSnapshotPolicyLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3225,7 +3459,7 @@ func (client FileStorageClient) removeFilesystemSnapshotPolicyLock(ctx context.C
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveMountTargetLock.go.html to see an example of how to use RemoveMountTargetLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveMountTargetLock.go.html to see an example of how to use RemoveMountTargetLock API.
 func (client FileStorageClient) RemoveMountTargetLock(ctx context.Context, request RemoveMountTargetLockRequest) (response RemoveMountTargetLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3282,7 +3516,7 @@ func (client FileStorageClient) removeMountTargetLock(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveOutboundConnectorLock.go.html to see an example of how to use RemoveOutboundConnectorLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveOutboundConnectorLock.go.html to see an example of how to use RemoveOutboundConnectorLock API.
 func (client FileStorageClient) RemoveOutboundConnectorLock(ctx context.Context, request RemoveOutboundConnectorLockRequest) (response RemoveOutboundConnectorLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3339,7 +3573,7 @@ func (client FileStorageClient) removeOutboundConnectorLock(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveReplicationLock.go.html to see an example of how to use RemoveReplicationLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveReplicationLock.go.html to see an example of how to use RemoveReplicationLock API.
 func (client FileStorageClient) RemoveReplicationLock(ctx context.Context, request RemoveReplicationLockRequest) (response RemoveReplicationLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3396,7 +3630,7 @@ func (client FileStorageClient) removeReplicationLock(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveSnapshotLock.go.html to see an example of how to use RemoveSnapshotLock API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/RemoveSnapshotLock.go.html to see an example of how to use RemoveSnapshotLock API.
 func (client FileStorageClient) RemoveSnapshotLock(ctx context.Context, request RemoveSnapshotLockRequest) (response RemoveSnapshotLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3453,7 +3687,7 @@ func (client FileStorageClient) removeSnapshotLock(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ScheduleDowngradeShapeMountTarget.go.html to see an example of how to use ScheduleDowngradeShapeMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ScheduleDowngradeShapeMountTarget.go.html to see an example of how to use ScheduleDowngradeShapeMountTarget API.
 func (client FileStorageClient) ScheduleDowngradeShapeMountTarget(ctx context.Context, request ScheduleDowngradeShapeMountTargetRequest) (response ScheduleDowngradeShapeMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3506,6 +3740,70 @@ func (client FileStorageClient) scheduleDowngradeShapeMountTarget(ctx context.Co
 	return response, err
 }
 
+// ToggleQuotaRules Enable or disable quota enforcement for the file system.
+// If `areQuotaRulesEnabled` = `true`, then the quota enforcement will be enabled.
+// If `areQuotaRulesEnabled` = `false`, then the quota enforcement will be disabled.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ToggleQuotaRules.go.html to see an example of how to use ToggleQuotaRules API.
+func (client FileStorageClient) ToggleQuotaRules(ctx context.Context, request ToggleQuotaRulesRequest) (response ToggleQuotaRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.toggleQuotaRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ToggleQuotaRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ToggleQuotaRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ToggleQuotaRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ToggleQuotaRulesResponse")
+	}
+	return
+}
+
+// toggleQuotaRules implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) toggleQuotaRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/toggleQuotaRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ToggleQuotaRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ToggleQuotaRules"
+		err = common.PostProcessServiceError(err, "FileStorage", "ToggleQuotaRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnpauseFilesystemSnapshotPolicy This operation unpauses a paused file system snapshot policy and updates the lifecycle state of the file system snapshot policy from
 // INACTIVE to ACTIVE. By default, file system snapshot policies are in the ACTIVE state. When a file system snapshot policy is not paused, or in the ACTIVE state, file systems that are associated with the
 // policy will have snapshots created and deleted according to the schedules defined in the policy.
@@ -3513,7 +3811,7 @@ func (client FileStorageClient) scheduleDowngradeShapeMountTarget(ctx context.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UnpauseFilesystemSnapshotPolicy.go.html to see an example of how to use UnpauseFilesystemSnapshotPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UnpauseFilesystemSnapshotPolicy.go.html to see an example of how to use UnpauseFilesystemSnapshotPolicy API.
 func (client FileStorageClient) UnpauseFilesystemSnapshotPolicy(ctx context.Context, request UnpauseFilesystemSnapshotPolicyRequest) (response UnpauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3570,7 +3868,7 @@ func (client FileStorageClient) unpauseFilesystemSnapshotPolicy(ctx context.Cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExport.go.html to see an example of how to use UpdateExport API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExport.go.html to see an example of how to use UpdateExport API.
 func (client FileStorageClient) UpdateExport(ctx context.Context, request UpdateExportRequest) (response UpdateExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3627,7 +3925,7 @@ func (client FileStorageClient) updateExport(ctx context.Context, request common
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExportSet.go.html to see an example of how to use UpdateExportSet API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExportSet.go.html to see an example of how to use UpdateExportSet API.
 func (client FileStorageClient) UpdateExportSet(ctx context.Context, request UpdateExportSetRequest) (response UpdateExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3685,7 +3983,7 @@ func (client FileStorageClient) updateExportSet(ctx context.Context, request com
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFileSystem.go.html to see an example of how to use UpdateFileSystem API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFileSystem.go.html to see an example of how to use UpdateFileSystem API.
 func (client FileStorageClient) UpdateFileSystem(ctx context.Context, request UpdateFileSystemRequest) (response UpdateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3742,7 +4040,7 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFilesystemSnapshotPolicy.go.html to see an example of how to use UpdateFilesystemSnapshotPolicy API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFilesystemSnapshotPolicy.go.html to see an example of how to use UpdateFilesystemSnapshotPolicy API.
 func (client FileStorageClient) UpdateFilesystemSnapshotPolicy(ctx context.Context, request UpdateFilesystemSnapshotPolicyRequest) (response UpdateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3799,7 +4097,7 @@ func (client FileStorageClient) updateFilesystemSnapshotPolicy(ctx context.Conte
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateMountTarget.go.html to see an example of how to use UpdateMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateMountTarget.go.html to see an example of how to use UpdateMountTarget API.
 func (client FileStorageClient) UpdateMountTarget(ctx context.Context, request UpdateMountTargetRequest) (response UpdateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3856,7 +4154,7 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateOutboundConnector.go.html to see an example of how to use UpdateOutboundConnector API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateOutboundConnector.go.html to see an example of how to use UpdateOutboundConnector API.
 func (client FileStorageClient) UpdateOutboundConnector(ctx context.Context, request UpdateOutboundConnectorRequest) (response UpdateOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3909,11 +4207,68 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
+// UpdateQuotaRule Edit a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateQuotaRule.go.html to see an example of how to use UpdateQuotaRule API.
+func (client FileStorageClient) UpdateQuotaRule(ctx context.Context, request UpdateQuotaRuleRequest) (response UpdateQuotaRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateQuotaRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateQuotaRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateQuotaRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateQuotaRuleResponse")
+	}
+	return
+}
+
+// updateQuotaRule implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) updateQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateQuotaRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/UpdateQuotaRule"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateQuotaRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateReplication Updates the information for the specified replication and its associated replication target.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateReplication.go.html to see an example of how to use UpdateReplication API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateReplication.go.html to see an example of how to use UpdateReplication API.
 func (client FileStorageClient) UpdateReplication(ctx context.Context, request UpdateReplicationRequest) (response UpdateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3970,7 +4325,7 @@ func (client FileStorageClient) updateReplication(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateSnapshot.go.html to see an example of how to use UpdateSnapshot API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateSnapshot.go.html to see an example of how to use UpdateSnapshot API.
 func (client FileStorageClient) UpdateSnapshot(ctx context.Context, request UpdateSnapshotRequest) (response UpdateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4027,7 +4382,7 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpgradeShapeMountTarget.go.html to see an example of how to use UpgradeShapeMountTarget API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpgradeShapeMountTarget.go.html to see an example of how to use UpgradeShapeMountTarget API.
 func (client FileStorageClient) UpgradeShapeMountTarget(ctx context.Context, request UpgradeShapeMountTargetRequest) (response UpgradeShapeMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4086,7 +4441,7 @@ func (client FileStorageClient) upgradeShapeMountTarget(ctx context.Context, req
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ValidateKeyTabs.go.html to see an example of how to use ValidateKeyTabs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ValidateKeyTabs.go.html to see an example of how to use ValidateKeyTabs API.
 func (client FileStorageClient) ValidateKeyTabs(ctx context.Context, request ValidateKeyTabsRequest) (response ValidateKeyTabsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

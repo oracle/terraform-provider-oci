@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -28,7 +28,8 @@ var (
 	CoreVcnRequiredOnlyResource = CoreVcnRequiredOnlyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 
-	CoreVcnResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation)
+	CoreVcnResourceConfig     = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation)
+	CoreIpv6VcnResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreIpv6VcnRepresentation)
 
 	CoreCoreVcnSingularDataSourceRepresentation = map[string]interface{}{
 		"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
@@ -53,6 +54,18 @@ var (
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value": "somevalue", "vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode": "enforce"}, Update: map[string]string{"vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value": "updatedValue", "vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode": "enforce"}},
+	}
+
+	CoreIpv6VcnRepresentation = map[string]interface{}{
+		"cidr_block":              acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+		"is_ipv6enabled":          acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`fc00:1000::/56`}},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"dns_label":               acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
 	CoreVcnRequiredOnlyResourceDependencies = ``

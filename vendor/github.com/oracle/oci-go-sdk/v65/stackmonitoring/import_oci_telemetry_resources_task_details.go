@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -67,7 +67,7 @@ type ImportOciTelemetryResourcesTaskDetails struct {
 	// List of metrics to be used to calculate the availability of the resource.
 	// Resource is considered to be up if at least one of the specified metrics is available for
 	// the resource during the specified interval using the property
-	// 'availabilityProxyMetricCollectionIntervalInSeconds'.
+	// 'availabilityProxyMetricCollectionInterval'.
 	// If no metrics are specified, availability will not be calculated for the resource.
 	AvailabilityProxyMetrics []string `mandatory:"false" json:"availabilityProxyMetrics"`
 
@@ -79,6 +79,8 @@ type ImportOciTelemetryResourcesTaskDetails struct {
 	// Possible values:
 	//   * OCI_TELEMETRY_NATIVE      - The metrics are pushed to telemetry from OCI Native Services.
 	//   * OCI_TELEMETRY_PROMETHEUS  - The metrics are pushed to telemetry from Prometheus.
+	//   * OCI_TELEMETRY_TELEGRAF    - The metrics are pushed to telemetry from Telegraf receiver.
+	//   * OCI_TELEMETRY_COLLECTD    - The metrics are pushed to telemetry from CollectD receiver.
 	Source ImportOciTelemetryResourcesTaskDetailsSourceEnum `mandatory:"true" json:"source"`
 }
 
@@ -122,16 +124,22 @@ type ImportOciTelemetryResourcesTaskDetailsSourceEnum string
 const (
 	ImportOciTelemetryResourcesTaskDetailsSourceNative     ImportOciTelemetryResourcesTaskDetailsSourceEnum = "OCI_TELEMETRY_NATIVE"
 	ImportOciTelemetryResourcesTaskDetailsSourcePrometheus ImportOciTelemetryResourcesTaskDetailsSourceEnum = "OCI_TELEMETRY_PROMETHEUS"
+	ImportOciTelemetryResourcesTaskDetailsSourceTelegraf   ImportOciTelemetryResourcesTaskDetailsSourceEnum = "OCI_TELEMETRY_TELEGRAF"
+	ImportOciTelemetryResourcesTaskDetailsSourceCollectd   ImportOciTelemetryResourcesTaskDetailsSourceEnum = "OCI_TELEMETRY_COLLECTD"
 )
 
 var mappingImportOciTelemetryResourcesTaskDetailsSourceEnum = map[string]ImportOciTelemetryResourcesTaskDetailsSourceEnum{
 	"OCI_TELEMETRY_NATIVE":     ImportOciTelemetryResourcesTaskDetailsSourceNative,
 	"OCI_TELEMETRY_PROMETHEUS": ImportOciTelemetryResourcesTaskDetailsSourcePrometheus,
+	"OCI_TELEMETRY_TELEGRAF":   ImportOciTelemetryResourcesTaskDetailsSourceTelegraf,
+	"OCI_TELEMETRY_COLLECTD":   ImportOciTelemetryResourcesTaskDetailsSourceCollectd,
 }
 
 var mappingImportOciTelemetryResourcesTaskDetailsSourceEnumLowerCase = map[string]ImportOciTelemetryResourcesTaskDetailsSourceEnum{
 	"oci_telemetry_native":     ImportOciTelemetryResourcesTaskDetailsSourceNative,
 	"oci_telemetry_prometheus": ImportOciTelemetryResourcesTaskDetailsSourcePrometheus,
+	"oci_telemetry_telegraf":   ImportOciTelemetryResourcesTaskDetailsSourceTelegraf,
+	"oci_telemetry_collectd":   ImportOciTelemetryResourcesTaskDetailsSourceCollectd,
 }
 
 // GetImportOciTelemetryResourcesTaskDetailsSourceEnumValues Enumerates the set of values for ImportOciTelemetryResourcesTaskDetailsSourceEnum
@@ -148,6 +156,8 @@ func GetImportOciTelemetryResourcesTaskDetailsSourceEnumStringValues() []string 
 	return []string{
 		"OCI_TELEMETRY_NATIVE",
 		"OCI_TELEMETRY_PROMETHEUS",
+		"OCI_TELEMETRY_TELEGRAF",
+		"OCI_TELEMETRY_COLLECTD",
 	}
 }
 

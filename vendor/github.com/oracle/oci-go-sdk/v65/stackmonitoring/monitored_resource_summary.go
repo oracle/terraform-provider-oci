@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 // MonitoredResourceSummary The information about monitored resource.
 type MonitoredResourceSummary struct {
 
-	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Monitored resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Monitored Resource Name.
@@ -30,17 +30,17 @@ type MonitoredResourceSummary struct {
 	// Monitored resource display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
-	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// External resource is any OCI resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Management Agent Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
 	// Monitored resource creation time. An RFC3339 formatted datetime string.

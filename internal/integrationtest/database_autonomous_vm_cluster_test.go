@@ -16,9 +16,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -91,8 +91,9 @@ var (
 	}
 
 	DatabaseECPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseDevAutonomousVmClusterRepresentation, map[string]interface{}{
-		"compute_model": acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
-		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `ecpuAutonomousVmCluster`},
+		"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `ecpuAutonomousVmCluster`},
+		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`},
 	})
 
 	DatabaseOCPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{

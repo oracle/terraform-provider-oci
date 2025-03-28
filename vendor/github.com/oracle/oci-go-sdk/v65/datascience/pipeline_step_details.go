@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -77,12 +77,16 @@ func (m *pipelinestepdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := PipelineMlJobStepDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATAFLOW":
+		mm := PipelineDataflowStepDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CUSTOM_SCRIPT":
 		mm := PipelineCustomScriptStepDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PipelineStepDetails: %s.", m.StepType)
+		common.Logf("Received unsupported enum value for PipelineStepDetails: %s.", m.StepType)
 		return *m, nil
 	}
 }
@@ -131,18 +135,21 @@ const (
 	PipelineStepDetailsStepTypeMlJob        PipelineStepDetailsStepTypeEnum = "ML_JOB"
 	PipelineStepDetailsStepTypeCustomScript PipelineStepDetailsStepTypeEnum = "CUSTOM_SCRIPT"
 	PipelineStepDetailsStepTypeContainer    PipelineStepDetailsStepTypeEnum = "CONTAINER"
+	PipelineStepDetailsStepTypeDataflow     PipelineStepDetailsStepTypeEnum = "DATAFLOW"
 )
 
 var mappingPipelineStepDetailsStepTypeEnum = map[string]PipelineStepDetailsStepTypeEnum{
 	"ML_JOB":        PipelineStepDetailsStepTypeMlJob,
 	"CUSTOM_SCRIPT": PipelineStepDetailsStepTypeCustomScript,
 	"CONTAINER":     PipelineStepDetailsStepTypeContainer,
+	"DATAFLOW":      PipelineStepDetailsStepTypeDataflow,
 }
 
 var mappingPipelineStepDetailsStepTypeEnumLowerCase = map[string]PipelineStepDetailsStepTypeEnum{
 	"ml_job":        PipelineStepDetailsStepTypeMlJob,
 	"custom_script": PipelineStepDetailsStepTypeCustomScript,
 	"container":     PipelineStepDetailsStepTypeContainer,
+	"dataflow":      PipelineStepDetailsStepTypeDataflow,
 }
 
 // GetPipelineStepDetailsStepTypeEnumValues Enumerates the set of values for PipelineStepDetailsStepTypeEnum
@@ -160,6 +167,7 @@ func GetPipelineStepDetailsStepTypeEnumStringValues() []string {
 		"ML_JOB",
 		"CUSTOM_SCRIPT",
 		"CONTAINER",
+		"DATAFLOW",
 	}
 }
 

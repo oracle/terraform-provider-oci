@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -262,6 +262,10 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 					},
 				},
 			},
+			"last_completed_fsu_cycle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -428,7 +432,7 @@ func fsuCollectionWaitForWorkRequest(wId *string, entityType string, action oci_
 	retryPolicy.ShouldRetryOperation = fsuCollectionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_fleet_software_update.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_fleet_software_update.OperationStatusInProgress),
 			string(oci_fleet_software_update.OperationStatusAccepted),
@@ -621,6 +625,10 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) SetData() error {
 			s.D.Set("id", *v.Id)
 		}
 
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
+
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -681,6 +689,10 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) SetData() error {
 
 		if v.Id != nil {
 			s.D.Set("id", *v.Id)
+		}
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
 		}
 
 		if v.LifecycleDetails != nil {

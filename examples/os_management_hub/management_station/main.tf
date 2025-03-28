@@ -6,8 +6,9 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
-variable "management_station_ocid" {}
+variable "compartment_ocid" {}
+variable "osmh_management_station_ocid" {}
+variable "osmh_managed_instance_onprem_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -21,7 +22,7 @@ provider "oci" {
 data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
   arch_type            = ["X86_64"]
   availability         = ["SELECTED"]
-  compartment_id       = var.compartment_id
+  compartment_id       = var.compartment_ocid
   display_name         = "ol8_baseos_latest-x86_64"
   os_family            = ["ORACLE_LINUX_8"]
   software_source_type = ["VENDOR"]
@@ -31,7 +32,7 @@ data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
 
 resource "oci_os_management_hub_management_station" "test_management_station" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "displayName"
   hostname       = "hostname"
   mirror {
@@ -41,7 +42,8 @@ resource "oci_os_management_hub_management_station" "test_management_station" {
     sslport   = "50002"
 
     #Optional
-    sslcert = "/etc/ssl/cert"
+    sslcert              = "/etc/ssl/cert"
+    is_sslverify_enabled = "false"
   }
   proxy {
     #Required
@@ -50,13 +52,14 @@ resource "oci_os_management_hub_management_station" "test_management_station" {
     #Optional
     forward = "https://example.com/forward"
     hosts   = ["host"]
-    port    = "80"
+    port    = "1024"
   }
 
   #Optional
-  defined_tags  = { "Operations.CostCenter" = "42" }
-  description   = "description"
-  freeform_tags = { "Department" = "Finance" }
+  defined_tags           = { "Operations.CostCenter" = "42" }
+  description            = "description"
+  freeform_tags          = { "Department" = "Finance" }
+  is_auto_config_enabled = "true"
 
   lifecycle {
     ignore_changes = [defined_tags]
@@ -65,18 +68,18 @@ resource "oci_os_management_hub_management_station" "test_management_station" {
 
 resource "oci_os_management_hub_management_station_mirror_synchronize_management" "test_management_station_mirror_synchronize_management" {
   #Required
-  management_station_id = var.management_station_ocid
+  management_station_id = var.osmh_management_station_ocid
   mirror_id             = data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
 }
 
 resource "oci_os_management_hub_management_station_refresh_management" "test_management_station_refresh_management" {
   #Required
-  management_station_id = var.management_station_ocid
+  management_station_id = var.osmh_management_station_ocid
 }
 
 resource "oci_os_management_hub_management_station_synchronize_mirrors_management" "test_management_station_synchronize_mirrors_management" {
   #Required
-  management_station_id = var.management_station_ocid
+  management_station_id = var.osmh_management_station_ocid
   software_source_list  = [data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id]
 }
 
@@ -87,7 +90,7 @@ data "oci_os_management_hub_management_station" "test_management_station" {
 
 data "oci_os_management_hub_management_stations" "test_management_stations" {
   #Optional
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_os_management_hub_management_station_mirrors" "test_management_station_mirrors" {
@@ -98,4 +101,19 @@ data "oci_os_management_hub_management_station_mirrors" "test_management_station
   mirror_states         = ["SYNCED"]
   display_name          = "displayName"
   display_name_contains = "displayNameContains"
+}
+
+#######################################################
+# Associate managed instances to the management station
+#######################################################
+resource "oci_os_management_hub_management_station_associate_managed_instances_management" "test_management_station_associate_managed_instances_management" {
+  #Required
+  managed_instances     = [var.osmh_managed_instance_onprem_ocid]
+  management_station_id = var.osmh_management_station_ocid
+
+  # Optional
+  work_request_details {
+    description  = "description"
+    display_name = "displayName"
+  }
 }

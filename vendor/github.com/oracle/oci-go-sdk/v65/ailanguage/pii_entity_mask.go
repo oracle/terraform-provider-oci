@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,6 +21,12 @@ import (
 // PiiEntityMask Mask PII entities with the given masking character.
 type PiiEntityMask struct {
 
+	// List of offsets/entities to be removed from anonymization.
+	Exclude []string `mandatory:"false" json:"exclude"`
+
+	// To include excluded entities from masking in detected entities or not.
+	ShouldDetect *bool `mandatory:"false" json:"shouldDetect"`
+
 	// Masking character. By default, the character is an asterisk (*)
 	MaskingCharacter *string `mandatory:"false" json:"maskingCharacter"`
 
@@ -31,6 +37,16 @@ type PiiEntityMask struct {
 	// leaveCharactersUnmasked. For example, leaveCharactersUnmasked is 3 and isUnmaskedFromEnd is true,
 	// then if the entity is India the masked entity/result is **dia.
 	IsUnmaskedFromEnd *bool `mandatory:"false" json:"isUnmaskedFromEnd"`
+}
+
+// GetExclude returns Exclude
+func (m PiiEntityMask) GetExclude() []string {
+	return m.Exclude
+}
+
+// GetShouldDetect returns ShouldDetect
+func (m PiiEntityMask) GetShouldDetect() *bool {
+	return m.ShouldDetect
 }
 
 func (m PiiEntityMask) String() string {

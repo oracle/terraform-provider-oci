@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogsRequest.
 type ListWorkRequestLogsRequest struct {
 
 	// The ID of the asynchronous work request.
@@ -95,7 +95,7 @@ type ListWorkRequestLogsResponse struct {
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items to get. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items. For information about pagination, see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// subsequent GET request to get the next batch of items. For information about pagination, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

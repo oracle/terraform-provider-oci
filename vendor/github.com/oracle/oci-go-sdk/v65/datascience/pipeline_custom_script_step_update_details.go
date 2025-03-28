@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -28,6 +28,9 @@ type PipelineCustomScriptStepUpdateDetails struct {
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 
 	StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"stepInfrastructureConfigurationDetails"`
+
+	// The storage mount details to mount to the instance running the pipeline step.
+	StepStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"stepStorageMountConfigurationDetailsList"`
 }
 
 // GetStepName returns StepName
@@ -73,4 +76,42 @@ func (m PipelineCustomScriptStepUpdateDetails) MarshalJSON() (buff []byte, e err
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *PipelineCustomScriptStepUpdateDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description                              *string                                     `json:"description"`
+		StepConfigurationDetails                 *PipelineStepConfigurationDetails           `json:"stepConfigurationDetails"`
+		StepInfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
+		StepStorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"stepStorageMountConfigurationDetailsList"`
+		StepName                                 *string                                     `json:"stepName"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.StepConfigurationDetails = model.StepConfigurationDetails
+
+	m.StepInfrastructureConfigurationDetails = model.StepInfrastructureConfigurationDetails
+
+	m.StepStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StepStorageMountConfigurationDetailsList))
+	for i, n := range model.StepStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StepStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StepStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
+	m.StepName = model.StepName
+
+	return
 }

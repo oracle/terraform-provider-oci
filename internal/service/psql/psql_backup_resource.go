@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -36,13 +36,16 @@ func PsqlBackupResource() *schema.Resource {
 				Required: true,
 			},
 			"db_system_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"source_backup_details"},
 			},
 			"display_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Optional
@@ -75,6 +78,35 @@ func PsqlBackupResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"copy_status": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"backup_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"db_system_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -85,6 +117,10 @@ func PsqlBackupResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"config_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"db_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -108,6 +144,27 @@ func PsqlBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"source_backup_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				ConflictsWith: []string{"db_system_id"},
+				MaxItems:      1,
+				MinItems:      1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"source_backup_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"source_region": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 			"source_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -122,6 +179,10 @@ func PsqlBackupResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created_precise": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -169,6 +230,7 @@ func deletePsqlBackup(d *schema.ResourceData, m interface{}) error {
 type PsqlBackupResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_psql.PostgresqlClient
+	SourceRegionClient     *oci_psql.PostgresqlClient
 	Res                    *oci_psql.Backup
 	DisableNotFoundRetries bool
 }
@@ -202,6 +264,92 @@ func (s *PsqlBackupResourceCrud) DeletedTarget() []string {
 }
 
 func (s *PsqlBackupResourceCrud) Create() error {
+	if s.isCopyCreate() {
+		return s.createBackupCopyPsql()
+	}
+	return s.createBackupPsql()
+}
+
+func (s *PsqlBackupResourceCrud) isCopyCreate() bool {
+	if sourceBackupDetails, ok := s.D.GetOkExists("source_backup_details"); ok {
+		if tmpList := sourceBackupDetails.([]interface{}); len(tmpList) > 0 {
+			return true
+		}
+	}
+	return false
+}
+func (s *PsqlBackupResourceCrud) createBackupCopyPsql() error {
+	copyPsqlBackupRequest := oci_psql.BackupCopyRequest{}
+
+	configProvider := *s.Client.ConfigurationProvider()
+	if configProvider == nil {
+		return fmt.Errorf("cannot access ConfigurationProvider")
+	}
+	currentRegion, error := configProvider.Region()
+	if error != nil {
+		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		copyPsqlBackupRequest.CompartmentId = &tmp
+	}
+
+	if sourceBackupDetails, ok := s.D.GetOkExists("source_backup_details"); ok && sourceBackupDetails != nil {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_backup_details", 0)
+
+		if sourceBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_backup_id")); ok && sourceBackupId != nil {
+			tmp := sourceBackupId.(string)
+			copyPsqlBackupRequest.BackupId = &tmp
+		}
+		result := oci_psql.BackupCopyDetails{}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			result.CompartmentId = &tmp
+		}
+		if retentionPeriod, ok := s.D.GetOkExists("retention_period"); ok {
+			tmp := retentionPeriod.(int)
+			result.RetentionPeriod = &tmp
+		}
+
+		tmp := make([]string, 1)
+		tmp[0] = currentRegion
+		result.Regions = tmp
+
+		copyPsqlBackupRequest.BackupCopyDetails = result
+
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_region")); ok {
+			srcRegion := region.(string)
+			err := s.createPsqlSourceRegionClient(srcRegion)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	response, err := s.SourceRegionClient.BackupCopy(context.Background(), copyPsqlBackupRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	var identifier *string
+
+	res, err := s.SourceRegionClient.GetWorkRequest(context.Background(),
+		oci_psql.GetWorkRequestRequest{
+			WorkRequestId: workId,
+		})
+	if err == nil {
+		identifier = res.Id
+	}
+
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+	return s.getBackupFromCopyWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *PsqlBackupResourceCrud) createBackupPsql() error {
 	request := oci_psql.CreateBackupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -266,6 +414,53 @@ func (s *PsqlBackupResourceCrud) Create() error {
 	return s.getBackupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
+func (s *PsqlBackupResourceCrud) getBackupFromCopyWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
+
+	configProvider := *s.Client.ConfigurationProvider()
+	if configProvider == nil {
+		return fmt.Errorf("cannot access ConfigurationProvider")
+	}
+	currentRegion, error := configProvider.Region()
+	if error != nil {
+		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
+	}
+
+	// Wait until it finishes
+	// changes required here for the backup copy request
+	backupId, err := backupWaitForWorkRequest(workId, "backup",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.SourceRegionClient)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*backupId)
+	err = s.GetSource()
+	if err != nil {
+		return err
+	}
+
+	for _, item := range s.Res.CopyStatus {
+		if item.Region != nil {
+			if item.BackupId != nil {
+				if *item.Region == currentRegion {
+					s.D.SetId(*item.BackupId)
+					err = tfresource.WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_psql.BackupLifecycleStateActive }, s.D.Timeout(schema.TimeoutCreate))
+					if err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+
+	err = s.Update()
+	if err != nil {
+		return err
+	}
+	return s.Get()
+}
+
 func (s *PsqlBackupResourceCrud) getBackupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
@@ -310,7 +505,7 @@ func backupWaitForWorkRequest(wId *string, entityType string, action oci_psql.Ac
 	retryPolicy.ShouldRetryOperation = backupWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_psql.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_psql.OperationStatusInProgress),
 			string(oci_psql.OperationStatusAccepted),
@@ -390,6 +585,23 @@ func (s *PsqlBackupResourceCrud) Get() error {
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
 	response, err := s.Client.GetBackup(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Backup
+	return nil
+}
+
+func (s *PsqlBackupResourceCrud) GetSource() error {
+	request := oci_psql.GetBackupRequest{}
+
+	tmp := s.D.Id()
+	request.BackupId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+
+	response, err := s.SourceRegionClient.GetBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -480,6 +692,12 @@ func (s *PsqlBackupResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	copyStatus := []interface{}{}
+	for _, item := range s.Res.CopyStatus {
+		copyStatus = append(copyStatus, BackupCopyStatusDetailsToMap(item))
+	}
+	s.D.Set("copy_status", copyStatus)
+
 	if s.Res.DbSystemDetails != nil {
 		s.D.Set("db_system_details", []interface{}{DbSystemDetailsToMap(s.Res.DbSystemDetails)})
 	} else {
@@ -521,6 +739,12 @@ func (s *PsqlBackupResourceCrud) SetData() error {
 		s.D.Set("retention_period", *s.Res.RetentionPeriod)
 	}
 
+	if s.Res.SourceBackupDetails != nil {
+		s.D.Set("source_backup_details", []interface{}{SourceBackupDetailsToMap(s.Res.SourceBackupDetails)})
+	} else {
+		s.D.Set("source_backup_details", nil)
+	}
+
 	s.D.Set("source_type", s.Res.SourceType)
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -533,11 +757,35 @@ func (s *PsqlBackupResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeCreatedPrecise != nil {
+		s.D.Set("time_created_precise", s.Res.TimeCreatedPrecise.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
 	return nil
+}
+
+func BackupCopyStatusDetailsToMap(obj oci_psql.BackupCopyStatusDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BackupId != nil {
+		result["backup_id"] = string(*obj.BackupId)
+	}
+
+	if obj.Region != nil {
+		result["region"] = string(*obj.Region)
+	}
+
+	result["state"] = string(obj.State)
+
+	if obj.StateDetails != nil {
+		result["state_details"] = string(*obj.StateDetails)
+	}
+
+	return result
 }
 
 func BackupSummaryToMap(obj oci_psql.BackupSummary) map[string]interface{} {
@@ -550,6 +798,12 @@ func BackupSummaryToMap(obj oci_psql.BackupSummary) map[string]interface{} {
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
+
+	copyStatus := []interface{}{}
+	for _, item := range obj.CopyStatus {
+		copyStatus = append(copyStatus, BackupCopyStatusDetailsToMap(item))
+	}
+	result["copy_status"] = copyStatus
 
 	if obj.DbSystemId != nil {
 		result["db_system_id"] = string(*obj.DbSystemId)
@@ -590,6 +844,10 @@ func BackupSummaryToMap(obj oci_psql.BackupSummary) map[string]interface{} {
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
+	if obj.TimeCreatedPrecise != nil {
+		result["time_created_precise"] = obj.TimeCreatedPrecise.String()
+	}
+
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
@@ -600,11 +858,29 @@ func BackupSummaryToMap(obj oci_psql.BackupSummary) map[string]interface{} {
 func DbSystemDetailsToMap(obj *oci_psql.DbSystemDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.ConfigId != nil {
+		result["config_id"] = string(*obj.ConfigId)
+	}
+
 	if obj.DbVersion != nil {
 		result["db_version"] = string(*obj.DbVersion)
 	}
 
 	result["system_type"] = string(obj.SystemType)
+
+	return result
+}
+
+func SourceBackupDetailsToMap(obj *oci_psql.SourceBackupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.SourceBackupId != nil {
+		result["source_backup_id"] = string(*obj.SourceBackupId)
+	}
+
+	if obj.SourceRegion != nil {
+		result["source_region"] = string(*obj.SourceRegion)
+	}
 
 	return result
 }

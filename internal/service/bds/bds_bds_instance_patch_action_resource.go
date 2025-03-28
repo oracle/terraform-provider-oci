@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -74,6 +74,18 @@ func BdsBdsInstancePatchActionResource() *schema.Resource {
 
 						// Optional
 						"batch_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"tolerance_threshold_per_batch": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"tolerance_threshold_per_domain": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -210,7 +222,7 @@ func bdsInstancePatchActionWaitForWorkRequest(wId *string, entityType string, ac
 	retryPolicy.ShouldRetryOperation = bdsInstancePatchActionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bds.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_bds.OperationStatusInProgress),
 			string(oci_bds.OperationStatusAccepted),
@@ -302,6 +314,10 @@ func (s *BdsBdsInstancePatchActionResourceCrud) mapToOdhPatchingConfig(fieldKeyF
 			tmp := batchSize.(int)
 			details.BatchSize = &tmp
 		}
+		if toleranceThresholdPerBatch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tolerance_threshold_per_batch")); ok {
+			tmp := toleranceThresholdPerBatch.(int)
+			details.ToleranceThresholdPerBatch = &tmp
+		}
 		if waitTimeBetweenBatchInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wait_time_between_batch_in_seconds")); ok {
 			tmp := waitTimeBetweenBatchInSeconds.(int)
 			details.WaitTimeBetweenBatchInSeconds = &tmp
@@ -309,6 +325,10 @@ func (s *BdsBdsInstancePatchActionResourceCrud) mapToOdhPatchingConfig(fieldKeyF
 		baseObject = details
 	case strings.ToLower("DOMAIN_BASED"):
 		details := oci_bds.DomainBasedOdhPatchingConfig{}
+		if toleranceThresholdPerDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tolerance_threshold_per_domain")); ok {
+			tmp := toleranceThresholdPerDomain.(int)
+			details.ToleranceThresholdPerDomain = &tmp
+		}
 		if waitTimeBetweenDomainInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wait_time_between_domain_in_seconds")); ok {
 			tmp := waitTimeBetweenDomainInSeconds.(int)
 			details.WaitTimeBetweenDomainInSeconds = &tmp
@@ -333,11 +353,19 @@ func (s *BdsBdsInstancePatchActionResourceCrud) mapToOdhPatchingConfig(fieldKeyF
 			result["batch_size"] = int(*v.BatchSize)
 		}
 
+		if v.ToleranceThresholdPerBatch != nil {
+			result["tolerance_threshold_per_batch"] = int(*v.ToleranceThresholdPerBatch)
+		}
+
 		if v.WaitTimeBetweenBatchInSeconds != nil {
 			result["wait_time_between_batch_in_seconds"] = int(*v.WaitTimeBetweenBatchInSeconds)
 		}
 	case oci_bds.DomainBasedOdhPatchingConfig:
 		result["patching_config_strategy"] = "DOMAIN_BASED"
+
+		if v.ToleranceThresholdPerDomain != nil {
+			result["tolerance_threshold_per_domain"] = int(*v.ToleranceThresholdPerDomain)
+		}
 
 		if v.WaitTimeBetweenDomainInSeconds != nil {
 			result["wait_time_between_domain_in_seconds"] = int(*v.WaitTimeBetweenDomainInSeconds)

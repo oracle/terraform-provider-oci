@@ -16,18 +16,18 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/stretchr/testify/suite"
 )
 
 var (
 	instancePlatformConfigRepresentation = map[string]interface{}{
 		"type":                               acctest.Representation{RepType: acctest.Required, Create: `INTEL_VM`},
-		"is_measured_boot_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_measured_boot_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 	instanceBMMilanPlatformConfigRepresentation = map[string]interface{}{
 		"type":                                           acctest.Representation{RepType: acctest.Required, Create: `AMD_MILAN_BM`},

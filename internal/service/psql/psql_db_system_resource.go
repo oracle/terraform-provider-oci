@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -62,6 +62,10 @@ func PsqlDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_reader_endpoint_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -296,6 +300,36 @@ func PsqlDbSystemResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"copy_policy": {
+										Type:     schema.TypeList,
+										Optional: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"compartment_id": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"regions": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"retention_period": {
+													Type:     schema.TypeInt,
+													Optional: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 									"days_of_the_month": {
 										Type:     schema.TypeList,
@@ -818,7 +852,7 @@ func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.
 	retryPolicy.ShouldRetryOperation = dbSystemWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_psql.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_psql.OperationStatusInProgress),
 			string(oci_psql.OperationStatusAccepted),
@@ -919,7 +953,7 @@ func (s *PsqlDbSystemResourceCrud) Get() error {
 
 func (s *PsqlDbSystemResourceCrud) Update() error {
 
-	if _, ok := s.D.GetOkExists("passwordDetails"); ok && s.D.HasChange("passwordDetails") {
+	if _, ok := s.D.GetOkExists("credentials"); ok && s.D.HasChange("credentials") {
 		err := s.ResetMasterUserPassword()
 		if err != nil {
 			return err
@@ -1031,6 +1065,12 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 
 			tmp := configId.(string)
 			configRequest.ConfigId = &tmp
+
+			if applyConfig, ok := s.D.GetOkExists("apply_config"); ok {
+				configRequest.ApplyConfig = oci_psql.UpdateDbConfigParamsApplyConfigEnum(applyConfig.(string))
+			} else {
+				configRequest.ApplyConfig = oci_psql.UpdateDbConfigParamsApplyConfigReload
+			}
 			request.DbConfigurationParams = &configRequest
 		}
 	}
@@ -1209,14 +1249,17 @@ func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword() error {
 	idTmp := s.D.Id()
 	request.DbSystemId = &idTmp
 
-	if passwordDetails, ok := s.D.GetOkExists("password_details"); ok {
-		if tmpList := passwordDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "password_details", 0)
-			tmp, err := s.mapToPasswordDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+	if credentials, ok := s.D.GetOkExists("credentials"); ok && s.D.HasChange("credentials") {
+		if tmpList := credentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "credentials", 0)
+			if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "password_details")) {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "password_details"), 0)
+				tmp, err := s.mapToPasswordDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return err
+				}
+				request.PasswordDetails = tmp
 			}
-			request.PasswordDetails = tmp
 		}
 	}
 
@@ -1232,6 +1275,51 @@ func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword() error {
 	}
 
 	return nil
+}
+
+func (s *PsqlDbSystemResourceCrud) mapToBackupCopyPolicy(fieldKeyFormat string) (oci_psql.BackupCopyPolicy, error) {
+	result := oci_psql.BackupCopyPolicy{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if regions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "regions")); ok {
+		interfaces := regions.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "regions")) {
+			result.Regions = tmp
+		}
+	}
+
+	if retentionPeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_period")); ok {
+		tmp := retentionPeriod.(int)
+		result.RetentionPeriod = &tmp
+	}
+
+	return result, nil
+}
+
+func BackupCopyPolicyToMap(obj *oci_psql.BackupCopyPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	result["regions"] = obj.Regions
+
+	if obj.RetentionPeriod != nil {
+		result["retention_period"] = int(*obj.RetentionPeriod)
+	}
+
+	return result
 }
 
 func (s *PsqlDbSystemResourceCrud) mapToBackupPolicy(fieldKeyFormat string) (oci_psql.BackupPolicy, error) {
@@ -1250,6 +1338,16 @@ func (s *PsqlDbSystemResourceCrud) mapToBackupPolicy(fieldKeyFormat string) (oci
 		if backupStart, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_start")); ok {
 			tmp := strings.TrimSuffix(backupStart.(string), " UTC")
 			details.BackupStart = &tmp
+		}
+		if copyPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_policy")); ok {
+			if tmpList := copyPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "copy_policy"), 0)
+				tmp, err := s.mapToBackupCopyPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert copy_policy, encountered error: %v", err)
+				}
+				details.CopyPolicy = &tmp
+			}
 		}
 		if retentionDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_days")); ok {
 			tmp := retentionDays.(int)
@@ -1274,6 +1372,16 @@ func (s *PsqlDbSystemResourceCrud) mapToBackupPolicy(fieldKeyFormat string) (oci
 				details.DaysOfTheMonth = tmp
 			}
 		}
+		if copyPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_policy")); ok {
+			if tmpList := copyPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "copy_policy"), 0)
+				tmp, err := s.mapToBackupCopyPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert copy_policy, encountered error: %v", err)
+				}
+				details.CopyPolicy = &tmp
+			}
+		}
 		if retentionDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_days")); ok {
 			tmp := retentionDays.(int)
 			details.RetentionDays = &tmp
@@ -1281,6 +1389,16 @@ func (s *PsqlDbSystemResourceCrud) mapToBackupPolicy(fieldKeyFormat string) (oci
 		baseObject = details
 	case strings.ToLower("NONE"):
 		details := oci_psql.NoneBackupPolicy{}
+		if copyPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_policy")); ok {
+			if tmpList := copyPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "copy_policy"), 0)
+				tmp, err := s.mapToBackupCopyPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert copy_policy, encountered error: %v", err)
+				}
+				details.CopyPolicy = &tmp
+			}
+		}
 		if retentionDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_days")); ok {
 			tmp := retentionDays.(int)
 			details.RetentionDays = &tmp
@@ -1306,6 +1424,16 @@ func (s *PsqlDbSystemResourceCrud) mapToBackupPolicy(fieldKeyFormat string) (oci
 				details.DaysOfTheWeek = tmp
 			}
 		}
+		if copyPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "copy_policy")); ok {
+			if tmpList := copyPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "copy_policy"), 0)
+				tmp, err := s.mapToBackupCopyPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert copy_policy, encountered error: %v", err)
+				}
+				details.CopyPolicy = &tmp
+			}
+		}
 		if retentionDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_days")); ok {
 			tmp := retentionDays.(int)
 			details.RetentionDays = &tmp
@@ -1327,6 +1455,10 @@ func BackupPolicyToMap(obj *oci_psql.BackupPolicy) map[string]interface{} {
 			result["backup_start"] = strings.TrimSuffix(string(*v.BackupStart), " UTC")
 		}
 
+		if v.CopyPolicy != nil {
+			result["copy_policy"] = []interface{}{BackupCopyPolicyToMap(v.CopyPolicy)}
+		}
+
 		if v.RetentionDays != nil {
 			result["retention_days"] = int(*v.RetentionDays)
 		}
@@ -1340,11 +1472,19 @@ func BackupPolicyToMap(obj *oci_psql.BackupPolicy) map[string]interface{} {
 		result["days_of_the_month"] = v.DaysOfTheMonth
 		result["days_of_the_month"] = v.DaysOfTheMonth
 
+		if v.CopyPolicy != nil {
+			result["copy_policy"] = []interface{}{BackupCopyPolicyToMap(v.CopyPolicy)}
+		}
+
 		if v.RetentionDays != nil {
 			result["retention_days"] = int(*v.RetentionDays)
 		}
 	case oci_psql.NoneBackupPolicy:
 		result["kind"] = "NONE"
+
+		if v.CopyPolicy != nil {
+			result["copy_policy"] = []interface{}{BackupCopyPolicyToMap(v.CopyPolicy)}
+		}
 
 		if v.RetentionDays != nil {
 			result["retention_days"] = int(*v.RetentionDays)
@@ -1358,6 +1498,10 @@ func BackupPolicyToMap(obj *oci_psql.BackupPolicy) map[string]interface{} {
 
 		result["days_of_the_week"] = v.DaysOfTheWeek
 		result["days_of_the_week"] = v.DaysOfTheWeek
+
+		if v.CopyPolicy != nil {
+			result["copy_policy"] = []interface{}{BackupCopyPolicyToMap(v.CopyPolicy)}
+		}
 
 		if v.RetentionDays != nil {
 			result["retention_days"] = int(*v.RetentionDays)
@@ -1597,6 +1741,11 @@ func ManagementPolicyToMap(obj *oci_psql.ManagementPolicy) map[string]interface{
 func (s *PsqlDbSystemResourceCrud) mapToNetworkDetails(fieldKeyFormat string) (oci_psql.NetworkDetails, error) {
 	result := oci_psql.NetworkDetails{}
 
+	if isReaderEndpointEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_reader_endpoint_enabled")); ok {
+		tmp := isReaderEndpointEnabled.(bool)
+		result.IsReaderEndpointEnabled = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1627,6 +1776,11 @@ func (s *PsqlDbSystemResourceCrud) mapToNetworkDetails(fieldKeyFormat string) (o
 func (s *PsqlDbSystemResourceCrud) mapToUpdateNetworkDetails(fieldKeyFormat string) (oci_psql.UpdateNetworkDetails, error) {
 	result := oci_psql.UpdateNetworkDetails{}
 
+	if isReaderEndpointEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_reader_endpoint_enabled")); ok {
+		tmp := isReaderEndpointEnabled.(bool)
+		result.IsReaderEndpointEnabled = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1646,6 +1800,10 @@ func (s *PsqlDbSystemResourceCrud) mapToUpdateNetworkDetails(fieldKeyFormat stri
 
 func NetworkDetailsToMap(obj *oci_psql.NetworkDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsReaderEndpointEnabled != nil {
+		result["is_reader_endpoint_enabled"] = bool(*obj.IsReaderEndpointEnabled)
+	}
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {

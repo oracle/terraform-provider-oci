@@ -63,6 +63,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	peer_sid_prefix = var.data_guard_association_peer_sid_prefix
 	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	private_ip = var.data_guard_association_private_ip
+	private_ip_v6 = var.data_guard_association_private_ip_v6
 	shape = var.data_guard_association_shape
 	storage_volume_performance_mode = var.data_guard_association_storage_volume_performance_mode
 	subnet_id = oci_core_subnet.test_subnet.id
@@ -122,12 +123,13 @@ The following arguments are supported:
 * `peer_sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
 * `peer_vm_cluster_id` - (Applicable when creation_type=ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster in which to create the standby database. You must supply this value if creationType is `ExistingVmCluster`. 
 * `private_ip` - (Applicable when creation_type=NewDbSystem) The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
+* `private_ip_v6` - (Applicable when creation_type=NewDbSystem) The IPv6 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv6 address from the subnet. 
 * `protection_mode` - (Required) (Updatable) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.
 
     **IMPORTANT** - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE. 
 * `shape` - (Applicable when creation_type=NewDbSystem) The virtual machine DB system shape to launch for the standby database in the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system. Only virtual machine shapes are valid options. If you do not supply this parameter, the default shape is the shape of the primary DB system.
 
-	To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbSystemShapeSummary/ListDbSystemShapes) operation. 
+	To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbSystemShapeSummary/ListDbSystemShapes) operation.
 * `storage_volume_performance_mode` - (Applicable when creation_type=NewDbSystem) The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See [Block Volume Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 * `subnet_id` - (Applicable when creation_type=NewDbSystem) The OCID of the subnet the DB system is associated with. **Subnet Restrictions:**
     * For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
@@ -141,7 +143,8 @@ The following arguments are supported:
 
     For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation.
 
-    **IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
+	**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
+* `migrate_trigger` - (Optional) (Updatable) An optional property when incremented triggers Migrate. Could be set to any integer value.
 
 
 ** IMPORTANT **

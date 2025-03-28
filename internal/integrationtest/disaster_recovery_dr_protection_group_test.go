@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -42,6 +42,7 @@ var (
 		"role":                   acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`},
 		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupDataSourceFilterRepresentation}}
+
 	DisasterRecoveryDrProtectionGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`}},
@@ -63,6 +64,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `peerDisplayName`},
 		"log_location":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
+		"members":        acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryPeerDrProtectionGroupMembersRepresentation},
 	}
 
 	DefinedTagsIgnoreRepresentation = map[string]interface{}{
@@ -80,10 +82,31 @@ var (
 	}
 
 	DisasterRecoveryDrProtectionGroupMembersRepresentation = map[string]interface{}{
-		"member_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_bucket.test_member_bucket.bucket_id}`},
-		"member_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE_BUCKET`},
-		"bucket":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_bucket.test_member_bucket.name}`},
-		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"member_id":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_clusters.test_clusters.clusters[0].id}`},
+		"member_type":     acctest.Representation{RepType: acctest.Required, Create: `OKE_CLUSTER`},
+		"peer_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_clusters.peer_clusters.clusters[0].id}`},
+		"backup_location": acctest.RepresentationGroup{RepType: acctest.Required, Group: OKEClusterBackupLocationRep},
+		"backup_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: OKEClusterBackupConfigRep},
+	}
+
+	DisasterRecoveryPeerDrProtectionGroupMembersRepresentation = map[string]interface{}{
+		"member_id":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_clusters.peer_clusters.clusters[0].id}`},
+		"member_type":     acctest.Representation{RepType: acctest.Required, Create: `OKE_CLUSTER`},
+		"peer_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_clusters.test_clusters.clusters[0].id}`},
+		"backup_location": acctest.RepresentationGroup{RepType: acctest.Required, Group: OKEClusterBackupLocationRep},
+		"backup_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: OKEClusterBackupConfigRep},
+	}
+
+	OKEClusterBackupLocationRep = map[string]interface{}{
+		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_bucket.oke_test_bucket.name}`},
+		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+	}
+
+	OKEClusterBackupConfigRep = map[string]interface{}{
+		"backup_schedule":                acctest.Representation{RepType: acctest.Required, Create: `FREQ=HOURLY;BYHOUR=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16;INTERVAL=1`, Update: `FREQ=HOURLY;BYHOUR=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16;INTERVAL=2`},
+		"namespaces":                     acctest.Representation{RepType: acctest.Required, Create: []string{}},
+		"max_number_of_backups_retained": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"replicate_images":               acctest.Representation{RepType: acctest.Required, Create: `DISABLE`, Update: `ENABLE`},
 	}
 
 	DisasterRecoveryDrProtectionGroupWithComputeMemberConfig = `
@@ -120,6 +143,10 @@ var (
 	  namespace = data.oci_objectstorage_namespace.test_namespace.namespace
 	  name      = "example-bucket-source"
 	}
+	data "oci_objectstorage_bucket" "oke_test_bucket" {
+	  namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+	  name      = "oke-backup-bucket"
+	}
 	`
 
 	VolumeGroupDependencyConfig = `
@@ -133,6 +160,25 @@ var (
   		state               = "AVAILABLE"
 	}
 	`
+
+	OKEClusterDependencyConfig = `
+	data "oci_containerengine_clusters" "test_clusters" {
+    	#Required
+    	compartment_id = var.compartment_id
+
+    	#Optional
+    	name = "myCluster"
+	}
+
+	data "oci_containerengine_clusters" "peer_clusters" {
+    	#Required
+    	compartment_id = var.compartment_id
+
+    	#Optional
+    	name = "peerCluster"
+	}
+	`
+
 	ComputeInstanceDependencyConfig = `
 	data "oci_core_instances" "dr_instances" {
 	  	#Required
@@ -145,6 +191,7 @@ var (
 
 	DisasterRecoveryDrProtectionGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
 		ObjectStorageBucketDependencyConfig +
+		OKEClusterDependencyConfig +
 		VolumeGroupDependencyConfig +
 		ComputeInstanceDependencyConfig +
 		AvailabilityDomainConfig +
@@ -200,7 +247,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify Create with Volume Group as member of DR Protection Group
+		// Create with OKE
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Required, acctest.Create, DisasterRecoveryDrProtectionGroupRepresentation),
@@ -212,7 +259,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OKE_CLUSTER"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -220,7 +267,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// Update member of DR Protection Group: Remove Volume Group, Add Compute Instance
+		// Update member of DR Protection Group: Remove OKE Cluster, Add Compute Instance
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
 				DisasterRecoveryDrProtectionGroupWithComputeMemberConfig,
@@ -271,24 +318,37 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
-				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
-				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
+				// Basic Resource Configuration
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
-				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
-				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				// Association Configuration
+				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
+				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
+				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+
+				// Log Location Configuration
+				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
+
+				// Members Configuration
+				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OKE_CLUSTER"),
+
+				// Backup Configuration
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.backup_schedule", "FREQ=HOURLY;BYHOUR=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16;INTERVAL=1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.max_number_of_backups_retained", "10"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.replicate_images", "DISABLE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -304,30 +364,43 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
+			// Test configuration for compartment update verification
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DisasterRecoveryDrProtectionGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
-				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
-				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
+				// Basic Resource Configuration
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
-				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
-				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				// Association Configuration
+				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
+				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
+				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+
+				// Log Location Configuration
+				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
+
+				// Members Configuration
+				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OKE_CLUSTER"),
+
+				// Backup Configuration
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.backup_schedule", "FREQ=HOURLY;BYHOUR=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16;INTERVAL=1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.max_number_of_backups_retained", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -341,27 +414,40 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
+			// Test configuration for general property updates
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Update, DisasterRecoveryDrProtectionGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// Basic Resource Configuration
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"), // Updated
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				// Association Configuration
 				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
 				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
 				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+
+				// Log Location Configuration - Updated Values
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName_1"),
+				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName_1"), // Updated
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
+
+				// Members Configuration
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
-				resource.TestCheckResourceAttrSet(resourceName, "role"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OKE_CLUSTER"),
+
+				// Backup Configuration
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.backup_schedule", "FREQ=HOURLY;BYHOUR=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16;INTERVAL=2"), // Updated
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.max_number_of_backups_retained", "11"),                                                    // Updated
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -391,27 +477,43 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
+			// Test configuration for singular data source
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Required, acctest.Create, DisasterRecoveryDisasterRecoveryDrProtectionGroupSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group",
+					acctest.Required, acctest.Create, DisasterRecoveryDisasterRecoveryDrProtectionGroupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// Basic Data Source Attributes
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dr_protection_group_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "life_cycle_details"),
+
+				// Log Location Configuration
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_location.0.bucket", "testBucketName_1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_location.0.namespace"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "members.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "members.0.member_type"),
+
+				// Association and Role Configuration
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_region"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+
+				// Members Configuration
+				resource.TestCheckResourceAttr(singularDatasourceName, "members.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "members.0.member_type"),
+
+				// Lifecycle Attributes
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+
+				// Backup Configuration
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.backup_schedule", "FREQ=HOURLY;BYHOUR=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16;INTERVAL=2"), // Updated
+				resource.TestCheckResourceAttr(resourceName, "members.0.backup_config.0.max_number_of_backups_retained", "11"),
 			),
 		},
 		// verify resource import

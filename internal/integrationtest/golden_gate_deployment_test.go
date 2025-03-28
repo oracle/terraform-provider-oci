@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -30,20 +30,23 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	const (
-		COMPARTMENT_ID          = "compartment_id"
-		COMPARTMENT_ID_FOR_MOVE = "compartment_id_for_move"
-		TEST_SUBNET_ID          = "test_subnet_id"
-		LOAD_BALANCER_SUBNET_ID = "load_balancer_subnet_id"
-		CERTIFICATE             = "certificate"
-		KEY                     = "key"
-		BASE_OGG_VERSION        = "base_ogg_version"
-		UPGRADED_OGG_VERSION    = "upgraded_ogg_version"
-		PASSWORD                = "password"
-		NEW_PASSWORD            = "new_password"
-		IDENTITY_DOMAIN_ID      = "identity_domain_id"
-		PASSWORD_SECRET_ID      = "password_secret_id"
-		PASSWORD_SECRET_ID_2    = "password_secret_id_2"
-		GROUP_ID                = "group_id"
+		COMPARTMENT_ID                   = "compartment_id"
+		COMPARTMENT_ID_FOR_MOVE          = "compartment_id_for_move"
+		TEST_SUBNET_ID                   = "test_subnet_id"
+		LOAD_BALANCER_SUBNET_ID          = "load_balancer_subnet_id"
+		CERTIFICATE                      = "certificate"
+		KEY                              = "key"
+		BASE_OGG_VERSION                 = "base_ogg_version"
+		UPGRADED_OGG_VERSION             = "upgraded_ogg_version"
+		PASSWORD                         = "password"
+		NEW_PASSWORD                     = "new_password"
+		IDENTITY_DOMAIN_ID               = "identity_domain_id"
+		PASSWORD_SECRET_ID               = "password_secret_id"
+		PASSWORD_SECRET_ID_2             = "password_secret_id_2"
+		GROUP_ID                         = "group_id"
+		OBJECTSTORAGE_BUCKET_NAME        = "objectstorage_bucket_name"
+		OBJECTSTORAGE_NAMESPACE          = "objectstorage_namespace"
+		OBJECTSTORAGE_UPDATE_BUCKET_NAME = "objectstorage_update_bucket_name"
 	)
 
 	var (
@@ -66,15 +69,17 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"supported_connection_type": acctest.Representation{RepType: acctest.Required, Create: `GOLDENGATE`},
 			"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGateDeploymentDataSourceFilterRepresentation}}
 
-		compartmentId        = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
-		compartmentIdForMove = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
-		subnetId             = utils.GetEnvSettingWithBlankDefault(TEST_SUBNET_ID)
-		identityDomainId     = utils.GetEnvSettingWithBlankDefault(IDENTITY_DOMAIN_ID)
-		passwordSecretId     = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID)
-		passwordSecretId2    = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID_2)
-		baseOggVersion       = utils.GetEnvSettingWithBlankDefault(BASE_OGG_VERSION)
-		upgradedOggVersion   = utils.GetEnvSettingWithBlankDefault(UPGRADED_OGG_VERSION)
-		groupId              = utils.GetEnvSettingWithBlankDefault(GROUP_ID)
+		compartmentId                = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
+		compartmentIdForMove         = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
+		subnetId                     = utils.GetEnvSettingWithBlankDefault(TEST_SUBNET_ID)
+		identityDomainId             = utils.GetEnvSettingWithBlankDefault(IDENTITY_DOMAIN_ID)
+		passwordSecretId             = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID)
+		passwordSecretId2            = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID_2)
+		baseOggVersion               = utils.GetEnvSettingWithBlankDefault(BASE_OGG_VERSION)
+		upgradedOggVersion           = utils.GetEnvSettingWithBlankDefault(UPGRADED_OGG_VERSION)
+		groupId                      = utils.GetEnvSettingWithBlankDefault(GROUP_ID)
+		timeBackupScheduledForCreate = time.Now().UTC().Add(time.Hour * 3).Truncate(time.Millisecond).Format(time.RFC3339Nano)
+		timeBackupScheduledForUpdate = time.Now().UTC().Add(time.Hour * 6).Truncate(time.Millisecond).Format(time.RFC3339Nano)
 
 		resId  string
 		resId2 string
@@ -100,6 +105,15 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"administrator_group_id": acctest.Representation{RepType: acctest.Optional, Update: `${var.group_id}`},
 			"operator_group_id":      acctest.Representation{RepType: acctest.Optional, Update: `${var.group_id}`},
 			"user_group_id":          acctest.Representation{RepType: acctest.Optional, Update: `${var.group_id}`},
+		}
+
+		deploymentBackupScheduleRepresentation = map[string]interface{}{
+			"bucket":                     acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_bucket_name}`, Update: `${var.objectstorage_update_bucket_name}`},
+			"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"frequency_backup_scheduled": acctest.Representation{RepType: acctest.Required, Create: `DAILY`, Update: `WEEKLY`},
+			"is_metadata_only":           acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+			"namespace":                  acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_namespace}`, Update: `${var.objectstorage_namespace}`},
+			"time_backup_scheduled":      acctest.Representation{RepType: acctest.Required, Create: timeBackupScheduledForCreate, Update: timeBackupScheduledForUpdate},
 		}
 
 		goldenGateDeploymentOggDataWithGroupRoleMappingRepresentation = map[string]interface{}{
@@ -158,6 +172,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 			"maintenance_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentMaintenanceConfigurationRepresentation},
 			"maintenance_window":        acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentMaintenanceWindowRepresentation},
+			"backup_schedule":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentBackupScheduleRepresentation},
 		}
 
 		deploymentLocksRepresentation = map[string]interface{}{
@@ -199,6 +214,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(PASSWORD_SECRET_ID, t) +
 		makeVariableStr(PASSWORD_SECRET_ID_2, t) +
 		makeVariableStr(GROUP_ID, t) +
+		makeVariableStr(OBJECTSTORAGE_BUCKET_NAME, t) +
+		makeVariableStr(OBJECTSTORAGE_UPDATE_BUCKET_NAME, t) +
+		makeVariableStr(OBJECTSTORAGE_NAMESPACE, t) +
 		GoldenGateDeploymentResourceDependencies
 
 	if identityDomainId != "" {
@@ -408,6 +426,13 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.frequency_backup_scheduled", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.is_metadata_only", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.namespace"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.time_backup_scheduled", timeBackupScheduledForCreate),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
@@ -456,6 +481,13 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_move}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.frequency_backup_scheduled", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.is_metadata_only", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.namespace"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.time_backup_scheduled", timeBackupScheduledForCreate),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdForMove),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
@@ -497,6 +529,13 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + testDeploymentIdVariableStr + DeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.frequency_backup_scheduled", "WEEKLY"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.is_metadata_only", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.namespace"),
+				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.time_backup_scheduled", timeBackupScheduledForUpdate),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
@@ -572,6 +611,13 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_schedule.0.bucket"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_schedule.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_schedule.0.frequency_backup_scheduled", "WEEKLY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_schedule.0.is_metadata_only", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_schedule.0.namespace"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_schedule.0.time_backup_scheduled"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "DATABASE_ORACLE"),
@@ -605,6 +651,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_utilization_in_bytes"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_next_backup_scheduled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},

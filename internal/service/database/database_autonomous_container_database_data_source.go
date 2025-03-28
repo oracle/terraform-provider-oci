@@ -66,6 +66,12 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	associatedBackupConfigurationDetails := []interface{}{}
+	for _, item := range s.Res.AssociatedBackupConfigurationDetails {
+		associatedBackupConfigurationDetails = append(associatedBackupConfigurationDetails, BackupDestinationConfigurationSummaryToMap(item))
+	}
+	s.D.Set("associated_backup_configuration_details", associatedBackupConfigurationDetails)
+
 	if s.Res.AutonomousExadataInfrastructureId != nil {
 		s.D.Set("autonomous_exadata_infrastructure_id", *s.Res.AutonomousExadataInfrastructureId)
 	}
@@ -88,6 +94,12 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("backup_config", nil)
 	}
 
+	backupDestinationPropertiesList := []interface{}{}
+	for _, item := range s.Res.BackupDestinationPropertiesList {
+		backupDestinationPropertiesList = append(backupDestinationPropertiesList, BackupDestinationPropertiesToMap(item))
+	}
+	s.D.Set("backup_destination_properties_list", backupDestinationPropertiesList)
+
 	if s.Res.CloudAutonomousVmClusterId != nil {
 		s.D.Set("cloud_autonomous_vm_cluster_id", *s.Res.CloudAutonomousVmClusterId)
 	}
@@ -97,6 +109,18 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("compute_model", s.Res.ComputeModel)
+
+	if s.Res.Dataguard != nil {
+		s.D.Set("dataguard", []interface{}{AutonomousContainerDatabaseDataguardToMap(s.Res.Dataguard)})
+	} else {
+		s.D.Set("dataguard", nil)
+	}
+
+	dataguardGroupMembers := []interface{}{}
+	for _, item := range s.Res.DataguardGroupMembers {
+		dataguardGroupMembers = append(dataguardGroupMembers, AutonomousContainerDatabaseDataguardToMap(&item))
+	}
+	s.D.Set("dataguard_group_members", dataguardGroupMembers)
 
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
@@ -132,8 +156,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
+	if s.Res.IsDataGuardEnabled != nil {
+		s.D.Set("is_data_guard_enabled", *s.Res.IsDataGuardEnabled)
+	}
+
 	if s.Res.IsDstFileUpdateEnabled != nil {
 		s.D.Set("is_dst_file_update_enabled", *s.Res.IsDstFileUpdateEnabled)
+	}
+
+	if s.Res.IsMultipleStandby != nil {
+		s.D.Set("is_multiple_standby", *s.Res.IsMultipleStandby)
 	}
 
 	keyHistoryEntry := []interface{}{}
@@ -202,6 +234,12 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.RecoveryApplianceDetails != nil {
+		s.D.Set("recovery_appliance_details", []interface{}{RecoveryApplianceDetailsToMap(s.Res.RecoveryApplianceDetails)})
+	} else {
+		s.D.Set("recovery_appliance_details", nil)
 	}
 
 	if s.Res.ReservedCpus != nil {

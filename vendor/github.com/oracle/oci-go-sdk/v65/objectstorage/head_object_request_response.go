@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadObject.go.html to see an example of how to use HeadObjectRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadObject.go.html to see an example of how to use HeadObjectRequest.
 type HeadObjectRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -46,17 +46,17 @@ type HeadObjectRequest struct {
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
 	// The optional header that specifies "AES256" as the encryption algorithm. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerAlgorithm *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-algorithm"`
 
 	// The optional header that specifies the base64-encoded 256-bit encryption key to use to encrypt or
 	// decrypt the data. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKey *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key"`
 
 	// The optional header that specifies the base64-encoded SHA256 hash of the encryption key. This
 	// value is used to check the integrity of the encryption key. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -168,6 +168,37 @@ type HeadObjectResponse struct {
 	// concatenating the binary representation of those hashes in order of their part numbers,
 	// and then calculating the MD5 hash of the concatenated values.
 	OpcMultipartMd5 *string `presentIn:"header" name:"opc-multipart-md5"`
+
+	// The base64-encoded, 32-bit CRC32C (Castagnoli) checksum of the object.
+	// Even for objects uploaded using multipart upload, this header returns the CRC32C (Castagnoli) checksum
+	// of the complete reconstructed object.
+	OpcContentCrc32c *string `presentIn:"header" name:"opc-content-crc32c"`
+
+	// Applicable only if SHA256 was specified in the opc-checksum-algorithm request header during upload.
+	// The base64-encoded SHA256 hash of the object as computed during upload.
+	// Unavailable for objects uploaded using multipart upload.
+	OpcContentSha256 *string `presentIn:"header" name:"opc-content-sha256"`
+
+	// Only applicable to objects uploaded using multipart upload.
+	// Applicable only if SHA256 was specified in the opc-checksum-algorithm request header during upload.
+	// Base-64 representation of the multipart object SHA256 hash.
+	// The multipart object hash is calculated by taking the SHA256 hashes of the parts,
+	// concatenating the binary representation of those hashes in order of their part numbers,
+	// and then calculating the SHA256 hash of the concatenated values.
+	OpcMultipartSha256 *string `presentIn:"header" name:"opc-multipart-sha256"`
+
+	// Applicable only if SHA384 was specified in the opc-checksum-algorithm request header during upload.
+	// The base64-encoded SHA384 hash of the object as computed during upload.
+	// Unavailable for objects uploaded using multipart upload.
+	OpcContentSha384 *string `presentIn:"header" name:"opc-content-sha384"`
+
+	// Only applicable to objects uploaded using multipart upload.
+	// Applicable only if SHA384 was specified in the opc-checksum-algorithm request header during upload.
+	// Base-64 representation of the multipart object SHA384 hash.
+	// The multipart object hash is calculated by taking the SHA384 hashes of the parts,
+	// concatenating the binary representation of those hashes in order of their part numbers,
+	// and then calculating the SHA384 hash of the concatenated values.
+	OpcMultipartSha384 *string `presentIn:"header" name:"opc-multipart-sha384"`
 
 	// Content-Type header, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.17).
 	ContentType *string `presentIn:"header" name:"content-type"`

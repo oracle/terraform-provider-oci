@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -21,10 +21,10 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousDatabaseSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the Autonomous Database.
@@ -39,7 +39,7 @@ type AutonomousDatabaseSummary struct {
 	// - To get the exact value of data storage size without rounding error, please see `dataStorageSizeInGBs` of Autonomous Database.
 	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	// Information about the current lifecycle state.
@@ -48,7 +48,7 @@ type AutonomousDatabaseSummary struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// KMS key lifecycle details.
@@ -83,7 +83,7 @@ type AutonomousDatabaseSummary struct {
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state.
@@ -111,7 +111,7 @@ type AutonomousDatabaseSummary struct {
 	ComputeModel AutonomousDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-	// For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+	// The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// Retention period, in days, for long-term backups
@@ -148,8 +148,11 @@ type AutonomousDatabaseSummary struct {
 	// True if the database uses dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
+
+	// Indicates if the Autonomous Database is backup retention locked.
+	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
 	// The date and time the Autonomous Database was most recently undeleted.
 	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
@@ -185,20 +188,20 @@ type AutonomousDatabaseSummary struct {
 	UsedDataStorageSizeInTBs *int `mandatory:"false" json:"usedDataStorageSizeInTBs"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
 	// - For Exadata and virtual machine 2-node RAC systems, do not use a subnet that overlaps with 192.168.128.0/20.
@@ -208,7 +211,7 @@ type AutonomousDatabaseSummary struct {
 	// This restriction applies to both the client subnet and the backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
@@ -304,6 +307,9 @@ type AutonomousDatabaseSummary struct {
 	// The date and time when maintenance will end.
 	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
 
+	// The component chosen for maintenance.
+	MaintenanceTargetComponent *string `mandatory:"false" json:"maintenanceTargetComponent"`
+
 	// Indicates if the Autonomous Database is a refreshable clone.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	IsRefreshableClone *bool `mandatory:"false" json:"isRefreshableClone"`
@@ -327,7 +333,7 @@ type AutonomousDatabaseSummary struct {
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode AutonomousDatabaseSummaryRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
 	SourceId *string `mandatory:"false" json:"sourceId"`
 
 	// The Autonomous Database permission level. Restricted mode allows access only by admin users.
@@ -363,7 +369,7 @@ type AutonomousDatabaseSummary struct {
 	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 	AvailableUpgradeVersions []string `mandatory:"false" json:"availableUpgradeVersions"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.
@@ -410,7 +416,7 @@ type AutonomousDatabaseSummary struct {
 	// The time the member joined the resource pool.
 	TimeOfJoiningResourcePool *common.SDKTime `mandatory:"false" json:"timeOfJoiningResourcePool"`
 
-	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ResourcePoolLeaderId *string `mandatory:"false" json:"resourcePoolLeaderId"`
 
 	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
@@ -465,8 +471,11 @@ type AutonomousDatabaseSummary struct {
 	// The availability domain where the Autonomous Database Serverless instance is located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
+	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -579,6 +588,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		InfrastructureType                      AutonomousDatabaseSummaryInfrastructureTypeEnum                `json:"infrastructureType"`
 		IsDedicated                             *bool                                                          `json:"isDedicated"`
 		AutonomousContainerDatabaseId           *string                                                        `json:"autonomousContainerDatabaseId"`
+		IsBackupRetentionLocked                 *bool                                                          `json:"isBackupRetentionLocked"`
 		TimeUndeleted                           *common.SDKTime                                                `json:"timeUndeleted"`
 		TimeCreated                             *common.SDKTime                                                `json:"timeCreated"`
 		DisplayName                             *string                                                        `json:"displayName"`
@@ -613,6 +623,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		DatabaseManagementStatus                AutonomousDatabaseSummaryDatabaseManagementStatusEnum          `json:"databaseManagementStatus"`
 		TimeMaintenanceBegin                    *common.SDKTime                                                `json:"timeMaintenanceBegin"`
 		TimeMaintenanceEnd                      *common.SDKTime                                                `json:"timeMaintenanceEnd"`
+		MaintenanceTargetComponent              *string                                                        `json:"maintenanceTargetComponent"`
 		IsRefreshableClone                      *bool                                                          `json:"isRefreshableClone"`
 		TimeOfLastRefresh                       *common.SDKTime                                                `json:"timeOfLastRefresh"`
 		TimeOfLastRefreshPoint                  *common.SDKTime                                                `json:"timeOfLastRefreshPoint"`
@@ -663,6 +674,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                        `json:"clusterPlacementGroupId"`
+		CloneTableSpaceList                     []int                                                          `json:"cloneTableSpaceList"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -751,6 +763,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
 
+	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
+
 	m.TimeUndeleted = model.TimeUndeleted
 
 	m.TimeCreated = model.TimeCreated
@@ -818,6 +832,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeMaintenanceBegin = model.TimeMaintenanceBegin
 
 	m.TimeMaintenanceEnd = model.TimeMaintenanceEnd
+
+	m.MaintenanceTargetComponent = model.MaintenanceTargetComponent
 
 	m.IsRefreshableClone = model.IsRefreshableClone
 
@@ -919,6 +935,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
+	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
+	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId

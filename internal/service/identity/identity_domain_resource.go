@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -428,7 +428,7 @@ func domainWaitForWorkRequest(wId *string, entityType string, action oci_identit
 	retryPolicy.ShouldRetryOperation = domainWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_identity.GetIamWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_identity.IamWorkRequestStatusAccepted),
 			string(oci_identity.IamWorkRequestStatusInProgress),

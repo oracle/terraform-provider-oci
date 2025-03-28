@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,17 +18,17 @@ import (
 // OdaPrivateEndpoint A private endpoint allows Digital Assistant Instance to access resources in a customer's virtual cloud network (VCN).
 type OdaPrivateEndpoint struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that was assigned when the ODA private endpoint was created.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that was assigned when the ODA private endpoint was created.
 	Id *string `mandatory:"true" json:"id"`
 
 	// User-defined name for the ODA private endpoint. Avoid entering confidential information.
 	// You can change this value.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that the ODA private endpoint belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that the ODA private endpoint belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// Description of the ODA private endpoint.
@@ -43,7 +43,7 @@ type OdaPrivateEndpoint struct {
 	// The current state of the ODA private endpoint.
 	LifecycleState OdaPrivateEndpointLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// List of OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of network security groups (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
+	// List of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of network security groups (https://docs.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope.

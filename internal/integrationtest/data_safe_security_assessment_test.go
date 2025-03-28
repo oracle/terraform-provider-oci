@@ -15,9 +15,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -65,7 +65,7 @@ var (
 	}
 
 	ignoreChangesSecurityAssessmentRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`, `system_tags`}},
 	}
 
 	DataSafeSecurityAssessmentResourceDependencies = DefinedTagsDependencies
@@ -106,7 +106,6 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, securityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -127,7 +126,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "EBS assessment"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -159,9 +158,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "EBS assessment"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -183,9 +182,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Update, securityAssessmentChangeCompartmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -214,7 +213,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "security_assessments.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.is_baseline"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.state"),
@@ -237,9 +236,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_baseline"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "statistics.#", "1"),

@@ -16,9 +16,10 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -60,7 +61,6 @@ var (
 		"is_mtls_enabled_vm_cluster":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"license_model":                   acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 		//"security_attributes":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
-		"security_attributes":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Oracle-ZPR.MaxEgressCount.value": "42", "Oracle-ZPR.MaxEgressCount.mode": "enforce"}, Update: map[string]string{"Oracle-ZPR.MaxEgressCount.value": "updatedValue", "Oracle-ZPR.MaxEgressCount.mode": "enforce"}},
 		"scan_listener_port_non_tls":            acctest.Representation{RepType: acctest.Optional, Create: `2302`},
 		"scan_listener_port_tls":                acctest.Representation{RepType: acctest.Optional, Create: `2709`},
 		"nsg_ids":                               acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
@@ -311,7 +311,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "2302"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tls", "2709"),
-					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
@@ -346,7 +346,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "2302"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tls", "2709"),
-					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "40"),
@@ -397,7 +397,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.ocpu_count"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.scan_listener_port_non_tls", "2302"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.scan_listener_port_tls", "2709"),
-					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.shape"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.subnet_id"),
@@ -457,7 +457,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisioned_cpus"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_cpus"),
-					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
 				),
 			},
 			// verify resource import

@@ -65,6 +65,11 @@ resource "oci_database_db_system" "test_db_system" {
 			db_name = var.db_system_db_home_database_db_name
 			db_workload = var.db_system_db_home_database_db_workload
 			defined_tags = var.db_system_db_home_database_defined_tags
+			encryption_key_location_details {
+				#Required
+				hsm_password = var.db_system_db_home_database_encryption_key_location_details_hsm_password
+				provider_type = var.db_system_db_home_database_encryption_key_location_details_provider_type
+			}
 			freeform_tags = var.db_system_db_home_database_freeform_tags
 			key_store_id = oci_database_key_store.test_key_store.id
 			kms_key_id = oci_kms_key.test_key.id
@@ -73,6 +78,11 @@ resource "oci_database_db_system" "test_db_system" {
 			pdb_name = var.db_system_db_home_database_pdb_name
 			pluggable_databases = var.db_system_db_home_database_pluggable_databases
 			sid_prefix = var.db_system_db_home_database_sid_prefix
+			source_encryption_key_location_details {
+				#Required
+				hsm_password = var.db_system_db_home_database_source_encryption_key_location_details_hsm_password
+				provider_type = var.db_system_db_home_database_source_encryption_key_location_details_provider_type
+			}
 			tde_wallet_password = var.db_system_db_home_database_tde_wallet_password
 			time_stamp_for_point_in_time_recovery = var.db_system_db_home_database_time_stamp_for_point_in_time_recovery
 			vault_id = oci_kms_vault.test_vault.id
@@ -85,6 +95,7 @@ resource "oci_database_db_system" "test_db_system" {
 		defined_tags = var.db_system_db_home_defined_tags
 		display_name = var.db_system_db_home_display_name
 		freeform_tags = var.db_system_db_home_freeform_tags
+		is_unified_auditing_enabled = var.db_system_db_home_is_unified_auditing_enabled
 	}
 	hostname = var.db_system_hostname
 	shape = var.db_system_shape
@@ -140,13 +151,13 @@ resource "oci_database_db_system" "test_db_system" {
 		}
 		patching_mode = var.db_system_maintenance_window_details_patching_mode
 		preference = var.db_system_maintenance_window_details_preference
-		skip_ru = var.db_system_maintenance_window_details_skip_ru
 		weeks_of_month = var.db_system_maintenance_window_details_weeks_of_month
 	}
 	node_count = var.db_system_node_count
 	nsg_ids = var.db_system_nsg_ids
 	private_ip = var.db_system_private_ip
 	security_attributes = var.db_system_security_attributes
+	private_ip_v6 = var.db_system_private_ip_v6
 	source = var.db_system_source
 	source_db_system_id = oci_database_db_system.test_db_system.id
 	sparse_diskgroup = var.db_system_sparse_diskgroup
@@ -218,6 +229,9 @@ The following arguments are supported:
 
 			The database workload type. 
 		* `defined_tags` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+		* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
+			* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 		* `freeform_tags` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 		* `kms_key_id` - (Applicable when source=NONE) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -226,6 +240,9 @@ The following arguments are supported:
 		* `pdb_name` - (Applicable when source=NONE) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 		* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP) The list of pluggable databases that needs to be restored into new database.
 		* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE) Specifies a prefix for the `Oracle SID` of the database to be created. 
+		* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP) Types of providers supported for managing database encryption keys
+			* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 		* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 		* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
@@ -237,6 +254,7 @@ The following arguments are supported:
 	* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `display_name` - (Optional) The user-provided name of the Database Home.
 	* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `is_unified_auditing_enabled` - (Applicable when source=DATABASE | DB_BACKUP | NONE) Indicates whether unified auditing is enabled or not 
 * `db_system_options` - (Optional) The DB system options.
 	* `storage_management` - (Optional) The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
@@ -276,13 +294,13 @@ The following arguments are supported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - (Applicable when source=NONE) (Updatable) The maintenance window scheduling preference.
-	* `skip_ru` - (Applicable when source=NONE) (Updatable) If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - (Applicable when source=NONE) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `node_count` - (Optional) The number of nodes to launch for a 2-node RAC virtual machine DB system. Specify either 1 or 2. 
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 * `private_ip` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. Supported for VM BM shape.
 * `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
+* `private_ip_v6` - (Optional) A private IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet. 
 * `shape` - (Required) (Updatable) The shape of the DB system. The shape determines resources allocated to the DB system.
 	* For virtual machine shapes, the number of CPU cores and memory
 	* For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
@@ -324,7 +342,7 @@ The following attributes are exported:
 	* `is_incident_logs_enabled` - Indicates whether incident logs and trace collection are enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster`, `updateCloudVmCluster` or `updateDbsystem` API. 
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems. Required for BMDBs.
 * `data_storage_size_in_gb` - The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems. Required for VMDBs.
-* `database_edition` - The Oracle Database edition that applies to all the databases on the DB system. 
+* `database_edition` - The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE. 
 * `db_system_options` - The DB system options.
 	* `storage_management` - The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
@@ -364,7 +382,6 @@ The following attributes are exported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
-	* `skip_ru` - If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `memory_size_in_gbs` - Memory allocated to the DB system, in gigabytes.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
@@ -376,7 +393,10 @@ The following attributes are exported:
 * `reco_storage_size_in_gb` - The RECO/REDO storage size, in gigabytes, that is currently allocated to the DB system. Applies only for virtual machine DB systems. 
 * `scan_dns_name` - The FQDN of the DNS record for the SCAN IP addresses that are associated with the DB system. 
 * `scan_dns_record_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the DB system. 
-* `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the DB system. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+* `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv4 addresses associated with the DB system. SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+
+	**Note:** For a single-node DB system, this list is empty. 
+* `scan_ipv6ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv6 addresses associated with the DB system. SCAN IPv6 addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
 * `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
@@ -398,7 +418,10 @@ The following attributes are exported:
 * `time_created` - The date and time the DB system was created.
 * `time_zone` - The time zone of the DB system. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `version` - The Oracle Database version of the DB system.
-* `vip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the DB system. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB system to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+* `vip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IPv4 (VIP) addresses associated with the DB system. The Cluster Ready Services (CRS) creates and maintains one VIPv4 address for each node in the DB system to enable failover. If one node fails, the VIPv4 is reassigned to another active node in the cluster.
+
+	**Note:** For a single-node DB system, this list is empty. 
+* `vipv6ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IPv6 (VIP) addresses associated with the DB system. The Cluster Ready Services (CRS) creates and maintains one VIP IpV6 address for each node in the DB system to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
 * `zone_id` - The OCID of the zone the DB system is associated with. 

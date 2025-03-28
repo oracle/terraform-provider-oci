@@ -1,15 +1,16 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -28,7 +29,7 @@ type CreateDatabaseDetails struct {
 	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
-	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
 	// The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
@@ -53,12 +54,12 @@ type CreateDatabaseDetails struct {
 	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -67,14 +68,16 @@ type CreateDatabaseDetails struct {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 }
 
 func (m CreateDatabaseDetails) String() string {
@@ -94,6 +97,81 @@ func (m CreateDatabaseDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DbUniqueName                 *string                             `json:"dbUniqueName"`
+		DatabaseSoftwareImageId      *string                             `json:"databaseSoftwareImageId"`
+		PdbName                      *string                             `json:"pdbName"`
+		TdeWalletPassword            *string                             `json:"tdeWalletPassword"`
+		CharacterSet                 *string                             `json:"characterSet"`
+		NcharacterSet                *string                             `json:"ncharacterSet"`
+		DbWorkload                   CreateDatabaseDetailsDbWorkloadEnum `json:"dbWorkload"`
+		DbBackupConfig               *DbBackupConfig                     `json:"dbBackupConfig"`
+		FreeformTags                 map[string]string                   `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{}   `json:"definedTags"`
+		KmsKeyId                     *string                             `json:"kmsKeyId"`
+		KmsKeyVersionId              *string                             `json:"kmsKeyVersionId"`
+		VaultId                      *string                             `json:"vaultId"`
+		SidPrefix                    *string                             `json:"sidPrefix"`
+		KeyStoreId                   *string                             `json:"keyStoreId"`
+		EncryptionKeyLocationDetails encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
+		DbName                       *string                             `json:"dbName"`
+		AdminPassword                *string                             `json:"adminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.PdbName = model.PdbName
+
+	m.TdeWalletPassword = model.TdeWalletPassword
+
+	m.CharacterSet = model.CharacterSet
+
+	m.NcharacterSet = model.NcharacterSet
+
+	m.DbWorkload = model.DbWorkload
+
+	m.DbBackupConfig = model.DbBackupConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.SidPrefix = model.SidPrefix
+
+	m.KeyStoreId = model.KeyStoreId
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	m.DbName = model.DbName
+
+	m.AdminPassword = model.AdminPassword
+
+	return
 }
 
 // CreateDatabaseDetailsDbWorkloadEnum Enum with underlying type: string

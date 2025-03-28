@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,16 +20,16 @@ import (
 // WebAppFirewallSummary Summary of the WebAppFirewall.
 type WebAppFirewallSummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WebAppFirewall.
 	GetId() *string
 
 	// WebAppFirewall display name, can be renamed.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of WebAppFirewallPolicy, which is attached to the resource.
 	GetWebAppFirewallPolicyId() *string
 
 	// The time the WebAppFirewall was created. An RFC3339 formatted datetime string.
@@ -115,7 +115,7 @@ func (m *webappfirewallsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for WebAppFirewallSummary: %s.", m.BackendType)
+		common.Logf("Received unsupported enum value for WebAppFirewallSummary: %s.", m.BackendType)
 		return *m, nil
 	}
 }

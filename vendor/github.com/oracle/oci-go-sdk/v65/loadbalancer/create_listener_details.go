@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -18,7 +18,7 @@ import (
 
 // CreateListenerDetails The configuration details for adding a listener to a backend set.
 // For more information on listener configuration, see
-// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/Balance/Tasks/managinglisteners.htm).
+// Managing Load Balancer Listeners (https://docs.oracle.com/iaas/Content/Balance/Tasks/managinglisteners.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateListenerDetails struct {
 

@@ -74,6 +74,12 @@ func (s *PsqlBackupDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	copyStatus := []interface{}{}
+	for _, item := range s.Res.CopyStatus {
+		copyStatus = append(copyStatus, BackupCopyStatusDetailsToMap(item))
+	}
+	s.D.Set("copy_status", copyStatus)
+
 	if s.Res.DbSystemDetails != nil {
 		s.D.Set("db_system_details", []interface{}{DbSystemDetailsToMap(s.Res.DbSystemDetails)})
 	} else {
@@ -115,6 +121,12 @@ func (s *PsqlBackupDataSourceCrud) SetData() error {
 		s.D.Set("retention_period", *s.Res.RetentionPeriod)
 	}
 
+	if s.Res.SourceBackupDetails != nil {
+		s.D.Set("source_backup_details", []interface{}{SourceBackupDetailsToMap(s.Res.SourceBackupDetails)})
+	} else {
+		s.D.Set("source_backup_details", nil)
+	}
+
 	s.D.Set("source_type", s.Res.SourceType)
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -125,6 +137,10 @@ func (s *PsqlBackupDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeCreatedPrecise != nil {
+		s.D.Set("time_created_precise", s.Res.TimeCreatedPrecise.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

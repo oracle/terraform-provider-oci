@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -80,6 +80,10 @@ const (
 	DiscoveryDetailsResourceTypeCustomResource   DiscoveryDetailsResourceTypeEnum = "CUSTOM_RESOURCE"
 	DiscoveryDetailsResourceTypeOracleHttpServer DiscoveryDetailsResourceTypeEnum = "ORACLE_HTTP_SERVER"
 	DiscoveryDetailsResourceTypeMicrosoftIis     DiscoveryDetailsResourceTypeEnum = "MICROSOFT_IIS"
+	DiscoveryDetailsResourceTypeNginx            DiscoveryDetailsResourceTypeEnum = "NGINX"
+	DiscoveryDetailsResourceTypeJbossServer      DiscoveryDetailsResourceTypeEnum = "JBOSS_SERVER"
+	DiscoveryDetailsResourceTypeJbossDomain      DiscoveryDetailsResourceTypeEnum = "JBOSS_DOMAIN"
+	DiscoveryDetailsResourceTypeOracleJvm        DiscoveryDetailsResourceTypeEnum = "ORACLE_JVM"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -99,6 +103,10 @@ var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourc
 	"CUSTOM_RESOURCE":    DiscoveryDetailsResourceTypeCustomResource,
 	"ORACLE_HTTP_SERVER": DiscoveryDetailsResourceTypeOracleHttpServer,
 	"MICROSOFT_IIS":      DiscoveryDetailsResourceTypeMicrosoftIis,
+	"NGINX":              DiscoveryDetailsResourceTypeNginx,
+	"JBOSS_SERVER":       DiscoveryDetailsResourceTypeJbossServer,
+	"JBOSS_DOMAIN":       DiscoveryDetailsResourceTypeJbossDomain,
+	"ORACLE_JVM":         DiscoveryDetailsResourceTypeOracleJvm,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -118,6 +126,10 @@ var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetai
 	"custom_resource":    DiscoveryDetailsResourceTypeCustomResource,
 	"oracle_http_server": DiscoveryDetailsResourceTypeOracleHttpServer,
 	"microsoft_iis":      DiscoveryDetailsResourceTypeMicrosoftIis,
+	"nginx":              DiscoveryDetailsResourceTypeNginx,
+	"jboss_server":       DiscoveryDetailsResourceTypeJbossServer,
+	"jboss_domain":       DiscoveryDetailsResourceTypeJbossDomain,
+	"oracle_jvm":         DiscoveryDetailsResourceTypeOracleJvm,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -148,6 +160,10 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"CUSTOM_RESOURCE",
 		"ORACLE_HTTP_SERVER",
 		"MICROSOFT_IIS",
+		"NGINX",
+		"JBOSS_SERVER",
+		"JBOSS_DOMAIN",
+		"ORACLE_JVM",
 	}
 }
 

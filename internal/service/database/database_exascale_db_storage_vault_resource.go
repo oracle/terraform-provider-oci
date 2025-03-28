@@ -70,6 +70,12 @@ func DatabaseExascaleDbStorageVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -82,11 +88,23 @@ func DatabaseExascaleDbStorageVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"time_zone": {
 				Type:     schema.TypeString,
@@ -225,6 +243,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Create() error {
 		request.AvailabilityDomain = &tmp
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -248,6 +271,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+		tmp := exadataInfrastructureId.(string)
+		request.ExadataInfrastructureId = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -261,6 +289,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Create() error {
 			}
 			request.HighCapacityDatabaseStorage = &tmp
 		}
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
@@ -416,6 +449,10 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -432,6 +469,10 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExadataInfrastructureId != nil {
+		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HighCapacityDatabaseStorage != nil {
@@ -445,6 +486,10 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))

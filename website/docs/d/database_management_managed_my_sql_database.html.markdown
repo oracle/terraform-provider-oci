@@ -50,4 +50,10 @@ The following attributes are exported:
 * `is_lakehouse_enabled` - Indicates whether HeatWave Lakehouse is enabled for the MySQL Database System or not.
 * `name` - The name of the Managed MySQL Database.
 * `time_created_heat_wave` - The date and time the Managed MySQL Database was created.
+* `database_type` - The type of the MySQL Database. Indicates whether the database is external or MDS. 
+* `management_state` - Indicates database management status.
+* `name` - The name of the Managed MySQL Database.
+* `state` - Indicates lifecycle  state of the resource.
+* `time_updated` - The date and time the Managed MySQL Database was updated.
+* `name` - The name of the Managed MySQL Database.
 

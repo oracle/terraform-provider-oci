@@ -44,6 +44,10 @@ func DatabaseDbServerDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -201,6 +205,8 @@ func (s *DatabaseDbServerDataSourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)

@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -29,8 +29,10 @@ type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 	// **The password MUST be the same as the primary admin password.**
 	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
 
-	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
 
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
@@ -41,11 +43,11 @@ type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	PeerSidPrefix *string `mandatory:"false" json:"peerSidPrefix"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database.
 	// You must supply this value if creationType is `ExistingDbSystem`.
 	PeerDbSystemId *string `mandatory:"false" json:"peerDbSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database.
 	// You must supply this value to create standby database with an existing DB home
 	PeerDbHomeId *string `mandatory:"false" json:"peerDbHomeId"`
 
@@ -74,6 +76,11 @@ func (m CreateDataGuardAssociationToExistingDbSystemDetails) GetDatabaseSoftware
 // GetDatabaseAdminPassword returns DatabaseAdminPassword
 func (m CreateDataGuardAssociationToExistingDbSystemDetails) GetDatabaseAdminPassword() *string {
 	return m.DatabaseAdminPassword
+}
+
+// GetSourceEncryptionKeyLocationDetails returns SourceEncryptionKeyLocationDetails
+func (m CreateDataGuardAssociationToExistingDbSystemDetails) GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails {
+	return m.SourceEncryptionKeyLocationDetails
 }
 
 // GetProtectionMode returns ProtectionMode
@@ -135,4 +142,55 @@ func (m CreateDataGuardAssociationToExistingDbSystemDetails) MarshalJSON() (buff
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataGuardAssociationToExistingDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DatabaseSoftwareImageId            *string                                             `json:"databaseSoftwareImageId"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                        `json:"sourceEncryptionKeyLocationDetails"`
+		IsActiveDataGuardEnabled           *bool                                               `json:"isActiveDataGuardEnabled"`
+		PeerDbUniqueName                   *string                                             `json:"peerDbUniqueName"`
+		PeerSidPrefix                      *string                                             `json:"peerSidPrefix"`
+		PeerDbSystemId                     *string                                             `json:"peerDbSystemId"`
+		PeerDbHomeId                       *string                                             `json:"peerDbHomeId"`
+		DatabaseAdminPassword              *string                                             `json:"databaseAdminPassword"`
+		ProtectionMode                     CreateDataGuardAssociationDetailsProtectionModeEnum `json:"protectionMode"`
+		TransportType                      CreateDataGuardAssociationDetailsTransportTypeEnum  `json:"transportType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled
+
+	m.PeerDbUniqueName = model.PeerDbUniqueName
+
+	m.PeerSidPrefix = model.PeerSidPrefix
+
+	m.PeerDbSystemId = model.PeerDbSystemId
+
+	m.PeerDbHomeId = model.PeerDbHomeId
+
+	m.DatabaseAdminPassword = model.DatabaseAdminPassword
+
+	m.ProtectionMode = model.ProtectionMode
+
+	m.TransportType = model.TransportType
+
+	return
 }

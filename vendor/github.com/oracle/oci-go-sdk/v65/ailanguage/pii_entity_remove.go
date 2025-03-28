@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,6 +20,22 @@ import (
 
 // PiiEntityRemove Remove PII entities from output.
 type PiiEntityRemove struct {
+
+	// List of offsets/entities to be removed from anonymization.
+	Exclude []string `mandatory:"false" json:"exclude"`
+
+	// To include excluded entities from masking in detected entities or not.
+	ShouldDetect *bool `mandatory:"false" json:"shouldDetect"`
+}
+
+// GetExclude returns Exclude
+func (m PiiEntityRemove) GetExclude() []string {
+	return m.Exclude
+}
+
+// GetShouldDetect returns ShouldDetect
+func (m PiiEntityRemove) GetShouldDetect() *bool {
+	return m.ShouldDetect
 }
 
 func (m PiiEntityRemove) String() string {

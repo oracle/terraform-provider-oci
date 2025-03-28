@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,16 +15,19 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelVersionSets.go.html to see an example of how to use ListModelVersionSetsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelVersionSets.go.html to see an example of how to use ListModelVersionSetsRequest.
 type ListModelVersionSetsRequest struct {
 
-	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// <b>Filter</b> results by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
+	// Specifies the type of model version sets to list. By default, user model version sets are listed.
+	Category ListModelVersionSetsCategoryEnum `mandatory:"false" contributesTo:"query" name:"category" omitEmpty:"true"`
+
+	// <b>Filter</b> results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
+	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
 	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
 
 	// A filter to return only resources that match the entire name given.
@@ -34,19 +37,19 @@ type ListModelVersionSetsRequest struct {
 	// state for the resource type.
 	LifecycleState ListModelVersionSetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the resource.
+	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the resource.
 	CreatedBy *string `mandatory:"false" contributesTo:"query" name:"createdBy"`
 
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 100 is the maximum.
-	// See List Pagination (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/usingapi.htm#nine).
+	// See List Pagination (https://docs.oracle.com/iaas/Content/General/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response
 	// header from the previous "List" call.
-	// See List Pagination (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/usingapi.htm#nine).
+	// See List Pagination (https://docs.oracle.com/iaas/Content/General/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
@@ -95,6 +98,9 @@ func (request ListModelVersionSetsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListModelVersionSetsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListModelVersionSetsCategoryEnum(string(request.Category)); !ok && request.Category != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Category: %s. Supported values are: %s.", request.Category, strings.Join(GetListModelVersionSetsCategoryEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListModelVersionSetsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListModelVersionSetsLifecycleStateEnumStringValues(), ",")))
 	}
@@ -119,10 +125,10 @@ type ListModelVersionSetsResponse struct {
 	// A list of []ModelVersionSetSummary instances
 	Items []ModelVersionSetSummary `presentIn:"body"`
 
-	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// Retrieves the previous page of results. When this header appears in the response, previous pages of results exist. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// Retrieves the previous page of results. When this header appears in the response, previous pages of results exist. See List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact
@@ -137,6 +143,48 @@ func (response ListModelVersionSetsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListModelVersionSetsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListModelVersionSetsCategoryEnum Enum with underlying type: string
+type ListModelVersionSetsCategoryEnum string
+
+// Set of constants representing the allowable values for ListModelVersionSetsCategoryEnum
+const (
+	ListModelVersionSetsCategoryUser    ListModelVersionSetsCategoryEnum = "USER"
+	ListModelVersionSetsCategoryService ListModelVersionSetsCategoryEnum = "SERVICE"
+)
+
+var mappingListModelVersionSetsCategoryEnum = map[string]ListModelVersionSetsCategoryEnum{
+	"USER":    ListModelVersionSetsCategoryUser,
+	"SERVICE": ListModelVersionSetsCategoryService,
+}
+
+var mappingListModelVersionSetsCategoryEnumLowerCase = map[string]ListModelVersionSetsCategoryEnum{
+	"user":    ListModelVersionSetsCategoryUser,
+	"service": ListModelVersionSetsCategoryService,
+}
+
+// GetListModelVersionSetsCategoryEnumValues Enumerates the set of values for ListModelVersionSetsCategoryEnum
+func GetListModelVersionSetsCategoryEnumValues() []ListModelVersionSetsCategoryEnum {
+	values := make([]ListModelVersionSetsCategoryEnum, 0)
+	for _, v := range mappingListModelVersionSetsCategoryEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListModelVersionSetsCategoryEnumStringValues Enumerates the set of values in String for ListModelVersionSetsCategoryEnum
+func GetListModelVersionSetsCategoryEnumStringValues() []string {
+	return []string{
+		"USER",
+		"SERVICE",
+	}
+}
+
+// GetMappingListModelVersionSetsCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListModelVersionSetsCategoryEnum(val string) (ListModelVersionSetsCategoryEnum, bool) {
+	enum, ok := mappingListModelVersionSetsCategoryEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListModelVersionSetsLifecycleStateEnum Enum with underlying type: string

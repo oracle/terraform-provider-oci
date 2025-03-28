@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -27,7 +27,7 @@ type ConnectionDetails struct {
 	// Service name used for connection requests.
 	ServiceName *string `mandatory:"true" json:"serviceName"`
 
-	// Database connector Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Database connector Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ConnectorId *string `mandatory:"false" json:"connectorId"`
 
 	// UniqueName used for database connection requests.
@@ -36,7 +36,7 @@ type ConnectionDetails struct {
 	// dbId of the database.
 	DbId *string `mandatory:"false" json:"dbId"`
 
-	// SSL Secret Identifier for TCPS connector in OCI VaultOCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// SSL Secret Identifier for TCPS connector in OCI VaultOCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SslSecretId *string `mandatory:"false" json:"sslSecretId"`
 }
 

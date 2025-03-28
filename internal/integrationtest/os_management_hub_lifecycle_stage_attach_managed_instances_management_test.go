@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -19,12 +19,14 @@ import (
 )
 
 var (
-	OsManagementHubLifecycleStageAttachManagedInstancesManagementRequiredOnlyResource = OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_stage_attach_managed_instances_management", "test_lifecycle_stage_attach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubLifecycleStageAttachManagedInstancesManagementRepresentation)
-
 	OsManagementHubLifecycleStageAttachManagedInstancesManagementRepresentation = map[string]interface{}{
-		"lifecycle_stage_id":       acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_prod_lifecycle_stage_ocid")},
-		"managed_instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubLifecycleStageAttachManagedInstancesManagementManagedInstanceDetailsRepresentation},
+		"lifecycle_stage_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
+		"managed_instance_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubLifecycleStageAttachManagedInstancesManagementManagedInstanceDetailsRepresentation},
+	}
+	OsManagementHubLCStageDetachManagedInstancesManagementRepresentation = map[string]interface{}{
+		"lifecycle_stage_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
+		"managed_instance_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubLifecycleStageDetachManagedInstancesManagementManagedInstanceDetailsRepresentation},
+		"depends_on":               acctest.Representation{RepType: acctest.Required, Create: []string{`oci_os_management_hub_lifecycle_stage_attach_managed_instances_management.test_lifecycle_stage_attach_managed_instances_management`}},
 	}
 	OsManagementHubLifecycleStageAttachManagedInstancesManagementManagedInstanceDetailsRepresentation = map[string]interface{}{
 		"managed_instances":    acctest.Representation{RepType: acctest.Required, Create: []string{utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")}},
@@ -51,22 +53,20 @@ func TestOsManagementHubLifecycleStageAttachManagedInstancesManagementResource_b
 	resourceName := "oci_os_management_hub_lifecycle_stage_attach_managed_instances_management.test_lifecycle_stage_attach_managed_instances_management"
 
 	var resId string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_stage_attach_managed_instances_management", "test_lifecycle_stage_attach_managed_instances_management", acctest.Optional, acctest.Create, OsManagementHubLifecycleStageAttachManagedInstancesManagementRepresentation), "osmanagementhub", "lifecycleStageAttachManagedInstancesManagement", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_stage_attach_managed_instances_management", "test_lifecycle_stage_attach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubLifecycleStageAttachManagedInstancesManagementRepresentation), "osmanagementhub", "lifecycleStageAttachManagedInstancesManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceDependencies + OsManagementHubLifecycleEnvironmentResourceConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_stage_detach_managed_instances_management", "test_lifecycle_stage_detach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubLCStageDetachManagedInstancesManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_stage_attach_managed_instances_management", "test_lifecycle_stage_attach_managed_instances_management", acctest.Optional, acctest.Create, OsManagementHubLifecycleStageAttachManagedInstancesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "lifecycle_stage_id"),
 				resource.TestCheckResourceAttr(resourceName, "managed_instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "managed_instance_details.0.managed_instances.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "managed_instance_details.0.work_request_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "managed_instance_details.0.work_request_details.0.description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "managed_instance_details.0.work_request_details.0.display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

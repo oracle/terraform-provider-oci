@@ -54,10 +54,12 @@ The following attributes are exported:
 * `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the cloud Exadata infrastructure.
+* `compute_model` - The compute model of the Exadata infrastructure.
 * `cpu_count` - The total number of CPU cores allocated.
 * `customer_contacts` - The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure Database service resource. Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators. Up to 10 email addresses can be added to the customer contacts for a cloud Exadata infrastructure instance. 
 	* `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `database_server_type` - The database server type of the Exadata infrastructure.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the cloud Exadata infrastructure. Example: 20.1.15 
 * `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
@@ -69,6 +71,7 @@ The following attributes are exported:
 * `display_name` - The user-friendly name for the cloud Exadata infrastructure resource. The name does not need to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure resource.
+* `is_scheduling_policy_associated` - If true, the infrastructure is using granular maintenance scheduling preference.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
@@ -86,7 +89,6 @@ The following attributes are exported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
-	* `skip_ru` - If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `max_cpu_count` - The total number of CPU cores available.
 * `max_data_storage_in_tbs` - The total available DATA disk group size.
@@ -99,6 +101,7 @@ The following attributes are exported:
 * `shape` - The model name of the cloud Exadata infrastructure resource. 
 * `state` - The current lifecycle state of the cloud Exadata infrastructure resource.
 * `storage_count` - The number of storage servers for the cloud Exadata infrastructure.
+* `storage_server_type` - The storage server type of the Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the cloud Exadata infrastructure. Example: 20.1.15 
 * `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 

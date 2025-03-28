@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListConfigurations.go.html to see an example of how to use ListConfigurationsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListConfigurations.go.html to see an example of how to use ListConfigurationsRequest.
 type ListConfigurationsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -23,6 +23,9 @@ type ListConfigurationsRequest struct {
 
 	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// A filter to return only resources if their `configType` matches the given `configType`.
+	ConfigType ConfigurationConfigTypeEnum `mandatory:"false" contributesTo:"query" name:"configType" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -90,6 +93,9 @@ func (request ListConfigurationsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingConfigurationLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingConfigurationConfigTypeEnum(string(request.ConfigType)); !ok && request.ConfigType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigType: %s. Supported values are: %s.", request.ConfigType, strings.Join(GetConfigurationConfigTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListConfigurationsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConfigurationsSortOrderEnumStringValues(), ",")))

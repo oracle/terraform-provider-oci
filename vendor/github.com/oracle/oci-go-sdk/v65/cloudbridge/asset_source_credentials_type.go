@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,15 +18,18 @@ type AssetSourceCredentialsTypeEnum string
 
 // Set of constants representing the allowable values for AssetSourceCredentialsTypeEnum
 const (
-	AssetSourceCredentialsTypeBasic AssetSourceCredentialsTypeEnum = "BASIC"
+	AssetSourceCredentialsTypeBasic  AssetSourceCredentialsTypeEnum = "BASIC"
+	AssetSourceCredentialsTypeApiKey AssetSourceCredentialsTypeEnum = "API_KEY"
 )
 
 var mappingAssetSourceCredentialsTypeEnum = map[string]AssetSourceCredentialsTypeEnum{
-	"BASIC": AssetSourceCredentialsTypeBasic,
+	"BASIC":   AssetSourceCredentialsTypeBasic,
+	"API_KEY": AssetSourceCredentialsTypeApiKey,
 }
 
 var mappingAssetSourceCredentialsTypeEnumLowerCase = map[string]AssetSourceCredentialsTypeEnum{
-	"basic": AssetSourceCredentialsTypeBasic,
+	"basic":   AssetSourceCredentialsTypeBasic,
+	"api_key": AssetSourceCredentialsTypeApiKey,
 }
 
 // GetAssetSourceCredentialsTypeEnumValues Enumerates the set of values for AssetSourceCredentialsTypeEnum
@@ -42,6 +45,7 @@ func GetAssetSourceCredentialsTypeEnumValues() []AssetSourceCredentialsTypeEnum 
 func GetAssetSourceCredentialsTypeEnumStringValues() []string {
 	return []string{
 		"BASIC",
+		"API_KEY",
 	}
 }
 

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -21,7 +21,8 @@ var (
 	}
 
 	DatabaseManagementDatabaseManagementManagedMySqlDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"filter_by_my_sql_database_type_param": acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
 	}
 
 	DatabaseManagementManagedMySqlDatabaseResourceConfig = ""
@@ -50,6 +51,7 @@ func TestDatabaseManagementManagedMySqlDatabaseResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseManagementManagedMySqlDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "filter_by_my_sql_database_type_param", "EXTERNAL"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_my_sql_database_collection.#"),
 			),
@@ -66,16 +68,22 @@ func TestDatabaseManagementManagedMySqlDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				/*Following heatwave related attributes are only available in response when
+				filter_by_my_sql_database_type_param=MDS and there is a hetwave cluster associated. In order
+				to test these attributes , the test needs to change the filter param to "MDS" and
+				uncomment the below attributes
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "heat_wave_memory_size"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "heat_wave_node_shape"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "heat_wave_nodes.#", "2"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_heat_wave_active"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_heat_wave_enabled"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_lakehouse_enabled"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_lakehouse_enabled"),*/
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created_heat_wave"),
 			),
 		},
 	})

@@ -42,6 +42,11 @@ func FileStorageFileSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"are_quota_rules_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"clone_attach_status": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -157,6 +162,14 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"quota_enforcement_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"replication_source_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"replication_target_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -185,6 +198,11 @@ func FileStorageFileSystemResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -296,6 +314,11 @@ func (s *FileStorageFileSystemResourceCrud) DeletedTarget() []string {
 func (s *FileStorageFileSystemResourceCrud) Create() error {
 	request := oci_file_storage.CreateFileSystemRequest{}
 
+	if areQuotaRulesEnabled, ok := s.D.GetOkExists("are_quota_rules_enabled"); ok {
+		tmp := areQuotaRulesEnabled.(bool)
+		request.AreQuotaRulesEnabled = &tmp
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -392,6 +415,13 @@ func (s *FileStorageFileSystemResourceCrud) Get() error {
 }
 
 func (s *FileStorageFileSystemResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("areQuotaRulesEnabled"); ok && s.D.HasChange("areQuotaRulesEnabled") {
+		err := s.ToggleQuotaRules()
+		if err != nil {
+			return err
+		}
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -472,6 +502,10 @@ func (s *FileStorageFileSystemResourceCrud) Delete() error {
 }
 
 func (s *FileStorageFileSystemResourceCrud) SetData() error {
+	if s.Res.AreQuotaRulesEnabled != nil {
+		s.D.Set("are_quota_rules_enabled", *s.Res.AreQuotaRulesEnabled)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -530,6 +564,12 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))
 	}
 
+	s.D.Set("quota_enforcement_state", s.Res.QuotaEnforcementState)
+
+	if s.Res.ReplicationSourceCount != nil {
+		s.D.Set("replication_source_count", *s.Res.ReplicationSourceCount)
+	}
+
 	if s.Res.ReplicationTargetId != nil {
 		s.D.Set("replication_target_id", *s.Res.ReplicationTargetId)
 	}
@@ -541,6 +581,10 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -568,6 +612,31 @@ func (s *FileStorageFileSystemResourceCrud) DetachClone() error {
 
 	val := s.D.Get("detach_clone_trigger")
 	s.D.Set("detach_clone_trigger", val)
+
+	return nil
+}
+
+func (s *FileStorageFileSystemResourceCrud) ToggleQuotaRules() error {
+	request := oci_file_storage.ToggleQuotaRulesRequest{}
+
+	if areQuotaRulesEnabled, ok := s.D.GetOkExists("are_quota_rules_enabled"); ok {
+		tmp := areQuotaRulesEnabled.(bool)
+		request.AreQuotaRulesEnabled = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.FileSystemId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.ToggleQuotaRules(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
 
 	return nil
 }

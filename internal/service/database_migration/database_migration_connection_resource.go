@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -413,7 +413,7 @@ func connectionWaitForWorkRequest(wId *string, entityType string, action oci_dat
 	retryPolicy.ShouldRetryOperation = connectionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_database_migration.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_database_migration.OperationStatusInProgress),
 			string(oci_database_migration.OperationStatusAccepted),

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -371,9 +371,7 @@ func deleteManagementAgentManagementAgent(d *schema.ResourceData, m interface{})
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	//Destroy does not remove the item from the Management Agent backend.. only removes from state
-	sync.VoidState()
-	return nil
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ManagementAgentManagementAgentResourceCrud struct {
@@ -468,7 +466,7 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 	retryPolicy.ShouldRetryOperation = managementAgentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_management_agent.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_management_agent.OperationStatusInProgress),
 			string(oci_management_agent.OperationStatusAccepted),
@@ -525,7 +523,7 @@ func managementAgentWaitForInstanceAgent(hostId *string, compartmentId *string,
 	retryPolicy.ShouldRetryOperation = managementAgentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_management_agent.ListManagementAgentsResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string("not found"),
 		},

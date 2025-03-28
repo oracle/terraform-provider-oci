@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -19,13 +19,13 @@ import (
 // WorkRequest Many of the API requests you use to create and configure load balancing do not take effect immediately.
 // In these cases, the request spawns an asynchronous work flow to fulfill the request. WorkRequest objects provide visibility
 // for in-progress work flows.
-// For more information about work requests, see Viewing the State of a Work Request (https://docs.cloud.oracle.com/Content/Balance/Tasks/viewingworkrequest.htm).
+// For more information about work requests, see Viewing the State of a Work Request (https://docs.oracle.com/iaas/Content/Balance/Tasks/viewingworkrequest.htm).
 type WorkRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer with which the work request
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer with which the work request
 	// is associated.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
@@ -51,7 +51,7 @@ type WorkRequest struct {
 
 	ErrorDetails []WorkRequestError `mandatory:"true" json:"errorDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The date and time the work request was completed, in the format defined by RFC3339.

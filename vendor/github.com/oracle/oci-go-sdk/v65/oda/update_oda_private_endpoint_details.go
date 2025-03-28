@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -25,7 +25,7 @@ type UpdateOdaPrivateEndpointDetails struct {
 	// Description of the ODA private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of network security groups (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
+	// List of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of network security groups (https://docs.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope.

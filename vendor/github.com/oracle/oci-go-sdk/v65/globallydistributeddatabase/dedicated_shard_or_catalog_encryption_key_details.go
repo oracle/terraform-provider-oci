@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -24,16 +24,16 @@ import (
 // or catalog, which is also replicated to peer region (the region where peer or standby shard or catalog exists).
 type DedicatedShardOrCatalogEncryptionKeyDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the vault in customer tenancy where KMS key is present.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vault in customer tenancy where KMS key is present.
 	// For shard or catalog with cross-region data guard enabled, user needs to make sure to provide virtual private vault only,
 	// which is also replicated in the region of standby shard.
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key in vault identified by vaultId in customer tenancy
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the KMS key in vault identified by vaultId in customer tenancy
 	// that is used as the master encryption key.
 	KmsKeyId *string `mandatory:"true" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key version for key identified by kmsKeyId
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the KMS key version for key identified by kmsKeyId
 	// that is used in data encryption (TDE) operations.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 }

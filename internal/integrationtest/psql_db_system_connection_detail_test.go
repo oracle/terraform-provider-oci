@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -55,6 +55,7 @@ func TestPsqlDbSystemConnectionDetailResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ca_certificate"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_endpoints.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "primary_db_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "reader_endpoint.#", "1"),
 			),
 		},
 	})

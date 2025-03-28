@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -24,13 +24,13 @@ type ExternalDatabaseSystemDiscoverySummary struct {
 	// The name of the entity.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated connector.
 	ConnectorId *string `mandatory:"false" json:"connectorId"`
 
 	// The version of the entity.
@@ -54,7 +54,7 @@ type ExternalDatabaseSystemDiscoverySummary struct {
 	// The display name of the ASM connector.
 	AsmConnectorName *string `mandatory:"false" json:"asmConnectorName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The Oracle license model that applies to the database management resources.

@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -22,12 +22,15 @@ type BackupPolicy interface {
 
 	// How many days the data should be stored after the database system deletion.
 	GetRetentionDays() *int
+
+	GetCopyPolicy() *BackupCopyPolicy
 }
 
 type backuppolicy struct {
 	JsonData      []byte
-	RetentionDays *int   `mandatory:"false" json:"retentionDays"`
-	Kind          string `json:"kind"`
+	RetentionDays *int              `mandatory:"false" json:"retentionDays"`
+	CopyPolicy    *BackupCopyPolicy `mandatory:"false" json:"copyPolicy"`
+	Kind          string            `json:"kind"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -42,6 +45,7 @@ func (m *backuppolicy) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.RetentionDays = s.Model.RetentionDays
+	m.CopyPolicy = s.Model.CopyPolicy
 	m.Kind = s.Model.Kind
 
 	return err
@@ -73,7 +77,7 @@ func (m *backuppolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BackupPolicy: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for BackupPolicy: %s.", m.Kind)
 		return *m, nil
 	}
 }
@@ -81,6 +85,11 @@ func (m *backuppolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 // GetRetentionDays returns RetentionDays
 func (m backuppolicy) GetRetentionDays() *int {
 	return m.RetentionDays
+}
+
+// GetCopyPolicy returns CopyPolicy
+func (m backuppolicy) GetCopyPolicy() *BackupCopyPolicy {
+	return m.CopyPolicy
 }
 
 func (m backuppolicy) String() string {

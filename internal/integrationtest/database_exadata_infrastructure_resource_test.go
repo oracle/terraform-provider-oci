@@ -9,8 +9,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -32,7 +32,7 @@ var (
 		"infini_band_network_cidr":    acctest.Representation{RepType: acctest.Required, Create: `10.31.8.0/21`, Update: `10.31.8.0/22`},
 		"netmask":                     acctest.Representation{RepType: acctest.Required, Create: `255.255.255.0`, Update: `255.255.254.0`},
 		"ntp_server":                  acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.76`}, Update: []string{`10.246.6.36`, `10.31.138.20`}},
-		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.X7`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.X8M`},
 		"storage_count":               acctest.Representation{RepType: acctest.Required, Create: `3`},
 		"compute_count":               acctest.Representation{RepType: acctest.Required, Create: `2`}, //computeCount must be one of [2, 4, 8].
 		"time_zone":                   acctest.Representation{RepType: acctest.Required, Create: `US/Pacific`, Update: `UTC`},
@@ -90,7 +90,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
 				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X7"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8M"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
@@ -122,7 +122,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
 				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X7"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8M"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
@@ -156,7 +156,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
 				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X7"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8M"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),

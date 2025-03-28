@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -21,15 +21,14 @@ import (
 // LogSource The logs for this Logging source.
 type LogSource struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
-	// Note: For the Notifications target, only _Audit is allowed.
-	// Example OCID for _Audit log group: ocid1.tenancy.oc1..exampleuniqueid/_Audit
+	// Identifier of the log group. Either `_Audit` or the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
+	// Note: For the Notifications target, only `_Audit` is allowed.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 	LogId *string `mandatory:"false" json:"logId"`
 }
 

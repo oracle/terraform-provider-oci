@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssetSources.go.html to see an example of how to use ListAssetSourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssetSources.go.html to see an example of how to use ListAssetSourcesRequest.
 type ListAssetSourcesRequest struct {
 
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asset source.
 	AssetSourceId *string `mandatory:"false" contributesTo:"query" name:"assetSourceId"`
 
 	// The field to sort by. Only one sort order may be provided. By default, the timeCreated is in descending order and displayName is in ascending order.

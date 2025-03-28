@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,8 +46,11 @@ type UpdatePostgresqlConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// The name of the database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
@@ -65,7 +68,15 @@ type UpdatePostgresqlConnectionDetails struct {
 
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
 	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
@@ -82,7 +93,12 @@ type UpdatePostgresqlConnectionDetails struct {
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
 	// The base64 encoded private key of the PostgreSQL server. The supported file formats are .pem and .crt.
+	// Deprecated: This field is deprecated and replaced by "sslKeySecretId". This field will be removed after February 15 2026.
 	SslKey *string `mandatory:"false" json:"sslKey"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the private key of the PostgreSQL server. The supported file formats are .pem and .crt.
+	// Note: When provided, 'sslKey' field must not be provided.
+	SslKeySecretId *string `mandatory:"false" json:"sslKeySecretId"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
@@ -93,7 +109,7 @@ type UpdatePostgresqlConnectionDetails struct {
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database system being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system being referenced.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// Controls the network traffic direction to the target:
@@ -152,6 +168,11 @@ func (m UpdatePostgresqlConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m UpdatePostgresqlConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m UpdatePostgresqlConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m UpdatePostgresqlConnectionDetails) String() string {

@@ -140,6 +140,27 @@ var exportDatascienceDataSciencePrivateEndpointHints = &tf_export.TerraformResou
 	},
 }
 
+var exportDatascienceScheduleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_schedule",
+	DatasourceClass:        "oci_datascience_schedules",
+	DatasourceItemsAttr:    "schedules",
+	ResourceAbbreviation:   "schedule",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.ScheduleLifecycleStateActive),
+	},
+}
+
+var exportDatascienceModelDefinedMetadataArtifactHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_datascience_model_defined_metadata_artifact",
+	ResourceAbbreviation: "model_defined_metadata_artifact",
+}
+
+var exportDatascienceModelCustomMetadataArtifactHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_datascience_model_custom_metadata_artifact",
+	ResourceAbbreviation: "model_custom_metadata_artifact",
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},
@@ -153,6 +174,7 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceModelVersionSetHints},
 		{TerraformResourceHints: exportDatasciencePipelineHints},
 		{TerraformResourceHints: exportDatascienceDataSciencePrivateEndpointHints},
+		{TerraformResourceHints: exportDatascienceScheduleHints},
 	},
 	"oci_datascience_model": {
 		{

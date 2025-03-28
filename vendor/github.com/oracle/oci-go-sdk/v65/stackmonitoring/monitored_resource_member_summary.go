@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 // MonitoredResourceMemberSummary Monitored resource member details.
 type MonitoredResourceMemberSummary struct {
 
-	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Monitored resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
 	// Monitored Resource Name.
@@ -33,16 +33,16 @@ type MonitoredResourceMemberSummary struct {
 	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
-	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// External resource is any OCI resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
 	// Currently supports only following resource types - Container database, non-container database,
 	// pluggable database and OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Parent monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Parent monitored resource identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ParentId *string `mandatory:"false" json:"parentId"`
 
 	// The current state of the Resource.

@@ -1,29 +1,30 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// DatabaseSummary An Oracle Database on a bare metal or virtual machine DB system. For more information, see Bare Metal and Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm).
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// DatabaseSummary An Oracle Database on a bare metal or virtual machine DB system. For more information, see Bare Metal and Virtual Machine DB Systems (https://docs.oracle.com/iaas/Content/Database/Concepts/overview.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DatabaseSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The database name.
@@ -41,13 +42,13 @@ type DatabaseSummary struct {
 	// The national character set for the database.
 	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	DbHomeId *string `mandatory:"false" json:"dbHomeId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 
 	// The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
@@ -76,12 +77,12 @@ type DatabaseSummary struct {
 	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The Connection strings used to connect to the Oracle Database.
@@ -93,13 +94,13 @@ type DatabaseSummary struct {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339)
 	SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime `mandatory:"false" json:"sourceDatabasePointInTimeRecoveryTimestamp"`
 
-	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
 	// True if the database is a container database.
@@ -110,11 +111,15 @@ type DatabaseSummary struct {
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	DataGuardGroup *DataGuardGroup `mandatory:"false" json:"dataGuardGroup"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -134,6 +139,126 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CharacterSet                               *string                           `json:"characterSet"`
+		NcharacterSet                              *string                           `json:"ncharacterSet"`
+		DbHomeId                                   *string                           `json:"dbHomeId"`
+		DbSystemId                                 *string                           `json:"dbSystemId"`
+		VmClusterId                                *string                           `json:"vmClusterId"`
+		PdbName                                    *string                           `json:"pdbName"`
+		DbWorkload                                 *string                           `json:"dbWorkload"`
+		LifecycleDetails                           *string                           `json:"lifecycleDetails"`
+		TimeCreated                                *common.SDKTime                   `json:"timeCreated"`
+		LastBackupTimestamp                        *common.SDKTime                   `json:"lastBackupTimestamp"`
+		LastBackupDurationInSeconds                *int                              `json:"lastBackupDurationInSeconds"`
+		LastFailedBackupTimestamp                  *common.SDKTime                   `json:"lastFailedBackupTimestamp"`
+		DbBackupConfig                             *DbBackupConfig                   `json:"dbBackupConfig"`
+		FreeformTags                               map[string]string                 `json:"freeformTags"`
+		DefinedTags                                map[string]map[string]interface{} `json:"definedTags"`
+		ConnectionStrings                          *DatabaseConnectionStrings        `json:"connectionStrings"`
+		KmsKeyId                                   *string                           `json:"kmsKeyId"`
+		KmsKeyVersionId                            *string                           `json:"kmsKeyVersionId"`
+		VaultId                                    *string                           `json:"vaultId"`
+		SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime                   `json:"sourceDatabasePointInTimeRecoveryTimestamp"`
+		DatabaseSoftwareImageId                    *string                           `json:"databaseSoftwareImageId"`
+		IsCdb                                      *bool                             `json:"isCdb"`
+		DatabaseManagementConfig                   *CloudDatabaseManagementConfig    `json:"databaseManagementConfig"`
+		SidPrefix                                  *string                           `json:"sidPrefix"`
+		KeyStoreId                                 *string                           `json:"keyStoreId"`
+		KeyStoreWalletName                         *string                           `json:"keyStoreWalletName"`
+		DataGuardGroup                             *DataGuardGroup                   `json:"dataGuardGroup"`
+		EncryptionKeyLocationDetails               encryptionkeylocationdetails      `json:"encryptionKeyLocationDetails"`
+		Id                                         *string                           `json:"id"`
+		CompartmentId                              *string                           `json:"compartmentId"`
+		DbName                                     *string                           `json:"dbName"`
+		DbUniqueName                               *string                           `json:"dbUniqueName"`
+		LifecycleState                             DatabaseSummaryLifecycleStateEnum `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CharacterSet = model.CharacterSet
+
+	m.NcharacterSet = model.NcharacterSet
+
+	m.DbHomeId = model.DbHomeId
+
+	m.DbSystemId = model.DbSystemId
+
+	m.VmClusterId = model.VmClusterId
+
+	m.PdbName = model.PdbName
+
+	m.DbWorkload = model.DbWorkload
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LastBackupTimestamp = model.LastBackupTimestamp
+
+	m.LastBackupDurationInSeconds = model.LastBackupDurationInSeconds
+
+	m.LastFailedBackupTimestamp = model.LastFailedBackupTimestamp
+
+	m.DbBackupConfig = model.DbBackupConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.ConnectionStrings = model.ConnectionStrings
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.SourceDatabasePointInTimeRecoveryTimestamp = model.SourceDatabasePointInTimeRecoveryTimestamp
+
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.IsCdb = model.IsCdb
+
+	m.DatabaseManagementConfig = model.DatabaseManagementConfig
+
+	m.SidPrefix = model.SidPrefix
+
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	m.DataGuardGroup = model.DataGuardGroup
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DbName = model.DbName
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }
 
 // DatabaseSummaryLifecycleStateEnum Enum with underlying type: string

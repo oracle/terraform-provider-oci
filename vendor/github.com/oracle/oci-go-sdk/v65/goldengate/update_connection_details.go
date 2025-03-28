@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,7 +46,7 @@ type UpdateConnectionDetails interface {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:
@@ -54,20 +54,24 @@ type UpdateConnectionDetails interface {
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
 	GetRoutingMethod() RoutingMethodEnum
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	GetDoesUseSecretIds() *bool
 }
 
 type updateconnectiondetails struct {
-	JsonData       []byte
-	DisplayName    *string                           `mandatory:"false" json:"displayName"`
-	Description    *string                           `mandatory:"false" json:"description"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	VaultId        *string                           `mandatory:"false" json:"vaultId"`
-	KeyId          *string                           `mandatory:"false" json:"keyId"`
-	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
-	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
-	RoutingMethod  RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
-	ConnectionType string                            `json:"connectionType"`
+	JsonData         []byte
+	DisplayName      *string                           `mandatory:"false" json:"displayName"`
+	Description      *string                           `mandatory:"false" json:"description"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	VaultId          *string                           `mandatory:"false" json:"vaultId"`
+	KeyId            *string                           `mandatory:"false" json:"keyId"`
+	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	ConnectionType   string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -90,6 +94,7 @@ func (m *updateconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.NsgIds = s.Model.NsgIds
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
+	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -136,6 +141,34 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateGoogleCloudStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MICROSOFT_FABRIC":
+		mm := UpdateMicrosoftFabricConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := UpdatePostgresqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := UpdateMicrosoftSqlserverConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNOWFLAKE":
+		mm := UpdateSnowflakeConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := UpdateHdfsConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS":
+		mm := UpdateDatabricksConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA":
+		mm := UpdateKafkaConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := UpdateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -152,12 +185,8 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateGoldenGateConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "POSTGRESQL":
-		mm := UpdatePostgresqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MICROSOFT_SQLSERVER":
-		mm := UpdateMicrosoftSqlserverConnectionDetails{}
+	case "GOOGLE_PUBSUB":
+		mm := UpdateGooglePubSubConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_NOSQL":
@@ -172,20 +201,8 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateAmazonS3ConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "SNOWFLAKE":
-		mm := UpdateSnowflakeConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HDFS":
-		mm := UpdateHdfsConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "MYSQL":
 		mm := UpdateMysqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA":
-		mm := UpdateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DB2":
@@ -201,7 +218,7 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateConnectionDetails: %s.", m.ConnectionType)
+		common.Logf("Received unsupported enum value for UpdateConnectionDetails: %s.", m.ConnectionType)
 		return *m, nil
 	}
 }
@@ -249,6 +266,11 @@ func (m updateconnectiondetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m updateconnectiondetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m updateconnectiondetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m updateconnectiondetails) String() string {

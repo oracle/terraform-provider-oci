@@ -80,6 +80,12 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("connection_strings", nil)
 	}
 
+	if s.Res.DataGuardGroup != nil {
+		s.D.Set("data_guard_group", []interface{}{DataGuardGroupToMap(s.Res.DataGuardGroup)})
+	} else {
+		s.D.Set("data_guard_group", nil)
+	}
+
 	if s.Res.DatabaseManagementConfig != nil {
 		s.D.Set("database_management_config", []interface{}{CloudDatabaseManagementConfigToMap(s.Res.DatabaseManagementConfig)})
 	} else {
@@ -118,6 +124,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		s.D.Set("encryption_key_location_details", []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")})
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

@@ -146,6 +146,8 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["compute_count"] = *r.ComputeCount
 		}
 
+		exadataInfrastructure["compute_model"] = r.ComputeModel
+
 		contacts := []interface{}{}
 		for _, item := range r.Contacts {
 			contacts = append(contacts, ExadataInfrastructureContactToMap(item))
@@ -166,6 +168,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.DataStorageSizeInTBs != nil {
 			exadataInfrastructure["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DatabaseServerType != nil {
+			exadataInfrastructure["database_server_type"] = *r.DatabaseServerType
 		}
 
 		if r.DbNodeStorageSizeInGBs != nil {
@@ -192,6 +198,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		exadataInfrastructure["dns_server"] = r.DnsServer
 
+		if r.ExascaleConfig != nil {
+			exadataInfrastructure["exascale_config"] = []interface{}{ExascaleConfigDetailsToMap(r.ExascaleConfig)}
+		} else {
+			exadataInfrastructure["exascale_config"] = nil
+		}
+
 		exadataInfrastructure["freeform_tags"] = r.FreeformTags
 
 		if r.Gateway != nil {
@@ -212,6 +224,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.IsMultiRackDeployment != nil {
 			exadataInfrastructure["is_multi_rack_deployment"] = *r.IsMultiRackDeployment
+		}
+
+		if r.IsSchedulingPolicyAssociated != nil {
+			exadataInfrastructure["is_scheduling_policy_associated"] = *r.IsSchedulingPolicyAssociated
 		}
 
 		if r.LifecycleDetails != nil {
@@ -278,6 +294,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.StorageCount != nil {
 			exadataInfrastructure["storage_count"] = *r.StorageCount
+		}
+
+		if r.StorageServerType != nil {
+			exadataInfrastructure["storage_server_type"] = *r.StorageServerType
 		}
 
 		if r.StorageServerVersion != nil {

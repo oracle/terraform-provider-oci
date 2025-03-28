@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -102,8 +102,16 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ConfigType {
+	case "ONBOARD":
+		mm := OnboardConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := LicenseEnterpriseExtensibilityConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_AUTO_ACTIVATE_PLUGIN":
+		mm := ComputeAutoActivatePluginConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LICENSE_AUTO_ASSIGN":
@@ -115,7 +123,7 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Config: %s.", m.ConfigType)
+		common.Logf("Received unsupported enum value for Config: %s.", m.ConfigType)
 		return *m, nil
 	}
 }
@@ -248,20 +256,26 @@ type ConfigConfigTypeEnum string
 // Set of constants representing the allowable values for ConfigConfigTypeEnum
 const (
 	ConfigConfigTypeAutoPromote                    ConfigConfigTypeEnum = "AUTO_PROMOTE"
+	ConfigConfigTypeComputeAutoActivatePlugin      ConfigConfigTypeEnum = "COMPUTE_AUTO_ACTIVATE_PLUGIN"
 	ConfigConfigTypeLicenseAutoAssign              ConfigConfigTypeEnum = "LICENSE_AUTO_ASSIGN"
 	ConfigConfigTypeLicenseEnterpriseExtensibility ConfigConfigTypeEnum = "LICENSE_ENTERPRISE_EXTENSIBILITY"
+	ConfigConfigTypeOnboard                        ConfigConfigTypeEnum = "ONBOARD"
 )
 
 var mappingConfigConfigTypeEnum = map[string]ConfigConfigTypeEnum{
 	"AUTO_PROMOTE":                     ConfigConfigTypeAutoPromote,
+	"COMPUTE_AUTO_ACTIVATE_PLUGIN":     ConfigConfigTypeComputeAutoActivatePlugin,
 	"LICENSE_AUTO_ASSIGN":              ConfigConfigTypeLicenseAutoAssign,
 	"LICENSE_ENTERPRISE_EXTENSIBILITY": ConfigConfigTypeLicenseEnterpriseExtensibility,
+	"ONBOARD":                          ConfigConfigTypeOnboard,
 }
 
 var mappingConfigConfigTypeEnumLowerCase = map[string]ConfigConfigTypeEnum{
 	"auto_promote":                     ConfigConfigTypeAutoPromote,
+	"compute_auto_activate_plugin":     ConfigConfigTypeComputeAutoActivatePlugin,
 	"license_auto_assign":              ConfigConfigTypeLicenseAutoAssign,
 	"license_enterprise_extensibility": ConfigConfigTypeLicenseEnterpriseExtensibility,
+	"onboard":                          ConfigConfigTypeOnboard,
 }
 
 // GetConfigConfigTypeEnumValues Enumerates the set of values for ConfigConfigTypeEnum
@@ -277,8 +291,10 @@ func GetConfigConfigTypeEnumValues() []ConfigConfigTypeEnum {
 func GetConfigConfigTypeEnumStringValues() []string {
 	return []string{
 		"AUTO_PROMOTE",
+		"COMPUTE_AUTO_ACTIVATE_PLUGIN",
 		"LICENSE_AUTO_ASSIGN",
 		"LICENSE_ENTERPRISE_EXTENSIBILITY",
+		"ONBOARD",
 	}
 }
 

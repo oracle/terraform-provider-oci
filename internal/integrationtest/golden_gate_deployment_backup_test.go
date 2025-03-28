@@ -16,9 +16,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -58,14 +58,15 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		}
 
 		deploymentBackupRepresentation = map[string]interface{}{
-			"bucket":         acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_bucket_name}`},
-			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-			"deployment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.test_deployment_id}`},
-			"display_name":   acctest.Representation{RepType: acctest.Required, Create: `demoDeploymentBackup`},
-			"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_namespace}`},
-			"object":         acctest.Representation{RepType: acctest.Required, Create: `object`},
-			"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-			"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+			"bucket":           acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_bucket_name}`},
+			"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"deployment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.test_deployment_id}`},
+			"display_name":     acctest.Representation{RepType: acctest.Required, Create: `demoDeploymentBackup`},
+			"namespace":        acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_namespace}`},
+			"object":           acctest.Representation{RepType: acctest.Required, Create: `object`},
+			"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+			"is_metadata_only": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+			"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 		}
 
 		deploymentBackupLocksRepresentation = map[string]interface{}{
@@ -111,6 +112,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		makeVariableStr(OBJECTSTORAGE_BUCKET_NAME, t) +
 		makeVariableStr(OBJECTSTORAGE_NAMESPACE, t) +
 		makeVariableStr(TEST_DEPLOYMENT_ID, t) +
+		makeVariableStr(TEST_DEPLOYMENT_TYPE, t) +
 		DeploymentBackupResourceDependencies
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
@@ -244,6 +246,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "is_metadata_only", "false"),
 
 				resource.TestCheckResourceAttr(datasourceName, "deployment_backup_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "deployment_backup_collection.0.items.#", "1"),
@@ -257,10 +260,12 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_backup_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_source_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
+				resource.TestCheckResourceAttr(resourceName, "is_metadata_only", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

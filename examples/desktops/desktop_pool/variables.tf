@@ -103,6 +103,11 @@ variable "desktop_pool_storage_size_in_gbs" {
   default = 50
 }
 
+variable "desktop_pool_are_volumes_preserved" {
+  description = "Indicates whether the volumes are preserved when a desktop pool is deleted"
+  default = false
+}
+
 variable "desktop_pool_vcn_id" {
   description = ""
 }

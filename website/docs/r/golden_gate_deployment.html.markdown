@@ -27,6 +27,15 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	backup_schedule {
+		#Required
+		bucket = var.deployment_backup_schedule_bucket
+		compartment_id = var.compartment_id
+		frequency_backup_scheduled = var.deployment_backup_schedule_frequency_backup_scheduled
+		is_metadata_only = var.deployment_backup_schedule_is_metadata_only
+		namespace = var.deployment_backup_schedule_namespace
+		time_backup_scheduled = var.deployment_backup_schedule_time_backup_scheduled
+	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
 	description = var.deployment_description
@@ -88,6 +97,13 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 
 The following arguments are supported:
 
+* `backup_schedule` - (Optional) (Updatable) Defines the backup schedule details for create operation. 
+	* `bucket` - (Required) (Updatable) Name of the bucket where the object is to be uploaded in the object storage
+	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
+	* `frequency_backup_scheduled` - (Required) (Updatable) The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
+	* `is_metadata_only` - (Required) (Updatable) Parameter to allow users to create backup without trails
+	* `namespace` - (Required) (Updatable) Name of namespace that serves as a container for all of your buckets
+	* `time_backup_scheduled` - (Required) (Updatable) The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - (Required) (Updatable) The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
@@ -100,8 +116,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `is_auto_scaling_enabled` - (Required) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
 * `is_public` - (Optional) (Updatable) True if this object is publicly available. 
-* `license_model` - (Required) (Updatable) The Oracle license model that applies to a Deployment. 
-* `load_balancer_subnet_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatiblity this is an optional property for now, but it will become mandatory (for public deployments only) after October 1, 2024. 
+* `license_model` - (Required) (Updatable) The Oracle license model that applies to a Deployment.
+* `load_balancer_subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
 * `locks` - (Optional) Locks associated with this resource.
 	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `type` - (Required) Type of the lock.
@@ -141,6 +157,13 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `backup_schedule` - Defines the schedule of the deployment backup. 
+	* `bucket` - Name of the bucket where the object is to be uploaded in the object storage
+	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
+	* `frequency_backup_scheduled` - The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
+	* `is_metadata_only` - Parameter to allow users to create backup without trails
+	* `namespace` - Name of namespace that serves as a container for all of your buckets
+	* `time_backup_scheduled` - The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
 * `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - The Minimum number of OCPUs to be made available for this Deployment. 
@@ -171,8 +194,8 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to a Deployment. 
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
-* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the loadbalancer in the customer's subnet. The loadbalancer of the public deployment created in the customer subnet. 
-* `load_balancer_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatiblity this is an optional property for now, but it will become mandatory (for public deployments only) after October 1, 2024. 
+* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the loadbalancer in the customer's subnet. The loadbalancer of the public deployment created in the customer subnet.
+* `load_balancer_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
@@ -210,6 +233,8 @@ The following attributes are exported:
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_last_backup_scheduled` - The timestamp of last deployment backup scheduled. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
+* `time_next_backup_scheduled` - The timestamp of next deployment backup scheduled. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`. 
 * `time_of_next_maintenance` - The time of next maintenance schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_ogg_version_supported_until` - The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 

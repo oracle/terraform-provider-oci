@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -52,6 +52,21 @@ type DbSystem struct {
 
 	// The time the DB System was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// The database mode indicating the types of statements that are allowed to run in the the DB system.
+	// This mode applies only to statements run by user connections. Replicated write statements continue
+	// to be allowed regardless of the DatabaseMode.
+	//   - READ_WRITE: allow running read and write statements on the DB system;
+	//   - READ_ONLY: only allow running read statements on the DB system.
+	DatabaseMode DbSystemDatabaseModeEnum `mandatory:"true" json:"databaseMode"`
+
+	// The access mode indicating if the database access is unrestricted (to all MySQL user accounts),
+	// or restricted (to only certain users with specific privileges):
+	//  - UNRESTRICTED: the access to the database is not restricted;
+	//  - RESTRICTED: access allowed only to users with specific privileges;
+	//    RESTRICTED will correspond to setting the MySQL system variable
+	//    offline_mode (https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON.
+	AccessMode DbSystemAccessModeEnum `mandatory:"true" json:"accessMode"`
 
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
@@ -129,6 +144,10 @@ type DbSystem struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
@@ -144,6 +163,8 @@ type DbSystem struct {
 	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
 	// Up to 10 email addresses can be added to the customer contacts for a DB System.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m DbSystem) String() string {
@@ -157,6 +178,12 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingDbSystemLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbSystemLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemDatabaseModeEnum(string(m.DatabaseMode)); !ok && m.DatabaseMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseMode: %s. Supported values are: %s.", m.DatabaseMode, strings.Join(GetDbSystemDatabaseModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemAccessModeEnum(string(m.AccessMode)); !ok && m.AccessMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessMode: %s. Supported values are: %s.", m.AccessMode, strings.Join(GetDbSystemAccessModeEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingCrashRecoveryStatusEnum(string(m.CrashRecovery)); !ok && m.CrashRecovery != "" {
@@ -194,11 +221,13 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		FreeformTags               map[string]string                 `json:"freeformTags"`
 		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                 map[string]map[string]interface{} `json:"systemTags"`
 		CrashRecovery              CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
 		DatabaseManagement         DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		SecureConnections          *SecureConnectionDetails          `json:"secureConnections"`
 		CustomerContacts           []CustomerContact                 `json:"customerContacts"`
+		ReadEndpoint               *ReadEndpointDetails              `json:"readEndpoint"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -211,6 +240,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		DeletionPolicy             *DeletionPolicyDetails            `json:"deletionPolicy"`
 		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
 		TimeUpdated                *common.SDKTime                   `json:"timeUpdated"`
+		DatabaseMode               DbSystemDatabaseModeEnum          `json:"databaseMode"`
+		AccessMode                 DbSystemAccessModeEnum            `json:"accessMode"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -266,6 +297,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SystemTags = model.SystemTags
+
 	m.CrashRecovery = model.CrashRecovery
 
 	m.PointInTimeRecoveryDetails = model.PointInTimeRecoveryDetails
@@ -276,6 +309,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
 	copy(m.CustomerContacts, model.CustomerContacts)
+	m.ReadEndpoint = model.ReadEndpoint
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -299,6 +334,10 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.DatabaseMode = model.DatabaseMode
+
+	m.AccessMode = model.AccessMode
 
 	return
 }
@@ -362,5 +401,89 @@ func GetDbSystemLifecycleStateEnumStringValues() []string {
 // GetMappingDbSystemLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbSystemLifecycleStateEnum(val string) (DbSystemLifecycleStateEnum, bool) {
 	enum, ok := mappingDbSystemLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbSystemDatabaseModeEnum Enum with underlying type: string
+type DbSystemDatabaseModeEnum string
+
+// Set of constants representing the allowable values for DbSystemDatabaseModeEnum
+const (
+	DbSystemDatabaseModeWrite DbSystemDatabaseModeEnum = "READ_WRITE"
+	DbSystemDatabaseModeOnly  DbSystemDatabaseModeEnum = "READ_ONLY"
+)
+
+var mappingDbSystemDatabaseModeEnum = map[string]DbSystemDatabaseModeEnum{
+	"READ_WRITE": DbSystemDatabaseModeWrite,
+	"READ_ONLY":  DbSystemDatabaseModeOnly,
+}
+
+var mappingDbSystemDatabaseModeEnumLowerCase = map[string]DbSystemDatabaseModeEnum{
+	"read_write": DbSystemDatabaseModeWrite,
+	"read_only":  DbSystemDatabaseModeOnly,
+}
+
+// GetDbSystemDatabaseModeEnumValues Enumerates the set of values for DbSystemDatabaseModeEnum
+func GetDbSystemDatabaseModeEnumValues() []DbSystemDatabaseModeEnum {
+	values := make([]DbSystemDatabaseModeEnum, 0)
+	for _, v := range mappingDbSystemDatabaseModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemDatabaseModeEnumStringValues Enumerates the set of values in String for DbSystemDatabaseModeEnum
+func GetDbSystemDatabaseModeEnumStringValues() []string {
+	return []string{
+		"READ_WRITE",
+		"READ_ONLY",
+	}
+}
+
+// GetMappingDbSystemDatabaseModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemDatabaseModeEnum(val string) (DbSystemDatabaseModeEnum, bool) {
+	enum, ok := mappingDbSystemDatabaseModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbSystemAccessModeEnum Enum with underlying type: string
+type DbSystemAccessModeEnum string
+
+// Set of constants representing the allowable values for DbSystemAccessModeEnum
+const (
+	DbSystemAccessModeUnrestricted DbSystemAccessModeEnum = "UNRESTRICTED"
+	DbSystemAccessModeRestricted   DbSystemAccessModeEnum = "RESTRICTED"
+)
+
+var mappingDbSystemAccessModeEnum = map[string]DbSystemAccessModeEnum{
+	"UNRESTRICTED": DbSystemAccessModeUnrestricted,
+	"RESTRICTED":   DbSystemAccessModeRestricted,
+}
+
+var mappingDbSystemAccessModeEnumLowerCase = map[string]DbSystemAccessModeEnum{
+	"unrestricted": DbSystemAccessModeUnrestricted,
+	"restricted":   DbSystemAccessModeRestricted,
+}
+
+// GetDbSystemAccessModeEnumValues Enumerates the set of values for DbSystemAccessModeEnum
+func GetDbSystemAccessModeEnumValues() []DbSystemAccessModeEnum {
+	values := make([]DbSystemAccessModeEnum, 0)
+	for _, v := range mappingDbSystemAccessModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemAccessModeEnumStringValues Enumerates the set of values in String for DbSystemAccessModeEnum
+func GetDbSystemAccessModeEnumStringValues() []string {
+	return []string{
+		"UNRESTRICTED",
+		"RESTRICTED",
+	}
+}
+
+// GetMappingDbSystemAccessModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemAccessModeEnum(val string) (DbSystemAccessModeEnum, bool) {
+	enum, ok := mappingDbSystemAccessModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

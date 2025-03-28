@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,7 +18,7 @@ import (
 // PdbConversionHistoryEntry Details of operations performed to convert a non-container database to pluggable database.
 type PdbConversionHistoryEntry struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database conversion history.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database conversion history.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The operations used to convert a non-container database to a pluggable database.
@@ -28,7 +28,7 @@ type PdbConversionHistoryEntry struct {
 	// - Use `SYNC_ROLLBACK` if the conversion of a non-container database into a pluggable database was manually rolled back using the dbcli command line utility. Conversions may need to be manually rolled back if the CONVERT action fails when converting a non-container database using the API.
 	Action PdbConversionHistoryEntryActionEnum `mandatory:"true" json:"action"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	SourceDatabaseId *string `mandatory:"true" json:"sourceDatabaseId"`
 
 	// The database name. The name must begin with an alphabetic character and can contain a maximum of 8 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
@@ -44,7 +44,7 @@ type PdbConversionHistoryEntry struct {
 	//  - Use `NEW_DATABASE` to specify that the pluggable database be created within a new container database in the same database home.
 	Target PdbConversionHistoryEntryTargetEnum `mandatory:"false" json:"target,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	TargetDatabaseId *string `mandatory:"false" json:"targetDatabaseId"`
 
 	// Additional information about the current lifecycle state for the conversion operation.

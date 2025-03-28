@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
 	// The ID of the compartment in which data is listed.
@@ -36,12 +36,12 @@ type ListWorkRequestsRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from the
 	// previous "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -134,33 +134,36 @@ type ListWorkRequestsStatusEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestsStatusEnum
 const (
-	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
-	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
-	ListWorkRequestsStatusWaiting    ListWorkRequestsStatusEnum = "WAITING"
-	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
-	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
-	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
-	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusAccepted       ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress     ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusWaiting        ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusFailed         ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded      ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling      ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled       ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusNeedsAttention ListWorkRequestsStatusEnum = "NEEDS_ATTENTION"
 )
 
 var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
-	"ACCEPTED":    ListWorkRequestsStatusAccepted,
-	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
-	"WAITING":     ListWorkRequestsStatusWaiting,
-	"FAILED":      ListWorkRequestsStatusFailed,
-	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
-	"CANCELING":   ListWorkRequestsStatusCanceling,
-	"CANCELED":    ListWorkRequestsStatusCanceled,
+	"ACCEPTED":        ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS":     ListWorkRequestsStatusInProgress,
+	"WAITING":         ListWorkRequestsStatusWaiting,
+	"FAILED":          ListWorkRequestsStatusFailed,
+	"SUCCEEDED":       ListWorkRequestsStatusSucceeded,
+	"CANCELING":       ListWorkRequestsStatusCanceling,
+	"CANCELED":        ListWorkRequestsStatusCanceled,
+	"NEEDS_ATTENTION": ListWorkRequestsStatusNeedsAttention,
 }
 
 var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
-	"accepted":    ListWorkRequestsStatusAccepted,
-	"in_progress": ListWorkRequestsStatusInProgress,
-	"waiting":     ListWorkRequestsStatusWaiting,
-	"failed":      ListWorkRequestsStatusFailed,
-	"succeeded":   ListWorkRequestsStatusSucceeded,
-	"canceling":   ListWorkRequestsStatusCanceling,
-	"canceled":    ListWorkRequestsStatusCanceled,
+	"accepted":        ListWorkRequestsStatusAccepted,
+	"in_progress":     ListWorkRequestsStatusInProgress,
+	"waiting":         ListWorkRequestsStatusWaiting,
+	"failed":          ListWorkRequestsStatusFailed,
+	"succeeded":       ListWorkRequestsStatusSucceeded,
+	"canceling":       ListWorkRequestsStatusCanceling,
+	"canceled":        ListWorkRequestsStatusCanceled,
+	"needs_attention": ListWorkRequestsStatusNeedsAttention,
 }
 
 // GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
@@ -182,6 +185,7 @@ func GetListWorkRequestsStatusEnumStringValues() []string {
 		"SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
+		"NEEDS_ATTENTION",
 	}
 }
 

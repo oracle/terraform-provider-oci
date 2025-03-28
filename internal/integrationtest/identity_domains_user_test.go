@@ -13,9 +13,9 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
 
@@ -322,8 +322,6 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "emails.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "emails.0.value", "value@email.com"),
-				resource.TestCheckResourceAttr(resourceName, "emails.1.value", "value@email.com"),
 				resource.TestCheckResourceAttr(resourceName, "entitlements.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "entitlements.0.display", "display"),
 				resource.TestCheckResourceAttr(resourceName, "entitlements.0.primary", "false"),

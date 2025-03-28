@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -16,7 +16,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UploadPart.go.html to see an example of how to use UploadPartRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UploadPart.go.html to see an example of how to use UploadPartRequest.
 type UploadPartRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -66,21 +66,49 @@ type UploadPartRequest struct {
 	// "The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)"
 	ContentMD5 *string `mandatory:"false" contributesTo:"header" name:"Content-MD5"`
 
+	// The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads),
+	// in addition to the default MD5 checksum.
+	OpcChecksumAlgorithm UploadPartOpcChecksumAlgorithmEnum `mandatory:"false" contributesTo:"header" name:"opc-checksum-algorithm"`
+
+	// Applicable only if CRC32C is specified in the opc-checksum-algorithm request header.
+	// The optional header that defines the base64-encoded, 32-bit CRC32C (Castagnoli) checksum of the body. If the optional opc-content-crc32c header
+	// is present, Object Storage performs an integrity check on the body of the HTTP request by computing the CRC32C checksum for the body and comparing
+	// it to the CRC32C checksum supplied in the header. If the two checksums do not match, the object is rejected and an HTTP-400 Unmatched Content CRC32C error
+	// is returned with the message:
+	// "The computed CRC32C of the request body (ACTUAL_CRC32C) does not match the opc-content-crc32c header (HEADER_CRC32C)"
+	OpcContentCrc32c *string `mandatory:"false" contributesTo:"header" name:"opc-content-crc32c"`
+
+	// Applicable only if SHA256 is specified in the opc-checksum-algorithm request header.
+	// The optional header that defines the base64-encoded SHA256 hash of the body. If the optional opc-content-sha256 header is present, Object
+	// Storage performs an integrity check on the body of the HTTP request by computing the SHA256 hash for the body and comparing it to the
+	// SHA256 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content SHA256 error
+	// is returned with the message:
+	// "The computed SHA256 of the request body (ACTUAL_SHA256) does not match the opc-content-sha256 header (HEADER_SHA256)"
+	OpcContentSha256 *string `mandatory:"false" contributesTo:"header" name:"opc-content-sha256"`
+
+	// Applicable only if SHA384 is specified in the opc-checksum-algorithm request header.
+	// The optional header that defines the base64-encoded SHA384 hash of the body. If the optional opc-content-sha384 header is present, Object
+	// Storage performs an integrity check on the body of the HTTP request by computing the SHA384 hash for the body and comparing it to the
+	// SHA384 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content SHA384 error
+	// is returned with the message:
+	// "The computed SHA384 of the request body (ACTUAL_SHA384) does not match the opc-content-sha384 header (HEADER_SHA384)"
+	OpcContentSha384 *string `mandatory:"false" contributesTo:"header" name:"opc-content-sha384"`
+
 	// The optional header that specifies "AES256" as the encryption algorithm. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerAlgorithm *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-algorithm"`
 
 	// The optional header that specifies the base64-encoded 256-bit encryption key to use to encrypt or
 	// decrypt the data. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKey *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key"`
 
 	// The optional header that specifies the base64-encoded SHA256 hash of the encryption key. This
 	// value is used to check the integrity of the encryption key. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
 	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	OpcSseKmsKeyId *string `mandatory:"false" contributesTo:"header" name:"opc-sse-kms-key-id"`
 
@@ -167,6 +195,9 @@ func (request UploadPartRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request UploadPartRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingUploadPartOpcChecksumAlgorithmEnum(string(request.OpcChecksumAlgorithm)); !ok && request.OpcChecksumAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpcChecksumAlgorithm: %s. Supported values are: %s.", request.OpcChecksumAlgorithm, strings.Join(GetUploadPartOpcChecksumAlgorithmEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -189,6 +220,15 @@ type UploadPartResponse struct {
 	// The base64-encoded MD5 hash of the request body, as computed by the server.
 	OpcContentMd5 *string `presentIn:"header" name:"opc-content-md5"`
 
+	// The base64-encoded, 32-bit CRC32C (Castagnoli) checksum of the request body as computed by the server. Applicable only if CRC32C was specified in opc-checksum-algorithm request header during upload.
+	OpcContentCrc32c *string `presentIn:"header" name:"opc-content-crc32c"`
+
+	// The base64-encoded SHA256 hash of the request body as computed by the server. Applicable only if SHA256 was specified in opc-checksum-algorithm request header during upload.
+	OpcContentSha256 *string `presentIn:"header" name:"opc-content-sha256"`
+
+	// The base64-encoded SHA384 hash of the request body as computed by the server. Applicable only if SHA384 was specified in opc-checksum-algorithm request header during upload.
+	OpcContentSha384 *string `presentIn:"header" name:"opc-content-sha384"`
+
 	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 }
@@ -200,4 +240,50 @@ func (response UploadPartResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response UploadPartResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// UploadPartOpcChecksumAlgorithmEnum Enum with underlying type: string
+type UploadPartOpcChecksumAlgorithmEnum string
+
+// Set of constants representing the allowable values for UploadPartOpcChecksumAlgorithmEnum
+const (
+	UploadPartOpcChecksumAlgorithmCrc32c UploadPartOpcChecksumAlgorithmEnum = "CRC32C"
+	UploadPartOpcChecksumAlgorithmSha256 UploadPartOpcChecksumAlgorithmEnum = "SHA256"
+	UploadPartOpcChecksumAlgorithmSha384 UploadPartOpcChecksumAlgorithmEnum = "SHA384"
+)
+
+var mappingUploadPartOpcChecksumAlgorithmEnum = map[string]UploadPartOpcChecksumAlgorithmEnum{
+	"CRC32C": UploadPartOpcChecksumAlgorithmCrc32c,
+	"SHA256": UploadPartOpcChecksumAlgorithmSha256,
+	"SHA384": UploadPartOpcChecksumAlgorithmSha384,
+}
+
+var mappingUploadPartOpcChecksumAlgorithmEnumLowerCase = map[string]UploadPartOpcChecksumAlgorithmEnum{
+	"crc32c": UploadPartOpcChecksumAlgorithmCrc32c,
+	"sha256": UploadPartOpcChecksumAlgorithmSha256,
+	"sha384": UploadPartOpcChecksumAlgorithmSha384,
+}
+
+// GetUploadPartOpcChecksumAlgorithmEnumValues Enumerates the set of values for UploadPartOpcChecksumAlgorithmEnum
+func GetUploadPartOpcChecksumAlgorithmEnumValues() []UploadPartOpcChecksumAlgorithmEnum {
+	values := make([]UploadPartOpcChecksumAlgorithmEnum, 0)
+	for _, v := range mappingUploadPartOpcChecksumAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUploadPartOpcChecksumAlgorithmEnumStringValues Enumerates the set of values in String for UploadPartOpcChecksumAlgorithmEnum
+func GetUploadPartOpcChecksumAlgorithmEnumStringValues() []string {
+	return []string{
+		"CRC32C",
+		"SHA256",
+		"SHA384",
+	}
+}
+
+// GetMappingUploadPartOpcChecksumAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUploadPartOpcChecksumAlgorithmEnum(val string) (UploadPartOpcChecksumAlgorithmEnum, bool) {
+	enum, ok := mappingUploadPartOpcChecksumAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -133,6 +133,8 @@ resource "oci_identity_domains_group" "test_group" {
   attributes     = ""
   authorization  = var.group_authorization
   external_id    = "externalId"
+  ## If set "force_delete" to true, `terraform destory` will be able to force delete the resource.
+  force_delete = true
   /* #provide user's id and/or ocid to add to this group
   members {
     #Required

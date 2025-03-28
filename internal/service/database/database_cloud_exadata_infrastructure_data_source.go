@@ -94,6 +94,8 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuCount != nil {
 		s.D.Set("cpu_count", *s.Res.CpuCount)
 	}
@@ -106,6 +108,10 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DatabaseServerType != nil {
+		s.D.Set("database_server_type", *s.Res.DatabaseServerType)
 	}
 
 	if s.Res.DbNodeStorageSizeInGBs != nil {
@@ -131,6 +137,10 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsSchedulingPolicyAssociated != nil {
+		s.D.Set("is_scheduling_policy_associated", *s.Res.IsSchedulingPolicyAssociated)
+	}
 
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
@@ -186,6 +196,10 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerType != nil {
+		s.D.Set("storage_server_type", *s.Res.StorageServerType)
 	}
 
 	if s.Res.StorageServerVersion != nil {

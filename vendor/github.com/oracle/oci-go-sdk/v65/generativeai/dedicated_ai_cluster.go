@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,8 +6,8 @@
 //
 // OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation, summarization, and text embeddings.
 // Use the Generative AI service management API to create and manage DedicatedAiCluster, Endpoint, Model, and WorkRequest in the Generative AI service. For example, create a custom model by fine-tuning an out-of-the-box model using your own data, on a fine-tuning dedicated AI cluster. Then, create a hosting dedicated AI cluster with an endpoint to host your custom model.
-// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.cloud.oracle.com/iaas/api/#/en/generative-ai-inference/latest/).
-// To learn more about the service, see the Generative AI documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai/home.htm).
+// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.oracle.com/iaas/api/#/en/generative-ai-inference/latest/).
+// To learn more about the service, see the Generative AI documentation (https://docs.oracle.com/iaas/Content/generative-ai/home.htm).
 //
 
 package generativeai
@@ -21,10 +21,10 @@ import (
 
 // DedicatedAiCluster Dedicated AI clusters are compute resources that you can use for fine-tuning custom models or for hosting endpoints for custom models. The clusters are dedicated to your models and not shared with users in other tenancies.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator who gives OCI resource access to users. See
-// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and Getting Access to Generative AI Resouces (https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm).
+// Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and Getting Access to Generative AI Resources (https://docs.oracle.com/iaas/Content/generative-ai/iam-policies.htm).
 type DedicatedAiCluster struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The dedicated AI cluster type indicating whether this is a fine-tuning/training processor or hosting/inference processor.
@@ -62,12 +62,12 @@ type DedicatedAiCluster struct {
 	PreviousState *DedicatedAiCluster `mandatory:"false" json:"previousState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -283,11 +283,15 @@ const (
 	DedicatedAiClusterUnitShapeLargeCohereV2  DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2"
 	DedicatedAiClusterUnitShapeSmallCohere    DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
 	DedicatedAiClusterUnitShapeSmallCohereV2  DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE_V2"
+	DedicatedAiClusterUnitShapeSmallCohere4   DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE_4"
 	DedicatedAiClusterUnitShapeEmbedCohere    DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
 	DedicatedAiClusterUnitShapeLlama270       DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
 	DedicatedAiClusterUnitShapeLargeGeneric   DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC"
 	DedicatedAiClusterUnitShapeLargeCohereV22 DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2_2"
 	DedicatedAiClusterUnitShapeLargeGeneric4  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_4"
+	DedicatedAiClusterUnitShapeSmallGenericV2 DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V2"
+	DedicatedAiClusterUnitShapeLargeGeneric2  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_2"
+	DedicatedAiClusterUnitShapeLargeGenericV2 DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V2"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -295,11 +299,15 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"LARGE_COHERE_V2":   DedicatedAiClusterUnitShapeLargeCohereV2,
 	"SMALL_COHERE":      DedicatedAiClusterUnitShapeSmallCohere,
 	"SMALL_COHERE_V2":   DedicatedAiClusterUnitShapeSmallCohereV2,
+	"SMALL_COHERE_4":    DedicatedAiClusterUnitShapeSmallCohere4,
 	"EMBED_COHERE":      DedicatedAiClusterUnitShapeEmbedCohere,
 	"LLAMA2_70":         DedicatedAiClusterUnitShapeLlama270,
 	"LARGE_GENERIC":     DedicatedAiClusterUnitShapeLargeGeneric,
 	"LARGE_COHERE_V2_2": DedicatedAiClusterUnitShapeLargeCohereV22,
 	"LARGE_GENERIC_4":   DedicatedAiClusterUnitShapeLargeGeneric4,
+	"SMALL_GENERIC_V2":  DedicatedAiClusterUnitShapeSmallGenericV2,
+	"LARGE_GENERIC_2":   DedicatedAiClusterUnitShapeLargeGeneric2,
+	"LARGE_GENERIC_V2":  DedicatedAiClusterUnitShapeLargeGenericV2,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -307,11 +315,15 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"large_cohere_v2":   DedicatedAiClusterUnitShapeLargeCohereV2,
 	"small_cohere":      DedicatedAiClusterUnitShapeSmallCohere,
 	"small_cohere_v2":   DedicatedAiClusterUnitShapeSmallCohereV2,
+	"small_cohere_4":    DedicatedAiClusterUnitShapeSmallCohere4,
 	"embed_cohere":      DedicatedAiClusterUnitShapeEmbedCohere,
 	"llama2_70":         DedicatedAiClusterUnitShapeLlama270,
 	"large_generic":     DedicatedAiClusterUnitShapeLargeGeneric,
 	"large_cohere_v2_2": DedicatedAiClusterUnitShapeLargeCohereV22,
 	"large_generic_4":   DedicatedAiClusterUnitShapeLargeGeneric4,
+	"small_generic_v2":  DedicatedAiClusterUnitShapeSmallGenericV2,
+	"large_generic_2":   DedicatedAiClusterUnitShapeLargeGeneric2,
+	"large_generic_v2":  DedicatedAiClusterUnitShapeLargeGenericV2,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -330,11 +342,15 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"LARGE_COHERE_V2",
 		"SMALL_COHERE",
 		"SMALL_COHERE_V2",
+		"SMALL_COHERE_4",
 		"EMBED_COHERE",
 		"LLAMA2_70",
 		"LARGE_GENERIC",
 		"LARGE_COHERE_V2_2",
 		"LARGE_GENERIC_4",
+		"SMALL_GENERIC_V2",
+		"LARGE_GENERIC_2",
+		"LARGE_GENERIC_V2",
 	}
 }
 

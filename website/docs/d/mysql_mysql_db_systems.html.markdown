@@ -56,12 +56,22 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `access_mode` - The access mode indicating if the database access is unrestricted (to all MySQL user accounts),  or restricted (to only certain users with specific privileges):
+	* UNRESTRICTED: the access to the database is not restricted;
+	* RESTRICTED: the access is allowed only to users with specific privileges;  RESTRICTED will correspond to setting the MySQL system variable  [offline_mode](https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON. 
 * `availability_domain` - The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
 
 	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
 
 	For a standalone DB System, this defines the availability domain in which the DB System is placed. 
 * `backup_policy` - The Backup policy for the DB System.
+	* `copy_policies` - List of policies of a DB system to schedule cross-region DB system backup copy.
+
+		The policy includes the name of the destination region to which the DB system backup will be copied, and an optional parameter which specifies the retention period of the copied DB system backup in days.
+
+		**Note:** Currently, only one policy can be specified in the list. 
+		* `backup_copy_retention_in_days` - Number of days to retain the copied DB system backup.
+		* `copy_to_region` - The destination region name to which the DB system backup will be copied.
 	* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
 		Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
@@ -111,6 +121,7 @@ The following attributes are exported:
 		* `ssl_mode` - The SSL mode of the Channel.
 		* `username` - The name of the replication user on the source MySQL instance. The username has a maximum length of 96 characters. For more information, please see the [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/change-master-to.html) 
 	* `state` - The state of the Channel.
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 	* `target` - Details about the Channel target.
 		* `applier_username` - The username for the replication applier of the target MySQL DB System.
 		* `channel_name` - The case-insensitive name that identifies the replication channel. Channel names must follow the rules defined for [MySQL identifiers](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html). The names of non-Deleted Channels must be unique for each DB System. 
@@ -148,6 +159,9 @@ The following attributes are exported:
 	* `email` - The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 * `database_management` - Whether to enable monitoring via the Database Management service. 
+* `database_mode` - The database mode indicating the types of statements that are allowed to run in the the DB system. This mode applies only to statements run by user connections. Replicated write statements continue  to be allowed regardless of the DatabaseMode.
+	* READ_WRITE: allow running read and write statements on the DB system;
+	* READ_ONLY: only allow running read statements on the DB system. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
 	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
@@ -200,6 +214,15 @@ The following attributes are exported:
 	* `time_latest_recovery_point` - Latest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `port` - The port for primary endpoint of the DB System to listen on.
 * `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
+* `read_endpoint` - The read endpoint of a DB System. 
+	* `exclude_ips` - A list of IP addresses of read replicas that are excluded from serving read requests. 
+	* `is_enabled` - Specifies if the DB System read endpoint is enabled or not. 
+	* `read_endpoint_hostname_label` - The hostname for the read endpoint of the DB System. Used for DNS.
+
+		The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)  (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").
+
+		Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
+	* `read_endpoint_ip_address` - The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - The OCID of the certificate to use.
@@ -211,6 +234,7 @@ The following attributes are exported:
 	* `source_type` - The specific source identifier. 
 * `state` - The current state of the DB System.
 * `subnet_id` - The OCID of the subnet the DB System is associated with. 
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the DB System was created.
 * `time_updated` - The time the DB System was last updated.
 

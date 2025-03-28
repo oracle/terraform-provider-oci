@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -43,6 +43,14 @@ func OpsiNewsReportResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Optional
+						"actionable_insights_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"capacity_planning_resources": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -149,10 +157,23 @@ func OpsiNewsReportResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"match_rule": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"tag_filters": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -299,6 +320,10 @@ func (s *OpsiNewsReportResourceCrud) Create() error {
 		request.Locale = oci_opsi.NewsLocaleEnum(locale.(string))
 	}
 
+	if matchRule, ok := s.D.GetOkExists("match_rule"); ok {
+		request.MatchRule = oci_opsi.MatchRuleEnum(matchRule.(string))
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -315,6 +340,19 @@ func (s *OpsiNewsReportResourceCrud) Create() error {
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		request.Status = oci_opsi.ResourceStatusEnum(status.(string))
+	}
+
+	if tagFilters, ok := s.D.GetOkExists("tag_filters"); ok {
+		interfaces := tagFilters.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("tag_filters") {
+			request.TagFilters = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
@@ -372,7 +410,7 @@ func newsReportWaitForWorkRequest(wId *string, entityType string, action oci_ops
 	retryPolicy.ShouldRetryOperation = newsReportWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_opsi.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_opsi.OperationStatusInProgress),
 			string(oci_opsi.OperationStatusAccepted),
@@ -513,6 +551,10 @@ func (s *OpsiNewsReportResourceCrud) Update() error {
 		request.Locale = oci_opsi.NewsLocaleEnum(locale.(string))
 	}
 
+	if matchRule, ok := s.D.GetOkExists("match_rule"); ok {
+		request.MatchRule = oci_opsi.MatchRuleEnum(matchRule.(string))
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -532,6 +574,19 @@ func (s *OpsiNewsReportResourceCrud) Update() error {
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		request.Status = oci_opsi.ResourceStatusEnum(status.(string))
+	}
+
+	if tagFilters, ok := s.D.GetOkExists("tag_filters"); ok {
+		interfaces := tagFilters.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("tag_filters") {
+			request.TagFilters = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
@@ -598,6 +653,8 @@ func (s *OpsiNewsReportResourceCrud) SetData() error {
 
 	s.D.Set("locale", s.Res.Locale)
 
+	s.D.Set("match_rule", s.Res.MatchRule)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -616,6 +673,8 @@ func (s *OpsiNewsReportResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	s.D.Set("tag_filters", s.Res.TagFilters)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -629,6 +688,19 @@ func (s *OpsiNewsReportResourceCrud) SetData() error {
 
 func (s *OpsiNewsReportResourceCrud) mapToNewsContentTypes(fieldKeyFormat string) (oci_opsi.NewsContentTypes, error) {
 	result := oci_opsi.NewsContentTypes{}
+
+	if actionableInsightsResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "actionable_insights_resources")); ok {
+		interfaces := actionableInsightsResources.([]interface{})
+		tmp := make([]oci_opsi.ActionableInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.ActionableInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "actionable_insights_resources")) {
+			result.ActionableInsightsResources = tmp
+		}
+	}
 
 	if capacityPlanningResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_planning_resources")); ok {
 		strArray := capacityPlanningResources.([]interface{})
@@ -779,13 +851,21 @@ func NewsContentTypesToMap(obj *oci_opsi.NewsContentTypes) map[string]interface{
 		}
 		result["sql_insights_top_sql_by_insights_resources"] = sqlInsightsTopSqlByInsightsResources
 		return result
-	} else {
+	} else if obj.SqlInsightsTopSqlResources != nil && len(obj.SqlInsightsTopSqlResources) != 0 {
 		sqlInsightsTopSqlResources := []interface{}{}
 
 		for _, item := range obj.SqlInsightsTopSqlResources {
 			sqlInsightsTopSqlResources = append(sqlInsightsTopSqlResources, NewsSqlInsightsContentTypesResourceToMap(item))
 		}
 		result["sql_insights_top_sql_resources"] = sqlInsightsTopSqlResources
+		return result
+	} else {
+		actionableInsightsResources := []interface{}{}
+
+		for _, item := range obj.ActionableInsightsResources {
+			actionableInsightsResources = append(actionableInsightsResources, NewsActionableInsightsContentTypesResourceToMap(item))
+		}
+		result["actionable_insights_resources"] = obj.ActionableInsightsResources
 		return result
 	}
 }
@@ -814,6 +894,96 @@ func NewsSqlInsightsContentTypesResourceToMap(obj oci_opsi.NewsSqlInsightsConten
 		result = "DATABASE"
 	case oci_opsi.NewsSqlInsightsContentTypesResourceExadata:
 		result = "EXADATA"
+	default:
+		fmt.Println("ERROR, Nota a valid resource")
+	}
+	return result
+}
+
+func NewsActionableInsightsContentTypesResourceToMap(obj oci_opsi.ActionableInsightsContentTypesResourceEnum) string {
+	var result string
+
+	switch obj {
+	case oci_opsi.ActionableInsightsContentTypesResourceNewHighs:
+		result = "NEW_HIGHS"
+	case oci_opsi.ActionableInsightsContentTypesResourceBigChanges:
+		result = "BIG_CHANGES"
+	case oci_opsi.ActionableInsightsContentTypesResourceCurrentInventory:
+		result = "CURRENT_INVENTORY"
+	case oci_opsi.ActionableInsightsContentTypesResourceInventoryChanges:
+		result = "INVENTORY_CHANGES"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetStatistics:
+		result = "FLEET_STATISTICS"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisSummaryDbCount:
+		result = "FLEET_ANALYSIS_SUMMARY_DB_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisSummarySqlAnalyzedCount:
+		result = "FLEET_ANALYSIS_SUMMARY_SQL_ANALYZED_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisSummaryNewSqlCount:
+		result = "FLEET_ANALYSIS_SUMMARY_NEW_SQL_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisSummaryBusiestDb:
+		result = "FLEET_ANALYSIS_SUMMARY_BUSIEST_DB"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisDegradingSqlCount:
+		result = "FLEET_ANALYSIS_DEGRADING_SQL_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisDegradingSqlByDb:
+		result = "FLEET_ANALYSIS_DEGRADING_SQL_BY_DB"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisDegradingSqlBySqlId:
+		result = "FLEET_ANALYSIS_DEGRADING_SQL_BY_SQL_ID"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisPlanChangesCount:
+		result = "FLEET_ANALYSIS_PLAN_CHANGES_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisPlanChangesDbMostChanges:
+		result = "FLEET_ANALYSIS_PLAN_CHANGES_DB_MOST_CHANGES"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisPlanChangesBySqlIdImproved:
+		result = "FLEET_ANALYSIS_PLAN_CHANGES_BY_SQL_ID_IMPROVED"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisPlanChangesBySqlIdDegraded:
+		result = "FLEET_ANALYSIS_PLAN_CHANGES_BY_SQL_ID_DEGRADED"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisInvalidationStormsCount:
+		result = "FLEET_ANALYSIS_INVALIDATION_STORMS_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisInvalidationStormsHighest:
+		result = "FLEET_ANALYSIS_INVALIDATION_STORMS_HIGHEST"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisCursorSharingIssuesCount:
+		result = "FLEET_ANALYSIS_CURSOR_SHARING_ISSUES_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisCursorSharingIssuesByDb:
+		result = "FLEET_ANALYSIS_CURSOR_SHARING_ISSUES_BY_DB"
+	case oci_opsi.ActionableInsightsContentTypesResourceFleetAnalysisCursorSharingIssuesBySql:
+		result = "FLEET_ANALYSIS_CURSOR_SHARING_ISSUES_BY_SQL"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationSummaryDbCount:
+		result = "PERFORMANCE_DEGRADATION_SUMMARY_DB_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationSummarySqlAnalyzedCount:
+		result = "PERFORMANCE_DEGRADATION_SUMMARY_SQL_ANALYZED_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationSummarySqlPerformanceTrendsCount:
+		result = "PERFORMANCE_DEGRADATION_SUMMARY_SQL_PERFORMANCE_TRENDS_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationSummaryDegradedSqlCount:
+		result = "PERFORMANCE_DEGRADATION_SUMMARY_DEGRADED_SQL_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationSummaryImprovedSqlCount:
+		result = "PERFORMANCE_DEGRADATION_SUMMARY_IMPROVED_SQL_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationDbDegradedCount:
+		result = "PERFORMANCE_DEGRADATION_DB_DEGRADED_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePerformanceDegradationSqlDegradedTable:
+		result = "PERFORMANCE_DEGRADATION_SQL_DEGRADED_TABLE"
+	case oci_opsi.ActionableInsightsContentTypesResourcePlanChangesSummaryDbCount:
+		result = "PLAN_CHANGES_SUMMARY_DB_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePlanChangesSummarySqlAnalyzedCount:
+		result = "PLAN_CHANGES_SUMMARY_SQL_ANALYZED_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePlanChangesSummaryPlanChangesCount:
+		result = "PLAN_CHANGES_SUMMARY_PLAN_CHANGES_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePlanChangesSummaryImprovementsCount:
+		result = "PLAN_CHANGES_SUMMARY_IMPROVEMENTS_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePlanChangesSummaryDegradationCount:
+		result = "PLAN_CHANGES_SUMMARY_DEGRADATION_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourcePlanChangesTopPlanChangesTable:
+		result = "PLAN_CHANGES_TOP_PLAN_CHANGES_TABLE"
+	case oci_opsi.ActionableInsightsContentTypesResourceTopDbSummaryDbCount:
+		result = "TOP_DB_SUMMARY_DB_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceTopDbSummarySqlAnalyzedCount:
+		result = "TOP_DB_SUMMARY_SQL_ANALYZED_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceTopDbSummaryBusiestDb:
+		result = "TOP_DB_SUMMARY_BUSIEST_DB"
+	case oci_opsi.ActionableInsightsContentTypesResourceTopTable:
+		result = "TOP_TABLE"
+	case oci_opsi.ActionableInsightsContentTypesResourceCollectionDelayCount:
+		result = "COLLECTION_DELAY_COUNT"
+	case oci_opsi.ActionableInsightsContentTypesResourceCollectionDelayPreviousWeekCount:
+		result = "COLLECTION_DELAY_PREVIOUS_WEEK_COUNT"
 	default:
 		fmt.Println("ERROR, Nota a valid resource")
 	}
@@ -857,6 +1027,8 @@ func NewsReportSummaryToMap(obj oci_opsi.NewsReportSummary) map[string]interface
 
 	result["locale"] = string(obj.Locale)
 
+	result["match_rule"] = string(obj.MatchRule)
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
@@ -874,6 +1046,8 @@ func NewsReportSummaryToMap(obj oci_opsi.NewsReportSummary) map[string]interface
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
+
+	result["tag_filters"] = obj.TagFilters
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

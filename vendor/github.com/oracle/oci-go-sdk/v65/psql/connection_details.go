@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // PGSQL Control Plane API
 //
 // Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
-// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -28,6 +28,8 @@ type ConnectionDetails struct {
 
 	// The list of database instance node endpoints in the database system.
 	InstanceEndpoints []DbInstanceEndpoint `mandatory:"true" json:"instanceEndpoints"`
+
+	ReaderEndpoint *Endpoint `mandatory:"false" json:"readerEndpoint"`
 }
 
 func (m ConnectionDetails) String() string {

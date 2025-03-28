@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -50,7 +50,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
 
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-	// For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+	// The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	// This cannot be updated in parallel with any of the following: licenseModel, databaseEdition, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
@@ -91,16 +91,16 @@ type UpdateAutonomousDatabaseDetails struct {
 	DbName *string `mandatory:"false" json:"dbName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
@@ -198,7 +198,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	PermissionLevel UpdateAutonomousDatabaseDetailsPermissionLevelEnum `mandatory:"false" json:"permissionLevel,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
 	// - For Exadata and virtual machine 2-node RAC systems, do not use a subnet that overlaps with 192.168.128.0/20.
@@ -218,7 +218,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The private endpoint Ip address for the resource.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
@@ -247,10 +247,17 @@ type UpdateAutonomousDatabaseDetails struct {
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
-	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ResourcePoolLeaderId *string `mandatory:"false" json:"resourcePoolLeaderId"`
 
 	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
+
+	// The maintenance schedule type of the Autonomous Database Serverless. An EARLY maintenance schedule
+	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
+	AutonomousMaintenanceScheduleType UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+
+	// True if the Autonomous Database is backup retention locked.
+	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
@@ -274,6 +281,10 @@ type UpdateAutonomousDatabaseDetails struct {
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
 	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
+
+	// If true, this will disconnect the Autonomous Database from its peer and the Autonomous Database can work permanently as a standalone database.
+	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
+	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -304,6 +315,9 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum(string(m.PermissionLevel)); !ok && m.PermissionLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PermissionLevel: %s. Supported values are: %s.", m.PermissionLevel, strings.Join(GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
 	}
@@ -316,58 +330,61 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupRetentionPeriodInDays          *int                                               `json:"backupRetentionPeriodInDays"`
-		ComputeModel                         UpdateAutonomousDatabaseDetailsComputeModelEnum    `json:"computeModel"`
-		InMemoryPercentage                   *int                                               `json:"inMemoryPercentage"`
-		LocalAdgAutoFailoverMaxDataLossLimit *int                                               `json:"localAdgAutoFailoverMaxDataLossLimit"`
-		CpuCoreCount                         *int                                               `json:"cpuCoreCount"`
-		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                     `json:"longTermBackupSchedule"`
-		IsDevTier                            *bool                                              `json:"isDevTier"`
-		ComputeCount                         *float32                                           `json:"computeCount"`
-		OcpuCount                            *float32                                           `json:"ocpuCount"`
-		DataStorageSizeInTBs                 *int                                               `json:"dataStorageSizeInTBs"`
-		DataStorageSizeInGBs                 *int                                               `json:"dataStorageSizeInGBs"`
-		DisplayName                          *string                                            `json:"displayName"`
-		IsFreeTier                           *bool                                              `json:"isFreeTier"`
-		AdminPassword                        *string                                            `json:"adminPassword"`
-		DbName                               *string                                            `json:"dbName"`
-		FreeformTags                         map[string]string                                  `json:"freeformTags"`
-		DefinedTags                          map[string]map[string]interface{}                  `json:"definedTags"`
-		SecurityAttributes                   map[string]map[string]interface{}                  `json:"securityAttributes"`
-		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum      `json:"dbWorkload"`
-		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum    `json:"licenseModel"`
-		ByolComputeCountLimit                *float32                                           `json:"byolComputeCountLimit"`
-		IsAccessControlEnabled               *bool                                              `json:"isAccessControlEnabled"`
-		WhitelistedIps                       []string                                           `json:"whitelistedIps"`
-		ArePrimaryWhitelistedIpsUsed         *bool                                              `json:"arePrimaryWhitelistedIpsUsed"`
-		StandbyWhitelistedIps                []string                                           `json:"standbyWhitelistedIps"`
-		IsAutoScalingEnabled                 *bool                                              `json:"isAutoScalingEnabled"`
-		IsRefreshableClone                   *bool                                              `json:"isRefreshableClone"`
-		RefreshableMode                      UpdateAutonomousDatabaseDetailsRefreshableModeEnum `json:"refreshableMode"`
-		IsLocalDataGuardEnabled              *bool                                              `json:"isLocalDataGuardEnabled"`
-		IsDataGuardEnabled                   *bool                                              `json:"isDataGuardEnabled"`
-		PeerDbId                             *string                                            `json:"peerDbId"`
-		DbVersion                            *string                                            `json:"dbVersion"`
-		OpenMode                             UpdateAutonomousDatabaseDetailsOpenModeEnum        `json:"openMode"`
-		PermissionLevel                      UpdateAutonomousDatabaseDetailsPermissionLevelEnum `json:"permissionLevel"`
-		SubnetId                             *string                                            `json:"subnetId"`
-		PrivateEndpointLabel                 *string                                            `json:"privateEndpointLabel"`
-		PrivateEndpointIp                    *string                                            `json:"privateEndpointIp"`
-		NsgIds                               []string                                           `json:"nsgIds"`
-		AutoRefreshFrequencyInSeconds        *int                                               `json:"autoRefreshFrequencyInSeconds"`
-		AutoRefreshPointLagInSeconds         *int                                               `json:"autoRefreshPointLagInSeconds"`
-		TimeOfAutoRefreshStart               *common.SDKTime                                    `json:"timeOfAutoRefreshStart"`
-		CustomerContacts                     []CustomerContact                                  `json:"customerContacts"`
-		IsMtlsConnectionRequired             *bool                                              `json:"isMtlsConnectionRequired"`
-		ResourcePoolLeaderId                 *string                                            `json:"resourcePoolLeaderId"`
-		ResourcePoolSummary                  *ResourcePoolSummary                               `json:"resourcePoolSummary"`
-		ScheduledOperations                  []ScheduledOperationDetails                        `json:"scheduledOperations"`
-		IsAutoScalingForStorageEnabled       *bool                                              `json:"isAutoScalingForStorageEnabled"`
-		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum       `json:"databaseEdition"`
-		DbToolsDetails                       []DatabaseTool                                     `json:"dbToolsDetails"`
-		SecretId                             *string                                            `json:"secretId"`
-		SecretVersionNumber                  *int                                               `json:"secretVersionNumber"`
-		EncryptionKey                        autonomousdatabaseencryptionkeydetails             `json:"encryptionKey"`
+		BackupRetentionPeriodInDays          *int                                                                 `json:"backupRetentionPeriodInDays"`
+		ComputeModel                         UpdateAutonomousDatabaseDetailsComputeModelEnum                      `json:"computeModel"`
+		InMemoryPercentage                   *int                                                                 `json:"inMemoryPercentage"`
+		LocalAdgAutoFailoverMaxDataLossLimit *int                                                                 `json:"localAdgAutoFailoverMaxDataLossLimit"`
+		CpuCoreCount                         *int                                                                 `json:"cpuCoreCount"`
+		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                                       `json:"longTermBackupSchedule"`
+		IsDevTier                            *bool                                                                `json:"isDevTier"`
+		ComputeCount                         *float32                                                             `json:"computeCount"`
+		OcpuCount                            *float32                                                             `json:"ocpuCount"`
+		DataStorageSizeInTBs                 *int                                                                 `json:"dataStorageSizeInTBs"`
+		DataStorageSizeInGBs                 *int                                                                 `json:"dataStorageSizeInGBs"`
+		DisplayName                          *string                                                              `json:"displayName"`
+		IsFreeTier                           *bool                                                                `json:"isFreeTier"`
+		AdminPassword                        *string                                                              `json:"adminPassword"`
+		DbName                               *string                                                              `json:"dbName"`
+		FreeformTags                         map[string]string                                                    `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}                                    `json:"definedTags"`
+		SecurityAttributes                   map[string]map[string]interface{}                                    `json:"securityAttributes"`
+		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum                        `json:"dbWorkload"`
+		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum                      `json:"licenseModel"`
+		ByolComputeCountLimit                *float32                                                             `json:"byolComputeCountLimit"`
+		IsAccessControlEnabled               *bool                                                                `json:"isAccessControlEnabled"`
+		WhitelistedIps                       []string                                                             `json:"whitelistedIps"`
+		ArePrimaryWhitelistedIpsUsed         *bool                                                                `json:"arePrimaryWhitelistedIpsUsed"`
+		StandbyWhitelistedIps                []string                                                             `json:"standbyWhitelistedIps"`
+		IsAutoScalingEnabled                 *bool                                                                `json:"isAutoScalingEnabled"`
+		IsRefreshableClone                   *bool                                                                `json:"isRefreshableClone"`
+		RefreshableMode                      UpdateAutonomousDatabaseDetailsRefreshableModeEnum                   `json:"refreshableMode"`
+		IsLocalDataGuardEnabled              *bool                                                                `json:"isLocalDataGuardEnabled"`
+		IsDataGuardEnabled                   *bool                                                                `json:"isDataGuardEnabled"`
+		PeerDbId                             *string                                                              `json:"peerDbId"`
+		DbVersion                            *string                                                              `json:"dbVersion"`
+		OpenMode                             UpdateAutonomousDatabaseDetailsOpenModeEnum                          `json:"openMode"`
+		PermissionLevel                      UpdateAutonomousDatabaseDetailsPermissionLevelEnum                   `json:"permissionLevel"`
+		SubnetId                             *string                                                              `json:"subnetId"`
+		PrivateEndpointLabel                 *string                                                              `json:"privateEndpointLabel"`
+		PrivateEndpointIp                    *string                                                              `json:"privateEndpointIp"`
+		NsgIds                               []string                                                             `json:"nsgIds"`
+		AutoRefreshFrequencyInSeconds        *int                                                                 `json:"autoRefreshFrequencyInSeconds"`
+		AutoRefreshPointLagInSeconds         *int                                                                 `json:"autoRefreshPointLagInSeconds"`
+		TimeOfAutoRefreshStart               *common.SDKTime                                                      `json:"timeOfAutoRefreshStart"`
+		CustomerContacts                     []CustomerContact                                                    `json:"customerContacts"`
+		IsMtlsConnectionRequired             *bool                                                                `json:"isMtlsConnectionRequired"`
+		ResourcePoolLeaderId                 *string                                                              `json:"resourcePoolLeaderId"`
+		ResourcePoolSummary                  *ResourcePoolSummary                                                 `json:"resourcePoolSummary"`
+		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		IsBackupRetentionLocked              *bool                                                                `json:"isBackupRetentionLocked"`
+		ScheduledOperations                  []ScheduledOperationDetails                                          `json:"scheduledOperations"`
+		IsAutoScalingForStorageEnabled       *bool                                                                `json:"isAutoScalingForStorageEnabled"`
+		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum                         `json:"databaseEdition"`
+		DbToolsDetails                       []DatabaseTool                                                       `json:"dbToolsDetails"`
+		SecretId                             *string                                                              `json:"secretId"`
+		SecretVersionNumber                  *int                                                                 `json:"secretVersionNumber"`
+		EncryptionKey                        autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
+		IsDisconnectPeer                     *bool                                                                `json:"isDisconnectPeer"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -465,6 +482,10 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.ResourcePoolSummary = model.ResourcePoolSummary
 
+	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
+
+	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
+
 	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
 	copy(m.ScheduledOperations, model.ScheduledOperations)
 	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
@@ -486,6 +507,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.EncryptionKey = nil
 	}
+
+	m.IsDisconnectPeer = model.IsDisconnectPeer
 
 	return
 }
@@ -747,5 +770,47 @@ func GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues() []strin
 // GetMappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum(val string) (UpdateAutonomousDatabaseDetailsPermissionLevelEnum, bool) {
 	enum, ok := mappingUpdateAutonomousDatabaseDetailsPermissionLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum
+const (
+	UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEarly   UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum = "EARLY"
+	UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeRegular UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum = map[string]UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum{
+	"EARLY":   UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEarly,
+	"REGULAR": UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeRegular,
+}
+
+var mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum{
+	"early":   UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEarly,
+	"regular": UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeRegular,
+}
+
+// GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum
+func GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumValues() []UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum
+func GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues() []string {
+	return []string{
+		"EARLY",
+		"REGULAR",
+	}
+}
+
+// GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(val string) (UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum, bool) {
+	enum, ok := mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

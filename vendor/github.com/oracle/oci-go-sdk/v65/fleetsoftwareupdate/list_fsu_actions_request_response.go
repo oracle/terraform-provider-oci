@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuActions.go.html to see an example of how to use ListFsuActionsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuActions.go.html to see an example of how to use ListFsuActionsRequest.
 type ListFsuActionsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -218,11 +218,12 @@ type ListFsuActionsTypeEnum string
 
 // Set of constants representing the allowable values for ListFsuActionsTypeEnum
 const (
-	ListFsuActionsTypeStage                   ListFsuActionsTypeEnum = "STAGE"
-	ListFsuActionsTypePrecheck                ListFsuActionsTypeEnum = "PRECHECK"
-	ListFsuActionsTypeApply                   ListFsuActionsTypeEnum = "APPLY"
-	ListFsuActionsTypeRollbackAndRemoveTarget ListFsuActionsTypeEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	ListFsuActionsTypeCleanup                 ListFsuActionsTypeEnum = "CLEANUP"
+	ListFsuActionsTypeStage                    ListFsuActionsTypeEnum = "STAGE"
+	ListFsuActionsTypePrecheck                 ListFsuActionsTypeEnum = "PRECHECK"
+	ListFsuActionsTypeApply                    ListFsuActionsTypeEnum = "APPLY"
+	ListFsuActionsTypeRollbackAndRemoveTarget  ListFsuActionsTypeEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	ListFsuActionsTypeCleanup                  ListFsuActionsTypeEnum = "CLEANUP"
+	ListFsuActionsTypeRollbackMaintenanceCycle ListFsuActionsTypeEnum = "ROLLBACK_MAINTENANCE_CYCLE"
 )
 
 var mappingListFsuActionsTypeEnum = map[string]ListFsuActionsTypeEnum{
@@ -231,6 +232,7 @@ var mappingListFsuActionsTypeEnum = map[string]ListFsuActionsTypeEnum{
 	"APPLY":                      ListFsuActionsTypeApply,
 	"ROLLBACK_AND_REMOVE_TARGET": ListFsuActionsTypeRollbackAndRemoveTarget,
 	"CLEANUP":                    ListFsuActionsTypeCleanup,
+	"ROLLBACK_MAINTENANCE_CYCLE": ListFsuActionsTypeRollbackMaintenanceCycle,
 }
 
 var mappingListFsuActionsTypeEnumLowerCase = map[string]ListFsuActionsTypeEnum{
@@ -239,6 +241,7 @@ var mappingListFsuActionsTypeEnumLowerCase = map[string]ListFsuActionsTypeEnum{
 	"apply":                      ListFsuActionsTypeApply,
 	"rollback_and_remove_target": ListFsuActionsTypeRollbackAndRemoveTarget,
 	"cleanup":                    ListFsuActionsTypeCleanup,
+	"rollback_maintenance_cycle": ListFsuActionsTypeRollbackMaintenanceCycle,
 }
 
 // GetListFsuActionsTypeEnumValues Enumerates the set of values for ListFsuActionsTypeEnum
@@ -258,6 +261,7 @@ func GetListFsuActionsTypeEnumStringValues() []string {
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
 		"CLEANUP",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 	}
 }
 

@@ -39,13 +39,13 @@ The following attributes are exported:
 * `id` - The OCID of the resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `resource_region` - Associated region
-* `scope` - The scope of the property
-* `selection` - Text selection of the category
+* `scope` - The scope of the property.
+* `selection` - Text selection of the property.
 * `state` - The current state of the Property.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 * `type` - The type of the property.
-* `value_type` - Format of the value
-* `values` - Values of the property (must be a single value if selection = 'single choice')
+* `value_type` - Format of the value.
+* `values` - Values of the property (must be a single value if selection = 'SINGLE_CHOICE').
 

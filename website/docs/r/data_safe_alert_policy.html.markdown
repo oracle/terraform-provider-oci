@@ -48,7 +48,7 @@ The following arguments are supported:
 	* `expression` - (Required) The conditional expression of the alert policy rule which evaluates to boolean value.
 * `alert_policy_type` - (Required) Indicates the Data Safe feature the alert policy belongs to
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create the alert policy.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}`
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
 * `description` - (Optional) (Updatable) The description of the alert policy.
 * `display_name` - (Optional) (Updatable) The display name of the alert policy. The name does not have to be unique, and it's changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`
@@ -64,7 +64,7 @@ The following attributes are exported:
 
 * `alert_policy_type` - Indicates the Data Safe feature to which the alert policy belongs.
 * `compartment_id` - The OCID of the compartment that contains the alert policy.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}`
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
 * `description` - The description of the alert policy.
 * `display_name` - The display name of the alert policy.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`

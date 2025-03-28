@@ -3,9 +3,13 @@
 
 # You need actual OCID value of compute instance or managed instance to create this resource.
 # variable "agent_id" {}
+# variable "jms_plugin_agent_type" {
+#  default = "OMA"
+# }
 # resource "oci_jms_jms_plugin" "example_jms_plugin" {
 #   #Required
 #   agent_id = var.agent_id
+#   agent_type = var.jms_plugin_agent_type
 #   compartment_id = var.compartment_ocid
 
 #   #Optional

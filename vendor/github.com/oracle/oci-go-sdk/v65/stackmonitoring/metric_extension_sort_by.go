@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,18 +18,21 @@ type MetricExtensionSortByEnum string
 
 // Set of constants representing the allowable values for MetricExtensionSortByEnum
 const (
-	MetricExtensionSortByName        MetricExtensionSortByEnum = "NAME"
-	MetricExtensionSortByTimeCreated MetricExtensionSortByEnum = "TIME_CREATED"
+	MetricExtensionSortByName                   MetricExtensionSortByEnum = "NAME"
+	MetricExtensionSortByTimeCreated            MetricExtensionSortByEnum = "TIME_CREATED"
+	MetricExtensionSortByEnabledOnResourceCount MetricExtensionSortByEnum = "ENABLED_ON_RESOURCE_COUNT"
 )
 
 var mappingMetricExtensionSortByEnum = map[string]MetricExtensionSortByEnum{
-	"NAME":         MetricExtensionSortByName,
-	"TIME_CREATED": MetricExtensionSortByTimeCreated,
+	"NAME":                      MetricExtensionSortByName,
+	"TIME_CREATED":              MetricExtensionSortByTimeCreated,
+	"ENABLED_ON_RESOURCE_COUNT": MetricExtensionSortByEnabledOnResourceCount,
 }
 
 var mappingMetricExtensionSortByEnumLowerCase = map[string]MetricExtensionSortByEnum{
-	"name":         MetricExtensionSortByName,
-	"time_created": MetricExtensionSortByTimeCreated,
+	"name":                      MetricExtensionSortByName,
+	"time_created":              MetricExtensionSortByTimeCreated,
+	"enabled_on_resource_count": MetricExtensionSortByEnabledOnResourceCount,
 }
 
 // GetMetricExtensionSortByEnumValues Enumerates the set of values for MetricExtensionSortByEnum
@@ -46,6 +49,7 @@ func GetMetricExtensionSortByEnumStringValues() []string {
 	return []string{
 		"NAME",
 		"TIME_CREATED",
+		"ENABLED_ON_RESOURCE_COUNT",
 	}
 }
 

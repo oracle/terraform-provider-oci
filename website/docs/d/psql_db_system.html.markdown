@@ -61,12 +61,17 @@ The following attributes are exported:
 * `management_policy` - PostgreSQL database system management policy.
 	* `backup_policy` - PostgreSQL database system backup policy.
 		* `backup_start` - Hour of the day when the backup starts.
+		* `copy_policy` - Backup copy details
+			* `compartment_id` - target compartment to place a new backup
+			* `regions` - List of region names of the remote region
+			* `retention_period` - Retention period in days of the backup copy.
 		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day. 
 		* `days_of_the_week` - The day of the week that the backup starts.
 		* `kind` - The kind of backup policy.
 		* `retention_days` - How many days the data should be stored after the database system deletion.
 	* `maintenance_window_start` - The start of the maintenance window. 
 * `network_details` - Network details for the database system.
+	* `is_reader_endpoint_enabled` - Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.

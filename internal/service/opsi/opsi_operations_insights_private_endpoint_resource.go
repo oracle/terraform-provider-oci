@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -304,7 +304,7 @@ func operationsInsightsPrivateEndpointWaitForWorkRequest(wId *string, entityType
 	retryPolicy.ShouldRetryOperation = operationsInsightsPrivateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_opsi.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_opsi.OperationStatusInProgress),
 			string(oci_opsi.OperationStatusAccepted),

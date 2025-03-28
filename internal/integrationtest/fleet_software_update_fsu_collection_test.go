@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -638,6 +638,7 @@ func TestFleetSoftwareUpdateFsuCollectionResource_DB_23ai(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_TEST_Collection_Updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "last_completed_fsu_cycle_id", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "EXACS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_major_version", "DB_23"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

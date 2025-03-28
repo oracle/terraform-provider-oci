@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -68,6 +68,10 @@ func DatascienceModelVersionSetResource() *schema.Resource {
 			},
 
 			// Computed
+			"category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"created_by": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -261,7 +265,7 @@ func modelVersionSetWaitForWorkRequest(wId *string, entityType string, action oc
 	retryPolicy.ShouldRetryOperation = modelVersionSetWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_datascience.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_datascience.WorkRequestStatusInProgress),
 			string(oci_datascience.WorkRequestStatusAccepted),
@@ -418,6 +422,8 @@ func (s *DatascienceModelVersionSetResourceCrud) Delete() error {
 }
 
 func (s *DatascienceModelVersionSetResourceCrud) SetData() error {
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

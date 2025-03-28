@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // File Storage API
 //
 // Use the File Storage service API to manage file systems, mount targets, and snapshots.
-// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// For more information, see Overview of File Storage (https://docs.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -21,13 +21,13 @@ import (
 // located in another availability domain in the same or different region.
 // The replication retrieves the delta of data between two snapshots of a source file system
 // and sends it to the associated `ReplicationTarget`, which applies it to the target
-// file system. For more information, see File System Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
+// file system. For more information, see File System Replication (https://docs.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 type Replication struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current lifecycle state of the replication.
@@ -43,13 +43,13 @@ type Replication struct {
 	// Example: `2021-01-04T20:01:29.100Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source file system.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target file system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target file system.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ReplicationTarget.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ReplicationTarget.
 	ReplicationTargetId *string `mandatory:"true" json:"replicationTargetId"`
 
 	// The availability domain that contains the replication. May be unset as a blank or `NULL` value.
@@ -59,7 +59,7 @@ type Replication struct {
 	// Duration in minutes between replication snapshots.
 	ReplicationInterval *int64 `mandatory:"false" json:"replicationInterval"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last snapshot that has been replicated completely.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last snapshot that has been replicated completely.
 	// Empty if the copy of the initial snapshot is not complete.
 	LastSnapshotId *string `mandatory:"false" json:"lastSnapshotId"`
 
@@ -82,14 +82,18 @@ type Replication struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Replication) String() string {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,14 +19,14 @@ import (
 // OracleConnection Represents the metadata of an Oracle Database Connection.
 type OracleConnection struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection being
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
 	// referenced.
 	Id *string `mandatory:"true" json:"id"`
 
 	// An object's Display Name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time the resource was created. The format is defined by
@@ -56,7 +56,7 @@ type OracleConnection struct {
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle
 	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
-	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
@@ -83,8 +83,11 @@ type OracleConnection struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -98,8 +101,20 @@ type OracleConnection struct {
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database being referenced.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.
+	// The wallet contents Oracle GoldenGate uses to make connections to a database.
+	// Note: When provided, 'wallet' field must not be provided.
+	WalletSecretId *string `mandatory:"false" json:"walletSecretId"`
 
 	// The Oracle technology type.
 	TechnologyType OracleConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -214,6 +229,11 @@ func (m OracleConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }
 
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m OracleConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
+}
+
 func (m OracleConnection) String() string {
 	return common.PointerString(m)
 }
@@ -264,27 +284,42 @@ type OracleConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for OracleConnectionTechnologyTypeEnum
 const (
-	OracleConnectionTechnologyTypeAmazonRdsOracle              OracleConnectionTechnologyTypeEnum = "AMAZON_RDS_ORACLE"
-	OracleConnectionTechnologyTypeOciAutonomousDatabase        OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
-	OracleConnectionTechnologyTypeOracleDatabase               OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
-	OracleConnectionTechnologyTypeOracleExadata                OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
-	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeAmazonRdsOracle                       OracleConnectionTechnologyTypeEnum = "AMAZON_RDS_ORACLE"
+	OracleConnectionTechnologyTypeOciAutonomousDatabase                 OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
+	OracleConnectionTechnologyTypeOracleDatabase                        OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
+	OracleConnectionTechnologyTypeOracleExadata                         OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure          OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure       OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud    OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD"
+	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws            OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
+	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws         OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
 )
 
 var mappingOracleConnectionTechnologyTypeEnum = map[string]OracleConnectionTechnologyTypeEnum{
-	"AMAZON_RDS_ORACLE":                OracleConnectionTechnologyTypeAmazonRdsOracle,
-	"OCI_AUTONOMOUS_DATABASE":          OracleConnectionTechnologyTypeOciAutonomousDatabase,
-	"ORACLE_DATABASE":                  OracleConnectionTechnologyTypeOracleDatabase,
-	"ORACLE_EXADATA":                   OracleConnectionTechnologyTypeOracleExadata,
-	"ORACLE_EXADATA_DATABASE_AT_AZURE": OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"AMAZON_RDS_ORACLE":                          OracleConnectionTechnologyTypeAmazonRdsOracle,
+	"OCI_AUTONOMOUS_DATABASE":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
+	"ORACLE_DATABASE":                            OracleConnectionTechnologyTypeOracleDatabase,
+	"ORACLE_EXADATA":                             OracleConnectionTechnologyTypeOracleExadata,
+	"ORACLE_EXADATA_DATABASE_AT_AZURE":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
+	"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
+	"ORACLE_EXADATA_DATABASE_AT_AWS":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
+	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
 }
 
 var mappingOracleConnectionTechnologyTypeEnumLowerCase = map[string]OracleConnectionTechnologyTypeEnum{
-	"amazon_rds_oracle":                OracleConnectionTechnologyTypeAmazonRdsOracle,
-	"oci_autonomous_database":          OracleConnectionTechnologyTypeOciAutonomousDatabase,
-	"oracle_database":                  OracleConnectionTechnologyTypeOracleDatabase,
-	"oracle_exadata":                   OracleConnectionTechnologyTypeOracleExadata,
-	"oracle_exadata_database_at_azure": OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"amazon_rds_oracle":                          OracleConnectionTechnologyTypeAmazonRdsOracle,
+	"oci_autonomous_database":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
+	"oracle_database":                            OracleConnectionTechnologyTypeOracleDatabase,
+	"oracle_exadata":                             OracleConnectionTechnologyTypeOracleExadata,
+	"oracle_exadata_database_at_azure":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"oracle_autonomous_database_at_azure":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
+	"oracle_exadata_database_at_google_cloud":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"oracle_autonomous_database_at_google_cloud": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
+	"oracle_exadata_database_at_aws":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
+	"oracle_autonomous_database_at_aws":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
 }
 
 // GetOracleConnectionTechnologyTypeEnumValues Enumerates the set of values for OracleConnectionTechnologyTypeEnum
@@ -304,6 +339,11 @@ func GetOracleConnectionTechnologyTypeEnumStringValues() []string {
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
 		"ORACLE_EXADATA_DATABASE_AT_AZURE",
+		"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE",
+		"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD",
+		"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD",
+		"ORACLE_EXADATA_DATABASE_AT_AWS",
+		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
 	}
 }
 

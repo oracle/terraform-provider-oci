@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListLibraryMaskingFormats.go.html to see an example of how to use ListLibraryMaskingFormatsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListLibraryMaskingFormats.go.html to see an example of how to use ListLibraryMaskingFormatsRequest.
 type ListLibraryMaskingFormatsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.
@@ -37,10 +37,10 @@ type ListLibraryMaskingFormatsRequest struct {
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// A filter to return only the resources that match the specified lifecycle states.
@@ -141,7 +141,7 @@ type ListLibraryMaskingFormatsResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. Include opc-next-page value as the page parameter for the subsequent GET request to get the next batch of items. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. Include opc-next-page value as the page parameter for the subsequent GET request to get the next batch of items. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
@@ -352,18 +352,24 @@ type ListLibraryMaskingFormatsSortByEnum string
 
 // Set of constants representing the allowable values for ListLibraryMaskingFormatsSortByEnum
 const (
-	ListLibraryMaskingFormatsSortByDisplayname ListLibraryMaskingFormatsSortByEnum = "displayName"
-	ListLibraryMaskingFormatsSortByTimecreated ListLibraryMaskingFormatsSortByEnum = "timeCreated"
+	ListLibraryMaskingFormatsSortByDisplayname    ListLibraryMaskingFormatsSortByEnum = "displayName"
+	ListLibraryMaskingFormatsSortByTimecreated    ListLibraryMaskingFormatsSortByEnum = "timeCreated"
+	ListLibraryMaskingFormatsSortByTimeupdated    ListLibraryMaskingFormatsSortByEnum = "timeUpdated"
+	ListLibraryMaskingFormatsSortByLifecyclestate ListLibraryMaskingFormatsSortByEnum = "lifecycleState"
 )
 
 var mappingListLibraryMaskingFormatsSortByEnum = map[string]ListLibraryMaskingFormatsSortByEnum{
-	"displayName": ListLibraryMaskingFormatsSortByDisplayname,
-	"timeCreated": ListLibraryMaskingFormatsSortByTimecreated,
+	"displayName":    ListLibraryMaskingFormatsSortByDisplayname,
+	"timeCreated":    ListLibraryMaskingFormatsSortByTimecreated,
+	"timeUpdated":    ListLibraryMaskingFormatsSortByTimeupdated,
+	"lifecycleState": ListLibraryMaskingFormatsSortByLifecyclestate,
 }
 
 var mappingListLibraryMaskingFormatsSortByEnumLowerCase = map[string]ListLibraryMaskingFormatsSortByEnum{
-	"displayname": ListLibraryMaskingFormatsSortByDisplayname,
-	"timecreated": ListLibraryMaskingFormatsSortByTimecreated,
+	"displayname":    ListLibraryMaskingFormatsSortByDisplayname,
+	"timecreated":    ListLibraryMaskingFormatsSortByTimecreated,
+	"timeupdated":    ListLibraryMaskingFormatsSortByTimeupdated,
+	"lifecyclestate": ListLibraryMaskingFormatsSortByLifecyclestate,
 }
 
 // GetListLibraryMaskingFormatsSortByEnumValues Enumerates the set of values for ListLibraryMaskingFormatsSortByEnum
@@ -380,6 +386,8 @@ func GetListLibraryMaskingFormatsSortByEnumStringValues() []string {
 	return []string{
 		"displayName",
 		"timeCreated",
+		"timeUpdated",
+		"lifecycleState",
 	}
 }
 

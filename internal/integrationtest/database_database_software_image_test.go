@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -29,8 +29,14 @@ var (
 	DatabaseDatabaseSoftwareImageRequiredOnlyResource = DatabaseDatabaseSoftwareImageResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation)
 
+	DatabaseDatabaseSoftwareImageRequiredOnlyResource_ExaCC = DatabaseDatabaseSoftwareImageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation2)
+
 	DatabaseDatabaseSoftwareImageResourceConfig = DatabaseDatabaseSoftwareImageResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation)
+
+	DatabaseDatabaseSoftwareImageResourceConfig_ExaCC = DatabaseDatabaseSoftwareImageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation2)
 
 	DatabaseDatabaseDatabaseSoftwareImageSingularDataSourceRepresentation = map[string]interface{}{
 		"database_software_image_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_database_software_image.test_database_software_image.id}`},
@@ -38,11 +44,13 @@ var (
 
 	DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"db_system_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_system.test_db_system.id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1`, Update: `displayName2`},
 		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `VM_BM_SHAPE`},
 		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseSoftwareImageDataSourceFilterRepresentation}}
+
 	DatabaseDatabaseSoftwareImageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_database_software_image.test_database_software_image.id}`}},
@@ -59,6 +67,25 @@ var (
 		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `VM_BM_SHAPE`},
 		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
 		"ls_inventory":       acctest.Representation{RepType: acctest.Optional, Create: `lsInventory`},
+	}
+
+	DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation2 = map[string]interface{}{
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1`, Update: `displayName2`},
+		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `EXACC_SHAPE`},
+		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseSoftwareImageDataSourceFilterRepresentation}}
+
+	DatabaseDatabaseSoftwareImageRepresentation2 = map[string]interface{}{
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"database_version":   acctest.Representation{RepType: acctest.Required, Create: `23.0.0.0.0`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `image1`, Update: `displayName2`},
+		"patch_set":          acctest.Representation{RepType: acctest.Required, Create: `23.6.0.24.10`},
+		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `EXACC_SHAPE`},
+		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
 	}
 
 	DatabaseDatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies
@@ -206,6 +233,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
@@ -253,6 +281,196 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:                  config + DatabaseDatabaseSoftwareImageRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestDatabaseDatabaseSoftwareImageResource_ExaCC(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResource_ExaCC")
+	defer httpreplay.SaveScenario()
+
+	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "DatabaseSoftwareImageResource_ExaCC") {
+		t.Skip("Skipping suppressed TestDatabaseDatabaseSoftwareImageResource_ExaCC")
+	}
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_database_database_software_image.test_database_software_image"
+	datasourceName := "data.oci_database_database_software_images.test_database_software_images"
+	singularDatasourceName := "data.oci_database_database_software_image.test_database_software_image"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseSoftwareImageResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation2), "database", "databaseSoftwareImage", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseSoftwareImageDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "23.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "5"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "23.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "23.6.0.24.10"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseSoftwareImageRepresentation2, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "23.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "23.6.0.24.10"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "23.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "23.6.0.24.10"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
+				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", acctest.Optional, acctest.Update, DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation2) +
+				compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "5"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_version", "23.0.0.0.0"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "23.6.0.24.10"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSoftwareImageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceConfig_ExaCC,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_version", "23.0.0.0.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "23.6.0.24.10"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + DatabaseDatabaseSoftwareImageRequiredOnlyResource_ExaCC,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

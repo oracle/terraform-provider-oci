@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,6 +31,7 @@ const (
 	DrProtectionGroupMemberTypeLoadBalancer                DrProtectionGroupMemberTypeEnum = "LOAD_BALANCER"
 	DrProtectionGroupMemberTypeNetworkLoadBalancer         DrProtectionGroupMemberTypeEnum = "NETWORK_LOAD_BALANCER"
 	DrProtectionGroupMemberTypeFileSystem                  DrProtectionGroupMemberTypeEnum = "FILE_SYSTEM"
+	DrProtectionGroupMemberTypeOkeCluster                  DrProtectionGroupMemberTypeEnum = "OKE_CLUSTER"
 	DrProtectionGroupMemberTypeObjectStorageBucket         DrProtectionGroupMemberTypeEnum = "OBJECT_STORAGE_BUCKET"
 )
 
@@ -45,6 +46,7 @@ var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberT
 	"LOAD_BALANCER":                 DrProtectionGroupMemberTypeLoadBalancer,
 	"NETWORK_LOAD_BALANCER":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
 	"FILE_SYSTEM":                   DrProtectionGroupMemberTypeFileSystem,
+	"OKE_CLUSTER":                   DrProtectionGroupMemberTypeOkeCluster,
 	"OBJECT_STORAGE_BUCKET":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
@@ -59,6 +61,7 @@ var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGro
 	"load_balancer":                 DrProtectionGroupMemberTypeLoadBalancer,
 	"network_load_balancer":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
 	"file_system":                   DrProtectionGroupMemberTypeFileSystem,
+	"oke_cluster":                   DrProtectionGroupMemberTypeOkeCluster,
 	"object_storage_bucket":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
@@ -84,6 +87,7 @@ func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 		"LOAD_BALANCER",
 		"NETWORK_LOAD_BALANCER",
 		"FILE_SYSTEM",
+		"OKE_CLUSTER",
 		"OBJECT_STORAGE_BUCKET",
 	}
 }

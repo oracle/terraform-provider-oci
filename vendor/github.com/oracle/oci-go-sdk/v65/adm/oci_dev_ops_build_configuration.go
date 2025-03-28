@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Application Dependency Management API
 //
-// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.oracle.com/iaas/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -19,7 +19,7 @@ import (
 // OciDevOpsBuildConfiguration OCI DevOps configuration extends a Verify Configuration with necessary data to reach and use the OCI DevOps Build Service.
 type OciDevOpsBuildConfiguration struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the user's DevOps Build Pipeline.
+	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the user's DevOps Build Pipeline.
 	PipelineId *string `mandatory:"true" json:"pipelineId"`
 
 	// Additional key-value pairs passed as parameters to the build service when running an experiment.

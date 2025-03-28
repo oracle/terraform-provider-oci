@@ -123,6 +123,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
 
+	s.D.Set("clone_table_space_list", s.Res.CloneTableSpaceList)
+
 	if s.Res.ClusterPlacementGroupId != nil {
 		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
 	}
@@ -251,6 +253,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingForStorageEnabled != nil {
 		s.D.Set("is_auto_scaling_for_storage_enabled", *s.Res.IsAutoScalingForStorageEnabled)
+	}
+
+	if s.Res.IsBackupRetentionLocked != nil {
+		s.D.Set("is_backup_retention_locked", *s.Res.IsBackupRetentionLocked)
 	}
 
 	if s.Res.IsDataGuardEnabled != nil {
@@ -483,6 +489,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.MaintenanceTargetComponent != nil {
+		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
 	}
 
 	if s.Res.TimeOfAutoRefreshStart != nil {

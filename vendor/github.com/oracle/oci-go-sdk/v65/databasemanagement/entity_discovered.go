@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -24,13 +24,13 @@ type EntityDiscovered interface {
 	// The name of the entity.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	GetId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	GetAgentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated connector.
 	GetConnectorId() *string
 
 	// The version of the entity.
@@ -123,7 +123,7 @@ func (m *entitydiscovered) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for EntityDiscovered: %s.", m.EntityType)
+		common.Logf("Received unsupported enum value for EntityDiscovered: %s.", m.EntityType)
 		return *m, nil
 	}
 }

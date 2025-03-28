@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,6 +31,10 @@ type CreateDrPlanDetails struct {
 	// The OCID of the DR protection group to which this DR plan belongs.
 	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
+
+	// The OCID of the source DR plan that should be cloned.
+	// Example: `ocid1.drplan.oc1..uniqueID`
+	SourcePlanId *string `mandatory:"false" json:"sourcePlanId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`

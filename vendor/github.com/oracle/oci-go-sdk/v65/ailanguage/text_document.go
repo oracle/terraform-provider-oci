@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -26,7 +26,7 @@ type TextDocument struct {
 	// Document text for language service call.
 	Text *string `mandatory:"true" json:"text"`
 
-	// Language code of the document. Please refer to respective model API documentation (https://docs.cloud.oracle.com/iaas/language/using/overview.htm) for supported languages.
+	// Language code of the document. Please refer to respective model API documentation (https://docs.oracle.com/iaas/language/using/overview.htm) for supported languages.
 	LanguageCode *string `mandatory:"false" json:"languageCode"`
 }
 

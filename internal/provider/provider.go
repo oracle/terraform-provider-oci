@@ -206,6 +206,11 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:    true,
 			Description: descriptions[globalvar.RealmSpecificServiceEndpointTemplateEnabled],
 		},
+		// test_time_maintenance_reboot_due is used in few acceptance tests to simulate some scenario
+		globalvar.TestTimeMaintenanceRebootDue: {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
 	}
 }
 
@@ -550,8 +555,10 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 		password = privateKeyPassword.(string)
 	}
 
-	if privateKey, hasPrivateKey := p.D.GetOkExists(globalvar.PrivateKeyAttrName); hasPrivateKey {
-		return oci_common.PrivateKeyFromBytes([]byte(privateKey.(string)), &password)
+	if privateKey, hasPrivateKey := p.D.GetOk(globalvar.PrivateKeyAttrName); hasPrivateKey {
+		keyData := privateKey.(string)
+		keyData = strings.ReplaceAll(keyData, "\\n", "\n") // Ensure \n is replaced by actual newlines
+		return oci_common.PrivateKeyFromBytesWithPassword([]byte(keyData), []byte(password))
 	}
 
 	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(globalvar.PrivateKeyPathAttrName); hasPrivateKeyPath {
@@ -568,19 +575,27 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 }
 func BuildHttpClient() (httpClient *http.Client) {
 	httpClient = &http.Client{
-		Timeout: globalvar.DefaultRequestTimeout,
+		Timeout: getFromEnvVar(globalvar.HTTPRequestTimeOut, globalvar.DefaultRequestTimeout),
 		Transport: &http.Transport{
 			DialContext: (&net.Dialer{
-				Timeout: globalvar.DefaultConnectionTimeout,
+				Timeout: getFromEnvVar(globalvar.DialContextConnectionTimeout, globalvar.DefaultConnectionTimeout),
 			}).DialContext,
-			TLSHandshakeTimeout: globalvar.DefaultTLSHandshakeTimeout,
+			TLSHandshakeTimeout: getFromEnvVar(globalvar.TLSHandshakeTimeout, globalvar.DefaultTLSHandshakeTimeout),
 			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
 			Proxy:               http.ProxyFromEnvironment,
 		},
 	}
 	return
 }
-
+func getFromEnvVar(varName string, defaultValue time.Duration) time.Duration {
+	valueStr := utils.GetEnvSettingWithDefault(varName, fmt.Sprint(defaultValue))
+	duration, err := time.ParseDuration(valueStr)
+	if err != nil {
+		utils.Debugf("ERROR while parsing env variable %s value: %v", varName, err)
+		return defaultValue
+	}
+	return duration
+}
 func UserAgentFromEnv() string {
 
 	userAgentFromEnv, err := schemaMultiEnvDefaultFuncVar([]string{globalvar.UserAgentProviderNameEnv, globalvar.UserAgentSDKNameEnv, globalvar.UserAgentTerraformNameEnv}, globalvar.DefaultUserAgentProviderName)()

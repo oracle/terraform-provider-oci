@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,14 +19,14 @@ import (
 // Connection Represents the metadata description of a connection used by deployments in the same compartment.
 type Connection interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection being
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
 	// referenced.
 	GetId() *string
 
 	// An object's Display Name.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	GetCompartmentId() *string
 
 	// Possible lifecycle states for connection.
@@ -54,7 +54,7 @@ type Connection interface {
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle
 	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
-	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	GetSystemTags() map[string]map[string]interface{}
 
@@ -81,7 +81,7 @@ type Connection interface {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:
@@ -89,6 +89,9 @@ type Connection interface {
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
 	GetRoutingMethod() RoutingMethodEnum
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	GetDoesUseSecretIds() *bool
 }
 
 type connection struct {
@@ -105,6 +108,7 @@ type connection struct {
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -143,6 +147,7 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.NsgIds = s.Model.NsgIds
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
+	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -165,10 +170,6 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := PostgresqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "JAVA_MESSAGE_SERVICE":
-		mm := JavaMessageServiceConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DB2":
 		mm := Db2Connection{}
 		err = json.Unmarshal(data, &mm)
@@ -179,6 +180,46 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := AmazonRedshiftConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3Connection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := HdfsConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := OciObjectStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := MicrosoftSqlserverConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC":
+		mm := GenericConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := AzureSynapseConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_FABRIC":
+		mm := MicrosoftFabricConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS":
+		mm := DatabricksConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SNOWFLAKE":
@@ -193,10 +234,6 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MysqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMAZON_S3":
-		mm := AmazonS3Connection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GOOGLE_BIGQUERY":
 		mm := GoogleBigQueryConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -209,52 +246,32 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := AzureDataLakeStorageConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MONGODB":
-		mm := MongoDbConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HDFS":
-		mm := HdfsConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := GoogleCloudStorageConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := OciObjectStorageConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA_SCHEMA_REGISTRY":
 		mm := KafkaSchemaRegistryConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MICROSOFT_SQLSERVER":
-		mm := MicrosoftSqlserverConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "AMAZON_KINESIS":
 		mm := AmazonKinesisConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "GENERIC":
-		mm := GenericConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_NOSQL":
 		mm := OracleNosqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AZURE_SYNAPSE_ANALYTICS":
-		mm := AzureSynapseConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "REDIS":
 		mm := RedisConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GOOGLE_PUBSUB":
+		mm := GooglePubSubConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Connection: %s.", m.ConnectionType)
+		common.Logf("Received unsupported enum value for Connection: %s.", m.ConnectionType)
 		return *m, nil
 	}
 }
@@ -317,6 +334,11 @@ func (m connection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m connection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m connection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 // GetId returns Id

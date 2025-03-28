@@ -272,7 +272,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 
 data "oci_containerengine_clusters" "test_clusters" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   name  = var.cluster_name

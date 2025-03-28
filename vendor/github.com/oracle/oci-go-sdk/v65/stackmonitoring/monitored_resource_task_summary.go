@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 // MonitoredResourceTaskSummary The summary details for the task.
 type MonitoredResourceTaskSummary struct {
 
-	// Task identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// Task identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Name of the task.
@@ -27,7 +27,10 @@ type MonitoredResourceTaskSummary struct {
 
 	TaskDetails MonitoredResourceTaskDetails `mandatory:"true" json:"taskDetails"`
 
-	// Identifiers OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
+	// Type of the task.
+	Type *string `mandatory:"false" json:"type"`
+
+	// Identifiers OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for work requests submitted for this task.
 	WorkRequestIds []string `mandatory:"false" json:"workRequestIds"`
 
 	// The date and time when the stack monitoring resource task was created, expressed in
@@ -76,6 +79,7 @@ func (m MonitoredResourceTaskSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceTaskSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Type           *string                                 `json:"type"`
 		WorkRequestIds []string                                `json:"workRequestIds"`
 		TimeCreated    *common.SDKTime                         `json:"timeCreated"`
 		TimeUpdated    *common.SDKTime                         `json:"timeUpdated"`
@@ -93,6 +97,8 @@ func (m *MonitoredResourceTaskSummary) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Type = model.Type
+
 	m.WorkRequestIds = make([]string, len(model.WorkRequestIds))
 	copy(m.WorkRequestIds, model.WorkRequestIds)
 	m.TimeCreated = model.TimeCreated

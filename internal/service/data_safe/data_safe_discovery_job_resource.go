@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -96,6 +96,15 @@ func DataSafeDiscoveryJobResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"schemas_for_discovery": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"sensitive_type_group_ids_for_discovery": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
@@ -328,6 +337,19 @@ func (s *DataSafeDiscoveryJobResourceCrud) Create() error {
 		request.SensitiveDataModelId = &tmp
 	}
 
+	if sensitiveTypeGroupIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_group_ids_for_discovery"); ok {
+		interfaces := sensitiveTypeGroupIdsForDiscovery.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("sensitive_type_group_ids_for_discovery") {
+			request.SensitiveTypeGroupIdsForDiscovery = tmp
+		}
+	}
+
 	if sensitiveTypeIdsForDiscovery, ok := s.D.GetOkExists("sensitive_type_ids_for_discovery"); ok {
 		interfaces := sensitiveTypeIdsForDiscovery.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -430,7 +452,7 @@ func discoveryJobWaitForWorkRequest(wId *string, entityType string, action oci_d
 	retryPolicy.ShouldRetryOperation = discoveryJobWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_data_safe.WorkRequestStatusInProgress),
 			string(oci_data_safe.WorkRequestStatusAccepted),
@@ -590,6 +612,8 @@ func (s *DataSafeDiscoveryJobResourceCrud) SetData() error {
 	if s.Res.SensitiveDataModelId != nil {
 		s.D.Set("sensitive_data_model_id", *s.Res.SensitiveDataModelId)
 	}
+
+	s.D.Set("sensitive_type_group_ids_for_discovery", s.Res.SensitiveTypeGroupIdsForDiscovery)
 
 	s.D.Set("sensitive_type_ids_for_discovery", s.Res.SensitiveTypeIdsForDiscovery)
 

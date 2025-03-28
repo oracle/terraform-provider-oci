@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 // TestBdsObjectStorageConnectionDetails Test access to specified Object Storage bucket using the API key.
 type TestBdsObjectStorageConnectionDetails struct {
 
-	// An Oracle Cloud Infrastructure URI to which this connection must be attempted. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	// An Oracle Cloud Infrastructure URI to which this connection must be attempted. See https://docs.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	ObjectStorageUri *string `mandatory:"true" json:"objectStorageUri"`
 
 	// Base64 passphrase used to secure the private key which will be created on user behalf.

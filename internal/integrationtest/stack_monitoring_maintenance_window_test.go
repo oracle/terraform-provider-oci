@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
@@ -49,7 +49,10 @@ var (
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `TFMaintenanceWindowsTest`},
 		"resources":      acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMaintenanceWindowResourcesRepresentation},
 		"schedule":       acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMaintenanceWindowScheduleRepresentation},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMaintenanceWindowIgnoreChangesRepresentation},
 	}
 
 	StackMonitoringMaintenanceWindowResourcesRepresentation = map[string]interface{}{
@@ -59,13 +62,17 @@ var (
 
 	StackMonitoringMaintenanceWindowScheduleRepresentation = map[string]interface{}{
 		"schedule_type":                  acctest.Representation{RepType: acctest.Required, Create: `ONE_TIME`, Update: `RECURRENT`},
-		"time_maintenance_window_start":  acctest.Representation{RepType: acctest.Required, Create: `${var.start_date}`, Update: `2024-10-17T10:47:01.001Z`},
-		"time_maintenance_window_end":    acctest.Representation{RepType: acctest.Required, Create: `${var.end_date}`, Update: `2024-10-28T10:47:01.001Z`},
+		"time_maintenance_window_start":  acctest.Representation{RepType: acctest.Required, Create: `${var.start_date}`, Update: `2025-02-08T10:48:01.001Z`},
+		"time_maintenance_window_end":    acctest.Representation{RepType: acctest.Required, Create: `${var.end_date}`, Update: `2025-02-09T10:48:01.001Z`},
 		"maintenance_window_duration":    acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `PT1H`},
 		"maintenance_window_recurrences": acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `FREQ=DAILY;BYHOUR=10`},
 	}
 
-	StackMonitoringMaintenanceWindowResourceDependencies = ""
+	StackMonitoringMaintenanceWindowIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `freeform_tags`, `defined_tags`}},
+	}
+
+	StackMonitoringMaintenanceWindowResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -132,6 +139,7 @@ func TestStackMonitoringMaintenanceWindowResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TFMaintenanceWindowsTest"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
@@ -162,6 +170,7 @@ func TestStackMonitoringMaintenanceWindowResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TFMaintenanceWindowsTest"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
@@ -169,8 +178,8 @@ func TestStackMonitoringMaintenanceWindowResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "resources.0.resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.0.schedule_type", "RECURRENT"),
-				resource.TestCheckResourceAttr(resourceName, "schedule.0.time_maintenance_window_start", "2024-10-17T10:47:01.001Z"),
-				resource.TestCheckResourceAttr(resourceName, "schedule.0.time_maintenance_window_end", "2024-10-28T10:47:01.001Z"),
+				resource.TestCheckResourceAttr(resourceName, "schedule.0.time_maintenance_window_start", "2025-02-08T10:48:01.001Z"),
+				resource.TestCheckResourceAttr(resourceName, "schedule.0.time_maintenance_window_end", "2025-02-09T10:48:01.001Z"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.0.maintenance_window_duration", "PT1H"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.0.maintenance_window_recurrences", "FREQ=DAILY;BYHOUR=10"),
 
@@ -210,6 +219,7 @@ func TestStackMonitoringMaintenanceWindowResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "TFMaintenanceWindowsTest"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resources.#", "1"),

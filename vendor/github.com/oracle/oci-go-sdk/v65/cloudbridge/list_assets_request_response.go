@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssets.go.html to see an example of how to use ListAssetsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssets.go.html to see an example of how to use ListAssetsRequest.
 type ListAssetsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -146,16 +146,22 @@ type ListAssetsAssetTypeEnum string
 const (
 	ListAssetsAssetTypeVmwareVm ListAssetsAssetTypeEnum = "VMWARE_VM"
 	ListAssetsAssetTypeVm       ListAssetsAssetTypeEnum = "VM"
+	ListAssetsAssetTypeAwsEc2   ListAssetsAssetTypeEnum = "AWS_EC2"
+	ListAssetsAssetTypeAwsEbs   ListAssetsAssetTypeEnum = "AWS_EBS"
 )
 
 var mappingListAssetsAssetTypeEnum = map[string]ListAssetsAssetTypeEnum{
 	"VMWARE_VM": ListAssetsAssetTypeVmwareVm,
 	"VM":        ListAssetsAssetTypeVm,
+	"AWS_EC2":   ListAssetsAssetTypeAwsEc2,
+	"AWS_EBS":   ListAssetsAssetTypeAwsEbs,
 }
 
 var mappingListAssetsAssetTypeEnumLowerCase = map[string]ListAssetsAssetTypeEnum{
 	"vmware_vm": ListAssetsAssetTypeVmwareVm,
 	"vm":        ListAssetsAssetTypeVm,
+	"aws_ec2":   ListAssetsAssetTypeAwsEc2,
+	"aws_ebs":   ListAssetsAssetTypeAwsEbs,
 }
 
 // GetListAssetsAssetTypeEnumValues Enumerates the set of values for ListAssetsAssetTypeEnum
@@ -172,6 +178,8 @@ func GetListAssetsAssetTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE_VM",
 		"VM",
+		"AWS_EC2",
+		"AWS_EBS",
 	}
 }
 

@@ -254,6 +254,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["character_set"] = *r.CharacterSet
 		}
 
+		autonomousDatabase["clone_table_space_list"] = r.CloneTableSpaceList
+
 		if r.ClusterPlacementGroupId != nil {
 			autonomousDatabase["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
 		}
@@ -376,6 +378,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_auto_scaling_for_storage_enabled"] = *r.IsAutoScalingForStorageEnabled
 		}
 
+		if r.IsBackupRetentionLocked != nil {
+			autonomousDatabase["is_backup_retention_locked"] = *r.IsBackupRetentionLocked
+		}
+
 		if r.IsDataGuardEnabled != nil {
 			autonomousDatabase["is_data_guard_enabled"] = *r.IsDataGuardEnabled
 		}
@@ -466,9 +472,20 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["long_term_backup_schedule"] = nil
 		}
 
+		if r.MaintenanceTargetComponent != nil {
+			autonomousDatabase["maintenance_target_component"] = *r.MaintenanceTargetComponent
+		}
+		//if r.MaxCpuCoreCount != nil {
+		//	autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		//}
+
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
+
+		//if r.MaxCpuCoreCount != nil {
+		//	autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		//}
 
 		if r.NcharacterSet != nil {
 			autonomousDatabase["ncharacter_set"] = *r.NcharacterSet

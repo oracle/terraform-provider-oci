@@ -66,6 +66,8 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("backup_source_type", s.Res.BackupSourceType)
+
 	s.D.Set("backup_type", s.Res.BackupType)
 
 	if s.Res.BucketName != nil {
@@ -94,6 +96,10 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 
 	if s.Res.IsAutomatic != nil {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
+	}
+
+	if s.Res.IsMetadataOnly != nil {
+		s.D.Set("is_metadata_only", *s.Res.IsMetadataOnly)
 	}
 
 	if s.Res.LifecycleDetails != nil {

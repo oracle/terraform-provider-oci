@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
@@ -61,7 +61,9 @@ var (
 		"day_of_week":                     acctest.Representation{RepType: acctest.Optional, Create: `MONDAY`, Update: `TUESDAY`},
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"match_rule":                      acctest.Representation{RepType: acctest.Optional, Create: `MATCH_ANY`, Update: `MATCH_ALL`},
 		"status":                          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"tag_filters":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`tagNamespace.tagKey=tagValue`}, Update: []string{`tagNamespace2.tagKey2=tagValue2`}},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesNewsReportRepresentation},
 	}
 
@@ -187,6 +189,26 @@ var (
 
 	OpsiNewsReportSqlInsightsTopSqlContentTypesRepresentation = map[string]interface{}{
 		"sql_insights_top_sql_resources": acctest.Representation{RepType: acctest.Required, Create: []string{`DATABASE`}, Update: []string{`DATABASE`, `EXADATA`}},
+	}
+
+	OpsiNewsReportActionableInsightsRepresentation = map[string]interface{}{
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"content_types":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiNewsReportActionableInsightsContentTypesRepresentation},
+		"description":                     acctest.Representation{RepType: acctest.Required, Create: `TF_TEST_REPORT_DESCRIPTION`, Update: `TF_TEST_REPORT_DESCRIPTION_2`},
+		"locale":                          acctest.Representation{RepType: acctest.Required, Create: `EN`},
+		"name":                            acctest.Representation{RepType: acctest.Required, Create: `TF_TEST_REPORT_NAME`, Update: `TF_TEST_REPORT_NAME_2`},
+		"news_frequency":                  acctest.Representation{RepType: acctest.Required, Create: `WEEKLY`},
+		"ons_topic_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.topic_id}`},
+		"are_child_compartments_included": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"day_of_week":                     acctest.Representation{RepType: acctest.Optional, Create: `MONDAY`, Update: `TUESDAY`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":                          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesNewsReportRepresentation},
+	}
+
+	OpsiNewsReportActionableInsightsContentTypesRepresentation = map[string]interface{}{
+		"actionable_insights_resources": acctest.Representation{RepType: acctest.Required, Create: []string{`NEW_HIGHS`}, Update: []string{`BIG_CHANGES`, `CURRENT_INVENTORY`}},
 	}
 
 	ignoreChangesNewsReportRepresentation = map[string]interface{}{
@@ -463,6 +485,40 @@ func TestOpsiNewsReportResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + OpsiNewsReportResourceDependencies,
 		},
 
+		//Step - Verify Create with Required for SqlInsightsTopSqlByInsights
+		{
+			Config: config + compartmentIdVariableStr + topicIdVariableStr + OpsiNewsReportResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_news_report", "test_news_report", acctest.Required, acctest.Create, OpsiNewsReportActionableInsightsRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "content_types.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "content_types.0.actionable_insights_resources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "TF_TEST_REPORT_DESCRIPTION"),
+				//resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locale", "EN"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TF_TEST_REPORT_NAME"),
+				resource.TestCheckResourceAttr(resourceName, "news_frequency", "WEEKLY"),
+				resource.TestCheckResourceAttrSet(resourceName, "ons_topic_id"),
+				//resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + OpsiNewsReportResourceDependencies,
+		},
+
 		//Step  - Verify Create with Optionals
 		{
 			Config: config + compartmentIdVariableStr + topicIdVariableStr + OpsiNewsReportResourceDependencies +
@@ -481,6 +537,8 @@ func TestOpsiNewsReportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "news_frequency", "WEEKLY"),
 				resource.TestCheckResourceAttrSet(resourceName, "ons_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "match_rule", "MATCH_ANY"),
+				resource.TestCheckResourceAttr(resourceName, "tag_filters.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -515,6 +573,8 @@ func TestOpsiNewsReportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "news_frequency", "WEEKLY"),
 				resource.TestCheckResourceAttrSet(resourceName, "ons_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "match_rule", "MATCH_ANY"),
+				resource.TestCheckResourceAttr(resourceName, "tag_filters.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

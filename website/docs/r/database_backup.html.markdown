@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_backup"
 sidebar_current: "docs-oci-resource-database-backup"
 description: |-
-  Provides the Backup resource in Oracle Cloud Infrastructure Database service
+	Provides the Backup resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_backup
@@ -40,15 +40,18 @@ The following attributes are exported:
 
 * `availability_domain` - The name of the availability domain where the database backup is stored.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `database_edition` - The Oracle Database edition of the DB system from which the database backup was taken. 
+* `database_edition` - The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE. 
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
-* `database_size_in_gbs` - The size of the database in gigabytes at the time the backup was taken. 
+* `database_size_in_gbs` - The size of the database in gigabytes at the time the backup was taken.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
+* `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup.
 * `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 * `key_store_wallet_name` - The wallet name for Oracle Key Vault.
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. 
+* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `shape` - Shape of the backup's source database.
 * `state` - The current state of the backup.
@@ -61,9 +64,9 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 1 hours), when creating the Backup
-	* `update` - (Defaults to 1 hours), when updating the Backup
-	* `delete` - (Defaults to 1 hours), when destroying the Backup
+* `create` - (Defaults to 1 hours), when creating the Backup
+* `update` - (Defaults to 1 hours), when updating the Backup
+* `delete` - (Defaults to 1 hours), when destroying the Backup
 
 
 ## Import
@@ -73,4 +76,3 @@ Backups can be imported using the `id`, e.g.
 ```
 $ terraform import oci_database_backup.test_backup "id"
 ```
-

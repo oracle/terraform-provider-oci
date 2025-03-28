@@ -233,7 +233,6 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -359,9 +358,19 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"compute_model": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -450,6 +459,13 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"scan_ipv6ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -472,6 +488,13 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"vip_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"vipv6ids": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
@@ -813,6 +836,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.TimeZone = &tmp
 	}
 
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.CreateCloudVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateCloudVmCluster(context.Background(), request)
@@ -881,7 +908,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
-	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok {
+	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok && s.D.HasChange("cloud_automation_update_details") {
 		if tmpList := cloudAutomationUpdateDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cloud_automation_update_details", 0)
 			tmp, err := s.mapToCloudAutomationUpdateDetails(fieldKeyFormat)
@@ -1098,6 +1125,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
@@ -1207,6 +1236,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 
+	s.D.Set("scan_ipv6ids", s.Res.ScanIpv6Ids)
+
 	if s.Res.ScanListenerPortTcp != nil {
 		s.D.Set("scan_listener_port_tcp", *s.Res.ScanListenerPortTcp)
 	}
@@ -1254,6 +1285,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	s.D.Set("vipv6ids", s.Res.Vipv6Ids)
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)
@@ -1335,8 +1370,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 			result.ApplyUpdateTimePreference = &tmp
 		}
 	}
-
-	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok {
+	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "freeze_period")) {
 		if tmpList := freezePeriod.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "freeze_period"), 0)
 			tmp, err := s.mapToCloudAutomationFreezePeriod(fieldKeyFormatNextLevel)
@@ -1352,7 +1386,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 		result.IsEarlyAdoptionEnabled = &tmp
 	}
 
-	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok {
+	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")) {
 		tmp := isFreezePeriodEnabled.(bool)
 		result.IsFreezePeriodEnabled = &tmp
 	}

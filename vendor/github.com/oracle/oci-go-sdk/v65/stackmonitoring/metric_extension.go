@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 // MetricExtension Detailed information of the Metric Extension resource
 type MetricExtension struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Metric Extension resource
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Metric Extension resource
 	Id *string `mandatory:"true" json:"id"`
 
 	// Metric Extension resource name
@@ -31,10 +31,10 @@ type MetricExtension struct {
 	// Resource type to which Metric Extension applies
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Tenant Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Tenant Identifier OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
 	// Collection Method  Metric Extension applies
@@ -69,7 +69,7 @@ type MetricExtension struct {
 	// Metric Extension update time. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// List of resource objects on which this metric extension is enabled.
+	// List of resource details objects having resourceIds on which this metric extension is enabled.
 	EnabledOnResources []EnabledResourceDetails `mandatory:"false" json:"enabledOnResources"`
 
 	// Count of resources on which this metric extension is enabled.

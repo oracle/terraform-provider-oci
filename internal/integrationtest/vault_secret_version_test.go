@@ -10,7 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -51,7 +51,6 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version_number"),

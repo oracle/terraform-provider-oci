@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Network Monitoring API
 //
 // Use the Network Monitoring API to troubleshoot routing and security issues for resources such as virtual cloud networks (VCNs) and compute instances. For more information, see the console
-// documentation for the Network Path Analyzer (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
+// documentation for the Network Path Analyzer (https://docs.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) tool.
 //
 
 package vnmonitoring
@@ -19,7 +19,7 @@ import (
 
 // DhcpDnsOption DHCP option for specifying how DNS (hostname resolution) is handled in the subnets in the VCN.
 // For more information, see
-// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 type DhcpDnsOption struct {
 
 	// If you set `serverType` to `CustomDnsServer`, specify the
@@ -36,7 +36,7 @@ type DhcpDnsOption struct {
 	// The Internet and VCN Resolver also enables reverse DNS lookup, which lets
 	// you determine the hostname corresponding to the private IP address. For more
 	// information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// * **CustomDnsServer:** Instances use a DNS server of your choice (three
 	// maximum).
 	ServerType DhcpDnsOptionServerTypeEnum `mandatory:"true" json:"serverType"`

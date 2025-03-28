@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateMultipartUpload.go.html to see an example of how to use CreateMultipartUploadRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateMultipartUpload.go.html to see an example of how to use CreateMultipartUploadRequest.
 type CreateMultipartUploadRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -41,22 +41,26 @@ type CreateMultipartUploadRequest struct {
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
 	// The optional header that specifies "AES256" as the encryption algorithm. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerAlgorithm *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-algorithm"`
 
 	// The optional header that specifies the base64-encoded 256-bit encryption key to use to encrypt or
 	// decrypt the data. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKey *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key"`
 
 	// The optional header that specifies the base64-encoded SHA256 hash of the encryption key. This
 	// value is used to check the integrity of the encryption key. For more information, see
-	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
+	// Using Your Own Keys for Server-Side Encryption (https://docs.oracle.com/iaas/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
 	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	OpcSseKmsKeyId *string `mandatory:"false" contributesTo:"header" name:"opc-sse-kms-key-id"`
+
+	// The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads),
+	// in addition to the default MD5 checksum.
+	OpcChecksumAlgorithm CreateMultipartUploadOpcChecksumAlgorithmEnum `mandatory:"false" contributesTo:"header" name:"opc-checksum-algorithm"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -119,6 +123,9 @@ func (request CreateMultipartUploadRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request CreateMultipartUploadRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingCreateMultipartUploadOpcChecksumAlgorithmEnum(string(request.OpcChecksumAlgorithm)); !ok && request.OpcChecksumAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpcChecksumAlgorithm: %s. Supported values are: %s.", request.OpcChecksumAlgorithm, strings.Join(GetCreateMultipartUploadOpcChecksumAlgorithmEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -152,4 +159,50 @@ func (response CreateMultipartUploadResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CreateMultipartUploadResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CreateMultipartUploadOpcChecksumAlgorithmEnum Enum with underlying type: string
+type CreateMultipartUploadOpcChecksumAlgorithmEnum string
+
+// Set of constants representing the allowable values for CreateMultipartUploadOpcChecksumAlgorithmEnum
+const (
+	CreateMultipartUploadOpcChecksumAlgorithmCrc32c CreateMultipartUploadOpcChecksumAlgorithmEnum = "CRC32C"
+	CreateMultipartUploadOpcChecksumAlgorithmSha256 CreateMultipartUploadOpcChecksumAlgorithmEnum = "SHA256"
+	CreateMultipartUploadOpcChecksumAlgorithmSha384 CreateMultipartUploadOpcChecksumAlgorithmEnum = "SHA384"
+)
+
+var mappingCreateMultipartUploadOpcChecksumAlgorithmEnum = map[string]CreateMultipartUploadOpcChecksumAlgorithmEnum{
+	"CRC32C": CreateMultipartUploadOpcChecksumAlgorithmCrc32c,
+	"SHA256": CreateMultipartUploadOpcChecksumAlgorithmSha256,
+	"SHA384": CreateMultipartUploadOpcChecksumAlgorithmSha384,
+}
+
+var mappingCreateMultipartUploadOpcChecksumAlgorithmEnumLowerCase = map[string]CreateMultipartUploadOpcChecksumAlgorithmEnum{
+	"crc32c": CreateMultipartUploadOpcChecksumAlgorithmCrc32c,
+	"sha256": CreateMultipartUploadOpcChecksumAlgorithmSha256,
+	"sha384": CreateMultipartUploadOpcChecksumAlgorithmSha384,
+}
+
+// GetCreateMultipartUploadOpcChecksumAlgorithmEnumValues Enumerates the set of values for CreateMultipartUploadOpcChecksumAlgorithmEnum
+func GetCreateMultipartUploadOpcChecksumAlgorithmEnumValues() []CreateMultipartUploadOpcChecksumAlgorithmEnum {
+	values := make([]CreateMultipartUploadOpcChecksumAlgorithmEnum, 0)
+	for _, v := range mappingCreateMultipartUploadOpcChecksumAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateMultipartUploadOpcChecksumAlgorithmEnumStringValues Enumerates the set of values in String for CreateMultipartUploadOpcChecksumAlgorithmEnum
+func GetCreateMultipartUploadOpcChecksumAlgorithmEnumStringValues() []string {
+	return []string{
+		"CRC32C",
+		"SHA256",
+		"SHA384",
+	}
+}
+
+// GetMappingCreateMultipartUploadOpcChecksumAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateMultipartUploadOpcChecksumAlgorithmEnum(val string) (CreateMultipartUploadOpcChecksumAlgorithmEnum, bool) {
+	enum, ok := mappingCreateMultipartUploadOpcChecksumAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

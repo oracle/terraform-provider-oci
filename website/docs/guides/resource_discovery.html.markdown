@@ -157,19 +157,23 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
+    * `dblm` - Discovers dblm resources within the specified compartment
     * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
+    * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
+    * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
+    * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
     * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
@@ -213,10 +217,11 @@ Make sure the `output_path` is empty before running resource discovery
     * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
-    * `security_attribute` - Discovers security attribute resources in the tenancy
+    * `security_attribute` - Discovers security attribute resources across the entire tenancy
     * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
+    * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
     * `vbs_inst` - Discovers vbs_inst resources within the specified compartment
@@ -415,6 +420,7 @@ bds
 * oci\_bds\_bds\_instance\_api\_key
 * oci\_bds\_bds\_instance\_metastore\_config
 * oci\_bds\_bds\_instance\_resource\_principal\_configuration
+* oci\_bds\_bds\_instance\_identity\_configuration
 
 blockchain
     
@@ -548,7 +554,11 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
+* oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
+* oci\_core\_byoasn
+* oci\_core\_compute\_gpu\_memory\_cluster
+* oci\_core\_compute\_gpu\_memory\_fabric
 
 data_labeling_service
     
@@ -585,15 +595,18 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_models\_sensitive\_column
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
-* oci\_data\_safe\_calculate\_audit\_volume\_available
-* oci\_data\_safe\_calculate\_audit\_volume\_collected
-* oci\_data\_safe\_generate\_on\_prem\_connector\_configuration
 * oci\_data\_safe\_security\_policy\_deployment
 * oci\_data\_safe\_security\_policy
 * oci\_data\_safe\_database\_security\_config
 * oci\_data\_safe\_sql\_firewall\_policy
 * oci\_data\_safe\_sql\_collection
 * oci\_data\_safe\_target\_database\_peer\_target\_database
+* oci\_data\_safe\_sensitive\_types\_export
+* oci\_data\_safe\_sensitive\_data\_model\_referential\_relation
+* oci\_data\_safe\_sensitive\_type\_group\_grouped\_sensitive\_type
+* oci\_data\_safe\_sensitive\_type\_group
+* oci\_data\_safe\_calculate\_audit\_volume\_available
+* oci\_data\_safe\_calculate\_audit\_volume\_collected
 
 database
     
@@ -627,9 +640,18 @@ database
 * oci\_database\_application\_vip
 * oci\_database\_oneoff\_patch
 * oci\_database\_db\_node\_console\_history
-* oci\_database\_autonomous\_database\_software\_image
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
+* oci\_database\_autonomous\_database\_software\_image
+* oci\_database\_scheduling\_plan
+* oci\_database\_scheduling\_policy\_scheduling\_window
+* oci\_database\_scheduling\_policy
+* oci\_database\_execution\_action
+* oci\_database\_execution\_window
+* oci\_database\_scheduled\_action
+* oci\_database\_exadata\_infrastructure\_configure\_exascale\_management
+* oci\_database\_autonomous\_container\_database\_snapshot\_standby
+* oci\_database\_autonomous\_container\_database\_add\_standby
 
 database_migration
     
@@ -683,6 +705,22 @@ datascience
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
+* oci\_datascience\_schedule
+* oci\_datascience\_model\_defined\_metadata\_artifact
+* oci\_datascience\_model\_custom\_metadata\_artifact
+
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
+
+delegate_access_control
+    
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
+
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
 
 delegate_access_control
     
@@ -733,12 +771,17 @@ dns
 * oci\_dns\_resolver\_endpoint
 * oci\_dns\_view
 
+em_warehouse
+
+* oci\_em\_warehouse\_em\_warehouse
+
 email
     
 * oci\_email\_suppression
 * oci\_email\_sender
 * oci\_email\_email\_domain
 * oci\_email\_dkim
+* oci\_email\_email\_return\_path
 
 events
     
@@ -753,13 +796,24 @@ file_storage
 * oci\_file\_storage\_replication
 * oci\_file\_storage\_filesystem\_snapshot\_policy
 * oci\_file\_storage\_outbound\_connector
+* oci\_file\_storage\_file\_system\_quota\_rule
 
 fleet_apps_management
     
+* oci\_fleet\_apps\_management\_task\_record
 * oci\_fleet\_apps\_management\_maintenance\_window
 * oci\_fleet\_apps\_management\_fleet
 * oci\_fleet\_apps\_management\_scheduler\_definition
 * oci\_fleet\_apps\_management\_property
+* oci\_fleet\_apps\_management\_runbook
+* oci\_fleet\_apps\_management\_platform\_configuration
+* oci\_fleet\_apps\_management\_compliance\_policy\_rule
+* oci\_fleet\_apps\_management\_patch
+
+fleet_software_update
+    
+* oci\_fleet\_software\_update\_fsu\_cycle
+* oci\_fleet\_software\_update\_fsu\_collection
 
 functions
     
@@ -782,6 +836,14 @@ generative_ai
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
 
+generative_ai_agent
+    
+* oci\_generative\_ai\_agent\_data\_source
+* oci\_generative\_ai\_agent\_agent
+* oci\_generative\_ai\_agent\_data\_ingestion\_job
+* oci\_generative\_ai\_agent\_knowledge\_base
+* oci\_generative\_ai\_agent\_agent\_endpoint
+
 globally_distributed_database
     
 * oci\_globally\_distributed\_database\_private\_endpoint
@@ -795,6 +857,7 @@ golden_gate
 * oci\_golden\_gate\_connection\_assignment
 * oci\_golden\_gate\_connection
 * oci\_golden\_gate\_deployment\_certificate
+* oci\_golden\_gate\_pipeline
 
 health_checks
     
@@ -1044,6 +1107,7 @@ opa
 opensearch
     
 * oci\_opensearch\_opensearch\_cluster
+* oci\_opensearch\_opensearch\_cluster\_pipeline
 
 operator_access_control
     
@@ -1077,12 +1141,19 @@ os_management_hub
 * oci\_os\_management\_hub\_managed\_instance\_install\_windows\_updates\_management
 * oci\_os\_management\_hub\_managed\_instance\_attach\_profile\_management
 * oci\_os\_management\_hub\_managed\_instance\_detach\_profile\_management
+* oci\_os\_management\_hub\_managed\_instance\_reboot\_management
 * oci\_os\_management\_hub\_profile
+* oci\_os\_management\_hub\_profile\_attach\_lifecycle\_stage\_management
+* oci\_os\_management\_hub\_profile\_attach\_managed\_instance\_group\_management
+* oci\_os\_management\_hub\_profile\_attach\_management\_station\_management
+* oci\_os\_management\_hub\_profile\_attach\_software\_sources\_management
+* oci\_os\_management\_hub\_profile\_detach\_software\_sources\_management
 * oci\_os\_management\_hub\_scheduled\_job
 * oci\_os\_management\_hub\_lifecycle\_environment
 * oci\_os\_management\_hub\_lifecycle\_stage\_attach\_managed\_instances\_management
 * oci\_os\_management\_hub\_lifecycle\_stage\_detach\_managed\_instances\_management
 * oci\_os\_management\_hub\_lifecycle\_stage\_promote\_software\_source\_management
+* oci\_os\_management\_hub\_lifecycle\_stage\_reboot\_management
 * oci\_os\_management\_hub\_managed\_instance\_group
 * oci\_os\_management\_hub\_managed\_instance\_group\_attach\_managed\_instances\_management
 * oci\_os\_management\_hub\_managed\_instance\_group\_detach\_managed\_instances\_management
@@ -1093,14 +1164,21 @@ os_management_hub
 * oci\_os\_management\_hub\_managed\_instance\_group\_update\_all\_packages\_management
 * oci\_os\_management\_hub\_managed\_instance\_group\_manage\_module\_streams\_management
 * oci\_os\_management\_hub\_managed\_instance\_group\_install\_windows\_updates\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_reboot\_management
 * oci\_os\_management\_hub\_management\_station
 * oci\_os\_management\_hub\_management\_station\_refresh\_management
+* oci\_os\_management\_hub\_management\_station\_associate\_managed\_instances\_management
 * oci\_os\_management\_hub\_management\_station\_synchronize\_mirrors\_management
 * oci\_os\_management\_hub\_management\_station\_mirror\_synchronize\_management
 * oci\_os\_management\_hub\_software\_source
 * oci\_os\_management\_hub\_software\_source\_change\_availability\_management
 * oci\_os\_management\_hub\_software\_source\_add\_packages\_management
+* oci\_os\_management\_hub\_software\_source\_remove\_packages\_management
+* oci\_os\_management\_hub\_software\_source\_replace\_packages\_management
+* oci\_os\_management\_hub\_software\_source\_generate\_metadata\_management
+* oci\_os\_management\_hub\_software\_source\_manifest
 * oci\_os\_management\_hub\_event
+* oci\_os\_management\_hub\_work\_request\_rerun\_management
 
 osmanagement
     
@@ -1177,12 +1255,18 @@ stack_monitoring
 * oci\_stack\_monitoring\_maintenance\_window
 * oci\_stack\_monitoring\_maintenance\_windows\_retry\_failed\_operation
 * oci\_stack\_monitoring\_maintenance\_windows\_stop
+* oci\_stack\_monitoring\_monitoring\_template\_alarm\_condition
+* oci\_stack\_monitoring\_monitoring\_template
 
 streaming
     
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
+
+tenantmanagercontrolplane
+    
+* oci\_tenantmanagercontrolplane\_subscription\_mapping
 
 usage_proxy
     

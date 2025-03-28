@@ -11,8 +11,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -78,8 +78,9 @@ var (
 	}
 
 	DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation2 = map[string]interface{}{
-		"autonomous_container_database_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
-		"fast_start_fail_over_lag_limit_in_seconds":         acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"autonomous_container_database_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+		"fast_start_fail_over_lag_limit_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		//"migrate_trigger":                                   acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 		"peer_autonomous_container_database_backup_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAddStandbyAutonomousContainerDatabaseBackupConfigRepresentation},
 		"peer_autonomous_vm_cluster_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_vm_cluster.peer_autonomous_vm_cluster.id}`},
 		"peer_db_unique_name":                               acctest.Representation{RepType: acctest.Optional, Create: acbDBName2},
@@ -138,17 +139,28 @@ var (
 			"role":                                                   acctest.Representation{RepType: acctest.Optional, Create: `STANDBY`},
 		})
 
+	DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id"}), map[string]interface{}{
+			"service_level_agreement_type":              acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+			"protection_mode":                           acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_AVAILABILITY`, Update: `MAXIMUM_PERFORMANCE`},
+			"is_automatic_failover_enabled":             acctest.Representation{RepType: acctest.Optional, Update: `false`},
+			"fast_start_fail_over_lag_limit_in_seconds": acctest.Representation{RepType: acctest.Optional, Update: `30`},
+			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
+		})) + AdbdDgDependencies
+
 	DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id"}), map[string]interface{}{
 			"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 			"protection_mode":              acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_AVAILABILITY`},
 			"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
-		})) +
-		DatabaseCloudAutonomousVmClusterResourceDependencies +
+		})) + AdbdDgDependencies
+
+	AdbdDgDependencies = DatabaseCloudAutonomousVmClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "peer_cloud_exadata_infrastructure", acctest.Required, acctest.Create, PeerCeiRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "test_cloud_autonomous_vm_cluster", acctest.Optional, acctest.Create, ATPDCloudAutonomousVmClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "peer_cloud_autonomous_vm_cluster", acctest.Optional, acctest.Create, PeerCloudAvmRepresentation)
 
+	AdbccDgDependencies       = ExaccAddStandbyACDWithDataGuardResourceDependencies
 	ignoreDataguardChangesRep = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`peer_autonomous_container_database_compartment_id`,
 			`peer_autonomous_container_database_display_name`,
@@ -157,7 +169,6 @@ var (
 			`peer_cloud_autonomous_vm_cluster_id`,
 			`peer_db_unique_name`,
 			`service_level_agreement_type`,
-			`protection_mode`,
 			`peer_autonomous_container_database_backup_config`}},
 	}
 

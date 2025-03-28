@@ -13,9 +13,9 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_container_instances "github.com/oracle/oci-go-sdk/v65/containerinstances"
 
@@ -436,6 +436,19 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.environment_variables.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.failure_action", "KILL"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.failure_threshold", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.health_check_type", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.initial_delay_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.interval_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.path", "path"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.success_threshold", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.image_url", "busybox"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.is_resource_principal_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.#", "1"),
@@ -516,6 +529,19 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.environment_variables.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.failure_action", "KILL"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.failure_threshold", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.health_check_type", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.initial_delay_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.interval_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.path", "path"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.success_threshold", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.image_url", "busybox"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.is_resource_principal_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.#", "1"),
@@ -591,6 +617,19 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.environment_variables.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.failure_action", "KILL"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.failure_threshold", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.headers.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.health_check_type", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.initial_delay_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.interval_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.path", "path"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.success_threshold", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.health_checks.0.timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.image_url", "busybox"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.is_resource_principal_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.#", "1"),

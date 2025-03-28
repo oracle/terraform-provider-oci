@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -55,7 +55,9 @@ var (
 		"state":                          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"time_end":                       acctest.Representation{RepType: acctest.Optional, Create: timeEnd},
 		"time_start":                     acctest.Representation{RepType: acctest.Optional, Create: timeStart},
-		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubScheduledJobDataSourceFilterRepresentation}}
+		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubScheduledJobDataSourceFilterRepresentation},
+	}
+
 	OsManagementHubScheduledJobDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_os_management_hub_scheduled_job.test_scheduled_job.id}`}},
@@ -188,6 +190,33 @@ var (
 		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: scheduledJobDefinedTagsIgnoreChangesRepresentation},
 		"retry_intervals":                acctest.Representation{RepType: acctest.Optional, Create: []int{1, 3}, Update: []int{1, 5}},
 	}
+	OsManagementHubScheduledJobRerun = map[string]interface{}{
+		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"operations":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubScheduledJobOperationsRepresentationRerun},
+		"schedule_type":                  acctest.Representation{RepType: acctest.Required, Create: `ONETIME`, Update: `ONETIME`},
+		"time_next_execution":            acctest.Representation{RepType: acctest.Required, Create: timeNextExecution, Update: timeNextExecution2},
+		"description":                    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_managed_by_autonomous_linux": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"managed_instance_ids":           acctest.Representation{RepType: acctest.Required, Create: []string{`${var.managed_instance_id}`}},
+		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: scheduledJobDefinedTagsIgnoreChangesRepresentation},
+		"retry_intervals":                acctest.Representation{RepType: acctest.Optional, Create: []int{1, 3}, Update: []int{1, 5}},
+		"work_request_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.osmh_work_request_id}`},
+	}
+	OsManagementHubScheduledJobReboot = map[string]interface{}{
+		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"operations":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubScheduledJobOperationsRepresentationReboot},
+		"schedule_type":                  acctest.Representation{RepType: acctest.Required, Create: `ONETIME`, Update: `ONETIME`},
+		"time_next_execution":            acctest.Representation{RepType: acctest.Required, Create: timeNextExecution, Update: timeNextExecution2},
+		"description":                    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_managed_by_autonomous_linux": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"managed_instance_ids":           acctest.Representation{RepType: acctest.Required, Create: []string{`${var.managed_instance_id}`}},
+		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: scheduledJobDefinedTagsIgnoreChangesRepresentation},
+		"retry_intervals":                acctest.Representation{RepType: acctest.Optional, Create: []int{1, 3}, Update: []int{1, 5}},
+	}
 	OsManagementHubScheduledJobOperationsRepresentationUpdateAll = map[string]interface{}{
 		"operation_type": acctest.Representation{RepType: acctest.Required, Create: `UPDATE_ALL`, Update: nil},
 	}
@@ -213,6 +242,12 @@ var (
 	OsManagementHubScheduledJobOperationsRepresentationWindows = map[string]interface{}{
 		"operation_type":       acctest.Representation{RepType: acctest.Required, Create: `INSTALL_WINDOWS_UPDATES`, Update: `INSTALL_WINDOWS_UPDATES`},
 		"windows_update_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`windowsUpdateNames`}, Update: []string{`windowsUpdateNames2`}},
+	}
+	OsManagementHubScheduledJobOperationsRepresentationRerun = map[string]interface{}{
+		"operation_type": acctest.Representation{RepType: acctest.Required, Create: `RERUN_WORK_REQUEST`},
+	}
+	OsManagementHubScheduledJobOperationsRepresentationReboot = map[string]interface{}{
+		"operation_type": acctest.Representation{RepType: acctest.Required, Create: `REBOOT`},
 	}
 	OsManagementHubScheduledJobOperationsManageModuleStreamsDetailsRepresentation = map[string]interface{}{
 		"disable": acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubScheduledJobOperationsManageModuleStreamsDetailsDisableRepresentation},
@@ -261,11 +296,14 @@ func TestOsManagementHubScheduledJobResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	managedInstanceId := utils.GetEnvSettingWithBlankDefault("TF_VAR_managed_instance_for_scheduled_job_ocid")
+	managedInstanceId := utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")
 	managedInstanceIdVariableStr := fmt.Sprintf("variable \"managed_instance_id\" { default = \"%s\" }\n", managedInstanceId)
 
-	managedInstanceWindowsId := utils.GetEnvSettingWithBlankDefault("TF_VAR_osmh_managed_instance_windows_ocid")
+	managedInstanceWindowsId := utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_windows_ocid")
 	managedInstanceWindowsIdVariableStr := fmt.Sprintf("variable \"managed_instance_windows_id\" { default = \"%s\" }\n", managedInstanceWindowsId)
+
+	workRequestId := makeFailedWorkRequest()
+	workRequestIdVariableStr := fmt.Sprintf("variable \"osmh_work_request_id\" { default = \"%s\" }\n", workRequestId)
 
 	resourceName := "oci_os_management_hub_scheduled_job.test_scheduled_job"
 	datasourceName := "data.oci_os_management_hub_scheduled_jobs.test_scheduled_jobs"
@@ -758,12 +796,54 @@ func TestOsManagementHubScheduledJobResource_basic(t *testing.T) {
 				// resource.TestCheckResourceAttr(singularDatasourceName, "work_request_ids.#", "1"),
 			),
 		},
-		// 24. verify resource import
+		// 24. reboot scheduled job
+		{
+
+			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_scheduled_job", "test_scheduled_job", acctest.Optional, acctest.Create, OsManagementHubScheduledJobReboot) +
+				compartmentIdVariableStr + managedInstanceIdVariableStr + workRequestIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_managed_by_autonomous_linux", "false"),
+				resource.TestCheckResourceAttr(resourceName, "operations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "operations.0.operation_type", "REBOOT"),
+				resource.TestCheckResourceAttr(resourceName, "schedule_type", "ONETIME"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "time_next_execution", timeNextExecution),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+			),
+		},
+		// 25. rerun scheduled job
+		{
+			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_scheduled_job", "test_scheduled_job", acctest.Optional, acctest.Create, OsManagementHubScheduledJobRerun) +
+				compartmentIdVariableStr + managedInstanceIdVariableStr + workRequestIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_managed_by_autonomous_linux", "false"),
+				resource.TestCheckResourceAttr(resourceName, "operations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "operations.0.operation_type", "RERUN_WORK_REQUEST"),
+				resource.TestCheckResourceAttr(resourceName, "schedule_type", "ONETIME"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "time_next_execution", timeNextExecution),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "work_request_id", workRequestId),
+			),
+		},
+		// 26. verify resource import
 		{
 			Config:                  config + OsManagementHubScheduledJobRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"time_next_execution"},
 			ResourceName:            resourceName,
 		},
 	})

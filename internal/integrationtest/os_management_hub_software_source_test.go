@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -33,6 +33,9 @@ var (
 	OsManagementHubSoftwareSourceSingularDataSourceRepresentation = map[string]interface{}{
 		"software_source_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
 	}
+	OsManagementHubCreatedSoftwareSourceSingularDataSourceRepresentation = map[string]interface{}{
+		"software_source_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_software_source.test_software_source.id}`},
+	}
 
 	OsManagementHubSoftwareSourceDataSourceRepresentation = map[string]interface{}{
 		"arch_type":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
@@ -44,6 +47,7 @@ var (
 		"display_name_contains":             acctest.Representation{RepType: acctest.Optional, Create: `ol8_baseos_latest-x86_64`},
 		"display_name_not_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: []string{`displayNameNotEqualTo`}},
 		"is_mandatory_for_autonomous_linux": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_mirror_sync_allowed":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"os_family":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
 		"software_source_id":                acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
 		"software_source_type":              acctest.Representation{RepType: acctest.Optional, Create: []string{`VENDOR`}},
@@ -54,6 +58,50 @@ var (
 	OsManagementHubSoftwareSourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`}},
+	}
+	OsManagementHubCustomSoftwareSourceDataSourceRepresentation = map[string]interface{}{
+		"arch_type":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
+		"availability":              acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_anywhere":     acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_at_oci":       acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name_contains":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`displayNameNotEqualTo`}},
+		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
+		"software_source_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_software_source.test_software_source.id}`},
+		"software_source_type":      acctest.Representation{RepType: acctest.Optional, Create: []string{`CUSTOM`}},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
+	}
+	OsManagementHubPrivateSoftwareSourceDataSourceRepresentation = map[string]interface{}{
+		"arch_type":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
+		"availability":              acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_anywhere":     acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_at_oci":       acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name_contains":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`displayNameNotEqualTo`}},
+		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
+		"software_source_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_software_source.test_software_source.id}`},
+		"software_source_type":      acctest.Representation{RepType: acctest.Optional, Create: []string{`PRIVATE`}},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
+		"is_mirror_sync_allowed":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	OsManagementHubThirdPartySoftwareSourceDataSourceRepresentation = map[string]interface{}{
+		"arch_type":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
+		"availability":              acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_anywhere":     acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_at_oci":       acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name_contains":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`displayNameNotEqualTo`}},
+		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
+		"software_source_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_software_source.test_software_source.id}`},
+		"software_source_type":      acctest.Representation{RepType: acctest.Optional, Create: []string{`THIRD_PARTY`}},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
+		"is_mirror_sync_allowed":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Representation = map[string]interface{}{
@@ -106,14 +154,50 @@ var (
 		"is_auto_resolve_dependencies": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_automatically_updated":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_created_from_package_list": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreVendorSSChangesRepresentation},
 	}
+
+	OsManagementHubPrivateSoftwareSourceRepresentation = map[string]interface{}{
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"software_source_type":   acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"os_family":              acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
+		"arch_type":              acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"url":                    acctest.Representation{RepType: acctest.Required, Create: `https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current`, Update: `https://downloads.linux.hpe.com/repo/spp-gen10/redhat/8/x86_64/current`},
+		"gpg_key_url":            acctest.Representation{RepType: acctest.Optional, Create: `file:///etc/pki/rpm-gpg/GPG-KEY-ilorest`, Update: `https://downloads.linux.hpe.com/repo/spp/GPG-KEY-spp`},
+		"is_gpg_check_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_ssl_verify_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"advanced_repo_options":  acctest.Representation{RepType: acctest.Optional, Create: `metadata_expire=300`, Update: `metadata_expire=10`},
+		"is_mirror_sync_allowed": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+	}
+
+	OsManagementHubThirdPartySoftwareSourceRepresentation = map[string]interface{}{
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"software_source_type":   acctest.Representation{RepType: acctest.Required, Create: `THIRD_PARTY`},
+		"os_family":              acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
+		"arch_type":              acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"url":                    acctest.Representation{RepType: acctest.Required, Create: `https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current`, Update: `https://downloads.linux.hpe.com/repo/spp-gen10/redhat/8/x86_64/current`},
+		"gpg_key_url":            acctest.Representation{RepType: acctest.Optional, Create: `file:///etc/pki/rpm-gpg/GPG-KEY-ilorest`, Update: `https://downloads.linux.hpe.com/repo/spp/GPG-KEY-spp`},
+		"is_gpg_check_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_ssl_verify_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"advanced_repo_options":  acctest.Representation{RepType: acctest.Optional, Create: `metadata_expire=300`, Update: `metadata_expire=10`},
+		"is_mirror_sync_allowed": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+	}
+
 	OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation = map[string]interface{}{
-		"display_name": acctest.Representation{RepType: acctest.Required, Create: `ol8_appstream-x86_64`},
-		"id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}`},
-	}
-	OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2 = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `ol8_baseos_latest-x86_64`},
 		"id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
+	}
+	OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2 = map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `ol8_appstream-x86_64`},
+		"id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}`},
 	}
 	OsManagementHubSoftwareSourceCustomSoftwareSourceFilterRepresentation = map[string]interface{}{
 		"module_stream_profile_filters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubSoftwareSourceCustomSoftwareSourceFilterModuleStreamProfileFiltersRepresentation},
@@ -158,10 +242,11 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceRepresentation), "osmanagementhub", "softwareSource", t)
 
 	acctest.ResourceTest(t, testAccCheckOsManagementHubSoftwareSourceDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create custom software source
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_type", "CUSTOM"),
@@ -180,11 +265,11 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr,
 		},
-		// verify Create with optionals
+		// verify Create custom software source with optionals
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -203,6 +288,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "false"),
@@ -230,7 +316,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment for custom software source (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create,
@@ -238,7 +324,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -259,6 +345,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "false"),
@@ -284,11 +371,11 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		// verify updates to updatable parameters for custom software source
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Update, OsManagementHubSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -315,12 +402,10 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
 				resource.TestCheckResourceAttr(resourceName, "packages.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_sub_type", "FILTER"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_type", "CUSTOM"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "url"),
-				resource.TestCheckResourceAttr(resourceName, "vendor_software_sources.#", "2"),
-				resource.TestCheckResourceAttrSet(resourceName, "vendor_software_sources.0.display_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "vendor_software_sources.0.id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -331,15 +416,65 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify resource import
+		// verify resource import for custom software source
 		{
-			Config:                  config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceRepresentation),
+			Config: config + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"state", "package_count"},
+			ImportStateVerifyIgnore: []string{"state", "package_count", "size"},
 			ResourceName:            resourceName,
 		},
-		// verify datasource
+		// verify datasource for custom software source
+		{
+			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "test_software_sources", acctest.Optional, acctest.Update, OsManagementHubCustomSoftwareSourceDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "arch_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_anywhere.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_at_oci.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_not_equal_to.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.#", "1"),
+			),
+		},
+
+		// verify singular datasource for custom software source
+		{
+			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubCreatedSoftwareSourceSingularDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "software_source_type", "CUSTOM"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "url"),
+			),
+		},
+
+		// verify datasource for vendor software source
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "test_software_sources", acctest.Optional, acctest.Update, OsManagementHubSoftwareSourceDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -352,22 +487,22 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "ol8_baseos_latest-x86_64"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_not_equal_to.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "is_mandatory_for_autonomous_linux", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "is_mirror_sync_allowed", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
 				resource.TestCheckResourceAttr(datasourceName, "software_source_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vendor_name", "ORACLE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.#", "1"),
 			),
 		},
-		// verify singular datasource
+		// verify singular datasource for vendor software source
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceSingularDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
 
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "arch_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "X86_64"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "checksum_type"),
@@ -376,17 +511,413 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ol8_baseos_latest-x86_64"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_fingerprint"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_url"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_mandatory_for_autonomous_linux"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_family"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_id"),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "software_source_type", "VENDOR"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "url"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vendor_name"),
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+
+		// verify Create private software source
+		{
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubPrivateSoftwareSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "PRIVATE"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+
+		// verify Create private software source with optionals
+		{
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create, OsManagementHubPrivateSoftwareSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/GPG-KEY-ilorest"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_repo_options", "metadata_expire=300"),
+				resource.TestCheckResourceAttr(resourceName, "is_mirror_sync_allowed", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_ssl_verify_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_gpg_check_enabled", "true"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment for private software source (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubPrivateSoftwareSourceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/GPG-KEY-ilorest"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_repo_options", "metadata_expire=300"),
+				resource.TestCheckResourceAttr(resourceName, "is_mirror_sync_allowed", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_ssl_verify_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_gpg_check_enabled", "true"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters for private software source
+		{
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Update, OsManagementHubPrivateSoftwareSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "https://downloads.linux.hpe.com/repo/spp/GPG-KEY-spp"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/repo/spp-gen10/redhat/8/x86_64/current"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_repo_options", "metadata_expire=10"),
+				resource.TestCheckResourceAttr(resourceName, "is_mirror_sync_allowed", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_ssl_verify_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_gpg_check_enabled", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify resource import for private software source
+		{
+			Config:                  config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubPrivateSoftwareSourceRepresentation),
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"state", "package_count"},
+			ResourceName:            resourceName,
+		},
+
+		// verify datasource for private software source
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubPrivateSoftwareSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "test_software_sources", acctest.Optional, acctest.Update, OsManagementHubPrivateSoftwareSourceDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "arch_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_anywhere.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_at_oci.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_not_equal_to.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "is_mirror_sync_allowed", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.#", "1"),
+			),
+		},
+
+		// verify singular datasource for private software source
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubPrivateSoftwareSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubCreatedSoftwareSourceSingularDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "software_source_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "url"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "advanced_repo_options"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_mirror_sync_allowed"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_ssl_verify_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_gpg_check_enabled"),
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+
+		// verify Create third party software source
+		{
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubThirdPartySoftwareSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "THIRD_PARTY"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+
+		// verify Create third party software source with optionals
+		{
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create, OsManagementHubThirdPartySoftwareSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/GPG-KEY-ilorest"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "THIRD_PARTY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_repo_options", "metadata_expire=300"),
+				resource.TestCheckResourceAttr(resourceName, "is_mirror_sync_allowed", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_ssl_verify_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_gpg_check_enabled", "true"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment for third party software source (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubThirdPartySoftwareSourceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "file:///etc/pki/rpm-gpg/GPG-KEY-ilorest"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "THIRD_PARTY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/SDR/repo/ilorest/rhel/8/x86_64/current"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_repo_options", "metadata_expire=300"),
+				resource.TestCheckResourceAttr(resourceName, "is_mirror_sync_allowed", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_ssl_verify_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_gpg_check_enabled", "true"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters for third party software source
+		{
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Update, OsManagementHubThirdPartySoftwareSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gpg_key_url", "https://downloads.linux.hpe.com/repo/spp/GPG-KEY-spp"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "THIRD_PARTY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "url", "https://downloads.linux.hpe.com/repo/spp-gen10/redhat/8/x86_64/current"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_repo_options", "metadata_expire=10"),
+				resource.TestCheckResourceAttr(resourceName, "is_mirror_sync_allowed", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_ssl_verify_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_gpg_check_enabled", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify resource import for third party software source
+		{
+			Config:                  config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubThirdPartySoftwareSourceRepresentation),
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"state", "package_count"},
+			ResourceName:            resourceName,
+		},
+
+		// verify datasource for third party software source
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubThirdPartySoftwareSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "test_software_sources", acctest.Optional, acctest.Update, OsManagementHubThirdPartySoftwareSourceDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "arch_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_anywhere.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_at_oci.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_not_equal_to.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "is_mirror_sync_allowed", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.#", "1"),
+			),
+		},
+
+		// verify singular datasource for third party software source
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubThirdPartySoftwareSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubCreatedSoftwareSourceSingularDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "software_source_type", "THIRD_PARTY"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "url"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "advanced_repo_options"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_mirror_sync_allowed"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_ssl_verify_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_gpg_check_enabled"),
 			),
 		},
 	})

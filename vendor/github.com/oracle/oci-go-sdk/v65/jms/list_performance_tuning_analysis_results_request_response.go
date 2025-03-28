@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListPerformanceTuningAnalysisResults.go.html to see an example of how to use ListPerformanceTuningAnalysisResultsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListPerformanceTuningAnalysisResults.go.html to see an example of how to use ListPerformanceTuningAnalysisResultsRequest.
 type ListPerformanceTuningAnalysisResultsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The Fleet-unique identifier of the related managed instance.
@@ -27,7 +27,10 @@ type ListPerformanceTuningAnalysisResultsRequest struct {
 	// The Fleet-unique identifier of the related application.
 	ApplicationId *string `mandatory:"false" contributesTo:"query" name:"applicationId"`
 
-	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the managed instance.
+	// The name of the application.
+	ApplicationName *string `mandatory:"false" contributesTo:"query" name:"applicationName"`
+
+	// The host OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	HostName *string `mandatory:"false" contributesTo:"query" name:"hostName"`
 
 	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
@@ -117,7 +120,7 @@ type ListPerformanceTuningAnalysisResultsResponse struct {
 
 	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

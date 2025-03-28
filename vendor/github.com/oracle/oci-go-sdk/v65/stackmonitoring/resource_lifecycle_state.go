@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,6 +21,7 @@ const (
 	ResourceLifecycleStateCreating ResourceLifecycleStateEnum = "CREATING"
 	ResourceLifecycleStateUpdating ResourceLifecycleStateEnum = "UPDATING"
 	ResourceLifecycleStateActive   ResourceLifecycleStateEnum = "ACTIVE"
+	ResourceLifecycleStateInactive ResourceLifecycleStateEnum = "INACTIVE"
 	ResourceLifecycleStateDeleting ResourceLifecycleStateEnum = "DELETING"
 	ResourceLifecycleStateDeleted  ResourceLifecycleStateEnum = "DELETED"
 	ResourceLifecycleStateFailed   ResourceLifecycleStateEnum = "FAILED"
@@ -30,6 +31,7 @@ var mappingResourceLifecycleStateEnum = map[string]ResourceLifecycleStateEnum{
 	"CREATING": ResourceLifecycleStateCreating,
 	"UPDATING": ResourceLifecycleStateUpdating,
 	"ACTIVE":   ResourceLifecycleStateActive,
+	"INACTIVE": ResourceLifecycleStateInactive,
 	"DELETING": ResourceLifecycleStateDeleting,
 	"DELETED":  ResourceLifecycleStateDeleted,
 	"FAILED":   ResourceLifecycleStateFailed,
@@ -39,6 +41,7 @@ var mappingResourceLifecycleStateEnumLowerCase = map[string]ResourceLifecycleSta
 	"creating": ResourceLifecycleStateCreating,
 	"updating": ResourceLifecycleStateUpdating,
 	"active":   ResourceLifecycleStateActive,
+	"inactive": ResourceLifecycleStateInactive,
 	"deleting": ResourceLifecycleStateDeleting,
 	"deleted":  ResourceLifecycleStateDeleted,
 	"failed":   ResourceLifecycleStateFailed,
@@ -59,6 +62,7 @@ func GetResourceLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

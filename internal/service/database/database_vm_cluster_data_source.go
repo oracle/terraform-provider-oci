@@ -80,6 +80,8 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
 	}
@@ -114,6 +116,10 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
+	}
+
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
 	}
 
 	fileSystemConfigurationDetails := []interface{}{}
@@ -162,6 +168,8 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
+
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
@@ -177,6 +185,8 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }

@@ -10,8 +10,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 )
 
@@ -51,11 +51,10 @@ var (
 		// Optionals
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
-		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2024-06-22T00:00:00Z`, Update: `2024-06-24T00:00:00Z`},
-		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2024-06-16T00:00:00Z`, Update: `2024-06-18T00:00:00Z`},
+		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2024-12-20T00:00:00Z`, Update: `2024-12-30T00:00:00Z`},
+		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2024-12-01T00:00:00Z`, Update: `2024-12-10T00:00:00Z`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"state":         acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
 	}
 )
@@ -123,8 +122,8 @@ func TestResourceSchedulerScheduleDefinedTagResourceFilter(t *testing.T) {
 
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName1"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-06-22T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-06-16T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-12-20T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-12-01T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "0"),

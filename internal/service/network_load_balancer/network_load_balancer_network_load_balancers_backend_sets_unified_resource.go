@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -160,6 +160,11 @@ func NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource() *schema
 			},
 
 			// Optional
+			"are_operationally_active_backends_preferred": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"backends": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -229,6 +234,11 @@ func NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource() *schema
 				Optional: true,
 				Computed: true,
 			},
+			"is_instant_failover_tcp_reset_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_preserve_source": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -287,6 +297,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) Create() error {
 	request := oci_network_load_balancer.CreateBackendSetRequest{}
 
+	if areOperationallyActiveBackendsPreferred, ok := s.D.GetOkExists("are_operationally_active_backends_preferred"); ok {
+		tmp := areOperationallyActiveBackendsPreferred.(bool)
+		request.AreOperationallyActiveBackendsPreferred = &tmp
+	}
+
 	if backends, ok := s.D.GetOkExists("backends"); ok {
 		set := backends.(*schema.Set)
 		interfaces := set.List()
@@ -328,6 +343,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	if isInstantFailoverEnabled, ok := s.D.GetOkExists("is_instant_failover_enabled"); ok {
 		tmp := isInstantFailoverEnabled.(bool)
 		request.IsInstantFailoverEnabled = &tmp
+	}
+
+	if isInstantFailoverTcpResetEnabled, ok := s.D.GetOkExists("is_instant_failover_tcp_reset_enabled"); ok {
+		tmp := isInstantFailoverTcpResetEnabled.(bool)
+		request.IsInstantFailoverTcpResetEnabled = &tmp
 	}
 
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
@@ -382,7 +402,7 @@ func networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(wId *string, actio
 	retryPolicy.ShouldRetryOperation = networkLoadBalancerWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_network_load_balancer.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_network_load_balancer.OperationStatusInProgress),
 			string(oci_network_load_balancer.OperationStatusAccepted),
@@ -490,6 +510,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) Update() error {
 	request := oci_network_load_balancer.UpdateBackendSetRequest{}
 
+	if areOperationallyActiveBackendsPreferred, ok := s.D.GetOkExists("are_operationally_active_backends_preferred"); ok {
+		tmp := areOperationallyActiveBackendsPreferred.(bool)
+		request.AreOperationallyActiveBackendsPreferred = &tmp
+	}
+
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
 		tmp := backendSetName.(string)
 		request.BackendSetName = &tmp
@@ -536,6 +561,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	if isInstantFailoverEnabled, ok := s.D.GetOkExists("is_instant_failover_enabled"); ok {
 		tmp := isInstantFailoverEnabled.(bool)
 		request.IsInstantFailoverEnabled = &tmp
+	}
+
+	if isInstantFailoverTcpResetEnabled, ok := s.D.GetOkExists("is_instant_failover_tcp_reset_enabled"); ok {
+		tmp := isInstantFailoverTcpResetEnabled.(bool)
+		request.IsInstantFailoverTcpResetEnabled = &tmp
 	}
 
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
@@ -601,6 +631,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
+	if s.Res.AreOperationallyActiveBackendsPreferred != nil {
+		s.D.Set("are_operationally_active_backends_preferred", *s.Res.AreOperationallyActiveBackendsPreferred)
+	}
+
 	backends := []interface{}{}
 	for _, item := range s.Res.Backends {
 		backends = append(backends, BackendToMap(item))
@@ -621,6 +655,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	if s.Res.IsInstantFailoverEnabled != nil {
 		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
+	}
+
+	if s.Res.IsInstantFailoverTcpResetEnabled != nil {
+		s.D.Set("is_instant_failover_tcp_reset_enabled", *s.Res.IsInstantFailoverTcpResetEnabled)
 	}
 
 	if s.Res.IsPreserveSource != nil {
@@ -743,6 +781,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 func BackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AreOperationallyActiveBackendsPreferred != nil {
+		result["are_operationally_active_backends_preferred"] = bool(*obj.AreOperationallyActiveBackendsPreferred)
+	}
+
 	// TODO: How does this work?
 	backends := []interface{}{}
 	for _, item := range obj.Backends {
@@ -762,6 +804,10 @@ func BackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) map
 
 	if obj.IsInstantFailoverEnabled != nil {
 		result["is_instant_failover_enabled"] = bool(*obj.IsInstantFailoverEnabled)
+	}
+
+	if obj.IsInstantFailoverTcpResetEnabled != nil {
+		result["is_instant_failover_tcp_reset_enabled"] = bool(*obj.IsInstantFailoverTcpResetEnabled)
 	}
 
 	if obj.IsPreserveSource != nil {

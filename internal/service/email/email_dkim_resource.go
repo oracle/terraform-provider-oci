@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -63,6 +63,13 @@ func EmailDkimResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"private_key": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
 
 			// Computed
 			"cname_record_value": {
@@ -75,6 +82,14 @@ func EmailDkimResource() *schema.Resource {
 			},
 			"dns_subdomain_name": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_imported": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"key_length": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"lifecycle_details": {
@@ -205,6 +220,11 @@ func (s *EmailDkimResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
+	if privateKey, ok := s.D.GetOkExists("private_key"); ok {
+		tmp := privateKey.(string)
+		request.PrivateKey = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.CreateDkim(context.Background(), request)
@@ -267,7 +287,7 @@ func dkimWaitForWorkRequest(wId *string, entityType string, action oci_email.Act
 	retryPolicy.ShouldRetryOperation = dkimWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_email.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_email.OperationStatusInProgress),
 			string(oci_email.OperationStatusAccepted),
@@ -436,6 +456,14 @@ func (s *EmailDkimResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsImported != nil {
+		s.D.Set("is_imported", *s.Res.IsImported)
+	}
+
+	if s.Res.KeyLength != nil {
+		s.D.Set("key_length", *s.Res.KeyLength)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -488,6 +516,14 @@ func DkimSummaryToMap(obj oci_email.DkimSummary) map[string]interface{} {
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsImported != nil {
+		result["is_imported"] = bool(*obj.IsImported)
+	}
+
+	if obj.KeyLength != nil {
+		result["key_length"] = int(*obj.KeyLength)
 	}
 
 	if obj.Name != nil {

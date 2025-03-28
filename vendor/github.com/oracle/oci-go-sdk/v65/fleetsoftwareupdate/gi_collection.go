@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -45,6 +45,9 @@ type GiCollection struct {
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	LastCompletedFsuCycleId *string `mandatory:"false" json:"lastCompletedFsuCycleId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -119,6 +122,11 @@ func (m GiCollection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
+// GetLastCompletedFsuCycleId returns LastCompletedFsuCycleId
+func (m GiCollection) GetLastCompletedFsuCycleId() *string {
+	return m.LastCompletedFsuCycleId
+}
+
 // GetFreeformTags returns FreeformTags
 func (m GiCollection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -176,21 +184,22 @@ func (m GiCollection) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *GiCollection) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ActiveFsuCycle     *ActiveCycleDetails               `json:"activeFsuCycle"`
-		TargetCount        *int                              `json:"targetCount"`
-		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleDetails   *string                           `json:"lifecycleDetails"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
-		Id                 *string                           `json:"id"`
-		DisplayName        *string                           `json:"displayName"`
-		ServiceType        CollectionServiceTypesEnum        `json:"serviceType"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState     CollectionLifecycleStatesEnum     `json:"lifecycleState"`
-		SourceMajorVersion GiSourceMajorVersionsEnum         `json:"sourceMajorVersion"`
-		FleetDiscovery     gifleetdiscoverydetails           `json:"fleetDiscovery"`
+		ActiveFsuCycle          *ActiveCycleDetails               `json:"activeFsuCycle"`
+		TargetCount             *int                              `json:"targetCount"`
+		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails        *string                           `json:"lifecycleDetails"`
+		LastCompletedFsuCycleId *string                           `json:"lastCompletedFsuCycleId"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		Id                      *string                           `json:"id"`
+		DisplayName             *string                           `json:"displayName"`
+		ServiceType             CollectionServiceTypesEnum        `json:"serviceType"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState          CollectionLifecycleStatesEnum     `json:"lifecycleState"`
+		SourceMajorVersion      GiSourceMajorVersionsEnum         `json:"sourceMajorVersion"`
+		FleetDiscovery          gifleetdiscoverydetails           `json:"fleetDiscovery"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -205,6 +214,8 @@ func (m *GiCollection) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.LastCompletedFsuCycleId = model.LastCompletedFsuCycleId
 
 	m.FreeformTags = model.FreeformTags
 

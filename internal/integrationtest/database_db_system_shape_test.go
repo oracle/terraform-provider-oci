@@ -10,7 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -49,6 +49,7 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.are_server_types_supported"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_core_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_core_count_per_node"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_data_storage_in_tbs"),
@@ -57,7 +58,10 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_db_node_storage_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_memory_per_node_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.compute_model"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.core_count_increment"),
+				//display_name is expected to set only for X11 and later models.
+				//resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.max_storage_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.maximum_node_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.min_core_count_per_node"),

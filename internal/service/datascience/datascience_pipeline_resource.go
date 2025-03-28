@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -63,11 +63,17 @@ func DatasciencePipelineResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"CONTAINER",
 								"CUSTOM_SCRIPT",
+								"DATAFLOW",
 								"ML_JOB",
 							}, true),
 						},
 
 						// Optional
+						"application_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 						"depends_on": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -187,6 +193,106 @@ func DatasciencePipelineResource() *schema.Resource {
 								},
 							},
 						},
+						"step_dataflow_configuration_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"configuration": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										Elem:             schema.TypeString,
+										DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+									},
+									"driver_shape": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"driver_shape_config_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"executor_shape": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"executor_shape_config_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"logs_bucket_uri": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"num_executors": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"warehouse_bucket_uri": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"step_infrastructure_configuration_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -235,6 +341,63 @@ func DatasciencePipelineResource() *schema.Resource {
 										ForceNew: true,
 									},
 									"subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"step_storage_mount_configuration_details_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"destination_directory_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"storage_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FILE_STORAGE",
+											"OBJECT_STORAGE",
+										}, true),
+									},
+
+									// Optional
+									"bucket": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"destination_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"export_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"mount_target_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"prefix": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -336,7 +499,7 @@ func DatasciencePipelineResource() *schema.Resource {
 						},
 						"artifact_content_length": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
@@ -453,6 +616,63 @@ func DatasciencePipelineResource() *schema.Resource {
 					},
 				},
 			},
+			"storage_mount_configuration_details_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"destination_directory_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"storage_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"FILE_STORAGE",
+								"OBJECT_STORAGE",
+							}, true),
+						},
+
+						// Optional
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_path": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"export_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"mount_target_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"created_by": {
@@ -496,11 +716,13 @@ func createDatasciencePipeline(d *schema.ResourceData, m interface{}) error {
 	}
 
 	if StepArtifact, ok := d.GetOkExists("step_artifact"); ok {
-		if tmpList := StepArtifact.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "step_artifact", 0)
-			err := sync.CreateArtifact(fieldKeyFormat)
-			if err != nil {
-				return err
+		if tmpList, ok := StepArtifact.([]interface{}); ok && len(tmpList) > 0 {
+			for i := range tmpList {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "step_artifact", i)
+				err := sync.CreateArtifact(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -711,6 +933,25 @@ func (s *DatasciencePipelineResourceCrud) Create() error {
 		}
 	}
 
+	if storageMountConfigurationDetailsList, ok := s.D.GetOkExists("storage_mount_configuration_details_list"); ok {
+		interfaces := storageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "storage_mount_configuration_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("storage_mount_configuration_details_list") {
+			request.StorageMountConfigurationDetailsList = tmp
+		}
+	}
+
+	log.Printf("[DEBUG] create pipeline request: %v\n", request)
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreatePipeline(context.Background(), request)
@@ -778,7 +1019,7 @@ func pipelineWaitForWorkRequest(wId *string, entityType string, action oci_datas
 	retryPolicy.ShouldRetryOperation = pipelineWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_datascience.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_datascience.WorkRequestStatusInProgress),
 			string(oci_datascience.WorkRequestStatusAccepted),
@@ -960,6 +1201,23 @@ func (s *DatasciencePipelineResourceCrud) Update() error {
 		}
 	}
 
+	if storageMountConfigurationDetailsList, ok := s.D.GetOkExists("storage_mount_configuration_details_list"); ok {
+		interfaces := storageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "storage_mount_configuration_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("storage_mount_configuration_details_list") {
+			request.StorageMountConfigurationDetailsList = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdatePipeline(context.Background(), request)
@@ -1061,6 +1319,12 @@ func (s *DatasciencePipelineResourceCrud) SetData() error {
 		stepDetails = append(stepDetails, PipelineStepDetailsToMap(item))
 	}
 	s.D.Set("step_details", stepDetails)
+
+	storageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range s.Res.StorageMountConfigurationDetailsList {
+		storageMountConfigurationDetailsList = append(storageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("storage_mount_configuration_details_list", storageMountConfigurationDetailsList)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
@@ -1229,6 +1493,107 @@ func PipelineContainerConfigurationDetailsToMap(obj oci_datascience.PipelineCont
 	return result
 }
 
+func (s *DatasciencePipelineResourceCrud) mapToPipelineDataflowConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineDataflowConfigurationDetails, error) {
+	result := oci_datascience.PipelineDataflowConfigurationDetails{}
+
+	if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+		tmp := configuration.(map[string]interface{})
+		pointerToMap := &tmp
+		// Wrap the map pointer in an interface{}
+		var i interface{} = pointerToMap
+
+		// Take the address of the interface{}
+		result.Configuration = &i
+	}
+
+	if driverShape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "driver_shape")); ok {
+		tmp := driverShape.(string)
+		result.DriverShape = &tmp
+	}
+
+	if driverShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "driver_shape_config_details")); ok {
+		if tmpList := driverShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "driver_shape_config_details"), 0)
+			tmp, err := s.mapToPipelineShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert driver_shape_config_details, encountered error: %v", err)
+			}
+			result.DriverShapeConfigDetails = &tmp
+		}
+	}
+
+	if executorShape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "executor_shape")); ok {
+		tmp := executorShape.(string)
+		result.ExecutorShape = &tmp
+	}
+
+	if executorShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "executor_shape_config_details")); ok {
+		if tmpList := executorShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "executor_shape_config_details"), 0)
+			tmp, err := s.mapToPipelineShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert executor_shape_config_details, encountered error: %v", err)
+			}
+			result.ExecutorShapeConfigDetails = &tmp
+		}
+	}
+
+	if logsBucketUri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logs_bucket_uri")); ok {
+		tmp := logsBucketUri.(string)
+		result.LogsBucketUri = &tmp
+	}
+
+	if numExecutors, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "num_executors")); ok {
+		tmp := numExecutors.(int)
+		result.NumExecutors = &tmp
+	}
+
+	if warehouseBucketUri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "warehouse_bucket_uri")); ok {
+		tmp := warehouseBucketUri.(string)
+		result.WarehouseBucketUri = &tmp
+	}
+
+	return result, nil
+}
+
+func PipelineDataflowConfigurationDetailsToMap(obj *oci_datascience.PipelineDataflowConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Configuration != nil {
+		result["configuration"] = obj.Configuration
+	}
+
+	if obj.DriverShape != nil {
+		result["driver_shape"] = string(*obj.DriverShape)
+	}
+
+	if obj.DriverShapeConfigDetails != nil {
+		result["driver_shape_config_details"] = []interface{}{PipelineShapeConfigDetailsToMap(obj.DriverShapeConfigDetails)}
+	}
+
+	if obj.ExecutorShape != nil {
+		result["executor_shape"] = string(*obj.ExecutorShape)
+	}
+
+	if obj.ExecutorShapeConfigDetails != nil {
+		result["executor_shape_config_details"] = []interface{}{PipelineShapeConfigDetailsToMap(obj.ExecutorShapeConfigDetails)}
+	}
+
+	if obj.LogsBucketUri != nil {
+		result["logs_bucket_uri"] = string(*obj.LogsBucketUri)
+	}
+
+	if obj.NumExecutors != nil {
+		result["num_executors"] = int(*obj.NumExecutors)
+	}
+
+	if obj.WarehouseBucketUri != nil {
+		result["warehouse_bucket_uri"] = string(*obj.WarehouseBucketUri)
+	}
+
+	return result
+}
+
 func (s *DatasciencePipelineResourceCrud) mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineInfrastructureConfigurationDetails, error) {
 	result := oci_datascience.PipelineInfrastructureConfigurationDetails{}
 
@@ -1347,19 +1712,19 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineShapeConfigDetails(fieldK
 	return result, nil
 }
 
-func PipelineShapeConfigDetailsToMap(obj *oci_datascience.PipelineShapeConfigDetails) map[string]interface{} {
-	result := map[string]interface{}{}
+// func PipelineShapeConfigDetailsToMap(obj *oci_datascience.PipelineShapeConfigDetails) map[string]interface{} {
+// 	result := map[string]interface{}{}
 
-	if obj.MemoryInGBs != nil {
-		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
-	}
+// 	if obj.MemoryInGBs != nil {
+// 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+// 	}
 
-	if obj.Ocpus != nil {
-		result["ocpus"] = float32(*obj.Ocpus)
-	}
+// 	if obj.Ocpus != nil {
+// 		result["ocpus"] = float32(*obj.Ocpus)
+// 	}
 
-	return result
-}
+// 	return result
+// }
 
 func (s *DatasciencePipelineResourceCrud) mapToPipelineStepConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineStepConfigurationDetails, error) {
 	result := oci_datascience.PipelineStepConfigurationDetails{}
@@ -1426,6 +1791,22 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyForma
 				details.DependsOn = tmp
 			}
 		}
+		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
+			interfaces := stepStorageMountConfigurationDetailsList.([]interface{})
+			tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list"), stateDataIndex)
+				converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")) {
+				details.StepStorageMountConfigurationDetailsList = tmp
+			}
+		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
 			details.Description = &tmp
@@ -1465,6 +1846,54 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyForma
 			}
 		}
 		baseObject = details
+	case strings.ToLower("DATAFLOW"):
+		details := oci_datascience.PipelineDataflowStepDetails{}
+		if stepDataflowConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_dataflow_configuration_details")); ok {
+			if tmpList := stepDataflowConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_dataflow_configuration_details"), 0)
+				tmp, err := s.mapToPipelineDataflowConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_dataflow_configuration_details, encountered error: %v", err)
+				}
+				details.StepDataflowConfigurationDetails = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
+			interfaces := dependsOn.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
+				details.DependsOn = tmp
+			}
+		}
+		if applicationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "application_id")); ok {
+			tmp := applicationId.(string)
+			details.ApplicationId = &tmp
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+
+		baseObject = details
 	case strings.ToLower("CUSTOM_SCRIPT"):
 		details := oci_datascience.PipelineCustomScriptStepDetails{}
 		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
@@ -1477,6 +1906,22 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyForma
 			}
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
 				details.DependsOn = tmp
+			}
+		}
+		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
+			interfaces := stepStorageMountConfigurationDetailsList.([]interface{})
+			tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list"), stateDataIndex)
+				converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")) {
+				details.StepStorageMountConfigurationDetailsList = tmp
 			}
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
@@ -1603,6 +2048,32 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKe
 	switch strings.ToLower(stepType) {
 	case strings.ToLower("CONTAINER"):
 		details := oci_datascience.PipelineContainerStepUpdateDetails{}
+		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
+			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.StepInfrastructureConfigurationDetails = &tmp
+			}
+		}
+		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
+			interfaces := stepStorageMountConfigurationDetailsList.([]interface{})
+			tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list"), stateDataIndex)
+				converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")) {
+				details.StepStorageMountConfigurationDetailsList = tmp
+			}
+		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
 			details.Description = &tmp
@@ -1617,21 +2088,41 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKe
 				details.StepConfigurationDetails = &tmp
 			}
 		}
-		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
-			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
-				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
-				}
-				details.StepInfrastructureConfigurationDetails = &tmp
-			}
-		}
 		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
 			tmp := stepName.(string)
 			details.StepName = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("DATAFLOW"):
+		details := oci_datascience.PipelineDataflowStepUpdateDetails{}
+		if stepDataflowConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_dataflow_configuration_details")); ok {
+			if tmpList := stepDataflowConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_dataflow_configuration_details"), 0)
+				tmp, err := s.mapToPipelineDataflowConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_dataflow_configuration_details, encountered error: %v", err)
+				}
+				details.StepDataflowConfigurationDetails = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
 	case strings.ToLower("CUSTOM_SCRIPT"):
 		details := oci_datascience.PipelineCustomScriptStepUpdateDetails{}
 		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
@@ -1673,6 +2164,22 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKe
 		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
 			tmp := stepName.(string)
 			details.StepName = &tmp
+		}
+		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
+			interfaces := stepStorageMountConfigurationDetailsList.([]interface{})
+			tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list"), stateDataIndex)
+				converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")) {
+				details.StepStorageMountConfigurationDetailsList = tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("ML_JOB"):
@@ -1744,6 +2251,12 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
 		}
 
+		stepStorageMountConfigurationDetailsList := []interface{}{}
+		for _, item := range v.StepStorageMountConfigurationDetailsList {
+			stepStorageMountConfigurationDetailsList = append(stepStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+		}
+		result["step_storage_mount_configuration_details_list"] = stepStorageMountConfigurationDetailsList
+
 		if v.Description != nil {
 			result["description"] = string(*v.Description)
 		}
@@ -1768,6 +2281,32 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
 		}
 
+		stepStorageMountConfigurationDetailsList := []interface{}{}
+		for _, item := range v.StepStorageMountConfigurationDetailsList {
+			stepStorageMountConfigurationDetailsList = append(stepStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+		}
+		result["step_storage_mount_configuration_details_list"] = stepStorageMountConfigurationDetailsList
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		result["depends_on"] = v.DependsOn
+
+		if v.StepConfigurationDetails != nil {
+			result["step_configuration_details"] = []interface{}{PipelineStepConfigurationDetailsToMap(v.StepConfigurationDetails)}
+		}
+
+		if v.StepName != nil {
+			result["step_name"] = string(*v.StepName)
+		}
+		result["is_artifact_uploaded"] = v.IsArtifactUploaded
+	case oci_datascience.PipelineDataflowStepDetails:
+		result["step_type"] = "DATAFLOW"
+
+		if v.StepDataflowConfigurationDetails != nil {
+			result["step_dataflow_configuration_details"] = []interface{}{PipelineDataflowConfigurationDetailsToMap(v.StepDataflowConfigurationDetails)}
+		}
 		result["depends_on"] = v.DependsOn
 
 		if v.Description != nil {
@@ -1782,11 +2321,10 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 			result["step_name"] = string(*v.StepName)
 		}
 
-		result["is_artifact_uploaded"] = v.IsArtifactUploaded
-
-		if v.StepInfrastructureConfigurationDetails != nil {
-			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
+		if v.ApplicationId != nil {
+			result["application_id"] = string(*v.ApplicationId)
 		}
+
 	case oci_datascience.PipelineMlJobStepDetails:
 		result["step_type"] = "ML_JOB"
 
@@ -1814,6 +2352,116 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 
 	return result
 }
+
+func (s *DatasciencePipelineResourceCrud) mapToStorageMountConfigurationDetails(fieldKeyFormat string) (oci_datascience.StorageMountConfigurationDetails, error) {
+	var baseObject oci_datascience.StorageMountConfigurationDetails
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("FILE_STORAGE"):
+		details := oci_datascience.FileStorageMountConfigurationDetails{}
+		if exportId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_id")); ok {
+			tmp := exportId.(string)
+			details.ExportId = &tmp
+		}
+		if mountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_target_id")); ok {
+			tmp := mountTargetId.(string)
+			details.MountTargetId = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE"):
+		details := oci_datascience.ObjectStorageMountConfigurationDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if prefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "prefix")); ok {
+			tmp := prefix.(string)
+			details.Prefix = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
+}
+
+// func StorageMountConfigurationDetailsToMap(obj oci_datascience.StorageMountConfigurationDetails) map[string]interface{} {
+// 	result := map[string]interface{}{}
+// 	switch v := (obj).(type) {
+// 	case oci_datascience.FileStorageMountConfigurationDetails:
+// 		result["storage_type"] = "FILE_STORAGE"
+
+// 		if v.ExportId != nil {
+// 			result["export_id"] = string(*v.ExportId)
+// 		}
+
+// 		if v.MountTargetId != nil {
+// 			result["mount_target_id"] = string(*v.MountTargetId)
+// 		}
+
+// 		if v.DestinationDirectoryName != nil {
+// 			result["destination_directory_name"] = string(*v.DestinationDirectoryName)
+// 		}
+
+// 		if v.DestinationPath != nil {
+// 			result["destination_path"] = string(*v.DestinationPath)
+// 		}
+// 	case oci_datascience.ObjectStorageMountConfigurationDetails:
+// 		result["storage_type"] = "OBJECT_STORAGE"
+
+// 		if v.Bucket != nil {
+// 			result["bucket"] = string(*v.Bucket)
+// 		}
+
+// 		if v.Namespace != nil {
+// 			result["namespace"] = string(*v.Namespace)
+// 		}
+
+// 		if v.Prefix != nil {
+// 			result["prefix"] = string(*v.Prefix)
+// 		}
+
+// 		if v.DestinationDirectoryName != nil {
+// 			result["destination_directory_name"] = string(*v.DestinationDirectoryName)
+// 		}
+
+// 		if v.DestinationPath != nil {
+// 			result["destination_path"] = string(*v.DestinationPath)
+// 		}
+// 	default:
+// 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", obj)
+// 		return nil
+// 	}
+
+// 	return result
+// }
 
 func (s *DatasciencePipelineResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangePipelineCompartmentRequest{}
@@ -1888,3 +2536,9 @@ func (s *DatasciencePipelineResourceCrud) GetArtifactHead(stepName string) (inte
 
 // 	return result
 // }
+
+func objectToMap(obj interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	return result
+}

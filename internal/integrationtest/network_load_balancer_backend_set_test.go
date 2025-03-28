@@ -15,9 +15,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 
@@ -45,14 +45,16 @@ var (
 	}
 
 	NetworkLoadBalancerBackendSetRepresentation = map[string]interface{}{
-		"health_checker":              acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerBackendSetHealthCheckerRepresentation},
-		"name":                        acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
-		"network_load_balancer_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
-		"policy":                      acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
-		"ip_version":                  acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
-		"is_fail_open":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_preserve_source":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_instant_failover_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerBackendSetHealthCheckerRepresentation},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
+		"are_operationally_active_backends_preferred": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"ip_version":                            acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+		"is_fail_open":                          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_tcp_reset_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_preserve_source":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	NetworkLoadBalancerBackendSetHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":           acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TCP`},
@@ -174,6 +176,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerBackendSetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, NetworkLoadBalancerBackendSetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "false"),
 				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.#", "0"),
@@ -189,6 +192,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
@@ -224,6 +228,9 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -285,6 +292,8 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
@@ -400,6 +409,9 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
@@ -482,7 +494,8 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
-				resource.TestCheckNoResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.#", "0"),
+				//resource.TestCheckNoResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
@@ -532,6 +545,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_operationally_active_backends_preferred", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backends.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.interval_in_millis", "30000"),
@@ -542,6 +556,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_data", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.retries", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_instant_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_instant_failover_tcp_reset_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.url_path", "/urlPath2"),

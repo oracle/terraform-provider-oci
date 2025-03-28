@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -93,7 +93,7 @@ var (
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
 	}
 
-	OsManagementHubOCISoftwareSourceProfileRepresentation = map[string]interface{}{
+	OsManagementHubProfileRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"profile_type":        acctest.Representation{RepType: acctest.Required, Create: `SOFTWARESOURCE`},
@@ -122,11 +122,10 @@ var (
 	}
 
 	OsManagementHubLifecycleProfileRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"profile_type":   acctest.Representation{RepType: acctest.Required, Create: `LIFECYCLE`},
-		//		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
-		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("lifecycle_stage_for_profile_ocid")},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"profile_type":          acctest.Representation{RepType: acctest.Required, Create: `LIFECYCLE`},
+		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
 		"management_station_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
 		"arch_type":             acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -136,9 +135,22 @@ var (
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
 	}
 
+	OsManagementHubLCEnvironmentRepresentation = map[string]interface{}{
+		"arch_type":      acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"os_family":      acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
+		"stages":         []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubLifecycleEnvironmentStagesRepresentation}, {RepType: acctest.Required, Group: OsManagementHubLifecycleEnvironmentStagesProdRepresentation}},
+		"vendor_name":    acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: ignoreDefinedTagsChangesForOsmhLERep},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"location":       acctest.Representation{RepType: acctest.Optional, Create: `ON_PREMISE`},
+	}
+
 	OsManagementHubProfileResourceDependencies = OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Required, acctest.Create, OsManagementHubManagementStationRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) +
-		"" // acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_environment", "test_lifecycle_environment", acctest.Required, acctest.Create, OsManagementHubLifecycleEnvironmentRepresentation)
+		"" + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_environment", "test_lifecycle_environment", acctest.Required, acctest.Create, OsManagementHubLCEnvironmentRepresentation)
 
 	OsManagementHubProfileIgnoreDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
@@ -339,6 +351,7 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "software_sources.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_modified"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vendor_name", "ORACLE"),
 			),
 		},

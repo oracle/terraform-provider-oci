@@ -75,6 +75,25 @@ The following attributes are exported:
 	* `all_connection_strings` - All connection strings to use to connect to the Database.
 	* `cdb_default` - Host name based CDB Connection String.
 	* `cdb_ip_default` - IP based CDB Connection String.
+* `data_guard_group` - Details of Data Guard setup that the given database is part of.  Also includes information about databases part of this Data Guard group and properties for their Data Guard configuration. 
+	* `members` - List of Data Guard members, representing each database that is part of Data Guard.
+		* `apply_lag` - The lag time between updates to the primary database and application of the redo data on the standby database, as computed by the reporting database.  Example: `1 second` 
+		* `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `102.96 MByte/s` 
+		* `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
+		* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system, Cloud VM cluster or VM cluster.
+		* `is_active_data_guard_enabled` - True if active Data Guard is enabled.
+		* `role` - The role of the reporting database in this Data Guard association.
+		* `transport_lag` - The rate at which redo logs are transported between the associated databases.  Example: `1 second` 
+		* `transport_lag_refresh` - The date and time when last redo transport has been done.
+		* `transport_type` - The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
+			* MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
+			* MAXIMUM_PERFORMANCE - ASYNC
+			* MAXIMUM_PROTECTION - SYNC
+
+			For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation.
+
+			**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
+	* `protection_mode` - The protection mode of this Data Guard. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `database_software_image_id` - The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `db_backup_config` - Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
 	* `auto_backup_enabled` - If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
@@ -99,6 +118,9 @@ The following attributes are exported:
 
 	The database workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `is_cdb` - True if the database is a container database.

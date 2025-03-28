@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,7 +22,7 @@ type CreateDatabaseToolsConnectionMySqlDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The connection string used to connect to the MySQL Server.
@@ -53,7 +53,7 @@ type CreateDatabaseToolsConnectionMySqlDetails struct {
 	// the client private key and associated certificate required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreMySqlDetails `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
 	// Specifies whether this connection is supported by the Database Tools Runtime.

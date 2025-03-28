@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_properties
 This data source provides the list of Properties in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of Properties for Tenancy.
+List properties and their values for a tenancy in Fleet Application Management.
 
 
 ## Example Usage
@@ -33,9 +33,9 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `id` - (Optional) unique Property identifier
-* `scope` - (Optional) A filter to return only resources their scope matches the given lifecycleState.
-* `state` - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.
+* `id` - (Optional) A filter to return only resources whose Property identifier matches the given identifier.
+* `scope` - (Optional) A filter to return only resources their scope matches the given scope.
+* `state` - (Optional) A filter to return only resources whose lifecycleState matches the given lifecycleState.
 
 
 ## Attributes Reference
@@ -55,13 +55,13 @@ The following attributes are exported:
 * `id` - The OCID of the resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `resource_region` - Associated region
-* `scope` - The scope of the property
-* `selection` - Text selection of the category
+* `scope` - The scope of the property.
+* `selection` - Text selection of the property.
 * `state` - The current state of the Property.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 * `type` - The type of the property.
-* `value_type` - Format of the value
-* `values` - Values of the property (must be a single value if selection = 'single choice')
+* `value_type` - Format of the value.
+* `values` - Values of the property (must be a single value if selection = 'SINGLE_CHOICE').
 

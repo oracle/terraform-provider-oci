@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -76,6 +76,12 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_metadata_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"locks": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -116,6 +122,10 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			// Computed
+			"backup_source_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"backup_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -275,6 +285,11 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isMetadataOnly, ok := s.D.GetOkExists("is_metadata_only"); ok {
+		tmp := isMetadataOnly.(bool)
+		request.IsMetadataOnly = &tmp
+	}
+
 	if locks, ok := s.D.GetOkExists("locks"); ok {
 		interfaces := locks.([]interface{})
 		tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
@@ -364,7 +379,7 @@ func goldenGateDeploymentBackupWaitForWorkRequest(wId *string, entityType string
 	retryPolicy.ShouldRetryOperation = deploymentBackupWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_golden_gate.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_golden_gate.OperationStatusInProgress),
 			string(oci_golden_gate.OperationStatusAccepted),
@@ -520,6 +535,8 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Delete() error {
 }
 
 func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
+	s.D.Set("backup_source_type", s.Res.BackupSourceType)
+
 	s.D.Set("backup_type", s.Res.BackupType)
 
 	if s.Res.BucketName != nil {
@@ -548,6 +565,10 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 
 	if s.Res.IsAutomatic != nil {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
+	}
+
+	if s.Res.IsMetadataOnly != nil {
+		s.D.Set("is_metadata_only", *s.Res.IsMetadataOnly)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -619,6 +640,8 @@ func (s *GoldenGateDeploymentBackupResourceCrud) mapToAddResourceLockDetails(fie
 func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["backup_source_type"] = string(obj.BackupSourceType)
+
 	result["backup_type"] = string(obj.BackupType)
 
 	if obj.BucketName != nil {
@@ -651,6 +674,10 @@ func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) m
 
 	if obj.IsAutomatic != nil {
 		result["is_automatic"] = bool(*obj.IsAutomatic)
+	}
+
+	if obj.IsMetadataOnly != nil {
+		result["is_metadata_only"] = bool(*obj.IsMetadataOnly)
 	}
 
 	if obj.LifecycleDetails != nil {

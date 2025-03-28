@@ -4,12 +4,14 @@
 package core
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -60,8 +62,9 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"instance_reservation_configs": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Required: true,
+				Set:      instanceReservationConfigsHashCodeForSets,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -284,10 +287,13 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 	}
 
 	if instanceReservationConfigs, ok := s.D.GetOkExists("instance_reservation_configs"); ok {
-		interfaces := instanceReservationConfigs.([]interface{})
+
+		set := instanceReservationConfigs.(*schema.Set)
+		interfaces := set.List()
+
 		tmp := make([]oci_core.InstanceReservationConfigDetails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := instanceReservationConfigsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_reservation_configs", stateDataIndex)
 			converted, err := s.mapToInstanceReservationConfigDetails(fieldKeyFormat)
 			if err != nil {
@@ -382,10 +388,12 @@ func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
 	}
 
 	if instanceReservationConfigs, ok := s.D.GetOkExists("instance_reservation_configs"); ok {
-		interfaces := instanceReservationConfigs.([]interface{})
+		set := instanceReservationConfigs.(*schema.Set)
+		interfaces := set.List()
+
 		tmp := make([]oci_core.InstanceReservationConfigDetails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := instanceReservationConfigsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_reservation_configs", stateDataIndex)
 			converted, err := s.mapToInstanceReservationConfigDetails(fieldKeyFormat)
 			if err != nil {
@@ -676,4 +684,54 @@ func (s *CoreComputeCapacityReservationResourceCrud) updateCompartment(compartme
 		}
 	}
 	return nil
+}
+
+func instanceReservationConfigsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+
+	if instanceShape, ok := m["instance_shape"]; ok && instanceShape != "" {
+		buf.WriteString(fmt.Sprintf("%v-", instanceShape))
+	}
+
+	if reservedCount, ok := m["reserved_count"]; ok && reservedCount != "" {
+		buf.WriteString(fmt.Sprintf("%v-", reservedCount))
+	}
+
+	if clusterConfig, ok := m["cluster_config"]; ok && clusterConfig != "" {
+		if clusterConfigList, ok := clusterConfig.([]interface{}); ok && len(clusterConfigList) > 0 {
+			buf.WriteString("cluster_config-")
+			for _, clusterConfigMapInterface := range clusterConfigList {
+				clusterConfigMap := clusterConfigMapInterface.(map[string]interface{})
+				if hpcIslandIdVal, ok := clusterConfigMap["hpc_island_id"].(string); ok && hpcIslandIdVal != "" {
+					buf.WriteString(fmt.Sprintf("%v-", hpcIslandIdVal))
+				}
+				if networkBlockIdsVal, ok := clusterConfigMap["network_block_ids"]; ok && networkBlockIdsVal != "" {
+					if networkBlockIdsList, ok := networkBlockIdsVal.([]interface{}); ok && len(networkBlockIdsList) > 0 {
+						buf.WriteString("network_block_ids-")
+						for _, networkBlockIdInterface := range networkBlockIdsList {
+							networkBlockId := networkBlockIdInterface.(string)
+							buf.WriteString(fmt.Sprintf("%s-", networkBlockId))
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if clusterPlacementGroupId, ok := m["cluster_placement_group_id"]; ok && clusterPlacementGroupId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", clusterPlacementGroupId))
+	}
+
+	if faultDomain, ok := m["fault_domain"]; ok && faultDomain != "" {
+		buf.WriteString(fmt.Sprintf("%v-", faultDomain))
+	}
+
+	if usedCountInterface, ok := m["used_count"]; ok && usedCountInterface != "" {
+		if usedCountInt, ok := usedCountInterface.(int); ok && usedCountInt > 0 {
+			buf.WriteString(fmt.Sprintf("%d-", usedCountInt))
+		}
+	}
+
+	return utils.GetStringHashcode(buf.String())
 }

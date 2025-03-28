@@ -55,11 +55,11 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - 
-	* `change_block_size_in_bytes` - Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
-	* `first_backup_id` - The OCID of the first boot volume backup.
-	* `id` - The OCID of the boot volume replica.
-	* `second_backup_id` - The OCID of the second boot volume backup.
-	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeBackupDelta`, `bootVolumeReplica`
+	* `id` - (Required when type=bootVolume | bootVolumeBackup | bootVolumeReplica) The OCID of the boot volume replica.
+	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeBackupDelta`, `bootVolumeReplica`
+	* `change_block_size_in_bytes` - (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
+	* `first_backup_id` - (Required when type=bootVolumeBackupDelta) The OCID of the first boot volume backup.
+	* `second_backup_id` - (Required when type=bootVolumeBackupDelta) The OCID of the second boot volume backup.
 * `state` - The current state of a boot volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

@@ -13,15 +13,16 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
 	primaryDbName string
+	adbId, adbId2 string
 
 	primaryAutonomousDatabaseRepresentation = map[string]interface{}{
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -96,11 +97,11 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// 0 create dependencies
+			// 1 create dependencies
 			{
 				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies,
 			},
-			// 1 create standby adb
+			// 2 create standby adb
 			{
 				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies + standbyAutonomousDatabaseConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -128,7 +129,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 					},
 				),
 			},
-			// 2 Update Primary
+			// 3 Update Primary
 			//	Updating primary will also update standby. No API calls should be made. We are just checking if the refreshed state is the same as the updated config
 			{
 				PreConfig: func() {
@@ -149,7 +150,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
@@ -175,7 +176,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 					},
 				),
 			},
-			// 3 Switchover to Standby - Valid PeerId
+			// 4 Switchover to Standby - Valid PeerId
 			{
 				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -213,7 +214,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 					},
 				),
 			},
-			// 4 Switchover to Standby - Valid PeerId with different case
+			// 5 Switchover to Standby - Valid PeerId with different case
 			//	No API calls should be made.
 			{
 				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
@@ -252,7 +253,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 					},
 				),
 			},
-			// 5 Switchover to Standby - Empty string
+			// 6 Switchover to Standby - Empty string
 			//	No API calls should be made. Simply checking if the refreshed state has switchover_to_remote_peer_id as ""
 			{
 				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
@@ -291,7 +292,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 					},
 				),
 			},
-			// 6 Switchover back to Primary
+			// 7 Switchover back to Primary
 			//	Switched-over cross region standbys cannot be terminated. Hence we need to switch-over back so that we can delete this standby
 			//	No API calls should be made. Simply checking if the refreshed state has role as STANDBY
 			{
@@ -312,7 +313,7 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
@@ -339,7 +340,330 @@ func TestDatabaseCrossRegionAdg_basic(t *testing.T) {
 					},
 				),
 			},
-			// 7 Delete standby
+			// 8 Delete standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies,
+			},
+		},
+	})
+	deletePrimaryAdb()
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseCrossRegionAdg_permanentDisconnectFromStandby(t *testing.T) {
+
+	//	Fake CrossRegion standbys can only be created in ashburn
+	currentRegion := utils.GetEnvSettingWithBlankDefault("region")
+	if currentRegion != "us-ashburn-1" || sourceRegion == "" {
+		t.Skip("Skipping TestDatabaseCrossRegionAdg_disconnect test.\n" +
+			"Current TF_VAR_region=" + currentRegion + ", expected us-ashburn-1.\n" +
+			"Current TF_VAR_source_region=" + sourceRegion + ", expected not to be empty.")
+	}
+
+	httpreplay.SetScenario("TestDatabaseCrossRegionAdg_permanentDisconnectFromStandby")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := acctest.ProviderTestConfig()
+
+	err := createPrimaryAdb()
+	if err != nil {
+		t.Fatalf("Unable to create cross region primary ADB. Error: %v", err)
+	}
+
+	standbyAutonomousDatabaseRepresentationCrossRegionAdg = acctest.RepresentationCopyWithNewProperties(
+		primaryAutonomousDatabaseRepresentation,
+		map[string]interface{}{
+			"source_id": acctest.Representation{RepType: acctest.Optional, Create: primaryId},
+			"db_name":   acctest.Representation{RepType: acctest.Optional, Create: primaryDbName},
+		})
+	standbyAutonomousDatabaseConfig := acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, standbyAutonomousDatabaseRepresentationCrossRegionAdg)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StandbyAutonomousDatabaseResourceDependencies+standbyAutonomousDatabaseConfig, "database", "autonomousDatabase", t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.TestAccPreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// 1 create dependencies
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies,
+			},
+			// 2 create a new standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies + standbyAutonomousDatabaseConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DATAGUARD"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						adbId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// 3 Initiate disconnect peer from standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(standbyAutonomousDatabaseRepresentationCrossRegionAdg, map[string]interface{}{
+							"is_disconnect_peer": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DATAGUARD"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", ""),
+					resource.TestCheckResourceAttr(resourceName, "role", ""),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "0"),
+					resource.TestCheckNoResourceAttr(resourceName, "peer_db_ids.0"),
+
+					func(s *terraform.State) (err error) {
+						adbId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// 4 Delete the standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies,
+			},
+		},
+	})
+	deletePrimaryAdb()
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseCrossRegionAdg_permanentDisconnectFromPrimary(t *testing.T) {
+
+	//	Fake CrossRegion standbys can only be created in ashburn
+	currentRegion := utils.GetEnvSettingWithBlankDefault("region")
+	if currentRegion != "us-ashburn-1" || sourceRegion == "" {
+		t.Skip("Skipping TestDatabaseCrossRegionAdg_disconnect test.\n" +
+			"Current TF_VAR_region=" + currentRegion + ", expected us-ashburn-1.\n" +
+			"Current TF_VAR_source_region=" + sourceRegion + ", expected not to be empty.")
+	}
+
+	httpreplay.SetScenario("TestDatabaseCrossRegionAdg_permanentDisconnectFromPrimary")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := acctest.ProviderTestConfig()
+
+	err := createPrimaryAdb()
+	if err != nil {
+		t.Fatalf("Unable to create cross region primary ADB. Error: %v", err)
+	}
+
+	standbyAutonomousDatabaseRepresentationCrossRegionAdg = acctest.RepresentationCopyWithNewProperties(
+		primaryAutonomousDatabaseRepresentation,
+		map[string]interface{}{
+			"source_id": acctest.Representation{RepType: acctest.Optional, Create: primaryId},
+			"db_name":   acctest.Representation{RepType: acctest.Optional, Create: primaryDbName},
+		})
+	standbyAutonomousDatabaseConfig := acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, standbyAutonomousDatabaseRepresentationCrossRegionAdg)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StandbyAutonomousDatabaseResourceDependencies+standbyAutonomousDatabaseConfig, "database", "autonomousDatabase", t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.TestAccPreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// 1 create dependencies
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies,
+			},
+			// 2 create a standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies + standbyAutonomousDatabaseConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DATAGUARD"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						adbId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// 3 Update Primary
+			//	Updating primary will also update standby. No API calls should be made. We are just checking if the refreshed state is the same as the updated config
+			{
+				PreConfig: func() {
+					acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,
+						getAdbFromSourceRegion, "database", true)()
+					err := updatePrimaryAdb()
+					if err != nil {
+						t.Fatalf("Unable to update cross region primary ADB. Error: %v", err)
+					}
+					acctest.WaitTillCondition(acctest.TestAccProvider, &adbId, adbWaitTillLifecycleStateStandbyCondition, 10*time.Minute,
+						getAdbFromCurrentRegion, "database", true)()
+				},
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(standbyAutonomousDatabaseRepresentationCrossRegionAdg, map[string]interface{}{
+							"cpu_core_count":           acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Optional, Create: `2`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DATAGUARD"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						adbId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if adbId != adbId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// 4 Switchover to Standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(standbyAutonomousDatabaseRepresentationCrossRegionAdg, map[string]interface{}{
+							"cpu_core_count":               acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"data_storage_size_in_tbs":     acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"switchover_to_remote_peer_id": acctest.Representation{RepType: acctest.Optional, Create: primaryId},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DATAGUARD"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
+					resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+					resource.TestCheckResourceAttrSet(resourceName, "time_data_guard_role_changed"),
+
+					func(s *terraform.State) (err error) {
+						adbId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if adbId != adbId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// 5 Initiate disconnect peer from primary
+			{
+				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(standbyAutonomousDatabaseRepresentationCrossRegionAdg, map[string]interface{}{
+							"cpu_core_count":               acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"data_storage_size_in_tbs":     acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"switchover_to_remote_peer_id": acctest.Representation{RepType: acctest.Optional, Create: primaryId},
+							"is_disconnect_peer":           acctest.Representation{RepType: acctest.Optional, Create: `true`},
+							"peer_db_id":                   acctest.Representation{RepType: acctest.Optional, Create: primaryId},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DATAGUARD"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", ""),
+					resource.TestCheckResourceAttr(resourceName, "role", ""),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "0"),
+					resource.TestCheckNoResourceAttr(resourceName, "peer_db_ids.0"),
+
+					func(s *terraform.State) (err error) {
+						adbId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// 6 Delete the standby
 			{
 				Config: config + compartmentIdVariableStr + StandbyAutonomousDatabaseResourceDependencies,
 			},

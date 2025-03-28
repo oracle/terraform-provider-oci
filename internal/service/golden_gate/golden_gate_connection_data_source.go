@@ -74,6 +74,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("access_key_id", *v.AccessKeyId)
 		}
 
+		if v.SecretAccessKeySecretId != nil {
+			s.D.Set("secret_access_key_secret_id", *v.SecretAccessKeySecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.CompartmentId != nil {
@@ -90,6 +94,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -150,6 +158,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("connection_url", *v.ConnectionUrl)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.Username != nil {
@@ -170,6 +182,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -230,6 +246,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("access_key_id", *v.AccessKeyId)
 		}
 
+		if v.SecretAccessKeySecretId != nil {
+			s.D.Set("secret_access_key_secret_id", *v.SecretAccessKeySecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.CompartmentId != nil {
@@ -246,6 +266,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -302,6 +326,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.AzureDataLakeStorageConnection:
 		s.D.Set("connection_type", "AZURE_DATA_LAKE_STORAGE")
 
+		if v.AccountKeySecretId != nil {
+			s.D.Set("account_key_secret_id", *v.AccountKeySecretId)
+		}
+
 		if v.AccountName != nil {
 			s.D.Set("account_name", *v.AccountName)
 		}
@@ -316,8 +344,16 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("client_id", *v.ClientId)
 		}
 
+		if v.ClientSecretSecretId != nil {
+			s.D.Set("client_secret_secret_id", *v.ClientSecretSecretId)
+		}
+
 		if v.Endpoint != nil {
 			s.D.Set("endpoint", *v.Endpoint)
+		}
+
+		if v.SasTokenSecretId != nil {
+			s.D.Set("sas_token_secret_id", *v.SasTokenSecretId)
 		}
 
 		s.D.Set("technology_type", v.TechnologyType)
@@ -336,6 +372,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -398,6 +438,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("connection_string", *v.ConnectionString)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.Username != nil {
@@ -418,6 +462,108 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.DatabricksConnection:
+		s.D.Set("connection_type", "DATABRICKS")
+
+		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.ClientId != nil {
+			s.D.Set("client_id", *v.ClientId)
+		}
+
+		if v.ClientSecretSecretId != nil {
+			s.D.Set("client_secret_secret_id", *v.ClientSecretSecretId)
+		}
+
+		if v.ConnectionUrl != nil {
+			s.D.Set("connection_url", *v.ConnectionUrl)
+		}
+
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
+		if v.StorageCredentialName != nil {
+			s.D.Set("storage_credential_name", *v.StorageCredentialName)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -488,11 +634,23 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("host", *v.Host)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.Port != nil {
 			s.D.Set("port", *v.Port)
 		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslClientKeystashSecretId != nil {
+			s.D.Set("ssl_client_keystash_secret_id", *v.SslClientKeystashSecretId)
+		}
+
+		if v.SslClientKeystoredbSecretId != nil {
+			s.D.Set("ssl_client_keystoredb_secret_id", *v.SslClientKeystoredbSecretId)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -516,6 +674,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
@@ -531,6 +693,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -566,6 +734,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("authentication_type", v.AuthenticationType)
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
 		if v.Servers != nil {
@@ -592,6 +764,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -670,6 +846,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
@@ -732,6 +912,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("host", *v.Host)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.Port != nil {
 			s.D.Set("port", *v.Port)
 		}
@@ -760,6 +944,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -816,6 +1004,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.GoogleBigQueryConnection:
 		s.D.Set("connection_type", "GOOGLE_BIGQUERY")
 
+		if v.ServiceAccountKeyFileSecretId != nil {
+			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.CompartmentId != nil {
@@ -832,6 +1024,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -888,6 +1084,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.GoogleCloudStorageConnection:
 		s.D.Set("connection_type", "GOOGLE_CLOUD_STORAGE")
 
+		if v.ServiceAccountKeyFileSecretId != nil {
+			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.CompartmentId != nil {
@@ -904,6 +1104,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -957,6 +1161,88 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.GooglePubSubConnection:
+		s.D.Set("connection_type", "GOOGLE_PUBSUB")
+
+		if v.ServiceAccountKeyFileSecretId != nil {
+			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.HdfsConnection:
 		s.D.Set("connection_type", "HDFS")
 
@@ -976,6 +1262,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1054,8 +1344,24 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("jndi_provider_url", *v.JndiProviderUrl)
 		}
 
+		if v.JndiSecurityCredentialsSecretId != nil {
+			s.D.Set("jndi_security_credentials_secret_id", *v.JndiSecurityCredentialsSecretId)
+		}
+
 		if v.JndiSecurityPrincipal != nil {
 			s.D.Set("jndi_security_principal", *v.JndiSecurityPrincipal)
+		}
+
+		if v.KeyStorePasswordSecretId != nil {
+			s.D.Set("key_store_password_secret_id", *v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			s.D.Set("key_store_secret_id", *v.KeyStoreSecretId)
+		}
+
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
 		}
 
 		if v.PrivateIp != nil {
@@ -1068,7 +1374,19 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("should_use_jndi", *v.ShouldUseJndi)
 		}
 
+		if v.SslKeyPasswordSecretId != nil {
+			s.D.Set("ssl_key_password_secret_id", *v.SslKeyPasswordSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TrustStorePasswordSecretId != nil {
+			s.D.Set("trust_store_password_secret_id", *v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			s.D.Set("trust_store_secret_id", *v.TrustStoreSecretId)
+		}
 
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
@@ -1088,6 +1406,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1150,13 +1472,45 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("bootstrap_servers", bootstrapServers)
 
+		if v.ConsumerProperties != nil {
+			s.D.Set("consumer_properties", *v.ConsumerProperties)
+		}
+
+		if v.KeyStorePasswordSecretId != nil {
+			s.D.Set("key_store_password_secret_id", *v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			s.D.Set("key_store_secret_id", *v.KeyStoreSecretId)
+		}
+
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
+		if v.ProducerProperties != nil {
+			s.D.Set("producer_properties", *v.ProducerProperties)
+		}
+
 		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslKeyPasswordSecretId != nil {
+			s.D.Set("ssl_key_password_secret_id", *v.SslKeyPasswordSecretId)
+		}
 
 		if v.StreamPoolId != nil {
 			s.D.Set("stream_pool_id", *v.StreamPoolId)
 		}
 
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TrustStorePasswordSecretId != nil {
+			s.D.Set("trust_store_password_secret_id", *v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			s.D.Set("trust_store_secret_id", *v.TrustStoreSecretId)
+		}
 
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
@@ -1176,6 +1530,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1234,11 +1592,35 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("authentication_type", v.AuthenticationType)
 
+		if v.KeyStorePasswordSecretId != nil {
+			s.D.Set("key_store_password_secret_id", *v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			s.D.Set("key_store_secret_id", *v.KeyStoreSecretId)
+		}
+
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.PrivateIp != nil {
 			s.D.Set("private_ip", *v.PrivateIp)
 		}
 
+		if v.SslKeyPasswordSecretId != nil {
+			s.D.Set("ssl_key_password_secret_id", *v.SslKeyPasswordSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TrustStorePasswordSecretId != nil {
+			s.D.Set("trust_store_password_secret_id", *v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			s.D.Set("trust_store_secret_id", *v.TrustStoreSecretId)
+		}
 
 		if v.Url != nil {
 			s.D.Set("url", *v.Url)
@@ -1262,6 +1644,102 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.MicrosoftFabricConnection:
+		s.D.Set("connection_type", "MICROSOFT_FABRIC")
+
+		if v.ClientId != nil {
+			s.D.Set("client_id", *v.ClientId)
+		}
+
+		if v.ClientSecretSecretId != nil {
+			s.D.Set("client_secret_secret_id", *v.ClientSecretSecretId)
+		}
+
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TenantId != nil {
+			s.D.Set("tenant_id", *v.TenantId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1332,6 +1810,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("host", *v.Host)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.Port != nil {
 			s.D.Set("port", *v.Port)
 		}
@@ -1370,6 +1852,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1434,7 +1920,21 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("database_id", *v.DatabaseId)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
+		s.D.Set("security_protocol", v.SecurityProtocol)
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TlsCertificateKeyFilePasswordSecretId != nil {
+			s.D.Set("tls_certificate_key_file_password_secret_id", *v.TlsCertificateKeyFilePasswordSecretId)
+		}
+
+		if v.TlsCertificateKeyFileSecretId != nil {
+			s.D.Set("tls_certificate_key_file_secret_id", *v.TlsCertificateKeyFileSecretId)
+		}
 
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
@@ -1454,6 +1954,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1528,6 +2032,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("host", *v.Host)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.Port != nil {
 			s.D.Set("port", *v.Port)
 		}
@@ -1537,6 +2045,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslKeySecretId != nil {
+			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
+		}
 
 		s.D.Set("ssl_mode", v.SslMode)
 
@@ -1560,6 +2072,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1616,8 +2132,20 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.OciObjectStorageConnection:
 		s.D.Set("connection_type", "OCI_OBJECT_STORAGE")
 
+		if v.PrivateKeyFileSecretId != nil {
+			s.D.Set("private_key_file_secret_id", *v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
+		}
+
 		if v.Region != nil {
 			s.D.Set("region", *v.Region)
+		}
+
+		if v.ShouldUseResourcePrincipal != nil {
+			s.D.Set("should_use_resource_principal", *v.ShouldUseResourcePrincipal)
 		}
 
 		s.D.Set("technology_type", v.TechnologyType)
@@ -1644,6 +2172,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1710,6 +2242,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("database_id", *v.DatabaseId)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.PrivateIp != nil {
 			s.D.Set("private_ip", *v.PrivateIp)
 		}
@@ -1720,6 +2256,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
+		}
+
+		if v.WalletSecretId != nil {
+			s.D.Set("wallet_secret_id", *v.WalletSecretId)
 		}
 
 		if v.CompartmentId != nil {
@@ -1736,6 +2276,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1792,8 +2336,20 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.OracleNosqlConnection:
 		s.D.Set("connection_type", "ORACLE_NOSQL")
 
+		if v.PrivateKeyFileSecretId != nil {
+			s.D.Set("private_key_file_secret_id", *v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
+		}
+
 		if v.Region != nil {
 			s.D.Set("region", *v.Region)
+		}
+
+		if v.ShouldUseResourcePrincipal != nil {
+			s.D.Set("should_use_resource_principal", *v.ShouldUseResourcePrincipal)
 		}
 
 		s.D.Set("technology_type", v.TechnologyType)
@@ -1820,6 +2376,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1894,6 +2454,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("host", *v.Host)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.Port != nil {
 			s.D.Set("port", *v.Port)
 		}
@@ -1904,9 +2468,11 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		s.D.Set("ssl_mode", v.SslMode)
+		if v.SslKeySecretId != nil {
+			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
+		}
 
-		s.D.Set("technology_type", v.TechnologyType)
+		s.D.Set("ssl_mode", v.SslMode)
 
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
@@ -1926,6 +2492,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -1967,6 +2537,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
+
+		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -1984,6 +2556,18 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("authentication_type", v.AuthenticationType)
 
+		if v.KeyStorePasswordSecretId != nil {
+			s.D.Set("key_store_password_secret_id", *v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			s.D.Set("key_store_secret_id", *v.KeyStoreSecretId)
+		}
+
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
 		if v.RedisClusterId != nil {
 			s.D.Set("redis_cluster_id", *v.RedisClusterId)
 		}
@@ -1994,7 +2578,13 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("servers", *v.Servers)
 		}
 
-		s.D.Set("technology_type", v.TechnologyType)
+		if v.TrustStorePasswordSecretId != nil {
+			s.D.Set("trust_store_password_secret_id", *v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			s.D.Set("trust_store_secret_id", *v.TrustStoreSecretId)
+		}
 
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
@@ -2014,6 +2604,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -2055,6 +2649,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
+
+		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -2076,6 +2672,18 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("connection_url", *v.ConnectionUrl)
 		}
 
+		if v.PasswordSecretId != nil {
+			s.D.Set("password_secret_id", *v.PasswordSecretId)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			s.D.Set("private_key_file_secret_id", *v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.Username != nil {
@@ -2096,6 +2704,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -2124,7 +2736,7 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeletePipeline.go.html to see an example of how to use DeletePipelineRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeletePipeline.go.html to see an example of how to use DeletePipelineRequest.
 type DeletePipelineRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// A boolean value to specify whether to delete related PipelineRuns or not.
@@ -85,7 +85,7 @@ type DeletePipelineResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// The OCID (https://docs.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

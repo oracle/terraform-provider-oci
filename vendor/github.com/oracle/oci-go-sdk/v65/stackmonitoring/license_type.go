@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,18 +18,21 @@ type LicenseTypeEnum string
 
 // Set of constants representing the allowable values for LicenseTypeEnum
 const (
-	LicenseTypeStandardEdition   LicenseTypeEnum = "STANDARD_EDITION"
-	LicenseTypeEnterpriseEdition LicenseTypeEnum = "ENTERPRISE_EDITION"
+	LicenseTypeStandardEdition                       LicenseTypeEnum = "STANDARD_EDITION"
+	LicenseTypeEnterpriseEdition                     LicenseTypeEnum = "ENTERPRISE_EDITION"
+	LicenseTypeEnterpriseEditionForGpuInfrastructure LicenseTypeEnum = "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE"
 )
 
 var mappingLicenseTypeEnum = map[string]LicenseTypeEnum{
-	"STANDARD_EDITION":   LicenseTypeStandardEdition,
-	"ENTERPRISE_EDITION": LicenseTypeEnterpriseEdition,
+	"STANDARD_EDITION":                          LicenseTypeStandardEdition,
+	"ENTERPRISE_EDITION":                        LicenseTypeEnterpriseEdition,
+	"ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE": LicenseTypeEnterpriseEditionForGpuInfrastructure,
 }
 
 var mappingLicenseTypeEnumLowerCase = map[string]LicenseTypeEnum{
-	"standard_edition":   LicenseTypeStandardEdition,
-	"enterprise_edition": LicenseTypeEnterpriseEdition,
+	"standard_edition":                          LicenseTypeStandardEdition,
+	"enterprise_edition":                        LicenseTypeEnterpriseEdition,
+	"enterprise_edition_for_gpu_infrastructure": LicenseTypeEnterpriseEditionForGpuInfrastructure,
 }
 
 // GetLicenseTypeEnumValues Enumerates the set of values for LicenseTypeEnum
@@ -46,6 +49,7 @@ func GetLicenseTypeEnumStringValues() []string {
 	return []string{
 		"STANDARD_EDITION",
 		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE",
 	}
 }
 

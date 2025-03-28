@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -61,6 +61,19 @@ type ManagedMySqlDatabase struct {
 
 	// The date and time the Managed MySQL Database was created.
 	TimeCreatedHeatWave *common.SDKTime `mandatory:"false" json:"timeCreatedHeatWave"`
+
+	// The type of the MySQL Database. Indicates whether the database
+	// is external or MDS.
+	DatabaseType MySqlTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
+
+	// Indicates database management status.
+	ManagementState ManagementStateEnum `mandatory:"false" json:"managementState,omitempty"`
+
+	// Indicates lifecycle  state of the resource.
+	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The date and time the Managed MySQL Database was updated.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m ManagedMySqlDatabase) String() string {
@@ -73,6 +86,15 @@ func (m ManagedMySqlDatabase) String() string {
 func (m ManagedMySqlDatabase) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMySqlTypeEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetMySqlTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagementStateEnum(string(m.ManagementState)); !ok && m.ManagementState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementState: %s. Supported values are: %s.", m.ManagementState, strings.Join(GetManagementStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

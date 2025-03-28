@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,7 +21,7 @@ import (
 // policy. If you're not authorized, talk to an administrator. If you're an
 // administrator who needs to write policies to give users access, see
 // Getting Started with
-// Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type Backup struct {
 
 	// OCID of the backup itself
@@ -81,6 +81,10 @@ type Backup struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The OCID of the immediate source DB system backup from which this DB system backup was copied.
 	ImmediateSourceBackupId *string `mandatory:"false" json:"immediateSourceBackupId"`

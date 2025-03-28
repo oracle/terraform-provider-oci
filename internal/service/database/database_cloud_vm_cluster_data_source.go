@@ -95,6 +95,8 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
@@ -201,6 +203,8 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 
+	s.D.Set("scan_ipv6ids", s.Res.ScanIpv6Ids)
+
 	if s.Res.ScanListenerPortTcp != nil {
 		s.D.Set("scan_listener_port_tcp", *s.Res.ScanListenerPortTcp)
 	}
@@ -248,6 +252,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	s.D.Set("vipv6ids", s.Res.Vipv6Ids)
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)

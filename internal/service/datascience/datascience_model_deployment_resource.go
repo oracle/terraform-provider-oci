@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -109,6 +109,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 															// Computed
 														},
 													},
+												},
+												"private_endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
 												},
 												"subnet_id": {
 													Type:     schema.TypeString,
@@ -660,7 +665,6 @@ func (s *DatascienceModelDeploymentResourceCrud) DeletedPending() []string {
 func (s *DatascienceModelDeploymentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_datascience.ModelDeploymentLifecycleStateDeleted),
-		string(oci_datascience.ModelDeploymentLifecycleStateFailed),
 	}
 }
 
@@ -813,7 +817,7 @@ func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oc
 	retryPolicy.ShouldRetryOperation = modelDeploymentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_datascience.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_datascience.WorkRequestStatusInProgress),
 			string(oci_datascience.WorkRequestStatusAccepted),
@@ -1304,6 +1308,13 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 		}
 	}
 
+	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
+		tmp := privateEndpointId.(string)
+		if tmp != "" {
+			result.PrivateEndpointId = &tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1321,6 +1332,14 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 
 	if obj.ModelDeploymentInstanceShapeConfigDetails != nil {
 		result["model_deployment_instance_shape_config_details"] = []interface{}{ModelDeploymentInstanceShapeConfigDetailsToMap(obj.ModelDeploymentInstanceShapeConfigDetails)}
+	}
+
+	if obj.PrivateEndpointId != nil {
+		if *obj.PrivateEndpointId == "" {
+			result["private_endpoint_id"] = nil
+		} else {
+			result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
+		}
 	}
 
 	if obj.SubnetId != nil {

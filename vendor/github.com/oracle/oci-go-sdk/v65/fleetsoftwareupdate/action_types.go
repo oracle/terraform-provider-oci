@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,11 +19,12 @@ type ActionTypesEnum string
 
 // Set of constants representing the allowable values for ActionTypesEnum
 const (
-	ActionTypesStage                   ActionTypesEnum = "STAGE"
-	ActionTypesPrecheck                ActionTypesEnum = "PRECHECK"
-	ActionTypesApply                   ActionTypesEnum = "APPLY"
-	ActionTypesRollbackAndRemoveTarget ActionTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	ActionTypesCleanup                 ActionTypesEnum = "CLEANUP"
+	ActionTypesStage                    ActionTypesEnum = "STAGE"
+	ActionTypesPrecheck                 ActionTypesEnum = "PRECHECK"
+	ActionTypesApply                    ActionTypesEnum = "APPLY"
+	ActionTypesRollbackAndRemoveTarget  ActionTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	ActionTypesCleanup                  ActionTypesEnum = "CLEANUP"
+	ActionTypesRollbackMaintenanceCycle ActionTypesEnum = "ROLLBACK_MAINTENANCE_CYCLE"
 )
 
 var mappingActionTypesEnum = map[string]ActionTypesEnum{
@@ -32,6 +33,7 @@ var mappingActionTypesEnum = map[string]ActionTypesEnum{
 	"APPLY":                      ActionTypesApply,
 	"ROLLBACK_AND_REMOVE_TARGET": ActionTypesRollbackAndRemoveTarget,
 	"CLEANUP":                    ActionTypesCleanup,
+	"ROLLBACK_MAINTENANCE_CYCLE": ActionTypesRollbackMaintenanceCycle,
 }
 
 var mappingActionTypesEnumLowerCase = map[string]ActionTypesEnum{
@@ -40,6 +42,7 @@ var mappingActionTypesEnumLowerCase = map[string]ActionTypesEnum{
 	"apply":                      ActionTypesApply,
 	"rollback_and_remove_target": ActionTypesRollbackAndRemoveTarget,
 	"cleanup":                    ActionTypesCleanup,
+	"rollback_maintenance_cycle": ActionTypesRollbackMaintenanceCycle,
 }
 
 // GetActionTypesEnumValues Enumerates the set of values for ActionTypesEnum
@@ -59,6 +62,7 @@ func GetActionTypesEnumStringValues() []string {
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
 		"CLEANUP",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 	}
 }
 

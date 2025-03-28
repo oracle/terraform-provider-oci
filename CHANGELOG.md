@@ -1,3 +1,188 @@
+## 6.32.0 (March 26, 2025)
+
+### Added
+- Support for Stack Monitoring to detect OCI compute launch and auto-enable host monitoring
+- Support for Spec Change to Fix Misspelled Property
+- Support for Host API - Host visibility improvements
+- Tag Support for Maintenance Windows in Stack Monitoring
+- Support for Stack Monitoring: Easy Onboarding Phase 2
+### Bug Fix
+- Database vmcluster update to include cloudautomationupdate only when changed
+- IdentityDomains fixes for App resource; Doc update for User, Group
+
+## 6.31.0 (March 18,2025)
+
+### Added
+- Support for Compute GPU Memory Cluster and Fabric in GPU Control Plane
+- Support for Add second Standby to AuDG deployments | ADB-D and ADB-C@C
+- Support for Add schedules to customer-initiated backups.
+- Add support for private and 3rd party software repositories and rebooting of instances to OS Management Hub
+- README.md of service examples with magic button
+
+### Bug Fix
+- OKE terraform provider bug fix: add data source for oidc discovery endpoint, fix update issue for oidc auth and update docs
+- Database resource changes to support external keystore for add standby and update database admin password
+
+## 6.30.0 (March 11, 2025)
+
+### Added
+- Support for ExaDB-C@C Exascale Integration
+- Support for ExaDB-D | IPV6 Support
+- Support for OCI Data Science Model Store changes for AQUA
+- Support for NewDev - ExaCC/ExaCS
+- Support for HeatWave Service: Scheduled Cross-Region Backup Copy
+Terraform support for OpenSearch Data Prepper Pipeline
+tests for datasafe security assessment
+- Support for Data Safe - Discovery and Masking enhancements
+### Bug Fix
+
+- database_database_resource.go update handling
+
+## 6.29.0 (March 06, 2025)
+
+### Added
+- Support for Long-term backup retention Phase 1
+- Support for Allow admins to specify user Quotas for their filesystems
+- OpenSearch API update for Major version upgrade
+- Support for Oracle Database @ Azure in ExaDB-XS service
+- Support for Cross Region Replication
+- Container Instance : Remoed unsupported COMMAND
+
+## 6.28.0 (February 28, 2025)
+
+### Added
+- Support for OIDC multi issuer support
+- Support for OCI Cache - Valkey Support and valkey migration
+- Support for HeatWave MySQL Service: Extra Configuration Parameters, System Tags
+- Support for BYODKIM
+- Support for X11 M | Exadata Infrastructure Support on ExaDB-C@C
+- Support for EXADB-D- X11M
+- Support for Dataflow Integration and Storage Mounts with Pipelines
+- Support for DBLM: Database Life Cycle Management (Externally Registered Database Vulnerability and Patching)
+
+### Bug Fix
+- Make secret version optional and computed for cross connects
+
+## 6.27.0 (February 19, 2025)
+
+### Added
+- Support for ADB-S: Maintenance Window Enhancements
+- Support for Java Management Service 9.1
+- Provider changes to support Terraform Plugin Framework and migrating vault_secret_version_data_source to use framework
+
+## 6.26.0 (February 12, 2025)
+
+### Added
+- Support for Organizations
+- Support for IPV6 for BaseDB
+- Support for Backup/Recovery Enhancements Phase 2 | ADB-D C@C
+- Support for Stack Monitoring: Support for Monitoring Templates
+- Support for Connections R6
+- Support for File Storage: Onboard to System Tags.
+- Support for IPv6 on OKE
+- Support for secret generation in SiV
+### Bug Fix
+- Fix update call for password change and apply config type while moving from fixed to flex database
+to use the correct Id for updating options config resource
+
+## 6.25.0 (February 05, 2025)
+
+### Added
+- Support for MHS - DB system database mode and access mode
+- Export and import of user defined sensitive types in Data Safe
+- Support for Data Science Scheduler
+- Support for MHS Persistent read load balancer endpoint
+- Support for OCI Data Science List Service Managed Container Endpoint
+- Support for ExaDB-C@C Granular Maintenance Scheduling support for Exadata Infrastructure Components Phase 2 InfraPatching
+
+## 6.24.0 (January 29, 2025)
+
+### Added
+- Support for External HSM Support ExaDB-C@C
+- Support for Ops Insights : Support External MySQL Databases
+- Support for DBM : Support External MySQL Databases
+- Support for OPSI News Reports - Actionable Insights
+- Support DR for cloud native applications running on OKE
+### Bug Fix
+to use the correct Id for updating options config resource
+
+## 6.23.0 (January 29, 2025)
+
+### Added
+- Support for VCNIP - BYOASN (Bring Your Own ASN)
+- Create Multiple Standby Databases in DG environment
+- Support for ADB-S: Disconnecting ADG Standby and Backup-Based Peer
+- Support for NLB Active/Standby Purist Mode
+- Go upgrade to 1.21.13
+
+## 6.22.0 (January 16, 2025)
+
+### Added
+- Source based routing support
+- Support for Windows BYOL for VMs
+- Support for ADB-S: Allow Changing Patch Level Provisioning
+- Support for OpenSearch Cross Cluster Search V2
+- Support for ADB-S: Backup Retention Lock
+- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
+- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
+- Support for Data Science: Support Private Endpoint Access for Model Deployment
+- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
+- Support Llama 3.2 unit shape in Generative AI service
+- Support for BDS 3.0.29 Release - Feature Enhancements
+### Bug Fix
+- BaseDB CP - Fixing Integration Tests: Database Upgrade & Database Upgrade from Database Software Image
+- ExaDB-XS VM Cluster Getting Replaced due to HostName Case Mismatch
+
+
+## 6.21.0 (December 19, 2024)
+
+### Added
+- Support for ADB-S: Backup Retention Lock
+- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
+- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
+- Support for Data Science: Support Private Endpoint Access for Model Deployment
+- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
+- Support Llama 3.2 unit shape in Generative AI service
+- Support for BDS 3.0.29 Release - Feature Enhancements
+- Support for BDS - Kerb to IAM Automation
+### Bug Fix
+
+- Fix terraform documentation for oci_database_exadb_vm_cluster resource
+
+## 6.20.0 (December 11, 2024)
+
+### Added
+- Support for Fleet Application Management Service v1.2
+- Support for BYOK for ADB-D
+- Support for Rollback Maintenance Cycle Feature
+- Support for Data Flow CascadeDeleteApplication API
+- Support for refresh DR Plans
+- Support for Private Access to a VB service instance
+### Bug Fix
+- Fix for the vm network update in place issue
+- Fix Instance Configuration Config Mapping
+- Fix for MySQL Cross Region Copy Backup Destroy
+- Incorporated more workrequest status for createSchedule and updateSchedule workflow
+- Support for Wwether the volumes are preserved when a desktop pool is deleted
+
+## 6.19.0 (November 21, 2024)
+
+### Added
+- README.md of service examples with magic button
+- Release for v6.18.0
+- Support for Add secretIds for sensitive connection attributes
+- Support for Oracle Cloud AI Service Generative AI Agent Service
+
+## 6.18.0 (November 13, 2024)
+
+### Added
+- Support for Add secretIds for sensitive connection attributes
+- Support for Oracle Cloud AI Service Generative AI Agent Service
+### Bug Fix
+- Update `security_attributes` example values for Instance resources
+- updating instance_reservation_configs field in oci_core_compute_capacity_reservation to typeSet
+- Added - Support for Documentation Update of BSS Direct API
+
 ## 6.17.0 (November 06, 2024)
 
 ### Added

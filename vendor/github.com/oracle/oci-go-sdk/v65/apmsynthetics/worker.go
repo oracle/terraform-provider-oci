@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Application Performance Monitoring Synthetic Monitoring API
+// APM Availability Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
+// Use the APM Availability Monitoring API to query Scripts, Monitors, Dedicated Vantage Points and On-Premise Vantage Points resources. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -18,7 +18,7 @@ import (
 // Worker The information about an On-premise VP worker.
 type Worker struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the On-premise VP worker.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the On-premise VP worker.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The runtime assigned id of the On-premise VP worker.
@@ -30,7 +30,7 @@ type Worker struct {
 	// Unique permanent name of the On-premise VP worker. This is the same as the displayName.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the On-premise vantage point.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the On-premise vantage point.
 	OpvpId *string `mandatory:"true" json:"opvpId"`
 
 	// On-premise vantage point name.

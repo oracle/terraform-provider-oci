@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabases.go.html to see an example of how to use ListManagedMySqlDatabasesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabases.go.html to see an example of how to use ListManagedMySqlDatabasesRequest.
 type ListManagedMySqlDatabasesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.
@@ -30,6 +30,9 @@ type ListManagedMySqlDatabasesRequest struct {
 
 	// The maximum number of records returned in the paginated response.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
+
+	// The parameter to filter by MySQL database type. Allowed values are EXTERNAL or MDS.
+	FilterByMySqlDatabaseTypeParam ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum `mandatory:"false" contributesTo:"query" name:"filterByMySqlDatabaseTypeParam" omitEmpty:"true"`
 
 	// The field to sort information by. Only one sortOrder can be used. The default sort order
 	// for ‘TIMECREATED’ is descending and the default sort order for ‘NAME’ is ascending.
@@ -75,6 +78,9 @@ func (request ListManagedMySqlDatabasesRequest) RetryPolicy() *common.RetryPolic
 // Not recommended for calling this function directly
 func (request ListManagedMySqlDatabasesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum(string(request.FilterByMySqlDatabaseTypeParam)); !ok && request.FilterByMySqlDatabaseTypeParam != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FilterByMySqlDatabaseTypeParam: %s. Supported values are: %s.", request.FilterByMySqlDatabaseTypeParam, strings.Join(GetListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListManagedMySqlDatabasesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagedMySqlDatabasesSortByEnumStringValues(), ",")))
 	}
@@ -113,6 +119,48 @@ func (response ListManagedMySqlDatabasesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListManagedMySqlDatabasesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum Enum with underlying type: string
+type ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum string
+
+// Set of constants representing the allowable values for ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum
+const (
+	ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamExternal ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum = "EXTERNAL"
+	ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamMds      ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum = "MDS"
+)
+
+var mappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum = map[string]ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum{
+	"EXTERNAL": ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamExternal,
+	"MDS":      ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamMds,
+}
+
+var mappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumLowerCase = map[string]ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum{
+	"external": ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamExternal,
+	"mds":      ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamMds,
+}
+
+// GetListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumValues Enumerates the set of values for ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum
+func GetListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumValues() []ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum {
+	values := make([]ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum, 0)
+	for _, v := range mappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumStringValues Enumerates the set of values in String for ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum
+func GetListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumStringValues() []string {
+	return []string{
+		"EXTERNAL",
+		"MDS",
+	}
+}
+
+// GetMappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum(val string) (ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum, bool) {
+	enum, ok := mappingListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListManagedMySqlDatabasesSortByEnum Enum with underlying type: string

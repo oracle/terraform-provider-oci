@@ -171,6 +171,8 @@ resource "oci_core_vcn" "vcn" {
   compartment_id = var.compartment_ocid
   display_name   = "TFExampleVCNDBSystem"
   dns_label      = "tfexvcndbsys"
+  is_ipv6enabled = true
+  ipv6private_cidr_blocks = ["fc00:1000::/52"]
 }
 
 resource "oci_core_subnet" "subnet" {
@@ -183,6 +185,7 @@ resource "oci_core_subnet" "subnet" {
   vcn_id              = oci_core_vcn.vcn.id
   route_table_id      = oci_core_route_table.route_table.id
   dhcp_options_id     = oci_core_vcn.vcn.default_dhcp_options_id
+  ipv6cidr_blocks     = ["${substr(oci_core_vcn.vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.vcn.ipv6cidr_blocks[0]) - 2)}${64}"]
 }
 
 resource "oci_core_subnet" "subnet_backup" {
@@ -305,7 +308,7 @@ resource "oci_database_db_system" "test_db_system" {
   }
 
   db_system_options {
-    storage_management = "LVM"
+    storage_management = "ASM"
   }
 
   disk_redundancy         = var.db_disk_redundancy
@@ -318,7 +321,7 @@ resource "oci_database_db_system" "test_db_system" {
   license_model           = var.license_model
   node_count              = data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0]["minimum_node_count"]
   nsg_ids                 = [oci_core_network_security_group.test_network_security_group_backup.id, oci_core_network_security_group.test_network_security_group.id]
-
+  private_ip_v6           = "${substr(oci_core_vcn.vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.vcn.ipv6cidr_blocks[0]) - 4)}5901:cede:a617:8bba"
   #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"}
 
@@ -345,6 +348,7 @@ resource "oci_database_db_system" "db_system_bkup" {
   db_home {
     db_version = "12.1.0.2"
     database_software_image_id = var.test_database_software_image_ocid
+    is_unified_auditing_enabled = false
     database {
       admin_password = "BEstrO0ng_#11"
       backup_tde_password = "BEstrO0ng_#11"

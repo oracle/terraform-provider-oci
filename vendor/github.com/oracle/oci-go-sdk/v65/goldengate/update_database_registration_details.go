@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -43,6 +43,7 @@ type UpdateDatabaseRegistrationDetails struct {
 
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
 	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
@@ -56,6 +57,7 @@ type UpdateDatabaseRegistrationDetails struct {
 
 	// The wallet contents Oracle GoldenGate uses to make connections to a database.
 	// This attribute is expected to be base64 encoded.
+	// Deprecated: This field is deprecated and replaced by "walletSecretId". This field will be removed after February 15 2026.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
 	// Credential store alias.

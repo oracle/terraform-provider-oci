@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 
@@ -36,15 +36,17 @@ var (
 	}
 
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation = map[string]interface{}{
-		"health_checker":              acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
-		"name":                        acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
-		"network_load_balancer_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
-		"policy":                      acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
-		"backends":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation},
-		"ip_version":                  acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
-		"is_instant_failover_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_fail_open":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_preserve_source":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
+		"are_operationally_active_backends_preferred": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"backends":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation},
+		"ip_version":                            acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+		"is_fail_open":                          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_tcp_reset_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_preserve_source":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":           acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `UDP`},
@@ -59,9 +61,9 @@ var (
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation = map[string]interface{}{
 		"port":       acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"ip_address": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
-		"is_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_drain":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_offline": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_backup":  acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_drain":   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_offline": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		"name":       acctest.Representation{RepType: acctest.Optional, Create: `example_backend`},
 		"weight":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
@@ -120,12 +122,13 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Create, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "false"),
 				resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backends", map[string]string{
 					"ip_address": "10.0.0.3",
-					"is_backup":  "false",
-					"is_drain":   "false",
-					"is_offline": "false",
+					"is_backup":  "true",
+					"is_drain":   "true",
+					"is_offline": "true",
 					"name":       "example_backend",
 					"port":       "10",
 					"weight":     "10",
@@ -140,6 +143,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -162,12 +166,13 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "true"),
 				resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backends", map[string]string{
 					"ip_address": "10.0.0.3",
-					"is_backup":  "true",
-					"is_drain":   "true",
-					"is_offline": "true",
+					"is_backup":  "false",
+					"is_drain":   "false",
+					"is_offline": "false",
 					"name":       "example_backend",
 					"port":       "10",
 					"weight":     "11",
@@ -184,6 +189,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),

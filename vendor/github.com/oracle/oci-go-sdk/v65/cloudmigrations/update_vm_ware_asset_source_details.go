@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,7 +23,7 @@ type UpdateVmWareAssetSourceDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	AssetsCompartmentId *string `mandatory:"false" json:"assetsCompartmentId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
@@ -51,7 +51,7 @@ type UpdateVmWareAssetSourceDetails struct {
 	// Flag indicating whether real-time metrics are collected for assets, originating from this asset source.
 	AreRealtimeMetricsCollected *bool `mandatory:"false" json:"areRealtimeMetricsCollected"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
 	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 }
 

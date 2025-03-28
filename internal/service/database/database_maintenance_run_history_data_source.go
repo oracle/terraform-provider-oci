@@ -22,6 +22,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"current_execution_window": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"db_servers_history_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -68,6 +72,231 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+					},
+				},
+			},
+			"granular_maintenance_history": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"execution_actions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"action_members": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"estimated_time_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"member_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"member_order": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"status": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"total_time_taken_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"action_params": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"action_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"estimated_time_in_mins": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"execution_action_order": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"execution_window_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_substate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"total_time_taken_in_mins": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"execution_window": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"estimated_time_in_mins": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"execution_resource_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_enforced_duration": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_substate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_ended": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_scheduled": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_started": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"total_time_taken_in_mins": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"window_duration_in_mins": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"window_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -155,6 +384,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_maintenance_run_granular": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -195,6 +428,13 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"peer_maintenance_run_ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -225,6 +465,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 						},
 						"time_started": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"total_time_taken_in_mins": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
@@ -278,11 +522,21 @@ func (s *DatabaseMaintenanceRunHistoryDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CurrentExecutionWindow != nil {
+		s.D.Set("current_execution_window", *s.Res.CurrentExecutionWindow)
+	}
+
 	dbServersHistoryDetails := []interface{}{}
 	for _, item := range s.Res.DbServersHistoryDetails {
 		dbServersHistoryDetails = append(dbServersHistoryDetails, DbServerHstrySummaryToMap(item))
 	}
 	s.D.Set("db_servers_history_details", dbServersHistoryDetails)
+
+	granularMaintenanceHistory := []interface{}{}
+	for _, item := range s.Res.GranularMaintenanceHistory {
+		granularMaintenanceHistory = append(granularMaintenanceHistory, GranularMaintenanceHistoryDetailsToMap(item))
+	}
+	s.D.Set("granular_maintenance_history", granularMaintenanceHistory)
 
 	if s.Res.MaintenanceRunDetails != nil {
 		s.D.Set("maintenance_run_details", []interface{}{MtnanceRunSummaryToMap(s.Res.MaintenanceRunDetails)})

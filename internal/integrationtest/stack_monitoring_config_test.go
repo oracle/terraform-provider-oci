@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
@@ -28,6 +28,20 @@ var (
 	StackMonitoringConfigRequiredOnlyResource = StackMonitoringConfigResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Required, acctest.Create, StackMonitoringConfigRepresentation)
 
+	StackMonitoringOnboardConfigResourceConfig = StackMonitoringConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Update, StackMonitoringOnboardConfigRepresentation)
+
+	StackMonitoringOnboardConfigSingularDataSourceRepresentation = map[string]interface{}{
+		"config_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_config.test_config.id}`},
+	}
+
+	StackMonitoringOnboardConfigDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `ONBOARD`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringConfigDataSourceFilterRepresentation}}
+
 	StackMonitoringConfigResourceConfig = StackMonitoringConfigResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Update, StackMonitoringConfigRepresentation)
 
@@ -39,18 +53,43 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: `AUTO_PROMOTE`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `COMPUTE_AUTO_ACTIVATE_PLUGIN`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringConfigDataSourceFilterRepresentation}}
 	StackMonitoringConfigDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_stack_monitoring_config.test_config.id}`}},
 	}
 
+	StackMonitoringOnboardConfigRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"config_type":               acctest.Representation{RepType: acctest.Required, Create: `ONBOARD`},
+		"additional_configurations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringConfigAdditionalConfigurationsRepresentation},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"dynamic_groups":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringConfigDynamicGroupsRepresentation},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_manually_onboarded":     acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"policy_names":              acctest.Representation{RepType: acctest.Optional, Create: []string{`policyNames`}, Update: []string{`policyNames2`}},
+		"user_groups":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringConfigUserGroupsRepresentation},
+		"version":                   acctest.Representation{RepType: acctest.Required, Create: `version`, Update: `version2`},
+	}
+	StackMonitoringConfigAdditionalConfigurationsRepresentation = map[string]interface{}{
+		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"propertiesMap": "propertiesMap"}, Update: map[string]string{"propertiesMap2": "propertiesMap2"}},
+	}
+	StackMonitoringConfigDynamicGroupsRepresentation = map[string]interface{}{
+		"domain":                      acctest.Representation{RepType: acctest.Optional, Create: `domain`, Update: `domain2`},
+		"name":                        acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
+		"stack_monitoring_assignment": acctest.Representation{RepType: acctest.Optional, Create: `MANAGEMENT_AGENTS`, Update: `MONITORED_INSTANCES`},
+	}
+	StackMonitoringConfigUserGroupsRepresentation = map[string]interface{}{
+		"domain":                acctest.Representation{RepType: acctest.Optional, Create: `domain`, Update: `domain2`},
+		"name":                  acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
+		"stack_monitoring_role": acctest.Representation{RepType: acctest.Optional, Create: `ADMINISTRATOR`, Update: `OPERATOR`},
+	}
 	StackMonitoringConfigRepresentation = map[string]interface{}{
+
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"config_type":    acctest.Representation{RepType: acctest.Required, Create: `AUTO_PROMOTE`},
+		"config_type":    acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_AUTO_ACTIVATE_PLUGIN`},
 		"is_enabled":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
-		"resource_type":  acctest.Representation{RepType: acctest.Required, Create: `HOST`},
 		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -76,6 +115,8 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 	resourceName := "oci_stack_monitoring_config.test_config"
 	datasourceName := "data.oci_stack_monitoring_configs.test_configs"
 	singularDatasourceName := "data.oci_stack_monitoring_config.test_config"
+	onboardDatasourceName := "data.oci_stack_monitoring_configs.test_onboard_configs"
+	singularOnboardDatasourceName := "data.oci_stack_monitoring_config.test_onboard_config"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
@@ -89,14 +130,110 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Required, acctest.Create, StackMonitoringConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringConfigResourceDependencies,
+		},
+		// verify Create Onboard
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Required, acctest.Create, StackMonitoringOnboardConfigRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "ONBOARD"),
+				resource.TestCheckResourceAttr(resourceName, "version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "is_manually_onboarded", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringConfigResourceDependencies,
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Create, StackMonitoringOnboardConfigRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "ONBOARD"),
+				resource.TestCheckResourceAttr(resourceName, "version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "is_manually_onboarded", "false"),
+				resource.TestCheckResourceAttr(resourceName, "dynamic_groups.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dynamic_groups.0.domain", "domain"),
+				resource.TestCheckResourceAttr(resourceName, "dynamic_groups.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "dynamic_groups.0.stack_monitoring_assignment", "MANAGEMENT_AGENTS"),
+				resource.TestCheckResourceAttr(resourceName, "additional_configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "additional_configurations.0.properties_map.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "user_groups.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "user_groups.0.domain", "domain"),
+				resource.TestCheckResourceAttr(resourceName, "user_groups.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "user_groups.0.stack_monitoring_role", "ADMINISTRATOR"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_configs", "test_onboard_configs", acctest.Optional, acctest.Update, StackMonitoringOnboardConfigDataSourceRepresentation) +
+				compartmentIdVariableStr + StackMonitoringConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Update, StackMonitoringOnboardConfigRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(onboardDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(onboardDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(onboardDatasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(onboardDatasourceName, "type", "ONBOARD"),
+
+				resource.TestCheckResourceAttr(onboardDatasourceName, "config_collection.#", "1"),
+				resource.TestCheckResourceAttr(onboardDatasourceName, "config_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_config", "test_onboard_config", acctest.Required, acctest.Create, StackMonitoringOnboardConfigSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + StackMonitoringOnboardConfigResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularOnboardDatasourceName, "config_id"),
+
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "additional_configurations.#", "1"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "additional_configurations.0.properties_map.%", "1"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "config_type", "ONBOARD"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "dynamic_groups.#", "1"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "dynamic_groups.0.domain", "domain2"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "dynamic_groups.0.name", "name2"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "dynamic_groups.0.stack_monitoring_assignment", "MONITORED_INSTANCES"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularOnboardDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularOnboardDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularOnboardDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularOnboardDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "user_groups.#", "1"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "user_groups.0.domain", "domain2"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "user_groups.0.name", "name2"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "user_groups.0.stack_monitoring_role", "OPERATOR"),
+				resource.TestCheckResourceAttr(singularOnboardDatasourceName, "version", "version2"),
 			),
 		},
 
@@ -110,12 +247,11 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Create, StackMonitoringConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -139,12 +275,11 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -163,12 +298,12 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_config", "test_config", acctest.Optional, acctest.Update, StackMonitoringConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(resourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -190,7 +325,7 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(datasourceName, "type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 
 				resource.TestCheckResourceAttr(datasourceName, "config_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "config_collection.0.items.#", "1"),
@@ -203,14 +338,12 @@ func TestStackMonitoringConfigResource_basic(t *testing.T) {
 				compartmentIdVariableStr + StackMonitoringConfigResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "config_type", "AUTO_PROMOTE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config_type", "COMPUTE_AUTO_ACTIVATE_PLUGIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "HOST"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateSchedulingPolicy.go.html to see an example of how to use UpdateSchedulingPolicyRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateSchedulingPolicy.go.html to see an example of how to use UpdateSchedulingPolicyRequest.
 type UpdateSchedulingPolicyRequest struct {
 
-	// The Scheduling Policy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Scheduling Policy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SchedulingPolicyId *string `mandatory:"true" contributesTo:"path" name:"schedulingPolicyId"`
 
 	// Request to update the properties of a Scheduling Policy.
@@ -83,7 +83,7 @@ type UpdateSchedulingPolicyResponse struct {
 	// The SchedulingPolicy instance
 	SchedulingPolicy `presentIn:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

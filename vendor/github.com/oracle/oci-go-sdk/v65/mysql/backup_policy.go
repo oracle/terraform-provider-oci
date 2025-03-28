@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -34,6 +34,12 @@ type BackupPolicy struct {
 
 	// The number of days automated backups are retained.
 	RetentionInDays *int `mandatory:"true" json:"retentionInDays"`
+
+	// List of policies of a DB system to schedule cross-region DB system backup copy.
+	// The policy includes the name of the destination region to which the DB system backup will be copied, and
+	// an optional parameter which specifies the retention period of the copied DB system backup in days.
+	// **Note:** Currently, only one policy can be specified in the list.
+	CopyPolicies []CopyPolicy `mandatory:"false" json:"copyPolicies"`
 
 	// Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.

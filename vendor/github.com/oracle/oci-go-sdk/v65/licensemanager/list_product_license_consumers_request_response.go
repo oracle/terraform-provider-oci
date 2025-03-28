@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenseConsumers.go.html to see an example of how to use ListProductLicenseConsumersRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenseConsumers.go.html to see an example of how to use ListProductLicenseConsumersRequest.
 type ListProductLicenseConsumersRequest struct {
 
 	// Unique product license identifier.
 	ProductLicenseId *string `mandatory:"true" contributesTo:"query" name:"productLicenseId"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return.

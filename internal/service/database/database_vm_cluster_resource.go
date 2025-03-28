@@ -211,6 +211,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"exascale_db_storage_vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"file_system_configuration_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -280,9 +286,19 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"compute_model": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -307,6 +323,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_management_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -484,6 +504,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.ExadataInfrastructureId = &tmp
 	}
 
+	if exascaleDbStorageVaultId, ok := s.D.GetOkExists("exascale_db_storage_vault_id"); ok {
+		tmp := exascaleDbStorageVaultId.(string)
+		request.ExascaleDbStorageVaultId = &tmp
+	}
+
 	if fileSystemConfigurationDetails, ok := s.D.GetOkExists("file_system_configuration_details"); ok {
 		interfaces := fileSystemConfigurationDetails.([]interface{})
 		tmp := make([]oci_database.FileSystemConfigurationDetail, len(interfaces))
@@ -564,6 +589,10 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.VmClusterNetworkId = &tmp
 	}
 
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.CreateVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateVmCluster(context.Background(), request)
@@ -604,7 +633,7 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 	}
 	request := oci_database.UpdateVmClusterRequest{}
 
-	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok {
+	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok && s.D.HasChange("cloud_automation_update_details") { //
 		if tmpList := cloudAutomationUpdateDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cloud_automation_update_details", 0)
 			tmp, err := s.mapToCloudAutomationUpdateDetails(fieldKeyFormat)
@@ -743,6 +772,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
 		s.D.Set("cpu_core_count", *s.Res.CpusEnabled)
@@ -778,6 +809,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
+	}
+
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
 	}
 
 	fileSystemConfigurationDetails := []interface{}{}
@@ -830,6 +865,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
+
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
@@ -845,6 +882,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }
@@ -923,7 +962,7 @@ func (s *DatabaseVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(fieldK
 		}
 	}
 
-	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok {
+	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "freeze_period")) {
 		if tmpList := freezePeriod.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "freeze_period"), 0)
 			tmp, err := s.mapToCloudAutomationFreezePeriod(fieldKeyFormatNextLevel)
@@ -939,7 +978,7 @@ func (s *DatabaseVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(fieldK
 		result.IsEarlyAdoptionEnabled = &tmp
 	}
 
-	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok {
+	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")) {
 		tmp := isFreezePeriodEnabled.(bool)
 		result.IsFreezePeriodEnabled = &tmp
 	}

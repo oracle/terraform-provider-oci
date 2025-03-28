@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_management_managed_databases"
 sidebar_current: "docs-oci-datasource-database_management-managed_databases"
 description: |-
-Provides the list of Managed Databases in Oracle Cloud Infrastructure Database Management service
+  Provides the list of Managed Databases in Oracle Cloud Infrastructure Database Management service
 ---
 
 # Data Source: oci_database_management_managed_databases

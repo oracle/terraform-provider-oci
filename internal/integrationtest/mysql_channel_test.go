@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 
@@ -261,7 +261,6 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "is_enabled", "false"),
-
 				resource.TestCheckResourceAttr(datasourceName, "channels.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.display_name", "displayName2"),
@@ -300,7 +299,6 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				compartmentIdVariableStr + ChannelUpdateResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "channel_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),

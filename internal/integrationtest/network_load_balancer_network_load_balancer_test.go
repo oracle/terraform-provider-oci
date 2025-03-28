@@ -16,9 +16,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 
@@ -63,7 +63,7 @@ var (
 		"reserved_ips":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkLoadBalancerReservedIpsRepresentation},
 		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerIgnoreChangesRepresentation},
-		"security_attributes":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"secAttriZprNlbIAD.secAttriIAD.mode": "enforce", "secAttriZprNlbIAD.secAttriIAD.value": "someVal"}},
+		"security_attributes":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"secAttriZprNlb.secAttri.mode": "enforce", "secAttriZprNlb.secAttri.value": "someVal"}},
 	}
 
 	NetworkLoadBalancerSubnetIpv6CidrRepresentation = map[string]interface{}{

@@ -32,6 +32,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `bds_cluster_version_summary` - Cluster version details including bds and odh version information.
+	* `bds_version` - BDS version to be used for cluster creation
+	* `odh_version` - ODH version to be used for cluster creation
 * `bootstrap_script_url` - pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
 * `cloud_sql_details` - The information about added Cloud SQL capability
 	* `block_volume_size_in_gbs` - The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 

@@ -17,9 +17,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -111,6 +111,7 @@ func TestDatabaseApplicationVipResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "ipv6address"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_assigned"),
@@ -144,6 +145,7 @@ func TestDatabaseApplicationVipResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "application_vips.0.hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(datasourceName, "application_vips.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "application_vips.0.ip_address"),
+				resource.TestCheckResourceAttrSet(datasourceName, "application_vips.0.ipv6address"),
 				resource.TestCheckResourceAttrSet(datasourceName, "application_vips.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "application_vips.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "application_vips.0.time_assigned"),
@@ -161,6 +163,7 @@ func TestDatabaseApplicationVipResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_assigned"),
 			),

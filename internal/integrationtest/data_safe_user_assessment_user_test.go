@@ -10,7 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -35,6 +35,8 @@ var (
 		"user_profile":                                        acctest.Representation{RepType: acctest.Optional, Create: `userProfile`},
 		"user_role":                                           acctest.Representation{RepType: acctest.Optional, Create: `userRole`},
 		"user_type":                                           acctest.Representation{RepType: acctest.Optional, Create: `userType`},
+		"time_password_expiry_greater_than_or_equal_to":       acctest.Representation{RepType: acctest.Required, Create: `2023-10-30T00:00:00Z`},
+		"time_password_expiry_less_than":                      acctest.Representation{RepType: acctest.Required, Create: `2030-10-30T00:00:00Z`},
 	}
 
 	DataSafeUserAssessmentUserResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
@@ -66,10 +68,12 @@ func TestDataSafeUserAssessmentUserResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttrSet(datasourceName, "schema_list.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_password_expiry_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_password_expiry_less_than"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.account_status"),
-				resource.TestCheckResourceAttr(datasourceName, "users.0.admin_roles.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.admin_roles.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.are_all_schemas_accessible"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.admin_roles.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.authentication_type"),

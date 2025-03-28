@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,6 +38,7 @@ const (
 	OperationTypeGoldengateConnectionUpdate            OperationTypeEnum = "GOLDENGATE_CONNECTION_UPDATE"
 	OperationTypeGoldengateConnectionDelete            OperationTypeEnum = "GOLDENGATE_CONNECTION_DELETE"
 	OperationTypeGoldengateConnectionMove              OperationTypeEnum = "GOLDENGATE_CONNECTION_MOVE"
+	OperationTypeGoldengateConnectionRefresh           OperationTypeEnum = "GOLDENGATE_CONNECTION_REFRESH"
 	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
 	OperationTypeGoldengateConnectionAssignmentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE"
 	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
@@ -49,6 +50,12 @@ const (
 	OperationTypeGoldengateDeploymentUpgradeSnooze     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE"
 	OperationTypeGoldengateDeploymentCertificateCreate OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE"
 	OperationTypeGoldengateDeploymentCertificateDelete OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE"
+	OperationTypeGoldengatePipelineCreate              OperationTypeEnum = "GOLDENGATE_PIPELINE_CREATE"
+	OperationTypeGoldengatePipelineStart               OperationTypeEnum = "GOLDENGATE_PIPELINE_START"
+	OperationTypeGoldengatePipelineStop                OperationTypeEnum = "GOLDENGATE_PIPELINE_STOP"
+	OperationTypeGoldengatePipelineUpdate              OperationTypeEnum = "GOLDENGATE_PIPELINE_UPDATE"
+	OperationTypeGoldengatePipelineDelete              OperationTypeEnum = "GOLDENGATE_PIPELINE_DELETE"
+	OperationTypeGoldengatePipelineMove                OperationTypeEnum = "GOLDENGATE_PIPELINE_MOVE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -72,6 +79,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_CONNECTION_UPDATE":             OperationTypeGoldengateConnectionUpdate,
 	"GOLDENGATE_CONNECTION_DELETE":             OperationTypeGoldengateConnectionDelete,
 	"GOLDENGATE_CONNECTION_MOVE":               OperationTypeGoldengateConnectionMove,
+	"GOLDENGATE_CONNECTION_REFRESH":            OperationTypeGoldengateConnectionRefresh,
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE":  OperationTypeGoldengateConnectionAssignmentDelete,
 	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
@@ -83,6 +91,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 	"GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE": OperationTypeGoldengateDeploymentCertificateCreate,
 	"GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE": OperationTypeGoldengateDeploymentCertificateDelete,
+	"GOLDENGATE_PIPELINE_CREATE":               OperationTypeGoldengatePipelineCreate,
+	"GOLDENGATE_PIPELINE_START":                OperationTypeGoldengatePipelineStart,
+	"GOLDENGATE_PIPELINE_STOP":                 OperationTypeGoldengatePipelineStop,
+	"GOLDENGATE_PIPELINE_UPDATE":               OperationTypeGoldengatePipelineUpdate,
+	"GOLDENGATE_PIPELINE_DELETE":               OperationTypeGoldengatePipelineDelete,
+	"GOLDENGATE_PIPELINE_MOVE":                 OperationTypeGoldengatePipelineMove,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -106,6 +120,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_connection_update":             OperationTypeGoldengateConnectionUpdate,
 	"goldengate_connection_delete":             OperationTypeGoldengateConnectionDelete,
 	"goldengate_connection_move":               OperationTypeGoldengateConnectionMove,
+	"goldengate_connection_refresh":            OperationTypeGoldengateConnectionRefresh,
 	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"goldengate_connection_assignment_delete":  OperationTypeGoldengateConnectionAssignmentDelete,
 	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
@@ -117,6 +132,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_upgrade_snooze":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 	"goldengate_deployment_certificate_create": OperationTypeGoldengateDeploymentCertificateCreate,
 	"goldengate_deployment_certificate_delete": OperationTypeGoldengateDeploymentCertificateDelete,
+	"goldengate_pipeline_create":               OperationTypeGoldengatePipelineCreate,
+	"goldengate_pipeline_start":                OperationTypeGoldengatePipelineStart,
+	"goldengate_pipeline_stop":                 OperationTypeGoldengatePipelineStop,
+	"goldengate_pipeline_update":               OperationTypeGoldengatePipelineUpdate,
+	"goldengate_pipeline_delete":               OperationTypeGoldengatePipelineDelete,
+	"goldengate_pipeline_move":                 OperationTypeGoldengatePipelineMove,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -151,6 +172,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_CONNECTION_UPDATE",
 		"GOLDENGATE_CONNECTION_DELETE",
 		"GOLDENGATE_CONNECTION_MOVE",
+		"GOLDENGATE_CONNECTION_REFRESH",
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE",
 		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
@@ -162,6 +184,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE",
 		"GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE",
 		"GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE",
+		"GOLDENGATE_PIPELINE_CREATE",
+		"GOLDENGATE_PIPELINE_START",
+		"GOLDENGATE_PIPELINE_STOP",
+		"GOLDENGATE_PIPELINE_UPDATE",
+		"GOLDENGATE_PIPELINE_DELETE",
+		"GOLDENGATE_PIPELINE_MOVE",
 	}
 }
 

@@ -13,6 +13,7 @@ func init() {
 	exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints.GetIdFn = getDatabaseAutonomousContainerDatabaseDataguardAssociationId
 	exportDatabaseVmClusterNetworkHints.GetIdFn = getDatabaseVmClusterNetworkId
 	exportDatabaseDbNodeConsoleHistoryHints.GetIdFn = getDatabaseDbNodeConsoleHistoryId
+	exportDatabaseSchedulingPolicySchedulingWindowHints.GetIdFn = getDatabaseSchedulingPolicySchedulingWindowId
 	exportDatabaseDbNodeConsoleHistoryHints.ProcessDiscoveredResourcesFn = processDatabaseDbNodeConsoleHistory
 	exportDatabaseAutonomousContainerDatabaseHints.RequireResourceRefresh = true
 	exportDatabaseAutonomousContainerDatabaseHints.FindResourcesOverrideFn = findAllAutonomousContainerDatabases
@@ -205,6 +206,16 @@ func getDatabaseDbNodeConsoleHistoryId(resource *tf_export.OCIResource) (string,
 	}
 	dbNodeId := resource.Parent.Id
 	return GetDbNodeConsoleHistoryCompositeId(dbNodeId, consoleHistoryId), nil
+}
+
+func getDatabaseSchedulingPolicySchedulingWindowId(resource *tf_export.OCIResource) (string, error) {
+
+	schedulingPolicyId := resource.Parent.Id
+	schedulingWindowId, ok := resource.SourceAttributes["scheduling_window_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find schedulingWindowId for Database SchedulingPolicySchedulingWindow")
+	}
+	return GetSchedulingPolicySchedulingWindowCompositeId(schedulingPolicyId, schedulingWindowId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -519,6 +530,99 @@ var exportDatabaseAutonomousDatabaseSoftwareImageHints = &tf_export.TerraformRes
 	},
 }
 
+var exportDatabaseExecutionWindowHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_execution_window",
+	DatasourceClass:      "oci_database_execution_windows",
+	DatasourceItemsAttr:  "execution_windows",
+	ResourceAbbreviation: "execution_window",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ExecutionWindowLifecycleStateCreated),
+		string(oci_database.ExecutionWindowLifecycleStateSucceeded),
+	},
+}
+
+var exportDatabaseSchedulingPlanHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_scheduling_plan",
+	DatasourceClass:        "oci_database_scheduling_plans",
+	DatasourceItemsAttr:    "scheduling_plan_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "scheduling_plan",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.SchedulingPlanLifecycleStateNeedsAttention),
+		string(oci_database.SchedulingPlanLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseSchedulingPolicySchedulingWindowHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_scheduling_policy_scheduling_window",
+	DatasourceClass:      "oci_database_scheduling_policy_scheduling_windows",
+	DatasourceItemsAttr:  "scheduling_windows",
+	ResourceAbbreviation: "scheduling_policy_scheduling_window",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.SchedulingWindowLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseSchedulingPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_scheduling_policy",
+	DatasourceClass:      "oci_database_scheduling_policies",
+	DatasourceItemsAttr:  "scheduling_policies",
+	ResourceAbbreviation: "scheduling_policy",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.SchedulingPolicyLifecycleStateNeedsAttention),
+		string(oci_database.SchedulingPolicyLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExecutionActionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_execution_action",
+	DatasourceClass:      "oci_database_execution_actions",
+	DatasourceItemsAttr:  "execution_actions",
+	ResourceAbbreviation: "execution_action",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ExecutionActionLifecycleStateSucceeded),
+	},
+}
+
+var exportDatabaseScheduledActionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_scheduled_action",
+	DatasourceClass:        "oci_database_scheduled_actions",
+	DatasourceItemsAttr:    "scheduled_action_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "scheduled_action",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ScheduledActionLifecycleStateNeedsAttention),
+		string(oci_database.ScheduledActionLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExadataInfrastructureConfigureExascaleManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_exadata_infrastructure_configure_exascale_management",
+	ResourceAbbreviation: "exadata_infrastructure_configure_exascale_management",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
+		string(oci_database.ExadataInfrastructureLifecycleStateActive),
+	},
+}
+
+var exportDatabaseAutonomousContainerDatabaseSnapshotStandbyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_autonomous_container_database_snapshot_standby",
+	ResourceAbbreviation: "autonomous_container_database_snapshot_standby",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseAutonomousContainerDatabaseAddStandbyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_autonomous_container_database_add_standby",
+	ResourceAbbreviation: "autonomous_container_database_add_standby",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
@@ -547,6 +651,11 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseOneoffPatchHints},
 		{TerraformResourceHints: exportDatabaseExascaleDbStorageVaultHints},
 		{TerraformResourceHints: exportDatabaseExadbVmClusterHints},
+		{TerraformResourceHints: exportDatabaseExecutionWindowHints},
+		{TerraformResourceHints: exportDatabaseSchedulingPlanHints},
+		{TerraformResourceHints: exportDatabaseSchedulingPolicyHints},
+		{TerraformResourceHints: exportDatabaseExecutionActionHints},
+		{TerraformResourceHints: exportDatabaseScheduledActionHints},
 	},
 	"oci_database_autonomous_container_database": {
 		{
@@ -627,6 +736,14 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 			TerraformResourceHints: exportDatabasePluggableDatabaseHints,
 			DatasourceQueryParams: map[string]string{
 				"database_id": "id",
+			},
+		},
+	},
+	"oci_database_scheduling_policy": {
+		{
+			TerraformResourceHints: exportDatabaseSchedulingPolicySchedulingWindowHints,
+			DatasourceQueryParams: map[string]string{
+				"scheduling_policy_id": "id",
 			},
 		},
 	},

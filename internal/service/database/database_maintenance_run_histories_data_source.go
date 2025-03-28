@@ -52,6 +52,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"current_execution_window": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"db_servers_history_details": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -98,6 +102,231 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+								},
+							},
+						},
+						"granular_maintenance_history": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"execution_actions": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"action_members": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"estimated_time_in_mins": {
+																Type:     schema.TypeInt,
+																Computed: true,
+															},
+															"member_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"member_order": {
+																Type:     schema.TypeInt,
+																Computed: true,
+															},
+															"status": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"total_time_taken_in_mins": {
+																Type:     schema.TypeInt,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"action_params": {
+													Type:     schema.TypeMap,
+													Computed: true,
+													Elem:     schema.TypeString,
+												},
+												"action_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"compartment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"defined_tags": {
+													Type:     schema.TypeMap,
+													Computed: true,
+													Elem:     schema.TypeString,
+												},
+												"description": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"estimated_time_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"execution_action_order": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"execution_window_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"freeform_tags": {
+													Type:     schema.TypeMap,
+													Computed: true,
+													Elem:     schema.TypeString,
+												},
+												"id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_substate": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_created": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"total_time_taken_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"execution_window": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"compartment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"defined_tags": {
+													Type:     schema.TypeMap,
+													Computed: true,
+													Elem:     schema.TypeString,
+												},
+												"description": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"estimated_time_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"execution_resource_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"freeform_tags": {
+													Type:     schema.TypeMap,
+													Computed: true,
+													Elem:     schema.TypeString,
+												},
+												"id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"is_enforced_duration": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_substate": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_created": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_ended": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_scheduled": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_started": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"total_time_taken_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"window_duration_in_mins": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"window_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 								},
 							},
@@ -189,6 +418,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"is_maintenance_run_granular": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -229,6 +462,13 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"peer_maintenance_run_ids": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -259,6 +499,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 									},
 									"time_started": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"total_time_taken_in_mins": {
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
@@ -353,11 +597,21 @@ func (s *DatabaseMaintenanceRunHistoriesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		maintenanceRunHistory := map[string]interface{}{}
 
+		if r.CurrentExecutionWindow != nil {
+			maintenanceRunHistory["current_execution_window"] = *r.CurrentExecutionWindow
+		}
+
 		dbServersHistoryDetails := []interface{}{}
 		for _, item := range r.DbServersHistoryDetails {
 			dbServersHistoryDetails = append(dbServersHistoryDetails, DbServerHistorySummaryToMap(item))
 		}
 		maintenanceRunHistory["db_servers_history_details"] = dbServersHistoryDetails
+
+		granularMaintenanceHistory := []interface{}{}
+		for _, item := range r.GranularMaintenanceHistory {
+			granularMaintenanceHistory = append(granularMaintenanceHistory, GranularMaintenanceHistoryDetailsToMap(item))
+		}
+		maintenanceRunHistory["granular_maintenance_history"] = granularMaintenanceHistory
 
 		if r.Id != nil {
 			maintenanceRunHistory["id"] = *r.Id
@@ -443,6 +697,170 @@ func EstdPatchingTimeToMap(obj *oci_database.EstimatedPatchingTime) map[string]i
 	return result
 }
 
+func ExecutionActionToMap(obj oci_database.ExecutionAction) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	actionMembers := []interface{}{}
+	for _, item := range obj.ActionMembers {
+		actionMembers = append(actionMembers, ExecutionActionMemberToMap(item))
+	}
+	result["action_members"] = actionMembers
+
+	result["action_params"] = obj.ActionParams
+
+	result["action_type"] = string(obj.ActionType)
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.EstimatedTimeInMins != nil {
+		result["estimated_time_in_mins"] = int(*obj.EstimatedTimeInMins)
+	}
+
+	if obj.ExecutionActionOrder != nil {
+		result["execution_action_order"] = int(*obj.ExecutionActionOrder)
+	}
+
+	if obj.ExecutionWindowId != nil {
+		result["execution_window_id"] = string(*obj.ExecutionWindowId)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	result["lifecycle_substate"] = string(obj.LifecycleSubstate)
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.TotalTimeTakenInMins != nil {
+		result["total_time_taken_in_mins"] = int(*obj.TotalTimeTakenInMins)
+	}
+
+	return result
+}
+
+func ExecutionWindowToMap(obj *oci_database.ExecutionWindow) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.EstimatedTimeInMins != nil {
+		result["estimated_time_in_mins"] = int(*obj.EstimatedTimeInMins)
+	}
+
+	if obj.ExecutionResourceId != nil {
+		result["execution_resource_id"] = string(*obj.ExecutionResourceId)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsEnforcedDuration != nil {
+		result["is_enforced_duration"] = bool(*obj.IsEnforcedDuration)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	result["lifecycle_substate"] = string(obj.LifecycleSubstate)
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeEnded != nil {
+		result["time_ended"] = obj.TimeEnded.String()
+	}
+
+	if obj.TimeScheduled != nil {
+		result["time_scheduled"] = obj.TimeScheduled.String()
+	}
+
+	if obj.TimeStarted != nil {
+		result["time_started"] = obj.TimeStarted.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.TotalTimeTakenInMins != nil {
+		result["total_time_taken_in_mins"] = int(*obj.TotalTimeTakenInMins)
+	}
+
+	if obj.WindowDurationInMins != nil {
+		result["window_duration_in_mins"] = int(*obj.WindowDurationInMins)
+	}
+
+	result["window_type"] = string(obj.WindowType)
+
+	return result
+}
+
+func GranularMaintenanceHistoryDetailsToMap(obj oci_database.GranularMaintenanceHistoryDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	executionActions := []interface{}{}
+	for _, item := range obj.ExecutionActions {
+		executionActions = append(executionActions, ExecutionActionToMap(item))
+	}
+	result["execution_actions"] = executionActions
+
+	if obj.ExecutionWindow != nil {
+		result["execution_window"] = []interface{}{ExecutionWindowToMap(obj.ExecutionWindow)}
+	}
+
+	return result
+}
+
 func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -494,6 +912,10 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 		result["is_dst_file_update_enabled"] = bool(*obj.IsDstFileUpdateEnabled)
 	}
 
+	if obj.IsMaintenanceRunGranular != nil {
+		result["is_maintenance_run_granular"] = bool(*obj.IsMaintenanceRunGranular)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -526,6 +948,8 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 		result["peer_maintenance_run_id"] = string(*obj.PeerMaintenanceRunId)
 	}
 
+	result["peer_maintenance_run_ids"] = obj.PeerMaintenanceRunIds
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.TargetDbServerVersion != nil {
@@ -552,6 +976,10 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 
 	if obj.TimeStarted != nil {
 		result["time_started"] = obj.TimeStarted.String()
+	}
+
+	if obj.TotalTimeTakenInMins != nil {
+		result["total_time_taken_in_mins"] = int(*obj.TotalTimeTakenInMins)
 	}
 
 	return result

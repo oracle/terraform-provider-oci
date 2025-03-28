@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -63,6 +63,10 @@ type DrPlanSummary struct {
 	// Example: `ACTIVE`
 	LifecycleState DrPlanLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The current sub state of the DR plan.
+	// Example: `NEEDS_REFRESH`
+	LifecycleSubState DrPlanLifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
+
 	// A message describing the DR plan's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
 
@@ -95,6 +99,9 @@ func (m DrPlanSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrPlanLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDrPlanLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetDrPlanLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,7 +21,7 @@ import (
 // *  If the network load balancer has a list of configured network security groups and this list is empty, then the operation removes all of the network security groups associated with the network load balancer.
 type UpdateNetworkSecurityGroupsDetails struct {
 
-	// An array of network security group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the network load
+	// An array of network security group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load
 	// balancer.
 	// During the creation of the network load balancer, the service adds the new network load balancer to the specified network security groups.
 	// The benefits of associating the network load balancer with network security groups include:

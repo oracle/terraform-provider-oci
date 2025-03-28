@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,11 +20,19 @@ import (
 
 // PiiEntityMasking Mask recognized PII entities with different modes.
 type PiiEntityMasking interface {
+
+	// List of offsets/entities to be removed from anonymization.
+	GetExclude() []string
+
+	// To include excluded entities from masking in detected entities or not.
+	GetShouldDetect() *bool
 }
 
 type piientitymasking struct {
-	JsonData []byte
-	Mode     string `json:"mode"`
+	JsonData     []byte
+	Exclude      []string `mandatory:"false" json:"exclude"`
+	ShouldDetect *bool    `mandatory:"false" json:"shouldDetect"`
+	Mode         string   `json:"mode"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +46,8 @@ func (m *piientitymasking) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Exclude = s.Model.Exclude
+	m.ShouldDetect = s.Model.ShouldDetect
 	m.Mode = s.Model.Mode
 
 	return err
@@ -65,9 +75,19 @@ func (m *piientitymasking) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PiiEntityMasking: %s.", m.Mode)
+		common.Logf("Received unsupported enum value for PiiEntityMasking: %s.", m.Mode)
 		return *m, nil
 	}
+}
+
+// GetExclude returns Exclude
+func (m piientitymasking) GetExclude() []string {
+	return m.Exclude
+}
+
+// GetShouldDetect returns ShouldDetect
+func (m piientitymasking) GetShouldDetect() *bool {
+	return m.ShouldDetect
 }
 
 func (m piientitymasking) String() string {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResources.go.html to see an example of how to use ListMonitoredResourcesRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResources.go.html to see an example of how to use ListMonitoredResourcesRequest.
 type ListMonitoredResourcesRequest struct {
 
 	// The ID of the compartment in which data is listed.
@@ -39,12 +39,12 @@ type ListMonitoredResourcesRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the
 	// previous "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -141,6 +141,7 @@ const (
 	ListMonitoredResourcesStatusCreating ListMonitoredResourcesStatusEnum = "CREATING"
 	ListMonitoredResourcesStatusUpdating ListMonitoredResourcesStatusEnum = "UPDATING"
 	ListMonitoredResourcesStatusActive   ListMonitoredResourcesStatusEnum = "ACTIVE"
+	ListMonitoredResourcesStatusInactive ListMonitoredResourcesStatusEnum = "INACTIVE"
 	ListMonitoredResourcesStatusDeleting ListMonitoredResourcesStatusEnum = "DELETING"
 	ListMonitoredResourcesStatusDeleted  ListMonitoredResourcesStatusEnum = "DELETED"
 	ListMonitoredResourcesStatusFailed   ListMonitoredResourcesStatusEnum = "FAILED"
@@ -150,6 +151,7 @@ var mappingListMonitoredResourcesStatusEnum = map[string]ListMonitoredResourcesS
 	"CREATING": ListMonitoredResourcesStatusCreating,
 	"UPDATING": ListMonitoredResourcesStatusUpdating,
 	"ACTIVE":   ListMonitoredResourcesStatusActive,
+	"INACTIVE": ListMonitoredResourcesStatusInactive,
 	"DELETING": ListMonitoredResourcesStatusDeleting,
 	"DELETED":  ListMonitoredResourcesStatusDeleted,
 	"FAILED":   ListMonitoredResourcesStatusFailed,
@@ -159,6 +161,7 @@ var mappingListMonitoredResourcesStatusEnumLowerCase = map[string]ListMonitoredR
 	"creating": ListMonitoredResourcesStatusCreating,
 	"updating": ListMonitoredResourcesStatusUpdating,
 	"active":   ListMonitoredResourcesStatusActive,
+	"inactive": ListMonitoredResourcesStatusInactive,
 	"deleting": ListMonitoredResourcesStatusDeleting,
 	"deleted":  ListMonitoredResourcesStatusDeleted,
 	"failed":   ListMonitoredResourcesStatusFailed,
@@ -179,6 +182,7 @@ func GetListMonitoredResourcesStatusEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

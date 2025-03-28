@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListReportDefinitions.go.html to see an example of how to use ListReportDefinitionsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListReportDefinitions.go.html to see an example of how to use ListReportDefinitionsRequest.
 type ListReportDefinitionsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.
@@ -34,10 +34,10 @@ type ListReportDefinitionsRequest struct {
 	// The name of the report definition to query.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (ASC) or descending (DESC).
@@ -135,7 +135,7 @@ type ListReportDefinitionsResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. Include opc-next-page value as the page parameter for the subsequent GET request to get the next batch of items. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. Include opc-next-page value as the page parameter for the subsequent GET request to get the next batch of items. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -283,24 +283,27 @@ type ListReportDefinitionsDataSourceEnum string
 
 // Set of constants representing the allowable values for ListReportDefinitionsDataSourceEnum
 const (
-	ListReportDefinitionsDataSourceEvents     ListReportDefinitionsDataSourceEnum = "EVENTS"
-	ListReportDefinitionsDataSourceAlerts     ListReportDefinitionsDataSourceEnum = "ALERTS"
-	ListReportDefinitionsDataSourceViolations ListReportDefinitionsDataSourceEnum = "VIOLATIONS"
-	ListReportDefinitionsDataSourceAllowedSql ListReportDefinitionsDataSourceEnum = "ALLOWED_SQL"
+	ListReportDefinitionsDataSourceEvents             ListReportDefinitionsDataSourceEnum = "EVENTS"
+	ListReportDefinitionsDataSourceAlerts             ListReportDefinitionsDataSourceEnum = "ALERTS"
+	ListReportDefinitionsDataSourceSecurityAssessment ListReportDefinitionsDataSourceEnum = "SECURITY_ASSESSMENT"
+	ListReportDefinitionsDataSourceViolations         ListReportDefinitionsDataSourceEnum = "VIOLATIONS"
+	ListReportDefinitionsDataSourceAllowedSql         ListReportDefinitionsDataSourceEnum = "ALLOWED_SQL"
 )
 
 var mappingListReportDefinitionsDataSourceEnum = map[string]ListReportDefinitionsDataSourceEnum{
-	"EVENTS":      ListReportDefinitionsDataSourceEvents,
-	"ALERTS":      ListReportDefinitionsDataSourceAlerts,
-	"VIOLATIONS":  ListReportDefinitionsDataSourceViolations,
-	"ALLOWED_SQL": ListReportDefinitionsDataSourceAllowedSql,
+	"EVENTS":              ListReportDefinitionsDataSourceEvents,
+	"ALERTS":              ListReportDefinitionsDataSourceAlerts,
+	"SECURITY_ASSESSMENT": ListReportDefinitionsDataSourceSecurityAssessment,
+	"VIOLATIONS":          ListReportDefinitionsDataSourceViolations,
+	"ALLOWED_SQL":         ListReportDefinitionsDataSourceAllowedSql,
 }
 
 var mappingListReportDefinitionsDataSourceEnumLowerCase = map[string]ListReportDefinitionsDataSourceEnum{
-	"events":      ListReportDefinitionsDataSourceEvents,
-	"alerts":      ListReportDefinitionsDataSourceAlerts,
-	"violations":  ListReportDefinitionsDataSourceViolations,
-	"allowed_sql": ListReportDefinitionsDataSourceAllowedSql,
+	"events":              ListReportDefinitionsDataSourceEvents,
+	"alerts":              ListReportDefinitionsDataSourceAlerts,
+	"security_assessment": ListReportDefinitionsDataSourceSecurityAssessment,
+	"violations":          ListReportDefinitionsDataSourceViolations,
+	"allowed_sql":         ListReportDefinitionsDataSourceAllowedSql,
 }
 
 // GetListReportDefinitionsDataSourceEnumValues Enumerates the set of values for ListReportDefinitionsDataSourceEnum
@@ -317,6 +320,7 @@ func GetListReportDefinitionsDataSourceEnumStringValues() []string {
 	return []string{
 		"EVENTS",
 		"ALERTS",
+		"SECURITY_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}

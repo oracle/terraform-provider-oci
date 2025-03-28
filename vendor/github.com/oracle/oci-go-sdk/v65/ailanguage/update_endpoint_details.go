@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,10 +23,13 @@ type UpdateEndpointDetails struct {
 	// A user-friendly display name for the resource. It should be unique and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// A short description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
 	ModelId *string `mandatory:"false" json:"modelId"`
 
 	// Number of replicas required for this endpoint. This will be optional parameter.

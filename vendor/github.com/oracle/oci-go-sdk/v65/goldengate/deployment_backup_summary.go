@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,10 +18,10 @@ import (
 // DeploymentBackupSummary The summary of the Backup.
 type DeploymentBackupSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
 	// The type of deployment, which can be any one of the Allowed values.
@@ -29,7 +29,7 @@ type DeploymentBackupSummary struct {
 	//     Its use is discouraged in favor of 'DATABASE_ORACLE'.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Possible lifecycle states.
@@ -43,6 +43,9 @@ type DeploymentBackupSummary struct {
 
 	// True if this object is automatically created
 	IsAutomatic *bool `mandatory:"false" json:"isAutomatic"`
+
+	// Possible deployment backup source types.
+	BackupSourceType DeploymentBackupSummaryBackupSourceTypeEnum `mandatory:"false" json:"backupSourceType,omitempty"`
 
 	// Describes the object's current state in detail. For example, it can be used to provide
 	// actionable information for a resource in a Failed state.
@@ -90,9 +93,12 @@ type DeploymentBackupSummary struct {
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle
 	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
-	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Parameter to allow users to create backup without trails
+	IsMetadataOnly *bool `mandatory:"false" json:"isMetadataOnly"`
 
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
@@ -114,6 +120,9 @@ func (m DeploymentBackupSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDeploymentBackupSummaryBackupSourceTypeEnum(string(m.BackupSourceType)); !ok && m.BackupSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupSourceType: %s. Supported values are: %s.", m.BackupSourceType, strings.Join(GetDeploymentBackupSummaryBackupSourceTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDeploymentBackupTypeEnum(string(m.BackupType)); !ok && m.BackupType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetDeploymentBackupTypeEnumStringValues(), ",")))
 	}
@@ -121,4 +130,50 @@ func (m DeploymentBackupSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DeploymentBackupSummaryBackupSourceTypeEnum Enum with underlying type: string
+type DeploymentBackupSummaryBackupSourceTypeEnum string
+
+// Set of constants representing the allowable values for DeploymentBackupSummaryBackupSourceTypeEnum
+const (
+	DeploymentBackupSummaryBackupSourceTypeManual    DeploymentBackupSummaryBackupSourceTypeEnum = "MANUAL"
+	DeploymentBackupSummaryBackupSourceTypeAutomatic DeploymentBackupSummaryBackupSourceTypeEnum = "AUTOMATIC"
+	DeploymentBackupSummaryBackupSourceTypeScheduled DeploymentBackupSummaryBackupSourceTypeEnum = "SCHEDULED"
+)
+
+var mappingDeploymentBackupSummaryBackupSourceTypeEnum = map[string]DeploymentBackupSummaryBackupSourceTypeEnum{
+	"MANUAL":    DeploymentBackupSummaryBackupSourceTypeManual,
+	"AUTOMATIC": DeploymentBackupSummaryBackupSourceTypeAutomatic,
+	"SCHEDULED": DeploymentBackupSummaryBackupSourceTypeScheduled,
+}
+
+var mappingDeploymentBackupSummaryBackupSourceTypeEnumLowerCase = map[string]DeploymentBackupSummaryBackupSourceTypeEnum{
+	"manual":    DeploymentBackupSummaryBackupSourceTypeManual,
+	"automatic": DeploymentBackupSummaryBackupSourceTypeAutomatic,
+	"scheduled": DeploymentBackupSummaryBackupSourceTypeScheduled,
+}
+
+// GetDeploymentBackupSummaryBackupSourceTypeEnumValues Enumerates the set of values for DeploymentBackupSummaryBackupSourceTypeEnum
+func GetDeploymentBackupSummaryBackupSourceTypeEnumValues() []DeploymentBackupSummaryBackupSourceTypeEnum {
+	values := make([]DeploymentBackupSummaryBackupSourceTypeEnum, 0)
+	for _, v := range mappingDeploymentBackupSummaryBackupSourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDeploymentBackupSummaryBackupSourceTypeEnumStringValues Enumerates the set of values in String for DeploymentBackupSummaryBackupSourceTypeEnum
+func GetDeploymentBackupSummaryBackupSourceTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATIC",
+		"SCHEDULED",
+	}
+}
+
+// GetMappingDeploymentBackupSummaryBackupSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDeploymentBackupSummaryBackupSourceTypeEnum(val string) (DeploymentBackupSummaryBackupSourceTypeEnum, bool) {
+	enum, ok := mappingDeploymentBackupSummaryBackupSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

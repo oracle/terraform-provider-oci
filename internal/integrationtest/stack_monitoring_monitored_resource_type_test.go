@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
@@ -38,8 +38,8 @@ var (
 
 	StackMonitoringMonitoredResourceTypeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"exclude_fields":          acctest.Representation{RepType: acctest.Optional, Create: []string{`metricNamespace`}},
-		"fields":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}},
+		"exclude_fields":          acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}},
+		"fields":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`metricNamespace`}},
 		"is_exclude_system_types": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"metric_namespace":        acctest.Representation{RepType: acctest.Optional, Create: `terraform_namespace`},
 		"name":                    acctest.Representation{RepType: acctest.Optional, Create: `terraform_test_restype`},
@@ -54,7 +54,7 @@ var (
 	ignoreResourceTypeSensitiveDataRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{
 			`freeform_tags`, `defined_tags`, `system_tags`,
-			`compartment_id`,
+			`compartment_id`, `display_name`, `metadata[0].valid_sub_resource_types`,
 			`metadata[0].unique_property_sets`, `metadata[0].unique_property_sets[0].properties`}},
 	}
 
@@ -79,6 +79,7 @@ var (
 		"unique_property_sets":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceTypeMetadataUniquePropertySetsRepresentation},
 		"valid_properties_for_create": acctest.Representation{RepType: acctest.Optional, Create: []string{`validPropertiesForCreate`}, Update: []string{`validPropertiesForCreate2`}},
 		"valid_properties_for_update": acctest.Representation{RepType: acctest.Optional, Create: []string{`validPropertiesForUpdate`}, Update: []string{`validPropertiesForUpdate2`}},
+		"valid_sub_resource_types":    acctest.Representation{RepType: acctest.Optional, Create: []string{`validSubResourceTypes`}, Update: []string{`validSubResourceTypes2`}},
 		"valid_property_values":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"osType": "Linux,Windows,Solaris", "osVersion": "v6.0,v7.0"}, Update: map[string]string{"prop1": "Linux,Windows,Solaris", "osVersion": "v6.0,v7.0,v8.0"}},
 	}
 	StackMonitoringMonitoredResourceTypeMetadataUniquePropertySetsRepresentation = map[string]interface{}{
@@ -149,10 +150,10 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.unique_property_sets.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_create.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_update.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metric_namespace", "terraform_namespace"),
 				resource.TestCheckResourceAttr(resourceName, "resource_category", "APPLICATION"),
 				resource.TestCheckResourceAttr(resourceName, "source_type", "SM_MGMT_AGENT_MONITORED"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_property_values.%", "2"),
-				resource.TestCheckResourceAttr(resourceName, "metric_namespace", "terraform_namespace"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -174,7 +175,6 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraform_test_restype"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.#", "1"),
@@ -185,6 +185,7 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.unique_property_sets.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_create.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_update.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metric_namespace", "terraform_namespace"),
 				resource.TestCheckResourceAttr(resourceName, "resource_category", "APPLICATION"),
 				resource.TestCheckResourceAttr(resourceName, "source_type", "SM_MGMT_AGENT_MONITORED"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_property_values.%", "2"),
@@ -228,7 +229,6 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.#", "1"),

@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -41,7 +41,9 @@ var (
 		"id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
 		"managed_instance_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.managed_instance_id}`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationDataSourceFilterRepresentation}}
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationDataSourceFilterRepresentation},
+	}
+
 	OsManagementHubManagementStationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_os_management_hub_management_station.test_management_station.id}`}},
@@ -57,7 +59,9 @@ var (
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		// "refresh_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"is_auto_config_enabled": acctest.Representation{RepType: acctest.Optional, Create: "false", Update: "true"},
 	}
+
 	OsManagementHubManagementStationMirrorRepresentation = map[string]interface{}{
 		"directory": acctest.Representation{RepType: acctest.Required, Create: `/directory`, Update: `/directory2`},
 		"port":      acctest.Representation{RepType: acctest.Required, Create: `50001`, Update: `50011`},
@@ -135,6 +139,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_config_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.0.directory", "/directory"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.0.port", "50001"),
@@ -169,6 +174,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_config_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.0.directory", "/directory"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.0.port", "50001"),
@@ -201,6 +207,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_config_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.0.directory", "/directory2"),
 				resource.TestCheckResourceAttr(resourceName, "mirror.0.port", "50011"),
@@ -250,15 +257,23 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "health.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_config_enabled", "true"),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "location"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror.0.directory", "/directory2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror.0.port", "50011"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror.0.sslcert", "/sslcert2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror.0.sslport", "50012"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_capacity"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_package_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_size"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_storage_available_size"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_storage_size"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror_sync_status.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_unique_package_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "overall_percentage"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "overall_state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "peer_management_stations.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "proxy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "proxy.0.is_enabled", "true"),

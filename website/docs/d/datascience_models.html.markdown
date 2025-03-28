@@ -20,6 +20,7 @@ data "oci_datascience_models" "test_models" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	category = var.model_category
 	created_by = var.model_created_by
 	display_name = var.model_display_name
 	id = var.model_id
@@ -33,6 +34,7 @@ data "oci_datascience_models" "test_models" {
 
 The following arguments are supported:
 
+* `category` - (Optional) Specifies the type of models to list. By default, user models are listed. 
 * `compartment_id` - (Required) <b>Filter</b> results by the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `created_by` - (Optional) <b>Filter</b> results by the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the resource.
 * `display_name` - (Optional) <b>Filter</b> results by its user-friendly name.
@@ -59,31 +61,46 @@ The following attributes are exported:
 	* `backup_region` - Oracle Cloud Infrastructure backup region for the model.
 	* `customer_notification_type` - Customer notification on backup success/failure events.
 	* `is_backup_enabled` - Boolean flag representing whether backup needs to be enabled/disabled for the model.
+* `category` - The category of the model.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model's compartment.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model.
 * `custom_metadata_list` - An array of custom metadata details for the model.
-	* `category` - Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,other".
+	* `category` - Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,Reports,Readme,other".
 	* `description` - Description of model metadata
+	* `has_artifact` - Is there any artifact present for the metadata.
 	* `key` - Key of the model Metadata. The key can either be user defined or Oracle Cloud Infrastructure defined. List of Oracle Cloud Infrastructure defined keys:
 		* useCaseType
 		* libraryName
 		* libraryVersion
 		* estimatorClass
 		* hyperParameters
-		* testartifactresults 
+		* testArtifactresults
+		* fineTuningConfiguration
+		* deploymentConfiguration
+		* readme
+		* license
+		* evaluationConfiguration 
+	* `keywords` - list of keywords for searching
 	* `value` - Allowed values for useCaseType: binary_classification, regression, multinomial_classification, clustering, recommender, dimensionality_reduction/representation, time_series_forecasting, anomaly_detection, topic_modeling, ner, sentiment_analysis, image_classification, object_localization, other
 
 		Allowed values for libraryName: scikit-learn, xgboost, tensorflow, pytorch, mxnet, keras, lightGBM, pymc3, pyOD, spacy, prophet, sktime, statsmodels, cuml, oracle_automl, h2o, transformers, nltk, emcee, pystan, bert, gensim, flair, word2vec, ensemble, other 
 * `defined_metadata_list` - An array of defined metadata details for the model.
-	* `category` - Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,other".
+	* `category` - Category of model metadata which should be null for defined metadata.For custom metadata is should be one of the following values "Performance,Training Profile,Training and Validation Datasets,Training Environment,Reports,Readme,other".
 	* `description` - Description of model metadata
+	* `has_artifact` - Is there any artifact present for the metadata.
 	* `key` - Key of the model Metadata. The key can either be user defined or Oracle Cloud Infrastructure defined. List of Oracle Cloud Infrastructure defined keys:
 		* useCaseType
 		* libraryName
 		* libraryVersion
 		* estimatorClass
 		* hyperParameters
-		* testartifactresults 
+		* testArtifactresults
+		* fineTuningConfiguration
+		* deploymentConfiguration
+		* readme
+		* license
+		* evaluationConfiguration 
+	* `keywords` - list of keywords for searching
 	* `value` - Allowed values for useCaseType: binary_classification, regression, multinomial_classification, clustering, recommender, dimensionality_reduction/representation, time_series_forecasting, anomaly_detection, topic_modeling, ner, sentiment_analysis, image_classification, object_localization, other
 
 		Allowed values for libraryName: scikit-learn, xgboost, tensorflow, pytorch, mxnet, keras, lightGBM, pymc3, pyOD, spacy, prophet, sktime, statsmodels, cuml, oracle_automl, h2o, transformers, nltk, emcee, pystan, bert, gensim, flair, word2vec, ensemble, other 
@@ -93,6 +110,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 * `input_schema` - Input schema file content in String format
+* `is_model_by_reference` - Identifier to indicate whether a model artifact resides in the Service Tenancy or Customer Tenancy.
 * `lifecycle_details` - Details about the lifecycle state of the model.
 * `model_version_set_id` - The OCID of the model version set that the model is associated to.
 * `model_version_set_name` - The name of the model version set that the model is associated to.

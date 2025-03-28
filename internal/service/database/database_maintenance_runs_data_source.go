@@ -27,6 +27,10 @@ func DatabaseMaintenanceRunsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_local_adg": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"maintenance_subtype": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +89,11 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if isLocalAdg, ok := s.D.GetOkExists("is_local_adg"); ok {
+		tmp := isLocalAdg.(bool)
+		request.IsLocalAdg = &tmp
 	}
 
 	if maintenanceSubtype, ok := s.D.GetOkExists("maintenance_subtype"); ok {
@@ -190,6 +199,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["is_dst_file_update_enabled"] = *r.IsDstFileUpdateEnabled
 		}
 
+		if r.IsMaintenanceRunGranular != nil {
+			maintenanceRun["is_maintenance_run_granular"] = *r.IsMaintenanceRunGranular
+		}
+
 		if r.LifecycleDetails != nil {
 			maintenanceRun["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -222,6 +235,8 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["peer_maintenance_run_id"] = *r.PeerMaintenanceRunId
 		}
 
+		maintenanceRun["peer_maintenance_run_ids"] = r.PeerMaintenanceRunIds
+
 		maintenanceRun["state"] = r.LifecycleState
 
 		if r.TargetDbServerVersion != nil {
@@ -248,6 +263,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 
 		if r.TimeStarted != nil {
 			maintenanceRun["time_started"] = r.TimeStarted.String()
+		}
+
+		if r.TotalTimeTakenInMins != nil {
+			maintenanceRun["total_time_taken_in_mins"] = *r.TotalTimeTakenInMins
 		}
 
 		resources = append(resources, maintenanceRun)

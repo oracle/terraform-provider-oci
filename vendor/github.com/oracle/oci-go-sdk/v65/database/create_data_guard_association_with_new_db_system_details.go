@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -29,8 +29,10 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// **The password MUST be the same as the primary admin password.**
 	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
 
-	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
 
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
@@ -66,12 +68,12 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// This restriction applies to both the client subnet and backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
+	// A list of the OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
 	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
 
 	// The hostname for the DB node.
@@ -82,7 +84,7 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
 	Domain *string `mandatory:"false" json:"domain"`
 
-	// The time zone of the dataguard standby DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone of the dataguard standby DB system. For details, see DB System Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// A Fault Domain is a grouping of hardware and infrastructure within an availability domain.
@@ -104,32 +106,36 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// be auto-assigned with an available IPv4 address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	// The IPv6 address from the provided OCI subnet which needs to be assigned to the VNIC. If not provided, it will
+	// be auto-assigned with an available IPv6 address from the subnet.
+	PrivateIpV6 *string `mandatory:"false" json:"privateIpV6"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	DbSystemFreeformTags map[string]string `mandatory:"false" json:"dbSystemFreeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DbSystemDefinedTags map[string]map[string]interface{} `mandatory:"false" json:"dbSystemDefinedTags"`
 
 	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
 	DbSystemSecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"dbSystemSecurityAttributes"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	DatabaseFreeformTags map[string]string `mandatory:"false" json:"databaseFreeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DatabaseDefinedTags map[string]map[string]interface{} `mandatory:"false" json:"databaseDefinedTags"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
-	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
+	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
 
 	// The Oracle license model that applies to all the databases on the dataguard standby DB system. The default is LICENSE_INCLUDED. Bring your own license (BYOL) allows you to select the DB edition using the optional parameter, for Autonomous Database Serverless.
@@ -160,6 +166,11 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetDatabaseSoftwareIma
 // GetDatabaseAdminPassword returns DatabaseAdminPassword
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetDatabaseAdminPassword() *string {
 	return m.DatabaseAdminPassword
+}
+
+// GetSourceEncryptionKeyLocationDetails returns SourceEncryptionKeyLocationDetails
+func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails {
+	return m.SourceEncryptionKeyLocationDetails
 }
 
 // GetProtectionMode returns ProtectionMode
@@ -227,6 +238,117 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) MarshalJSON() (buff []
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DatabaseSoftwareImageId            *string                                                                          `json:"databaseSoftwareImageId"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                                                     `json:"sourceEncryptionKeyLocationDetails"`
+		IsActiveDataGuardEnabled           *bool                                                                            `json:"isActiveDataGuardEnabled"`
+		PeerDbUniqueName                   *string                                                                          `json:"peerDbUniqueName"`
+		PeerSidPrefix                      *string                                                                          `json:"peerSidPrefix"`
+		DisplayName                        *string                                                                          `json:"displayName"`
+		AvailabilityDomain                 *string                                                                          `json:"availabilityDomain"`
+		Shape                              *string                                                                          `json:"shape"`
+		CpuCoreCount                       *int                                                                             `json:"cpuCoreCount"`
+		StorageVolumePerformanceMode       CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `json:"storageVolumePerformanceMode"`
+		NodeCount                          *int                                                                             `json:"nodeCount"`
+		SubnetId                           *string                                                                          `json:"subnetId"`
+		NsgIds                             []string                                                                         `json:"nsgIds"`
+		BackupNetworkNsgIds                []string                                                                         `json:"backupNetworkNsgIds"`
+		Hostname                           *string                                                                          `json:"hostname"`
+		Domain                             *string                                                                          `json:"domain"`
+		TimeZone                           *string                                                                          `json:"timeZone"`
+		FaultDomains                       []string                                                                         `json:"faultDomains"`
+		PrivateIp                          *string                                                                          `json:"privateIp"`
+		PrivateIpV6                        *string                                                                          `json:"privateIpV6"`
+		LicenseModel                       CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum                 `json:"licenseModel"`
+		DbSystemFreeformTags               map[string]string                                                                `json:"dbSystemFreeformTags"`
+		DbSystemDefinedTags                map[string]map[string]interface{}                                                `json:"dbSystemDefinedTags"`
+		DbSystemSecurityAttributes         map[string]map[string]interface{}                                                `json:"dbSystemSecurityAttributes"`
+		DatabaseFreeformTags               map[string]string                                                                `json:"databaseFreeformTags"`
+		DatabaseDefinedTags                map[string]map[string]interface{}                                                `json:"databaseDefinedTags"`
+		DataCollectionOptions              *DataCollectionOptions                                                           `json:"dataCollectionOptions"`
+		DatabaseAdminPassword              *string                                                                          `json:"databaseAdminPassword"`
+		ProtectionMode                     CreateDataGuardAssociationDetailsProtectionModeEnum                              `json:"protectionMode"`
+		TransportType                      CreateDataGuardAssociationDetailsTransportTypeEnum                               `json:"transportType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled
+
+	m.PeerDbUniqueName = model.PeerDbUniqueName
+
+	m.PeerSidPrefix = model.PeerSidPrefix
+
+	m.DisplayName = model.DisplayName
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.Shape = model.Shape
+
+	m.CpuCoreCount = model.CpuCoreCount
+
+	m.StorageVolumePerformanceMode = model.StorageVolumePerformanceMode
+
+	m.NodeCount = model.NodeCount
+
+	m.SubnetId = model.SubnetId
+
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
+	m.BackupNetworkNsgIds = make([]string, len(model.BackupNetworkNsgIds))
+	copy(m.BackupNetworkNsgIds, model.BackupNetworkNsgIds)
+	m.Hostname = model.Hostname
+
+	m.Domain = model.Domain
+
+	m.TimeZone = model.TimeZone
+
+	m.FaultDomains = make([]string, len(model.FaultDomains))
+	copy(m.FaultDomains, model.FaultDomains)
+	m.PrivateIp = model.PrivateIp
+
+	m.PrivateIpV6 = model.PrivateIpV6
+
+	m.LicenseModel = model.LicenseModel
+
+	m.DbSystemFreeformTags = model.DbSystemFreeformTags
+
+	m.DbSystemDefinedTags = model.DbSystemDefinedTags
+
+	m.DbSystemSecurityAttributes = model.DbSystemSecurityAttributes
+
+	m.DatabaseFreeformTags = model.DatabaseFreeformTags
+
+	m.DatabaseDefinedTags = model.DatabaseDefinedTags
+
+	m.DataCollectionOptions = model.DataCollectionOptions
+
+	m.DatabaseAdminPassword = model.DatabaseAdminPassword
+
+	m.ProtectionMode = model.ProtectionMode
+
+	m.TransportType = model.TransportType
+
+	return
 }
 
 // CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum Enum with underlying type: string

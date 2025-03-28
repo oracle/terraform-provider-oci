@@ -56,6 +56,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `are_quota_rules_enabled` - Specifies the enforcement of quota rules on the file system.
 * `availability_domain` - The availability domain the file system is in. May be unset as a blank or NULL value.  Example: `Uocm:PHX-AD-1` 
 * `clone_attach_status` - Specifies whether the file system is attached to its parent file system.
 * `clone_count` - Specifies the total number of children of a file system.
@@ -76,10 +77,13 @@ The following attributes are exported:
 	* `time_created` - When the lock was created.
 	* `type` - Type of the lock.
 * `metered_bytes` - The number of bytes consumed by the file system, including any snapshots. This number reflects the metered size of the file system and is updated asynchronously with respect to updates to the file system. For more information, see [File System Usage and Metering](https://docs.cloud.oracle.com/iaas/Content/File/Concepts/FSutilization.htm). 
+* `quota_enforcement_state` - Displays the state of enforcement of quota rules on the file system.
+* `replication_source_count` - Specifies the total number of replications for which this file system is a source.
 * `replication_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target associated with the file system. Empty if the file system is not being used as target in a replication. 
 * `source_details` - Source information for the file system. 
 	* `parent_file_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See [Cloning a File System](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm). 
 	* `source_snapshot_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source snapshot used to create a cloned file system. See [Cloning a File System](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm). 
 * `state` - The current state of the file system.
+* `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
 * `time_created` - The date and time the file system was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 

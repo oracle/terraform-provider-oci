@@ -88,8 +88,6 @@ variable "fleet_state" {
   default = "NEEDS_ATTENTION"
 }
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,23 +15,23 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlInsights.go.html to see an example of how to use SummarizeSqlInsightsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlInsights.go.html to see an example of how to use SummarizeSqlInsightsRequest.
 type SummarizeSqlInsightsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Filter by one or more database type.
 	// Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 	DatabaseType []SummarizeSqlInsightsDatabaseTypeEnum `contributesTo:"query" name:"databaseType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// Optional list of database OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
+	// Optional list of database OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
 	DatabaseId []string `contributesTo:"query" name:"databaseId" collectionFormat:"multi"`
 
-	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of database insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
-	// Optional list of exadata insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of exadata insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
 
 	// Filter by one or more cdb name.
@@ -64,7 +64,7 @@ type SummarizeSqlInsightsRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from
 	// the previous "List" call. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
@@ -202,6 +202,7 @@ const (
 	SummarizeSqlInsightsDatabaseTypeComanagedExaccPdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
 	SummarizeSqlInsightsDatabaseTypeComanagedExaccNoncdb SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeSqlInsightsDatabaseTypeMdsMysql             SummarizeSqlInsightsDatabaseTypeEnum = "MDS-MYSQL"
+	SummarizeSqlInsightsDatabaseTypeExternalMysql        SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-MYSQL"
 )
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -224,6 +225,7 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsight
 	"COMANAGED-EXACC-PDB":    SummarizeSqlInsightsDatabaseTypeComanagedExaccPdb,
 	"COMANAGED-EXACC-NONCDB": SummarizeSqlInsightsDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeSqlInsightsDatabaseTypeMdsMysql,
+	"EXTERNAL-MYSQL":         SummarizeSqlInsightsDatabaseTypeExternalMysql,
 }
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -246,6 +248,7 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeS
 	"comanaged-exacc-pdb":    SummarizeSqlInsightsDatabaseTypeComanagedExaccPdb,
 	"comanaged-exacc-noncdb": SummarizeSqlInsightsDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeSqlInsightsDatabaseTypeMdsMysql,
+	"external-mysql":         SummarizeSqlInsightsDatabaseTypeExternalMysql,
 }
 
 // GetSummarizeSqlInsightsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlInsightsDatabaseTypeEnum
@@ -279,6 +282,7 @@ func GetSummarizeSqlInsightsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACC-PDB",
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
+		"EXTERNAL-MYSQL",
 	}
 }
 

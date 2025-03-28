@@ -6,7 +6,7 @@ package integrationtest
 import (
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -60,6 +60,7 @@ var (
 	JmsFleetPerformanceTuningAnalysisResultDataSourceRepresentation = map[string]interface{}{
 		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-id`},
+		"application_name":    acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-name`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `dummy-host-name`},
 		"managed_instance_id": acctest.Representation{RepType: acctest.Optional, Create: JmsFleetPerformanceTuningAnalysisResultDummyManagedInstanceId},
 		"time_start":          acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T15:15:15.000Z`},
@@ -96,8 +97,8 @@ func TestJmsFleetPerformanceTuningAnalysisResultResource_basic(t *testing.T) {
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
-				resource.TestCheckResourceAttr(datasourceName, "application_id", `dummy-application-id`),
-				resource.TestCheckResourceAttr(datasourceName, "host_name", `dummy-host-name`),
+				resource.TestCheckResourceAttr(datasourceName, "application_id", `dummy-application-id`), resource.TestCheckResourceAttrSet(datasourceName, "application_name"),
+				resource.TestCheckResourceAttr(datasourceName, "application_name", `dummy-application-name`), resource.TestCheckResourceAttr(datasourceName, "host_name", `dummy-host-name`),
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsFleetPerformanceTuningAnalysisResultDummyManagedInstanceId),
 				resource.TestCheckResourceAttr(datasourceName, "time_start", `2024-01-20T15:15:15.000Z`),
 				resource.TestCheckResourceAttr(datasourceName, "time_end", `2024-01-20T16:16:16.000Z`),

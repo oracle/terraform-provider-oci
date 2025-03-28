@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -95,7 +95,7 @@ func (client *BdsClient) ConfigurationProvider() *common.ConfigurationProvider {
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateBdsMetastoreConfiguration.go.html to see an example of how to use ActivateBdsMetastoreConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateBdsMetastoreConfiguration.go.html to see an example of how to use ActivateBdsMetastoreConfiguration API.
 func (client BdsClient) ActivateBdsMetastoreConfiguration(ctx context.Context, request ActivateBdsMetastoreConfigurationRequest) (response ActivateBdsMetastoreConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -153,11 +153,135 @@ func (client BdsClient) activateBdsMetastoreConfiguration(ctx context.Context, r
 	return response, err
 }
 
+// ActivateIamUserSyncConfiguration Activate IAM user sync configuration for the given identity configuration
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateIamUserSyncConfiguration.go.html to see an example of how to use ActivateIamUserSyncConfiguration API.
+func (client BdsClient) ActivateIamUserSyncConfiguration(ctx context.Context, request ActivateIamUserSyncConfigurationRequest) (response ActivateIamUserSyncConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateIamUserSyncConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateIamUserSyncConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateIamUserSyncConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateIamUserSyncConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateIamUserSyncConfigurationResponse")
+	}
+	return
+}
+
+// activateIamUserSyncConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) activateIamUserSyncConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/activateIamUserSyncConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateIamUserSyncConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/ActivateIamUserSyncConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "ActivateIamUserSyncConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ActivateUpstConfiguration Activate UPST configuration for the given identity configuration
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateUpstConfiguration.go.html to see an example of how to use ActivateUpstConfiguration API.
+func (client BdsClient) ActivateUpstConfiguration(ctx context.Context, request ActivateUpstConfigurationRequest) (response ActivateUpstConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateUpstConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateUpstConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateUpstConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateUpstConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateUpstConfigurationResponse")
+	}
+	return
+}
+
+// activateUpstConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) activateUpstConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/activateUpstConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateUpstConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/ActivateUpstConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "ActivateUpstConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddAutoScalingConfiguration Add an autoscale configuration to the cluster.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddAutoScalingConfiguration.go.html to see an example of how to use AddAutoScalingConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddAutoScalingConfiguration.go.html to see an example of how to use AddAutoScalingConfiguration API.
 func (client BdsClient) AddAutoScalingConfiguration(ctx context.Context, request AddAutoScalingConfigurationRequest) (response AddAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -219,7 +343,7 @@ func (client BdsClient) addAutoScalingConfiguration(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddBlockStorage.go.html to see an example of how to use AddBlockStorage API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddBlockStorage.go.html to see an example of how to use AddBlockStorage API.
 func (client BdsClient) AddBlockStorage(ctx context.Context, request AddBlockStorageRequest) (response AddBlockStorageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -281,7 +405,7 @@ func (client BdsClient) addBlockStorage(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddCloudSql.go.html to see an example of how to use AddCloudSql API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddCloudSql.go.html to see an example of how to use AddCloudSql API.
 func (client BdsClient) AddCloudSql(ctx context.Context, request AddCloudSqlRequest) (response AddCloudSqlResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -343,7 +467,7 @@ func (client BdsClient) addCloudSql(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddKafka.go.html to see an example of how to use AddKafka API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddKafka.go.html to see an example of how to use AddKafka API.
 func (client BdsClient) AddKafka(ctx context.Context, request AddKafkaRequest) (response AddKafkaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -405,7 +529,7 @@ func (client BdsClient) addKafka(ctx context.Context, request common.OCIRequest,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddMasterNodes.go.html to see an example of how to use AddMasterNodes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddMasterNodes.go.html to see an example of how to use AddMasterNodes API.
 func (client BdsClient) AddMasterNodes(ctx context.Context, request AddMasterNodesRequest) (response AddMasterNodesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -467,7 +591,7 @@ func (client BdsClient) addMasterNodes(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddUtilityNodes.go.html to see an example of how to use AddUtilityNodes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddUtilityNodes.go.html to see an example of how to use AddUtilityNodes API.
 func (client BdsClient) AddUtilityNodes(ctx context.Context, request AddUtilityNodesRequest) (response AddUtilityNodesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -529,7 +653,7 @@ func (client BdsClient) addUtilityNodes(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddWorkerNodes.go.html to see an example of how to use AddWorkerNodes API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddWorkerNodes.go.html to see an example of how to use AddWorkerNodes API.
 func (client BdsClient) AddWorkerNodes(ctx context.Context, request AddWorkerNodesRequest) (response AddWorkerNodesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -591,7 +715,7 @@ func (client BdsClient) addWorkerNodes(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/BackupNode.go.html to see an example of how to use BackupNode API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/BackupNode.go.html to see an example of how to use BackupNode API.
 func (client BdsClient) BackupNode(ctx context.Context, request BackupNodeRequest) (response BackupNodeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -653,7 +777,7 @@ func (client BdsClient) backupNode(ctx context.Context, request common.OCIReques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CertificateServiceInfo.go.html to see an example of how to use CertificateServiceInfo API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CertificateServiceInfo.go.html to see an example of how to use CertificateServiceInfo API.
 func (client BdsClient) CertificateServiceInfo(ctx context.Context, request CertificateServiceInfoRequest) (response CertificateServiceInfoResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -715,7 +839,7 @@ func (client BdsClient) certificateServiceInfo(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ChangeBdsInstanceCompartment.go.html to see an example of how to use ChangeBdsInstanceCompartment API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ChangeBdsInstanceCompartment.go.html to see an example of how to use ChangeBdsInstanceCompartment API.
 func (client BdsClient) ChangeBdsInstanceCompartment(ctx context.Context, request ChangeBdsInstanceCompartmentRequest) (response ChangeBdsInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -777,7 +901,7 @@ func (client BdsClient) changeBdsInstanceCompartment(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ChangeShape.go.html to see an example of how to use ChangeShape API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ChangeShape.go.html to see an example of how to use ChangeShape API.
 func (client BdsClient) ChangeShape(ctx context.Context, request ChangeShapeRequest) (response ChangeShapeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -839,7 +963,7 @@ func (client BdsClient) changeShape(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsApiKey.go.html to see an example of how to use CreateBdsApiKey API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsApiKey.go.html to see an example of how to use CreateBdsApiKey API.
 func (client BdsClient) CreateBdsApiKey(ctx context.Context, request CreateBdsApiKeyRequest) (response CreateBdsApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -901,7 +1025,7 @@ func (client BdsClient) createBdsApiKey(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsInstance.go.html to see an example of how to use CreateBdsInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsInstance.go.html to see an example of how to use CreateBdsInstance API.
 func (client BdsClient) CreateBdsInstance(ctx context.Context, request CreateBdsInstanceRequest) (response CreateBdsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -963,7 +1087,7 @@ func (client BdsClient) createBdsInstance(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsMetastoreConfiguration.go.html to see an example of how to use CreateBdsMetastoreConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsMetastoreConfiguration.go.html to see an example of how to use CreateBdsMetastoreConfiguration API.
 func (client BdsClient) CreateBdsMetastoreConfiguration(ctx context.Context, request CreateBdsMetastoreConfigurationRequest) (response CreateBdsMetastoreConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1021,11 +1145,73 @@ func (client BdsClient) createBdsMetastoreConfiguration(ctx context.Context, req
 	return response, err
 }
 
+// CreateIdentityConfiguration Create an identity configuration for the cluster
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateIdentityConfiguration.go.html to see an example of how to use CreateIdentityConfiguration API.
+func (client BdsClient) CreateIdentityConfiguration(ctx context.Context, request CreateIdentityConfigurationRequest) (response CreateIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIdentityConfigurationResponse")
+	}
+	return
+}
+
+// createIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) createIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/CreateIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "CreateIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateNodeBackupConfiguration Add a node volume backup configuration to the cluster for an indicated node type or node.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateNodeBackupConfiguration.go.html to see an example of how to use CreateNodeBackupConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateNodeBackupConfiguration.go.html to see an example of how to use CreateNodeBackupConfiguration API.
 func (client BdsClient) CreateNodeBackupConfiguration(ctx context.Context, request CreateNodeBackupConfigurationRequest) (response CreateNodeBackupConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1087,7 +1273,7 @@ func (client BdsClient) createNodeBackupConfiguration(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateNodeReplaceConfiguration.go.html to see an example of how to use CreateNodeReplaceConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateNodeReplaceConfiguration.go.html to see an example of how to use CreateNodeReplaceConfiguration API.
 func (client BdsClient) CreateNodeReplaceConfiguration(ctx context.Context, request CreateNodeReplaceConfigurationRequest) (response CreateNodeReplaceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1149,7 +1335,7 @@ func (client BdsClient) createNodeReplaceConfiguration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateResourcePrincipalConfiguration.go.html to see an example of how to use CreateResourcePrincipalConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateResourcePrincipalConfiguration.go.html to see an example of how to use CreateResourcePrincipalConfiguration API.
 func (client BdsClient) CreateResourcePrincipalConfiguration(ctx context.Context, request CreateResourcePrincipalConfigurationRequest) (response CreateResourcePrincipalConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1207,11 +1393,135 @@ func (client BdsClient) createResourcePrincipalConfiguration(ctx context.Context
 	return response, err
 }
 
+// DeactivateIamUserSyncConfiguration Deactivate the IAM user sync configuration.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeactivateIamUserSyncConfiguration.go.html to see an example of how to use DeactivateIamUserSyncConfiguration API.
+func (client BdsClient) DeactivateIamUserSyncConfiguration(ctx context.Context, request DeactivateIamUserSyncConfigurationRequest) (response DeactivateIamUserSyncConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deactivateIamUserSyncConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeactivateIamUserSyncConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeactivateIamUserSyncConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeactivateIamUserSyncConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeactivateIamUserSyncConfigurationResponse")
+	}
+	return
+}
+
+// deactivateIamUserSyncConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deactivateIamUserSyncConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/deactivateIamUserSyncConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeactivateIamUserSyncConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/DeactivateIamUserSyncConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeactivateIamUserSyncConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeactivateUpstConfiguration Deactivate the UPST configuration represented by the provided ID.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeactivateUpstConfiguration.go.html to see an example of how to use DeactivateUpstConfiguration API.
+func (client BdsClient) DeactivateUpstConfiguration(ctx context.Context, request DeactivateUpstConfigurationRequest) (response DeactivateUpstConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deactivateUpstConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeactivateUpstConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeactivateUpstConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeactivateUpstConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeactivateUpstConfigurationResponse")
+	}
+	return
+}
+
+// deactivateUpstConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deactivateUpstConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/deactivateUpstConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeactivateUpstConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/DeactivateUpstConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeactivateUpstConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBdsApiKey Deletes the user's API key represented by the provided ID.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsApiKey.go.html to see an example of how to use DeleteBdsApiKey API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsApiKey.go.html to see an example of how to use DeleteBdsApiKey API.
 func (client BdsClient) DeleteBdsApiKey(ctx context.Context, request DeleteBdsApiKeyRequest) (response DeleteBdsApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1268,7 +1578,7 @@ func (client BdsClient) deleteBdsApiKey(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsInstance.go.html to see an example of how to use DeleteBdsInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsInstance.go.html to see an example of how to use DeleteBdsInstance API.
 func (client BdsClient) DeleteBdsInstance(ctx context.Context, request DeleteBdsInstanceRequest) (response DeleteBdsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1325,7 +1635,7 @@ func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsMetastoreConfiguration.go.html to see an example of how to use DeleteBdsMetastoreConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsMetastoreConfiguration.go.html to see an example of how to use DeleteBdsMetastoreConfiguration API.
 func (client BdsClient) DeleteBdsMetastoreConfiguration(ctx context.Context, request DeleteBdsMetastoreConfigurationRequest) (response DeleteBdsMetastoreConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1378,11 +1688,68 @@ func (client BdsClient) deleteBdsMetastoreConfiguration(ctx context.Context, req
 	return response, err
 }
 
+// DeleteIdentityConfiguration Delete the identity configuration represented by the provided ID. Deletion is only allowed if this identity configuration is not associated with any active IAM user sync configuration or UPST configuration.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteIdentityConfiguration.go.html to see an example of how to use DeleteIdentityConfiguration API.
+func (client BdsClient) DeleteIdentityConfiguration(ctx context.Context, request DeleteIdentityConfigurationRequest) (response DeleteIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIdentityConfigurationResponse")
+	}
+	return
+}
+
+// deleteIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deleteIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/DeleteIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeleteIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteNodeBackup Delete the NodeBackup represented by the provided ID.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteNodeBackup.go.html to see an example of how to use DeleteNodeBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteNodeBackup.go.html to see an example of how to use DeleteNodeBackup API.
 func (client BdsClient) DeleteNodeBackup(ctx context.Context, request DeleteNodeBackupRequest) (response DeleteNodeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1439,7 +1806,7 @@ func (client BdsClient) deleteNodeBackup(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteNodeBackupConfiguration.go.html to see an example of how to use DeleteNodeBackupConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteNodeBackupConfiguration.go.html to see an example of how to use DeleteNodeBackupConfiguration API.
 func (client BdsClient) DeleteNodeBackupConfiguration(ctx context.Context, request DeleteNodeBackupConfigurationRequest) (response DeleteNodeBackupConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1496,7 +1863,7 @@ func (client BdsClient) deleteNodeBackupConfiguration(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DisableCertificate.go.html to see an example of how to use DisableCertificate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DisableCertificate.go.html to see an example of how to use DisableCertificate API.
 func (client BdsClient) DisableCertificate(ctx context.Context, request DisableCertificateRequest) (response DisableCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1558,7 +1925,7 @@ func (client BdsClient) disableCertificate(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/EnableCertificate.go.html to see an example of how to use EnableCertificate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/EnableCertificate.go.html to see an example of how to use EnableCertificate API.
 func (client BdsClient) EnableCertificate(ctx context.Context, request EnableCertificateRequest) (response EnableCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1620,7 +1987,7 @@ func (client BdsClient) enableCertificate(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ExecuteBootstrapScript.go.html to see an example of how to use ExecuteBootstrapScript API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ExecuteBootstrapScript.go.html to see an example of how to use ExecuteBootstrapScript API.
 func (client BdsClient) ExecuteBootstrapScript(ctx context.Context, request ExecuteBootstrapScriptRequest) (response ExecuteBootstrapScriptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1682,7 +2049,7 @@ func (client BdsClient) executeBootstrapScript(ctx context.Context, request comm
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ForceRefreshResourcePrincipal.go.html to see an example of how to use ForceRefreshResourcePrincipal API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ForceRefreshResourcePrincipal.go.html to see an example of how to use ForceRefreshResourcePrincipal API.
 func (client BdsClient) ForceRefreshResourcePrincipal(ctx context.Context, request ForceRefreshResourcePrincipalRequest) (response ForceRefreshResourcePrincipalResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1744,7 +2111,7 @@ func (client BdsClient) forceRefreshResourcePrincipal(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfiguration API.
 func (client BdsClient) GetAutoScalingConfiguration(ctx context.Context, request GetAutoScalingConfigurationRequest) (response GetAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1801,7 +2168,7 @@ func (client BdsClient) getAutoScalingConfiguration(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetBdsApiKey.go.html to see an example of how to use GetBdsApiKey API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetBdsApiKey.go.html to see an example of how to use GetBdsApiKey API.
 func (client BdsClient) GetBdsApiKey(ctx context.Context, request GetBdsApiKeyRequest) (response GetBdsApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1858,7 +2225,7 @@ func (client BdsClient) getBdsApiKey(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetBdsInstance.go.html to see an example of how to use GetBdsInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetBdsInstance.go.html to see an example of how to use GetBdsInstance API.
 func (client BdsClient) GetBdsInstance(ctx context.Context, request GetBdsInstanceRequest) (response GetBdsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1915,7 +2282,7 @@ func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetBdsMetastoreConfiguration.go.html to see an example of how to use GetBdsMetastoreConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetBdsMetastoreConfiguration.go.html to see an example of how to use GetBdsMetastoreConfiguration API.
 func (client BdsClient) GetBdsMetastoreConfiguration(ctx context.Context, request GetBdsMetastoreConfigurationRequest) (response GetBdsMetastoreConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1968,11 +2335,68 @@ func (client BdsClient) getBdsMetastoreConfiguration(ctx context.Context, reques
 	return response, err
 }
 
+// GetIdentityConfiguration Get details of one identity config on the cluster
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetIdentityConfiguration.go.html to see an example of how to use GetIdentityConfiguration API.
+func (client BdsClient) GetIdentityConfiguration(ctx context.Context, request GetIdentityConfigurationRequest) (response GetIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIdentityConfigurationResponse")
+	}
+	return
+}
+
+// getIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) getIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/GetIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNodeBackup Returns details of NodeBackup identified by the given ID.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeBackup.go.html to see an example of how to use GetNodeBackup API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeBackup.go.html to see an example of how to use GetNodeBackup API.
 func (client BdsClient) GetNodeBackup(ctx context.Context, request GetNodeBackupRequest) (response GetNodeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2029,7 +2453,7 @@ func (client BdsClient) getNodeBackup(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeBackupConfiguration.go.html to see an example of how to use GetNodeBackupConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeBackupConfiguration.go.html to see an example of how to use GetNodeBackupConfiguration API.
 func (client BdsClient) GetNodeBackupConfiguration(ctx context.Context, request GetNodeBackupConfigurationRequest) (response GetNodeBackupConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2086,7 +2510,7 @@ func (client BdsClient) getNodeBackupConfiguration(ctx context.Context, request 
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeReplaceConfiguration.go.html to see an example of how to use GetNodeReplaceConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetNodeReplaceConfiguration.go.html to see an example of how to use GetNodeReplaceConfiguration API.
 func (client BdsClient) GetNodeReplaceConfiguration(ctx context.Context, request GetNodeReplaceConfigurationRequest) (response GetNodeReplaceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2143,7 +2567,7 @@ func (client BdsClient) getNodeReplaceConfiguration(ctx context.Context, request
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetOsPatchDetails.go.html to see an example of how to use GetOsPatchDetails API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetOsPatchDetails.go.html to see an example of how to use GetOsPatchDetails API.
 func (client BdsClient) GetOsPatchDetails(ctx context.Context, request GetOsPatchDetailsRequest) (response GetOsPatchDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2205,7 +2629,7 @@ func (client BdsClient) getOsPatchDetails(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetResourcePrincipalConfiguration.go.html to see an example of how to use GetResourcePrincipalConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetResourcePrincipalConfiguration.go.html to see an example of how to use GetResourcePrincipalConfiguration API.
 func (client BdsClient) GetResourcePrincipalConfiguration(ctx context.Context, request GetResourcePrincipalConfigurationRequest) (response GetResourcePrincipalConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2262,7 +2686,7 @@ func (client BdsClient) getResourcePrincipalConfiguration(ctx context.Context, r
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client BdsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2319,7 +2743,7 @@ func (client BdsClient) getWorkRequest(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/InstallOsPatch.go.html to see an example of how to use InstallOsPatch API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/InstallOsPatch.go.html to see an example of how to use InstallOsPatch API.
 func (client BdsClient) InstallOsPatch(ctx context.Context, request InstallOsPatchRequest) (response InstallOsPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2381,7 +2805,7 @@ func (client BdsClient) installOsPatch(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/InstallPatch.go.html to see an example of how to use InstallPatch API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/InstallPatch.go.html to see an example of how to use InstallPatch API.
 func (client BdsClient) InstallPatch(ctx context.Context, request InstallPatchRequest) (response InstallPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2443,7 +2867,7 @@ func (client BdsClient) installPatch(ctx context.Context, request common.OCIRequ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListAutoScalingConfigurations.go.html to see an example of how to use ListAutoScalingConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListAutoScalingConfigurations.go.html to see an example of how to use ListAutoScalingConfigurations API.
 func (client BdsClient) ListAutoScalingConfigurations(ctx context.Context, request ListAutoScalingConfigurationsRequest) (response ListAutoScalingConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2500,7 +2924,7 @@ func (client BdsClient) listAutoScalingConfigurations(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsApiKeys.go.html to see an example of how to use ListBdsApiKeys API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsApiKeys.go.html to see an example of how to use ListBdsApiKeys API.
 func (client BdsClient) ListBdsApiKeys(ctx context.Context, request ListBdsApiKeysRequest) (response ListBdsApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2553,11 +2977,68 @@ func (client BdsClient) listBdsApiKeys(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// ListBdsClusterVersions Returns a list of cluster versions with associated odh and bds versions.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsClusterVersions.go.html to see an example of how to use ListBdsClusterVersions API.
+func (client BdsClient) ListBdsClusterVersions(ctx context.Context, request ListBdsClusterVersionsRequest) (response ListBdsClusterVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBdsClusterVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBdsClusterVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBdsClusterVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBdsClusterVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBdsClusterVersionsResponse")
+	}
+	return
+}
+
+// listBdsClusterVersions implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) listBdsClusterVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsClusterVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBdsClusterVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsClusterVersionSummary/ListBdsClusterVersions"
+		err = common.PostProcessServiceError(err, "Bds", "ListBdsClusterVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListBdsInstances Returns a list of all Big Data Service clusters in a compartment.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsInstances.go.html to see an example of how to use ListBdsInstances API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsInstances.go.html to see an example of how to use ListBdsInstances API.
 func (client BdsClient) ListBdsInstances(ctx context.Context, request ListBdsInstancesRequest) (response ListBdsInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2614,7 +3095,7 @@ func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsMetastoreConfigurations.go.html to see an example of how to use ListBdsMetastoreConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsMetastoreConfigurations.go.html to see an example of how to use ListBdsMetastoreConfigurations API.
 func (client BdsClient) ListBdsMetastoreConfigurations(ctx context.Context, request ListBdsMetastoreConfigurationsRequest) (response ListBdsMetastoreConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2667,11 +3148,68 @@ func (client BdsClient) listBdsMetastoreConfigurations(ctx context.Context, requ
 	return response, err
 }
 
+// ListIdentityConfigurations Returns a list of all identity configurations associated with this Big Data Service cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListIdentityConfigurations.go.html to see an example of how to use ListIdentityConfigurations API.
+func (client BdsClient) ListIdentityConfigurations(ctx context.Context, request ListIdentityConfigurationsRequest) (response ListIdentityConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIdentityConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIdentityConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIdentityConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIdentityConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIdentityConfigurationsResponse")
+	}
+	return
+}
+
+// listIdentityConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) listIdentityConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/identityConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIdentityConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/ListIdentityConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListIdentityConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListNodeBackupConfigurations Returns information about the NodeBackupConfigurations.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListNodeBackupConfigurations.go.html to see an example of how to use ListNodeBackupConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListNodeBackupConfigurations.go.html to see an example of how to use ListNodeBackupConfigurations API.
 func (client BdsClient) ListNodeBackupConfigurations(ctx context.Context, request ListNodeBackupConfigurationsRequest) (response ListNodeBackupConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2728,7 +3266,7 @@ func (client BdsClient) listNodeBackupConfigurations(ctx context.Context, reques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListNodeBackups.go.html to see an example of how to use ListNodeBackups API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListNodeBackups.go.html to see an example of how to use ListNodeBackups API.
 func (client BdsClient) ListNodeBackups(ctx context.Context, request ListNodeBackupsRequest) (response ListNodeBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2785,7 +3323,7 @@ func (client BdsClient) listNodeBackups(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListNodeReplaceConfigurations.go.html to see an example of how to use ListNodeReplaceConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListNodeReplaceConfigurations.go.html to see an example of how to use ListNodeReplaceConfigurations API.
 func (client BdsClient) ListNodeReplaceConfigurations(ctx context.Context, request ListNodeReplaceConfigurationsRequest) (response ListNodeReplaceConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2842,7 +3380,7 @@ func (client BdsClient) listNodeReplaceConfigurations(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListOsPatches.go.html to see an example of how to use ListOsPatches API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListOsPatches.go.html to see an example of how to use ListOsPatches API.
 func (client BdsClient) ListOsPatches(ctx context.Context, request ListOsPatchesRequest) (response ListOsPatchesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2904,7 +3442,7 @@ func (client BdsClient) listOsPatches(ctx context.Context, request common.OCIReq
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatchHistories.go.html to see an example of how to use ListPatchHistories API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatchHistories.go.html to see an example of how to use ListPatchHistories API.
 func (client BdsClient) ListPatchHistories(ctx context.Context, request ListPatchHistoriesRequest) (response ListPatchHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2961,7 +3499,7 @@ func (client BdsClient) listPatchHistories(ctx context.Context, request common.O
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatches.go.html to see an example of how to use ListPatches API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatches.go.html to see an example of how to use ListPatches API.
 func (client BdsClient) ListPatches(ctx context.Context, request ListPatchesRequest) (response ListPatchesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3018,7 +3556,7 @@ func (client BdsClient) listPatches(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListResourcePrincipalConfigurations.go.html to see an example of how to use ListResourcePrincipalConfigurations API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListResourcePrincipalConfigurations.go.html to see an example of how to use ListResourcePrincipalConfigurations API.
 func (client BdsClient) ListResourcePrincipalConfigurations(ctx context.Context, request ListResourcePrincipalConfigurationsRequest) (response ListResourcePrincipalConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3075,7 +3613,7 @@ func (client BdsClient) listResourcePrincipalConfigurations(ctx context.Context,
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client BdsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3132,7 +3670,7 @@ func (client BdsClient) listWorkRequestErrors(ctx context.Context, request commo
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client BdsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3189,7 +3727,7 @@ func (client BdsClient) listWorkRequestLogs(ctx context.Context, request common.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client BdsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3242,11 +3780,135 @@ func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// RefreshConfidentialApplication Refresh confidential application for the given identity configuration in case of any update to the confidential application (e.g. regenerated client secret)
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RefreshConfidentialApplication.go.html to see an example of how to use RefreshConfidentialApplication API.
+func (client BdsClient) RefreshConfidentialApplication(ctx context.Context, request RefreshConfidentialApplicationRequest) (response RefreshConfidentialApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshConfidentialApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshConfidentialApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshConfidentialApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshConfidentialApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshConfidentialApplicationResponse")
+	}
+	return
+}
+
+// refreshConfidentialApplication implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) refreshConfidentialApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/refreshConfidentialApplication", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshConfidentialApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/RefreshConfidentialApplication"
+		err = common.PostProcessServiceError(err, "Bds", "RefreshConfidentialApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshUpstTokenExchangeKeytab Refresh token exchange kerberos principal keytab for the UPST enabled identity configuration
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RefreshUpstTokenExchangeKeytab.go.html to see an example of how to use RefreshUpstTokenExchangeKeytab API.
+func (client BdsClient) RefreshUpstTokenExchangeKeytab(ctx context.Context, request RefreshUpstTokenExchangeKeytabRequest) (response RefreshUpstTokenExchangeKeytabResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshUpstTokenExchangeKeytab, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshUpstTokenExchangeKeytabResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshUpstTokenExchangeKeytabResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshUpstTokenExchangeKeytabResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshUpstTokenExchangeKeytabResponse")
+	}
+	return
+}
+
+// refreshUpstTokenExchangeKeytab implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) refreshUpstTokenExchangeKeytab(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/refreshUpstTokenExchangeKeytab", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshUpstTokenExchangeKeytabResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/RefreshUpstTokenExchangeKeytab"
+		err = common.PostProcessServiceError(err, "Bds", "RefreshUpstTokenExchangeKeytab", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveAutoScalingConfiguration Deletes an autoscale configuration.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveAutoScalingConfiguration.go.html to see an example of how to use RemoveAutoScalingConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveAutoScalingConfiguration.go.html to see an example of how to use RemoveAutoScalingConfiguration API.
 func (client BdsClient) RemoveAutoScalingConfiguration(ctx context.Context, request RemoveAutoScalingConfigurationRequest) (response RemoveAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3308,7 +3970,7 @@ func (client BdsClient) removeAutoScalingConfiguration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveCloudSql.go.html to see an example of how to use RemoveCloudSql API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveCloudSql.go.html to see an example of how to use RemoveCloudSql API.
 func (client BdsClient) RemoveCloudSql(ctx context.Context, request RemoveCloudSqlRequest) (response RemoveCloudSqlResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3370,7 +4032,7 @@ func (client BdsClient) removeCloudSql(ctx context.Context, request common.OCIRe
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveKafka.go.html to see an example of how to use RemoveKafka API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveKafka.go.html to see an example of how to use RemoveKafka API.
 func (client BdsClient) RemoveKafka(ctx context.Context, request RemoveKafkaRequest) (response RemoveKafkaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3432,7 +4094,7 @@ func (client BdsClient) removeKafka(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveNode.go.html to see an example of how to use RemoveNode API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveNode.go.html to see an example of how to use RemoveNode API.
 func (client BdsClient) RemoveNode(ctx context.Context, request RemoveNodeRequest) (response RemoveNodeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3489,7 +4151,7 @@ func (client BdsClient) removeNode(ctx context.Context, request common.OCIReques
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveNodeReplaceConfiguration.go.html to see an example of how to use RemoveNodeReplaceConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveNodeReplaceConfiguration.go.html to see an example of how to use RemoveNodeReplaceConfiguration API.
 func (client BdsClient) RemoveNodeReplaceConfiguration(ctx context.Context, request RemoveNodeReplaceConfigurationRequest) (response RemoveNodeReplaceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3551,7 +4213,7 @@ func (client BdsClient) removeNodeReplaceConfiguration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveResourcePrincipalConfiguration.go.html to see an example of how to use RemoveResourcePrincipalConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveResourcePrincipalConfiguration.go.html to see an example of how to use RemoveResourcePrincipalConfiguration API.
 func (client BdsClient) RemoveResourcePrincipalConfiguration(ctx context.Context, request RemoveResourcePrincipalConfigurationRequest) (response RemoveResourcePrincipalConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3608,7 +4270,7 @@ func (client BdsClient) removeResourcePrincipalConfiguration(ctx context.Context
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RenewCertificate.go.html to see an example of how to use RenewCertificate API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RenewCertificate.go.html to see an example of how to use RenewCertificate API.
 func (client BdsClient) RenewCertificate(ctx context.Context, request RenewCertificateRequest) (response RenewCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3670,7 +4332,7 @@ func (client BdsClient) renewCertificate(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ReplaceNode.go.html to see an example of how to use ReplaceNode API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ReplaceNode.go.html to see an example of how to use ReplaceNode API.
 func (client BdsClient) ReplaceNode(ctx context.Context, request ReplaceNodeRequest) (response ReplaceNodeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3732,7 +4394,7 @@ func (client BdsClient) replaceNode(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RestartNode.go.html to see an example of how to use RestartNode API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RestartNode.go.html to see an example of how to use RestartNode API.
 func (client BdsClient) RestartNode(ctx context.Context, request RestartNodeRequest) (response RestartNodeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3794,7 +4456,7 @@ func (client BdsClient) restartNode(ctx context.Context, request common.OCIReque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/StartBdsInstance.go.html to see an example of how to use StartBdsInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/StartBdsInstance.go.html to see an example of how to use StartBdsInstance API.
 func (client BdsClient) StartBdsInstance(ctx context.Context, request StartBdsInstanceRequest) (response StartBdsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3851,7 +4513,7 @@ func (client BdsClient) startBdsInstance(ctx context.Context, request common.OCI
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/StopBdsInstance.go.html to see an example of how to use StopBdsInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/StopBdsInstance.go.html to see an example of how to use StopBdsInstance API.
 func (client BdsClient) StopBdsInstance(ctx context.Context, request StopBdsInstanceRequest) (response StopBdsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3908,7 +4570,7 @@ func (client BdsClient) stopBdsInstance(ctx context.Context, request common.OCIR
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/TestBdsMetastoreConfiguration.go.html to see an example of how to use TestBdsMetastoreConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/TestBdsMetastoreConfiguration.go.html to see an example of how to use TestBdsMetastoreConfiguration API.
 func (client BdsClient) TestBdsMetastoreConfiguration(ctx context.Context, request TestBdsMetastoreConfigurationRequest) (response TestBdsMetastoreConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3965,7 +4627,7 @@ func (client BdsClient) testBdsMetastoreConfiguration(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/TestBdsObjectStorageConnection.go.html to see an example of how to use TestBdsObjectStorageConnection API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/TestBdsObjectStorageConnection.go.html to see an example of how to use TestBdsObjectStorageConnection API.
 func (client BdsClient) TestBdsObjectStorageConnection(ctx context.Context, request TestBdsObjectStorageConnectionRequest) (response TestBdsObjectStorageConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4022,7 +4684,7 @@ func (client BdsClient) testBdsObjectStorageConnection(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateAutoScalingConfiguration.go.html to see an example of how to use UpdateAutoScalingConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateAutoScalingConfiguration.go.html to see an example of how to use UpdateAutoScalingConfiguration API.
 func (client BdsClient) UpdateAutoScalingConfiguration(ctx context.Context, request UpdateAutoScalingConfigurationRequest) (response UpdateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4084,7 +4746,7 @@ func (client BdsClient) updateAutoScalingConfiguration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateBdsInstance.go.html to see an example of how to use UpdateBdsInstance API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateBdsInstance.go.html to see an example of how to use UpdateBdsInstance API.
 func (client BdsClient) UpdateBdsInstance(ctx context.Context, request UpdateBdsInstanceRequest) (response UpdateBdsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4141,7 +4803,7 @@ func (client BdsClient) updateBdsInstance(ctx context.Context, request common.OC
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateBdsMetastoreConfiguration.go.html to see an example of how to use UpdateBdsMetastoreConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateBdsMetastoreConfiguration.go.html to see an example of how to use UpdateBdsMetastoreConfiguration API.
 func (client BdsClient) UpdateBdsMetastoreConfiguration(ctx context.Context, request UpdateBdsMetastoreConfigurationRequest) (response UpdateBdsMetastoreConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4194,11 +4856,73 @@ func (client BdsClient) updateBdsMetastoreConfiguration(ctx context.Context, req
 	return response, err
 }
 
+// UpdateIdentityConfiguration Update the IAM user sync and UPST configuration for the specified identity configuration
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateIdentityConfiguration.go.html to see an example of how to use UpdateIdentityConfiguration API.
+func (client BdsClient) UpdateIdentityConfiguration(ctx context.Context, request UpdateIdentityConfigurationRequest) (response UpdateIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateIdentityConfigurationResponse")
+	}
+	return
+}
+
+// updateIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) updateIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/UpdateIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateNodeBackupConfiguration Updates fields on NodeBackupConfiguration, including the name, the schedule.
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateNodeBackupConfiguration.go.html to see an example of how to use UpdateNodeBackupConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateNodeBackupConfiguration.go.html to see an example of how to use UpdateNodeBackupConfiguration API.
 func (client BdsClient) UpdateNodeBackupConfiguration(ctx context.Context, request UpdateNodeBackupConfigurationRequest) (response UpdateNodeBackupConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4260,7 +4984,7 @@ func (client BdsClient) updateNodeBackupConfiguration(ctx context.Context, reque
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateNodeReplaceConfiguration.go.html to see an example of how to use UpdateNodeReplaceConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateNodeReplaceConfiguration.go.html to see an example of how to use UpdateNodeReplaceConfiguration API.
 func (client BdsClient) UpdateNodeReplaceConfiguration(ctx context.Context, request UpdateNodeReplaceConfigurationRequest) (response UpdateNodeReplaceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4322,7 +5046,7 @@ func (client BdsClient) updateNodeReplaceConfiguration(ctx context.Context, requ
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateResourcePrincipalConfiguration.go.html to see an example of how to use UpdateResourcePrincipalConfiguration API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateResourcePrincipalConfiguration.go.html to see an example of how to use UpdateResourcePrincipalConfiguration API.
 func (client BdsClient) UpdateResourcePrincipalConfiguration(ctx context.Context, request UpdateResourcePrincipalConfigurationRequest) (response UpdateResourcePrincipalConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

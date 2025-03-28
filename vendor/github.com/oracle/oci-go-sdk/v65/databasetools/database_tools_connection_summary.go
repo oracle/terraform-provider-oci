@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,13 +19,13 @@ import (
 // DatabaseToolsConnectionSummary Summary of the Database Tools connection.
 type DatabaseToolsConnectionSummary interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
 	GetId() *string
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	GetCompartmentId() *string
 
 	// The current state of the Database Tools connection.
@@ -130,7 +130,7 @@ func (m *databasetoolsconnectionsummary) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DatabaseToolsConnectionSummary: %s.", m.Type)
+		common.Logf("Received unsupported enum value for DatabaseToolsConnectionSummary: %s.", m.Type)
 		return *m, nil
 	}
 }

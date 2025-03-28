@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceCapacityTrend.go.html to see an example of how to use SummarizeExadataInsightResourceCapacityTrendRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceCapacityTrend.go.html to see an example of how to use SummarizeExadataInsightResourceCapacityTrendRequest.
 type SummarizeExadataInsightResourceCapacityTrendRequest struct {
 
 	// Filter by resource.
@@ -26,10 +26,10 @@ type SummarizeExadataInsightResourceCapacityTrendRequest struct {
 	// Supported values are CPU , STORAGE, MEMORY, IO, IOPS, THROUGHPUT
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
-	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
 	ExadataInsightId *string `mandatory:"true" contributesTo:"query" name:"exadataInsightId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Specify time period in ISO 8601 format with respect to current time.
@@ -51,10 +51,10 @@ type SummarizeExadataInsightResourceCapacityTrendRequest struct {
 	// If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
 	TimeIntervalEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeIntervalEnd"`
 
-	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of database insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	DatabaseInsightId []string `contributesTo:"query" name:"databaseInsightId" collectionFormat:"multi"`
 
-	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// Optional list of host insight resource OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	HostInsightId []string `contributesTo:"query" name:"hostInsightId" collectionFormat:"multi"`
 
 	// Optional storage server name on an exadata system.
@@ -72,13 +72,13 @@ type SummarizeExadataInsightResourceCapacityTrendRequest struct {
 
 	// For list pagination. The value of the `opc-next-page` response header from
 	// the previous "List" call. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to
 	// return in a paginated "List" call.
 	// For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

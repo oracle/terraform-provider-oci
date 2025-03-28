@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_scheduler_definition_scheduled_fleets
 This data source provides the list of Scheduler Definition Scheduled Fleets in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of ScheduledFleets
+Returns a list of ScheduledFleets.
 
 
 ## Example Usage

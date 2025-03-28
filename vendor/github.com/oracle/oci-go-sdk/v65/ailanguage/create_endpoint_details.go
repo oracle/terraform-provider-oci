@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,14 +20,20 @@ import (
 // CreateEndpointDetails The information needed to create a new endpoint and expose to end users.
 type CreateEndpointDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) compartment identifier for the endpoint
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) compartment identifier for the endpoint
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
 	// A user-friendly display name for the resource. It should be unique and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Compute infra type for endpoint.
+	ComputeType CreateEndpointDetailsComputeTypeEnum `mandatory:"false" json:"computeType,omitempty"`
+
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
 
 	// A short description of the an endpoint.
 	Description *string `mandatory:"false" json:"description"`
@@ -54,8 +60,53 @@ func (m CreateEndpointDetails) String() string {
 func (m CreateEndpointDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateEndpointDetailsComputeTypeEnum(string(m.ComputeType)); !ok && m.ComputeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeType: %s. Supported values are: %s.", m.ComputeType, strings.Join(GetCreateEndpointDetailsComputeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateEndpointDetailsComputeTypeEnum Enum with underlying type: string
+type CreateEndpointDetailsComputeTypeEnum string
+
+// Set of constants representing the allowable values for CreateEndpointDetailsComputeTypeEnum
+const (
+	CreateEndpointDetailsComputeTypeCpu CreateEndpointDetailsComputeTypeEnum = "CPU"
+	CreateEndpointDetailsComputeTypeGpu CreateEndpointDetailsComputeTypeEnum = "GPU"
+)
+
+var mappingCreateEndpointDetailsComputeTypeEnum = map[string]CreateEndpointDetailsComputeTypeEnum{
+	"CPU": CreateEndpointDetailsComputeTypeCpu,
+	"GPU": CreateEndpointDetailsComputeTypeGpu,
+}
+
+var mappingCreateEndpointDetailsComputeTypeEnumLowerCase = map[string]CreateEndpointDetailsComputeTypeEnum{
+	"cpu": CreateEndpointDetailsComputeTypeCpu,
+	"gpu": CreateEndpointDetailsComputeTypeGpu,
+}
+
+// GetCreateEndpointDetailsComputeTypeEnumValues Enumerates the set of values for CreateEndpointDetailsComputeTypeEnum
+func GetCreateEndpointDetailsComputeTypeEnumValues() []CreateEndpointDetailsComputeTypeEnum {
+	values := make([]CreateEndpointDetailsComputeTypeEnum, 0)
+	for _, v := range mappingCreateEndpointDetailsComputeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateEndpointDetailsComputeTypeEnumStringValues Enumerates the set of values in String for CreateEndpointDetailsComputeTypeEnum
+func GetCreateEndpointDetailsComputeTypeEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"GPU",
+	}
+}
+
+// GetMappingCreateEndpointDetailsComputeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateEndpointDetailsComputeTypeEnum(val string) (CreateEndpointDetailsComputeTypeEnum, bool) {
+	enum, ok := mappingCreateEndpointDetailsComputeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

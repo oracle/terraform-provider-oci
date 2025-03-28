@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // License Manager API
 //
-// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.cloud.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
+// Use the License Manager API to manage product licenses and license records. For more information, see License Manager Overview (https://docs.oracle.com/iaas/Content/LicenseManager/Concepts/licensemanageroverview.htm).
 //
 
 package licensemanager
@@ -18,7 +18,7 @@ import (
 // CreateProductLicenseDetails Details for creating a new product license.
 type CreateProductLicenseDetails struct {
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where product licenses are created.
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where product licenses are created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Specifies if the product license vendor is Oracle or a third party.

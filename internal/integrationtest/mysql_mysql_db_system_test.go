@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 
@@ -51,6 +51,7 @@ var (
 	}
 
 	MysqlMysqlDbSystemRepresentation = map[string]interface{}{
+		"access_mode":             acctest.Representation{RepType: acctest.Optional, Create: `UNRESTRICTED`},
 		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -62,6 +63,7 @@ var (
 		"crash_recovery":          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"database_management":     acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`},
+		"database_mode":           acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"deletion_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemDeletionPolicyRepresentation},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`, Update: `description2`},
@@ -76,6 +78,7 @@ var (
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 		"secure_connections":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemSecureConnectionsRepresentation},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepBasic},
+		"read_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemReadEndpointRepresentation},
 	}
 
 	ignoreDefinedTagsChangesForMysqlRepBasic = map[string]interface{}{
@@ -119,6 +122,10 @@ var (
 
 	MysqlMysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
 		"window_start_time": acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
+	}
+
+	MysqlMysqlDbSystemReadEndpointRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	MysqlMysqlDbSystemSecureConnectionsRepresentation = map[string]interface{}{
@@ -181,6 +188,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, MysqlMysqlDbSystemRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_mode", "UNRESTRICTED"),
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -198,6 +206,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage.0.is_auto_expand_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.automatic_backup_retention", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.final_backup", "SKIP_FINAL_BACKUP"),
@@ -214,6 +223,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
 				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(resourceName, "read_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "read_endpoint.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
@@ -242,6 +253,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_mode", "UNRESTRICTED"),
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
@@ -258,6 +270,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage.0.is_auto_expand_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.automatic_backup_retention", "RETAIN"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.final_backup", "REQUIRE_FINAL_BACKUP"),
@@ -307,8 +320,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "is_heat_wave_cluster_attached", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "is_up_to_date", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.access_mode", "UNRESTRICTED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.0.freeform_tags.%", "1"),
@@ -319,6 +332,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_management", "DISABLED"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.0.automatic_backup_retention", "RETAIN"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.0.final_backup", "REQUIRE_FINAL_BACKUP"),
@@ -346,7 +360,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "access_mode", "UNRESTRICTED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.freeform_tags.%", "1"),
@@ -367,6 +381,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage.0.max_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_management", "DISABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.0.automatic_backup_retention", "RETAIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.0.final_backup", "REQUIRE_FINAL_BACKUP"),
@@ -387,6 +402,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),

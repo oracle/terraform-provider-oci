@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -96,7 +96,7 @@ func (client *PluginClient) ConfigurationProvider() *common.ConfigurationProvide
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentPlugin.go.html to see an example of how to use GetInstanceAgentPlugin API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentPlugin.go.html to see an example of how to use GetInstanceAgentPlugin API.
 func (client PluginClient) GetInstanceAgentPlugin(ctx context.Context, request GetInstanceAgentPluginRequest) (response GetInstanceAgentPluginResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -153,7 +153,7 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentPlugins.go.html to see an example of how to use ListInstanceAgentPlugins API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentPlugins.go.html to see an example of how to use ListInstanceAgentPlugins API.
 func (client PluginClient) ListInstanceAgentPlugins(ctx context.Context, request ListInstanceAgentPluginsRequest) (response ListInstanceAgentPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

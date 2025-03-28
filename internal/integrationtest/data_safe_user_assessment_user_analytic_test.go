@@ -10,7 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -18,12 +18,14 @@ import (
 var (
 	DataSafeuserAssessmentUserAnalyticDataSourceRepresentation = map[string]interface{}{
 		"user_assessment_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
-		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"access_level":              acctest.Representation{RepType: acctest.Required, Create: `ACCESSIBLE`},
 		"account_status":            acctest.Representation{RepType: acctest.Optional, Create: `accountStatus`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"target_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"time_last_login_greater_than_or_equal_to":            acctest.Representation{RepType: acctest.Optional, Create: `timeLastLoginGreaterThanOrEqualTo`},
 		"time_last_login_less_than":                           acctest.Representation{RepType: acctest.Optional, Create: `timeLastLoginLessThan`},
+		"time_password_expiry_greater_than_or_equal_to":       acctest.Representation{RepType: acctest.Required, Create: `2024-10-30T00:00:00Z`},
+		"time_password_expiry_less_than":                      acctest.Representation{RepType: acctest.Required, Create: `2024-10-30T00:00:00Z`},
 		"time_password_last_changed_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timePasswordLastChangedGreaterThanOrEqualTo`},
 		"time_password_last_changed_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timePasswordLastChangedLessThan`},
 		"time_user_created_greater_than_or_equal_to":          acctest.Representation{RepType: acctest.Optional, Create: `timeUserCreatedGreaterThanOrEqualTo`},
@@ -60,6 +62,9 @@ func TestDataSafeUserAssessmentUserAnalyticResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_user_analytics", "test_user_assessment_user_analytics", acctest.Required, acctest.Create, DataSafeuserAssessmentUserAnalyticDataSourceRepresentation) +
 				compartmentIdVariableStr + targetIdVariableStr + DataSafeUserAssessmentUserAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_password_expiry_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_password_expiry_less_than"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_aggregations.#"),
 				resource.TestCheckResourceAttr(datasourceName, "user_aggregations.0.items.#", "2"),
 			),

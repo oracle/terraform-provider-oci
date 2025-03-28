@@ -102,6 +102,12 @@ func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		} else {
+			s.D.Set("last_completed_fsu_cycle_id", nil)
+		}
+
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -159,6 +165,10 @@ func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
 
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)

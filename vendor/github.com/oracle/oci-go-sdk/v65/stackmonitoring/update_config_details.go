@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -67,6 +67,10 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.ConfigType {
+	case "COMPUTE_AUTO_ACTIVATE_PLUGIN":
+		mm := UpdateComputeAutoActivatePluginConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := UpdateLicenseEnterpriseExtensibilityConfigDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -79,8 +83,12 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := UpdateLicenseAutoAssignConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ONBOARD":
+		mm := UpdateOnboardConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateConfigDetails: %s.", m.ConfigType)
+		common.Logf("Received unsupported enum value for UpdateConfigDetails: %s.", m.ConfigType)
 		return *m, nil
 	}
 }

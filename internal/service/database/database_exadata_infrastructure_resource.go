@@ -141,6 +141,12 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_server_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -315,6 +321,12 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"storage_server_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"activated_storage_count": {
@@ -338,6 +350,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 			},
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"compute_model": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -389,6 +405,31 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"exascale_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"available_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"total_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_scheduling_policy_associated": {
+				Type:     schema.TypeBool,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -597,6 +638,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.CorporateProxy = &tmp
 	}
 
+	if databaseServerType, ok := s.D.GetOkExists("database_server_type"); ok {
+		tmp := databaseServerType.(string)
+		request.DatabaseServerType = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -707,6 +753,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
 		tmp := storageCount.(int)
 		request.StorageCount = &tmp
+	}
+
+	if storageServerType, ok := s.D.GetOkExists("storage_server_type"); ok {
+		tmp := storageServerType.(string)
+		request.StorageServerType = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
@@ -1002,6 +1053,8 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	contacts := []interface{}{}
 	for _, item := range s.Res.Contacts {
 		contacts = append(contacts, ExadataInfrastructureContactToMap(item))
@@ -1022,6 +1075,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DatabaseServerType != nil {
+		s.D.Set("database_server_type", *s.Res.DatabaseServerType)
 	}
 
 	if s.Res.DbNodeStorageSizeInGBs != nil {
@@ -1048,6 +1105,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	s.D.Set("dns_server", s.Res.DnsServer)
 
+	if s.Res.ExascaleConfig != nil {
+		s.D.Set("exascale_config", []interface{}{ExascaleConfigDetailsToMap(s.Res.ExascaleConfig)})
+	} else {
+		s.D.Set("exascale_config", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Gateway != nil {
@@ -1064,6 +1127,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.IsMultiRackDeployment != nil {
 		s.D.Set("is_multi_rack_deployment", *s.Res.IsMultiRackDeployment)
+	}
+
+	if s.Res.IsSchedulingPolicyAssociated != nil {
+		s.D.Set("is_scheduling_policy_associated", *s.Res.IsSchedulingPolicyAssociated)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -1130,6 +1197,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerType != nil {
+		s.D.Set("storage_server_type", *s.Res.StorageServerType)
 	}
 
 	if s.Res.StorageServerVersion != nil {
@@ -1222,18 +1293,64 @@ func ExadataInfrastructureContactToMap(obj oci_database.ExadataInfrastructureCon
 	return result
 }
 
+func ExascaleConfigDetailsToMap(obj *oci_database.ExascaleConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailableStorageInGBs != nil {
+		result["available_storage_in_gbs"] = int(*obj.AvailableStorageInGBs)
+	}
+
+	if obj.TotalStorageInGBs != nil {
+		result["total_storage_in_gbs"] = int(*obj.TotalStorageInGBs)
+	}
+
+	return result
+}
+
 func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
 	result := oci_database.MaintenanceWindow{}
+
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
 
 	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
 		tmp := customActionTimeoutInMins.(int)
 		result.CustomActionTimeoutInMins = &tmp
 	}
+
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
+	}
+
+	if skipRu, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_ru")); ok {
+		interfaces := skipRu.([]interface{})
+		tmp := make([]bool, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(bool)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "skip_ru")) {
+			result.SkipRu = tmp
+		}
+	}
+
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
 			return result, nil
 		}
+	}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 	}
 
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
@@ -1266,21 +1383,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 		}
 	}
 
-	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
-		tmp := isCustomActionTimeoutEnabled.(bool)
-		result.IsCustomActionTimeoutEnabled = &tmp
-	}
-
-	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
-		tmp := isMonthlyPatchingEnabled.(bool)
-		result.IsMonthlyPatchingEnabled = &tmp
-	}
-
-	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
-		tmp := leadTimeInWeeks.(int)
-		result.LeadTimeInWeeks = &tmp
-	}
-
 	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
 		interfaces := months.([]interface{})
 		tmp := make([]oci_database.Month, len(interfaces))
@@ -1298,27 +1400,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 		}
 	}
 
-	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
-		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
-	}
-
-	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
-		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
-	}
-
-	if skipRu, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_ru")); ok {
-		interfaces := skipRu.([]interface{})
-		tmp := make([]bool, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(bool)
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "skip_ru")) {
-			result.SkipRu = tmp
-		}
-	}
-
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
 		interfaces := weeksOfMonth.([]interface{})
 		tmp := make([]int, len(interfaces))
@@ -1330,6 +1411,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")) {
 			result.WeeksOfMonth = tmp
 		}
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		result.LeadTimeInWeeks = &tmp
 	}
 
 	return result, nil

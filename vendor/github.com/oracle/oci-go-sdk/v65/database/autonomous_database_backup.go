@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,13 +18,13 @@ import (
 // AutonomousDatabaseBackup An Autonomous Database backup.
 type AutonomousDatabaseBackup struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
 	// The user-friendly name for the backup. The name does not have to be unique.
@@ -54,7 +54,7 @@ type AutonomousDatabaseBackup struct {
 	// Indicates whether the backup can be used to restore the associated Autonomous Database.
 	IsRestorable *bool `mandatory:"false" json:"isRestorable"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.
@@ -63,7 +63,7 @@ type AutonomousDatabaseBackup struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
@@ -111,21 +111,30 @@ type AutonomousDatabaseBackupTypeEnum string
 
 // Set of constants representing the allowable values for AutonomousDatabaseBackupTypeEnum
 const (
-	AutonomousDatabaseBackupTypeIncremental AutonomousDatabaseBackupTypeEnum = "INCREMENTAL"
-	AutonomousDatabaseBackupTypeFull        AutonomousDatabaseBackupTypeEnum = "FULL"
-	AutonomousDatabaseBackupTypeLongterm    AutonomousDatabaseBackupTypeEnum = "LONGTERM"
+	AutonomousDatabaseBackupTypeIncremental           AutonomousDatabaseBackupTypeEnum = "INCREMENTAL"
+	AutonomousDatabaseBackupTypeFull                  AutonomousDatabaseBackupTypeEnum = "FULL"
+	AutonomousDatabaseBackupTypeLongterm              AutonomousDatabaseBackupTypeEnum = "LONGTERM"
+	AutonomousDatabaseBackupTypeVirtualFull           AutonomousDatabaseBackupTypeEnum = "VIRTUAL_FULL"
+	AutonomousDatabaseBackupTypeCumulativeIncremental AutonomousDatabaseBackupTypeEnum = "CUMULATIVE_INCREMENTAL"
+	AutonomousDatabaseBackupTypeRollForwardImageCopy  AutonomousDatabaseBackupTypeEnum = "ROLL_FORWARD_IMAGE_COPY"
 )
 
 var mappingAutonomousDatabaseBackupTypeEnum = map[string]AutonomousDatabaseBackupTypeEnum{
-	"INCREMENTAL": AutonomousDatabaseBackupTypeIncremental,
-	"FULL":        AutonomousDatabaseBackupTypeFull,
-	"LONGTERM":    AutonomousDatabaseBackupTypeLongterm,
+	"INCREMENTAL":             AutonomousDatabaseBackupTypeIncremental,
+	"FULL":                    AutonomousDatabaseBackupTypeFull,
+	"LONGTERM":                AutonomousDatabaseBackupTypeLongterm,
+	"VIRTUAL_FULL":            AutonomousDatabaseBackupTypeVirtualFull,
+	"CUMULATIVE_INCREMENTAL":  AutonomousDatabaseBackupTypeCumulativeIncremental,
+	"ROLL_FORWARD_IMAGE_COPY": AutonomousDatabaseBackupTypeRollForwardImageCopy,
 }
 
 var mappingAutonomousDatabaseBackupTypeEnumLowerCase = map[string]AutonomousDatabaseBackupTypeEnum{
-	"incremental": AutonomousDatabaseBackupTypeIncremental,
-	"full":        AutonomousDatabaseBackupTypeFull,
-	"longterm":    AutonomousDatabaseBackupTypeLongterm,
+	"incremental":             AutonomousDatabaseBackupTypeIncremental,
+	"full":                    AutonomousDatabaseBackupTypeFull,
+	"longterm":                AutonomousDatabaseBackupTypeLongterm,
+	"virtual_full":            AutonomousDatabaseBackupTypeVirtualFull,
+	"cumulative_incremental":  AutonomousDatabaseBackupTypeCumulativeIncremental,
+	"roll_forward_image_copy": AutonomousDatabaseBackupTypeRollForwardImageCopy,
 }
 
 // GetAutonomousDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupTypeEnum
@@ -143,6 +152,9 @@ func GetAutonomousDatabaseBackupTypeEnumStringValues() []string {
 		"INCREMENTAL",
 		"FULL",
 		"LONGTERM",
+		"VIRTUAL_FULL",
+		"CUMULATIVE_INCREMENTAL",
+		"ROLL_FORWARD_IMAGE_COPY",
 	}
 }
 

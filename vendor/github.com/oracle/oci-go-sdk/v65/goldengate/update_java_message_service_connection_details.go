@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,8 +46,11 @@ type UpdateJavaMessageServiceConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.
 	ShouldUseJndi *bool `mandatory:"false" json:"shouldUseJndi"`
@@ -70,7 +73,12 @@ type UpdateJavaMessageServiceConnectionDetails struct {
 	JndiSecurityPrincipal *string `mandatory:"false" json:"jndiSecurityPrincipal"`
 
 	// The password associated to the principal.
+	// Deprecated: This field is deprecated and replaced by "jndiSecurityCredentialsSecretId". This field will be removed after February 15 2026.
 	JndiSecurityCredentials *string `mandatory:"false" json:"jndiSecurityCredentials"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the security credentials are stored associated to the principal.
+	// Note: When provided, 'jndiSecurityCredentials' field must not be provided.
+	JndiSecurityCredentialsSecretId *string `mandatory:"false" json:"jndiSecurityCredentialsSecretId"`
 
 	// Connectin URL of the Java Message Service, specifying the protocol, host, and port.
 	// e.g.: 'mq://myjms.host.domain:7676'
@@ -86,23 +94,55 @@ type UpdateJavaMessageServiceConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect the associated Java Message Service.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// that Oracle GoldenGate uses to connect the associated Java Message Service.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
 	// The base64 encoded content of the TrustStore file.
+	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This field will be removed after February 15 2026.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the TrustStore file is stored.
+	// Note: When provided, 'trustStore' field must not be provided.
+	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
+
 	// The TrustStore password.
+	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId". This field will be removed after February 15 2026.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the TrustStore password is stored.
+	// Note: When provided, 'trustStorePassword' field must not be provided.
+	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
+
 	// The base64 encoded content of the KeyStore file.
+	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored.
+	// Note: When provided, 'keyStore' field must not be provided.
+	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
+
 	// The KeyStore password.
+	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the KeyStore password is stored.
+	// Note: When provided, 'keyStorePassword' field must not be provided.
+	KeyStorePasswordSecretId *string `mandatory:"false" json:"keyStorePasswordSecretId"`
 
 	// The password for the cert inside of the KeyStore.
 	// In case it differs from the KeyStore password, it should be provided.
+	// Deprecated: This field is deprecated and replaced by "sslKeyPasswordSecretId". This field will be removed after February 15 2026.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore.
+	// In case it differs from the KeyStore password, it should be provided.
+	// Note: When provided, 'sslKeyPassword' field must not be provided.
+	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
@@ -171,6 +211,11 @@ func (m UpdateJavaMessageServiceConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m UpdateJavaMessageServiceConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m UpdateJavaMessageServiceConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m UpdateJavaMessageServiceConnectionDetails) String() string {

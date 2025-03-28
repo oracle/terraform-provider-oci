@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -43,6 +43,9 @@ type GiFsuCollectionSummary struct {
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	LastCompletedFsuCycleId *string `mandatory:"false" json:"lastCompletedFsuCycleId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -115,6 +118,11 @@ func (m GiFsuCollectionSummary) GetLifecycleState() CollectionLifecycleStatesEnu
 // GetLifecycleDetails returns LifecycleDetails
 func (m GiFsuCollectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetLastCompletedFsuCycleId returns LastCompletedFsuCycleId
+func (m GiFsuCollectionSummary) GetLastCompletedFsuCycleId() *string {
+	return m.LastCompletedFsuCycleId
 }
 
 // GetFreeformTags returns FreeformTags

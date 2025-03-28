@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -19,9 +19,9 @@ import (
 	"strings"
 )
 
-// StreamingCursorDetails The read setting (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm), which determines where in the stream to start moving data.
+// StreamingCursorDetails The read setting (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm), which determines where in the stream to start moving data.
 // For configuration instructions, see
-// Creating a Connector with a Streaming Source (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm).
+// Creating a Connector with a Streaming Source (https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm).
 type StreamingCursorDetails interface {
 }
 
@@ -64,7 +64,7 @@ func (m *streamingcursordetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for StreamingCursorDetails: %s.", m.Kind)
+		common.Logf("Received unsupported enum value for StreamingCursorDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

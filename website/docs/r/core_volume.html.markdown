@@ -99,11 +99,11 @@ The following arguments are supported:
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead. 
 * `source_details` - (Optional) Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
-	* `change_block_size_in_bytes` - (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
-	* `first_backup_id` - (Required when type=volumeBackupDelta) The OCID of the first volume backup.
 	* `id` - (Required when type=blockVolumeReplica | volume | volumeBackup) The OCID of the block volume replica.
-	* `second_backup_id` - (Required when type=volumeBackupDelta) The OCID of the second volume backup.
 	* `type` - (Required) The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`, `volumeBackupDelta`
+	* `change_block_size_in_bytes` - (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
+	* `first_backup_id` - (Required when type=volumeBackupDelta) The OCID of the first volume backup.
+	* `second_backup_id` - (Required when type=volumeBackupDelta) The OCID of the second volume backup.
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the sourceDetails field instead to specify the backup for the volume. 
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
@@ -146,11 +146,11 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
 * `source_details` -
-	* `change_block_size_in_bytes` - Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
-	* `first_backup_id` - The OCID of the first volume backup.
-    * `id` - The OCID of the block volume replica or volume backup.
-	* `second_backup_id` - The OCID of the second volume backup.
-	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`, `volumeBackupDelta`
+	* `id` - (Required when type=blockVolumeReplica | volume | volumeBackup) The OCID of the block volume replica.
+	* `type` - (Required) The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`, `volumeBackupDelta`
+	* `change_block_size_in_bytes` - (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
+	* `first_backup_id` - (Required when type=volumeBackupDelta) The OCID of the first volume backup.
+	* `second_backup_id` - (Required when type=volumeBackupDelta) The OCID of the second volume backup.
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

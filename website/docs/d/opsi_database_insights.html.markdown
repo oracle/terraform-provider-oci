@@ -85,6 +85,7 @@ The following attributes are exported:
 	* `role` - database user role.
 	* `user_name` - database user name.
 	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
+* `database_connector_id` - (Required when entity_source=EXTERNAL_MYSQL_DATABASE_SYSTEM) (Updatable) The DBM owned database connector [OCID](/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.
 * `database_connection_status_details` - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
 * `database_display_name` - Display name of database
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.

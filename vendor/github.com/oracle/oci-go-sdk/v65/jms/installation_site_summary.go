@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,7 +22,7 @@ type InstallationSiteSummary struct {
 	// The unique identifier for the installation of Java Runtime at a specific path on a specific operating system.
 	InstallationKey *string `mandatory:"true" json:"installationKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
 	Jre *JavaRuntimeId `mandatory:"false" json:"jre"`

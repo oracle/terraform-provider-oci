@@ -4,12 +4,15 @@
 package identity_domains
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -133,9 +136,10 @@ func IdentityDomainsUserResource() *schema.Resource {
 				Computed: true,
 			},
 			"emails": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      emailsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -2523,10 +2527,11 @@ func (s *IdentityDomainsUserResourceCrud) Create() error {
 	}
 
 	if emails, ok := s.D.GetOkExists("emails"); ok {
-		interfaces := emails.([]interface{})
+		set := emails.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.UserEmails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := emailsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "emails", stateDataIndex)
 			converted, err := s.mapToUserEmails(fieldKeyFormat)
 			if err != nil {
@@ -3055,10 +3060,11 @@ func (s *IdentityDomainsUserResourceCrud) Update() error {
 	}
 
 	if emails, ok := s.D.GetOkExists("emails"); ok {
-		interfaces := emails.([]interface{})
+		set := emails.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.UserEmails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := emailsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "emails", stateDataIndex)
 			converted, err := s.mapToUserEmails(fieldKeyFormat)
 			if err != nil {
@@ -3549,7 +3555,7 @@ func (s *IdentityDomainsUserResourceCrud) SetData() error {
 	for _, item := range s.Res.Emails {
 		emails = append(emails, UserEmailsToMap(item))
 	}
-	s.D.Set("emails", emails)
+	s.D.Set("emails", schema.NewSet(emailsHashCodeForSets, emails))
 
 	entitlements := []interface{}{}
 	for _, item := range s.Res.Entitlements {
@@ -5065,7 +5071,7 @@ func ExtensionUserUserToMap(obj *oci_identity_domains.ExtensionUserUser) map[str
 	return result
 }
 
-func UserToMap(obj oci_identity_domains.User) map[string]interface{} {
+func UserToMap(obj oci_identity_domains.User, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Active != nil {
@@ -5102,7 +5108,11 @@ func UserToMap(obj oci_identity_domains.User) map[string]interface{} {
 	for _, item := range obj.Emails {
 		emails = append(emails, UserEmailsToMap(item))
 	}
-	result["emails"] = emails
+	if datasource {
+		result["emails"] = emails
+	} else {
+		result["emails"] = schema.NewSet(emailsHashCodeForSets, emails)
+	}
 
 	entitlements := []interface{}{}
 	for _, item := range obj.Entitlements {
@@ -7238,4 +7248,25 @@ func tagsToMap(obj oci_identity_domains.Tags) map[string]interface{} {
 	}
 
 	return result
+}
+
+func emailsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if primary, ok := m["primary"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", primary))
+	}
+	if secondary, ok := m["secondary"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", secondary))
+	}
+	if type_, ok := m["type"]; ok && type_ != "" {
+		buf.WriteString(fmt.Sprintf("%v-", type_))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	if verified, ok := m["verified"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", verified))
+	}
+	return utils.GetStringHashcode(buf.String())
 }

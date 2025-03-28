@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -21,10 +21,10 @@ import (
 
 var (
 	OsManagementHubManagedInstanceDetachProfileManagementRepresentation = map[string]interface{}{
-		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance.test_managed_instance.id}`},
+		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_unregistered_ocid")},
 	}
 
-	OsManagementHubManagedInstanceDetachProfileManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Required, acctest.Create, OsManagementHubManagedInstanceRegistrationFailureRepresentation)
+	OsManagementHubManagedInstanceDetachProfileManagementResourceDependencies = ""
 )
 
 // issue-routing-tag: os_management_hub/default

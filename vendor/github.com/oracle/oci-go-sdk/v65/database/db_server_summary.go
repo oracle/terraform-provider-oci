@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,16 +18,16 @@ import (
 // DbServerSummary Details of the Db server.
 type DbServerSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db server.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db server.
 	Id *string `mandatory:"false" json:"id"`
 
 	// The user-friendly name for the Db server. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExadataInfrastructureId *string `mandatory:"false" json:"exadataInfrastructureId"`
 
 	// The number of CPU cores enabled on the Db server.
@@ -39,16 +39,16 @@ type DbServerSummary struct {
 	// The allocated local node storage in GBs on the Db server.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM Clusters associated with the Db server.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Clusters associated with the Db server.
 	VmClusterIds []string `mandatory:"false" json:"vmClusterIds"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous VM Clusters associated with the Db server.
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM Clusters associated with the Db server.
 	AutonomousVmClusterIds []string `mandatory:"false" json:"autonomousVmClusterIds"`
 
-	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Virtual Machines associated with the Db server.
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Virtual Machines associated with the Db server.
 	AutonomousVirtualMachineIds []string `mandatory:"false" json:"autonomousVirtualMachineIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db nodes associated with the Db server.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db nodes associated with the Db server.
 	DbNodeIds []string `mandatory:"false" json:"dbNodeIds"`
 
 	// The shape of the Db server. The shape determines the amount of CPU, storage, and memory resources available.
@@ -75,13 +75,16 @@ type DbServerSummary struct {
 	DbServerPatchingDetails *DbServerPatchingDetails `mandatory:"false" json:"dbServerPatchingDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel DbServerSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m DbServerSummary) String() string {
@@ -96,6 +99,9 @@ func (m DbServerSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbServerSummaryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbServerSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbServerSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetDbServerSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -158,5 +164,47 @@ func GetDbServerSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingDbServerSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbServerSummaryLifecycleStateEnum(val string) (DbServerSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingDbServerSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbServerSummaryComputeModelEnum Enum with underlying type: string
+type DbServerSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for DbServerSummaryComputeModelEnum
+const (
+	DbServerSummaryComputeModelEcpu DbServerSummaryComputeModelEnum = "ECPU"
+	DbServerSummaryComputeModelOcpu DbServerSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingDbServerSummaryComputeModelEnum = map[string]DbServerSummaryComputeModelEnum{
+	"ECPU": DbServerSummaryComputeModelEcpu,
+	"OCPU": DbServerSummaryComputeModelOcpu,
+}
+
+var mappingDbServerSummaryComputeModelEnumLowerCase = map[string]DbServerSummaryComputeModelEnum{
+	"ecpu": DbServerSummaryComputeModelEcpu,
+	"ocpu": DbServerSummaryComputeModelOcpu,
+}
+
+// GetDbServerSummaryComputeModelEnumValues Enumerates the set of values for DbServerSummaryComputeModelEnum
+func GetDbServerSummaryComputeModelEnumValues() []DbServerSummaryComputeModelEnum {
+	values := make([]DbServerSummaryComputeModelEnum, 0)
+	for _, v := range mappingDbServerSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbServerSummaryComputeModelEnumStringValues Enumerates the set of values in String for DbServerSummaryComputeModelEnum
+func GetDbServerSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingDbServerSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbServerSummaryComputeModelEnum(val string) (DbServerSummaryComputeModelEnum, bool) {
+	enum, ok := mappingDbServerSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

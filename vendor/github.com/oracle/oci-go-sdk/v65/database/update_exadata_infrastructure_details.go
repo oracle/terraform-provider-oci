@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -68,7 +68,7 @@ type UpdateExadataInfrastructureDetails struct {
 	// The list of NTP server IP addresses. Maximum of 3 allowed.
 	NtpServer []string `mandatory:"false" json:"ntpServer"`
 
-	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration
@@ -79,12 +79,12 @@ type UpdateExadataInfrastructureDetails struct {
 	NetworkBondingModeDetails *NetworkBondingModeDetails `mandatory:"false" json:"networkBondingModeDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
@@ -117,6 +117,7 @@ const (
 	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8M"
 	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X9M"
 	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X10M"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX11m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X11M"
 )
 
 var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
@@ -125,6 +126,7 @@ var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = 
 	"X8M":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
 	"X9M":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
 	"X10M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m,
+	"X11M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX11m,
 }
 
 var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLowerCase = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
@@ -133,6 +135,7 @@ var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLow
 	"x8m":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
 	"x9m":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
 	"x10m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m,
+	"x11m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX11m,
 }
 
 // GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumValues Enumerates the set of values for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
@@ -152,6 +155,7 @@ func GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumString
 		"X8M",
 		"X9M",
 		"X10M",
+		"X11M",
 	}
 }
 

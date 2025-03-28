@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,7 +15,7 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAnalytics.go.html to see an example of how to use ListUserAnalyticsRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAnalytics.go.html to see an example of how to use ListUserAnalyticsRequest.
 type ListUserAnalyticsRequest struct {
 
 	// The OCID of the user assessment.
@@ -31,7 +31,7 @@ type ListUserAnalyticsRequest struct {
 	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
 	AccessLevel ListUserAnalyticsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
-	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// A filter to return only items that match the specified user category.
@@ -76,7 +76,15 @@ type ListUserAnalyticsRequest struct {
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimePasswordLastChangedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timePasswordLastChangedLessThan"`
 
-	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// A filter to return users whose password expiry date in the database is greater than or equal to the date and time specified, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// **Example:** 2016-12-19T16:39:57.600Z
+	TimePasswordExpiryGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timePasswordExpiryGreaterThanOrEqualTo"`
+
+	// A filter to return users whose password expiry date in the database is less than the date and time specified, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// **Example:** 2016-12-19T16:39:57.600Z
+	TimePasswordExpiryLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timePasswordExpiryLessThan"`
+
+	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (ASC) or descending (DESC).
@@ -151,7 +159,7 @@ type ListUserAnalyticsResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. Include opc-next-page value as the page parameter for the subsequent GET request to get the next batch of items. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. When this header appears in the response, additional pages of results remain. Include opc-next-page value as the page parameter for the subsequent GET request to get the next batch of items. For details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

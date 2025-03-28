@@ -88,6 +88,10 @@ func (s *DatabaseApplicationVipDataSourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	if s.Res.Ipv6Address != nil {
+		s.D.Set("ipv6address", *s.Res.Ipv6Address)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

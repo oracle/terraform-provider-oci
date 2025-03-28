@@ -13,8 +13,8 @@ import (
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/oci-go-sdk/v65/core"
 	"github.com/stretchr/testify/suite"
@@ -73,6 +73,7 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) TestAccDatasourceCoreVolumeAtt
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.is_read_only", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.is_shareable", "false"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.ipv4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.port"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.iqn"),
@@ -91,6 +92,7 @@ type customVolumeAttachment struct {
 	id            string
 	instanceId    string
 	isReadOnly    bool
+	isShareable   bool
 	volumeId      string
 	displayName   string
 	timeCreated   common.SDKTime
@@ -120,6 +122,11 @@ func (m customVolumeAttachment) GetInstanceId() *string {
 // GetIsReadOnly returns IsReadOnly
 func (m customVolumeAttachment) GetIsReadOnly() *bool {
 	return &m.isReadOnly
+}
+
+// GetIsShareable return IsShareable
+func (m customVolumeAttachment) GetIsShareable() *bool {
+	return &m.isShareable
 }
 
 // GetLifecycleState returns LifecycleState

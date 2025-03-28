@@ -20,6 +20,7 @@ data "oci_psql_configurations" "test_configurations" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	config_type = var.configuration_config_type
 	configuration_id = oci_psql_configuration.test_configuration.id
 	db_version = var.configuration_db_version
 	display_name = var.configuration_display_name
@@ -33,6 +34,7 @@ data "oci_psql_configurations" "test_configurations" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `config_type` - (Optional) A filter to return only resources if their `configType` matches the given `configType`.
 * `configuration_id` - (Optional) A unique identifier for the configuration.
 * `db_version` - (Optional) Version of the PostgreSQL database, such as 14.9.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -42,12 +42,12 @@ type UpdateDeploymentDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint.
 	// The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025,
 	// after which the private subnet will be enforced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy.
 	// Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy.
 	// For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
 	LoadBalancerSubnetId *string `mandatory:"false" json:"loadBalancerSubnetId"`
@@ -69,6 +69,8 @@ type UpdateDeploymentDetails struct {
 	MaintenanceWindow *UpdateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
 
 	MaintenanceConfiguration *UpdateMaintenanceConfigurationDetails `mandatory:"false" json:"maintenanceConfiguration"`
+
+	BackupSchedule *UpdateBackupScheduleDetails `mandatory:"false" json:"backupSchedule"`
 }
 
 func (m UpdateDeploymentDetails) String() string {

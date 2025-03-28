@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -18,10 +18,10 @@ import (
 // ExadataInfrastructure ExadataInfrastructure
 type ExadataInfrastructure struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current lifecycle state of the Exadata infrastructure.
@@ -33,7 +33,7 @@ type ExadataInfrastructure struct {
 	// The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance.
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// The number of enabled CPU cores.
@@ -142,10 +142,10 @@ type ExadataInfrastructure struct {
 	// The monthly software version of the database servers (dom0) in the Exadata infrastructure.
 	MonthlyDbServerVersion *string `mandatory:"false" json:"monthlyDbServerVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last maintenance run.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 	LastMaintenanceRunId *string `mandatory:"false" json:"lastMaintenanceRunId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the next maintenance run.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 	NextMaintenanceRunId *string `mandatory:"false" json:"nextMaintenanceRunId"`
 
 	// Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration
@@ -162,16 +162,27 @@ type ExadataInfrastructure struct {
 	DefinedFileSystemConfigurations []DefinedFileSystemConfiguration `mandatory:"false" json:"definedFileSystemConfigurations"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// If true, the infrastructure is using granular maintenance scheduling preference.
 	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
+
+	ExascaleConfig *ExascaleConfigDetails `mandatory:"false" json:"exascaleConfig"`
+
+	// The database server type of the Exadata infrastructure.
+	DatabaseServerType *string `mandatory:"false" json:"databaseServerType"`
+
+	// The storage server type of the Exadata infrastructure.
+	StorageServerType *string `mandatory:"false" json:"storageServerType"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel ExadataInfrastructureComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m ExadataInfrastructure) String() string {
@@ -192,6 +203,9 @@ func (m ExadataInfrastructure) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadataInfrastructureMaintenanceSLOStatusEnum(string(m.MaintenanceSLOStatus)); !ok && m.MaintenanceSLOStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceSLOStatus: %s. Supported values are: %s.", m.MaintenanceSLOStatus, strings.Join(GetExadataInfrastructureMaintenanceSLOStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadataInfrastructureComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetExadataInfrastructureComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -291,6 +305,7 @@ const (
 	ExadataInfrastructureAdditionalComputeSystemModelX8m  ExadataInfrastructureAdditionalComputeSystemModelEnum = "X8M"
 	ExadataInfrastructureAdditionalComputeSystemModelX9m  ExadataInfrastructureAdditionalComputeSystemModelEnum = "X9M"
 	ExadataInfrastructureAdditionalComputeSystemModelX10m ExadataInfrastructureAdditionalComputeSystemModelEnum = "X10M"
+	ExadataInfrastructureAdditionalComputeSystemModelX11m ExadataInfrastructureAdditionalComputeSystemModelEnum = "X11M"
 )
 
 var mappingExadataInfrastructureAdditionalComputeSystemModelEnum = map[string]ExadataInfrastructureAdditionalComputeSystemModelEnum{
@@ -299,6 +314,7 @@ var mappingExadataInfrastructureAdditionalComputeSystemModelEnum = map[string]Ex
 	"X8M":  ExadataInfrastructureAdditionalComputeSystemModelX8m,
 	"X9M":  ExadataInfrastructureAdditionalComputeSystemModelX9m,
 	"X10M": ExadataInfrastructureAdditionalComputeSystemModelX10m,
+	"X11M": ExadataInfrastructureAdditionalComputeSystemModelX11m,
 }
 
 var mappingExadataInfrastructureAdditionalComputeSystemModelEnumLowerCase = map[string]ExadataInfrastructureAdditionalComputeSystemModelEnum{
@@ -307,6 +323,7 @@ var mappingExadataInfrastructureAdditionalComputeSystemModelEnumLowerCase = map[
 	"x8m":  ExadataInfrastructureAdditionalComputeSystemModelX8m,
 	"x9m":  ExadataInfrastructureAdditionalComputeSystemModelX9m,
 	"x10m": ExadataInfrastructureAdditionalComputeSystemModelX10m,
+	"x11m": ExadataInfrastructureAdditionalComputeSystemModelX11m,
 }
 
 // GetExadataInfrastructureAdditionalComputeSystemModelEnumValues Enumerates the set of values for ExadataInfrastructureAdditionalComputeSystemModelEnum
@@ -326,6 +343,7 @@ func GetExadataInfrastructureAdditionalComputeSystemModelEnumStringValues() []st
 		"X8M",
 		"X9M",
 		"X10M",
+		"X11M",
 	}
 }
 
@@ -374,5 +392,47 @@ func GetExadataInfrastructureMaintenanceSLOStatusEnumStringValues() []string {
 // GetMappingExadataInfrastructureMaintenanceSLOStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadataInfrastructureMaintenanceSLOStatusEnum(val string) (ExadataInfrastructureMaintenanceSLOStatusEnum, bool) {
 	enum, ok := mappingExadataInfrastructureMaintenanceSLOStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadataInfrastructureComputeModelEnum Enum with underlying type: string
+type ExadataInfrastructureComputeModelEnum string
+
+// Set of constants representing the allowable values for ExadataInfrastructureComputeModelEnum
+const (
+	ExadataInfrastructureComputeModelEcpu ExadataInfrastructureComputeModelEnum = "ECPU"
+	ExadataInfrastructureComputeModelOcpu ExadataInfrastructureComputeModelEnum = "OCPU"
+)
+
+var mappingExadataInfrastructureComputeModelEnum = map[string]ExadataInfrastructureComputeModelEnum{
+	"ECPU": ExadataInfrastructureComputeModelEcpu,
+	"OCPU": ExadataInfrastructureComputeModelOcpu,
+}
+
+var mappingExadataInfrastructureComputeModelEnumLowerCase = map[string]ExadataInfrastructureComputeModelEnum{
+	"ecpu": ExadataInfrastructureComputeModelEcpu,
+	"ocpu": ExadataInfrastructureComputeModelOcpu,
+}
+
+// GetExadataInfrastructureComputeModelEnumValues Enumerates the set of values for ExadataInfrastructureComputeModelEnum
+func GetExadataInfrastructureComputeModelEnumValues() []ExadataInfrastructureComputeModelEnum {
+	values := make([]ExadataInfrastructureComputeModelEnum, 0)
+	for _, v := range mappingExadataInfrastructureComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadataInfrastructureComputeModelEnumStringValues Enumerates the set of values in String for ExadataInfrastructureComputeModelEnum
+func GetExadataInfrastructureComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingExadataInfrastructureComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadataInfrastructureComputeModelEnum(val string) (ExadataInfrastructureComputeModelEnum, bool) {
+	enum, ok := mappingExadataInfrastructureComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

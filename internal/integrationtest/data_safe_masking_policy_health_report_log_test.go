@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -45,10 +45,12 @@ func TestDataSafeMaskingPolicyHealthReportLogResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policy_health_report_logs", "test_masking_policy_health_report_logs", acctest.Required, acctest.Create, DataSafeMaskingPolicyHealthReportLogDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policy_health_report_logs", "test_masking_policy_health_report_logs", acctest.Optional, acctest.Create, DataSafeMaskingPolicyHealthReportLogDataSourceRepresentation) +
 				compartmentIdVariableStr + healthReportIdVariableStr + DataSafeMaskingPolicyHealthReportLogResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "masking_policy_health_report_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "message_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "masking_policy_health_report_log_collection.0.items.0.health_check_type"),
 			),
 		},
 	})

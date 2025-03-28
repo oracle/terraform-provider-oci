@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -51,7 +51,6 @@ func RedisRedisClusterResource() *schema.Resource {
 			"software_version": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -396,7 +395,7 @@ func redisClusterWaitForWorkRequest(wId *string, entityType string, action oci_r
 	retryPolicy.ShouldRetryOperation = redisClusterWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_redis.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_redis.OperationStatusInProgress),
 			string(oci_redis.OperationStatusAccepted),
@@ -581,6 +580,16 @@ func (s *RedisRedisClusterResourceCrud) Update() error {
 			return err
 		}
 	}
+
+	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok && s.D.HasChange("software_version") {
+		request := oci_redis.UpdateRedisClusterRequest{}
+		request.SoftwareVersion = oci_redis.RedisClusterSoftwareVersionEnum(softwareVersion.(string))
+		err := s.updateRedisCluster(request)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 

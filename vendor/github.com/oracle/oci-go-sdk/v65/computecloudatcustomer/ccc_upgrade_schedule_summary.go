@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Compute Cloud@Customer API
 //
 // Use the Compute Cloud@Customer API to manage Compute Cloud@Customer infrastructures and upgrade schedules.
-// For more information see Compute Cloud@Customer documentation (https://docs.cloud.oracle.com/iaas/compute-cloud-at-customer/home.htm).
+// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/compute-cloud-at-customer/home.htm).
 //
 
 package computecloudatcustomer
@@ -20,7 +20,7 @@ import (
 // only includes high level resource information, not the schedule events.
 type CccUpgradeScheduleSummary struct {
 
-	// The upgrade schedule OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The upgrade schedule OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// This cannot be changed once created.
 	Id *string `mandatory:"true" json:"id"`
 
@@ -28,7 +28,7 @@ type CccUpgradeScheduleSummary struct {
 	// Avoid entering any confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the
+	// Compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the
 	// Compute Cloud@Customer Upgrade Schedule.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

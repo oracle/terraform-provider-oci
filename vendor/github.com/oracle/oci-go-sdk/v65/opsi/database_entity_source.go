@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -20,24 +20,27 @@ type DatabaseEntitySourceEnum string
 
 // Set of constants representing the allowable values for DatabaseEntitySourceEnum
 const (
-	DatabaseEntitySourceEmManagedExternalDatabase DatabaseEntitySourceEnum = "EM_MANAGED_EXTERNAL_DATABASE"
-	DatabaseEntitySourcePeComanagedDatabase       DatabaseEntitySourceEnum = "PE_COMANAGED_DATABASE"
-	DatabaseEntitySourceMdsMysqlDatabaseSystem    DatabaseEntitySourceEnum = "MDS_MYSQL_DATABASE_SYSTEM"
-	DatabaseEntitySourceMacsManagedCloudDatabase  DatabaseEntitySourceEnum = "MACS_MANAGED_CLOUD_DATABASE"
+	DatabaseEntitySourceEmManagedExternalDatabase   DatabaseEntitySourceEnum = "EM_MANAGED_EXTERNAL_DATABASE"
+	DatabaseEntitySourcePeComanagedDatabase         DatabaseEntitySourceEnum = "PE_COMANAGED_DATABASE"
+	DatabaseEntitySourceMdsMysqlDatabaseSystem      DatabaseEntitySourceEnum = "MDS_MYSQL_DATABASE_SYSTEM"
+	DatabaseEntitySourceExternalMysqlDatabaseSystem DatabaseEntitySourceEnum = "EXTERNAL_MYSQL_DATABASE_SYSTEM"
+	DatabaseEntitySourceMacsManagedCloudDatabase    DatabaseEntitySourceEnum = "MACS_MANAGED_CLOUD_DATABASE"
 )
 
 var mappingDatabaseEntitySourceEnum = map[string]DatabaseEntitySourceEnum{
-	"EM_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceEmManagedExternalDatabase,
-	"PE_COMANAGED_DATABASE":        DatabaseEntitySourcePeComanagedDatabase,
-	"MDS_MYSQL_DATABASE_SYSTEM":    DatabaseEntitySourceMdsMysqlDatabaseSystem,
-	"MACS_MANAGED_CLOUD_DATABASE":  DatabaseEntitySourceMacsManagedCloudDatabase,
+	"EM_MANAGED_EXTERNAL_DATABASE":   DatabaseEntitySourceEmManagedExternalDatabase,
+	"PE_COMANAGED_DATABASE":          DatabaseEntitySourcePeComanagedDatabase,
+	"MDS_MYSQL_DATABASE_SYSTEM":      DatabaseEntitySourceMdsMysqlDatabaseSystem,
+	"EXTERNAL_MYSQL_DATABASE_SYSTEM": DatabaseEntitySourceExternalMysqlDatabaseSystem,
+	"MACS_MANAGED_CLOUD_DATABASE":    DatabaseEntitySourceMacsManagedCloudDatabase,
 }
 
 var mappingDatabaseEntitySourceEnumLowerCase = map[string]DatabaseEntitySourceEnum{
-	"em_managed_external_database": DatabaseEntitySourceEmManagedExternalDatabase,
-	"pe_comanaged_database":        DatabaseEntitySourcePeComanagedDatabase,
-	"mds_mysql_database_system":    DatabaseEntitySourceMdsMysqlDatabaseSystem,
-	"macs_managed_cloud_database":  DatabaseEntitySourceMacsManagedCloudDatabase,
+	"em_managed_external_database":   DatabaseEntitySourceEmManagedExternalDatabase,
+	"pe_comanaged_database":          DatabaseEntitySourcePeComanagedDatabase,
+	"mds_mysql_database_system":      DatabaseEntitySourceMdsMysqlDatabaseSystem,
+	"external_mysql_database_system": DatabaseEntitySourceExternalMysqlDatabaseSystem,
+	"macs_managed_cloud_database":    DatabaseEntitySourceMacsManagedCloudDatabase,
 }
 
 // GetDatabaseEntitySourceEnumValues Enumerates the set of values for DatabaseEntitySourceEnum
@@ -55,6 +58,7 @@ func GetDatabaseEntitySourceEnumStringValues() []string {
 		"EM_MANAGED_EXTERNAL_DATABASE",
 		"PE_COMANAGED_DATABASE",
 		"MDS_MYSQL_DATABASE_SYSTEM",
+		"EXTERNAL_MYSQL_DATABASE_SYSTEM",
 		"MACS_MANAGED_CLOUD_DATABASE",
 	}
 }

@@ -71,11 +71,16 @@ The following attributes are exported:
 	* `heat_wave_out_of_memory` - The number of query executions with HeatWave out-of-memory errors.
 	* `last_seen` - The date and time the query was last seen.
 	* `max_timer_wait` - The slowest the query has been executed.
+	* `last_seen` - The date and time the query was last seen.
+	* `max_controlled_memory` - The maximum amount of controlled memory used by a statement during execution.
+	* `max_timer_wait` - The slowest the query has been executed.
+	* `max_total_memory` - The maximum amount of memory used by a statement during execution.
 	* `min_timer_wait` - The fastest the query has been executed.
 	* `quantile95` - The 95th percentile of the query latency. That is, 95% of the queries complete in the time given or in less time.
 	* `quantile99` - The 99th percentile of the query latency.
 	* `quantile999` - The 99.9th percentile of the query latency.
 	* `schema_name` - The name of the default schema when executing the query. If a schema is not set as the default, then the value is NULL.
+	* `sum_cpu_time` - The total amount of time spent on CPU for this statement.
 	* `sum_created_temp_disk_tables` - The total number of On-Disk internal temporary tables that have been created by the query.
 	* `sum_created_temp_tables` - The total number of internal temporary tables (in memory or on disk), which have been created by the query.
 	* `sum_errors` - The total number of errors that have been encountered executing the query. 
@@ -95,5 +100,5 @@ The following attributes are exported:
 	* `sum_sort_rows` - The total number of rows sorted. This is the same as the sort_rowsStatus variable.
 	* `sum_sort_scan` - The total number of times a sort was done by scanning the table. This is the same as the sort_scan status variable.
 	* `sum_timer_wait` - The total amount of time that has been spent executing the query.
-	* `sum_warnings` - The total number of warnings that have been encountered executing the query.
+	* `sum_warnings` - The total number of warnings that have been encountered executing the query. 
 

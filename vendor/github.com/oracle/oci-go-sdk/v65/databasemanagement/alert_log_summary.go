@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -70,6 +70,7 @@ const (
 	AlertLogSummaryMessageLevelSevere    AlertLogSummaryMessageLevelEnum = "SEVERE"
 	AlertLogSummaryMessageLevelImportant AlertLogSummaryMessageLevelEnum = "IMPORTANT"
 	AlertLogSummaryMessageLevelNormal    AlertLogSummaryMessageLevelEnum = "NORMAL"
+	AlertLogSummaryMessageLevelOther     AlertLogSummaryMessageLevelEnum = "OTHER"
 )
 
 var mappingAlertLogSummaryMessageLevelEnum = map[string]AlertLogSummaryMessageLevelEnum{
@@ -77,6 +78,7 @@ var mappingAlertLogSummaryMessageLevelEnum = map[string]AlertLogSummaryMessageLe
 	"SEVERE":    AlertLogSummaryMessageLevelSevere,
 	"IMPORTANT": AlertLogSummaryMessageLevelImportant,
 	"NORMAL":    AlertLogSummaryMessageLevelNormal,
+	"OTHER":     AlertLogSummaryMessageLevelOther,
 }
 
 var mappingAlertLogSummaryMessageLevelEnumLowerCase = map[string]AlertLogSummaryMessageLevelEnum{
@@ -84,6 +86,7 @@ var mappingAlertLogSummaryMessageLevelEnumLowerCase = map[string]AlertLogSummary
 	"severe":    AlertLogSummaryMessageLevelSevere,
 	"important": AlertLogSummaryMessageLevelImportant,
 	"normal":    AlertLogSummaryMessageLevelNormal,
+	"other":     AlertLogSummaryMessageLevelOther,
 }
 
 // GetAlertLogSummaryMessageLevelEnumValues Enumerates the set of values for AlertLogSummaryMessageLevelEnum
@@ -102,6 +105,7 @@ func GetAlertLogSummaryMessageLevelEnumStringValues() []string {
 		"SEVERE",
 		"IMPORTANT",
 		"NORMAL",
+		"OTHER",
 	}
 }
 
@@ -122,6 +126,7 @@ const (
 	AlertLogSummaryMessageTypeWarning       AlertLogSummaryMessageTypeEnum = "WARNING"
 	AlertLogSummaryMessageTypeNotification  AlertLogSummaryMessageTypeEnum = "NOTIFICATION"
 	AlertLogSummaryMessageTypeTrace         AlertLogSummaryMessageTypeEnum = "TRACE"
+	AlertLogSummaryMessageTypeOther         AlertLogSummaryMessageTypeEnum = "OTHER"
 )
 
 var mappingAlertLogSummaryMessageTypeEnum = map[string]AlertLogSummaryMessageTypeEnum{
@@ -131,6 +136,7 @@ var mappingAlertLogSummaryMessageTypeEnum = map[string]AlertLogSummaryMessageTyp
 	"WARNING":        AlertLogSummaryMessageTypeWarning,
 	"NOTIFICATION":   AlertLogSummaryMessageTypeNotification,
 	"TRACE":          AlertLogSummaryMessageTypeTrace,
+	"OTHER":          AlertLogSummaryMessageTypeOther,
 }
 
 var mappingAlertLogSummaryMessageTypeEnumLowerCase = map[string]AlertLogSummaryMessageTypeEnum{
@@ -140,6 +146,7 @@ var mappingAlertLogSummaryMessageTypeEnumLowerCase = map[string]AlertLogSummaryM
 	"warning":        AlertLogSummaryMessageTypeWarning,
 	"notification":   AlertLogSummaryMessageTypeNotification,
 	"trace":          AlertLogSummaryMessageTypeTrace,
+	"other":          AlertLogSummaryMessageTypeOther,
 }
 
 // GetAlertLogSummaryMessageTypeEnumValues Enumerates the set of values for AlertLogSummaryMessageTypeEnum
@@ -160,6 +167,7 @@ func GetAlertLogSummaryMessageTypeEnumStringValues() []string {
 		"WARNING",
 		"NOTIFICATION",
 		"TRACE",
+		"OTHER",
 	}
 }
 

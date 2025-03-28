@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -64,6 +64,9 @@ func TestDatabaseMaintenanceRunHistoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "maintenance_run_histories.0.maintenance_run_details.0.target_resource_type", "EXACC_INFRASTRUCTURE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_run_histories.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_run_histories.0.current_execution_window"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_run_histories.0.db_servers_history_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_run_histories.0.granular_maintenance_history.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "maintenance_run_histories.0.db_servers_history_details.#", "8"),
 				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_run_histories.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "maintenance_run_histories.0.maintenance_run_details.#", "1"),
@@ -77,6 +80,9 @@ func TestDatabaseMaintenanceRunHistoryResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_history_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_execution_window"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers_history_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "granular_maintenance_history.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers_history_details.#", "8"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_run_details.#", "1"),

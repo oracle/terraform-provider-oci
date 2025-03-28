@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -78,39 +78,42 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCreatePlatform    WorkRequestOperationTypeEnum = "CREATE_PLATFORM"
-	WorkRequestOperationTypeUpdatePlatform    WorkRequestOperationTypeEnum = "UPDATE_PLATFORM"
-	WorkRequestOperationTypeUpgradePlatform   WorkRequestOperationTypeEnum = "UPGRADE_PLATFORM"
-	WorkRequestOperationTypeDeletePlatform    WorkRequestOperationTypeEnum = "DELETE_PLATFORM"
-	WorkRequestOperationTypeScalePlatform     WorkRequestOperationTypeEnum = "SCALE_PLATFORM"
-	WorkRequestOperationTypeStartPlatform     WorkRequestOperationTypeEnum = "START_PLATFORM"
-	WorkRequestOperationTypeStopPlatform      WorkRequestOperationTypeEnum = "STOP_PLATFORM"
-	WorkRequestOperationTypeCustomizePlatform WorkRequestOperationTypeEnum = "CUSTOMIZE_PLATFORM"
-	WorkRequestOperationTypeScaleStorage      WorkRequestOperationTypeEnum = "SCALE_STORAGE"
+	WorkRequestOperationTypeCreatePlatform     WorkRequestOperationTypeEnum = "CREATE_PLATFORM"
+	WorkRequestOperationTypeUpdatePlatform     WorkRequestOperationTypeEnum = "UPDATE_PLATFORM"
+	WorkRequestOperationTypeUpgradePlatform    WorkRequestOperationTypeEnum = "UPGRADE_PLATFORM"
+	WorkRequestOperationTypeDeletePlatform     WorkRequestOperationTypeEnum = "DELETE_PLATFORM"
+	WorkRequestOperationTypeScalePlatform      WorkRequestOperationTypeEnum = "SCALE_PLATFORM"
+	WorkRequestOperationTypeStartPlatform      WorkRequestOperationTypeEnum = "START_PLATFORM"
+	WorkRequestOperationTypeStopPlatform       WorkRequestOperationTypeEnum = "STOP_PLATFORM"
+	WorkRequestOperationTypeCustomizePlatform  WorkRequestOperationTypeEnum = "CUSTOMIZE_PLATFORM"
+	WorkRequestOperationTypeScaleStorage       WorkRequestOperationTypeEnum = "SCALE_STORAGE"
+	WorkRequestOperationTypeWorkrequestCleanup WorkRequestOperationTypeEnum = "WORKREQUEST_CLEANUP"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"CREATE_PLATFORM":    WorkRequestOperationTypeCreatePlatform,
-	"UPDATE_PLATFORM":    WorkRequestOperationTypeUpdatePlatform,
-	"UPGRADE_PLATFORM":   WorkRequestOperationTypeUpgradePlatform,
-	"DELETE_PLATFORM":    WorkRequestOperationTypeDeletePlatform,
-	"SCALE_PLATFORM":     WorkRequestOperationTypeScalePlatform,
-	"START_PLATFORM":     WorkRequestOperationTypeStartPlatform,
-	"STOP_PLATFORM":      WorkRequestOperationTypeStopPlatform,
-	"CUSTOMIZE_PLATFORM": WorkRequestOperationTypeCustomizePlatform,
-	"SCALE_STORAGE":      WorkRequestOperationTypeScaleStorage,
+	"CREATE_PLATFORM":     WorkRequestOperationTypeCreatePlatform,
+	"UPDATE_PLATFORM":     WorkRequestOperationTypeUpdatePlatform,
+	"UPGRADE_PLATFORM":    WorkRequestOperationTypeUpgradePlatform,
+	"DELETE_PLATFORM":     WorkRequestOperationTypeDeletePlatform,
+	"SCALE_PLATFORM":      WorkRequestOperationTypeScalePlatform,
+	"START_PLATFORM":      WorkRequestOperationTypeStartPlatform,
+	"STOP_PLATFORM":       WorkRequestOperationTypeStopPlatform,
+	"CUSTOMIZE_PLATFORM":  WorkRequestOperationTypeCustomizePlatform,
+	"SCALE_STORAGE":       WorkRequestOperationTypeScaleStorage,
+	"WORKREQUEST_CLEANUP": WorkRequestOperationTypeWorkrequestCleanup,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"create_platform":    WorkRequestOperationTypeCreatePlatform,
-	"update_platform":    WorkRequestOperationTypeUpdatePlatform,
-	"upgrade_platform":   WorkRequestOperationTypeUpgradePlatform,
-	"delete_platform":    WorkRequestOperationTypeDeletePlatform,
-	"scale_platform":     WorkRequestOperationTypeScalePlatform,
-	"start_platform":     WorkRequestOperationTypeStartPlatform,
-	"stop_platform":      WorkRequestOperationTypeStopPlatform,
-	"customize_platform": WorkRequestOperationTypeCustomizePlatform,
-	"scale_storage":      WorkRequestOperationTypeScaleStorage,
+	"create_platform":     WorkRequestOperationTypeCreatePlatform,
+	"update_platform":     WorkRequestOperationTypeUpdatePlatform,
+	"upgrade_platform":    WorkRequestOperationTypeUpgradePlatform,
+	"delete_platform":     WorkRequestOperationTypeDeletePlatform,
+	"scale_platform":      WorkRequestOperationTypeScalePlatform,
+	"start_platform":      WorkRequestOperationTypeStartPlatform,
+	"stop_platform":       WorkRequestOperationTypeStopPlatform,
+	"customize_platform":  WorkRequestOperationTypeCustomizePlatform,
+	"scale_storage":       WorkRequestOperationTypeScaleStorage,
+	"workrequest_cleanup": WorkRequestOperationTypeWorkrequestCleanup,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -134,6 +137,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"STOP_PLATFORM",
 		"CUSTOMIZE_PLATFORM",
 		"SCALE_STORAGE",
+		"WORKREQUEST_CLEANUP",
 	}
 }
 

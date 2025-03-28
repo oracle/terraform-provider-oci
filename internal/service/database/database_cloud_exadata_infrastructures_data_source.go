@@ -143,6 +143,8 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["compute_count"] = *r.ComputeCount
 		}
 
+		cloudExadataInfrastructure["compute_model"] = r.ComputeModel
+
 		if r.CpuCount != nil {
 			cloudExadataInfrastructure["cpu_count"] = *r.CpuCount
 		}
@@ -155,6 +157,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.DataStorageSizeInTBs != nil {
 			cloudExadataInfrastructure["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DatabaseServerType != nil {
+			cloudExadataInfrastructure["database_server_type"] = *r.DatabaseServerType
 		}
 
 		if r.DbNodeStorageSizeInGBs != nil {
@@ -183,6 +189,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			cloudExadataInfrastructure["id"] = *r.Id
+		}
+
+		if r.IsSchedulingPolicyAssociated != nil {
+			cloudExadataInfrastructure["is_scheduling_policy_associated"] = *r.IsSchedulingPolicyAssociated
 		}
 
 		if r.LastMaintenanceRunId != nil {
@@ -239,6 +249,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.StorageCount != nil {
 			cloudExadataInfrastructure["storage_count"] = *r.StorageCount
+		}
+
+		if r.StorageServerType != nil {
+			cloudExadataInfrastructure["storage_server_type"] = *r.StorageServerType
 		}
 
 		if r.StorageServerVersion != nil {

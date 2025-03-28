@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,13 +15,13 @@ import (
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeAutonomousContainerDatabaseCompartment.go.html to see an example of how to use ChangeAutonomousContainerDatabaseCompartmentRequest.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeAutonomousContainerDatabaseCompartment.go.html to see an example of how to use ChangeAutonomousContainerDatabaseCompartmentRequest.
 type ChangeAutonomousContainerDatabaseCompartmentRequest struct {
 
 	// Request to move Autonomous Container Database to a different compartment
 	ChangeCompartmentDetails `contributesTo:"body"`
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousContainerDatabaseId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -28,8 +28,8 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
 	shape = var.exadb_vm_cluster_shape
     
     node_config {
-      enabled_ecpu_per_node          = var.exadb_vm_cluster_enabled_ecpu_per_node
-      total_ecpu_per_node            = var.exadb_vm_cluster_total_ecpu_per_node
+      enabled_ecpu_count_per_node = var.exadb_vm_cluster_enabled_ecpu_count_per_node
+      total_ecpu_count_per_node            = var.exadb_vm_cluster_total_ecpu_count_per_node
       vm_file_system_storage_size_gbs_per_node = var.exadb_vm_cluster_vm_file_system_storage_size_in_gbs_per_node
     }
   
@@ -62,6 +62,7 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
 	scan_listener_port_tcp = var.exadb_vm_cluster_scan_listener_port_tcp
 	scan_listener_port_tcp_ssl = var.exadb_vm_cluster_scan_listener_port_tcp_ssl
 	security_attributes = var.exadb_vm_cluster_security_attributes
+	subscription_id = var.tenant_subscription_id
 	system_version = var.exadb_vm_cluster_system_version
 	time_zone = var.exadb_vm_cluster_time_zone
 }
@@ -87,7 +88,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `grid_image_id` - (Required) (Updatable) Grid Setup will be done using this grid image id.
 
-	The grid image id can be extracted from 1. Obtain the supported major versions using API /20160918/giVersions?compartmentId=<compartmentId>&shape=EXADB_XS&availabilityDomain=<AD name> 2. Replace {version} with one of the supported major versions and obtain the supported minor versions using  API /20160918/giVersions/{version}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name> 
+	The grid image ID can be obtained using the API /20160918/giVersions/{majorVersion}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name>. The list of supported major versions can be obtained using the API /20160918/giVersions?compartmentId=<compartmentId>&shape=ExaDbXS&availabilityDomain=<AD name> 
 * `hostname` - (Required) The hostname for the Exadata VM cluster on Exascale Infrastructure. The hostname must begin with an alphabetic character, and  can contain alphanumeric characters and hyphens (-). For Exadata systems, the maximum length of the hostname is 12 characters.
 
 	The maximum length of the combined hostname and domain is 63 characters.
@@ -109,6 +110,7 @@ The following arguments are supported:
 * `shape` - (Required) The shape of the Exadata VM cluster on Exascale Infrastructure resource 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+* `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_version` - (Optional) (Updatable) Operating system version of the image.
 * `time_zone` - (Optional) The time zone to use for the Exadata VM cluster on Exascale Infrastructure. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
 
@@ -124,6 +126,7 @@ The following attributes are exported:
 * `backup_network_nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
 * `backup_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
 * `cluster_name` - The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
+* `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `data_collection_options` - Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
 	* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` or `updateCloudVmCluster` API. 
@@ -137,7 +140,7 @@ The following attributes are exported:
 * `gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
 * `grid_image_id` - Grid Setup will be done using this grid image id.
 
-	The grid image id can be extracted from 1. Obtain the supported major versions using API /20160918/giVersions?compartmentId=<compartmentId>&shape=EXADB_XS&availabilityDomain=<AD name> 2. Replace {version} with one of the supported major versions and obtain the supported minor versions using  API /20160918/giVersions/{version}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name> 
+	The grid image ID can be obtained using the API /20160918/giVersions/{majorVersion}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name>. The list of supported major versions can be obtained using the API /20160918/giVersions?compartmentId=<compartmentId>&shape=ExaDbXS&availabilityDomain=<AD name> 
 * `grid_image_type` - The type of Grid Image
 * `hostname` - The hostname for the Exadata VM cluster on Exascale Infrastructure. The hostname must begin with an alphabetic character, and  can contain alphanumeric characters and hyphens (-). For Exadata systems, the maximum length of the hostname is 12 characters.
 
@@ -184,6 +187,7 @@ The following attributes are exported:
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 * `state` - The current state of the Exadata VM cluster on Exascale Infrastructure.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `system_version` - Operating system version of the image.
 * `time_created` - The date and time that the Exadata VM cluster on Exascale Infrastructure was created.
@@ -194,9 +198,9 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 20 minutes), when creating the Exadb Vm Cluster
-	* `update` - (Defaults to 20 minutes), when updating the Exadb Vm Cluster
-	* `delete` - (Defaults to 20 minutes), when destroying the Exadb Vm Cluster
+	* `create` - (Defaults to 12 hours), when creating the Exadb Vm Cluster
+	* `update` - (Defaults to 12 hours), when updating the Exadb Vm Cluster
+	* `delete` - (Defaults to 12 hours), when destroying the Exadb Vm Cluster
 
 
 ## Import

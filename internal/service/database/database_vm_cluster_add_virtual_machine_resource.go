@@ -133,6 +133,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"cpus_enabled": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -180,6 +184,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Computed: true,
 			},
 			"exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"exascale_db_storage_vault_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -252,6 +260,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"storage_management_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"system_version": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -265,6 +277,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Computed: true,
 			},
 			"vm_cluster_network_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vm_cluster_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -374,6 +390,8 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
 	}
@@ -402,6 +420,10 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
+	}
+
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
 	}
 
 	fileSystemConfigurationDetails := []interface{}{}
@@ -446,6 +468,8 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
+
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
@@ -461,6 +485,8 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }

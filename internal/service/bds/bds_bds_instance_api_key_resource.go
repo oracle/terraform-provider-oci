@@ -15,7 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
@@ -58,6 +58,12 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 
 			// Optional
 			"default_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"domain_ocid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -170,6 +176,11 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Create() error {
 		request.DefaultRegion = &tmp
 	}
 
+	if domainOcid, ok := s.D.GetOkExists("domain_ocid"); ok {
+		tmp := domainOcid.(string)
+		request.DomainOcid = &tmp
+	}
+
 	if keyAlias, ok := s.D.GetOkExists("key_alias"); ok {
 		tmp := keyAlias.(string)
 		request.KeyAlias = &tmp
@@ -274,7 +285,7 @@ func bdsInstanceApiKeyWaitForWorkRequest(wId *string, entityType string, action 
 	retryPolicy.ShouldRetryOperation = bdsInstanceApiKeyWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bds.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_bds.OperationStatusInProgress),
 			string(oci_bds.OperationStatusAccepted),
@@ -416,6 +427,10 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) SetData() error {
 
 	if s.Res.DefaultRegion != nil {
 		s.D.Set("default_region", *s.Res.DefaultRegion)
+	}
+
+	if s.Res.DomainOcid != nil {
+		s.D.Set("domain_ocid", *s.Res.DomainOcid)
 	}
 
 	if s.Res.Fingerprint != nil {

@@ -42,6 +42,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `are_server_types_supported` - If true, the shape supports configurable DB and Storage Server types.
 * `available_core_count` - The maximum number of CPU cores that can be enabled on the DB system for this shape.
 * `available_core_count_per_node` - The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape, ExaCC Elastic shapes and VM Flex shapes.
 * `available_data_storage_in_tbs` - The maximum DATA storage that can be enabled for this shape.
@@ -50,7 +51,9 @@ The following attributes are exported:
 * `available_db_node_storage_in_gbs` - The maximum Db Node storage that can be enabled for this shape.
 * `available_memory_in_gbs` - The maximum memory that can be enabled for this shape.
 * `available_memory_per_node_in_gbs` - The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.
+* `compute_model` - The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `core_count_increment` - The discrete number by which the CPU core count for this shape can be increased or decreased.
+* `display_name` - The display name of the shape used for the DB system.
 * `max_storage_count` - The maximum number of Exadata storage servers available for the Exadata infrastructure.
 * `maximum_node_count` - The maximum number of compute servers available for this shape.
 * `min_core_count_per_node` - The minimum number of CPU cores that can be enabled per node for this shape.

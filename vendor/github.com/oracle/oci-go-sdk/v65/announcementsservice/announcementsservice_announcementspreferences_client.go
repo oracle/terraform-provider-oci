@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -96,7 +96,7 @@ func (client *AnnouncementsPreferencesClient) ConfigurationProvider() *common.Co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementsPreference.go.html to see an example of how to use CreateAnnouncementsPreference API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementsPreference.go.html to see an example of how to use CreateAnnouncementsPreference API.
 func (client AnnouncementsPreferencesClient) CreateAnnouncementsPreference(ctx context.Context, request CreateAnnouncementsPreferenceRequest) (response CreateAnnouncementsPreferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -159,7 +159,7 @@ func (client AnnouncementsPreferencesClient) createAnnouncementsPreference(ctx c
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementsPreference.go.html to see an example of how to use GetAnnouncementsPreference API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementsPreference.go.html to see an example of how to use GetAnnouncementsPreference API.
 func (client AnnouncementsPreferencesClient) GetAnnouncementsPreference(ctx context.Context, request GetAnnouncementsPreferenceRequest) (response GetAnnouncementsPreferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -217,7 +217,7 @@ func (client AnnouncementsPreferencesClient) getAnnouncementsPreference(ctx cont
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncementsPreferences.go.html to see an example of how to use ListAnnouncementsPreferences API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncementsPreferences.go.html to see an example of how to use ListAnnouncementsPreferences API.
 func (client AnnouncementsPreferencesClient) ListAnnouncementsPreferences(ctx context.Context, request ListAnnouncementsPreferencesRequest) (response ListAnnouncementsPreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -275,7 +275,7 @@ func (client AnnouncementsPreferencesClient) listAnnouncementsPreferences(ctx co
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementsPreference.go.html to see an example of how to use UpdateAnnouncementsPreference API.
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementsPreference.go.html to see an example of how to use UpdateAnnouncementsPreference API.
 func (client AnnouncementsPreferencesClient) UpdateAnnouncementsPreference(ctx context.Context, request UpdateAnnouncementsPreferenceRequest) (response UpdateAnnouncementsPreferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

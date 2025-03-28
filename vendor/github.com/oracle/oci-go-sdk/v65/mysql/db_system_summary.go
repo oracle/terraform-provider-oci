@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -35,6 +35,21 @@ type DbSystemSummary struct {
 
 	// The time the DB System was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// The database mode indicating the types of statements that are allowed to run in the DB system.
+	// This mode applies only to statements run by user connections. Replicated write statements continue
+	// to be allowed regardless of the DatabaseMode.
+	//   - READ_WRITE: allow running read and write statements on the DB system;
+	//   - READ_ONLY: only allow running read statements on the DB system.
+	DatabaseMode DbSystemDatabaseModeEnum `mandatory:"true" json:"databaseMode"`
+
+	// The access mode indicating if the database access is unrestricted (to all MySQL user accounts),
+	// or restricted (to only certain users with specific privileges):
+	//  - UNRESTRICTED: the access to the database is not restricted;
+	//  - RESTRICTED: the access is allowed only to users with specific privileges;
+	//    RESTRICTED will correspond to setting the MySQL system variable
+	//    offline_mode (https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON.
+	AccessMode DbSystemAccessModeEnum `mandatory:"true" json:"accessMode"`
 
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
@@ -79,6 +94,10 @@ type DbSystemSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
 	// The shape of the primary instances of the DB System. The shape
@@ -94,6 +113,8 @@ type DbSystemSummary struct {
 
 	// Whether to enable monitoring via the Database Management service.
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
+
+	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m DbSystemSummary) String() string {
@@ -107,6 +128,12 @@ func (m DbSystemSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingDbSystemLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbSystemLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemDatabaseModeEnum(string(m.DatabaseMode)); !ok && m.DatabaseMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseMode: %s. Supported values are: %s.", m.DatabaseMode, strings.Join(GetDbSystemDatabaseModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemAccessModeEnum(string(m.AccessMode)); !ok && m.AccessMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessMode: %s. Supported values are: %s.", m.AccessMode, strings.Join(GetDbSystemAccessModeEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingCrashRecoveryStatusEnum(string(m.CrashRecovery)); !ok && m.CrashRecovery != "" {

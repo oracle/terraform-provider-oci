@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -33,6 +33,9 @@ type PipelineContainerStepDetails struct {
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 
 	StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"stepInfrastructureConfigurationDetails"`
+
+	// The storage mount details to mount to the instance running the pipeline step.
+	StepStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"stepStorageMountConfigurationDetailsList"`
 
 	// A flag to indicate whether the artifact has been uploaded for this step or not.
 	IsArtifactUploaded *bool `mandatory:"false" json:"isArtifactUploaded"`
@@ -91,13 +94,14 @@ func (m PipelineContainerStepDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description                            *string                                     `json:"description"`
-		DependsOn                              []string                                    `json:"dependsOn"`
-		StepConfigurationDetails               *PipelineStepConfigurationDetails           `json:"stepConfigurationDetails"`
-		StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
-		IsArtifactUploaded                     *bool                                       `json:"isArtifactUploaded"`
-		StepName                               *string                                     `json:"stepName"`
-		StepContainerConfigurationDetails      pipelinecontainerconfigurationdetails       `json:"stepContainerConfigurationDetails"`
+		Description                              *string                                     `json:"description"`
+		DependsOn                                []string                                    `json:"dependsOn"`
+		StepConfigurationDetails                 *PipelineStepConfigurationDetails           `json:"stepConfigurationDetails"`
+		StepInfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
+		StepStorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"stepStorageMountConfigurationDetailsList"`
+		IsArtifactUploaded                       *bool                                       `json:"isArtifactUploaded"`
+		StepName                                 *string                                     `json:"stepName"`
+		StepContainerConfigurationDetails        pipelinecontainerconfigurationdetails       `json:"stepContainerConfigurationDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -113,6 +117,18 @@ func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.StepInfrastructureConfigurationDetails = model.StepInfrastructureConfigurationDetails
 
+	m.StepStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StepStorageMountConfigurationDetailsList))
+	for i, n := range model.StepStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StepStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StepStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
 	m.IsArtifactUploaded = model.IsArtifactUploaded
 
 	m.StepName = model.StepName

@@ -47,18 +47,34 @@ resource "oci_database_database" "test_database" {
 			recovery_window_in_days = var.database_database_db_backup_config_recovery_window_in_days
 			run_immediate_full_backup = var.database_database_db_backup_config_run_immediate_full_backup
 		}
+		db_name = var.database_database_db_name
 		db_unique_name = var.database_database_db_unique_name
 		db_workload = var.database_database_db_workload
 		defined_tags = var.database_database_defined_tags
+		encryption_key_location_details {
+			#Required
+			hsm_password = var.database_database_encryption_key_location_details_hsm_password
+			provider_type = var.database_database_encryption_key_location_details_provider_type
+		}
 		freeform_tags = var.database_database_freeform_tags
 		key_store_id = oci_database_key_store.test_key_store.id
+		is_active_data_guard_enabled = var.database_database_is_active_data_guard_enabled
 		kms_key_id = oci_kms_key.test_key.id
 		kms_key_version_id = oci_kms_key_version.test_key_version.id
 		ncharacter_set = var.database_database_ncharacter_set
 		pdb_name = var.database_database_pdb_name
 		pluggable_databases = var.database_database_pluggable_databases
+		protection_mode = var.database_database_protection_mode
 		sid_prefix = var.database_database_sid_prefix
+		source_database_id = oci_database_database.test_database.id
+		source_tde_wallet_password = var.database_database_source_tde_wallet_password
+		source_encryption_key_location_details {
+			#Required
+			hsm_password = var.database_database_source_encryption_key_location_details_hsm_password
+			provider_type = var.database_database_source_encryption_key_location_details_provider_type
+		}
 		tde_wallet_password = var.database_database_tde_wallet_password
+		transport_type = var.database_database_transport_type
 		vault_id = oci_kms_vault.test_vault.id
 	}
 	db_home_id = oci_database_db_home.test_db_home.id
@@ -78,12 +94,15 @@ The following arguments are supported:
 * `database` - (Required) (Updatable) Details for creating a database.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
-	* `admin_password` - (Required) A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+	* `admin_password` - (Required when source=DB_BACKUP | NONE) A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
 	* `backup_id` - (Required when source=DB_BACKUP) The backup [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `backup_tde_password` - (Applicable when source=DB_BACKUP) The password to open the TDE wallet.
 	* `character_set` - (Applicable when source=NONE) The character set for the database.  The default is AL32UTF8. Allowed values are:
 
 		AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS 
+	* `database_admin_password` - (Required when source=DATAGUARD) The administrator password of the primary database in this Data Guard association.
+
+		**The password MUST be the same as the primary admin password.** 
 	* `database_software_image_id` - (Applicable when source=NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	* `db_backup_config` - (Applicable when source=NONE) (Updatable) Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
 		* `auto_backup_enabled` - (Applicable when source=NONE) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
@@ -97,21 +116,41 @@ The following arguments are supported:
 			* `type` - (Required when source=NONE) Type of the database backup destination.
 		* `recovery_window_in_days` - (Applicable when source=NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 		* `run_immediate_full_backup` - (Applicable when source=NONE) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
-	* `db_name` - (Required) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
-	* `db_unique_name` - (Optional) The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
+	* `db_name` - (Required when source=DB_BACKUP | NONE) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+	* `db_unique_name` - (Optional) Specifies the `DB_UNIQUE_NAME` of the peer database to be created. 
 	* `db_workload` - (Applicable when source=NONE) **Deprecated.** The dbWorkload field has been deprecated for Exadata Database Service on Dedicated Infrastructure, Exadata Database Service on Cloud@Customer, and Base Database Service. Support for this attribute will end in November 2023. You may choose to update your custom scripts to exclude the dbWorkload attribute. After November 2023 if you pass a value to the dbWorkload attribute, it will be ignored.
 
 		The database workload type. 
 	* `defined_tags` - (Applicable when source=NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+	* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
+		* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 	* `freeform_tags` - (Applicable when source=NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `freeform_tags` - (Applicable when source=NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 	* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	* `is_active_data_guard_enabled` - (Applicable when source=DATAGUARD) True if active Data Guard is enabled.
 	* `kms_key_id` - (Applicable when source=NONE) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Applicable when source=NONE) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. 
 	* `ncharacter_set` - (Applicable when source=NONE) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 	* `pdb_name` - (Applicable when source=NONE) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 	* `pluggable_databases` - (Applicable when source=DB_BACKUP) The list of pluggable databases that needs to be restored into new database.
+	* `protection_mode` - (Required when source=DATAGUARD) The protection mode of this Data Guard. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 	* `sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
+	* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP) Types of providers supported for managing database encryption keys
+		* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
+	* `source_database_id` - (Required when source=DATAGUARD) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source database.
+	* `source_tde_wallet_password` - (Required when source=DATAGUARD) The TDE wallet password of the source database specified by 'sourceDatabaseId'.
 	* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
+	* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	* `transport_type` - (Required when source=DATAGUARD) The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
+		* MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
+		* MAXIMUM_PERFORMANCE - ASYNC
+		* MAXIMUM_PROTECTION - SYNC
+
+		For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation.
+
+		**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
 	* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `db_home_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `db_version` - (Optional) A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
@@ -121,8 +160,9 @@ The following arguments are supported:
 * `kms_key_migration` - (Optional) The value to migrate to the kms version from none. Can only use once by setting value to true. You can not switch back to non-kms once you created or migrated.(https://www.oracle.com/security/cloud-security/key-management/faq/)
 * `kms_key_rotation` - (Optional) The value to rotate the key version of current kms_key. Just change this value will trigger the rotation.
 * `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
-* `source` - (Required) The source of the database: Use `NONE` for creating a new database. Use `DB_BACKUP` for creating a new database by restoring from a backup. The default is `NONE`. 
-
+* `source` - (Required) The source of the database: Use `NONE` for creating a new database. Use `DB_BACKUP` for creating a new database by restoring from a backup. Use `DATAGUARD` for creating a new STANDBY database for a Data Guard setup. The default is `NONE`.
+* `action_trigger` - (Optional) (Applicable when source=DATAGUARD)  An optional property when incremented triggers Data Guard operations such as Failover, Switchover, Reinstate, Data Guard Configuration Update and Convert Standby Database to Standalone . Could be set to any integer value.
+* `data_guard_action` - (Required when action_trigger is set)  Describes the Data Guard operation to be triggered. Could be set to a string value ('Switchover', 'Failover', 'Reinstate', 'DgConfig', "ConvertToStandalone').
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -137,6 +177,25 @@ The following attributes are exported:
 	* `all_connection_strings` - All connection strings to use to connect to the Database.
 	* `cdb_default` - Host name based CDB Connection String.
 	* `cdb_ip_default` - IP based CDB Connection String.
+* `data_guard_group` - Details of Data Guard setup that the given database is part of.  Also includes information about databases part of this Data Guard group and properties for their Data Guard configuration. 
+	* `members` - List of Data Guard members, representing each database that is part of Data Guard.
+		* `apply_lag` - The lag time between updates to the primary database and application of the redo data on the standby database, as computed by the reporting database.  Example: `1 second` 
+		* `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `102.96 MByte/s` 
+		* `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
+		* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system, Cloud VM cluster or VM cluster.
+		* `is_active_data_guard_enabled` - True if active Data Guard is enabled.
+		* `role` - The role of the reporting database in this Data Guard association.
+		* `transport_lag` - The rate at which redo logs are transported between the associated databases.  Example: `1 second` 
+		* `transport_lag_refresh` - The date and time when last redo transport has been done.
+		* `transport_type` - The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
+			* MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
+			* MAXIMUM_PERFORMANCE - ASYNC
+			* MAXIMUM_PROTECTION - SYNC
+
+			For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation.
+
+			**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
+	* `protection_mode` - The protection mode of this Data Guard. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `database_management_config` - The configuration of the Database Management service.
 	* `management_status` - The status of the Database Management service.
 	* `management_type` - The Database Management type.	
@@ -161,6 +220,9 @@ The following attributes are exported:
 
 	The database workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `is_cdb` - True if the database is a container database.

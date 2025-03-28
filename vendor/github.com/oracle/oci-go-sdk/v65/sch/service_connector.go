@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// the Connector Hub documentation (https://docs.oracle.com/iaas/Content/connector-hub/home.htm).
 // Connector Hub is formerly known as Service Connector Hub.
 //
 
@@ -21,17 +21,17 @@ import (
 
 // ServiceConnector The configuration details of the flow defined by the connector.
 // For more information about flows defined by connectors, see
-// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
+// Overview of Connector Hub (https://docs.oracle.com/iaas/Content/connector-hub/overview.htm).
 type ServiceConnector struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the connector.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the connector.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time when the connector was created.
@@ -53,6 +53,12 @@ type ServiceConnector struct {
 	// A message describing the current state in more detail.
 	// For example, the message might provide actionable
 	// information for a resource in a `FAILED` state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// *Please note this property is deprecated and will be removed on January 27, 2026. Use `lifecycleDetails` instead.*
+	// A message describing the current state in more detail.
+	// For example, the message might provide actionable
+	// information for a resource in a `FAILED` state.
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
 
 	Source SourceDetails `mandatory:"false" json:"source"`
@@ -71,7 +77,7 @@ type ServiceConnector struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
@@ -98,20 +104,21 @@ func (m ServiceConnector) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ServiceConnector) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description     *string                           `json:"description"`
-		LifecyleDetails *string                           `json:"lifecyleDetails"`
-		Source          sourcedetails                     `json:"source"`
-		Tasks           []taskdetails                     `json:"tasks"`
-		Target          targetdetails                     `json:"target"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags      map[string]map[string]interface{} `json:"systemTags"`
-		Id              *string                           `json:"id"`
-		DisplayName     *string                           `json:"displayName"`
-		CompartmentId   *string                           `json:"compartmentId"`
-		TimeCreated     *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated     *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState  LifecycleStateEnum                `json:"lifecycleState"`
+		Description      *string                           `json:"description"`
+		LifecycleDetails *string                           `json:"lifecycleDetails"`
+		LifecyleDetails  *string                           `json:"lifecyleDetails"`
+		Source           sourcedetails                     `json:"source"`
+		Tasks            []taskdetails                     `json:"tasks"`
+		Target           targetdetails                     `json:"target"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
+		Id               *string                           `json:"id"`
+		DisplayName      *string                           `json:"displayName"`
+		CompartmentId    *string                           `json:"compartmentId"`
+		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState   LifecycleStateEnum                `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -120,6 +127,8 @@ func (m *ServiceConnector) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.LifecycleDetails = model.LifecycleDetails
 
 	m.LifecyleDetails = model.LifecyleDetails
 

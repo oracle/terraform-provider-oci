@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -25,6 +25,9 @@ type BatchDetectHealthEntityDetails struct {
 
 	// List of Documents for detect health entities.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
+
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
 
 	// List of NLP health ontologies to be linked
 	LinkOntologies []string `mandatory:"false" json:"linkOntologies"`

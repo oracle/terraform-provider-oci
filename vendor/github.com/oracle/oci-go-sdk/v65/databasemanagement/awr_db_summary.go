@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -20,13 +20,22 @@ import (
 // AwrDbSummary The AWR summary for a database.
 type AwrDbSummary struct {
 
-	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The internal ID of the database. The internal ID of the database is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs
 	AwrDbId *string `mandatory:"true" json:"awrDbId"`
 
 	// The name of the database.
 	DbName *string `mandatory:"true" json:"dbName"`
+
+	// The unique name of the database.
+	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
+
+	// The internal ID of the database where the AWR snapshot data was collected.
+	SrcDbId *string `mandatory:"false" json:"srcDbId"`
+
+	// The name of the database where the AWR snapshot data was collected.
+	SrcDbName *string `mandatory:"false" json:"srcDbName"`
 
 	// The database instance numbers.
 	InstanceList []int `mandatory:"false" json:"instanceList"`
@@ -40,12 +49,12 @@ type AwrDbSummary struct {
 	// The end time of the latest snapshot.
 	TimeLatestSnapshotEnd *common.SDKTime `mandatory:"false" json:"timeLatestSnapshotEnd"`
 
-	// The ID of the earliest snapshot. The snapshot ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the earliest snapshot. The snapshot ID is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots
 	FirstSnapshotId *int `mandatory:"false" json:"firstSnapshotId"`
 
-	// The ID of the latest snapshot. The snapshot ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the latest snapshot. The snapshot ID is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots
 	LatestSnapshotId *int `mandatory:"false" json:"latestSnapshotId"`
@@ -56,7 +65,7 @@ type AwrDbSummary struct {
 	// The interval time between snapshots (in minutes).
 	SnapshotIntervalInMin *int `mandatory:"false" json:"snapshotIntervalInMin"`
 
-	// ID of the database container. The database container ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// ID of the database container. The database container ID is not the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbSnapshotRanges
 	ContainerId *int `mandatory:"false" json:"containerId"`

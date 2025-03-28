@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,14 +19,17 @@ type DataScienceResourceTypeEnum string
 // Set of constants representing the allowable values for DataScienceResourceTypeEnum
 const (
 	DataScienceResourceTypeNotebookSession DataScienceResourceTypeEnum = "NOTEBOOK_SESSION"
+	DataScienceResourceTypeModelDeployment DataScienceResourceTypeEnum = "MODEL_DEPLOYMENT"
 )
 
 var mappingDataScienceResourceTypeEnum = map[string]DataScienceResourceTypeEnum{
 	"NOTEBOOK_SESSION": DataScienceResourceTypeNotebookSession,
+	"MODEL_DEPLOYMENT": DataScienceResourceTypeModelDeployment,
 }
 
 var mappingDataScienceResourceTypeEnumLowerCase = map[string]DataScienceResourceTypeEnum{
 	"notebook_session": DataScienceResourceTypeNotebookSession,
+	"model_deployment": DataScienceResourceTypeModelDeployment,
 }
 
 // GetDataScienceResourceTypeEnumValues Enumerates the set of values for DataScienceResourceTypeEnum
@@ -42,6 +45,7 @@ func GetDataScienceResourceTypeEnumValues() []DataScienceResourceTypeEnum {
 func GetDataScienceResourceTypeEnumStringValues() []string {
 	return []string{
 		"NOTEBOOK_SESSION",
+		"MODEL_DEPLOYMENT",
 	}
 }
 

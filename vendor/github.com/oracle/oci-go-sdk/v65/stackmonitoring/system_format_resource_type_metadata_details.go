@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,6 +49,11 @@ type SystemFormatResourceTypeMetadataDetails struct {
 	// supported values can be restricted to be either Linux or Windows.
 	// Example: `{ "osType": ["Linux","Windows","Solaris"]}`
 	ValidPropertyValues map[string][]string `mandatory:"false" json:"validPropertyValues"`
+
+	// List of valid sub-resource types for a composite resource type.
+	// The sub-resource types will be obtained from the valid association pairs corresponding to the composite resource types.
+	// It will be empty for non composite resource types
+	ValidSubResourceTypes []string `mandatory:"false" json:"validSubResourceTypes"`
 }
 
 func (m SystemFormatResourceTypeMetadataDetails) String() string {

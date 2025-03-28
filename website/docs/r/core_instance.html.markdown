@@ -163,6 +163,13 @@ resource "oci_core_instance" "test_instance" {
 		use_chap = var.instance_launch_volume_attachments_use_chap
 		volume_id = oci_core_volume.test_volume.id
 	}
+	licensing_configs {
+		#Required
+		type = var.instance_licensing_configs_type
+
+		#Optional
+		license_type = var.instance_licensing_configs_license_type
+	}
 	metadata = var.instance_metadata
 	platform_config {
 		#Required
@@ -302,7 +309,9 @@ The following arguments are supported:
 		 If you specify a `vlanId`, the `privateIp` cannot be specified. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 		Example: `10.0.3.3` 
-	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
+
+	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}` 
+
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 		 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
@@ -400,6 +409,11 @@ The following arguments are supported:
 	* `type` - (Required) The type of volume. Currently, the only supported value is "iscsi".
 	* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 	* `volume_id` - (Optional) The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request. 
+* `licensing_configs` - (Optional) (Updatable) List of licensing configurations associated with target launch values.
+	* `license_type` - (Optional) (Updatable) License Type for the OS license.
+		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+	* `type` - (Required) (Updatable) Operating System type of the Configuration.
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -464,8 +478,8 @@ The following arguments are supported:
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
 		* `type` - (Required) The type of action to run when the instance is interrupted for eviction.
-* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
-* `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
+* `security_attributes` - (Optional) (Updatable) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
+* `shape` - (Optional) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - (Optional) (Updatable) The shape configuration requested for the instance.
@@ -605,6 +619,12 @@ The following attributes are exported:
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+* `licensing_configs` - List of licensing configurations associated with the instance.
+	* `license_type` - License Type for the OS license.
+		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+	* `os_version` - The Operating System version of the license config.
+	* `type` - Operating System type of the Configuration.
 * `metadata` - Custom metadata that you provide.
 
 * `platform_config` - The platform configuration for the instance. 
@@ -641,8 +661,8 @@ The following attributes are exported:
 
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
 
-	Examples: `phx`, `eu-frankfurt-1` 
-* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
+	Examples: `phx`, `eu-frankfurt-1`
+* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 * `security_attributes_state` - The lifecycle state of the `securityAttributes`
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 

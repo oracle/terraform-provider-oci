@@ -6,20 +6,14 @@ package integrationtest
 import (
 	"fmt"
 	"strconv"
-
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
-	//"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	//"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
@@ -52,7 +46,11 @@ var (
 		"os_family":                               acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
 		"software_source_id":                      acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("osmh_software_source_ocid")},
 		"status":                                  acctest.Representation{RepType: acctest.Optional, Create: []string{`NORMAL`}},
-		"filter":                                  acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceDataSourceFilterRepresentation}}
+		"agent_version":                           acctest.Representation{RepType: acctest.Optional, Create: `agentVersion`},
+		"management_station":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`oci_os_management_hub_management_station.test_management_station.id`}},
+		"management_station_not_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: []string{`oci_os_management_hub_management_station.test_management_station.id`}},
+		"filter":                                  acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceDataSourceFilterRepresentation},
+	}
 
 	OsManagementHubManagedInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `managed_instance_id`},
@@ -68,10 +66,6 @@ var (
 	}
 	OsManagementHubManagedInstanceRepresentation = map[string]interface{}{
 		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")},
-		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-	}
-	OsManagementHubManagedInstanceRegistrationFailureRepresentation = map[string]interface{}{
-		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_failed_ocid")},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 	}
 	OsManagementHubManagedInstanceWindowsRepresentation = map[string]interface{}{
@@ -184,6 +178,7 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "advisory_name.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "agent_version", "agentVersion"),
 				resource.TestCheckResourceAttr(datasourceName, "arch_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
@@ -198,6 +193,8 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "location.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "location_not_equal_to.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),
+				resource.TestCheckResourceAttr(datasourceName, "management_station.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "management_station_not_equal_to.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
 				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
@@ -210,10 +207,11 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Required, acctest.Create, OsManagementHubManagedInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr,
+				compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Create, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "architecture"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_settings.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bug_updates_available"),
@@ -236,6 +234,7 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "other_updates_available"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scheduled_job_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_updates_available"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.#"),

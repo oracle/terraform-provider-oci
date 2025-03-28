@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -128,6 +128,10 @@ func (m *fsuaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := PrecheckAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ROLLBACK_MAINTENANCE_CYCLE":
+		mm := RollbackCycleAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STAGE":
 		mm := StageAction{}
 		err = json.Unmarshal(data, &mm)
@@ -141,7 +145,7 @@ func (m *fsuaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for FsuAction: %s.", m.Type)
+		common.Logf("Received unsupported enum value for FsuAction: %s.", m.Type)
 		return *m, nil
 	}
 }

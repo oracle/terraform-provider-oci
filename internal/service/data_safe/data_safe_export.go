@@ -21,9 +21,10 @@ func init() {
 	exportDataSafeSensitiveDataModelsSensitiveColumnHints.GetIdFn = getDataSafeSensitiveDataModelsSensitiveColumnId
 
 	exportDataSafeTargetDatabasePeerTargetDatabaseHints.GetIdFn = getDataSafeTargetDatabasePeerTargetDatabaseId
+	exportDataSafeSensitiveDataModelReferentialRelationHints.GetIdFn = getDataSafeSensitiveDataModelReferentialRelationId
+	exportDataSafeSensitiveTypeGroupGroupedSensitiveTypeHints.GetIdFn = getDataSafeSensitiveTypeGroupGroupedSensitiveTypeId
 	exportDataSafeDiscoveryJobsResultHints.GetIdFn = getDataSafeDiscoveryJobsResultId
 	exportDataSafeAlertPolicyHints.FindResourcesOverrideFn = findAlertPolicies
-
 	tf_export.RegisterCompartmentGraphs("data_safe", dataSafeResourceGraph)
 }
 
@@ -76,6 +77,22 @@ func getDataSafeSensitiveDataModelsSensitiveColumnId(resource *tf_export.OCIReso
 	}
 	sensitiveDataModelId := resource.Parent.Id
 	return GetSensitiveDataModelsSensitiveColumnCompositeId(sensitiveColumnKey, sensitiveDataModelId), nil
+}
+
+func getDataSafeSensitiveDataModelReferentialRelationId(resource *tf_export.OCIResource) (string, error) {
+
+	referentialRelationKey, ok := resource.SourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find referentialRelationKey for DataSafe SensitiveDataModelReferentialRelation")
+	}
+	sensitiveDataModelId := resource.Parent.Id
+	return GetSensitiveDataModelReferentialRelationCompositeId(referentialRelationKey, sensitiveDataModelId), nil
+}
+
+func getDataSafeSensitiveTypeGroupGroupedSensitiveTypeId(resource *tf_export.OCIResource) (string, error) {
+
+	sensitiveTypeGroupId := resource.Parent.Id
+	return GetSensitiveTypeGroupGroupedSensitiveTypeCompositeId(sensitiveTypeGroupId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -398,6 +415,50 @@ var exportDataSafeGenerateOnPremConnectorConfigurationHints = &tf_export.Terrafo
 	ResourceAbbreviation: "generate_on_prem_connector_configuration",
 }
 
+var exportDataSafeSensitiveTypesExportHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_sensitive_types_export",
+	DatasourceClass:        "oci_data_safe_sensitive_types_exports",
+	DatasourceItemsAttr:    "sensitive_types_export_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "sensitive_types_export",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.SensitiveTypesExportLifecycleStateActive),
+	},
+}
+
+var exportDataSafeSensitiveDataModelReferentialRelationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_sensitive_data_model_referential_relation",
+	DatasourceClass:        "oci_data_safe_sensitive_data_model_referential_relations",
+	DatasourceItemsAttr:    "referential_relation_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "sensitive_data_model_referential_relation",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.ReferentialRelationLifecycleStateActive),
+	},
+}
+
+var exportDataSafeSensitiveTypeGroupGroupedSensitiveTypeHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_sensitive_type_group_grouped_sensitive_type",
+	DatasourceClass:        "oci_data_safe_sensitive_type_group_grouped_sensitive_types",
+	DatasourceItemsAttr:    "grouped_sensitive_type_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "sensitive_type_group_grouped_sensitive_type",
+}
+
+var exportDataSafeSensitiveTypeGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_sensitive_type_group",
+	DatasourceClass:        "oci_data_safe_sensitive_type_groups",
+	DatasourceItemsAttr:    "sensitive_type_group_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "sensitive_type_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.SensitiveTypeGroupLifecycleStateActive),
+	},
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -420,6 +481,8 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeSensitiveDataModelHints},
 		{TerraformResourceHints: exportDataSafeDiscoveryJobHints},
 		{TerraformResourceHints: exportDataSafeSdmMaskingPolicyDifferenceHints},
+		{TerraformResourceHints: exportDataSafeSensitiveTypesExportHints},
+		{TerraformResourceHints: exportDataSafeSensitiveTypeGroupHints},
 	},
 	"oci_data_safe_alert_policy": {
 		{
@@ -447,9 +510,23 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	},
 	"oci_data_safe_sensitive_data_model": {
 		{
+			TerraformResourceHints: exportDataSafeSensitiveDataModelReferentialRelationHints,
+			DatasourceQueryParams: map[string]string{
+				"sensitive_data_model_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportDataSafeSensitiveDataModelsSensitiveColumnHints,
 			DatasourceQueryParams: map[string]string{
 				"sensitive_data_model_id": "id",
+			},
+		},
+	},
+	"oci_data_safe_sensitive_type_group": {
+		{
+			TerraformResourceHints: exportDataSafeSensitiveTypeGroupGroupedSensitiveTypeHints,
+			DatasourceQueryParams: map[string]string{
+				"sensitive_type_group_id": "id",
 			},
 		},
 	},
