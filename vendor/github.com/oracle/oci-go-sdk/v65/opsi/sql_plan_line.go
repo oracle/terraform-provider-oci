@@ -42,6 +42,14 @@ type SqlPlanLine struct {
 	// Example: `1`
 	Version *float32 `mandatory:"false" json:"version"`
 
+	// Force matching signature
+	// Example: `"18067345456756876713"`
+	ForceMatchingSignature *string `mandatory:"false" json:"forceMatchingSignature"`
+
+	// Generation time stamp
+	// Example: `"2020-05-05T02:10:00.000Z"`
+	TimeGenerated *common.SDKTime `mandatory:"false" json:"timeGenerated"`
+
 	// Remark
 	// Example: `""`
 	Remark *string `mandatory:"false" json:"remark"`

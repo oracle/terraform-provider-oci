@@ -18,6 +18,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/mod v0.20.0
 	gopkg.in/yaml.v2 v2.3.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -67,7 +68,6 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240227224415-6ceb2ff114de // indirect
 	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.35.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
