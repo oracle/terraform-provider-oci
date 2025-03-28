@@ -54,6 +54,7 @@ var (
 
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_private":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sa-test-lbaas.mode": "enforce", "oracle-zpr.sa-test-lbaas.value": "create-zpr-tersi-lbaas"}, Update: map[string]string{"oracle-zpr.sa-test-lbaas.value": "update-zpr-tersi-lbaas", "oracle-zpr.sa-test-lbaas.mode": "enforce"}},
 		"is_request_id_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"request_id_header":            acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `X-MyRequestB-Id`},
 		"is_delete_protection_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -145,13 +146,13 @@ var (
 			"test_network_security_group1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreNetworkSecurityGroupRepresentation, map[string]interface{}{
 				"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_lb_vcn.id}`},
 			})) // +
-		// For laptop testing comment out this line
-		// Failure to do so results in
-		//     test_helpers.go:535: Step 1/7 error: Error running apply: exit status 1
-		//       [DEBUG] Using modified User-Agent: Terraform/0.12.31 HashiCorp-terraform-exec/0.14.0
-		//       Error: 404-NotAuthorizedOrNotFound, Authorization failed or requested resource not found.
-		//       Suggestion: Either the resource has been deleted or service Identity Tag Namespace need policy to access this resource.
-		// DefinedTagsDependencies
+	// For laptop testing comment out this line
+	// Failure to do so results in
+	//     test_helpers.go:535: Step 1/7 error: Error running apply: exit status 1
+	//       [DEBUG] Using modified User-Agent: Terraform/0.12.31 HashiCorp-terraform-exec/0.14.0
+	//       Error: 404-NotAuthorizedOrNotFound, Authorization failed or requested resource not found.
+	//       Suggestion: Either the resource has been deleted or service Identity Tag Namespace need policy to access this resource.
+	// DefinedTagsDependencies
 )
 
 // issue-routing-tag: load_balancer/default
@@ -211,6 +212,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-Request-Id"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.value", "create-zpr-tersi-lbaas"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.mode", "enforce"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -247,6 +251,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-Request-Id"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -276,7 +282,10 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-MyRequestB-Id"),
-				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"), 
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"), 
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.value", "update-zpr-tersi-lbaas"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
@@ -315,6 +324,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_request_id_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.request_id_header", "X-MyRequestB-Id"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "400Mbps"),
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
