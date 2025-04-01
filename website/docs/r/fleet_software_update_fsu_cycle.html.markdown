@@ -63,6 +63,14 @@ resource "oci_fleet_software_update_fsu_cycle" "test_fsu_cycle" {
 		time_to_start = var.fsu_cycle_stage_action_schedule_time_to_start
 		type = var.fsu_cycle_stage_action_schedule_type
 	}
+	upgrade_details {
+		#Required
+		collection_type = var.fsu_cycle_upgrade_details_collection_type
+
+		#Optional
+		is_recompile_invalid_objects = var.fsu_cycle_upgrade_details_is_recompile_invalid_objects
+		is_time_zone_upgrade = var.fsu_cycle_upgrade_details_is_time_zone_upgrade
+	}
 }
 ```
 
@@ -91,14 +99,18 @@ The following arguments are supported:
 	* `software_image_id` - (Required when type=IMAGE_ID) (Updatable) Target database software image OCID. 
 	* `type` - (Required) (Updatable) Type of goal target version specified 
 	* `version` - (Required when type=VERSION) (Updatable) Target DB or GI version string for the Exadata Fleet Update Cycle. 
-* `is_ignore_missing_patches` - (Optional) (Updatable) List of patch IDs to ignore. 
-* `is_ignore_patches` - (Optional) (Updatable) Ignore all patches between the source and target homes during patching. 
-* `is_keep_placement` - (Optional) (Updatable) Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation. 
-* `max_drain_timeout_in_seconds` - (Optional) (Updatable) Service drain timeout specified in seconds. 
+* `is_ignore_missing_patches` - (Applicable when type=PATCH) (Updatable) List of patch IDs to ignore. 
+* `is_ignore_patches` - (Applicable when type=PATCH) (Updatable) Ignore all patches between the source and target homes during patching. 
+* `is_keep_placement` - (Applicable when type=PATCH) (Updatable) Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation. 
+* `max_drain_timeout_in_seconds` - (Applicable when type=PATCH) (Updatable) Service drain timeout specified in seconds. 
 * `stage_action_schedule` - (Optional) Scheduling related details for the Exadata Fleet Update Action during create operations. The specified time should not conflict with existing Exadata Infrastructure maintenance windows. Null scheduleDetails for Stage and Apply Actions in Exadata Fleet Update Cycle creation would not create Actions. Null scheduleDetails for CreateAction would execute the Exadata Fleet Update Action as soon as possible. 
 	* `time_to_start` - (Required) The date and time the Exadata Fleet Update Action is expected to start. [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
 	* `type` - (Required) Type of scheduling strategy to use for Fleet Patching Update Action execution. 
 * `type` - (Required) (Updatable) Type of Exadata Fleet Update Cycle. 
+* `upgrade_details` - (Applicable when type=UPGRADE) (Updatable) Details of supported upgrade options for DB or GI collection. 
+	* `collection_type` - (Required) (Updatable) Type of Exadata Fleet Update collection being upgraded. 
+	* `is_recompile_invalid_objects` - (Applicable when collection_type=DB) (Updatable) Enables or disables the recompilation of invalid objects. 
+	* `is_time_zone_upgrade` - (Applicable when collection_type=DB) (Updatable) Enables or disables time zone upgrade. 
 
 
 ** IMPORTANT **
@@ -132,9 +144,9 @@ The following attributes are exported:
 	* `type` - Type of goal target version specified 
 	* `version` - Target DB or GI version string for the Exadata Fleet Update Cycle. 
 * `id` - OCID identifier for the Exadata Fleet Update Cycle. 
-* `is_ignore_missing_patches` - List of bug numbers to ignore. 
-* `is_ignore_patches` - Ignore all patches between the source and target homes during patching. 
-* `is_keep_placement` - Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation. 
+* `is_ignore_missing_patches` - List of identifiers of patches to ignore. 
+* `is_ignore_patches` - Ignore patch conflicts or missing patches between the source and goal homes. 
+* `is_keep_placement` - Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation.          
 * `last_completed_action` - The latest Action type that was completed in the Exadata Fleet Update Cycle. No value would indicate that the Cycle has not completed any Action yet. 
 * `last_completed_action_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action  in the Exadata Fleet Update Cycle. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
@@ -152,6 +164,10 @@ The following attributes are exported:
 * `time_finished` - The date and time the Exadata Fleet Update Cycle was finished, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_updated` - The date and time the Exadata Fleet Update Cycle was updated, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
 * `type` - Type of Exadata Fleet Update Cycle. 
+* `upgrade_details` - Details of supported upgrade options for DB or GI collection. 
+	* `collection_type` - Type of Exadata Fleet Update collection being upgraded. 
+	* `is_recompile_invalid_objects` - Enables or disables the recompilation of invalid objects. 
+	* `is_time_zone_upgrade` - Enables or disables time zone upgrade. 
 
 ## Timeouts
 

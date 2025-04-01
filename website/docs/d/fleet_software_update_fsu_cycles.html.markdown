@@ -75,9 +75,9 @@ The following attributes are exported:
 	* `type` - Type of goal target version specified 
 	* `version` - Target DB or GI version string for the Exadata Fleet Update Cycle. 
 * `id` - OCID identifier for the Exadata Fleet Update Cycle. 
-* `is_ignore_missing_patches` - List of bug numbers to ignore. 
-* `is_ignore_patches` - Ignore all patches between the source and target homes during patching. 
-* `is_keep_placement` - Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation. 
+* `is_ignore_missing_patches` - List of identifiers of patches to ignore. 
+* `is_ignore_patches` - Ignore patch conflicts or missing patches between the source and goal homes. 
+* `is_keep_placement` - Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation.          
 * `last_completed_action` - The latest Action type that was completed in the Exadata Fleet Update Cycle. No value would indicate that the Cycle has not completed any Action yet. 
 * `last_completed_action_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action  in the Exadata Fleet Update Cycle. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
@@ -95,4 +95,8 @@ The following attributes are exported:
 * `time_finished` - The date and time the Exadata Fleet Update Cycle was finished, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_updated` - The date and time the Exadata Fleet Update Cycle was updated, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
 * `type` - Type of Exadata Fleet Update Cycle. 
+* `upgrade_details` - Details of supported upgrade options for DB or GI collection. 
+	* `collection_type` - Type of Exadata Fleet Update collection being upgraded. 
+	* `is_recompile_invalid_objects` - Enables or disables the recompilation of invalid objects. 
+	* `is_time_zone_upgrade` - Enables or disables time zone upgrade. 
 

@@ -92,6 +92,7 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"PATCH",
+					"UPGRADE",
 				}, true),
 			},
 
@@ -261,6 +262,41 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 						},
 
 						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"upgrade_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"collection_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"DB",
+								"GI",
+							}, true),
+						},
+
+						// Optional
+						"is_recompile_invalid_objects": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_time_zone_upgrade": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -749,6 +785,131 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_fleet_software_update.UpgradeFsuCycle:
+		s.D.Set("type", "UPGRADE")
+
+		if v.UpgradeDetails != nil {
+			upgradeDetailsArray := []interface{}{}
+			if upgradeDetailsMap := UpgradeDetailsToMap(&v.UpgradeDetails); upgradeDetailsMap != nil {
+				upgradeDetailsArray = append(upgradeDetailsArray, upgradeDetailsMap)
+			}
+			s.D.Set("upgrade_details", upgradeDetailsArray)
+		} else {
+			s.D.Set("upgrade_details", nil)
+		}
+
+		if v.ApplyActionSchedule != nil {
+			applyActionScheduleArray := []interface{}{}
+			if applyActionScheduleMap := ScheduleDetailsToMap(&v.ApplyActionSchedule); applyActionScheduleMap != nil {
+				applyActionScheduleArray = append(applyActionScheduleArray, applyActionScheduleMap)
+			}
+			s.D.Set("apply_action_schedule", applyActionScheduleArray)
+		} else {
+			s.D.Set("apply_action_schedule", nil)
+		}
+
+		if v.BatchingStrategy != nil {
+			batchingStrategyArray := []interface{}{}
+			if batchingStrategyMap := BatchingStrategyDetailsToMap(&v.BatchingStrategy); batchingStrategyMap != nil {
+				batchingStrategyArray = append(batchingStrategyArray, batchingStrategyMap)
+			}
+			s.D.Set("batching_strategy", batchingStrategyArray)
+		} else {
+			s.D.Set("batching_strategy", nil)
+		}
+
+		s.D.Set("collection_type", v.CollectionType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DiagnosticsCollection != nil {
+			s.D.Set("diagnostics_collection", []interface{}{DiagnosticsCollectionDetailsToMap(v.DiagnosticsCollection)})
+		} else {
+			s.D.Set("diagnostics_collection", nil)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.ExecutingFsuActionId != nil {
+			s.D.Set("executing_fsu_action_id", *v.ExecutingFsuActionId)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.FsuCollectionId != nil {
+			s.D.Set("fsu_collection_id", *v.FsuCollectionId)
+		}
+
+		if v.GoalVersionDetails != nil {
+			goalVersionDetailsArray := []interface{}{}
+			if goalVersionDetailsMap := FsuGoalVersionDetailsToMap(&v.GoalVersionDetails); goalVersionDetailsMap != nil {
+				goalVersionDetailsArray = append(goalVersionDetailsArray, goalVersionDetailsMap)
+			}
+			s.D.Set("goal_version_details", goalVersionDetailsArray)
+		} else {
+			s.D.Set("goal_version_details", nil)
+		}
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		s.D.Set("last_completed_action", v.LastCompletedAction)
+
+		if v.LastCompletedActionId != nil {
+			s.D.Set("last_completed_action_id", *v.LastCompletedActionId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nextActionToExecute := []interface{}{}
+		for _, item := range v.NextActionToExecute {
+			nextActionToExecute = append(nextActionToExecute, NextActionToExecuteDetailsToMap(item))
+		}
+		s.D.Set("next_action_to_execute", nextActionToExecute)
+
+		s.D.Set("rollback_cycle_state", v.RollbackCycleState)
+
+		if v.StageActionSchedule != nil {
+			stageActionScheduleArray := []interface{}{}
+			if stageActionScheduleMap := ScheduleDetailsToMap(&v.StageActionSchedule); stageActionScheduleMap != nil {
+				stageActionScheduleArray = append(stageActionScheduleArray, stageActionScheduleMap)
+			}
+			s.D.Set("stage_action_schedule", stageActionScheduleArray)
+		} else {
+			s.D.Set("stage_action_schedule", nil)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeFinished != nil {
+			s.D.Set("time_finished", v.TimeFinished.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		s.D.Set("is_ignore_missing_patches", nil)
+
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *s.Res)
 		return nil
@@ -1138,6 +1299,60 @@ func NextActionToExecuteDetailsToMap(obj oci_fleet_software_update.NextActionToE
 	return result
 }
 
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToUpgradeDetails(fieldKeyFormat string) (oci_fleet_software_update.UpgradeDetails, error) {
+	var baseObject oci_fleet_software_update.UpgradeDetails
+	//discriminator
+	collectionTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collection_type"))
+	var collectionType string
+	if ok {
+		collectionType = collectionTypeRaw.(string)
+	} else {
+		collectionType = "" // default value
+	}
+	switch strings.ToLower(collectionType) {
+	case strings.ToLower("DB"):
+		details := oci_fleet_software_update.UpgradeDbCollectionDetails{}
+		if isRecompileInvalidObjects, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_recompile_invalid_objects")); ok {
+			tmp := isRecompileInvalidObjects.(bool)
+			details.IsRecompileInvalidObjects = &tmp
+		}
+		if isTimeZoneUpgrade, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_time_zone_upgrade")); ok {
+			tmp := isTimeZoneUpgrade.(bool)
+			details.IsTimeZoneUpgrade = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GI"):
+		details := oci_fleet_software_update.UpgradeGiCollectionDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown collection_type '%v' was specified", collectionType)
+	}
+	return baseObject, nil
+}
+
+func UpgradeDetailsToMap(obj *oci_fleet_software_update.UpgradeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_fleet_software_update.UpgradeDbCollectionDetails:
+		result["collection_type"] = "DB"
+
+		if v.IsRecompileInvalidObjects != nil {
+			result["is_recompile_invalid_objects"] = bool(*v.IsRecompileInvalidObjects)
+		}
+
+		if v.IsTimeZoneUpgrade != nil {
+			result["is_time_zone_upgrade"] = bool(*v.IsTimeZoneUpgrade)
+		}
+	case oci_fleet_software_update.UpgradeGiCollectionDetails:
+		result["collection_type"] = "GI"
+	default:
+		log.Printf("[WARN] Received 'collection_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *FleetSoftwareUpdateFsuCycleResourceCrud) populateTopLevelPolymorphicCreateFsuCycleRequest(request *oci_fleet_software_update.CreateFsuCycleRequest) error {
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists("type")
@@ -1173,6 +1388,91 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) populateTopLevelPolymorphicCre
 		if maxDrainTimeoutInSeconds, ok := s.D.GetOkExists("max_drain_timeout_in_seconds"); ok {
 			tmp := maxDrainTimeoutInSeconds.(int)
 			details.MaxDrainTimeoutInSeconds = &tmp
+		}
+		if applyActionSchedule, ok := s.D.GetOkExists("apply_action_schedule"); ok {
+			if tmpList := applyActionSchedule.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "apply_action_schedule", 0)
+				tmp, err := s.mapToCreateScheduleDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ApplyActionSchedule = tmp
+			}
+		}
+		if batchingStrategy, ok := s.D.GetOkExists("batching_strategy"); ok {
+			if tmpList := batchingStrategy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "batching_strategy", 0)
+				tmp, err := s.mapToCreateBatchingStrategyDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.BatchingStrategy = tmp
+			}
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if diagnosticsCollection, ok := s.D.GetOkExists("diagnostics_collection"); ok {
+			if tmpList := diagnosticsCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "diagnostics_collection", 0)
+				tmp, err := s.mapToDiagnosticsCollectionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DiagnosticsCollection = &tmp
+			}
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if fsuCollectionId, ok := s.D.GetOkExists("fsu_collection_id"); ok {
+			tmp := fsuCollectionId.(string)
+			details.FsuCollectionId = &tmp
+		}
+		if goalVersionDetails, ok := s.D.GetOkExists("goal_version_details"); ok {
+			if tmpList := goalVersionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "goal_version_details", 0)
+				tmp, err := s.mapToFsuGoalVersionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.GoalVersionDetails = tmp
+			}
+		}
+		if stageActionSchedule, ok := s.D.GetOkExists("stage_action_schedule"); ok {
+			if tmpList := stageActionSchedule.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "stage_action_schedule", 0)
+				tmp, err := s.mapToCreateScheduleDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.StageActionSchedule = tmp
+			}
+		}
+		request.CreateFsuCycleDetails = details
+	case strings.ToLower("UPGRADE"):
+		details := oci_fleet_software_update.CreateUpgradeFsuCycle{}
+		if upgradeDetails, ok := s.D.GetOkExists("upgrade_details"); ok {
+			if tmpList := upgradeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "upgrade_details", 0)
+				tmp, err := s.mapToUpgradeDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.UpgradeDetails = tmp
+			}
 		}
 		if applyActionSchedule, ok := s.D.GetOkExists("apply_action_schedule"); ok {
 			if tmpList := applyActionSchedule.([]interface{}); len(tmpList) > 0 {
@@ -1327,6 +1627,65 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) populateTopLevelPolymorphicUpd
 		request.FsuCycleId = &tmp
 		if goalVersionDetails, ok := s.D.GetOkExists("goal_version_details"); ok {
 			log.Printf("[FSULOG] goalVersionDetails-Update %v", goalVersionDetails)
+			if tmpList := goalVersionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "goal_version_details", 0)
+				tmp, err := s.mapToFsuGoalVersionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.GoalVersionDetails = tmp
+			}
+		}
+		request.UpdateFsuCycleDetails = details
+	case strings.ToLower("UPGRADE"):
+		details := oci_fleet_software_update.UpdateUpgradeFsuCycle{}
+		if upgradeDetails, ok := s.D.GetOkExists("upgrade_details"); ok {
+			if tmpList := upgradeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "upgrade_details", 0)
+				tmp, err := s.mapToUpgradeDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.UpgradeDetails = tmp
+			}
+		}
+		if batchingStrategy, ok := s.D.GetOkExists("batching_strategy"); ok {
+			if tmpList := batchingStrategy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "batching_strategy", 0)
+				tmp, err := s.mapToUpdateBatchingStrategyDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.BatchingStrategy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if diagnosticsCollection, ok := s.D.GetOkExists("diagnostics_collection"); ok {
+			if tmpList := diagnosticsCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "diagnostics_collection", 0)
+				tmp, err := s.mapToDiagnosticsCollectionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DiagnosticsCollection = &tmp
+			}
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.FsuCycleId = &tmp
+		if goalVersionDetails, ok := s.D.GetOkExists("goal_version_details"); ok {
 			if tmpList := goalVersionDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "goal_version_details", 0)
 				tmp, err := s.mapToFsuGoalVersionDetails(fieldKeyFormat)
