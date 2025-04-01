@@ -5,11 +5,12 @@ package integrationtest
 
 import (
 	"fmt"
+	"strconv"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-	"strconv"
-	"testing"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"

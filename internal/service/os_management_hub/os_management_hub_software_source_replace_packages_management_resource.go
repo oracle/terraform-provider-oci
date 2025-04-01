@@ -6,11 +6,12 @@ package os_management_hub
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	"strings"
-	"time"
 
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
