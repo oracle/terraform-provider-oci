@@ -189,6 +189,124 @@ func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_fleet_software_update.UpgradeFsuCycle:
+		s.D.Set("type", "UPGRADE")
+
+		if v.UpgradeDetails != nil {
+			upgradeDetailsArray := []interface{}{}
+			if upgradeDetailsMap := UpgradeDetailsToMap(&v.UpgradeDetails); upgradeDetailsMap != nil {
+				upgradeDetailsArray = append(upgradeDetailsArray, upgradeDetailsMap)
+			}
+			s.D.Set("upgrade_details", upgradeDetailsArray)
+		} else {
+			s.D.Set("upgrade_details", nil)
+		}
+
+		if v.ApplyActionSchedule != nil {
+			applyActionScheduleArray := []interface{}{}
+			if applyActionScheduleMap := ScheduleDetailsToMap(&v.ApplyActionSchedule); applyActionScheduleMap != nil {
+				applyActionScheduleArray = append(applyActionScheduleArray, applyActionScheduleMap)
+			}
+			s.D.Set("apply_action_schedule", applyActionScheduleArray)
+		} else {
+			s.D.Set("apply_action_schedule", nil)
+		}
+
+		if v.BatchingStrategy != nil {
+			batchingStrategyArray := []interface{}{}
+			if batchingStrategyMap := BatchingStrategyDetailsToMap(&v.BatchingStrategy); batchingStrategyMap != nil {
+				batchingStrategyArray = append(batchingStrategyArray, batchingStrategyMap)
+			}
+			s.D.Set("batching_strategy", batchingStrategyArray)
+		} else {
+			s.D.Set("batching_strategy", nil)
+		}
+
+		s.D.Set("collection_type", v.CollectionType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DiagnosticsCollection != nil {
+			s.D.Set("diagnostics_collection", []interface{}{DiagnosticsCollectionDetailsToMap(v.DiagnosticsCollection)})
+		} else {
+			s.D.Set("diagnostics_collection", nil)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.ExecutingFsuActionId != nil {
+			s.D.Set("executing_fsu_action_id", *v.ExecutingFsuActionId)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.FsuCollectionId != nil {
+			s.D.Set("fsu_collection_id", *v.FsuCollectionId)
+		}
+
+		if v.GoalVersionDetails != nil {
+			goalVersionDetailsArray := []interface{}{}
+			if goalVersionDetailsMap := FsuGoalVersionDetailsToMap(&v.GoalVersionDetails); goalVersionDetailsMap != nil {
+				goalVersionDetailsArray = append(goalVersionDetailsArray, goalVersionDetailsMap)
+			}
+			s.D.Set("goal_version_details", goalVersionDetailsArray)
+		} else {
+			s.D.Set("goal_version_details", nil)
+		}
+
+		s.D.Set("last_completed_action", v.LastCompletedAction)
+
+		if v.LastCompletedActionId != nil {
+			s.D.Set("last_completed_action_id", *v.LastCompletedActionId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nextActionToExecute := []interface{}{}
+		for _, item := range v.NextActionToExecute {
+			nextActionToExecute = append(nextActionToExecute, NextActionToExecuteDetailsToMap(item))
+		}
+		s.D.Set("next_action_to_execute", nextActionToExecute)
+
+		s.D.Set("rollback_cycle_state", v.RollbackCycleState)
+
+		if v.StageActionSchedule != nil {
+			stageActionScheduleArray := []interface{}{}
+			if stageActionScheduleMap := ScheduleDetailsToMap(&v.StageActionSchedule); stageActionScheduleMap != nil {
+				stageActionScheduleArray = append(stageActionScheduleArray, stageActionScheduleMap)
+			}
+			s.D.Set("stage_action_schedule", stageActionScheduleArray)
+		} else {
+			s.D.Set("stage_action_schedule", nil)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeFinished != nil {
+			s.D.Set("time_finished", v.TimeFinished.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", s.Res.FsuCycle)
 		return nil
