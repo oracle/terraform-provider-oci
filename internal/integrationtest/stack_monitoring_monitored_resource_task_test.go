@@ -21,33 +21,33 @@ import (
 )
 
 var (
-	StackMonitoringMonitoredResourceTaskRequiredOnlyResource = StackMonitoringMonitoredResourceTaskResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Required, acctest.Create, StackMonitoringMonitoredResourceTaskRepresentation)
+	StackMonitoringImportResourcesTaskRequiredOnlyResource = StackMonitoringImportResourcesTaskResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Required, acctest.Create, StackMonitoringImportResourcesTaskRepresentation)
 
-	StackMonitoringMonitoredResourceTaskResourceConfig = StackMonitoringMonitoredResourceTaskResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceTaskRepresentation)
+	StackMonitoringImportResourcesTaskResourceConfig = StackMonitoringImportResourcesTaskResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Update, StackMonitoringImportResourcesTaskRepresentation)
 
-	StackMonitoringMonitoredResourceTaskSingularDataSourceRepresentation = map[string]interface{}{
+	StackMonitoringImportResourcesTaskSingularDataSourceRepresentation = map[string]interface{}{
 		"monitored_resource_task_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource_task.test_monitored_resource_task.id}`},
 	}
 
-	StackMonitoringMonitoredResourceTaskDataSourceRepresentation = map[string]interface{}{
+	StackMonitoringImportResourcesTaskDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"status":         acctest.Representation{RepType: acctest.Optional, Create: `ACCEPTED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMonitoredResourceTaskDataSourceFilterRepresentation}}
-	StackMonitoringMonitoredResourceTaskDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringImportResourcesTaskDataSourceFilterRepresentation}}
+	StackMonitoringImportResourcesTaskDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_stack_monitoring_monitored_resource_task.test_monitored_resource_task.id}`}},
 	}
 
-	StackMonitoringMonitoredResourceTaskRepresentation = map[string]interface{}{
+	StackMonitoringImportResourcesTaskRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"task_details":   acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMonitoredResourceTaskTaskDetailsRepresentation},
+		"task_details":   acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringImportResourcesTaskTaskDetailsRepresentation},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `${var.task_name}`},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTaskSensitiveDataRepresentation},
 	}
-	StackMonitoringMonitoredResourceTaskTaskDetailsRepresentation = map[string]interface{}{
+	StackMonitoringImportResourcesTaskTaskDetailsRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `oci_terraform_namespace`},
 		"source":    acctest.Representation{RepType: acctest.Required, Create: `OCI_TELEMETRY_NATIVE`},
 		"type":      acctest.Representation{RepType: acctest.Required, Create: `IMPORT_OCI_TELEMETRY_RESOURCES`},
@@ -69,16 +69,16 @@ var (
 	ignoreTaskSensitiveDataRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{
 			RepType: acctest.Required, Create: []string{
-				`freeform_tags`, `defined_tags`, `system_tags`,
+				`freeform_tags`, `defined_tags`, `system_tags`, `task_details`,
 			}},
 	}
 
-	StackMonitoringMonitoredResourceTaskResourceDependencies = ""
+	StackMonitoringImportResourcesTaskResourceDependencies = ""
 )
 
 // issue-routing-tag: stack_monitoring/default
-func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestStackMonitoringMonitoredResourceTaskResource_basic")
+func TestStackMonitoringImportResourcesTaskResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestStackMonitoringImportResourcesTaskResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -99,14 +99,14 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+taskNameVariableStr+StackMonitoringMonitoredResourceTaskResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceTaskRepresentation), "stackmonitoring", "monitoredResourceTask", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+taskNameVariableStr+StackMonitoringImportResourcesTaskResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Create, StackMonitoringImportResourcesTaskRepresentation), "stackmonitoring", "ImportResourcesTask", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Required, acctest.Create, StackMonitoringMonitoredResourceTaskRepresentation),
+			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Required, acctest.Create, StackMonitoringImportResourcesTaskRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "task_details.#", "1"),
@@ -123,12 +123,12 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceDependencies,
+			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceTaskRepresentation),
+			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Create, StackMonitoringImportResourcesTaskRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -165,9 +165,9 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(StackMonitoringMonitoredResourceTaskRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StackMonitoringImportResourcesTaskRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -204,8 +204,8 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceTaskRepresentation),
+			Config: config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Update, StackMonitoringImportResourcesTaskRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -240,13 +240,12 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_tasks", "test_monitored_resource_tasks", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceTaskDataSourceRepresentation) +
-				compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceTaskRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_tasks", "test_monitored_resource_tasks", acctest.Optional, acctest.Update, StackMonitoringImportResourcesTaskDataSourceRepresentation) +
+				compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Optional, acctest.Update, StackMonitoringImportResourcesTaskRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "status", "ACCEPTED"),
-
 				resource.TestCheckResourceAttr(datasourceName, "monitored_resource_tasks_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "monitored_resource_tasks_collection.0.items.#", "0"),
 			),
@@ -254,8 +253,8 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Required, acctest.Create, StackMonitoringMonitoredResourceTaskSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_task", "test_monitored_resource_task", acctest.Required, acctest.Create, StackMonitoringImportResourcesTaskSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitored_resource_task_id"),
 
@@ -288,7 +287,7 @@ func TestStackMonitoringMonitoredResourceTaskResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringMonitoredResourceTaskRequiredOnlyResource,
+			Config:                  config + compartmentIdVariableStr + taskNameVariableStr + StackMonitoringImportResourcesTaskRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"defined_tags"},

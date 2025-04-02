@@ -48,7 +48,8 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_allocated` - Number of OCPUs allocated to OPSI Warehouse ADW. 
+* `compute_model` - The compute model for the OPSI warehouse ADW (OCPU or ECPU)
+* `cpu_allocated` - Number of CPUs allocated to OPSI Warehouse ADW. 
 * `cpu_used` - Number of OCPUs used by OPSI Warehouse ADW. Can be fractional. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - User-friedly name of Ops Insights Warehouse that does not have to be unique.

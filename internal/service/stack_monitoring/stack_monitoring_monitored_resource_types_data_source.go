@@ -48,6 +48,14 @@ func StackMonitoringMonitoredResourceTypesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resource_category": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"source_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -135,6 +143,14 @@ func (s *StackMonitoringMonitoredResourceTypesDataSourceCrud) Get() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if resourceCategory, ok := s.D.GetOkExists("resource_category"); ok {
+		request.ResourceCategory = oci_stack_monitoring.ListMonitoredResourceTypesResourceCategoryEnum(resourceCategory.(string))
+	}
+
+	if sourceType, ok := s.D.GetOkExists("source_type"); ok {
+		request.SourceType = oci_stack_monitoring.ListMonitoredResourceTypesSourceTypeEnum(sourceType.(string))
 	}
 
 	if status, ok := s.D.GetOkExists("status"); ok {

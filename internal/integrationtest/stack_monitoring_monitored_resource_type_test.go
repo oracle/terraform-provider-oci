@@ -117,7 +117,7 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + tenantIdVariableStr + StackMonitoringMonitoredResourceTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_type", "test_monitored_resource_type", acctest.Required, acctest.Create, StackMonitoringMonitoredResourceTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraform_test_restype"),
 
 				func(s *terraform.State) (err error) {
@@ -136,7 +136,7 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + tenantIdVariableStr + StackMonitoringMonitoredResourceTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_type", "test_monitored_resource_type", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraform_test_restype"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Created for terraform testing."),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform Resource Type"),
@@ -172,9 +172,10 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + tenantIdVariableStr + StackMonitoringMonitoredResourceTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource_type", "test_monitored_resource_type", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraform_test_restype"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform Resource Type"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.#", "1"),
@@ -227,10 +228,14 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitored_resource_type_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenantId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Terraform Resource Type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_metrics_config.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "handler_config.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_system_defined"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.0.agent_properties.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.0.format", "SYSTEM_FORMAT"),
@@ -245,6 +250,7 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "metric_namespace", "terraform_namespace"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "terraform_test_restype"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
