@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PatchRemoveMemberModels This will specify the list of source model group models that are not to be associated with the cloned model group
+// PatchRemoveMemberModels This will specify the list of source model group models that are not to be associated with the cloned model group.
 type PatchRemoveMemberModels struct {
 
 	// Array of inference key and model OCID.

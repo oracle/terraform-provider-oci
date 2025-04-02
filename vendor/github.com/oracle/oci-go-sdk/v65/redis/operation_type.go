@@ -29,6 +29,10 @@ const (
 	OperationTypeMoveRedisConfigSet   OperationTypeEnum = "MOVE_REDIS_CONFIG_SET"
 	OperationTypeMigrateCluster       OperationTypeEnum = "MIGRATE_CLUSTER"
 	OperationTypeClusterRollback      OperationTypeEnum = "CLUSTER_ROLLBACK"
+	OperationTypeAttachOciCacheUsers  OperationTypeEnum = "ATTACH_OCI_CACHE_USERS"
+	OperationTypeDetachOciCacheUsers  OperationTypeEnum = "DETACH_OCI_CACHE_USERS"
+	OperationTypeCreateOciCacheUser   OperationTypeEnum = "CREATE_OCI_CACHE_USER"
+	OperationTypeUpdateOciCacheUser   OperationTypeEnum = "UPDATE_OCI_CACHE_USER"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -43,6 +47,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_REDIS_CONFIG_SET":   OperationTypeMoveRedisConfigSet,
 	"MIGRATE_CLUSTER":         OperationTypeMigrateCluster,
 	"CLUSTER_ROLLBACK":        OperationTypeClusterRollback,
+	"ATTACH_OCI_CACHE_USERS":  OperationTypeAttachOciCacheUsers,
+	"DETACH_OCI_CACHE_USERS":  OperationTypeDetachOciCacheUsers,
+	"CREATE_OCI_CACHE_USER":   OperationTypeCreateOciCacheUser,
+	"UPDATE_OCI_CACHE_USER":   OperationTypeUpdateOciCacheUser,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -57,6 +65,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_redis_config_set":   OperationTypeMoveRedisConfigSet,
 	"migrate_cluster":         OperationTypeMigrateCluster,
 	"cluster_rollback":        OperationTypeClusterRollback,
+	"attach_oci_cache_users":  OperationTypeAttachOciCacheUsers,
+	"detach_oci_cache_users":  OperationTypeDetachOciCacheUsers,
+	"create_oci_cache_user":   OperationTypeCreateOciCacheUser,
+	"update_oci_cache_user":   OperationTypeUpdateOciCacheUser,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -82,6 +94,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_REDIS_CONFIG_SET",
 		"MIGRATE_CLUSTER",
 		"CLUSTER_ROLLBACK",
+		"ATTACH_OCI_CACHE_USERS",
+		"DETACH_OCI_CACHE_USERS",
+		"CREATE_OCI_CACHE_USER",
+		"UPDATE_OCI_CACHE_USER",
 	}
 }
 

@@ -58,6 +58,9 @@ type CreateGoogleBigQueryConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The base64 encoded content of the service account key file containing
 	// the credentials required to use Google BigQuery.
 	// Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026.
@@ -136,6 +139,11 @@ func (m CreateGoogleBigQueryConnectionDetails) GetRoutingMethod() RoutingMethodE
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateGoogleBigQueryConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateGoogleBigQueryConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateGoogleBigQueryConnectionDetails) String() string {

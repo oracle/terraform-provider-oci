@@ -18,7 +18,7 @@ import (
 // MemberModelEntries List of member models (inferenceKey & modelId) to be associated with the model group.
 type MemberModelEntries struct {
 
-	// Each List item contains inference key and model ocid
+	// Each List item contains inference key and model ocid.
 	MemberModelDetails []MemberModelDetails `mandatory:"false" json:"memberModelDetails"`
 }
 

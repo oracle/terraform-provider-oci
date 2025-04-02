@@ -84,6 +84,9 @@ type KafkaConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
 
@@ -234,6 +237,11 @@ func (m KafkaConnectionSummary) GetLocks() []ResourceLock {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m KafkaConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m KafkaConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m KafkaConnectionSummary) String() string {

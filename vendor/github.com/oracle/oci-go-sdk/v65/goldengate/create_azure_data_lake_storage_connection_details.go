@@ -61,6 +61,9 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'.
 	// e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ==
 	// Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026.
@@ -172,6 +175,11 @@ func (m CreateAzureDataLakeStorageConnectionDetails) GetRoutingMethod() RoutingM
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateAzureDataLakeStorageConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateAzureDataLakeStorageConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateAzureDataLakeStorageConnectionDetails) String() string {

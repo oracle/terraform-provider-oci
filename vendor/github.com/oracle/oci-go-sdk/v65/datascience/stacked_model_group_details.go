@@ -19,7 +19,7 @@ import (
 // StackedModelGroupDetails Stacked model group type.
 type StackedModelGroupDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model in the group that represents the base model for stacked deployment
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model in the group that represents the base model for stacked deployment.
 	BaseModelId *string `mandatory:"true" json:"baseModelId"`
 
 	// An array of custom metadata details for the model group.

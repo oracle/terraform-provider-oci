@@ -44,6 +44,9 @@ type CreateZeroEtlPipelineDetails struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	ProcessOptions *ProcessOptions `mandatory:"false" json:"processOptions"`
 
 	// The Oracle license model that applies to a Deployment.
@@ -93,6 +96,11 @@ func (m CreateZeroEtlPipelineDetails) GetSourceConnectionDetails() *SourcePipeli
 // GetTargetConnectionDetails returns TargetConnectionDetails
 func (m CreateZeroEtlPipelineDetails) GetTargetConnectionDetails() *TargetPipelineConnectionDetails {
 	return m.TargetConnectionDetails
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateZeroEtlPipelineDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateZeroEtlPipelineDetails) String() string {

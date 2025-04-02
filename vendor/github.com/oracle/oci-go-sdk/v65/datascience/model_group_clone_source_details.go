@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ModelGroupCloneSourceDetails Model Group clone source details
+// ModelGroupCloneSourceDetails Model Group clone source details.
 type ModelGroupCloneSourceDetails interface {
 }
 

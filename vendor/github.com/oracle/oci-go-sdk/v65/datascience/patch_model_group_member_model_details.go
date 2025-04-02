@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PatchModelGroupMemberModelDetails Specifies the list of new models to be added and list of models from source model group to be removed for cloning
+// PatchModelGroupMemberModelDetails Specifies the list of new models to be added and list of models from source model group to be removed for cloning.
 type PatchModelGroupMemberModelDetails struct {
 
 	// Array of patch instructions.

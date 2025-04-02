@@ -62,6 +62,9 @@ type CreateAmazonS3ConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Secret access key to access the Amazon S3 bucket.
 	// e.g.: "this-is-not-the-secret"
 	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This field will be removed after February 15 2026.
@@ -139,6 +142,11 @@ func (m CreateAmazonS3ConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateAmazonS3ConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateAmazonS3ConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateAmazonS3ConnectionDetails) String() string {

@@ -2357,7 +2357,7 @@ func (client DataScienceClient) createModelDeployment(ctx context.Context, reque
 	return response, err
 }
 
-// CreateModelGroup Creates a new modelGroup.
+// CreateModelGroup Create a new Model Group resource.
 // A default retry strategy applies to this operation CreateModelGroup()
 func (client DataScienceClient) CreateModelGroup(ctx context.Context, request CreateModelGroupRequest) (response CreateModelGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2416,7 +2416,7 @@ func (client DataScienceClient) createModelGroup(ctx context.Context, request co
 	return response, err
 }
 
-// CreateModelGroupArtifact Creates artifact for modelGroup.
+// CreateModelGroupArtifact Creates artifact for the Model Group.
 // A default retry strategy applies to this operation CreateModelGroupArtifact()
 func (client DataScienceClient) CreateModelGroupArtifact(ctx context.Context, request CreateModelGroupArtifactRequest) (response CreateModelGroupArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3881,7 +3881,7 @@ func (client DataScienceClient) deleteModelDeployment(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteModelGroup Deletes the specified modelGroup.
+// DeleteModelGroup Deletes the specified Model Group.
 func (client DataScienceClient) DeleteModelGroup(ctx context.Context, request DeleteModelGroupRequest) (response DeleteModelGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5397,7 +5397,7 @@ func (client DataScienceClient) getModelDeployment(ctx context.Context, request 
 	return response, err
 }
 
-// GetModelGroup Gets the specified modelGroup's information.
+// GetModelGroup Retrieves the Model Group resource based on the specified modelGroup id.
 // A default retry strategy applies to this operation GetModelGroup()
 func (client DataScienceClient) GetModelGroup(ctx context.Context, request GetModelGroupRequest) (response GetModelGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5451,7 +5451,7 @@ func (client DataScienceClient) getModelGroup(ctx context.Context, request commo
 	return response, err
 }
 
-// GetModelGroupArtifactContent Downloads model artifact content for specified model group.
+// GetModelGroupArtifactContent Downloads the model artifact for the specified model group.
 // A default retry strategy applies to this operation GetModelGroupArtifactContent()
 func (client DataScienceClient) GetModelGroupArtifactContent(ctx context.Context, request GetModelGroupArtifactContentRequest) (response GetModelGroupArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7245,7 +7245,7 @@ func (client DataScienceClient) listModelDeployments(ctx context.Context, reques
 	return response, err
 }
 
-// ListModelGroupModels Lists models associated with the modelGroup in the specified compartment.
+// ListModelGroupModels Lists all models associated with the modelGroup in the specified compartment.
 // A default retry strategy applies to this operation ListModelGroupModels()
 func (client DataScienceClient) ListModelGroupModels(ctx context.Context, request ListModelGroupModelsRequest) (response ListModelGroupModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7299,7 +7299,7 @@ func (client DataScienceClient) listModelGroupModels(ctx context.Context, reques
 	return response, err
 }
 
-// ListModelGroupVersionHistories Lists modelGroupVersionHistory in the specified compartment.
+// ListModelGroupVersionHistories List all modelGroupVersionHistories in the specified compartment. The query must include compartmentId.
 // A default retry strategy applies to this operation ListModelGroupVersionHistories()
 func (client DataScienceClient) ListModelGroupVersionHistories(ctx context.Context, request ListModelGroupVersionHistoriesRequest) (response ListModelGroupVersionHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7353,7 +7353,7 @@ func (client DataScienceClient) listModelGroupVersionHistories(ctx context.Conte
 	return response, err
 }
 
-// ListModelGroups Lists modelGroups in the specified compartment.
+// ListModelGroups Lists all the modelGroups in the specified compartment. The query must include compartmentId.
 // A default retry strategy applies to this operation ListModelGroups()
 func (client DataScienceClient) ListModelGroups(ctx context.Context, request ListModelGroupsRequest) (response ListModelGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9081,7 +9081,7 @@ func (client DataScienceClient) updateModelDeployment(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateModelGroup Updates the properties of a modelGroup.
+// UpdateModelGroup Updates the properties of the Model Group.
 func (client DataScienceClient) UpdateModelGroup(ctx context.Context, request UpdateModelGroupRequest) (response UpdateModelGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

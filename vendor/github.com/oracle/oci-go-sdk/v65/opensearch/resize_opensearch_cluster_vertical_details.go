@@ -24,6 +24,9 @@ type ResizeOpensearchClusterVerticalDetails struct {
 	// The amount of memory in GB, to configure for the cluster's master nodes.
 	MasterNodeHostMemoryGB *int `mandatory:"false" json:"masterNodeHostMemoryGB"`
 
+	// The node shape for the cluster's master nodes.
+	MasterNodeHostShape *string `mandatory:"false" json:"masterNodeHostShape"`
+
 	// The number of OCPUs to configure for the cluster's data nodes.
 	DataNodeHostOcpuCount *int `mandatory:"false" json:"dataNodeHostOcpuCount"`
 
@@ -33,11 +36,17 @@ type ResizeOpensearchClusterVerticalDetails struct {
 	// The amount of storage in GB, to configure per node for the cluster's data nodes.
 	DataNodeStorageGB *int `mandatory:"false" json:"dataNodeStorageGB"`
 
+	// The node shape for the cluster's data nodes.
+	DataNodeHostShape *string `mandatory:"false" json:"dataNodeHostShape"`
+
 	// The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.
 	OpendashboardNodeHostOcpuCount *int `mandatory:"false" json:"opendashboardNodeHostOcpuCount"`
 
 	// The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
 	OpendashboardNodeHostMemoryGB *int `mandatory:"false" json:"opendashboardNodeHostMemoryGB"`
+
+	// The node shape for the cluster's OpenSearch Dashboard nodes.
+	OpendashboardNodeHostShape *string `mandatory:"false" json:"opendashboardNodeHostShape"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

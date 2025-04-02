@@ -54,6 +54,9 @@ type OpensearchClusterPipelineSummary struct {
 	// The OCID of the pipeline's subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The pipeline node shape.
+	NodeShape *string `mandatory:"false" json:"nodeShape"`
+
 	// The date and time the cluster pipeline was created. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

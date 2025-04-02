@@ -89,6 +89,9 @@ type MysqlConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The name or address of a host.
 	Host *string `mandatory:"false" json:"host"`
 
@@ -238,6 +241,11 @@ func (m MysqlConnectionSummary) GetLocks() []ResourceLock {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m MysqlConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m MysqlConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m MysqlConnectionSummary) String() string {

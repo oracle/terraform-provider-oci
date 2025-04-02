@@ -18,7 +18,7 @@ import (
 // UpdateModelGroupConfigurationDetails The model group configuration details for update.
 type UpdateModelGroupConfigurationDetails struct {
 
-	// The OCID of the model group you want to deploy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model group you want to deploy.
 	ModelGroupId *string `mandatory:"true" json:"modelGroupId"`
 }
 

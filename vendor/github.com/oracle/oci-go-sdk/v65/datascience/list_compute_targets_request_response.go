@@ -17,9 +17,6 @@ type ListComputeTargetsRequest struct {
 	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
-	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
-
 	// <b>Filter</b> results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
@@ -139,30 +136,33 @@ type ListComputeTargetsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListComputeTargetsLifecycleStateEnum
 const (
-	ListComputeTargetsLifecycleStateCreating ListComputeTargetsLifecycleStateEnum = "CREATING"
-	ListComputeTargetsLifecycleStateActive   ListComputeTargetsLifecycleStateEnum = "ACTIVE"
-	ListComputeTargetsLifecycleStateDeleting ListComputeTargetsLifecycleStateEnum = "DELETING"
-	ListComputeTargetsLifecycleStateDeleted  ListComputeTargetsLifecycleStateEnum = "DELETED"
-	ListComputeTargetsLifecycleStateFailed   ListComputeTargetsLifecycleStateEnum = "FAILED"
-	ListComputeTargetsLifecycleStateUpdating ListComputeTargetsLifecycleStateEnum = "UPDATING"
+	ListComputeTargetsLifecycleStateCreating       ListComputeTargetsLifecycleStateEnum = "CREATING"
+	ListComputeTargetsLifecycleStateActive         ListComputeTargetsLifecycleStateEnum = "ACTIVE"
+	ListComputeTargetsLifecycleStateDeleting       ListComputeTargetsLifecycleStateEnum = "DELETING"
+	ListComputeTargetsLifecycleStateDeleted        ListComputeTargetsLifecycleStateEnum = "DELETED"
+	ListComputeTargetsLifecycleStateFailed         ListComputeTargetsLifecycleStateEnum = "FAILED"
+	ListComputeTargetsLifecycleStateUpdating       ListComputeTargetsLifecycleStateEnum = "UPDATING"
+	ListComputeTargetsLifecycleStateNeedsAttention ListComputeTargetsLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingListComputeTargetsLifecycleStateEnum = map[string]ListComputeTargetsLifecycleStateEnum{
-	"CREATING": ListComputeTargetsLifecycleStateCreating,
-	"ACTIVE":   ListComputeTargetsLifecycleStateActive,
-	"DELETING": ListComputeTargetsLifecycleStateDeleting,
-	"DELETED":  ListComputeTargetsLifecycleStateDeleted,
-	"FAILED":   ListComputeTargetsLifecycleStateFailed,
-	"UPDATING": ListComputeTargetsLifecycleStateUpdating,
+	"CREATING":        ListComputeTargetsLifecycleStateCreating,
+	"ACTIVE":          ListComputeTargetsLifecycleStateActive,
+	"DELETING":        ListComputeTargetsLifecycleStateDeleting,
+	"DELETED":         ListComputeTargetsLifecycleStateDeleted,
+	"FAILED":          ListComputeTargetsLifecycleStateFailed,
+	"UPDATING":        ListComputeTargetsLifecycleStateUpdating,
+	"NEEDS_ATTENTION": ListComputeTargetsLifecycleStateNeedsAttention,
 }
 
 var mappingListComputeTargetsLifecycleStateEnumLowerCase = map[string]ListComputeTargetsLifecycleStateEnum{
-	"creating": ListComputeTargetsLifecycleStateCreating,
-	"active":   ListComputeTargetsLifecycleStateActive,
-	"deleting": ListComputeTargetsLifecycleStateDeleting,
-	"deleted":  ListComputeTargetsLifecycleStateDeleted,
-	"failed":   ListComputeTargetsLifecycleStateFailed,
-	"updating": ListComputeTargetsLifecycleStateUpdating,
+	"creating":        ListComputeTargetsLifecycleStateCreating,
+	"active":          ListComputeTargetsLifecycleStateActive,
+	"deleting":        ListComputeTargetsLifecycleStateDeleting,
+	"deleted":         ListComputeTargetsLifecycleStateDeleted,
+	"failed":          ListComputeTargetsLifecycleStateFailed,
+	"updating":        ListComputeTargetsLifecycleStateUpdating,
+	"needs_attention": ListComputeTargetsLifecycleStateNeedsAttention,
 }
 
 // GetListComputeTargetsLifecycleStateEnumValues Enumerates the set of values for ListComputeTargetsLifecycleStateEnum
@@ -183,6 +183,7 @@ func GetListComputeTargetsLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"FAILED",
 		"UPDATING",
+		"NEEDS_ATTENTION",
 	}
 }
 

@@ -31,7 +31,7 @@ type CreateModelGroupVersionHistoryDetails struct {
 	// A short description of the model version history.
 	Description *string `mandatory:"false" json:"description"`
 
-	// OCID of the latest version of the model group to be associated
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest version of the model group to be associated.
 	LatestModelGroupId *string `mandatory:"false" json:"latestModelGroupId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

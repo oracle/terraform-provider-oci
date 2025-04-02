@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// CloneCreateFromModelGroupVersionHistoryDetails Parameters needed to cloning a model group from latest model group in model group version history
+// CloneCreateFromModelGroupVersionHistoryDetails Parameters needed to cloning a model group from latest model group in model group version history.
 type CloneCreateFromModelGroupVersionHistoryDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model group version history
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model group version history.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
 	ModifyModelGroupDetails *ModifyModelGroupDetails `mandatory:"false" json:"modifyModelGroupDetails"`

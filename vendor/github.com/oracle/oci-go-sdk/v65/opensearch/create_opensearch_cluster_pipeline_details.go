@@ -39,6 +39,9 @@ type CreateOpensearchClusterPipelineDetails struct {
 	// The OCID of the compartment to create the pipeline in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The pipeline node shape.
+	NodeShape *string `mandatory:"false" json:"nodeShape"`
+
 	// The OCID of the pipeline's VCN.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 

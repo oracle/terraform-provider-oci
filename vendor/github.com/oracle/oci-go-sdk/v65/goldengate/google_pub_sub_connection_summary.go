@@ -84,6 +84,9 @@ type GooglePubSubConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
 	// which containing the credentials required to use Google PubSub.
 	// Note: When provided, 'serviceAccountKeyFile' field must not be provided.
@@ -195,6 +198,11 @@ func (m GooglePubSubConnectionSummary) GetLocks() []ResourceLock {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m GooglePubSubConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m GooglePubSubConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m GooglePubSubConnectionSummary) String() string {

@@ -23,6 +23,13 @@ type PipelineShapeConfigDetails struct {
 
 	// A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+
+	// The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`.
+	// The following values are supported:
+	//   BASELINE_1_8 - baseline usage is 1/8 of an OCPU.
+	//   BASELINE_1_2 - baseline usage is 1/2 of an OCPU.
+	//   BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
+	CpuBaseline PipelineShapeConfigDetailsCpuBaselineEnum `mandatory:"false" json:"cpuBaseline,omitempty"`
 }
 
 func (m PipelineShapeConfigDetails) String() string {
@@ -35,8 +42,57 @@ func (m PipelineShapeConfigDetails) String() string {
 func (m PipelineShapeConfigDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingPipelineShapeConfigDetailsCpuBaselineEnum(string(m.CpuBaseline)); !ok && m.CpuBaseline != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CpuBaseline: %s. Supported values are: %s.", m.CpuBaseline, strings.Join(GetPipelineShapeConfigDetailsCpuBaselineEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// PipelineShapeConfigDetailsCpuBaselineEnum Enum with underlying type: string
+type PipelineShapeConfigDetailsCpuBaselineEnum string
+
+// Set of constants representing the allowable values for PipelineShapeConfigDetailsCpuBaselineEnum
+const (
+	PipelineShapeConfigDetailsCpuBaseline8 PipelineShapeConfigDetailsCpuBaselineEnum = "BASELINE_1_8"
+	PipelineShapeConfigDetailsCpuBaseline2 PipelineShapeConfigDetailsCpuBaselineEnum = "BASELINE_1_2"
+	PipelineShapeConfigDetailsCpuBaseline1 PipelineShapeConfigDetailsCpuBaselineEnum = "BASELINE_1_1"
+)
+
+var mappingPipelineShapeConfigDetailsCpuBaselineEnum = map[string]PipelineShapeConfigDetailsCpuBaselineEnum{
+	"BASELINE_1_8": PipelineShapeConfigDetailsCpuBaseline8,
+	"BASELINE_1_2": PipelineShapeConfigDetailsCpuBaseline2,
+	"BASELINE_1_1": PipelineShapeConfigDetailsCpuBaseline1,
+}
+
+var mappingPipelineShapeConfigDetailsCpuBaselineEnumLowerCase = map[string]PipelineShapeConfigDetailsCpuBaselineEnum{
+	"baseline_1_8": PipelineShapeConfigDetailsCpuBaseline8,
+	"baseline_1_2": PipelineShapeConfigDetailsCpuBaseline2,
+	"baseline_1_1": PipelineShapeConfigDetailsCpuBaseline1,
+}
+
+// GetPipelineShapeConfigDetailsCpuBaselineEnumValues Enumerates the set of values for PipelineShapeConfigDetailsCpuBaselineEnum
+func GetPipelineShapeConfigDetailsCpuBaselineEnumValues() []PipelineShapeConfigDetailsCpuBaselineEnum {
+	values := make([]PipelineShapeConfigDetailsCpuBaselineEnum, 0)
+	for _, v := range mappingPipelineShapeConfigDetailsCpuBaselineEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPipelineShapeConfigDetailsCpuBaselineEnumStringValues Enumerates the set of values in String for PipelineShapeConfigDetailsCpuBaselineEnum
+func GetPipelineShapeConfigDetailsCpuBaselineEnumStringValues() []string {
+	return []string{
+		"BASELINE_1_8",
+		"BASELINE_1_2",
+		"BASELINE_1_1",
+	}
+}
+
+// GetMappingPipelineShapeConfigDetailsCpuBaselineEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPipelineShapeConfigDetailsCpuBaselineEnum(val string) (PipelineShapeConfigDetailsCpuBaselineEnum, bool) {
+	enum, ok := mappingPipelineShapeConfigDetailsCpuBaselineEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

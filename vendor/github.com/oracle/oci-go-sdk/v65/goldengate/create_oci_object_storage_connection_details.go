@@ -58,6 +58,9 @@ type CreateOciObjectStorageConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related OCI tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
@@ -163,6 +166,11 @@ func (m CreateOciObjectStorageConnectionDetails) GetRoutingMethod() RoutingMetho
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateOciObjectStorageConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateOciObjectStorageConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateOciObjectStorageConnectionDetails) String() string {

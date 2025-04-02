@@ -27,6 +27,9 @@ type CreateSenderDetails struct {
 	// The email address of the sender.
 	EmailAddress *string `mandatory:"true" json:"emailAddress"`
 
+	// An optional field. The IpPool OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used to submit an email by Email Delivery when sent from this sender.
+	EmailIpPoolId *string `mandatory:"false" json:"emailIpPoolId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

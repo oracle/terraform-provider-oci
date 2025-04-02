@@ -90,6 +90,9 @@ type GenericConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -196,6 +199,11 @@ func (m GenericConnectionSummary) GetLocks() []ResourceLock {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m GenericConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m GenericConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m GenericConnectionSummary) String() string {

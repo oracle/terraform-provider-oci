@@ -81,6 +81,9 @@ type Pipeline interface {
 	// Describes the object's current state in detail. For example, it can be used to provide
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	GetSubscriptionId() *string
 }
 
 type pipeline struct {
@@ -93,6 +96,7 @@ type pipeline struct {
 	Locks                   []ResourceLock                    `mandatory:"false" json:"locks"`
 	LifecycleSubState       PipelineLifecycleSubStateEnum     `mandatory:"false" json:"lifecycleSubState,omitempty"`
 	LifecycleDetails        *string                           `mandatory:"false" json:"lifecycleDetails"`
+	SubscriptionId          *string                           `mandatory:"false" json:"subscriptionId"`
 	Id                      *string                           `mandatory:"true" json:"id"`
 	DisplayName             *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
@@ -137,6 +141,7 @@ func (m *pipeline) UnmarshalJSON(data []byte) error {
 	m.Locks = s.Model.Locks
 	m.LifecycleSubState = s.Model.LifecycleSubState
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.SubscriptionId = s.Model.SubscriptionId
 	m.RecipeType = s.Model.RecipeType
 
 	return err
@@ -199,6 +204,11 @@ func (m pipeline) GetLifecycleSubState() PipelineLifecycleSubStateEnum {
 // GetLifecycleDetails returns LifecycleDetails
 func (m pipeline) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m pipeline) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 // GetId returns Id

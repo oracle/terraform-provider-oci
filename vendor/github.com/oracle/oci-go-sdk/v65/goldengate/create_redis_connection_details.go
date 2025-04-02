@@ -58,6 +58,9 @@ type CreateRedisConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional.
 	// If port is not specified, it defaults to 6379.
 	// Used for establishing the initial connection to the Redis cluster.
@@ -190,6 +193,11 @@ func (m CreateRedisConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateRedisConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateRedisConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateRedisConnectionDetails) String() string {

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateInstancePoolInfrastructureConfigurationDetails Instance Pool based Infrastructure configuration details for Update.
+// UpdateInstancePoolInfrastructureConfigurationDetails Instance Pool based Infrastructure configuration details for update.
 type UpdateInstancePoolInfrastructureConfigurationDetails struct {
 	InstanceConfiguration *InstanceConfiguration `mandatory:"false" json:"instanceConfiguration"`
 

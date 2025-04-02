@@ -87,6 +87,9 @@ type AzureDataLakeStorageConnection struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: 14593954-d337-4a61-a364-9f758c64f97f
 	AzureTenantId *string `mandatory:"false" json:"azureTenantId"`
@@ -220,6 +223,11 @@ func (m AzureDataLakeStorageConnection) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m AzureDataLakeStorageConnection) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m AzureDataLakeStorageConnection) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m AzureDataLakeStorageConnection) String() string {

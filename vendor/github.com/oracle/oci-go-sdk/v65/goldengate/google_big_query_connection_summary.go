@@ -84,6 +84,9 @@ type GoogleBigQueryConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
 	// which containing the credentials required to use Google BigQuery.
 	// Note: When provided, 'serviceAccountKeyFile' field must not be provided.
@@ -195,6 +198,11 @@ func (m GoogleBigQueryConnectionSummary) GetLocks() []ResourceLock {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m GoogleBigQueryConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m GoogleBigQueryConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m GoogleBigQueryConnectionSummary) String() string {

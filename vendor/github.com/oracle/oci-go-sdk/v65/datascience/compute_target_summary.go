@@ -25,8 +25,8 @@ type ComputeTargetSummary struct {
 	// Example: 2020-08-06T21:10:29.41Z
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the compute target.
-	ProjectId *string `mandatory:"true" json:"projectId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the compute target.
+	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment associated with the compute target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -36,6 +36,9 @@ type ComputeTargetSummary struct {
 
 	// The state of the compute target.
 	LifecycleState ComputeTargetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
+	ProjectId *string `mandatory:"false" json:"projectId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

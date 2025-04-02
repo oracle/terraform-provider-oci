@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// MultiNodeJobInfrastructureConfigurationDetails The Multi-node job infrastructure configuration.
+// MultiNodeJobInfrastructureConfigurationDetails This type should only be used for the infrastructure configuration within node group configuration details for configuring multi-node jobs.
 type MultiNodeJobInfrastructureConfigurationDetails struct {
 
 	// The name that corresponds to the JobShapeSummary to use for the job node

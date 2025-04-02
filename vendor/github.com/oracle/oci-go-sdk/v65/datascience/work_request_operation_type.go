@@ -67,7 +67,7 @@ const (
 	WorkRequestOperationTypeModelGroupCreate                  WorkRequestOperationTypeEnum = "MODEL_GROUP_CREATE"
 	WorkRequestOperationTypeModelGroupUpdate                  WorkRequestOperationTypeEnum = "MODEL_GROUP_UPDATE"
 	WorkRequestOperationTypeModelGroupDelete                  WorkRequestOperationTypeEnum = "MODEL_GROUP_DELETE"
-	WorkRequestOperationTypeModelGroupVersionSetDelete        WorkRequestOperationTypeEnum = "MODEL_GROUP_VERSION_SET_DELETE"
+	WorkRequestOperationTypeModelGroupVersionHistoryDelete    WorkRequestOperationTypeEnum = "MODEL_GROUP_VERSION_HISTORY_DELETE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -120,7 +120,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"MODEL_GROUP_CREATE":                   WorkRequestOperationTypeModelGroupCreate,
 	"MODEL_GROUP_UPDATE":                   WorkRequestOperationTypeModelGroupUpdate,
 	"MODEL_GROUP_DELETE":                   WorkRequestOperationTypeModelGroupDelete,
-	"MODEL_GROUP_VERSION_SET_DELETE":       WorkRequestOperationTypeModelGroupVersionSetDelete,
+	"MODEL_GROUP_VERSION_HISTORY_DELETE":   WorkRequestOperationTypeModelGroupVersionHistoryDelete,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -173,7 +173,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"model_group_create":                   WorkRequestOperationTypeModelGroupCreate,
 	"model_group_update":                   WorkRequestOperationTypeModelGroupUpdate,
 	"model_group_delete":                   WorkRequestOperationTypeModelGroupDelete,
-	"model_group_version_set_delete":       WorkRequestOperationTypeModelGroupVersionSetDelete,
+	"model_group_version_history_delete":   WorkRequestOperationTypeModelGroupVersionHistoryDelete,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -237,7 +237,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"MODEL_GROUP_CREATE",
 		"MODEL_GROUP_UPDATE",
 		"MODEL_GROUP_DELETE",
-		"MODEL_GROUP_VERSION_SET_DELETE",
+		"MODEL_GROUP_VERSION_HISTORY_DELETE",
 	}
 }
 

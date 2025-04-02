@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// CustomMetadata Array of custom metadata details of model group
+// CustomMetadata Array of custom metadata details of model group.
 type CustomMetadata struct {
 
-	// key of the metadata
+	// Key of the metadata.
 	Key *string `mandatory:"false" json:"key"`
 
-	// value of the metadata
+	// Value of the metadata.
 	Value *string `mandatory:"false" json:"value"`
 
-	// Description of model metadata
+	// Description of model metadata.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Category of the metadata.

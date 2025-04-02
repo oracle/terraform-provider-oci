@@ -184,7 +184,7 @@ const (
 	ListWorkRequestsOperationTypeModelGroupCreate                  ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_CREATE"
 	ListWorkRequestsOperationTypeModelGroupUpdate                  ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_UPDATE"
 	ListWorkRequestsOperationTypeModelGroupDelete                  ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_DELETE"
-	ListWorkRequestsOperationTypeModelGroupVersionSetDelete        ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_VERSION_SET_DELETE"
+	ListWorkRequestsOperationTypeModelGroupVersionHistoryDelete    ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_VERSION_HISTORY_DELETE"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -237,7 +237,7 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"MODEL_GROUP_CREATE":                   ListWorkRequestsOperationTypeModelGroupCreate,
 	"MODEL_GROUP_UPDATE":                   ListWorkRequestsOperationTypeModelGroupUpdate,
 	"MODEL_GROUP_DELETE":                   ListWorkRequestsOperationTypeModelGroupDelete,
-	"MODEL_GROUP_VERSION_SET_DELETE":       ListWorkRequestsOperationTypeModelGroupVersionSetDelete,
+	"MODEL_GROUP_VERSION_HISTORY_DELETE":   ListWorkRequestsOperationTypeModelGroupVersionHistoryDelete,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -290,7 +290,7 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"model_group_create":                   ListWorkRequestsOperationTypeModelGroupCreate,
 	"model_group_update":                   ListWorkRequestsOperationTypeModelGroupUpdate,
 	"model_group_delete":                   ListWorkRequestsOperationTypeModelGroupDelete,
-	"model_group_version_set_delete":       ListWorkRequestsOperationTypeModelGroupVersionSetDelete,
+	"model_group_version_history_delete":   ListWorkRequestsOperationTypeModelGroupVersionHistoryDelete,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -354,7 +354,7 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"MODEL_GROUP_CREATE",
 		"MODEL_GROUP_UPDATE",
 		"MODEL_GROUP_DELETE",
-		"MODEL_GROUP_VERSION_SET_DELETE",
+		"MODEL_GROUP_VERSION_HISTORY_DELETE",
 	}
 }
 

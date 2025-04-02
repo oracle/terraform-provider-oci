@@ -127,8 +127,17 @@ type OpensearchCluster struct {
 	// The bare metal shape for the cluster's master nodes.
 	MasterNodeHostBareMetalShape *string `mandatory:"false" json:"masterNodeHostBareMetalShape"`
 
+	// The node shape for the cluster's master nodes.
+	MasterNodeHostShape *string `mandatory:"false" json:"masterNodeHostShape"`
+
 	// The bare metal shape for the cluster's data nodes.
 	DataNodeHostBareMetalShape *string `mandatory:"false" json:"dataNodeHostBareMetalShape"`
+
+	// The node shape for the cluster's data nodes.
+	DataNodeHostShape *string `mandatory:"false" json:"dataNodeHostShape"`
+
+	// The node shape for the cluster's OpenSearch Dashboard nodes.
+	OpendashboardNodeHostShape *string `mandatory:"false" json:"opendashboardNodeHostShape"`
 
 	// The fully qualified domain name (FQDN) for the cluster's API endpoint.
 	Fqdn *string `mandatory:"false" json:"fqdn"`

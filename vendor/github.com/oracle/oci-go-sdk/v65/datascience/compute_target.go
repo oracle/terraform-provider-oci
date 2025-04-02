@@ -26,8 +26,8 @@ type ComputeTarget struct {
 	// Example: 2020-08-06T21:10:29.41Z
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the compute target.
-	ProjectId *string `mandatory:"true" json:"projectId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the compute target.
+	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment associated with the compute target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -39,6 +39,9 @@ type ComputeTarget struct {
 
 	// The state of the compute target.
 	LifecycleState ComputeTargetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
+	ProjectId *string `mandatory:"false" json:"projectId"`
 
 	// A short description of the compute target.
 	Description *string `mandatory:"false" json:"description"`
@@ -77,13 +80,14 @@ func (m ComputeTarget) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ProjectId                   *string                           `json:"projectId"`
 		Description                 *string                           `json:"description"`
 		LifecycleDetails            *string                           `json:"lifecycleDetails"`
 		FreeformTags                map[string]string                 `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
 		Id                          *string                           `json:"id"`
 		TimeCreated                 *common.SDKTime                   `json:"timeCreated"`
-		ProjectId                   *string                           `json:"projectId"`
+		CreatedBy                   *string                           `json:"createdBy"`
 		CompartmentId               *string                           `json:"compartmentId"`
 		DisplayName                 *string                           `json:"displayName"`
 		ComputeConfigurationDetails computeconfigurationdetails       `json:"computeConfigurationDetails"`
@@ -95,6 +99,8 @@ func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ProjectId = model.ProjectId
+
 	m.Description = model.Description
 
 	m.LifecycleDetails = model.LifecycleDetails
@@ -107,7 +113,7 @@ func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeCreated = model.TimeCreated
 
-	m.ProjectId = model.ProjectId
+	m.CreatedBy = model.CreatedBy
 
 	m.CompartmentId = model.CompartmentId
 

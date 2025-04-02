@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ModelDeploymentModelStateSummary Status of the model in a model group deployment
+// ModelDeploymentModelStateSummary Status of the model in a model group deployment.
 type ModelDeploymentModelStateSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployed model in model deployment.
@@ -27,11 +27,23 @@ type ModelDeploymentModelStateSummary struct {
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// SaaS friendly name for the model ocid.
+	// SaaS friendly name for the model OCID.
 	InferenceKey *string `mandatory:"true" json:"inferenceKey"`
 
-	// The state of the deployed model in model deployment
+	// The state of the deployed model in model deployment.
 	State ModelDeploymentModelStateSummaryStateEnum `mandatory:"true" json:"state"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ModelDeploymentModelStateSummary) String() string {
@@ -61,21 +73,18 @@ const (
 	ModelDeploymentModelStateSummaryStateSuccess      ModelDeploymentModelStateSummaryStateEnum = "SUCCESS"
 	ModelDeploymentModelStateSummaryStateFailed       ModelDeploymentModelStateSummaryStateEnum = "FAILED"
 	ModelDeploymentModelStateSummaryStateInconsistent ModelDeploymentModelStateSummaryStateEnum = "INCONSISTENT"
-	ModelDeploymentModelStateSummaryStateUpdating     ModelDeploymentModelStateSummaryStateEnum = "UPDATING"
 )
 
 var mappingModelDeploymentModelStateSummaryStateEnum = map[string]ModelDeploymentModelStateSummaryStateEnum{
 	"SUCCESS":      ModelDeploymentModelStateSummaryStateSuccess,
 	"FAILED":       ModelDeploymentModelStateSummaryStateFailed,
 	"INCONSISTENT": ModelDeploymentModelStateSummaryStateInconsistent,
-	"UPDATING":     ModelDeploymentModelStateSummaryStateUpdating,
 }
 
 var mappingModelDeploymentModelStateSummaryStateEnumLowerCase = map[string]ModelDeploymentModelStateSummaryStateEnum{
 	"success":      ModelDeploymentModelStateSummaryStateSuccess,
 	"failed":       ModelDeploymentModelStateSummaryStateFailed,
 	"inconsistent": ModelDeploymentModelStateSummaryStateInconsistent,
-	"updating":     ModelDeploymentModelStateSummaryStateUpdating,
 }
 
 // GetModelDeploymentModelStateSummaryStateEnumValues Enumerates the set of values for ModelDeploymentModelStateSummaryStateEnum
@@ -93,7 +102,6 @@ func GetModelDeploymentModelStateSummaryStateEnumStringValues() []string {
 		"SUCCESS",
 		"FAILED",
 		"INCONSISTENT",
-		"UPDATING",
 	}
 }
 

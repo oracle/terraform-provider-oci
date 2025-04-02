@@ -92,6 +92,9 @@ type Connection interface {
 
 	// Indicates that sensitive attributes are provided via Secrets.
 	GetDoesUseSecretIds() *bool
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	GetSubscriptionId() *string
 }
 
 type connection struct {
@@ -109,6 +112,7 @@ type connection struct {
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
 	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	SubscriptionId   *string                           `mandatory:"false" json:"subscriptionId"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -148,6 +152,7 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
+	m.SubscriptionId = s.Model.SubscriptionId
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -339,6 +344,11 @@ func (m connection) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m connection) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m connection) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 // GetId returns Id

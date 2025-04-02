@@ -37,6 +37,12 @@ type UpdateExascaleDbStorageVaultDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates if autoscale feature is enabled for the Database Storage Vault. The default value is `FALSE`.
+	IsAutoscaleEnabled *bool `mandatory:"false" json:"isAutoscaleEnabled"`
+
+	// Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.
+	AutoscaleLimitInGBs *int `mandatory:"false" json:"autoscaleLimitInGBs"`
 }
 
 func (m UpdateExascaleDbStorageVaultDetails) String() string {

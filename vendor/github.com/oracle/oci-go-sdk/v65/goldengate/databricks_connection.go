@@ -88,6 +88,9 @@ type DatabricksConnection struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
 	// Note: When provided, 'password' field must not be provided.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
@@ -215,6 +218,11 @@ func (m DatabricksConnection) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m DatabricksConnection) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m DatabricksConnection) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m DatabricksConnection) String() string {

@@ -88,6 +88,9 @@ type AmazonS3ConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored.
 	// Note: When provided, 'secretAccessKey' field must not be provided.
 	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
@@ -198,6 +201,11 @@ func (m AmazonS3ConnectionSummary) GetLocks() []ResourceLock {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m AmazonS3ConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m AmazonS3ConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m AmazonS3ConnectionSummary) String() string {

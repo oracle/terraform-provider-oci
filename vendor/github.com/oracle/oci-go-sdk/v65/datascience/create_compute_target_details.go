@@ -19,13 +19,13 @@ import (
 // CreateComputeTargetDetails Parameters needed to create a new compute target.
 type CreateComputeTargetDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
-	ProjectId *string `mandatory:"true" json:"projectId"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the compute target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ComputeConfigurationDetails ComputeConfigurationDetails `mandatory:"true" json:"computeConfigurationDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
+	ProjectId *string `mandatory:"false" json:"projectId"`
 
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -61,11 +61,11 @@ func (m CreateComputeTargetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ProjectId                   *string                           `json:"projectId"`
 		DisplayName                 *string                           `json:"displayName"`
 		Description                 *string                           `json:"description"`
 		FreeformTags                map[string]string                 `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
-		ProjectId                   *string                           `json:"projectId"`
 		CompartmentId               *string                           `json:"compartmentId"`
 		ComputeConfigurationDetails computeconfigurationdetails       `json:"computeConfigurationDetails"`
 	}{}
@@ -75,6 +75,8 @@ func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ProjectId = model.ProjectId
+
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
@@ -82,8 +84,6 @@ func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	m.ProjectId = model.ProjectId
 
 	m.CompartmentId = model.CompartmentId
 

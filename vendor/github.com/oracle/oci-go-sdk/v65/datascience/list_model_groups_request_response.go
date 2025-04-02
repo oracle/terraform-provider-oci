@@ -17,6 +17,9 @@ type ListModelGroupsRequest struct {
 	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
+	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
+
 	// <b>Filter</b> results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
@@ -28,6 +31,9 @@ type ListModelGroupsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the resource.
 	CreatedBy *string `mandatory:"false" contributesTo:"query" name:"createdBy"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the modelGroupVersionHistory.
+	ModelGroupVersionHistoryId *string `mandatory:"false" contributesTo:"query" name:"modelGroupVersionHistoryId"`
 
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.

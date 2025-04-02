@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CloneCreateFromModelGroupDetails Parameters needed to cloning a model group from an existing model group
+// CloneCreateFromModelGroupDetails Parameters needed to cloning a model group from an existing model group.
 type CloneCreateFromModelGroupDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model group to be cloned.

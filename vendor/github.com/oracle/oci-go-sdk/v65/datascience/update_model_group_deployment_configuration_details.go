@@ -26,7 +26,7 @@ type UpdateModelGroupDeploymentConfigurationDetails struct {
 
 	EnvironmentConfigurationDetails UpdateModelDeploymentEnvironmentConfigurationDetails `mandatory:"false" json:"environmentConfigurationDetails"`
 
-	// The type of update operation
+	// The type of update operation.
 	UpdateType UpdateModelGroupDeploymentConfigurationDetailsUpdateTypeEnum `mandatory:"false" json:"updateType,omitempty"`
 }
 

@@ -58,6 +58,9 @@ type CreateMongoDbConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// MongoDB connection string.
 	// e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords'
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -168,6 +171,11 @@ func (m CreateMongoDbConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateMongoDbConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateMongoDbConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m CreateMongoDbConnectionDetails) String() string {

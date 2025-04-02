@@ -18,30 +18,33 @@ type ComputeTargetLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ComputeTargetLifecycleStateEnum
 const (
-	ComputeTargetLifecycleStateCreating ComputeTargetLifecycleStateEnum = "CREATING"
-	ComputeTargetLifecycleStateActive   ComputeTargetLifecycleStateEnum = "ACTIVE"
-	ComputeTargetLifecycleStateDeleting ComputeTargetLifecycleStateEnum = "DELETING"
-	ComputeTargetLifecycleStateDeleted  ComputeTargetLifecycleStateEnum = "DELETED"
-	ComputeTargetLifecycleStateFailed   ComputeTargetLifecycleStateEnum = "FAILED"
-	ComputeTargetLifecycleStateUpdating ComputeTargetLifecycleStateEnum = "UPDATING"
+	ComputeTargetLifecycleStateCreating       ComputeTargetLifecycleStateEnum = "CREATING"
+	ComputeTargetLifecycleStateActive         ComputeTargetLifecycleStateEnum = "ACTIVE"
+	ComputeTargetLifecycleStateDeleting       ComputeTargetLifecycleStateEnum = "DELETING"
+	ComputeTargetLifecycleStateDeleted        ComputeTargetLifecycleStateEnum = "DELETED"
+	ComputeTargetLifecycleStateFailed         ComputeTargetLifecycleStateEnum = "FAILED"
+	ComputeTargetLifecycleStateUpdating       ComputeTargetLifecycleStateEnum = "UPDATING"
+	ComputeTargetLifecycleStateNeedsAttention ComputeTargetLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingComputeTargetLifecycleStateEnum = map[string]ComputeTargetLifecycleStateEnum{
-	"CREATING": ComputeTargetLifecycleStateCreating,
-	"ACTIVE":   ComputeTargetLifecycleStateActive,
-	"DELETING": ComputeTargetLifecycleStateDeleting,
-	"DELETED":  ComputeTargetLifecycleStateDeleted,
-	"FAILED":   ComputeTargetLifecycleStateFailed,
-	"UPDATING": ComputeTargetLifecycleStateUpdating,
+	"CREATING":        ComputeTargetLifecycleStateCreating,
+	"ACTIVE":          ComputeTargetLifecycleStateActive,
+	"DELETING":        ComputeTargetLifecycleStateDeleting,
+	"DELETED":         ComputeTargetLifecycleStateDeleted,
+	"FAILED":          ComputeTargetLifecycleStateFailed,
+	"UPDATING":        ComputeTargetLifecycleStateUpdating,
+	"NEEDS_ATTENTION": ComputeTargetLifecycleStateNeedsAttention,
 }
 
 var mappingComputeTargetLifecycleStateEnumLowerCase = map[string]ComputeTargetLifecycleStateEnum{
-	"creating": ComputeTargetLifecycleStateCreating,
-	"active":   ComputeTargetLifecycleStateActive,
-	"deleting": ComputeTargetLifecycleStateDeleting,
-	"deleted":  ComputeTargetLifecycleStateDeleted,
-	"failed":   ComputeTargetLifecycleStateFailed,
-	"updating": ComputeTargetLifecycleStateUpdating,
+	"creating":        ComputeTargetLifecycleStateCreating,
+	"active":          ComputeTargetLifecycleStateActive,
+	"deleting":        ComputeTargetLifecycleStateDeleting,
+	"deleted":         ComputeTargetLifecycleStateDeleted,
+	"failed":          ComputeTargetLifecycleStateFailed,
+	"updating":        ComputeTargetLifecycleStateUpdating,
+	"needs_attention": ComputeTargetLifecycleStateNeedsAttention,
 }
 
 // GetComputeTargetLifecycleStateEnumValues Enumerates the set of values for ComputeTargetLifecycleStateEnum
@@ -62,6 +65,7 @@ func GetComputeTargetLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"FAILED",
 		"UPDATING",
+		"NEEDS_ATTENTION",
 	}
 }
 

@@ -73,6 +73,9 @@ type ZeroEtlPipeline struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Mapping for source/target schema/tables for the pipeline data replication.
 	MappingRules []MappingRule `mandatory:"false" json:"mappingRules"`
 
@@ -185,6 +188,11 @@ func (m ZeroEtlPipeline) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m ZeroEtlPipeline) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m ZeroEtlPipeline) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 func (m ZeroEtlPipeline) String() string {
