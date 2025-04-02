@@ -52,6 +52,10 @@ type MetricGroupSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -107,6 +111,11 @@ func (m MetricGroupSummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m MetricGroupSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m MetricGroupSummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m MetricGroupSummary) String() string {

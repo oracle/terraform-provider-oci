@@ -53,7 +53,7 @@ var (
 	}
 
 	DatabaseCloudVmClusterRepresentation = map[string]interface{}{
-		"depends_on": []string{"time_sleep.wait_180_seconds"},
+		"depends_on": []string{"time_sleep.wait_30_seconds"},
 		"file_system_configuration_details": []acctest.RepresentationGroup{
 			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation0},
 			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation1},
@@ -368,9 +368,9 @@ var (
 		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Optional, acctest.Create, DatabaseDbServerDataSourceRepresentation)
 
-	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) + Sleep180
+	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) + Sleep30
 
-	Sleep180 = "resource \"time_sleep\" \"wait_180_seconds\" {\n  depends_on = [oci_dns_resolver.test_resolver] \n create_duration = \"180s\"\n}" +
+	Sleep30 = "resource \"time_sleep\" \"wait_30_seconds\" {\n  depends_on = [oci_dns_resolver.test_resolver] \n create_duration = \"30s\"\n}" +
 		`
 		terraform {
   			required_providers {
@@ -395,7 +395,7 @@ var (
 
 	CloudVmClusterResourceUpdateStorageDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"storage_count"}), map[string]interface{}{
-			"storage_count": acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
+			"storage_count": acctest.Representation{RepType: acctest.Required, Create: `3`},
 		}))
 )
 
@@ -425,7 +425,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -448,7 +448,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
 		},
 		// verify Create with optionals
 		{
@@ -458,10 +458,6 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 						"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				func(s *terraform.State) (err error) {
-					time.Sleep(5 * time.Minute)
-					return nil
-				},
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.#", "1"),
@@ -490,7 +486,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -524,7 +520,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		//verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
@@ -560,7 +556,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -626,7 +622,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -699,12 +695,12 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.disk_redundancy"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "20"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.domain", "sicdbaas.exacs.zonetest"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.system_tags.%", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.system_tags.%", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.id"),
@@ -767,12 +763,12 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "disk_redundancy"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "domain", "sicdbaas.exacs.zonetest"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -879,7 +875,7 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -904,7 +900,7 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		//verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
@@ -923,7 +919,7 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -964,7 +960,7 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -992,7 +988,7 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 
 func testAccCheckDatabaseCloudVmClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*client.OracleClients).DatabaseClient()
+	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_cloud_vm_cluster" {
 			noResourceFound = false

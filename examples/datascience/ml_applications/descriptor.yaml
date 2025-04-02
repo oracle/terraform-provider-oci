@@ -1,0 +1,14 @@
+descriptorSchemaVersion: 1.0
+mlApplicationVersion: 1.0
+packageVersion: 1.2
+packageArguments:
+  bucket_namespace:
+    type: ocid
+    mandatory: false
+    description: "Namespace for Object Storage Bucket"
+configurationSchema:
+  ingestion_bucket_name:
+    type: string
+    mandatory: false
+    description: "Ingestion Bucket Name"
+    sampleValue: "TestIngestionBucket"

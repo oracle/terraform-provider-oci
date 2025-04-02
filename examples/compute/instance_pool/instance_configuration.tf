@@ -2,7 +2,7 @@ variable "windows_instance_shape" {
   default = "VM.Standard2.1"
 }
 
-resource "oci_core_instance_configuration" "test_instance_configuration" {
+resource "oci_core_instance_configuration" "test_instance_config" {
   compartment_id = var.compartment_ocid
   display_name   = "TestInstanceConfiguration"
 

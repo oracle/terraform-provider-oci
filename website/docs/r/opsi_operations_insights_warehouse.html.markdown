@@ -25,6 +25,7 @@ resource "oci_opsi_operations_insights_warehouse" "test_operations_insights_ware
 	display_name = var.operations_insights_warehouse_display_name
 
 	#Optional
+	compute_model = var.operations_insights_warehouse_compute_model
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	storage_allocated_in_gbs = var.operations_insights_warehouse_storage_allocated_in_gbs
@@ -36,7 +37,8 @@ resource "oci_opsi_operations_insights_warehouse" "test_operations_insights_ware
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_allocated` - (Required) (Updatable) Number of OCPUs allocated to OPSI Warehouse ADW. 
+* `compute_model` - (Optional) (Updatable) The compute model for the OPSI warehouse ADW (OCPU or ECPU)
+* `cpu_allocated` - (Required) (Updatable) Number of CPUs allocated to OPSI Warehouse ADW. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) User-friedly name of Ops Insights Warehouse that does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -51,7 +53,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_allocated` - Number of OCPUs allocated to OPSI Warehouse ADW. 
+* `compute_model` - The compute model for the OPSI warehouse ADW (OCPU or ECPU)
+* `cpu_allocated` - Number of CPUs allocated to OPSI Warehouse ADW. 
 * `cpu_used` - Number of OCPUs used by OPSI Warehouse ADW. Can be fractional. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - User-friedly name of Ops Insights Warehouse that does not have to be unique.

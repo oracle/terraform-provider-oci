@@ -1650,6 +1650,37 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			return fmt.Errorf("the new value should be larger than previous one")
 		}
 	}
+
+	_, kafkaBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+	if kafkaBlockVolumeSizeInGbsPresent && s.D.HasChange(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "block_volume_size_in_gbs")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+		if oldRaw != "" {
+			tmpOld := oldRaw.(string)
+			tmpInt64Old, err := strconv.ParseInt(tmpOld, 10, 64)
+			if err != nil {
+				return err
+			}
+
+			tmpNew := newRaw.(string)
+			tmpInt64New, err := strconv.ParseInt(tmpNew, 10, 64)
+
+			if err != nil {
+				return err
+			}
+
+			if tmpInt64New > tmpInt64Old {
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+					dif := tmpInt64New - tmpInt64Old
+					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, dif, oci_bds.AddBlockStorageDetailsNodeTypeKafkaBroker)
+					if err != nil {
+						return err
+					}
+				}
+			} else {
+				return fmt.Errorf("the new value should be larger than previous one")
+			}
+		}
+	}
 	_, numOfWorkersPresent := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "number_of_nodes"))
 	if numOfWorkersPresent && s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "number_of_nodes")) {
 		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(workerNodeFieldKeyFormat, "number_of_nodes"))
@@ -1960,13 +1991,16 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.UpdateBdsInstance(context.Background(), request)
-	if err != nil {
-		return err
-	}
+	if s.D.HasChange("bootstrap_script_url") || s.D.HasChange("defined_tags") || s.D.HasChange("display_name") || s.D.HasChange("freeform_tags") || s.D.HasChange("kms_key_id") || s.D.HasChange("network_config") {
+		response, err := s.Client.UpdateBdsInstance(context.Background(), request)
+		if err != nil {
+			return err
+		}
 
-	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		workId := response.OpcWorkRequestId
+		return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	}
+	return nil
 }
 
 func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, error) {
@@ -2325,12 +2359,14 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "kafka_broker_node", stateDataIndex)
 
 			if blockVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_size_in_gbs")); ok {
-				tmp := blockVolumeSizeInGBs.(string)
-				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-				if err != nil {
-					return err
+				if blockVolumeSizeInGBs != "" {
+					tmp := blockVolumeSizeInGBs.(string)
+					tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+					if err != nil {
+						return err
+					}
+					request.BlockVolumeSizeInGBs = &tmpInt64
 				}
-				request.BlockVolumeSizeInGBs = &tmpInt64
 			}
 
 			if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {

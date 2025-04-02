@@ -68,6 +68,12 @@ func (s *StackMonitoringMonitoredResourceTypeDataSourceCrud) SetData() error {
 
 	s.D.Set("additional_namespace_map", s.Res.AdditionalNamespaceMap)
 
+	if s.Res.AvailabilityMetricsConfig != nil {
+		s.D.Set("availability_metrics_config", []interface{}{AvailabilityMetricsDetailsToMap(s.Res.AvailabilityMetricsConfig)})
+	} else {
+		s.D.Set("availability_metrics_config", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -85,6 +91,16 @@ func (s *StackMonitoringMonitoredResourceTypeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.HandlerConfig != nil {
+		s.D.Set("handler_config", []interface{}{AgentExtensionHandlerConfigurationToMap(s.Res.HandlerConfig)})
+	} else {
+		s.D.Set("handler_config", nil)
+	}
+
+	if s.Res.IsSystemDefined != nil {
+		s.D.Set("is_system_defined", *s.Res.IsSystemDefined)
+	}
 
 	if s.Res.Metadata != nil {
 		metadataArray := []interface{}{}
@@ -112,6 +128,10 @@ func (s *StackMonitoringMonitoredResourceTypeDataSourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TenancyId != nil {
+		s.D.Set("tenancy_id", *s.Res.TenancyId)
 	}
 
 	if s.Res.TimeCreated != nil {

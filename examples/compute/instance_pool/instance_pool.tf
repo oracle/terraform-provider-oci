@@ -325,11 +325,12 @@ data "oci_core_instance_pools" "test_instance_pools_datasource" {
 data "oci_core_instance_pool_instances" "test_instance_pool_instances_datasource" {
   compartment_id   = var.compartment_ocid
   instance_pool_id = oci_core_instance_pool.test_instance_pool.id
+  depends_on = [oci_core_instance_pool_instance.test_instance_pool_instance]
 }
 
 # Usage of singular instance datasources to show the public_ips, private_ips, and hostname_labels for the instances in the pool
 data "oci_core_instance" "test_instance_pool_instance_singular_datasource" {
-  count       = 2
+  count       = 3
   instance_id = data.oci_core_instance_pool_instances.test_instance_pool_instances_datasource.instances[count.index]["id"]
 }
 
