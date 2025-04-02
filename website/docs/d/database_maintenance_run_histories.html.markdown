@@ -94,6 +94,7 @@ The following attributes are exported:
 		* `total_time_taken_in_mins` - The total time taken by corresponding resource activity in minutes.
 	* `execution_window` - Details of an execution window. 
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+		* `deferred_execution_window_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the new execution window created as part of reschedule for the execution window failure.
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 		* `description` - Description of the execution window.
 		* `display_name` - The user-friendly name for the execution window. The name does not need to be unique.
