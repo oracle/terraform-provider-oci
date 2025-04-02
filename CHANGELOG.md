@@ -1,4 +1,4 @@
-## 6.33.0 (Unreleased)
+## 6.33.0 (April 02, 2025)
 
 ### Added
 - Support for ML Application Service
@@ -7,7 +7,7 @@
 - ECPU Support for OPSI Warehouses
 ### Bug Fix
 - BDS Bug Fixes
-Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
 - Fix assignPublicIp mapping in core_instance_configuration_resource
 
 ## 6.32.0 (March 26, 2025)
