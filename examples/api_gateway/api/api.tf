@@ -50,6 +50,17 @@ resource "oci_apigateway_api" "test_api" {
 
   display_name  = var.api_display_name
   freeform_tags = { "Department" = "Finance" }
+
+  # Test locks
+  locks {
+    type    = var.locks_type
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 data "oci_apigateway_apis" "test_apis" {

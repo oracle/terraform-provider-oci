@@ -56,18 +56,24 @@ var (
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
-		"response_cache_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: gatewayResponseCacheDetailsRepresentation},
+		"response_cache_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayGatewayResponseCacheDetailsRepresentation},
+		"locks":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayGatewayLocksRepresentation},
+		"is_lock_override":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesGatewayRepresentation},
 	}
 	ignoreChangesGatewayRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `locks`}},
 	}
 	gatewayCaBundlesRepresentation = map[string]interface{}{
 		"type":                     acctest.Representation{RepType: acctest.Required, Create: `CA_BUNDLE`, Update: `CERTIFICATE_AUTHORITY`},
 		"ca_bundle_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_certificates_management_ca_bundle.test_ca_bundle.id}`, Update: ``},
 		"certificate_authority_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_certificates_management_certificate_authority.test_certificate_authority.id}`},
 	}
-	gatewayResponseCacheDetailsRepresentation = map[string]interface{}{
+	ApigatewayGatewayLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	ApigatewayGatewayResponseCacheDetailsRepresentation = map[string]interface{}{
 		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL_RESP_CACHE`},
 		"authentication_secret_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.oci_vault_secret_id}`},
 		"authentication_secret_version_number": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
@@ -160,6 +166,9 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
@@ -298,6 +307,10 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "response_cache_details.0.authentication_secret_id"),
@@ -321,7 +334,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			Config:                  config + ApigatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"lifecycle_details"},
+			ImportStateVerifyIgnore: []string{"lifecycle_details", "is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})
@@ -391,6 +404,9 @@ func sweepApigatewayGatewayResource(compartment string) error {
 			deleteGatewayRequest := oci_apigateway.DeleteGatewayRequest{}
 
 			deleteGatewayRequest.GatewayId = &gatewayId
+
+			var overrideLock = true
+			deleteGatewayRequest.IsLockOverride = &overrideLock
 
 			deleteGatewayRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apigateway")
 			_, error := gatewayClient.DeleteGateway(context.Background(), deleteGatewayRequest)

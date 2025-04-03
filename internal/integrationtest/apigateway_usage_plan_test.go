@@ -46,24 +46,30 @@ var (
 	}
 
 	ApigatewayUsagePlanRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"entitlements":   acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayusagePlanEntitlementsRepresentation},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesUsagePlanRepresentation},
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"entitlements":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayusagePlanEntitlementsRepresentation},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanLocksRepresentation},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesUsagePlanRepresentation},
 	}
 	ignoreChangesUsagePlanRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `locks`}},
 	}
 	ApigatewayusagePlanEntitlementsRepresentation = map[string]interface{}{
 		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"quota":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayusagePlanEntitlementsQuotaRepresentation},
+		"quota":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanEntitlementsQuotaRepresentation},
 		"rate_limit":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanEntitlementsRateLimitRepresentation},
 		"targets":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanEntitlementsTargetsRepresentation},
 	}
-	ApigatewayusagePlanEntitlementsQuotaRepresentation = map[string]interface{}{
+	ApigatewayUsagePlanLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	ApigatewayUsagePlanEntitlementsQuotaRepresentation = map[string]interface{}{
 		"operation_on_breach": acctest.Representation{RepType: acctest.Required, Create: `REJECT`, Update: `ALLOW`},
 		"reset_policy":        acctest.Representation{RepType: acctest.Required, Create: `CALENDAR`},
 		"unit":                acctest.Representation{RepType: acctest.Required, Create: `MINUTE`, Update: `HOUR`},
@@ -159,6 +165,9 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "entitlements.0.targets.0.deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -288,6 +297,10 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "entitlements.0.targets.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -300,6 +313,7 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"lifecycle_details",
+				"is_lock_override",
 			},
 			ResourceName: resourceName,
 		},
@@ -370,6 +384,9 @@ func sweepApigatewayUsagePlanResource(compartment string) error {
 			deleteUsagePlanRequest := oci_apigateway.DeleteUsagePlanRequest{}
 
 			deleteUsagePlanRequest.UsagePlanId = &usagePlanId
+
+			var overrideLock = true
+			deleteUsagePlanRequest.IsLockOverride = &overrideLock
 
 			deleteUsagePlanRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apigateway")
 			_, error := usagePlansClient.DeleteUsagePlan(context.Background(), deleteUsagePlanRequest)
