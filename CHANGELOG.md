@@ -58,7 +58,7 @@ tests for datasafe security assessment
 - OpenSearch API update for Major version upgrade
 - Support for Oracle Database @ Azure in ExaDB-XS service
 - Support for Cross Region Replication
-- Container Instance : Remoed unsupported COMMAND
+- Container Instance : Removed unsupported COMMAND
 
 ## 6.28.0 (February 28, 2025)
 
@@ -212,7 +212,7 @@ to use the correct Id for updating options config resource
 - Support for Extending LBaaS to send traffic to gRPC backends
 - Support to return the generated secret in response
 - Support for 	Model Version Set - DataScience BugFix
-- pdated resource scheduler public documentation
+- Updated resource scheduler public documentation
 ### Bug Fix
 - Updated oci_core_instance_pool resource to allow unordered attach/detach operationsupdating tests to generate reports for Acceptance and Backward compatibility
 - Fix Audit and SQL Firewall bugs - DataSafe
@@ -255,7 +255,7 @@ Fixed the timestamp issue to corrected form
 - 9/24- Support for ZPR v1
 - Support for PV Support for Launch w/Multiple Attachments Support for VMs
 - Support for Stack Monitoring Maintenance Windows
-- To Support for Depracate old apps admin user creation with password
+- To Support for Deprecate old apps admin user creation with password
 - Support for Desktop as a Service: Private Access
 - Support for Proxy Protocol on OCI LBaaS
 
@@ -275,7 +275,7 @@ Fixed the timestamp issue to corrected form
 
 ### Added
 - Support for ADB-S: Undelete an ADB instance - ECPUs only
-- Support for FAaaS API update | expose a new boolean parameter via the existing FAaaS public API listRefreshActivites
+- Support for FAaaS API update | expose a new boolean parameter via the existing FAaaS public API listRefreshActivities
 - Support for Private Endpoint support for Object Storage
 - Support for Fleet Application Management service v1.0
 - Support for Configure Custom Endpoint on an OIC Gen3 Instance
@@ -403,7 +403,7 @@ support for subscription level limits
 - Support for Goldengate Suspend Phase / Parameter File Update Support
 ### Bug Fix
 - Fixing tvarious CC test cases
-- Db_Node id setting causing an issue with backward compatability
+- Db_Node id setting causing an issue with backward compatibility
 - Take shape as input for add node
 - Excluding basemodels in the stack in resource discovery
 
@@ -510,7 +510,7 @@ fix dbHome deletion and CEI polling workrequest.
 - Support for ODSC - Nested Resource Principal Support
 - Support for ODSC - Pipelines v2
 - Create_management resource for set baseline for Security Assessment and User Assessment in Data Safe
-- Support for CloudGuard - Container Workload Integrationn
+- Support for CloudGuard - Container Workload Integration
 - Upgraded golang version to 1.21.8 and terraform-plugin-sdk to v2.33.0
 ### Bug Fix
 - API_KEY_UPDATE
@@ -546,7 +546,7 @@ session resumption support for LB
 - Support for New Features: Network Security Group support in ZRCV cloud service
 - Support for Data Safe - Pre masking health check
 - Support for Ability to set Unified Auditing option for Create DBHome | ExaDB-D
-- Fixed AWS_S3 migrations bug, update resource issue with the optional atributes and documentation added
+- Fixed AWS_S3 migrations bug, update resource issue with the optional attributes and documentation added
 OKE Workload Identity Auth support
 
 ## 5.39.0 (April 23, 2024)
@@ -557,7 +557,7 @@ OKE Workload Identity Auth support
 - add cluster placement group capability for block and boot volumes
 - Support for Compute API: Replace instance boot volume via UpdateInstance
 ### Bug Fix
-logSourceIdentifer updates for logging Analytics connectors
+logSourceIdentifier updates for logging Analytics connectors
 
 ## 5.38.0 (April 17, 2024)
 
@@ -568,7 +568,7 @@ logSourceIdentifer updates for logging Analytics connectors
 - Support for Oracle Home Version Control - Phase 2 | ADB-D and ADB-C@C
 - Support for OCI Cache Service with Redis - NSG Support
 ### Bug Fix
-- Update psql Documentaiton for TF Provider
+- Update psql Documentation for TF Provider
 
 ## 5.37.0 (April 09, 2024)
 
@@ -591,7 +591,7 @@ Remove computed: true from the SecretContent.Name field. Manually add the logic 
 ### Added
 - Support for Management Agent wait_for_host_id and prevent destroy resource
 - Support for Email Delivery: Submit Configuration API
-- Support for Support for TLS 1.3
+- Support for TLS 1.3
 - Support for Telesis IPv6 Single Stack/ Private IP Support
 - Support for Cloudguard-Logging Integration for JWCC - Customer Enablement
 ### Bug Fix
@@ -1031,7 +1031,7 @@ Support for Sql Endpoints in Data Flow
 - Support for Datalake/Lakehouse Feature for MySQL HeatWave
 - Support for Bulk include/exclude of migration objects enhancement. DatabaseMigration service
 - Support for region override in resource principal
-- Changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
+- Changes to README.md, License.txt, security.md and CONTRIBUTING.md for GitHub Audit Compliance.
 ### Deprecation
 - Removed oci_identity_swift_password resource and datasource
 
@@ -1058,9 +1058,9 @@ Support for Sql Endpoints in Data Flow
 - Support for Create oci_dns_rrsets data source
 - Changes for setting resource ID in state file before workrequest completion
 ### Bug Fix
-- Populate user resource optional fields only if they arent empty
+- Populate user resource optional fields only if they aren't empty
 - Remove system tags from SZ requests
-- adding fix for cloudguard detector rule condition paramter unmarshalling issue
+- adding fix for cloudguard detector rule condition parameter unmarshalling issue
 
 ## 4.121.0 (May 17, 2023)
 
@@ -1397,7 +1397,7 @@ Support for Sql Endpoints in Data Flow
 - Document Category Fix
 - removed unused/duplicate resource files
 - Deprecate resource file for discoveryJobResults resource as it should not have been there
-- Documentaion fix for datascience modeldeployment
+- Documentation fix for datascience modeldeployment
 - oci_mysql_mysql_configuration is missing resource discovery
 
 ## 4.96.0 (October 05, 2022)
@@ -1407,7 +1407,7 @@ Support for Sql Endpoints in Data Flow
 - Support for BDS - Start/Stop Cluster
 - Support for OPSI Windows/Solaris support
 - Support for OCI Bastions - DNS Support
-- Generate terraform config for services with non zero resource only
+- Generate terraform config for services with non-zero resource only
 - Id based RD without resourceType
 - Support for EXACC Elastic Compute
 ### Bug Fix
@@ -1469,7 +1469,7 @@ Support for Sql Endpoints in Data Flow
 - Support for FAAAS Service
 changed for per-based autotune for block volumes
 - Changes for Data Plane Events for VM/BM DBCS
-- Capability to Add a SCAN Data Source as a Private DataSource to PAC, Added - Support of Network Security Groups, Added - Support Public ACL to whitelist OCI Services, Added - OAC access to Github
+- Capability to Add a SCAN Data Source as a Private DataSource to PAC, Added - Support of Network Security Groups, Added - Support Public ACL to whitelist OCI Services, Added - OAC access to GitHub
 - Support for In-place Upgrade support
 
 ## 4.90.0 (August 24, 2022)
@@ -1484,7 +1484,7 @@ changed for per-based autotune for block volumes
 ## 4.89.0 (August 17, 2022)
 
 ### Added
-- OCI Connector Hub supports support for Logging Analytics as a target for Streaming Source
+- OCI Connector Hub adds support for Logging Analytics as a target for Streaming Source
 - Customer Managed Encryption Key for BDS cluster
 - Data Flow - add applicationLogConfig support
 - Support for Single Node SDDC
@@ -1688,7 +1688,7 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 - Support for budget organization feature
 - WAF request body inspection
 - VM DB Operating System & GI Upgrade
-- Support for Datbase External TCPS
+- Support for Database External TCPS
 - Support for metering computation
 - Support for dedicated Vantage points
 - Support for VTAP feature in vcn service
@@ -1722,7 +1722,7 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 ## 4.70.0 (April 07, 2022)
 
 ### Added
-- TF Samples for devops deployment service realated to B/G and Private Oke
+- TF Samples for devops deployment service related to B/G and Private Oke
 - Support for osp_gateway saas invoices
 - New APIs - GetRepoFileDiff and GetRepoFileLine
 - Compute List Shapes API returns number of network ports
@@ -1745,7 +1745,7 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 - Support for GGS Storage Utilization properties
 - Support for Resource Principle Auth
 - Support for shielded instance SDDC
-- Support for OPSI service supporting DBCS featuer
+- Support for OPSI service supporting DBCS feature
 - Support for Multi Autonomous VM Clusters in ExaCC
 - Support for Data Safe Discovery and Masking
 ### Bug Fix
@@ -1808,7 +1808,7 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 ## 4.64.0 (February 16, 2022)
 
 ### Added
-- Support for NoSQL service supporting auto scaling pricing model
+- Support for NoSQL service supporting auto-scaling pricing model
 - Support for BDS instance metastore config resource and data sources
 - Support for Vision service
 
@@ -1829,7 +1829,7 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 
 ### Added
 - Support for Marketplace API to Get Listing id from Image id
-- Supoort for ADBS cross region clone
+- Support for ADBS cross region clone
 - Update document for `devops` service
 - Support for Capacity Reservation
 ### Bug Fix
@@ -1841,7 +1841,7 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 support for - Cluster Network: new optional parameter to Update API
 - Support for EM managed host support for Solaris/SunOS in OPSI
 - Support for structured streaming for Data Flow
-- Documention change for Cross Region ADG
+- Documentation change for Cross Region ADG
 
 ## 4.60.0 (January 19, 2022)
 
@@ -1849,7 +1849,7 @@ support for - Cluster Network: new optional parameter to Update API
 - Autonomous Data Guard v2-Observer Support
 - Support for Visual Builder Runtime
 - Support for container engine boot volume encryption
-- Support for - OCI - Data Labeling Servic
+- Support for - OCI - Data Labeling Service
 - Support For - Cross Region Volume Group Replication
 - Support Scale Storage separately for DATA and RECO for VMDB
 - Support for ADBS refreshable clone reconnect
@@ -2359,7 +2359,7 @@ support for - Cluster Network: new optional parameter to Update API
 
 ### Fixed
 - Fix `idcs_access_token` as `required` now. Note that this will break current import scenario, user need to add `idcs_access_token` to Terraform config.
-[Github issue 1264](https://github.com/oracle/terraform-provider-oci/issues/1264)
+[GitHub issue 1264](https://github.com/oracle/terraform-provider-oci/issues/1264)
 
 ## 4.6.0 (December 09, 2020)
 
@@ -2407,7 +2407,7 @@ support for - Cluster Network: new optional parameter to Update API
 ### Fixed
 - Fix ExaCS cloud VM cluster as source of `oci_database_db_home` resource creation. ExaCS cloud VM clusters can be specified
 as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
-[Github issue 1218](https://github.com/oracle/terraform-provider-oci/issues/1218)
+[GitHub issue 1218](https://github.com/oracle/terraform-provider-oci/issues/1218)
 
 ## 4.2.0 (November 04, 2020)
 
@@ -2582,7 +2582,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 ## 3.85.0 (July 15, 2020)
 
 ### Added
-- Support for DBaaS -  ADB - Serverless Extreme Availibility
+- Support for DBaaS - ADB - Serverless Extreme Availability
 - Support for Switchover action in autonomous database added
 - Support for datasource of `core` with optional `vcn_id`
 - Support for Oracle Blockchain Platform service
@@ -2725,7 +2725,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support resource discovery for functions resources
 
 ### Fixed
-- Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/oracle/terraform-provider-oci/issues/1037)
+- Add missing attributes for `oci_file_storage_mount_target` import [GitHub issue #1037](https://github.com/oracle/terraform-provider-oci/issues/1037)
 - Fixed the diff for `whitelisted_ips` arguments order in `oci_database_autonomous_database` resource [Issue #1050](https://github.com/oracle/terraform-provider-oci/issues/1050)
 - Fixed the `placement_configs` order mismatch in `oci_containerengine_node_pool` [GitHub issue #1045](https://github.com/oracle/terraform-provider-oci/issues/1045)
 - Fixed Instance Metadata examples to use the Instance Metadata Service version 2
@@ -2759,7 +2759,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support for `maintenance_window` in `oci_database_db_system` resource for ExaCS infrastructure
 
 ### Fixed
-- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [Github issue #1026](https://github.com/oracle/terraform-provider-oci/issues/1026)
+- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [GitHub issue #1026](https://github.com/oracle/terraform-provider-oci/issues/1026)
 
 ### Notes
 `oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
@@ -2845,7 +2845,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support for Data Flow Service
 
 ### Fixed
-- Address issue where budget resource `time_spend_computed` attribute results in error [Github issue #966](https://github.com/oracle/terraform-provider-oci/issues/966)
+- Address issue where budget resource `time_spend_computed` attribute results in error [GitHub issue #966](https://github.com/oracle/terraform-provider-oci/issues/966)
 
 ## 3.60.0 (January 29, 2020)
 
@@ -3241,7 +3241,7 @@ Optional/Computed fields.
 
 ### Fixed
 - Fix unhandled error when Security Lists are altered outside Terraform
-- Updated `availability_domain` property to be case insensitive
+- Updated `availability_domain` property to be case-insensitive
 
 ## 3.24.0 (April 24, 2019)
 
@@ -3532,7 +3532,7 @@ Optional/Computed fields.
 
 ### Added
 - Support for Autonomous Data Warehouse and manual backups
-- Support for Autonomous Transaction Processing (a.k.a Autonomous Database) and manual backups
+- Support for Autonomous Transaction Processing (a.k.a. Autonomous Database) and manual backups
 
 ## 2.2.3 - 2018-09-06
 
