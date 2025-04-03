@@ -45,6 +45,9 @@ type CreateIpv6Details struct {
 	// Example: `2001:DB8::`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// Length of cidr range. Optional field to specify flexible cidr.
+	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
 	// IPv6 will be in the VNIC's subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
