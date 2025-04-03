@@ -54,6 +54,16 @@ var (
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"intermediate_certificates": acctest.Representation{RepType: acctest.Optional, Create: "${var.api_intermediate_certificate_value}"},
+		"locks":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayCertificateLocksRepresentation},
+		"is_lock_override":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesCertificateRepresentation},
+	}
+	ApigatewayCertificateLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	ignoreChangesCertificateRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `locks`}},
 	}
 
 	apiCertificate            = utils.GetEnvSettingWithBlankDefault("api_certificate")
@@ -98,7 +108,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN RSA.*")),
+				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN (RSA )?PRIVATE KEY-----")),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -121,6 +131,9 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(resourceName, "intermediate_certificates"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_key"),
 				resource.TestCheckResourceAttrSet(resourceName, "subject_names.0"),
@@ -171,7 +184,8 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ApigatewayCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, ApigatewayCertificateRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update,
+					ApigatewayCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -221,6 +235,10 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(resourceName, "intermediate_certificates"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subject_names.0"),
@@ -235,7 +253,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
-				"private_key",
+				"private_key", "is_lock_override", "defined_tags",
 			},
 			ResourceName: resourceName,
 		},
@@ -306,6 +324,9 @@ func sweepApigatewayCertificateResource(compartment string) error {
 			deleteCertificateRequest := oci_apigateway.DeleteCertificateRequest{}
 
 			deleteCertificateRequest.CertificateId = &certificateId
+
+			var overrideLock = true
+			deleteCertificateRequest.IsLockOverride = &overrideLock
 
 			deleteCertificateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apigateway")
 			_, error := apiGatewayClient.DeleteCertificate(context.Background(), deleteCertificateRequest)

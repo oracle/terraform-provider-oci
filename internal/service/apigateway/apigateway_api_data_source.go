@@ -84,11 +84,21 @@ func (s *ApigatewayApiDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.SpecificationType != nil {
 		s.D.Set("specification_type", *s.Res.SpecificationType)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

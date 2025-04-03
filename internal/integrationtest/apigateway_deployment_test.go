@@ -29,12 +29,14 @@ var (
 	ApigatewayDeploymentRequiredOnlyResource = DeploymentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, deploymentRepresentationDynamicAuth) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Required, acctest.Create, deploymentRepresentationOidc)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Required, acctest.Create, deploymentRepresentationOidc) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Required, acctest.Create, deploymentRepresentationLocks)
 
 	ApigatewayDeploymentResourceConfig = DeploymentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader) +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Update, deploymentRepresentationOidc)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Update, deploymentRepresentationOidc) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Optional, acctest.Update, deploymentRepresentationLocks)
 
 	ApigatewayDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment.id}`},
@@ -44,6 +46,10 @@ var (
 	}
 	ApigatewayDeploymentWithOidcSingularDataSourceRepresentation = map[string]interface{}{
 		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment_with_oidc.id}`},
+	}
+
+	ApigatewayDeploymentWithLocksSingularDataSourceRepresentation = map[string]interface{}{
+		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment_with_locks.id}`},
 	}
 
 	ApigatewayDeploymentDataSourceRepresentation = map[string]interface{}{
@@ -70,8 +76,18 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentIgnoreChangesDeploymentRepresentation},
 	}
 
+	ApigatewayDeploymentSpecificationWithOnlyRoutes = map[string]interface{}{
+		"routes": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationStockResponseRouteRepresentation},
+	}
+
+	ApigatewayDeploymentSpecificationStockResponseRouteRepresentation = map[string]interface{}{
+		"backend": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationStockResponseBackendRepresentation},
+		"path":    acctest.Representation{RepType: acctest.Required, Create: `/r1`, Update: `/r1`},
+		"methods": acctest.Representation{RepType: acctest.Required, Create: []string{`GET`}, Update: []string{`GET`}},
+	}
+
 	ApigatewayDeploymentIgnoreChangesDeploymentRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `locks`}},
 	}
 	ApigatewayDeploymentSpecificationRepresentation = map[string]interface{}{
 		"logging_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesRepresentation},
@@ -82,6 +98,10 @@ var (
 		"logging_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesRepresentation},
 		"request_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesTokenAuthRepresentation},
 		"routes":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRepresentation},
+	}
+	ApigatewayDeploymentLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 	ApigatewayDeploymentSpecificationLoggingPoliciesRepresentation = map[string]interface{}{
 		"access_log":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesAccessLogRepresentation},
@@ -166,7 +186,10 @@ var (
 		"routing_backends": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendRoutingBackendRepresentation},
 		"selection_source": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendSelectionSourceRepresentation},
 	}
-
+	ApigatewayDeploymentSpecificationStockResponseBackendRepresentation = map[string]interface{}{
+		"type":   acctest.Representation{RepType: acctest.Required, Create: `STOCK_RESPONSE_BACKEND`},
+		"status": acctest.Representation{RepType: acctest.Required, Create: `200`},
+	}
 	ApigatewayDeploymentSpecificationRoutesBackendRoutingBackendRepresentation = map[string]interface{}{
 		"key":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendRoutingBackendKeyRepresentation},
 		"backend": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendRoutingBackendBackendRepresentation},
@@ -711,6 +734,17 @@ var (
 		"specification":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationTokenAuthRepresentation},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentIgnoreChangesDeploymentRepresentation},
 	}
+
+	deploymentRepresentationLocks = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"gateway_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_gateway.test_gateway.id}`},
+		"path_prefix":      acctest.Representation{RepType: acctest.Required, Create: `/v1`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `createLock`, Update: `updateLock`},
+		"specification":    acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationWithOnlyRoutes},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentLocksRepresentation},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentIgnoreChangesDeploymentRepresentation},
+	}
 )
 
 // issue-routing-tag: apigateway/default
@@ -742,13 +776,18 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	resourceNameWithOidc := "oci_apigateway_deployment.test_deployment_with_oidc"
 	singularDatasourceNameWithOidc := "data.oci_apigateway_deployment.test_deployment_with_oidc"
 
+	resourceNameWithLocks := "oci_apigateway_deployment.test_deployment_with_locks"
+	singularDatasourceNameWithLocks := "data.oci_apigateway_deployment.test_deployment_with_locks"
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+imageVariableStr+clientSecretIdVariableStr+DeploymentResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader)+
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth)+
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth)+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Create, deploymentRepresentationOidc), "apigateway", "deployment", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Create, deploymentRepresentationOidc)+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Optional, acctest.Create, deploymentRepresentationLocks),
+		"apigateway", "deployment", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayDeploymentDestroy, []resource.TestStep{
 		// verify Create
@@ -757,7 +796,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Required, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, deploymentRepresentationDynamicAuth) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Required, acctest.Create, deploymentRepresentationOidc),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Required, acctest.Create, deploymentRepresentationOidc) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Required, acctest.Create, deploymentRepresentationLocks),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -779,6 +819,10 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "path_prefix", "/v4"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.#", "1"),
 
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameWithLocks, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "path_prefix", "/lock"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -798,7 +842,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Create, deploymentRepresentationOidc),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Create, deploymentRepresentationOidc) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Optional, acctest.Create, deploymentRepresentationLocks),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -1027,6 +1072,10 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "display_name", "createLock"),
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "locks.0.message", "message"),
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "locks.0.type", "FULL"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1059,6 +1108,10 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationOidc, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationLocks, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -1308,7 +1361,10 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Update, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Update, deploymentRepresentationOidc),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Optional, acctest.Update,
+					deploymentRepresentationOidc) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Optional, acctest.Update,
+					deploymentRepresentationLocks),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -1528,6 +1584,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameWithLocks, "display_name", "updateLock"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1566,6 +1623,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentSingularDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, ApigatewayDeploymentWithDynamicAuthenticationSingularDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Required, acctest.Create, ApigatewayDeploymentWithOidcSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_locks", acctest.Required, acctest.Create, ApigatewayDeploymentWithLocksSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApigatewayDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
@@ -1760,6 +1818,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithLocks, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithLocks, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceNameWithLocks, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithLocks, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithLocks, "display_name", "updateLock"),
 			),
 		},
 		// verify resource import
@@ -1768,7 +1831,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
-				"lifecycle_details",
+				"lifecycle_details", "is_lock_override",
 			},
 			ResourceName: resourceName,
 		},
@@ -1839,6 +1902,10 @@ func sweepApigatewayDeploymentResource(compartment string) error {
 			deleteDeploymentRequest := oci_apigateway.DeleteDeploymentRequest{}
 
 			deleteDeploymentRequest.DeploymentId = &deploymentId
+
+			// Ensure delete works
+			var overrideLock = true
+			deleteDeploymentRequest.IsLockOverride = &overrideLock
 
 			deleteDeploymentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apigateway")
 			_, error := deploymentClient.DeleteDeployment(context.Background(), deleteDeploymentRequest)

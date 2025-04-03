@@ -47,6 +47,11 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `network_security_group_ids` - An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - Base Gateway response cache. 
 	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
@@ -62,6 +67,7 @@ The following attributes are exported:
 	* `type` - Type of the Response Cache.
 * `state` - The current state of the gateway.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which related resources are created. 
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 

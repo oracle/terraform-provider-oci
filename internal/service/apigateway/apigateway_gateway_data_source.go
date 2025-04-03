@@ -106,6 +106,12 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
 
 	if s.Res.ResponseCacheDetails != nil {
@@ -122,6 +128,10 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

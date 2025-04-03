@@ -60,8 +60,14 @@ The following attributes are exported:
 	* 'Canceled' the document validation was canceled 
 
 	For other states it may provide more details like actionable information. 
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `specification_type` - Type of API Specification file.
 * `state` - The current state of the API.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 * `validation_results` - Status of each feature available from the API.

@@ -35,6 +35,13 @@ resource "oci_apigateway_gateway" "test_gateway" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
+	locks {
+		#Required
+		type = var.gateway_locks_type
+
+		#Optional
+		message = var.gateway_locks_message
+	}
 	network_security_group_ids = var.gateway_network_security_group_ids
 	response_cache_details {
 		#Required
@@ -66,12 +73,15 @@ The following arguments are supported:
 	* `ca_bundle_id` - (Applicable when type=CA_BUNDLE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 	* `certificate_authority_id` - (Applicable when type=CERTIFICATE_AUTHORITY) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 	* `type` - (Required) (Updatable) Type of the CA bundle
-* `certificate_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+* `certificate_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource which can be empty string. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the resource is created. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `endpoint_type` - (Required) Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be accessible on a private IP address on the subnet.  Example: `PUBLIC` or `PRIVATE` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `type` - (Required) Type of the lock.
 * `network_security_group_ids` - (Optional) (Updatable) An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - (Optional) (Updatable) Base Gateway response cache. 
 	* `authentication_secret_id` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
@@ -110,6 +120,11 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `network_security_group_ids` - An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - Base Gateway response cache. 
 	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
@@ -125,6 +140,7 @@ The following attributes are exported:
 	* `type` - Type of the Response Cache.
 * `state` - The current state of the gateway.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which related resources are created. 
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 

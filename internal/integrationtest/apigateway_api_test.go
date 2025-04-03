@@ -46,15 +46,24 @@ var (
 	}
 
 	ApigatewayApiRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayApiLocksRepresentation},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"content": acctest.Representation{RepType: acctest.Optional,
 			Create: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\",\"license\":{\"name\":\"MIT\"}},\"paths\":{\"/ping\":{\"get\":{\"responses\":{\"200\":{\"description\":\"OK\"}}}}}}`,
 			Update: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\"}}`},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesApiRepresentation},
 	}
-
+	ApigatewayApiLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	ignoreChangesApiRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `locks`, `validation_results`}},
+	}
 	ApigatewayApiResourceDependencies = DefinedTagsDependencies
 )
 
@@ -108,6 +117,9 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -189,6 +201,10 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "specification_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -201,7 +217,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
-				"content",
+				"content", "is_lock_override",
 			},
 			ResourceName: resourceName,
 		},
@@ -272,6 +288,9 @@ func sweepApigatewayApiResource(compartment string) error {
 			deleteApiRequest := oci_apigateway.DeleteApiRequest{}
 
 			deleteApiRequest.ApiId = &apiId
+
+			var overrideLock = true
+			deleteApiRequest.IsLockOverride = &overrideLock
 
 			deleteApiRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apigateway")
 			_, error := apiGatewayClient.DeleteApi(context.Background(), deleteApiRequest)
