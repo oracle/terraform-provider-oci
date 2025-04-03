@@ -39,28 +39,33 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		// "usage_plan_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_apigateway_usage_plan.test_usage_plan.id}`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberDataSourceFilterRepresentation}}
 	ApigatewaySubscriberDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_subscriber.test_subscriber.id}`}},
 	}
 
 	ApigatewaySubscriberRepresentation = map[string]interface{}{
-		"clients":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberClientsRepresentation},
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"usage_plans":    acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_usage_plan.test_usage_plan.id}`}, Update: []string{`${oci_apigateway_usage_plan.test_usage_plan2.id}`}},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesSubscriberRepresentation},
+		"clients":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberClientsRepresentation},
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"usage_plans":      acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_usage_plan.test_usage_plan.id}`}, Update: []string{`${oci_apigateway_usage_plan.test_usage_plan2.id}`}},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewaySubscriberLocksRepresentation},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesSubscriberRepresentation},
 	}
 	ignoreChangesSubscriberRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `locks`}},
 	}
 	ApigatewaySubscriberClientsRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"token": acctest.Representation{RepType: acctest.Required, Create: `token`, Update: `token2`},
+	}
+	ApigatewaySubscriberLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	// ApigatewaySubscriberResourceDependencies = DefinedTagsDependencies
@@ -126,6 +131,9 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -176,7 +184,8 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ApigatewaySubscriberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, ApigatewaySubscriberRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update,
+					ApigatewaySubscriberRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "clients.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "clients.0.name", "name2"),
@@ -209,8 +218,6 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				// resource.TestCheckResourceAttrSet(datasourceName, "usage_plan_id"),
-
 				resource.TestCheckResourceAttr(datasourceName, "subscriber_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "subscriber_collection.0.items.#", "1"),
 			),
@@ -230,6 +237,10 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "FULL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -243,6 +254,7 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"lifecycle_details",
+				"is_lock_override",
 			},
 			ResourceName: resourceName,
 		},
@@ -313,6 +325,9 @@ func sweepApigatewaySubscriberResource(compartment string) error {
 			deleteSubscriberRequest := oci_apigateway.DeleteSubscriberRequest{}
 
 			deleteSubscriberRequest.SubscriberId = &subscriberId
+
+			var overrideLock = true
+			deleteSubscriberRequest.IsLockOverride = &overrideLock
 
 			deleteSubscriberRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apigateway")
 			_, error := subscribersClient.DeleteSubscriber(context.Background(), deleteSubscriberRequest)
