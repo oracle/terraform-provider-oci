@@ -267,7 +267,7 @@ The following attributes are exported:
 			* "request.path[TOKEN]" 
 * `routes` - A list of routes that this API exposes.
 	* `backend` - The backend to forward requests to. 
-		* `allowed_post_logout_uris` - 
+		* `allowed_post_logout_uris` - A list of allowed post-logout URLs to which a request can be redirected after revoke access
 		* `body` - The body of the stock response from the mock backend.
 		* `connect_timeout_in_seconds` - Defines a timeout for establishing a connection with a proxied server. 
 		* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
@@ -303,7 +303,7 @@ The following attributes are exported:
 		* `send_timeout_in_seconds` - Defines a timeout for transmitting a request to the proxied server. 
 		* `status` - The status code of the stock response from the mock backend.
 		* `type` - Type of the API backend.
-		* `url` - 
+		* `url` - The url of the HTTP Backend
 	* `logging_policies` - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
 		* `access_log` - Configures the logging policies for the access logs of an API Deployment. 
 			* `is_enabled` - Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
@@ -364,7 +364,7 @@ The following attributes are exported:
 					* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 					* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 		* `header_validations` - Validate the HTTP headers on the incoming API requests on a specific route.
-			* `headers` - 
+			* `headers` - The List of Headers
 				* `name` - Parameter name.
 				* `required` - Determines if the header is required in the request.
 			* `validation_mode` - Validation behavior mode.
@@ -389,7 +389,7 @@ The following attributes are exported:
 					* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 					* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 		* `query_parameter_validations` - Validate the URL query parameters on the incoming API requests on a specific route.
-			* `parameters` - 
+			* `parameters` - The List of Query Parameters
 				* `name` - Parameter name.
 				* `required` - Determines if the parameter is required in the request.
 			* `validation_mode` - Validation behavior mode.
