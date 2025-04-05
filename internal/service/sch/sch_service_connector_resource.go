@@ -209,6 +209,27 @@ func SchServiceConnectorResource() *schema.Resource {
 						},
 
 						// Computed
+						"private_endpoint_metadata": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"rce_dns_proxy_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"rce_traffic_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -376,6 +397,27 @@ func SchServiceConnectorResource() *schema.Resource {
 						},
 
 						// Computed
+						"private_endpoint_metadata": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"rce_dns_proxy_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"rce_traffic_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -439,6 +481,27 @@ func SchServiceConnectorResource() *schema.Resource {
 						},
 
 						// Computed
+						"private_endpoint_metadata": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"rce_dns_proxy_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"rce_traffic_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -1304,6 +1367,20 @@ func MonitoringSourceSelectedNamespaceToMap(obj oci_sch.MonitoringSourceSelected
 	return result
 }
 
+func PrivateEndpointMetadataToMap(obj *oci_sch.PrivateEndpointMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.RceDnsProxyIpAddress != nil {
+		result["rce_dns_proxy_ip_address"] = string(*obj.RceDnsProxyIpAddress)
+	}
+
+	if obj.RceTrafficIpAddress != nil {
+		result["rce_traffic_ip_address"] = string(*obj.RceTrafficIpAddress)
+	}
+
+	return result
+}
+
 func ServiceConnectorSummaryToMap(obj oci_sch.ServiceConnectorSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1470,6 +1547,11 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 			logSources = append(logSources, LogSourceToMap(item))
 		}
 		result["log_sources"] = logSources
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.MonitoringSourceDetailsResponse:
 		result["kind"] = "monitoring"
 
@@ -1478,6 +1560,10 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 			monitoringSources = append(monitoringSources, MonitoringSourceToMap(item))
 		}
 		result["monitoring_sources"] = monitoringSources
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.PluginSourceDetailsResponse:
 		result["kind"] = "plugin"
 
@@ -1486,6 +1572,11 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 		if v.PluginName != nil {
 			result["plugin_name"] = string(*v.PluginName)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.StreamingSourceDetailsResponse:
 		result["kind"] = "streaming"
 
@@ -1499,6 +1590,10 @@ func SourceDetailsResponseToMap(obj *oci_sch.SourceDetailsResponse) map[string]i
 
 		if v.StreamId != nil {
 			result["stream_id"] = string(*v.StreamId)
+		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
 		}
 	default:
 		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
@@ -1690,6 +1785,11 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.LoggingAnalyticsTargetDetailsResponse:
 		result["kind"] = "loggingAnalytics"
 
@@ -1700,6 +1800,11 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.LogSourceIdentifier != nil {
 			result["log_source_identifier"] = string(*v.LogSourceIdentifier)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.MonitoringTargetDetailsResponse:
 		result["kind"] = "monitoring"
 
@@ -1720,6 +1825,11 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.MetricNamespace != nil {
 			result["metric_namespace"] = string(*v.MetricNamespace)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.NotificationsTargetDetailsResponse:
 		result["kind"] = "notifications"
 
@@ -1730,6 +1840,11 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.TopicId != nil {
 			result["topic_id"] = string(*v.TopicId)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.ObjectStorageTargetDetailsResponse:
 		result["kind"] = "objectStorage"
 
@@ -1752,11 +1867,20 @@ func TargetDetailsResponseToMap(obj *oci_sch.TargetDetailsResponse) map[string]i
 		if v.ObjectNamePrefix != nil {
 			result["object_name_prefix"] = string(*v.ObjectNamePrefix)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.StreamingTargetDetailsResponse:
 		result["kind"] = "streaming"
 
 		if v.StreamId != nil {
 			result["stream_id"] = string(*v.StreamId)
+		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
 		}
 	default:
 		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
@@ -1822,11 +1946,20 @@ func TaskDetailsResponseToMap(obj oci_sch.TaskDetailsResponse) map[string]interf
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)
 		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
+		}
+
 	case oci_sch.LogRuleTaskDetailsResponse:
 		result["kind"] = "logRule"
 
 		if v.Condition != nil {
 			result["condition"] = string(*v.Condition)
+		}
+
+		if v.PrivateEndpointMetadata != nil {
+			result["private_endpoint_metadata"] = []interface{}{PrivateEndpointMetadataToMap(v.PrivateEndpointMetadata)}
 		}
 	default:
 		log.Printf("[WARN] Received 'kind' of unknown type %v", obj)

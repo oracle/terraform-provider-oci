@@ -17,6 +17,19 @@ import (
 )
 
 var (
+	SchServiceConnectorResourceDependenciesForPrivateStream = acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, LoggingLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_update_log", acctest.Required, acctest.Update, acctest.GetUpdatedRepresentationCopy("configuration.source.category", acctest.Representation{RepType: acctest.Required, Create: `read`}, LoggingLogRepresentation)) +
+		SchLoggingLogResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Required, Create: `true`}, "prohibit_internet_ingress": acctest.Representation{RepType: acctest.Required, Create: `true`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, SchFunctionsFunctionRepresentation) +
+		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, streampoolidRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Create, StreamingStreamPoolRepresentation)
 	// streaming as a source definition
 	serviceConnectorStreamingSourceCursorRepresentation = map[string]interface{}{
 		"kind": acctest.Representation{RepType: acctest.Optional, Create: `LATEST`, Update: `TRIM_HORIZON`},
@@ -137,8 +150,35 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 	singularDatasourceName := "data.oci_sch_service_connector.test_service_connector"
 
 	var resId, resId2 string
-
 	acctest.ResourceTest(t, testAccCheckSchServiceConnectorDestroy, []resource.TestStep{
+		// verify private streaming as a source with functions target
+		{
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependenciesForPrivateStream + imageVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorFunctionTargetStreamingSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "streaming"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.cursor.0.kind", "LATEST"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.stream_id"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.private_endpoint_metadata.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr,
+		},
+
 		// verify streaming as a source with functions target
 		{
 			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
@@ -298,6 +338,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				},
 			),
 		},
+
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr + logAnLogSourceNameVariableStr +
