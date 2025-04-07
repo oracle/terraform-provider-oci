@@ -2,6 +2,7 @@ package kms
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -32,8 +33,38 @@ func KmsVaultReplicationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"replica_vault_metadata": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"idcs_account_name_url": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"vault_type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"private_endpoint_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
 
-			// Optional
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 		},
@@ -172,6 +203,17 @@ func (s *KmsVaultReplicaResourceCrud) createVaultReplicaHelper(vaultId string, r
 		request.ReplicaRegion = &replicaRegion
 	}
 
+	if replicaVaultMetadata, ok := s.D.GetOkExists("replica_vault_metadata"); ok {
+		if tmpList := replicaVaultMetadata.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replica_vault_metadata", 0)
+			tmp, err := s.mapToReplicaVaultMetadata(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicaVaultMetadata = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, err := s.Client.CreateVaultReplica(context.Background(), request)
@@ -241,4 +283,20 @@ func (s *KmsVaultReplicaResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_kms.VaultReplicaSummaryStatusDeleted),
 	}
+}
+
+func (s *KmsVaultReplicaResourceCrud) mapToReplicaVaultMetadata(fieldKeyFormat string) (oci_kms.ReplicaExternalVaultMetadata, error) {
+	result := oci_kms.ReplicaExternalVaultMetadata{}
+
+	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
+		tmp := privateEndpointId.(string)
+		result.PrivateEndpointId = &tmp
+	}
+
+	if idcsAccountNameUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idcs_account_name_url")); ok {
+		tmp := idcsAccountNameUrl.(string)
+		result.IdcsAccountNameUrl = &tmp
+	}
+
+	return result, nil
 }
