@@ -53,6 +53,9 @@ type DeploymentTypeSummary struct {
 
 	// The default admin username used by deployment.
 	DefaultUsername *string `mandatory:"false" json:"defaultUsername"`
+
+	// Specifies supported capabilities or features by a deployment type .
+	SupportedCapabilities []SupportedCapabilitiesEnum `mandatory:"false" json:"supportedCapabilities,omitempty"`
 }
 
 func (m DeploymentTypeSummary) String() string {
@@ -74,6 +77,12 @@ func (m DeploymentTypeSummary) ValidateEnumValue() (bool, error) {
 	for _, val := range m.ConnectionTypes {
 		if _, ok := GetMappingConnectionTypeEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionTypes: %s. Supported values are: %s.", val, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range m.SupportedCapabilities {
+		if _, ok := GetMappingSupportedCapabilitiesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SupportedCapabilities: %s. Supported values are: %s.", val, strings.Join(GetSupportedCapabilitiesEnumStringValues(), ",")))
 		}
 	}
 

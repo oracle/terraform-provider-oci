@@ -16,23 +16,24 @@ import (
 	"strings"
 )
 
-// CreateVaultReplicaDetails Creates a vault replica.
-type CreateVaultReplicaDetails struct {
+// ReplicaExternalVaultMetadata Metadata of the replica region External Vault
+type ReplicaExternalVaultMetadata struct {
 
-	// The region in the realm to which the vault need to be replicated to
-	ReplicaRegion *string `mandatory:"true" json:"replicaRegion"`
+	// OCID of the EKMS private endpoint in the replica region and must be in ACTIVE state
+	PrivateEndpointId *string `mandatory:"true" json:"privateEndpointId"`
 
-	ReplicaVaultMetadata ReplicaVaultMetadata `mandatory:"false" json:"replicaVaultMetadata"`
+	// Replica region URL of the IDCS domain
+	IdcsAccountNameUrl *string `mandatory:"true" json:"idcsAccountNameUrl"`
 }
 
-func (m CreateVaultReplicaDetails) String() string {
+func (m ReplicaExternalVaultMetadata) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateVaultReplicaDetails) ValidateEnumValue() (bool, error) {
+func (m ReplicaExternalVaultMetadata) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -41,29 +42,16 @@ func (m CreateVaultReplicaDetails) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// UnmarshalJSON unmarshals from json
-func (m *CreateVaultReplicaDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		ReplicaVaultMetadata replicavaultmetadata `json:"replicaVaultMetadata"`
-		ReplicaRegion        *string              `json:"replicaRegion"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	nn, e = model.ReplicaVaultMetadata.UnmarshalPolymorphicJSON(model.ReplicaVaultMetadata.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.ReplicaVaultMetadata = nn.(ReplicaVaultMetadata)
-	} else {
-		m.ReplicaVaultMetadata = nil
+// MarshalJSON marshals to json representation
+func (m ReplicaExternalVaultMetadata) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeReplicaExternalVaultMetadata ReplicaExternalVaultMetadata
+	s := struct {
+		DiscriminatorParam string `json:"vaultType"`
+		MarshalTypeReplicaExternalVaultMetadata
+	}{
+		"EXTERNAL",
+		(MarshalTypeReplicaExternalVaultMetadata)(m),
 	}
 
-	m.ReplicaRegion = model.ReplicaRegion
-
-	return
+	return json.Marshal(&s)
 }
