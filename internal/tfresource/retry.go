@@ -65,7 +65,23 @@ func init() {
 }
 
 func GetRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) time.Duration {
-	return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration, optionals...)
+	backoffDuration := getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration, optionals...)
+	// Do nothing if service specific retry duration exists
+	if _, ok := serviceExpectedRetryDurationMap[service]; ok {
+		return backoffDuration
+	}
+	if response.Response != nil && response.Response.HTTPResponse() != nil {
+		statusCode := response.Response.HTTPResponse().StatusCode
+		switch statusCode {
+		case 429:
+			utils.Logf("[DEGUG] Handling Retry Timeout for API Response Error Code 429")
+			utils.Logf("[DEGUG] Retry Timeout before handling API Response Error Code 429 is %s", backoffDuration)
+			expectedRetryDuration := getExpectedRetryDuration(response, disableNotFoundRetries, service, optionals...)
+			backoffDuration = backoffDuration + expectedRetryDuration
+			utils.Logf("[DEGUG] Retry Timeout after handling API Response Error Code 429 is %s", backoffDuration)
+		}
+	}
+	return backoffDuration
 }
 
 func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn, optionals ...interface{}) time.Duration {
