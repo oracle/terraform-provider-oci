@@ -1,3 +1,37 @@
+## 6.34.0 (Unreleased)
+
+### Added
+- Support for New API header property to support Dry Run of Function Invocation
+- Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
+- Support for Ekm-Xrr
+- Support for Connector Source/Targets with Private Endpoints
+- Support for VCNIP - IP Lifetime support and related feature
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
+## 6.34.0 (Unreleased)
+
+### Added
+- Support for New API header property to support Dry Run of Function Invocation
+- Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
+- Support for Ekm-Xrr
+- Support for Connector Source/Targets with Private Endpoints
+- Support for VCNIP - IP Lifetime support and related feature
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
 ## 6.33.0 (April 02, 2025)
 
 ### Added
