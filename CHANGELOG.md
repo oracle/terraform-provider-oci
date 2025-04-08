@@ -1,3 +1,11 @@
+## 6.34.0 (Unreleased)
+
+### Added
+- Support for New API header property to support Dry Run of Function Invocation
+- Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
+- Support for Ekm-Xrr
+- Support for Connector Source/Targets with Private Endpoints
+
 ## 6.33.0 (Unreleased)
 
 ### Added
