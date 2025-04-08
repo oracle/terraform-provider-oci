@@ -142,33 +142,36 @@ type ListConnectorPluginsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListConnectorPluginsLifecycleStateEnum
 const (
-	ListConnectorPluginsLifecycleStateCreating ListConnectorPluginsLifecycleStateEnum = "CREATING"
-	ListConnectorPluginsLifecycleStateUpdating ListConnectorPluginsLifecycleStateEnum = "UPDATING"
-	ListConnectorPluginsLifecycleStateActive   ListConnectorPluginsLifecycleStateEnum = "ACTIVE"
-	ListConnectorPluginsLifecycleStateInactive ListConnectorPluginsLifecycleStateEnum = "INACTIVE"
-	ListConnectorPluginsLifecycleStateDeleting ListConnectorPluginsLifecycleStateEnum = "DELETING"
-	ListConnectorPluginsLifecycleStateDeleted  ListConnectorPluginsLifecycleStateEnum = "DELETED"
-	ListConnectorPluginsLifecycleStateFailed   ListConnectorPluginsLifecycleStateEnum = "FAILED"
+	ListConnectorPluginsLifecycleStateCreating       ListConnectorPluginsLifecycleStateEnum = "CREATING"
+	ListConnectorPluginsLifecycleStateUpdating       ListConnectorPluginsLifecycleStateEnum = "UPDATING"
+	ListConnectorPluginsLifecycleStateActive         ListConnectorPluginsLifecycleStateEnum = "ACTIVE"
+	ListConnectorPluginsLifecycleStateInactive       ListConnectorPluginsLifecycleStateEnum = "INACTIVE"
+	ListConnectorPluginsLifecycleStateNeedsAttention ListConnectorPluginsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListConnectorPluginsLifecycleStateDeleting       ListConnectorPluginsLifecycleStateEnum = "DELETING"
+	ListConnectorPluginsLifecycleStateDeleted        ListConnectorPluginsLifecycleStateEnum = "DELETED"
+	ListConnectorPluginsLifecycleStateFailed         ListConnectorPluginsLifecycleStateEnum = "FAILED"
 )
 
 var mappingListConnectorPluginsLifecycleStateEnum = map[string]ListConnectorPluginsLifecycleStateEnum{
-	"CREATING": ListConnectorPluginsLifecycleStateCreating,
-	"UPDATING": ListConnectorPluginsLifecycleStateUpdating,
-	"ACTIVE":   ListConnectorPluginsLifecycleStateActive,
-	"INACTIVE": ListConnectorPluginsLifecycleStateInactive,
-	"DELETING": ListConnectorPluginsLifecycleStateDeleting,
-	"DELETED":  ListConnectorPluginsLifecycleStateDeleted,
-	"FAILED":   ListConnectorPluginsLifecycleStateFailed,
+	"CREATING":        ListConnectorPluginsLifecycleStateCreating,
+	"UPDATING":        ListConnectorPluginsLifecycleStateUpdating,
+	"ACTIVE":          ListConnectorPluginsLifecycleStateActive,
+	"INACTIVE":        ListConnectorPluginsLifecycleStateInactive,
+	"NEEDS_ATTENTION": ListConnectorPluginsLifecycleStateNeedsAttention,
+	"DELETING":        ListConnectorPluginsLifecycleStateDeleting,
+	"DELETED":         ListConnectorPluginsLifecycleStateDeleted,
+	"FAILED":          ListConnectorPluginsLifecycleStateFailed,
 }
 
 var mappingListConnectorPluginsLifecycleStateEnumLowerCase = map[string]ListConnectorPluginsLifecycleStateEnum{
-	"creating": ListConnectorPluginsLifecycleStateCreating,
-	"updating": ListConnectorPluginsLifecycleStateUpdating,
-	"active":   ListConnectorPluginsLifecycleStateActive,
-	"inactive": ListConnectorPluginsLifecycleStateInactive,
-	"deleting": ListConnectorPluginsLifecycleStateDeleting,
-	"deleted":  ListConnectorPluginsLifecycleStateDeleted,
-	"failed":   ListConnectorPluginsLifecycleStateFailed,
+	"creating":        ListConnectorPluginsLifecycleStateCreating,
+	"updating":        ListConnectorPluginsLifecycleStateUpdating,
+	"active":          ListConnectorPluginsLifecycleStateActive,
+	"inactive":        ListConnectorPluginsLifecycleStateInactive,
+	"needs_attention": ListConnectorPluginsLifecycleStateNeedsAttention,
+	"deleting":        ListConnectorPluginsLifecycleStateDeleting,
+	"deleted":         ListConnectorPluginsLifecycleStateDeleted,
+	"failed":          ListConnectorPluginsLifecycleStateFailed,
 }
 
 // GetListConnectorPluginsLifecycleStateEnumValues Enumerates the set of values for ListConnectorPluginsLifecycleStateEnum
@@ -187,6 +190,7 @@ func GetListConnectorPluginsLifecycleStateEnumStringValues() []string {
 		"UPDATING",
 		"ACTIVE",
 		"INACTIVE",
+		"NEEDS_ATTENTION",
 		"DELETING",
 		"DELETED",
 		"FAILED",
