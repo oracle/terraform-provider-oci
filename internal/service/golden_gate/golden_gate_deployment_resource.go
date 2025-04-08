@@ -42,24 +42,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Required: true,
-			},
-			"deployment_type": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"display_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"is_auto_scaling_enabled": {
-				Type:     schema.TypeBool,
-				Required: true,
-			},
-			"license_model": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -110,6 +93,17 @@ func GoldenGateDeploymentResource() *schema.Resource {
 					},
 				},
 			},
+			"availability_domain": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+			},
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -118,6 +112,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Elem:             schema.TypeString,
 			},
 			"deployment_backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"deployment_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -133,6 +133,11 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"fault_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"fqdn": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -144,8 +149,18 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_auto_scaling_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_public": {
 				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"license_model": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -366,6 +381,37 @@ func GoldenGateDeploymentResource() *schema.Resource {
 					},
 				},
 			},
+			"placements": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+						"fault_domain": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"source_deployment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"category": {
@@ -408,6 +454,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"deployment_role": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"deployment_url": {
 				Type:     schema.TypeString,
@@ -509,6 +559,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_role_changed": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -577,19 +631,24 @@ func updateGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	If there is a "stop", we need to update first, then stop the deployment.
 	Upgrade is much faster if the deployment is not running, therefore
 	if we need to stop/start the deployment and upgrade it at the same time it worth to change the execution order.
+	Switchover should be first operation always as we want to perform other operations on primary deployment, in case of
+	"start" we do start first as switchover should be performed on a active deployment.
 
 	Here are the possible cases:
 	a. Deployment has to be started (current state is Inactive):
 	  1. let's do the upgrade first (if needed)
 	  2. then start
-	  3. then update
+	  3. then switchover (if needed)
+	  4. then update
 	b. Deployment has to be stopped (current state is Active):
-	  1. update first
-	  2. then stop
-	  3. then upgrade (if needed)
-	c. No stop/start needed:
-	  1. upgrade first (if needed)
+	  1. switchover first (if needed)
 	  2. then update
+	  3. then stop
+	  4. then upgrade (if needed)
+	c. No stop/start needed:
+	  1. switchover first (if needed)
+	  2. then upgrade (if needed)
+	  3. then update
 	*/
 
 	if startDeployment {
@@ -599,9 +658,15 @@ func updateGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 		if err := sync.startDeployment(); err != nil {
 			return err
 		}
+		if err := switchoverDeploymentPeerIfNeeded(d, m); err != nil {
+			return err
+		}
 		return tfresource.UpdateResource(d, sync)
 
 	} else if stopDeployment {
+		if err := switchoverDeploymentPeerIfNeeded(d, m); err != nil {
+			return err
+		}
 		if err := tfresource.UpdateResource(d, sync); err != nil {
 			return err
 		}
@@ -611,6 +676,9 @@ func updateGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 		return upgradeGoldenGateDeploymentIfNeeded(d, m)
 
 	} else {
+		if err := switchoverDeploymentPeerIfNeeded(d, m); err != nil {
+			return err
+		}
 		if err := upgradeGoldenGateDeploymentIfNeeded(d, m); err != nil {
 			return err
 		}
@@ -697,6 +765,11 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 		}
 	}
 
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -736,6 +809,11 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 
 	if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
 		request.EnvironmentType = oci_golden_gate.EnvironmentTypeEnum(environmentType.(string))
+	}
+
+	if faultDomain, ok := s.D.GetOkExists("fault_domain"); ok {
+		tmp := faultDomain.(string)
+		request.FaultDomain = &tmp
 	}
 
 	if fqdn, ok := s.D.GetOkExists("fqdn"); ok {
@@ -828,6 +906,28 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 			}
 			request.OggData = &tmp
 		}
+	}
+
+	if placements, ok := s.D.GetOkExists("placements"); ok {
+		interfaces := placements.([]interface{})
+		tmp := make([]oci_golden_gate.DeploymentPlacementDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "placements", stateDataIndex)
+			converted, err := s.mapToDeploymentPlacementDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("placements") {
+			request.Placements = tmp
+		}
+	}
+
+	if sourceDeploymentId, ok := s.D.GetOkExists("source_deployment_id"); ok {
+		tmp := sourceDeploymentId.(string)
+		request.SourceDeploymentId = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -1116,6 +1216,23 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 		}
 	}
 
+	if placements, ok := s.D.GetOkExists("placements"); ok {
+		interfaces := placements.([]interface{})
+		tmp := make([]oci_golden_gate.DeploymentPlacementDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "placements", stateDataIndex)
+			converted, err := s.mapToDeploymentPlacementDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("placements") {
+			request.Placements = tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -1164,6 +1281,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("backup_schedule", nil)
 	}
 
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
 	s.D.Set("category", s.Res.Category)
 
 	if s.Res.CompartmentId != nil {
@@ -1188,6 +1309,8 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("deployment_diagnostic_data", nil)
 	}
 
+	s.D.Set("deployment_role", s.Res.DeploymentRole)
+
 	s.D.Set("deployment_type", s.Res.DeploymentType)
 
 	if s.Res.DeploymentUrl != nil {
@@ -1203,6 +1326,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	}
 
 	s.D.Set("environment_type", s.Res.EnvironmentType)
+
+	if s.Res.FaultDomain != nil {
+		s.D.Set("fault_domain", *s.Res.FaultDomain)
+	}
 
 	if s.Res.Fqdn != nil {
 		s.D.Set("fqdn", *s.Res.Fqdn)
@@ -1288,12 +1415,22 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("ogg_data", nil)
 	}
 
+	placements := []interface{}{}
+	for _, item := range s.Res.Placements {
+		placements = append(placements, DeploymentPlacementInfoToMap(item))
+	}
+	s.D.Set("placements", placements)
+
 	if s.Res.PrivateIpAddress != nil {
 		s.D.Set("private_ip_address", *s.Res.PrivateIpAddress)
 	}
 
 	if s.Res.PublicIpAddress != nil {
 		s.D.Set("public_ip_address", *s.Res.PublicIpAddress)
+	}
+
+	if s.Res.SourceDeploymentId != nil {
+		s.D.Set("source_deployment_id", *s.Res.SourceDeploymentId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -1328,6 +1465,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	if s.Res.TimeOggVersionSupportedUntil != nil {
 		s.D.Set("time_ogg_version_supported_until", s.Res.TimeOggVersionSupportedUntil.String())
+	}
+
+	if s.Res.TimeRoleChanged != nil {
+		s.D.Set("time_role_changed", s.Res.TimeRoleChanged.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
@@ -1803,6 +1944,36 @@ func DeploymentDiagnosticDataToMap(obj *oci_golden_gate.DeploymentDiagnosticData
 	return result
 }
 
+func (s *GoldenGateDeploymentResourceCrud) mapToDeploymentPlacementDetails(fieldKeyFormat string) (oci_golden_gate.DeploymentPlacementDetails, error) {
+	result := oci_golden_gate.DeploymentPlacementDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if faultDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domain")); ok {
+		tmp := faultDomain.(string)
+		result.FaultDomain = &tmp
+	}
+
+	return result, nil
+}
+
+func DeploymentPlacementInfoToMap(obj oci_golden_gate.DeploymentPlacementInfo) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.FaultDomain != nil {
+		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	return result
+}
+
 func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2128,6 +2299,57 @@ func (s *GoldenGateDeploymentResourceCrud) stopDeployment() error {
 		return stopWorkRequestErr
 	}
 
+	// set changed parameters
+	return s.getAndSaveStateChanges()
+}
+
+func switchoverDeploymentPeerIfNeeded(d *schema.ResourceData, m interface{}) error {
+	sync := &GoldenGateDeploymentResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).GoldenGateClient()
+	availabilityDomain := ""
+	faultDomain := ""
+
+	// Check if switchover is needed
+	if sync.D.HasChanges("availability_domain", "fault_domain", "deployment_role") && sync.D.Get("deployment_role").(string) == "PRIMARY" {
+		oldAD, newAD := sync.D.GetChange("availability_domain")
+		oldFD, newFD := sync.D.GetChange("fault_domain")
+		if newAD != "" && newFD != "" && oldAD != newAD && oldFD != newFD {
+			availabilityDomain = newAD.(string)
+			faultDomain = newFD.(string)
+			if err := sync.switchoverDeploymentPeer(availabilityDomain, faultDomain); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) switchoverDeploymentPeer(availabilityDomain string, faultDomain string) error {
+	switchoverDeploymentPeerRequest := oci_golden_gate.SwitchoverDeploymentPeerRequest{}
+	switchoverPeerDetails := oci_golden_gate.SwitchoverDeploymentPeerDetails{}
+
+	switchoverPeerDetails.AvailabilityDomain = &availabilityDomain
+	switchoverPeerDetails.FaultDomain = &faultDomain
+
+	idTmp := s.D.Id()
+	switchoverDeploymentPeerRequest.DeploymentId = &idTmp
+	switchoverDeploymentPeerRequest.SwitchoverDeploymentPeerDetails = switchoverPeerDetails
+
+	switchoverDeploymentPeerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+
+	response, err := s.Client.SwitchoverDeploymentPeer(context.Background(), switchoverDeploymentPeerRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	switchoverWorkRequestErr := s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	if switchoverWorkRequestErr != nil {
+		return switchoverWorkRequestErr
+	}
 	// set changed parameters
 	return s.getAndSaveStateChanges()
 }

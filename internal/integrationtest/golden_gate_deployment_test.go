@@ -47,6 +47,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		OBJECTSTORAGE_BUCKET_NAME        = "objectstorage_bucket_name"
 		OBJECTSTORAGE_NAMESPACE          = "objectstorage_namespace"
 		OBJECTSTORAGE_UPDATE_BUCKET_NAME = "objectstorage_update_bucket_name"
+		AVAILABILITY_DOMAIN              = "availability_domain"
+		FAULT_DOMAIN                     = "fault_domain"
 	)
 
 	var (
@@ -158,12 +160,12 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 		goldenGateDeploymentRepresentation = map[string]interface{}{
 			"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-			"cpu_core_count":            acctest.Representation{RepType: acctest.Required, Create: `1`},
-			"deployment_type":           acctest.Representation{RepType: acctest.Required, Create: `DATABASE_ORACLE`},
+			"cpu_core_count":            acctest.Representation{RepType: acctest.Optional, Create: `1`},
+			"deployment_type":           acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_ORACLE`},
 			"display_name":              acctest.Representation{RepType: acctest.Required, Create: `Terraform_integration_test`, Update: `Terraform_integration_test2`},
-			"is_auto_scaling_enabled":   acctest.Representation{RepType: acctest.Required, Create: `false`},
+			"is_auto_scaling_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 			"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
-			"license_model":             acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`},
+			"license_model":             acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 			"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 			"fqdn":                      acctest.Representation{RepType: acctest.Optional, Update: `fqdn1.oggdevops.us`},
 			"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -173,6 +175,10 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"maintenance_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentMaintenanceConfigurationRepresentation},
 			"maintenance_window":        acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentMaintenanceWindowRepresentation},
 			"backup_schedule":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentBackupScheduleRepresentation},
+			"availability_domain":       acctest.Representation{RepType: acctest.Optional, Create: `${var.availability_domain}`},
+			"fault_domain":              acctest.Representation{RepType: acctest.Optional, Create: `${var.fault_domain}`},
+			"placements":                []acctest.RepresentationGroup{}, // start with empty peer list
+			"source_deployment_id":      acctest.Representation{RepType: acctest.Optional, Create: nil},
 		}
 
 		deploymentLocksRepresentation = map[string]interface{}{
@@ -217,6 +223,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(OBJECTSTORAGE_BUCKET_NAME, t) +
 		makeVariableStr(OBJECTSTORAGE_UPDATE_BUCKET_NAME, t) +
 		makeVariableStr(OBJECTSTORAGE_NAMESPACE, t) +
+		makeVariableStr(AVAILABILITY_DOMAIN, t) +
+		makeVariableStr(FAULT_DOMAIN, t) +
 		GoldenGateDeploymentResourceDependencies
 
 	if identityDomainId != "" {
@@ -288,7 +296,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		//delete before next Create
 		{
 			Config: config,
 		},
@@ -396,7 +404,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test2"),
-				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_id", subnetId),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
@@ -433,10 +441,12 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.is_metadata_only", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.time_backup_scheduled", timeBackupScheduledForCreate),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
 				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -457,6 +467,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "placements.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placements.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placements.0.fault_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -488,6 +501,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.is_metadata_only", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.time_backup_scheduled", timeBackupScheduledForCreate),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdForMove),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
@@ -512,6 +527,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "placements.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placements.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placements.0.fault_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -536,15 +554,17 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.is_metadata_only", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_schedule.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "backup_schedule.0.time_backup_scheduled", timeBackupScheduledForUpdate),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test2"),
 				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
@@ -561,6 +581,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername2"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.certificate"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "placements.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placements.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placements.0.fault_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -618,6 +641,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_schedule.0.is_metadata_only", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_schedule.0.namespace"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_schedule.0.time_backup_scheduled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fault_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "DATABASE_ORACLE"),
@@ -627,7 +652,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fqdn"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_healthy"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_latest_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_public"),
@@ -645,6 +670,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.0.admin_username", "adminUsername2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placements.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placements.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placements.0.fault_domain"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ogg_data.0.certificate"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ogg_data.0.ogg_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
