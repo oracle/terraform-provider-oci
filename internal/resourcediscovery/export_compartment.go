@@ -398,7 +398,7 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 }
 
 func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
-	utils.Logf("[INFO] Running export command\n")
+	utils.Logf("[INFO] Running export command for compartment %s", *ctx.CompartmentId)
 	utils.Logf("[INFO] parallelism: %d", ctx.Parallelism)
 	defer ctx.PrintSummary()
 	exportStart := time.Now()
@@ -407,6 +407,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	if err != nil {
 		return err
 	}
+	totalDiscoveredResources := 0
 	discoveryStart := time.Now()
 	var discoverWg sync.WaitGroup
 	discoverWg.Add(len(steps))
@@ -415,8 +416,8 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 		sem <- struct{}{}
 
 		go func(i int, step resourceDiscoveryStep) {
-			utils.Debugf("[DEBUG] discover: Running step %d", i)
-			defer elapsed(fmt.Sprintf("time taken in discovering resources for step %d", i), step.getBaseStep(), Discovery)()
+			utils.Debugf("[DEBUG] discover for compartment - %s: Running step %d", *ctx.CompartmentId, i)
+			defer elapsed(fmt.Sprintf("time taken in discovering resources for step %d for compartment %s", i, *ctx.CompartmentId), step.getBaseStep(), Discovery)()
 			defer func() {
 				<-sem
 				if r := recover(); r != nil {
@@ -424,14 +425,15 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 					utils.Logf("[ERROR] panic in discover goroutine")
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] discoverWg done: step %d", i)
+				utils.Debugf("[DEBUG] discoverWg done: step %d for compartment %s", i, *ctx.CompartmentId)
 				discoverWg.Done()
 			}()
-
+			utils.Debugf("[DEBUG] Started Discovery for step %d for compartment %s", i, *ctx.CompartmentId)
 			err := step.discover()
+			utils.Debugf("[DEBUG] Finished Discovery for step %d for compartment %s", i, *ctx.CompartmentId)
 			if err != nil {
 				// All errors in discover are added to the ctx.errorList
-				utils.Debugf("[ERROR] error occurred while discovering resources for step %d", i)
+				utils.Debugf("[ERROR] error occurred while discovering resources for step %d for compartment %s", i, *ctx.CompartmentId)
 				utils.Logf("[ERROR] error occurred while discovering resources: %s", err.Error())
 				return
 			}
@@ -448,8 +450,9 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 				}
 			}
 
-			utils.Debugf("[DEBUG] discover: Completed step %d", i)
+			utils.Debugf("[DEBUG] discover: Completed step %d for compartment %s", i, *ctx.CompartmentId)
 			utils.Debugf("[DEBUG] discovered %d resources for step %d", len(step.getDiscoveredResources()), i)
+			totalDiscoveredResources += len(step.getDiscoveredResources())
 		}(i, step)
 
 	}
@@ -457,7 +460,8 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	// Wait for all steps to complete discovery
 	discoverWg.Wait()
 	totalDiscoveryTime := time.Since(discoveryStart)
-	utils.Debugf("discovering resources for all services took %v\n", totalDiscoveryTime)
+	utils.Debugf("discovering resources for all services took %v for compartment %s", totalDiscoveryTime, *ctx.CompartmentId)
+	utils.Debugf("Total Discovered Resources for compartment %s -  %d\n", *ctx.CompartmentId, totalDiscoveredResources)
 	ctx.TimeTakenToDiscover = totalDiscoveryTime
 	utils.Debug("[DEBUG] ~~~~~~ discover steps completed ~~~~~~")
 
@@ -465,12 +469,12 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 		stateStart := time.Now()
 		// Run import commands
 		if ctx.Parallelism > 1 {
-			utils.Debug("[DEBUG] Generating state in parallel")
+			utils.Debugf("[DEBUG] Generating state in parallel for compartment %s", *ctx.CompartmentId)
 			if err := generateStateParallel(ctx, steps); err != nil {
 				return err
 			}
 		} else {
-			utils.Debug("[DEBUG] Generating state sequentially")
+			utils.Debugf("[DEBUG] Generating state sequentially for compartment %s", *ctx.CompartmentId)
 			if err := generateState(ctx, steps); err != nil {
 				return err
 			}
@@ -482,7 +486,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 			deleteInvalidReferences(tf_export.ReferenceMap, ctx.DiscoveredResources)
 		}
 		timeForStateGeneration := time.Since(stateStart)
-		utils.Debugf("[DEBUG] state generation took %v\n", timeForStateGeneration)
+		utils.Debugf("[DEBUG] state generation took %v for compartment %s", timeForStateGeneration, *ctx.CompartmentId)
 		ctx.TimeTakenToGenerateState = timeForStateGeneration
 	}
 
@@ -502,26 +506,27 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	wgDone := make(chan bool)
 
 	// Write configuration for imported resources
+	utils.Debugf("[DEBUG] writing configuration for compartment %s", *ctx.CompartmentId)
 	configStart := time.Now()
 	for i, step := range steps {
 
 		sem <- struct{}{}
 		go func(i int, step resourceDiscoveryStep) {
-			utils.Debugf("[DEBUG] writeConfiguration: Running step %d", i)
+			utils.Debugf("[DEBUG] writeConfiguration for compartment %s: Running step %d", *ctx.CompartmentId, i)
 			defer func() {
 				<-sem
 				if r := recover(); r != nil {
-					utils.Logf("[ERROR] panic in writeConfiguration goroutine")
+					utils.Logf("[ERROR] panic in writeConfiguration goroutine for compartment %s", *ctx.CompartmentId)
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] configWg done: step %d", i)
+				utils.Debugf("[DEBUG] configWg done for compartment %s: step %d", *ctx.CompartmentId, i)
 				configWg.Done()
 			}()
 			if err := step.writeConfiguration(); err != nil {
-				errorChannel <- fmt.Errorf("[ERROR] error writing final configuration for resources found: %s", err.Error())
+				errorChannel <- fmt.Errorf("[ERROR] error writing final configuration for compartment %s for resources found: %s", *ctx.CompartmentId, err.Error())
 			}
 
-			utils.Debugf("[DEBUG] writeConfiguration: Completed step %d", i)
+			utils.Debugf("[DEBUG] writeConfiguration for compartment %s: Completed step %d", *ctx.CompartmentId, i)
 		}(i, step)
 	}
 
@@ -536,14 +541,14 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	select {
 	case <-wgDone:
 		utils.Debugf("[DEBUG] ~~~~~~ writeConfiguration steps completed ~~~~~~")
-		utils.Debugf("[DEBUG] writing config took %v\n", time.Since(configStart))
+		utils.Debugf("[DEBUG] writing config for compartment %s took %v\n", *ctx.CompartmentId, time.Since(configStart))
 		break
 	case errs := <-errorChannel:
 		close(errorChannel)
 		for i := 0; i < len(errorChannel); i++ {
 			errs = multierror.Append(errs, <-errorChannel)
 		}
-		utils.Logf("[ERROR] error writing final configuration for resources found: %s", errs.Error())
+		utils.Debugf("[DEBUG] writing config took %v for compartment %s", time.Since(configStart), *ctx.CompartmentId)
 		return errs
 	}
 
@@ -603,6 +608,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 
 	for i, step := range steps {
 		if len(step.getDiscoveredResources()) == 0 {
+			utils.Debugf("[DEBUG] skipping write temp config for compartment %s for step %d", *ctx.CompartmentId, i)
 			stateWg.Done()
 			continue
 		}
@@ -610,15 +616,15 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 		sem <- struct{}{}
 
 		go func(i int, step resourceDiscoveryStep) {
-			utils.Debugf("[DEBUG] writing temp config and state: Running step %d", i)
-			defer elapsed(fmt.Sprintf("time taken by step %s to generate state", fmt.Sprint(i)), step.getBaseStep(), GeneratingState)()
+			utils.Debugf("[DEBUG] writing temp config and state for compartment %s: Running step %d", *ctx.CompartmentId, i)
+			defer elapsed(fmt.Sprintf("time taken by step %s to generate state for compartment %s", fmt.Sprint(i), *ctx.CompartmentId), step.getBaseStep(), GeneratingState)()
 			defer func() {
 				<-sem
 				if r := recover(); r != nil {
 					utils.Logf("[ERROR] panic in writing temp config and state goroutine")
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] stateWg done: step %d", i)
+				utils.Debugf("[DEBUG] stateWg done for compartment %s: step %d", *ctx.CompartmentId, i)
 				stateWg.Done()
 			}()
 
@@ -627,7 +633,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 			   and also remove the references to failed resources from the referenceMap */
 			var err error = nil
 			if err = step.writeTmpConfigurationForImport(); err != nil {
-				errorChannel <- fmt.Errorf("[ERROR] error while writing temp config for resources found in step %d: %s", i, err.Error())
+				errorChannel <- fmt.Errorf("[ERROR] error while writing temp config for compartment %s for resources found in step %d: %s", *ctx.CompartmentId, i, err.Error())
 			}
 
 			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
@@ -643,7 +649,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 				}
 			}
 
-			utils.Debugf("writing temp config and state: Completed step %d", i)
+			utils.Debugf("writing temp config and state for compartment %s: Completed step %d", *ctx.CompartmentId, i)
 		}(i, step)
 	}
 
@@ -657,7 +663,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	// Wait until either stateWg is done or an error is received through the errorChannel
 	select {
 	case <-wgDone:
-		utils.Debugf("[DEBUG] ~~~~~~ writing temp config and state steps completed ~~~~~~")
+		utils.Debugf("[DEBUG] ~~~~~~ writing temp config and state steps completed for compartment %s ~~~~~~", *ctx.CompartmentId)
 		break
 	case errs := <-errorChannel:
 		close(errorChannel)
@@ -676,7 +682,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	}
 
 	if ctx.State == nil {
-		utils.Logf("[INFO] ~~~~~~ no resources were imported to the state file ~~~~~~")
+		utils.Logf("[INFO] ~~~~~~ no resources were imported to the state file for compartment %s ~~~~~~", *ctx.CompartmentId)
 		return nil
 	}
 
@@ -713,6 +719,7 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 	if err := ctx.Terraform.Init(backgroundCtx, initArgs...); err != nil {
 		return err
 	}
+	utils.Logf("[INFO] ~~~~~~ Generating State Parallelly Complete for compartment %s ~~~~~~", *ctx.CompartmentId)
 	return nil
 }
 
@@ -826,6 +833,8 @@ func importResource(ctx *tf_export.ResourceDiscoveryContext, resource *tf_export
 		ctx.AddErrorToList(rdError)
 
 	}
+	utils.Logf("[INFO] ===> Importing resource '%s' - DONE", resource.GetTerraformReference())
+	utils.Debugf("[DEBUG] ===> Importing resource '%s' - DONE", resource.GetTerraformReference())
 }
 
 func getDiscoverResourceSteps(ctx *tf_export.ResourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
@@ -937,10 +946,10 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 		return foundResources, nil
 	}
 
-	utils.Logf("[INFO] resource discovery: visiting %s\n", root.GetTerraformReference())
-	utils.Debugf("[DEBUG] resource discovery: visiting %s\n", root.GetTerraformReference())
+	utils.Logf("[INFO] resource discovery: visiting %s for compartment %s\n", root.GetTerraformReference(), root.CompartmentId)
+	utils.Debugf("[DEBUG] resource discovery: visiting %s for compartment %s\n", root.GetTerraformReference(), root.CompartmentId)
 
-	utils.Logf("[INFO] number of child resource types for %s: %d\n", root.GetTerraformReference(), len(childResourceTypes))
+	utils.Logf("[INFO] number of child resource types for %s: %d for compartment %s\n", root.GetTerraformReference(), len(childResourceTypes), root.CompartmentId)
 
 	findResourcesStart := time.Now()
 	var findResourcesWg sync.WaitGroup
@@ -1039,7 +1048,7 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 	// Wait for all steps to complete findResources
 	findResourcesWg.Wait()
 	totalFindResourcesTime := time.Since(findResourcesStart)
-	utils.Debugf("finding resources for %s took %v\n", root.GetTerraformReference(), totalFindResourcesTime)
+	utils.Debugf("finding resources for %s took %v for compartment %s\n", root.GetTerraformReference(), totalFindResourcesTime, root.CompartmentId)
 
 	// create copies of filters so that in each thread, they are not shared
 	// since number of filters is expected to be less than the number of threads running in parallel, this is a cost effective approach than locking
