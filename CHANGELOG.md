@@ -1,4 +1,4 @@
-## 6.34.0 (Unreleased)
+## 6.34.0 (April 09, 2025)
 
 ### Added
 - Support for New API header property to support Dry Run of Function Invocation
@@ -15,7 +15,7 @@
 Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
 - Fix assignPublicIp mapping in core_instance_configuration_resource
 
-## 6.34.0 (Unreleased)
+## 6.34.0 (April 09, 2025)
 
 ### Added
 - Support for New API header property to support Dry Run of Function Invocation
