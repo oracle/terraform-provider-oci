@@ -14,7 +14,7 @@ import (
 // SetDefaultRunbookRequest wrapper for the SetDefaultRunbook operation
 type SetDefaultRunbookRequest struct {
 
-	// Details for setting the Runbook as default.
+	// Details for setting the runbook as default for a platform and operation.
 	SetDefaultRunbookDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

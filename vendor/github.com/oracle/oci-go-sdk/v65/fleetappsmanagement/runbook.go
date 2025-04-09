@@ -17,6 +17,7 @@ import (
 
 // Runbook Runbook definition.
 // Runbooks allow you to capture procedural tasks for handling a workflow.
+// Only active versions of runbook will be available for executions.
 type Runbook struct {
 
 	// The OCID of the resource.
@@ -37,7 +38,7 @@ type Runbook struct {
 	// Sets this runbook as the default for the chosen product/product stack for the specified lifecycle operation.
 	IsDefault *bool `mandatory:"true" json:"isDefault"`
 
-	// The current state of the Runbook.
+	// The current state of the runbook.
 	LifecycleState RunbookLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.

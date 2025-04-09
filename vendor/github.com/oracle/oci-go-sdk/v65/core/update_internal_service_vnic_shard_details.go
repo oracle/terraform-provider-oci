@@ -51,6 +51,9 @@ type UpdateInternalServiceVnicShardDetails struct {
 
 	// List of service vnic ad configs
 	AdConfigs []InternalServiceVnicAdConfig `mandatory:"false" json:"adConfigs"`
+
+	// List of tags on this shard
+	Tags []string `mandatory:"false" json:"tags"`
 }
 
 func (m UpdateInternalServiceVnicShardDetails) String() string {

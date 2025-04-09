@@ -14,7 +14,7 @@ import (
 // GenerateComplianceReportRequest wrapper for the GenerateComplianceReport operation
 type GenerateComplianceReportRequest struct {
 
-	// Details for generating Compliance Report for the Fleet.
+	// Details for generating compliance report for the Fleet.
 	GenerateComplianceReportDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

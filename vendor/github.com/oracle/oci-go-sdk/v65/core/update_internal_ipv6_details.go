@@ -50,7 +50,7 @@ type UpdateInternalIpv6Details struct {
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime UpdateInternalIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

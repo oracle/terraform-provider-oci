@@ -33,7 +33,10 @@ type FleetBasedActionGroup struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// sequence of the Action Group
+	// Sequence of the Action Group.
+	// Action groups will be executed in a seuential order.
+	// All Action Groups having the same sequence will be executed parallely.
+	// If no value is provided a default value of 1 will be given.
 	Sequence *int `mandatory:"false" json:"sequence"`
 }
 

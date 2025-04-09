@@ -45,10 +45,12 @@ type CreateBackendSetDetails struct {
 	// If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
 	IsInstantFailoverEnabled *bool `mandatory:"false" json:"isInstantFailoverEnabled"`
 
-	// If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.
+	// This only applies when using instant failover. If enabled, the network load balancer will send TCP RST to clients when a backend becomes unhealthy and the traffic is moved to a healthy backend.
+	// If disabled, the network load balancer will not send TCP RST before moving traffic to a healthy backend.  By default, TCP RST is enabled.
 	IsInstantFailoverTcpResetEnabled *bool `mandatory:"false" json:"isInstantFailoverTcpResetEnabled"`
 
-	// If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy.
+	// If enabled, NLB supports active-standby backends, with the initial standby being the configured backup backend. The standby backend becomes active and takes over serving traffic when the current active backend becomes unhealthy.
+	// The new active backend continues to serve the traffic while healthy even when the old active backend becomes healthy.
 	AreOperationallyActiveBackendsPreferred *bool `mandatory:"false" json:"areOperationallyActiveBackendsPreferred"`
 
 	// IP version associated with the backend set.

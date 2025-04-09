@@ -211,7 +211,7 @@ func (client FleetAppsManagementClient) checkResourceTagging(ctx context.Context
 }
 
 // ConfirmTargets Confirm targets to be managed for a Fleet.
-// Only targets that are confirmed will be managed by Fleet Application Management
+// Only targets that are confirmed will be managed by Fleet Application Management.
 // A default retry strategy applies to this operation ConfirmTargets()
 func (client FleetAppsManagementClient) ConfirmTargets(ctx context.Context, request ConfirmTargetsRequest) (response ConfirmTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -270,7 +270,7 @@ func (client FleetAppsManagementClient) confirmTargets(ctx context.Context, requ
 	return response, err
 }
 
-// CreateFleet Create a product, environment, group, or generic type of fleet in Fleet Application Management.
+// CreateFleet Create a fleet in Fleet Application Management.
 // A default retry strategy applies to this operation CreateFleet()
 func (client FleetAppsManagementClient) CreateFleet(ctx context.Context, request CreateFleetRequest) (response CreateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -447,7 +447,7 @@ func (client FleetAppsManagementClient) createFleetProperty(ctx context.Context,
 	return response, err
 }
 
-// CreateFleetResource Add resource to a fleet in Fleet Application Management.
+// CreateFleetResource Add resource to a fleet in Fleet Application Management.
 // A default retry strategy applies to this operation CreateFleetResource()
 func (client FleetAppsManagementClient) CreateFleetResource(ctx context.Context, request CreateFleetResourceRequest) (response CreateFleetResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -560,7 +560,7 @@ func (client FleetAppsManagementClient) deleteFleet(ctx context.Context, request
 	return response, err
 }
 
-// DeleteFleetCredential Delete a credential associated with a fleet product or application in Fleet Application Management.
+// DeleteFleetCredential Deletes a credential associated with a fleet or with a product/target with in a fleet.
 // A default retry strategy applies to this operation DeleteFleetCredential()
 func (client FleetAppsManagementClient) DeleteFleetCredential(ctx context.Context, request DeleteFleetCredentialRequest) (response DeleteFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -614,7 +614,7 @@ func (client FleetAppsManagementClient) deleteFleetCredential(ctx context.Contex
 	return response, err
 }
 
-// DeleteFleetProperty Delete a property associated with a fleet in Fleet Application Management.
+// DeleteFleetProperty Deletes a property associated with a fleet in Fleet Application Management.
 // A default retry strategy applies to this operation DeleteFleetProperty()
 func (client FleetAppsManagementClient) DeleteFleetProperty(ctx context.Context, request DeleteFleetPropertyRequest) (response DeleteFleetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -722,7 +722,7 @@ func (client FleetAppsManagementClient) deleteFleetResource(ctx context.Context,
 	return response, err
 }
 
-// GenerateComplianceReport Generate compliance reports for a Fleet.
+// GenerateComplianceReport Generate compliance report for a Fleet.
 // A default retry strategy applies to this operation GenerateComplianceReport()
 func (client FleetAppsManagementClient) GenerateComplianceReport(ctx context.Context, request GenerateComplianceReportRequest) (response GenerateComplianceReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -889,7 +889,7 @@ func (client FleetAppsManagementClient) getFleet(ctx context.Context, request co
 	return response, err
 }
 
-// GetFleetCredential Gets a FleetCredential by identifier.
+// GetFleetCredential Gets a fleet credential by identifier.
 // A default retry strategy applies to this operation GetFleetCredential()
 func (client FleetAppsManagementClient) GetFleetCredential(ctx context.Context, request GetFleetCredentialRequest) (response GetFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -943,7 +943,7 @@ func (client FleetAppsManagementClient) getFleetCredential(ctx context.Context, 
 	return response, err
 }
 
-// GetFleetProperty Gets a Fleet Property by identifier.
+// GetFleetProperty Gets a fleet property by identifier.
 // A default retry strategy applies to this operation GetFleetProperty()
 func (client FleetAppsManagementClient) GetFleetProperty(ctx context.Context, request GetFleetPropertyRequest) (response GetFleetPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -997,7 +997,7 @@ func (client FleetAppsManagementClient) getFleetProperty(ctx context.Context, re
 	return response, err
 }
 
-// GetFleetResource Gets a Fleet Resource by identifier.
+// GetFleetResource Gets a fleet resource by identifier.
 // A default retry strategy applies to this operation GetFleetResource()
 func (client FleetAppsManagementClient) GetFleetResource(ctx context.Context, request GetFleetResourceRequest) (response GetFleetResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1051,7 +1051,7 @@ func (client FleetAppsManagementClient) getFleetResource(ctx context.Context, re
 	return response, err
 }
 
-// ListAnnouncements Return a list of AnnouncementSummary items.
+// ListAnnouncements Return a list of Announcement Summary items in a tenancy.
 // A default retry strategy applies to this operation ListAnnouncements()
 func (client FleetAppsManagementClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1105,7 +1105,7 @@ func (client FleetAppsManagementClient) listAnnouncements(ctx context.Context, r
 	return response, err
 }
 
-// ListFleetCredentials List credentials in Fleet Application Management.
+// ListFleetCredentials List credentials associated with a fleet.
 // A default retry strategy applies to this operation ListFleetCredentials()
 func (client FleetAppsManagementClient) ListFleetCredentials(ctx context.Context, request ListFleetCredentialsRequest) (response ListFleetCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1213,7 +1213,7 @@ func (client FleetAppsManagementClient) listFleetProducts(ctx context.Context, r
 	return response, err
 }
 
-// ListFleetProperties List fleet properties in Fleet Application Management.
+// ListFleetProperties List properties associated with a fleet.
 // A default retry strategy applies to this operation ListFleetProperties()
 func (client FleetAppsManagementClient) ListFleetProperties(ctx context.Context, request ListFleetPropertiesRequest) (response ListFleetPropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1430,7 +1430,8 @@ func (client FleetAppsManagementClient) listFleets(ctx context.Context, request 
 	return response, err
 }
 
-// ListInventoryResources Returns a list of InventoryResources.
+// ListInventoryResources Returns a list of Inventory Resources based on the criteria provided.
+// instance, dbsystem, cloudvmcluster resources are supported.
 // A default retry strategy applies to this operation ListInventoryResources()
 func (client FleetAppsManagementClient) ListInventoryResources(ctx context.Context, request ListInventoryResourcesRequest) (response ListInventoryResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1598,8 +1599,7 @@ func (client FleetAppsManagementClient) requestResourceValidation(ctx context.Co
 	return response, err
 }
 
-// RequestTargetDiscovery Confirm targets to be managed for a Fleet.
-// Only targets that are confirmed will be managed by Fleet Application Management
+// RequestTargetDiscovery Request target discovery for resources with in a fleet.
 // A default retry strategy applies to this operation RequestTargetDiscovery()
 func (client FleetAppsManagementClient) RequestTargetDiscovery(ctx context.Context, request RequestTargetDiscoveryRequest) (response RequestTargetDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1712,7 +1712,7 @@ func (client FleetAppsManagementClient) updateFleet(ctx context.Context, request
 	return response, err
 }
 
-// UpdateFleetCredential Edit credentials associated with a product or application in Fleet Application Management.
+// UpdateFleetCredential Edit credential associated with a fleet or with a product/target with in a fleet.
 // A default retry strategy applies to this operation UpdateFleetCredential()
 func (client FleetAppsManagementClient) UpdateFleetCredential(ctx context.Context, request UpdateFleetCredentialRequest) (response UpdateFleetCredentialResponse, err error) {
 	var ociResponse common.OCIResponse

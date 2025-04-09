@@ -269,7 +269,7 @@ func (client FleetAppsManagementOperationsClient) createSchedulerDefinition(ctx 
 	return response, err
 }
 
-// DeletePatch Deletes a Patch resource by identifier
+// DeletePatch Deletes the patch specified by identifier.
 // A default retry strategy applies to this operation DeletePatch()
 func (client FleetAppsManagementOperationsClient) DeletePatch(ctx context.Context, request DeletePatchRequest) (response DeletePatchResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -597,7 +597,7 @@ func (client FleetAppsManagementOperationsClient) getJobActivity(ctx context.Con
 	return response, err
 }
 
-// GetPatch Gets a Patch by identifier
+// GetPatch Gets a Patch by identifier.
 // A default retry strategy applies to this operation GetPatch()
 func (client FleetAppsManagementOperationsClient) GetPatch(ctx context.Context, request GetPatchRequest) (response GetPatchResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1361,7 +1361,7 @@ func (client FleetAppsManagementOperationsClient) manageJobExecution(ctx context
 	return response, err
 }
 
-// SummarizeComplianceRecordCounts Retrieve  aggregated summary information of ComplianceRecords within a Tenancy.
+// SummarizeComplianceRecordCounts Retrieve  aggregated summary information of ComplianceRecords within a Compartment.
 // A default retry strategy applies to this operation SummarizeComplianceRecordCounts()
 func (client FleetAppsManagementOperationsClient) SummarizeComplianceRecordCounts(ctx context.Context, request SummarizeComplianceRecordCountsRequest) (response SummarizeComplianceRecordCountsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1415,7 +1415,7 @@ func (client FleetAppsManagementOperationsClient) summarizeComplianceRecordCount
 	return response, err
 }
 
-// SummarizeManagedEntityCounts Retrieve  aggregated summary information of Managed Entities within a Tenancy.
+// SummarizeManagedEntityCounts Retrieve  aggregated summary information of Managed entities within a Compartment.
 // A default retry strategy applies to this operation SummarizeManagedEntityCounts()
 func (client FleetAppsManagementOperationsClient) SummarizeManagedEntityCounts(ctx context.Context, request SummarizeManagedEntityCountsRequest) (response SummarizeManagedEntityCountsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1523,7 +1523,7 @@ func (client FleetAppsManagementOperationsClient) summarizeSchedulerJobCounts(ct
 	return response, err
 }
 
-// UpdatePatch Updates the Patch
+// UpdatePatch Updates the patch specified by the identifier.
 // A default retry strategy applies to this operation UpdatePatch()
 func (client FleetAppsManagementOperationsClient) UpdatePatch(ctx context.Context, request UpdatePatchRequest) (response UpdatePatchResponse, err error) {
 	var ociResponse common.OCIResponse

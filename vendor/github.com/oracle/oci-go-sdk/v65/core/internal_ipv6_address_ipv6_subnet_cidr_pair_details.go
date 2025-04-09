@@ -37,7 +37,7 @@ type InternalIpv6AddressIpv6SubnetCidrPairDetails struct {
 	Ipv6Id *string `mandatory:"false" json:"ipv6Id"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

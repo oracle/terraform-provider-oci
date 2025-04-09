@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// CreateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails The details for creating an internally managed subordinate certificate authority (CA) which is issued by an external private CA.
+// CreateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails The configuration details for creating an internally managed subordinate certificate authority (CA) which is issued by an external private CA.
 type CreateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails struct {
 
-	// The OCID of the issuer private CA.
+	// The OCID of the private, external issuer CA.
 	IssuerCertificateAuthorityId *string `mandatory:"true" json:"issuerCertificateAuthorityId"`
 
 	Subject *CertificateSubject `mandatory:"true" json:"subject"`

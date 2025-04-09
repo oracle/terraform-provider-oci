@@ -29,6 +29,9 @@ type ListProvisionsRequest struct {
 	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
+	// unique Fleet identifier
+	FleetId *string `mandatory:"false" contributesTo:"query" name:"fleetId"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

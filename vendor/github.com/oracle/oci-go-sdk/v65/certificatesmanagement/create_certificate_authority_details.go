@@ -38,7 +38,7 @@ type CreateCertificateAuthorityDetails struct {
 	// The OCID of the Oracle Cloud Infrastructure Vault key used to encrypt the CA.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// Description of the externally managed key.
+	// For externally managed CAs, a description of the externally managed private key. Avoid entering confidential information.
 	ExternalKeyDescription *string `mandatory:"false" json:"externalKeyDescription"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

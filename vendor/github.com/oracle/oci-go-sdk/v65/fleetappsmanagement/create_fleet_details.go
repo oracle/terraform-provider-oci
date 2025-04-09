@@ -24,7 +24,7 @@ type CreateFleetDetails struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ResourceSelection ResourceSelection `mandatory:"true" json:"resourceSelection"`

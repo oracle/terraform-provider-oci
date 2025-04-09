@@ -19,7 +19,7 @@ import (
 // CreateSchedulerDefinitionDetails The information about new SchedulerDefinition.
 type CreateSchedulerDefinitionDetails struct {
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	Schedule Schedule `mandatory:"true" json:"schedule"`

@@ -74,7 +74,7 @@ type InternalPrivateIp struct {
 	IpState InternalPrivateIpIpStateEnum `mandatory:"false" json:"ipState,omitempty"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime InternalPrivateIpLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

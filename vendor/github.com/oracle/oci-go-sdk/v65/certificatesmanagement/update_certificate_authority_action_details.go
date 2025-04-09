@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateCertificateAuthorityActionDetails The action details for updating a certificate authority (CA).
+// UpdateCertificateAuthorityActionDetails The details of the type of certificate authority (CA) update request. Updates can be performed by updating certificate contents or by generating a certificate signing request (CSR).
 type UpdateCertificateAuthorityActionDetails interface {
 }
 

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails The details for updating an internally managed subordinate certificate authority (CA) which is issued by an external CA.
+// UpdateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails The configuration details for updating an internally managed subordinate certificate authority (CA) which is issued by an external CA.
 type UpdateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails struct {
 	ActionDetails UpdateCertificateAuthorityActionDetails `mandatory:"true" json:"actionDetails"`
 

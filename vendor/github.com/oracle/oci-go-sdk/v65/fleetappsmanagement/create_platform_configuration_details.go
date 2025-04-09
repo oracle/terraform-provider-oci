@@ -19,7 +19,7 @@ import (
 // CreatePlatformConfigurationDetails The information about new PlatformConfiguration.
 type CreatePlatformConfigurationDetails struct {
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

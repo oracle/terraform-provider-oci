@@ -47,21 +47,6 @@ func (request GetDscpOverrideRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request GetDscpOverrideRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["dscpOverrideId"] != nil {
-		templateParam := mandatoryParamMap["dscpOverrideId"]
-		for _, template := range templateParam {
-			replacementParam := *request.DscpOverrideId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDscpOverrideRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

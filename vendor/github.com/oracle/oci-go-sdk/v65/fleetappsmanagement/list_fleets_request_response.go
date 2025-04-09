@@ -27,7 +27,7 @@ type ListFleetsRequest struct {
 	// A filter to return resources that match the Application Type/Product Stack given..
 	ApplicationType *string `mandatory:"false" contributesTo:"query" name:"applicationType"`
 
-	// A filter to return resources that match the Product given.
+	// A filter to return resources that match the Product/Product Stack given.
 	Product *string `mandatory:"false" contributesTo:"query" name:"product"`
 
 	// A filter to return resources that match the Environment Type given.

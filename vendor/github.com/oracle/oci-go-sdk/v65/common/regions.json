@@ -562,5 +562,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-quincy-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "yxj",
+        "realmKey": "oc42",
+        "regionIdentifier": "us-ashburn-2",
+        "realmDomainComponent": "oraclerealm42.com"
     }
 ]

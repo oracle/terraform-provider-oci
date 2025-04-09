@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateRootCaManagedExternallyConfigDetails The details for updating an externally managed private root certificate authority (CA) issued by external CA.
+// UpdateRootCaManagedExternallyConfigDetails The configuration details for updating an externally managed private root certificate authority (CA) issued by an external CA.
 type UpdateRootCaManagedExternallyConfigDetails struct {
 
-	// Externally signed certificate (in PEM format) for the certificate authority.
+	// The externally signed certificate (in PEM format) for the CA.
 	CertificatePem *string `mandatory:"true" json:"certificatePem"`
 
 	// The name of the CA version. When the value is not null, a name is unique across versions of a given CA.

@@ -78,6 +78,18 @@ type NetworkLoadBalancer struct {
 	// This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
 	IsSymmetricHashEnabled *bool `mandatory:"false" json:"isSymmetricHashEnabled"`
 
+	// NAT translation mode between IPv4 and IPv6
+	IpVersionTranslation NetworkLoadBalancerIpVersionTranslationEnum `mandatory:"false" json:"ipVersionTranslation,omitempty"`
+
+	// Optional field for NAT46 use case. If specified, the CIDR must be from NLB's Subnet IPv6 Prefixes and
+	// can be of either /80 length or /64 length. If cidr prefix of length /80 is passed then entire cidr block will be used for NATing or
+	// if /64 is provided then a length of /80 will be derived internally and used for NATing.
+	// Example: "fc00:9b80:9a0a:9a7e:abcd::/80"
+	Nat46Ipv6CidrPrefix *string `mandatory:"false" json:"nat46Ipv6CidrPrefix"`
+
+	// IPv6 CIDR used for NATing.
+	Nat46Ipv6Cidr *string `mandatory:"false" json:"nat46Ipv6Cidr"`
+
 	// An array of network security groups OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load
 	// balancer.
 	// During the creation of the network load balancer, the service adds the new load balancer to the specified network security groups.
@@ -134,8 +146,53 @@ func (m NetworkLoadBalancer) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingNlbIpVersionEnum(string(m.NlbIpVersion)); !ok && m.NlbIpVersion != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NlbIpVersion: %s. Supported values are: %s.", m.NlbIpVersion, strings.Join(GetNlbIpVersionEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingNetworkLoadBalancerIpVersionTranslationEnum(string(m.IpVersionTranslation)); !ok && m.IpVersionTranslation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpVersionTranslation: %s. Supported values are: %s.", m.IpVersionTranslation, strings.Join(GetNetworkLoadBalancerIpVersionTranslationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// NetworkLoadBalancerIpVersionTranslationEnum Enum with underlying type: string
+type NetworkLoadBalancerIpVersionTranslationEnum string
+
+// Set of constants representing the allowable values for NetworkLoadBalancerIpVersionTranslationEnum
+const (
+	NetworkLoadBalancerIpVersionTranslationDisabled NetworkLoadBalancerIpVersionTranslationEnum = "DISABLED"
+	NetworkLoadBalancerIpVersionTranslationNat46    NetworkLoadBalancerIpVersionTranslationEnum = "NAT46"
+)
+
+var mappingNetworkLoadBalancerIpVersionTranslationEnum = map[string]NetworkLoadBalancerIpVersionTranslationEnum{
+	"DISABLED": NetworkLoadBalancerIpVersionTranslationDisabled,
+	"NAT46":    NetworkLoadBalancerIpVersionTranslationNat46,
+}
+
+var mappingNetworkLoadBalancerIpVersionTranslationEnumLowerCase = map[string]NetworkLoadBalancerIpVersionTranslationEnum{
+	"disabled": NetworkLoadBalancerIpVersionTranslationDisabled,
+	"nat46":    NetworkLoadBalancerIpVersionTranslationNat46,
+}
+
+// GetNetworkLoadBalancerIpVersionTranslationEnumValues Enumerates the set of values for NetworkLoadBalancerIpVersionTranslationEnum
+func GetNetworkLoadBalancerIpVersionTranslationEnumValues() []NetworkLoadBalancerIpVersionTranslationEnum {
+	values := make([]NetworkLoadBalancerIpVersionTranslationEnum, 0)
+	for _, v := range mappingNetworkLoadBalancerIpVersionTranslationEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetNetworkLoadBalancerIpVersionTranslationEnumStringValues Enumerates the set of values in String for NetworkLoadBalancerIpVersionTranslationEnum
+func GetNetworkLoadBalancerIpVersionTranslationEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"NAT46",
+	}
+}
+
+// GetMappingNetworkLoadBalancerIpVersionTranslationEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingNetworkLoadBalancerIpVersionTranslationEnum(val string) (NetworkLoadBalancerIpVersionTranslationEnum, bool) {
+	enum, ok := mappingNetworkLoadBalancerIpVersionTranslationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

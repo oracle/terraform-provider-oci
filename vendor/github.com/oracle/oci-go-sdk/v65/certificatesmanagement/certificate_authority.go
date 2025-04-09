@@ -44,7 +44,7 @@ type CertificateAuthority struct {
 	// A brief description of the CA.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Description of the externally managed key. This is applicable only for externally managed CA types.
+	// For externally managed CAs, a description of the externally managed key. Avoid entering confidential information.
 	ExternalKeyDescription *string `mandatory:"false" json:"externalKeyDescription"`
 
 	// An optional property indicating when to delete the CA version, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.

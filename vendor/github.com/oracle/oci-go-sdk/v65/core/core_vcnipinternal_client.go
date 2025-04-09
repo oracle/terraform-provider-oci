@@ -73,7 +73,7 @@ func newVcnipInternalClientFromBaseClient(baseClient common.BaseClient, configPr
 
 // SetRegion overrides the region of this client.
 func (client *VcnipInternalClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://{dualStack?ds.:}iaas.{region}.{dualStack?oci.:}{secondLevelDomain}", "iaas")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://iaas.{region}.{dualStack?ds.oci.:}{secondLevelDomain}", "iaas")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -95,12 +95,6 @@ func (client *VcnipInternalClient) setConfigurationProvider(configProvider commo
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *VcnipInternalClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
-}
-
-// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
-// Default value is false
-func (client *VcnipInternalClient) EnableDualStackEndpoints(enableDualStack bool) {
-	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // ByoipRangeLock Lock ByoipRange
@@ -140,13 +134,6 @@ func (client VcnipInternalClient) byoipRangeLock(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ByoipRangeLockResponse
 	var httpResponse *http.Response
@@ -200,13 +187,6 @@ func (client VcnipInternalClient) byoipRangeUnlock(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ByoipRangeUnlockResponse
 	var httpResponse *http.Response

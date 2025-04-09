@@ -19,17 +19,17 @@ import (
 // UpdateCertificateAuthorityDetails The details for updating a certificate authority (CA).
 type UpdateCertificateAuthorityDetails struct {
 
-	// A brief description of the CA.
+	// A brief description of the CA. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Makes this version the current version. This property cannot be updated in combination with any other properties.
+	// Makes this version the current version. This property can't be updated in combination with any other properties.
 	CurrentVersionNumber *int64 `mandatory:"false" json:"currentVersionNumber"`
 
 	CertificateAuthorityConfig UpdateCertificateAuthorityConfigDetails `mandatory:"false" json:"certificateAuthorityConfig"`
 
 	CertificateRevocationListDetails *CertificateRevocationListDetails `mandatory:"false" json:"certificateRevocationListDetails"`
 
-	// Description of the externally managed key.
+	// For externally managed CAs, a description of the externally managed key. Avoid entering confidential information.
 	ExternalKeyDescription *string `mandatory:"false" json:"externalKeyDescription"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

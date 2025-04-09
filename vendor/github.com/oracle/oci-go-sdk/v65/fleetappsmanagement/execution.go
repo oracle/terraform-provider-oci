@@ -61,6 +61,9 @@ type Execution struct {
 	// Resource Identifier associated with the Work Request.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
+	// An attribute which tells if further retries are allowed for the task on failure.
+	IsRetryExceeded *bool `mandatory:"false" json:"isRetryExceeded"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

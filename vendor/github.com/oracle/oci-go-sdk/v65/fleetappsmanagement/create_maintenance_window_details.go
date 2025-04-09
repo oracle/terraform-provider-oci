@@ -18,7 +18,7 @@ import (
 // CreateMaintenanceWindowDetails The information about the new MaintenanceWindow.
 type CreateMaintenanceWindowDetails struct {
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Specify the date and time of the day that the maintenance window starts.

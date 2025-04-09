@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateCertificateAuthorityCertificateDetails Update certificate authority action to update the signed certificate for the latest CA version.
+// UpdateCertificateAuthorityCertificateDetails The details of the request to update the certificate authority (CA) with a signed certificate for the latest CA version.
 type UpdateCertificateAuthorityCertificateDetails struct {
 
-	// Externally signed certificate (in PEM format) for the subordinate certificate authority.
+	// The externally signed certificate (in PEM format) for the subordinate certificate authority (CA).
 	CertificatePem *string `mandatory:"true" json:"certificatePem"`
 }
 

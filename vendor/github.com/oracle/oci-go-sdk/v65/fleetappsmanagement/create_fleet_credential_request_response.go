@@ -14,7 +14,7 @@ import (
 // CreateFleetCredentialRequest wrapper for the CreateFleetCredential operation
 type CreateFleetCredentialRequest struct {
 
-	// Details for the new FleetCredential.
+	// Details for the new fleet credential.
 	CreateFleetCredentialDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

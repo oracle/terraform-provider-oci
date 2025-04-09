@@ -54,6 +54,9 @@ type CreateInternalServiceVnicShardDetails struct {
 
 	// List of resource types that are disabled on this shard
 	DisabledResourceTypes []string `mandatory:"false" json:"disabledResourceTypes"`
+
+	// List of tags on this shard
+	Tags []string `mandatory:"false" json:"tags"`
 }
 
 func (m CreateInternalServiceVnicShardDetails) String() string {

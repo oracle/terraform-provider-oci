@@ -378,7 +378,7 @@ func (client FleetAppsManagementCatalogClient) getCatalogItem(ctx context.Contex
 	return response, err
 }
 
-// ListCatalogItems Gets a list of CatalogItem Items based on the catalogId.
+// ListCatalogItems Gets a list of Catalog Items in a compartment.
 // A default retry strategy applies to this operation ListCatalogItems()
 func (client FleetAppsManagementCatalogClient) ListCatalogItems(ctx context.Context, request ListCatalogItemsRequest) (response ListCatalogItemsResponse, err error) {
 	var ociResponse common.OCIResponse

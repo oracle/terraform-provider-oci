@@ -14,7 +14,7 @@ import (
 // DeleteFleetPropertyRequest wrapper for the DeleteFleetProperty operation
 type DeleteFleetPropertyRequest struct {
 
-	// unique FleetProperty identifier.
+	// Unique fleetProperty identifier.
 	FleetPropertyId *string `mandatory:"true" contributesTo:"path" name:"fleetPropertyId"`
 
 	// Unique Fleet identifier.

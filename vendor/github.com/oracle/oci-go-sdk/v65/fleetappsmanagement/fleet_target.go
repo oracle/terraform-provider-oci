@@ -26,7 +26,7 @@ type FleetTarget struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// compartment OCID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.

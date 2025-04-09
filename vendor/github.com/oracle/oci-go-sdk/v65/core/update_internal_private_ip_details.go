@@ -31,7 +31,7 @@ type UpdateInternalPrivateIpDetails struct {
 	HostNameLabel *string `mandatory:"false" json:"hostNameLabel"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime UpdateInternalPrivateIpDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

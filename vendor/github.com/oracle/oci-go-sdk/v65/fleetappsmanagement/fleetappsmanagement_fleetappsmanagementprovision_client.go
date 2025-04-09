@@ -313,7 +313,8 @@ func (client FleetAppsManagementProvisionClient) getProvision(ctx context.Contex
 	return response, err
 }
 
-// ListProvisions Gets a list of Provisions.
+// ListProvisions Returns a list of all the Provisions in the specified compartment.
+// The query parameter `compartmentId` is required unless the query parameter `id` or `fleetId` is specified.
 // A default retry strategy applies to this operation ListProvisions()
 func (client FleetAppsManagementProvisionClient) ListProvisions(ctx context.Context, request ListProvisionsRequest) (response ListProvisionsResponse, err error) {
 	var ociResponse common.OCIResponse

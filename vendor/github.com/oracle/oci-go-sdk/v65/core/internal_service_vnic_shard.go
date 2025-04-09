@@ -55,6 +55,9 @@ type InternalServiceVnicShard struct {
 	// List of resource types that are disabled on this shard
 	DisabledResourceTypes []string `mandatory:"false" json:"disabledResourceTypes"`
 
+	// List of tags on this shard
+	Tags []string `mandatory:"false" json:"tags"`
+
 	// The date and time ServiceVnicShard was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

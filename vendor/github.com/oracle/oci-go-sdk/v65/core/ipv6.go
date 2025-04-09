@@ -73,7 +73,7 @@ type Ipv6 struct {
 	IpState Ipv6IpStateEnum `mandatory:"false" json:"ipState,omitempty"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime Ipv6LifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

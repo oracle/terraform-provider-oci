@@ -14,7 +14,7 @@ import (
 // CreateFleetPropertyRequest wrapper for the CreateFleetProperty operation
 type CreateFleetPropertyRequest struct {
 
-	// Details for the new FleetProperty.
+	// Details for the new fleet property.
 	CreateFleetPropertyDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

@@ -14,7 +14,7 @@ import (
 // CreateFleetResourceRequest wrapper for the CreateFleetResource operation
 type CreateFleetResourceRequest struct {
 
-	// Details for the new FleetResource.
+	// Details for the new fleet resource.
 	CreateFleetResourceDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

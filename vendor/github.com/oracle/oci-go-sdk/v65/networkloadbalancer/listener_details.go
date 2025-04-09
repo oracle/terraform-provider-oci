@@ -60,6 +60,10 @@ type ListenerDetails struct {
 	// The duration for L3IP idle timeout in seconds.
 	// Example: `200`
 	L3IpIdleTimeout *int `mandatory:"false" json:"l3IpIdleTimeout"`
+
+	// Property to enable/disable Application Offload feature for the NLB. If enabled,
+	// NLB will use listener port to forward the packet to application's backends.
+	IsApplicationOffloadEnabled *bool `mandatory:"false" json:"isApplicationOffloadEnabled"`
 }
 
 func (m ListenerDetails) String() string {

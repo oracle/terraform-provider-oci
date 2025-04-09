@@ -29,7 +29,8 @@ type UpdateGatewayDetails struct {
 	// An array of Network Security Groups OCIDs associated with this API Gateway.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource which can be
+	// empty string.
 	CertificateId *string `mandatory:"false" json:"certificateId"`
 
 	ResponseCacheDetails ResponseCacheDetails `mandatory:"false" json:"responseCacheDetails"`

@@ -164,7 +164,7 @@ type CreateInternalVnicDetails struct {
 	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime CreateInternalVnicDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

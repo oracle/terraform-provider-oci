@@ -18,7 +18,7 @@ import (
 // AnnouncementCollection Results of list announcements. Contains AnnouncementSummary items.
 type AnnouncementCollection struct {
 
-	// List of AnnouncementSummary items
+	// List of AnnouncementSummary items.
 	Items []AnnouncementSummary `mandatory:"true" json:"items"`
 }
 

@@ -211,7 +211,7 @@ func (client FleetAppsManagementRunbooksClient) changeTaskRecordCompartment(ctx 
 	return response, err
 }
 
-// CreateRunbook Creates a new Runbook.
+// CreateRunbook Creates a runbook.
 // A default retry strategy applies to this operation CreateRunbook()
 func (client FleetAppsManagementRunbooksClient) CreateRunbook(ctx context.Context, request CreateRunbookRequest) (response CreateRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -388,7 +388,7 @@ func (client FleetAppsManagementRunbooksClient) createTaskRecord(ctx context.Con
 	return response, err
 }
 
-// DeleteRunbook Deletes a Runbook resource by identifier
+// DeleteRunbook Deletes a runbook specified by the identifier.
 // A default retry strategy applies to this operation DeleteRunbook()
 func (client FleetAppsManagementRunbooksClient) DeleteRunbook(ctx context.Context, request DeleteRunbookRequest) (response DeleteRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -766,7 +766,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookVersions(ctx context.
 	return response, err
 }
 
-// ListRunbooks Returns a list of all the Runbooks in the specified compartment.
+// ListRunbooks Returns a list of all the runbooks in the specified compartment.
 // The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 // A default retry strategy applies to this operation ListRunbooks()
 func (client FleetAppsManagementRunbooksClient) ListRunbooks(ctx context.Context, request ListRunbooksRequest) (response ListRunbooksResponse, err error) {
@@ -876,7 +876,8 @@ func (client FleetAppsManagementRunbooksClient) listTaskRecords(ctx context.Cont
 	return response, err
 }
 
-// PublishRunbook Publish a Runbook.
+// PublishRunbook Publish the specified version of the runbook.
+// The specified version of the runbook becomes acitve when it is published.Only active versions of runbook can be used in execution.
 // A default retry strategy applies to this operation PublishRunbook()
 func (client FleetAppsManagementRunbooksClient) PublishRunbook(ctx context.Context, request PublishRunbookRequest) (response PublishRunbookResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -994,7 +995,7 @@ func (client FleetAppsManagementRunbooksClient) setDefaultRunbook(ctx context.Co
 	return response, err
 }
 
-// UpdateRunbook Updates the Ronbook
+// UpdateRunbook Updates the runbook specified by the identifier.
 // A default retry strategy applies to this operation UpdateRunbook()
 func (client FleetAppsManagementRunbooksClient) UpdateRunbook(ctx context.Context, request UpdateRunbookRequest) (response UpdateRunbookResponse, err error) {
 	var ociResponse common.OCIResponse

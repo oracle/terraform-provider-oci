@@ -54,7 +54,7 @@ type UpdatePrivateIpDetails struct {
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime UpdatePrivateIpDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

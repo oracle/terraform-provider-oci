@@ -103,6 +103,15 @@ type CreateNetworkLoadBalancerDetails struct {
 	// for the NLB's ServiceVnic placement.
 	CpgId *string `mandatory:"false" json:"cpgId"`
 
+	// NAT translation mode between IPv4 and IPv6
+	IpVersionTranslation NetworkLoadBalancerIpVersionTranslationEnum `mandatory:"false" json:"ipVersionTranslation,omitempty"`
+
+	// Optional field for NAT46 use case. If specified, the CIDR must be from NLB's Subnet IPv6 Prefixes and
+	// can be of either /80 length or /64 length. If cidr prefix of length /80 is passed then entire cidr block will be used for NATing or
+	// if /64 is provided then a length of /80 will be derived internally and used for NATing.
+	// Example: "fc00:9b80:9a0a:9a7e:abcd::/80"
+	Nat46Ipv6CidrPrefix *string `mandatory:"false" json:"nat46Ipv6CidrPrefix"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -129,6 +138,9 @@ func (m CreateNetworkLoadBalancerDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingNlbIpVersionEnum(string(m.NlbIpVersion)); !ok && m.NlbIpVersion != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NlbIpVersion: %s. Supported values are: %s.", m.NlbIpVersion, strings.Join(GetNlbIpVersionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingNetworkLoadBalancerIpVersionTranslationEnum(string(m.IpVersionTranslation)); !ok && m.IpVersionTranslation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpVersionTranslation: %s. Supported values are: %s.", m.IpVersionTranslation, strings.Join(GetNetworkLoadBalancerIpVersionTranslationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

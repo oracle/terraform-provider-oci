@@ -14,7 +14,7 @@ import (
 // PublishRunbookRequest wrapper for the PublishRunbook operation
 type PublishRunbookRequest struct {
 
-	// Details for publishing the Runbook.
+	// Details for publishing the specified version of runbook.
 	PublishRunbookDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -15,8 +15,7 @@ import (
 type ListCatalogItemsRequest struct {
 
 	// The ID of the compartment in which to list resources.
-	// Empty only if the resource OCID query param is not specified.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The ConfigSourceType (https://docs.oracle.com/iaas/definitions/CatalogItem/configSourceType) Eg: STACK_TEMPLATE_CATALOG_SOURCE, PAR_CATALOG_SOURCE, URL_CATALOG_SOURCE, MARKETPLACE_CATALOG_SOURCE.
 	ConfigSourceType *string `mandatory:"false" contributesTo:"query" name:"configSourceType"`

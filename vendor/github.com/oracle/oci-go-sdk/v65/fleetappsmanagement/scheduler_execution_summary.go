@@ -26,7 +26,7 @@ type SchedulerExecutionSummary struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.

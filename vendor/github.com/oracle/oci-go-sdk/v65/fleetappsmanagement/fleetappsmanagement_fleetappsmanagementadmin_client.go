@@ -211,7 +211,7 @@ func (client FleetAppsManagementAdminClient) changePropertyCompartment(ctx conte
 	return response, err
 }
 
-// CreateCompliancePolicyRule Creates a CompliancePolicyRule.
+// CreateCompliancePolicyRule Creates a compliance policy rule.
 // A default retry strategy applies to this operation CreateCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) CreateCompliancePolicyRule(ctx context.Context, request CreateCompliancePolicyRuleRequest) (response CreateCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -310,7 +310,7 @@ func (client FleetAppsManagementAdminClient) CreateOnboarding(ctx context.Contex
 // createOnboarding implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) createOnboarding(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/Onboardings", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onboardings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -448,7 +448,7 @@ func (client FleetAppsManagementAdminClient) createProperty(ctx context.Context,
 	return response, err
 }
 
-// DeleteCompliancePolicyRule Deletes a CompliancePolicyRule.
+// DeleteCompliancePolicyRule Deletes a compliance policy rule specified by an identifier.
 // A default retry strategy applies to this operation DeleteCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) DeleteCompliancePolicyRule(ctx context.Context, request DeleteCompliancePolicyRuleRequest) (response DeleteCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -536,7 +536,7 @@ func (client FleetAppsManagementAdminClient) DeleteOnboarding(ctx context.Contex
 // deleteOnboarding implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) deleteOnboarding(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/Onboardings/{onboardingId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/onboardings/{onboardingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -703,7 +703,7 @@ func (client FleetAppsManagementAdminClient) EnableLatestPolicy(ctx context.Cont
 // enableLatestPolicy implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) enableLatestPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/Onboardings/{onboardingId}/actions/enableLatestPolicy", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onboardings/{onboardingId}/actions/enableLatestPolicy", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -723,7 +723,7 @@ func (client FleetAppsManagementAdminClient) enableLatestPolicy(ctx context.Cont
 	return response, err
 }
 
-// GetCompliancePolicy Gets information about a CompliancePolicy.
+// GetCompliancePolicy Gets information about a compliance policy.
 // A default retry strategy applies to this operation GetCompliancePolicy()
 func (client FleetAppsManagementAdminClient) GetCompliancePolicy(ctx context.Context, request GetCompliancePolicyRequest) (response GetCompliancePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -777,7 +777,7 @@ func (client FleetAppsManagementAdminClient) getCompliancePolicy(ctx context.Con
 	return response, err
 }
 
-// GetCompliancePolicyRule Gets information about a CompliancePolicyRule.
+// GetCompliancePolicyRule Gets information about a compliance policy rule.
 // A default retry strategy applies to this operation GetCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) GetCompliancePolicyRule(ctx context.Context, request GetCompliancePolicyRuleRequest) (response GetCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -865,7 +865,7 @@ func (client FleetAppsManagementAdminClient) GetOnboarding(ctx context.Context, 
 // getOnboarding implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) getOnboarding(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/Onboardings/{onboardingId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onboardings/{onboardingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1048,7 +1048,7 @@ func (client FleetAppsManagementAdminClient) listCompliancePolicies(ctx context.
 	return response, err
 }
 
-// ListCompliancePolicyRules Gets a list of CompliancePolicyRules.
+// ListCompliancePolicyRules Gets a list of Compliance policy rules in a compartment.
 // A default retry strategy applies to this operation ListCompliancePolicyRules()
 func (client FleetAppsManagementAdminClient) ListCompliancePolicyRules(ctx context.Context, request ListCompliancePolicyRulesRequest) (response ListCompliancePolicyRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1136,7 +1136,7 @@ func (client FleetAppsManagementAdminClient) ListOnboardingPolicies(ctx context.
 // listOnboardingPolicies implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) listOnboardingPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/OnboardingPolicies", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onboardingPolicies", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1191,7 +1191,7 @@ func (client FleetAppsManagementAdminClient) ListOnboardings(ctx context.Context
 // listOnboardings implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) listOnboardings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/Onboardings", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onboardings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1360,7 +1360,7 @@ func (client FleetAppsManagementAdminClient) ManageSettings(ctx context.Context,
 // manageSettings implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) manageSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/Onboardings/{onboardingId}/actions/manageSettings", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onboardings/{onboardingId}/actions/manageSettings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1380,7 +1380,7 @@ func (client FleetAppsManagementAdminClient) manageSettings(ctx context.Context,
 	return response, err
 }
 
-// UpdateCompliancePolicyRule Updates a CompliancePolicyRule.
+// UpdateCompliancePolicyRule Updates a compliance policy rule specified by an identifier.
 // A default retry strategy applies to this operation UpdateCompliancePolicyRule()
 func (client FleetAppsManagementAdminClient) UpdateCompliancePolicyRule(ctx context.Context, request UpdateCompliancePolicyRuleRequest) (response UpdateCompliancePolicyRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1468,7 +1468,7 @@ func (client FleetAppsManagementAdminClient) UpdateOnboarding(ctx context.Contex
 // updateOnboarding implements the OCIOperation interface (enables retrying operations)
 func (client FleetAppsManagementAdminClient) updateOnboarding(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/Onboardings/{onboardingId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onboardings/{onboardingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

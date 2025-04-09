@@ -54,7 +54,7 @@ type CreateIpv6Details struct {
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime CreateIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`

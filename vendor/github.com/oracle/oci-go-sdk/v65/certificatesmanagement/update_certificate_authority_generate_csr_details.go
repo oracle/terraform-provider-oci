@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateCertificateAuthorityGenerateCsrDetails Update Certificate Authority to initiate CA renewal by generating a latest CA version with a CSR.
+// UpdateCertificateAuthorityGenerateCsrDetails The details of the request to update the certificate authority (CA) to renew the CA by generating a latest CA version with a certificate signing request (CSR).
 type UpdateCertificateAuthorityGenerateCsrDetails struct {
 }
 

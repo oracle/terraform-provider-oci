@@ -36,6 +36,12 @@ type UpdatePrivateEndpointDetails struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The private IPv6 address to assign to this private endpoint. If you provide a value,
+	// it must be an available IP address in the customer's subnet. If it's not available, an error
+	// is returned.
+	// If you do not provide a value, an available IPv6 address in the subnet is automatically chosen if IPv6 is enabled.(Optional field)
+	PrivateEndpointIpv6 *string `mandatory:"false" json:"privateEndpointIpv6"`
+
 	// This optional field will indicate to assign IPv6 address to the private endpoint when it is created in Dualstack subnet.
 	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
 

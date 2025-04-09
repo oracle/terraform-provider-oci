@@ -17,24 +17,17 @@ import (
 	"strings"
 )
 
-// RemoveResourceLockDetails The representation of RemoveResourceLockDetails
+// RemoveResourceLockDetails Used to remove a resource lock.
+// Resource locks are used to prevent certain APIs from being called for the resource.
+// A full lock prevents both updating the resource and deleting the resource. A delete
+// lock prevents deleting the resource.
 type RemoveResourceLockDetails struct {
 
 	// Type of the lock.
 	Type RemoveResourceLockDetailsTypeEnum `mandatory:"true" json:"type"`
 
 	// The compartment ID of the lock.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
-	RelatedResourceId *string `mandatory:"false" json:"relatedResourceId"`
-
-	// A message added by the creator of the lock. This is typically used to give an
-	// indication of why the resource is locked.
-	Message *string `mandatory:"false" json:"message"`
-
-	// When the lock was created.
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
 func (m RemoveResourceLockDetails) String() string {

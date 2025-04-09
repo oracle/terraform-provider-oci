@@ -14,7 +14,7 @@ import (
 // GetFleetPropertyRequest wrapper for the GetFleetProperty operation
 type GetFleetPropertyRequest struct {
 
-	// unique FleetProperty identifier.
+	// Unique fleetProperty identifier.
 	FleetPropertyId *string `mandatory:"true" contributesTo:"path" name:"fleetPropertyId"`
 
 	// Unique Fleet identifier.

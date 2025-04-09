@@ -27,7 +27,7 @@ type SchedulerJob struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
@@ -193,30 +193,33 @@ type SchedulerJobLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SchedulerJobLifecycleStateEnum
 const (
-	SchedulerJobLifecycleStateAccepted   SchedulerJobLifecycleStateEnum = "ACCEPTED"
-	SchedulerJobLifecycleStateInProgress SchedulerJobLifecycleStateEnum = "IN_PROGRESS"
-	SchedulerJobLifecycleStateWaiting    SchedulerJobLifecycleStateEnum = "WAITING"
-	SchedulerJobLifecycleStateFailed     SchedulerJobLifecycleStateEnum = "FAILED"
-	SchedulerJobLifecycleStateSucceeded  SchedulerJobLifecycleStateEnum = "SUCCEEDED"
-	SchedulerJobLifecycleStateCanceled   SchedulerJobLifecycleStateEnum = "CANCELED"
+	SchedulerJobLifecycleStateAccepted       SchedulerJobLifecycleStateEnum = "ACCEPTED"
+	SchedulerJobLifecycleStateInProgress     SchedulerJobLifecycleStateEnum = "IN_PROGRESS"
+	SchedulerJobLifecycleStateWaiting        SchedulerJobLifecycleStateEnum = "WAITING"
+	SchedulerJobLifecycleStateFailed         SchedulerJobLifecycleStateEnum = "FAILED"
+	SchedulerJobLifecycleStateSucceeded      SchedulerJobLifecycleStateEnum = "SUCCEEDED"
+	SchedulerJobLifecycleStateCanceled       SchedulerJobLifecycleStateEnum = "CANCELED"
+	SchedulerJobLifecycleStateNeedsAttention SchedulerJobLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingSchedulerJobLifecycleStateEnum = map[string]SchedulerJobLifecycleStateEnum{
-	"ACCEPTED":    SchedulerJobLifecycleStateAccepted,
-	"IN_PROGRESS": SchedulerJobLifecycleStateInProgress,
-	"WAITING":     SchedulerJobLifecycleStateWaiting,
-	"FAILED":      SchedulerJobLifecycleStateFailed,
-	"SUCCEEDED":   SchedulerJobLifecycleStateSucceeded,
-	"CANCELED":    SchedulerJobLifecycleStateCanceled,
+	"ACCEPTED":        SchedulerJobLifecycleStateAccepted,
+	"IN_PROGRESS":     SchedulerJobLifecycleStateInProgress,
+	"WAITING":         SchedulerJobLifecycleStateWaiting,
+	"FAILED":          SchedulerJobLifecycleStateFailed,
+	"SUCCEEDED":       SchedulerJobLifecycleStateSucceeded,
+	"CANCELED":        SchedulerJobLifecycleStateCanceled,
+	"NEEDS_ATTENTION": SchedulerJobLifecycleStateNeedsAttention,
 }
 
 var mappingSchedulerJobLifecycleStateEnumLowerCase = map[string]SchedulerJobLifecycleStateEnum{
-	"accepted":    SchedulerJobLifecycleStateAccepted,
-	"in_progress": SchedulerJobLifecycleStateInProgress,
-	"waiting":     SchedulerJobLifecycleStateWaiting,
-	"failed":      SchedulerJobLifecycleStateFailed,
-	"succeeded":   SchedulerJobLifecycleStateSucceeded,
-	"canceled":    SchedulerJobLifecycleStateCanceled,
+	"accepted":        SchedulerJobLifecycleStateAccepted,
+	"in_progress":     SchedulerJobLifecycleStateInProgress,
+	"waiting":         SchedulerJobLifecycleStateWaiting,
+	"failed":          SchedulerJobLifecycleStateFailed,
+	"succeeded":       SchedulerJobLifecycleStateSucceeded,
+	"canceled":        SchedulerJobLifecycleStateCanceled,
+	"needs_attention": SchedulerJobLifecycleStateNeedsAttention,
 }
 
 // GetSchedulerJobLifecycleStateEnumValues Enumerates the set of values for SchedulerJobLifecycleStateEnum
@@ -237,6 +240,7 @@ func GetSchedulerJobLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"SUCCEEDED",
 		"CANCELED",
+		"NEEDS_ATTENTION",
 	}
 }
 

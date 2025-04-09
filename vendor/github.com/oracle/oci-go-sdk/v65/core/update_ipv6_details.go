@@ -50,7 +50,7 @@ type UpdateIpv6Details struct {
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// Lifetime of the IP address.
-	// There are two types of IPv6 IPs:
+	// There are two types of IPs:
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime UpdateIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
