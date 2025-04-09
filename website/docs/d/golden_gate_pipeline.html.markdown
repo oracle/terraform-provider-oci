@@ -53,6 +53,12 @@ The following attributes are exported:
 	* `mapping_type` - Defines the exclude/include rules of source and target schemas and tables when replicating from source to target. This option applies when creating and updating a pipeline. 
 	* `source` - The source schema/table combination for replication to target. 
 	* `target` - The target schema/table combination for replication from the source. 
+* `pipeline_diagnostic_data` - Information regarding the pipeline diagnostic collection 
+	* `bucket` - Name of the bucket where the object is to be uploaded in the object storage
+	* `diagnostic_state` - The state of the pipeline diagnostics collection. 
+	* `namespace` - Name of namespace that serves as a container for all of your buckets
+	* `object` - Name of the diagnostic collected and uploaded to object storage
+	* `time_last_collected` - The date and time the diagnostic data was last collected for the pipeline. The format is defined by  [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-07-25T21:10:29.600Z`. 
 * `process_options` - Required pipeline options to configure the replication process (Extract or Replicat). 
 	* `initial_data_load` - Options required for the pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_existing_table` - Action upon existing tables in target when initial Data Load is set i.e., isInitialLoad=true. 
@@ -62,6 +68,7 @@ The following attributes are exported:
 		* `action_on_dml_error` - Action upon DML Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
 		* `can_replicate_schema_change` - If ENABLED, then addition or removal of schema is also replicated, apart from individual tables and records when creating or updating the pipeline. 
 	* `should_restart_on_failure` - If ENABLED, then the replication process restarts itself upon failure. This option applies when creating or updating a pipeline. 
+	* `start_using_default_mapping` - If ENABLED, then the pipeline is started as part of pipeline creation. It uses default mapping. This option applies when creating or updating a pipeline. 
 * `recipe_type` - The type of the recipe 
 * `source_connection_details` - The source connection details for creating a pipeline. 
 	* `connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being referenced. 

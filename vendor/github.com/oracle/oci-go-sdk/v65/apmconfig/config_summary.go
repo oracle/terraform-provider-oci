@@ -50,6 +50,10 @@ type ConfigSummary interface {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	GetSystemTags() map[string]map[string]interface{}
 }
 
 type configsummary struct {
@@ -62,6 +66,7 @@ type configsummary struct {
 	Etag         *string                           `mandatory:"false" json:"etag"`
 	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags   map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	ConfigType   string                            `json:"configType"`
 }
 
@@ -84,6 +89,7 @@ func (m *configsummary) UnmarshalJSON(data []byte) error {
 	m.Etag = s.Model.Etag
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.ConfigType = s.Model.ConfigType
 
 	return err
@@ -158,6 +164,11 @@ func (m configsummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m configsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m configsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m configsummary) String() string {
