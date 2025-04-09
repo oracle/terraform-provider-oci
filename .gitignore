@@ -28,3 +28,4 @@ vendor/github.com/oracle/oci-go-sdk/target
 internal/record
 .terraform.lock.hcl
 dist/
+examples/opsi/description.md
