@@ -103,6 +103,7 @@ resource "oci_functions_function" "test_function" {
   trace_config {
     is_enabled = var.function_trace_config.is_enabled
   }
+  is_dry_run         = var.dry_run
 
   provisioned_concurrency_config {
     strategy = "CONSTANT"

@@ -69,9 +69,10 @@ var (
 	//	"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	//}
 	GoldenGatePipelineProcessOptionsRepresentation = map[string]interface{}{
-		"initial_data_load":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGatePipelineProcessOptionsInitialDataLoadRepresentation},
-		"replicate_schema_change":   acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGatePipelineProcessOptionsReplicateSchemaChangeRepresentation},
-		"should_restart_on_failure": acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
+		"initial_data_load":           acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGatePipelineProcessOptionsInitialDataLoadRepresentation},
+		"replicate_schema_change":     acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGatePipelineProcessOptionsReplicateSchemaChangeRepresentation},
+		"should_restart_on_failure":   acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
+		"start_using_default_mapping": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 	}
 	GoldenGatePipelineProcessOptionsInitialDataLoadRepresentation = map[string]interface{}{
 		"is_initial_load":          acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
@@ -158,6 +159,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.replicate_schema_change.0.action_on_dml_error", "TERMINATE"),
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.replicate_schema_change.0.can_replicate_schema_change", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.should_restart_on_failure", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "process_options.0.start_using_default_mapping", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "recipe_type", "ZERO_ETL"),
 				resource.TestCheckResourceAttr(resourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_connection_details.0.connection_id"),
@@ -199,6 +201,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.replicate_schema_change.0.action_on_dml_error", "TERMINATE"),
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.replicate_schema_change.0.can_replicate_schema_change", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.should_restart_on_failure", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "process_options.0.start_using_default_mapping", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "recipe_type", "ZERO_ETL"),
 				resource.TestCheckResourceAttr(resourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_connection_details.0.connection_id"),
@@ -240,6 +243,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.replicate_schema_change.0.action_on_dml_error", "DISCARD"),
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.replicate_schema_change.0.can_replicate_schema_change", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "process_options.0.should_restart_on_failure", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "process_options.0.start_using_default_mapping", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "recipe_type", "ZERO_ETL"),
 				resource.TestCheckResourceAttr(resourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_connection_details.0.connection_id"),
@@ -292,6 +296,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_sub_state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mapping_rules.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "pipeline_diagnostic_data.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.0.initial_data_load.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.0.initial_data_load.0.action_on_existing_table", "REPLACE"),
@@ -301,6 +306,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.0.replicate_schema_change.0.action_on_dml_error", "DISCARD"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.0.replicate_schema_change.0.can_replicate_schema_change", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.0.should_restart_on_failure", "DISABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "process_options.0.start_using_default_mapping", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "recipe_type", "ZERO_ETL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

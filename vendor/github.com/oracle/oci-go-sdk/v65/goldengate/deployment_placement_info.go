@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OpenSearch Service API
+// GoldenGate API
 //
-// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
+// Use the Oracle Cloud Infrastructure GoldenGate APIs to perform data replication operations.
 //
 
-package opensearch
+package goldengate
 
 import (
 	"fmt"
@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// OpensearchPipelineValidationResponse Details for validation of customer input pipeline configuration.
-type OpensearchPipelineValidationResponse struct {
+// DeploymentPlacementInfo Specifies a deployment placement with explicit availability and fault domain specification.
+type DeploymentPlacementInfo struct {
 
-	// An array of errors in the pipeline configuration which is given for validation.
-	Errors []PipelineValidationErrorDetails `mandatory:"true" json:"errors"`
+	// The availability domain of a placement.
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// Boolean value which tells us if the pipeline configuration given by user is valid or not.
-	IsValid *bool `mandatory:"true" json:"isValid"`
+	// The fault domain of a placement.
+	FaultDomain *string `mandatory:"true" json:"faultDomain"`
 }
 
-func (m OpensearchPipelineValidationResponse) String() string {
+func (m DeploymentPlacementInfo) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m OpensearchPipelineValidationResponse) ValidateEnumValue() (bool, error) {
+func (m DeploymentPlacementInfo) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

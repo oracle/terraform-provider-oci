@@ -61,6 +61,12 @@ func FunctionsInvokeFunctionResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_dry_run": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"input_body_source_path": {
 				Type:          schema.TypeString,
 				Optional:      true,
@@ -188,6 +194,11 @@ func (s *FunctionsInvokeFunctionResourceCrud) Create() error {
 	if functionId, ok := s.D.GetOkExists("function_id"); ok {
 		tmp := functionId.(string)
 		request.FunctionId = &tmp
+	}
+
+	if isDryRun, ok := s.D.GetOkExists("is_dry_run"); ok {
+		tmp := isDryRun.(bool)
+		request.IsDryRun = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "functions")
