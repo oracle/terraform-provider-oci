@@ -212,7 +212,6 @@ The following attributes are exported:
 	* `config_map` - The configuration map for the connector plugin. This map includes parameters specific to the connector plugin type.  For example, for `QueueSource`, the map lists the OCID of the selected queue. To find the parameters for a connector plugin, get the plugin using [GetConnectorPlugin](https://docs.cloud.oracle.com/iaas/api/#/en/serviceconnectors/latest/ConnectorPlugin/GetConnectorPlugin) and review its schema value. 
 	* `cursor` - The [read setting](https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm), which determines where in the stream to start moving data. For configuration instructions, see [Creating a Connector with a Streaming Source](https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm). 
 		* `kind` - The type discriminator. 
-	* `kind` - The type discriminator. 
 	* `log_sources` - The logs for this Logging source. 
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source. 
 		* `log_group_id` - Identifier of the log group. Either `_Audit` or the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group. Note: For the Notifications target, only `_Audit` is allowed. 
@@ -226,6 +225,9 @@ The following attributes are exported:
 					* `kind` - The type discriminator. 
 				* `namespace` - The source service or application to use when querying for metric data points. Must begin with `oci_`.  Example: `oci_computeagent` 
 	* `plugin_name` - The name of the connector plugin. This name indicates the service to be called by the connector plugin. For example, `QueueSource` indicates the Queue service. To find names of connector plugins, list the plugin using [ListConnectorPlugin](https://docs.cloud.oracle.com/iaas/api/#/en/serviceconnectors/latest/ConnectorPluginSummary/ListConnectorPlugins). 
+	* `private_endpoint_metadata` - The private endpoint metadata for the connector's source or target. 
+		* `rce_dns_proxy_ip_address` - The reverse connection endpoint (RCE) IP address for DNS lookups. 
+		* `rce_traffic_ip_address` - The reverse connection endpoint (RCE) IP address for primary flow of traffic in the subnet. 
 	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 * `state` - The current state of the connector. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{orcl-cloud: {free-tier-retain: true}}` 
@@ -245,13 +247,15 @@ The following attributes are exported:
 		* `name` - Dimension key. A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. Custom dimension keys are acceptable. Avoid entering confidential information. Due to use by Connector Hub, the following dimension names are reserved: `connectorId`, `connectorName`, `connectorSourceType`. For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). Example: `type` 
 	* `enable_formatted_messaging` - Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the connector source and the subscription protocol. Example: `true` 
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
-	* `kind` - The type discriminator. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
 	* `log_source_identifier` - Identifier of the log source that you want to use for processing data received from the connector source. Applies to `StreamingSource` only. Equivalent to `name` at [LogAnalyticsSource](https://docs.cloud.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsSource/). 
 	* `metric` - The name of the metric. Example: `CpuUtilization` 
 	* `metric_namespace` - The namespace of the metric. Example: `oci_computeagent` 
 	* `namespace` - The namespace. 
 	* `object_name_prefix` - The prefix of the objects. Avoid entering confidential information. 
+	* `private_endpoint_metadata` - The private endpoint metadata for the connector's source or target. 
+		* `rce_dns_proxy_ip_address` - The reverse connection endpoint (RCE) IP address for DNS lookups. 
+		* `rce_traffic_ip_address` - The reverse connection endpoint (RCE) IP address for primary flow of traffic in the subnet. 
 	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 	* `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `tasks` - The list of tasks. 
@@ -259,7 +263,9 @@ The following attributes are exported:
 	* `batch_time_in_sec` - Time limit (seconds) for batch sent to invoke the function. 
 	* `condition` - A filter or mask to limit the source used in the flow defined by the connector. 
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function to be used as a task. 
-	* `kind` - The type discriminator. 
+	* `private_endpoint_metadata` - The private endpoint metadata for the connector's source or target. 
+		* `rce_dns_proxy_ip_address` - The reverse connection endpoint (RCE) IP address for DNS lookups. 
+		* `rce_traffic_ip_address` - The reverse connection endpoint (RCE) IP address for primary flow of traffic in the subnet. 
 * `time_created` - The date and time when the connector was created. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 * `time_updated` - The date and time when the connector was updated. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 

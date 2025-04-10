@@ -64,6 +64,9 @@ type UpdateDeploymentDetails struct {
 	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
+	// An array of local peers of deployment
+	Placements []DeploymentPlacementDetails `mandatory:"false" json:"placements"`
+
 	OggData *UpdateOggDeploymentDetails `mandatory:"false" json:"oggData"`
 
 	MaintenanceWindow *UpdateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`

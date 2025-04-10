@@ -129,7 +129,7 @@ type resourceDiscoveryBaseStep struct {
 }
 
 func (r *resourceDiscoveryBaseStep) mergeTempStateFiles(tmpStateOutputDir string) error {
-	defer elapsed(fmt.Sprintf("merging temp state files for %v", r.name), nil, 0)()
+	defer elapsed(fmt.Sprintf("merging temp state files for %v for compartment %s", r.name, *r.ctx.CompartmentId), nil, 0)()
 	files, err := ioutil.ReadDir(tmpStateOutputDir)
 	if err != nil {
 		return err
@@ -161,19 +161,19 @@ var terraformInitMockVar = func(r *resourceDiscoveryBaseStep, backgroundCtx cont
 }
 
 func (r *resourceDiscoveryBaseStep) writeTmpState() error {
-	defer elapsed(fmt.Sprintf("writing temp state for %d '%s' resources", len(r.getDiscoveredResources()), r.name), nil, 0)()
+	defer elapsed(fmt.Sprintf("writing temp state for %d '%s' resources for compartment %s", len(r.getDiscoveredResources()), r.name, *r.ctx.CompartmentId), nil, 0)()
 	// Run terraform init if not already done
 	if !isInitDone {
-		utils.Debugf("[DEBUG] acquiring lock to run terraform init")
+		utils.Debugf("[DEBUG] acquiring lock to run terraform init for step name %s for compartment %s", r.name, *r.ctx.CompartmentId)
 		initLock.Lock()
 		defer func() {
-			utils.Debugf("[DEBUG] releasing lock")
+			utils.Debugf("[DEBUG] releasing lock for step name %s for compartment %s", r.name, *r.ctx.CompartmentId)
 			initLock.Unlock()
 		}()
 		// Check for existence of .terraform folder to make sure init is not run already by another thread
 		if _, err := os.Stat(fmt.Sprintf("%s%s.terraform", *r.ctx.OutputDir, string(os.PathSeparator))); os.IsNotExist(err) {
 			// Run init command if not already run
-			utils.Debugf("[DEBUG] writeTmpState: running init")
+			utils.Debugf("[DEBUG] writeTmpState: running init for step name %s for compartment %s", r.name, *r.ctx.CompartmentId)
 			backgroundCtx := context.Background()
 
 			var initArgs []tfexec.InitOption
@@ -184,7 +184,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 			}
 
 			if err := terraformInitMockVar(r, backgroundCtx, initArgs); err != nil {
-				utils.Debugf("[ERROR] error occured while terraform init: %s", err.Error())
+				utils.Debugf("[ERROR] error occured while terraform init for step name %s for compartment %s: %s", r.name, *r.ctx.CompartmentId, err.Error())
 				return err
 			}
 			isInitDone = true
@@ -194,7 +194,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 	tmpStateOutputFilePrefix := filepath.Join(tmpStateOutputDir, globalvar.DefaultTmpStateFile)
 
 	if err := os.RemoveAll(tmpStateOutputDir); err != nil {
-		utils.Logf("[WARN] unable to delete existing tmp state directory %s", tmpStateOutputDir)
+		utils.Logf("[WARN] unable to delete existing tmp state directory %s for step name %s for compartment %s", tmpStateOutputDir, r.name, *r.ctx.CompartmentId)
 		return err
 	}
 
@@ -241,14 +241,17 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 	}
 	// wait for all chunks to finish importing resources
 	importWg.Wait()
+	utils.Debugf("[DEBUG] Merging Temp State Files for step name %s for compartment %s", r.name, *r.ctx.CompartmentId)
 	// The found resource only include the data sources (ADs and namespaces) that resource discovery adds
 	if isAllDataSources {
 		return nil
 	}
 	err := r.mergeTempStateFiles(tmpStateOutputDir)
 	if err != nil {
+		utils.Debugf("[DEBUG] ERROR while Merging Temp State Files for step name %s for compartment %s : %s", r.name, *r.ctx.CompartmentId, err)
 		return err
 	}
+	utils.Debugf("[DEBUG] DONE Merging Temp State Files for step name %s for compartment %s", r.name, *r.ctx.CompartmentId)
 	return nil
 }
 

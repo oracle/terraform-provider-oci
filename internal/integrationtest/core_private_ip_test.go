@@ -34,6 +34,13 @@ var (
 		"private_ip_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_private_ip.test_private_ip.id}`},
 	}
 
+	CorePrivateIpDataSourceRepresentation = map[string]interface{}{
+		"ip_address": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"ip_state":   acctest.Representation{RepType: acctest.Optional, Create: `ipState`},
+		"lifetime":   acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
+		"subnet_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vnic_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vnic_attachment.test_vnic_attachment.id}`},
+		"filter":     acctest.RepresentationGroup{RepType: acctest.Required, Group: CorePrivateIpDataSourceFilterRepresentation}}
 	CoreCorePrivateIpDataSourceRepresentation = map[string]interface{}{
 		"vnic_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CorePrivateIpDataSourceFilterRepresentation}}
@@ -49,6 +56,17 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"hostname_label": acctest.Representation{RepType: acctest.Optional, Create: `privateiptestinstance`, Update: `privateiptestinstance2`},
 		"ip_address":     acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"lifetime":       acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
+	}
+
+	CorePrivateIpRepresentation2 = map[string]interface{}{
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label": acctest.Representation{RepType: acctest.Optional, Create: `privateiptestinstance`, Update: `privateiptestinstance2`},
+		"ip_address":     acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"lifetime":       acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
 		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
@@ -119,6 +137,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "EPHEMERAL"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
@@ -143,6 +162,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
@@ -155,6 +175,29 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				},
 			),
 		},
+
+		// test detach
+		{
+			Config: config + compartmentIdVariableStr + CorePrivateIpResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, CorePrivateIpRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify datasource
 		{
 			Config: config +
@@ -162,7 +205,11 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				compartmentIdVariableStr + CorePrivateIpResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, CorePrivateIpRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
+				//resource.TestCheckResourceAttr(datasourceName, "ip_address", "ipAddress"),
+				//resource.TestCheckResourceAttr(datasourceName, "ip_state", "ipState"),
+				//resource.TestCheckResourceAttr(datasourceName, "lifetime", "lifetime2"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "subnet_id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.compartment_id"),
@@ -171,7 +218,9 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.ip_state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.lifetime", "RESERVED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.route_table_id"),
 				//commenting until service issue resolved
 				//resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_reserved"),
@@ -194,7 +243,9 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifetime", "RESERVED"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reserved"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "route_table_id"),

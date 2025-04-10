@@ -22,6 +22,14 @@ func CorePrivateIpsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"ip_state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"lifetime": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -148,9 +156,13 @@ func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 			privateIp["ip_address"] = *r.IpAddress
 		}
 
+		privateIp["ip_state"] = r.IpState
+
 		if r.IsPrimary != nil {
 			privateIp["is_primary"] = *r.IsPrimary
 		}
+
+		privateIp["lifetime"] = r.Lifetime
 
 		if r.RouteTableId != nil {
 			privateIp["route_table_id"] = *r.RouteTableId

@@ -460,11 +460,12 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 			return results, nil
 		}
 	}
-
+	utils.Debugf("[DEBUG] Initiating GET Datasource Call for %s compartment %s", tfMeta.DatasourceClass, parent.CompartmentId)
 	if err := datasource.Read(d, clients); err != nil {
+		utils.Debugf("[DEBUG] GET Datasource Call Failure for %s compartment %s\nError: %s", tfMeta.DatasourceClass, parent.CompartmentId, err)
 		return results, err
 	}
-
+	utils.Debugf("[DEBUG] GET Datasource Call Success for %s compartment %s", tfMeta.DatasourceClass, parent.CompartmentId)
 	if !tfMeta.DiscoversWithSingularDatasource() {
 		// Results are from a plural datasource
 		itemSchema := datasource.Schema[tfMeta.DatasourceItemsAttr]
@@ -859,10 +860,11 @@ var CheckDuplicateResourceName = func(terraformName string) string {
 	defer ResourceNameCountLock.Unlock() // Ensure the lock is released even if a panic occurs
 
 	originalName := terraformName
-
+	utils.Logf("[INFO] Checking Duplicate Resource Name for %s", originalName)
 	// Check if resource already exists
 	for {
 		if _, exists := ResourceNameCount[terraformName]; !exists {
+			utils.Logf("[INFO] Exiting Duplicate resource name for %s", originalName)
 			break
 		}
 		count := ResourceNameCount[originalName]
@@ -871,7 +873,7 @@ var CheckDuplicateResourceName = func(terraformName string) string {
 	}
 
 	ResourceNameCount[terraformName] = 1
-
+	utils.Logf("[INFO] Returning Handled Duplicate resource name for %s as %s", originalName, terraformName)
 	return terraformName
 }
 

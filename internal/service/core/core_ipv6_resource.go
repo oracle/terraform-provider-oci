@@ -26,10 +26,6 @@ func CoreIpv6Resource() *schema.Resource {
 		Delete:   deleteCoreIpv6,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"vnic_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -62,7 +58,22 @@ func CoreIpv6Resource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"lifetime": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"subnet_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"vnic_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -72,11 +83,11 @@ func CoreIpv6Resource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": {
+			"ip_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subnet_id": {
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -186,9 +197,18 @@ func (s *CoreIpv6ResourceCrud) Create() error {
 		request.Ipv6SubnetCidr = &tmp
 	}
 
+	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
+		request.Lifetime = oci_core.CreateIpv6DetailsLifetimeEnum(lifetime.(string))
+	}
+
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
 		tmp := routeTableId.(string)
 		request.RouteTableId = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+		tmp := subnetId.(string)
+		request.SubnetId = &tmp
 	}
 
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
@@ -225,6 +245,7 @@ func (s *CoreIpv6ResourceCrud) Get() error {
 }
 
 func (s *CoreIpv6ResourceCrud) Update() error {
+
 	request := oci_core.UpdateIpv6Request{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -247,14 +268,43 @@ func (s *CoreIpv6ResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.Ipv6Id = &tmp
 
+	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
+		request.Lifetime = oci_core.UpdateIpv6DetailsLifetimeEnum(lifetime.(string))
+	}
+
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
 		tmp := routeTableId.(string)
 		request.RouteTableId = &tmp
 	}
 
-	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
+	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok && vnicId != "" {
 		tmp := vnicId.(string)
 		request.VnicId = &tmp
+	} else {
+		// call detach
+		request_get := oci_core.GetIpv6Request{}
+		request_get.Ipv6Id = &tmp
+
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+		response, err := s.Client.GetIpv6(context.Background(), request_get)
+		if err != nil {
+			return err
+		}
+		if response.Lifetime == "RESERVED" {
+			if response.IpState == "ASSIGNED" {
+				err := s.Ipv6VnicDetach()
+				if err != nil {
+					return err
+				}
+				response, err := s.Client.GetIpv6(context.Background(), request_get)
+				s.Res = &response.Ipv6
+				if err != nil {
+					return err
+				}
+				return nil
+			}
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -273,6 +323,26 @@ func (s *CoreIpv6ResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.Ipv6Id = &tmp
+
+	// call detach
+	request_get := oci_core.GetIpv6Request{}
+	request_get.Ipv6Id = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err_get := s.Client.GetIpv6(context.Background(), request_get)
+	if err_get != nil {
+		return err_get
+	}
+
+	if response.Lifetime == "RESERVED" {
+		if response.IpState == "ASSIGNED" {
+			err := s.Ipv6VnicDetach()
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
@@ -299,6 +369,10 @@ func (s *CoreIpv6ResourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	s.D.Set("ip_state", s.Res.IpState)
+
+	s.D.Set("lifetime", s.Res.Lifetime)
+
 	if s.Res.RouteTableId != nil {
 		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
@@ -315,6 +389,26 @@ func (s *CoreIpv6ResourceCrud) SetData() error {
 
 	if s.Res.VnicId != nil {
 		s.D.Set("vnic_id", *s.Res.VnicId)
+	}
+
+	return nil
+}
+
+func (s *CoreIpv6ResourceCrud) Ipv6VnicDetach() error {
+	request := oci_core.Ipv6VnicDetachRequest{}
+
+	idTmp := s.D.Id()
+	request.Ipv6Id = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.Ipv6VnicDetach(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
