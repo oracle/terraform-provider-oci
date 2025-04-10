@@ -141,7 +141,7 @@ func (client MgmtCellClient) createManagementCell(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ManagementCell/CreateManagementCell"
 		err = common.PostProcessServiceError(err, "MgmtCell", "CreateManagementCell", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client MgmtCellClient) deleteManagementCell(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ManagementCell/DeleteManagementCell"
 		err = common.PostProcessServiceError(err, "MgmtCell", "DeleteManagementCell", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client MgmtCellClient) getManagementCell(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ManagementCell/GetManagementCell"
 		err = common.PostProcessServiceError(err, "MgmtCell", "GetManagementCell", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client MgmtCellClient) listManagementCells(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ManagementCellCollection/ListManagementCells"
 		err = common.PostProcessServiceError(err, "MgmtCell", "ListManagementCells", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client MgmtCellClient) updateManagementCell(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ManagementCell/UpdateManagementCell"
 		err = common.PostProcessServiceError(err, "MgmtCell", "UpdateManagementCell", apiReferenceLink)
 		return response, err
 	}

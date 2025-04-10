@@ -49,6 +49,7 @@ const (
 	OperationTypesUpdateManagementAppliance                OperationTypesEnum = "UPDATE_MANAGEMENT_APPLIANCE"
 	OperationTypesDeleteManagementAppliance                OperationTypesEnum = "DELETE_MANAGEMENT_APPLIANCE"
 	OperationTypesAbandonManagementApplianceJobs           OperationTypesEnum = "ABANDON_MANAGEMENT_APPLIANCE_JOBS"
+	OperationTypesManagementApplianceEsxiHostProvisioning  OperationTypesEnum = "MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING"
 	OperationTypesManagementApplianceDatastoreProvisioning OperationTypesEnum = "MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING"
 )
 
@@ -83,6 +84,7 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_MANAGEMENT_APPLIANCE":                 OperationTypesUpdateManagementAppliance,
 	"DELETE_MANAGEMENT_APPLIANCE":                 OperationTypesDeleteManagementAppliance,
 	"ABANDON_MANAGEMENT_APPLIANCE_JOBS":           OperationTypesAbandonManagementApplianceJobs,
+	"MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING": OperationTypesManagementApplianceEsxiHostProvisioning,
 	"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING": OperationTypesManagementApplianceDatastoreProvisioning,
 }
 
@@ -117,6 +119,7 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_management_appliance":                 OperationTypesUpdateManagementAppliance,
 	"delete_management_appliance":                 OperationTypesDeleteManagementAppliance,
 	"abandon_management_appliance_jobs":           OperationTypesAbandonManagementApplianceJobs,
+	"management_appliance_esxi_host_provisioning": OperationTypesManagementApplianceEsxiHostProvisioning,
 	"management_appliance_datastore_provisioning": OperationTypesManagementApplianceDatastoreProvisioning,
 }
 
@@ -162,6 +165,7 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_MANAGEMENT_APPLIANCE",
 		"DELETE_MANAGEMENT_APPLIANCE",
 		"ABANDON_MANAGEMENT_APPLIANCE_JOBS",
+		"MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING",
 		"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING",
 	}
 }

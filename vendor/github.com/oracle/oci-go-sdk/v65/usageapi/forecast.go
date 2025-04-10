@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by Cost Analysis (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm), Scheduled Reports (https://docs.oracle.com/iaas/Content/Billing/Concepts/scheduledreportoverview.htm), and Carbon Emissions Analysis (https://docs.oracle.com/iaas/Content/General/Concepts/emissions-management.htm) in the Console. Also see Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -15,13 +15,14 @@ import (
 	"strings"
 )
 
-// Forecast Forecast configuration of usage/cost.
+// Forecast Forecast configuration of usage or cost.
 type Forecast struct {
 
 	// The forecast end time.
 	TimeForecastEnded *common.SDKTime `mandatory:"true" json:"timeForecastEnded"`
 
-	// BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
+	// BASIC uses the exponential smoothing (ETS) model to project future usage or costs based on history data.
+	// The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 	ForecastType ForecastForecastTypeEnum `mandatory:"false" json:"forecastType,omitempty"`
 
 	// The forecast start time. Defaults to UTC-1 if not specified.

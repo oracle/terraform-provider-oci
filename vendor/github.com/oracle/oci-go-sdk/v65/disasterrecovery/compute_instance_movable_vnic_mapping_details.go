@@ -40,6 +40,10 @@ type ComputeInstanceMovableVnicMappingDetails struct {
 	// Example: `myhost1`
 	DestinationPrimaryPrivateIpHostnameLabel *string `mandatory:"false" json:"destinationPrimaryPrivateIpHostnameLabel"`
 
+	// The OCID of the reserved public IP address to be assigned to the compute instance in the destination region.
+	// Example: `ocid1.publicip.oc1..uniqueID`
+	DestinationReservedPublicIpId *string `mandatory:"false" json:"destinationReservedPublicIpId"`
+
 	// A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to
 	// the source VNIC.
 	// Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]`

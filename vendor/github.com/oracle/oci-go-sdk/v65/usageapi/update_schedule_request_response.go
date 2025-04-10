@@ -14,7 +14,7 @@ import (
 // UpdateScheduleRequest wrapper for the UpdateSchedule operation
 type UpdateScheduleRequest struct {
 
-	// The information to be updated. Currently supports only tags
+	// The information to be updated. Currently supports only tags.
 	UpdateScheduleDetails `contributesTo:"body"`
 
 	// The schedule unique OCID.

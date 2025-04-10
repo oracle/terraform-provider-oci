@@ -24,15 +24,6 @@ type UpdateOpensearchClusterDetails struct {
 
 	SoftwareVersion *string `mandatory:"false" json:"softwareVersion"`
 
-	// The node shape for the cluster's master nodes.
-	MasterNodeHostShape *string `mandatory:"false" json:"masterNodeHostShape"`
-
-	// The node shape for the cluster's data nodes.
-	DataNodeHostShape *string `mandatory:"false" json:"dataNodeHostShape"`
-
-	// The node shape for the cluster's OpenSearch Dashboard nodes.
-	OpendashboardNodeHostShape *string `mandatory:"false" json:"opendashboardNodeHostShape"`
-
 	// The security mode of the cluster.
 	SecurityMode SecurityModeEnum `mandatory:"false" json:"securityMode,omitempty"`
 

@@ -39,6 +39,15 @@ type UpdateClusterSpecsDetails struct {
 	// The node shape for the cluster's data nodes.
 	DataNodeHostShape *string `mandatory:"false" json:"dataNodeHostShape"`
 
+	// The node shape for the cluster's search nodes.
+	SearchNodeHostShape *string `mandatory:"false" json:"searchNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's search nodes.
+	SearchNodeHostOcpuCount *int `mandatory:"false" json:"searchNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's search nodes.
+	SearchNodeHostMemoryGB *int `mandatory:"false" json:"searchNodeHostMemoryGB"`
+
 	// Updated version of the software the cluster is currently running.
 	SoftwareVersion *string `mandatory:"false" json:"softwareVersion"`
 

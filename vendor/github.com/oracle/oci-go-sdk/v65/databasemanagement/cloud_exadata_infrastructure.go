@@ -84,6 +84,9 @@ type CloudExadataInfrastructure struct {
 
 	// The current lifecycle state of the database resource.
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The infrastructure deployment type.
+	DeploymentType CloudExadataInfrastructureDeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
 }
 
 // GetId returns Id
@@ -154,6 +157,9 @@ func (m CloudExadataInfrastructure) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbmResourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbmResourceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudExadataInfrastructureDeploymentTypeEnum(string(m.DeploymentType)); !ok && m.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetCloudExadataInfrastructureDeploymentTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

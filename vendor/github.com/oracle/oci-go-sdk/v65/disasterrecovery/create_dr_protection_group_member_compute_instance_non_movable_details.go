@@ -33,8 +33,11 @@ type CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails struct {
 	// A list of operations performed on file systems used by the compute instance.
 	FileSystemOperations []CreateComputeInstanceNonMovableFileSystemOperationDetails `mandatory:"false" json:"fileSystemOperations"`
 
+	// Deprecated. Use the 'blockVolumeAttachAndMountOperations' attribute instead of this.
 	// A list of operations performed on block volumes used by the compute instance.
 	BlockVolumeOperations []CreateComputeInstanceNonMovableBlockVolumeOperationDetails `mandatory:"false" json:"blockVolumeOperations"`
+
+	BlockVolumeAttachAndMountOperations *CreateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails `mandatory:"false" json:"blockVolumeAttachAndMountOperations"`
 }
 
 // GetMemberId returns MemberId

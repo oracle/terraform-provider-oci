@@ -21,7 +21,7 @@ import (
 // CreateEmailIpPoolDetails The configuration details required to create a new IpPool which will be used to route emails.
 type CreateEmailIpPoolDetails struct {
 
-	// The name of the IpPool. The name is unique within a compartment.
+	// The name of the IpPool. The name must be unique within a region.
 	// The name is case sensitive and supported characters include alphanumeric, hyphens ("-") and underscore ("_") characters.
 	// Example: green_pool-1
 	Name *string `mandatory:"true" json:"name"`

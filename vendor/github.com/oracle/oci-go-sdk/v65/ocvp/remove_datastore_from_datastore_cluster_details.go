@@ -19,8 +19,8 @@ import (
 // RemoveDatastoreFromDatastoreClusterDetails Details for the datastore removal from Datastore Cluster.
 type RemoveDatastoreFromDatastoreClusterDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore to remove from Datastore Cluster.
-	DatastoreId *string `mandatory:"true" json:"datastoreId"`
+	// A list of datastores to be removed.
+	DatastoreIds []string `mandatory:"true" json:"datastoreIds"`
 }
 
 func (m RemoveDatastoreFromDatastoreClusterDetails) String() string {

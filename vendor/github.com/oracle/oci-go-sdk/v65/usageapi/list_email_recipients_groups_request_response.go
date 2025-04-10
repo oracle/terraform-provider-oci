@@ -14,7 +14,7 @@ import (
 // ListEmailRecipientsGroupsRequest wrapper for the ListEmailRecipientsGroups operation
 type ListEmailRecipientsGroupsRequest struct {
 
-	// The UsageStatement Subscription unique OCID.
+	// The usage statement subscription unique OCID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The compartment ID in which to list resources.
@@ -24,7 +24,7 @@ type ListEmailRecipientsGroupsRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The maximumimum number of items to return.
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results.

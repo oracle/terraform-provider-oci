@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by Cost Analysis (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm), Scheduled Reports (https://docs.oracle.com/iaas/Content/Billing/Concepts/scheduledreportoverview.htm), and Carbon Emissions Analysis (https://docs.oracle.com/iaas/Content/General/Concepts/emissions-management.htm) in the Console. Also see Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -149,7 +149,7 @@ func (client UsageapiClient) createCustomTable(ctx context.Context, request comm
 	return response, err
 }
 
-// CreateEmailRecipientsGroup Add a list of email recipients that can receive usage statements for the subscription.
+// CreateEmailRecipientsGroup Creates a list of email recipients that can receive usage statements for the subscription.
 func (client UsageapiClient) CreateEmailRecipientsGroup(ctx context.Context, request CreateEmailRecipientsGroupRequest) (response CreateEmailRecipientsGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -323,7 +323,7 @@ func (client UsageapiClient) createSchedule(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateUsageCarbonEmissionsQuery Returns the created usage carbon emissions query.
+// CreateUsageCarbonEmissionsQuery Returns the created carbon emissions usage query.
 func (client UsageapiClient) CreateUsageCarbonEmissionsQuery(ctx context.Context, request CreateUsageCarbonEmissionsQueryRequest) (response CreateUsageCarbonEmissionsQueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -434,7 +434,7 @@ func (client UsageapiClient) deleteCustomTable(ctx context.Context, request comm
 	return response, err
 }
 
-// DeleteEmailRecipientsGroup Delete the email recipients group for the usage statement subscription.
+// DeleteEmailRecipientsGroup Deletes the email recipients group for the usage statement subscription.
 func (client UsageapiClient) DeleteEmailRecipientsGroup(ctx context.Context, request DeleteEmailRecipientsGroupRequest) (response DeleteEmailRecipientsGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -593,7 +593,7 @@ func (client UsageapiClient) deleteSchedule(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteUsageCarbonEmissionsQuery Delete a usage carbon emissions saved query by the OCID.
+// DeleteUsageCarbonEmissionsQuery Delete a carbon emissions usage saved query by the OCID.
 func (client UsageapiClient) DeleteUsageCarbonEmissionsQuery(ctx context.Context, request DeleteUsageCarbonEmissionsQueryRequest) (response DeleteUsageCarbonEmissionsQueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -699,7 +699,7 @@ func (client UsageapiClient) getCustomTable(ctx context.Context, request common.
 	return response, err
 }
 
-// GetEmailRecipientsGroup Return the saved usage statement email recipient group.
+// GetEmailRecipientsGroup Returns the saved usage statement email recipients group.
 func (client UsageapiClient) GetEmailRecipientsGroup(ctx context.Context, request GetEmailRecipientsGroupRequest) (response GetEmailRecipientsGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -911,7 +911,7 @@ func (client UsageapiClient) getScheduledRun(ctx context.Context, request common
 	return response, err
 }
 
-// GetUsageCarbonEmissionsQuery Returns the usage carbon emissions saved query.
+// GetUsageCarbonEmissionsQuery Returns the carbon emissions usage saved query.
 func (client UsageapiClient) GetUsageCarbonEmissionsQuery(ctx context.Context, request GetUsageCarbonEmissionsQueryRequest) (response GetUsageCarbonEmissionsQueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1017,7 +1017,7 @@ func (client UsageapiClient) listCustomTables(ctx context.Context, request commo
 	return response, err
 }
 
-// ListEmailRecipientsGroups Return the saved usage statement email recipient group.
+// ListEmailRecipientsGroups Returns the saved usage statement email recipients group.
 func (client UsageapiClient) ListEmailRecipientsGroups(ctx context.Context, request ListEmailRecipientsGroupsRequest) (response ListEmailRecipientsGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1128,7 +1128,7 @@ func (client UsageapiClient) listQueries(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListScheduledRuns Returns schedule history list.
+// ListScheduledRuns Returns the schedule history list.
 func (client UsageapiClient) ListScheduledRuns(ctx context.Context, request ListScheduledRunsRequest) (response ListScheduledRunsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1234,7 +1234,7 @@ func (client UsageapiClient) listSchedules(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListUsageCarbonEmissionsQueries Returns the usage carbon emissions saved query list.
+// ListUsageCarbonEmissionsQueries Returns the carbon emissions usage saved query list.
 func (client UsageapiClient) ListUsageCarbonEmissionsQueries(ctx context.Context, request ListUsageCarbonEmissionsQueriesRequest) (response ListUsageCarbonEmissionsQueriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1499,7 +1499,7 @@ func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, reques
 	return response, err
 }
 
-// RequestUsageCarbonEmissionConfig Returns the configuration list for the UI drop-down list of carbon emission console.
+// RequestUsageCarbonEmissionConfig Returns the configuration list for the Console's carbon emission user interface drop-down list.
 func (client UsageapiClient) RequestUsageCarbonEmissionConfig(ctx context.Context, request RequestUsageCarbonEmissionConfigRequest) (response RequestUsageCarbonEmissionConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1552,7 +1552,7 @@ func (client UsageapiClient) requestUsageCarbonEmissionConfig(ctx context.Contex
 	return response, err
 }
 
-// RequestUsageCarbonEmissions Returns usage carbon emission for the given account.
+// RequestUsageCarbonEmissions Returns carbon emission usage for the given account.
 func (client UsageapiClient) RequestUsageCarbonEmissions(ctx context.Context, request RequestUsageCarbonEmissionsRequest) (response RequestUsageCarbonEmissionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1605,7 +1605,7 @@ func (client UsageapiClient) requestUsageCarbonEmissions(ctx context.Context, re
 	return response, err
 }
 
-// UpdateCustomTable Update a saved custom table by table id.
+// UpdateCustomTable Update a saved custom table by table ID.
 func (client UsageapiClient) UpdateCustomTable(ctx context.Context, request UpdateCustomTableRequest) (response UpdateCustomTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1658,7 +1658,7 @@ func (client UsageapiClient) updateCustomTable(ctx context.Context, request comm
 	return response, err
 }
 
-// UpdateEmailRecipientsGroup Update a saved email recipients group.
+// UpdateEmailRecipientsGroup Updates a saved email recipients group.
 func (client UsageapiClient) UpdateEmailRecipientsGroup(ctx context.Context, request UpdateEmailRecipientsGroupRequest) (response UpdateEmailRecipientsGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1764,7 +1764,7 @@ func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// UpdateSchedule Update a saved schedule
+// UpdateSchedule Update a saved schedule.
 func (client UsageapiClient) UpdateSchedule(ctx context.Context, request UpdateScheduleRequest) (response UpdateScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1817,7 +1817,7 @@ func (client UsageapiClient) updateSchedule(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateUsageCarbonEmissionsQuery Update a usage carbon emissions saved query by the OCID.
+// UpdateUsageCarbonEmissionsQuery Update a carbon emissions usage saved query by the OCID.
 func (client UsageapiClient) UpdateUsageCarbonEmissionsQuery(ctx context.Context, request UpdateUsageCarbonEmissionsQueryRequest) (response UpdateUsageCarbonEmissionsQueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

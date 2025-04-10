@@ -136,6 +136,24 @@ type OpensearchCluster struct {
 	// The node shape for the cluster's data nodes.
 	DataNodeHostShape *string `mandatory:"false" json:"dataNodeHostShape"`
 
+	// The number of search nodes configured for the cluster.
+	SearchNodeCount *int `mandatory:"false" json:"searchNodeCount"`
+
+	// The instance type for the cluster's search nodes.
+	SearchNodeHostType SearchNodeHostTypeEnum `mandatory:"false" json:"searchNodeHostType,omitempty"`
+
+	// The node shape for the cluster's search nodes.
+	SearchNodeHostShape *string `mandatory:"false" json:"searchNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's search nodes.
+	SearchNodeHostOcpuCount *int `mandatory:"false" json:"searchNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's search nodes.
+	SearchNodeHostMemoryGB *int `mandatory:"false" json:"searchNodeHostMemoryGB"`
+
+	// The amount of storage in GB, to configure per node for the cluster's search nodes.
+	SearchNodeStorageGB *int `mandatory:"false" json:"searchNodeStorageGB"`
+
 	// The node shape for the cluster's OpenSearch Dashboard nodes.
 	OpendashboardNodeHostShape *string `mandatory:"false" json:"opendashboardNodeHostShape"`
 
@@ -188,6 +206,9 @@ func (m OpensearchCluster) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataNodeHostType: %s. Supported values are: %s.", m.DataNodeHostType, strings.Join(GetDataNodeHostTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSearchNodeHostTypeEnum(string(m.SearchNodeHostType)); !ok && m.SearchNodeHostType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SearchNodeHostType: %s. Supported values are: %s.", m.SearchNodeHostType, strings.Join(GetSearchNodeHostTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingSecurityModeEnum(string(m.SecurityMode)); !ok && m.SecurityMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityMode: %s. Supported values are: %s.", m.SecurityMode, strings.Join(GetSecurityModeEnumStringValues(), ",")))
 	}

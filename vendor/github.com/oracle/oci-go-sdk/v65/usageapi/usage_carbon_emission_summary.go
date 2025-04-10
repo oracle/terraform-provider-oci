@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by Cost Analysis (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm), Scheduled Reports (https://docs.oracle.com/iaas/Content/Billing/Concepts/scheduledreportoverview.htm), and Carbon Emissions Analysis (https://docs.oracle.com/iaas/Content/General/Concepts/emissions-management.htm) in the Console. Also see Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UsageCarbonEmissionSummary The usage carbon emission store result.
+// UsageCarbonEmissionSummary The carbon emission usage store result.
 type UsageCarbonEmissionSummary struct {
 
 	// The usage start time.
@@ -24,10 +24,10 @@ type UsageCarbonEmissionSummary struct {
 	// The usage end time.
 	TimeUsageEnded *common.SDKTime `mandatory:"true" json:"timeUsageEnded"`
 
-	// The carbon emission in MTCO2 unit.
+	// The carbon emission usage in MTCO2 units.
 	ComputedCarbonEmission *float64 `mandatory:"true" json:"computedCarbonEmission"`
 
-	// The method used to calculate carbon emission.
+	// Specifies the approach for calculating carbon emissions, supports both SPEND_BASED (based on expenditure data) and POWER_BASED (based on power consumption, newly introduced in the metering pipeline)
 	EmissionCalculationMethod *string `mandatory:"true" json:"emissionCalculationMethod"`
 
 	// The tenancy OCID.
@@ -69,6 +69,9 @@ type UsageCarbonEmissionSummary struct {
 	// Platform for the cost.
 	Platform *string `mandatory:"false" json:"platform"`
 
+	// The emission type, such as MARKET_BASED or LOCATION_BASED.
+	EmissionType RequestUsageCarbonEmissionsDetailsEmissionTypeEnum `mandatory:"false" json:"emissionType,omitempty"`
+
 	// The subscription ID.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
@@ -86,6 +89,9 @@ func (m UsageCarbonEmissionSummary) String() string {
 func (m UsageCarbonEmissionSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRequestUsageCarbonEmissionsDetailsEmissionTypeEnum(string(m.EmissionType)); !ok && m.EmissionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EmissionType: %s. Supported values are: %s.", m.EmissionType, strings.Join(GetRequestUsageCarbonEmissionsDetailsEmissionTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

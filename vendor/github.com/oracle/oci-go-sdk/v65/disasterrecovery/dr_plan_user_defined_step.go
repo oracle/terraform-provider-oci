@@ -53,12 +53,20 @@ func (m *drplanuserdefinedstep) UnmarshalPolymorphicJSON(data []byte) (interface
 
 	var err error
 	switch m.StepType {
+	case "INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK":
+		mm := InvokeFunctionUserDefinedCustomPrecheckStep{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INVOKE_FUNCTION":
 		mm := InvokeFunctionStep{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "INVOKE_FUNCTION_PRECHECK":
 		mm := InvokeFunctionPrecheckStep{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK":
+		mm := RunObjectStoreScriptUserDefinedCustomPrecheckStep{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "RUN_LOCAL_SCRIPT":
@@ -71,6 +79,10 @@ func (m *drplanuserdefinedstep) UnmarshalPolymorphicJSON(data []byte) (interface
 		return mm, err
 	case "RUN_OBJECTSTORE_SCRIPT_PRECHECK":
 		mm := ObjectStoreScriptPrecheckStep{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK":
+		mm := RunLocalScriptUserDefinedCustomPrecheckStep{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "RUN_OBJECTSTORE_SCRIPT":
@@ -104,30 +116,39 @@ type DrPlanUserDefinedStepStepTypeEnum string
 
 // Set of constants representing the allowable values for DrPlanUserDefinedStepStepTypeEnum
 const (
-	DrPlanUserDefinedStepStepTypeRunObjectstoreScriptPrecheck DrPlanUserDefinedStepStepTypeEnum = "RUN_OBJECTSTORE_SCRIPT_PRECHECK"
-	DrPlanUserDefinedStepStepTypeRunLocalScriptPrecheck       DrPlanUserDefinedStepStepTypeEnum = "RUN_LOCAL_SCRIPT_PRECHECK"
-	DrPlanUserDefinedStepStepTypeInvokeFunctionPrecheck       DrPlanUserDefinedStepStepTypeEnum = "INVOKE_FUNCTION_PRECHECK"
-	DrPlanUserDefinedStepStepTypeRunObjectstoreScript         DrPlanUserDefinedStepStepTypeEnum = "RUN_OBJECTSTORE_SCRIPT"
-	DrPlanUserDefinedStepStepTypeRunLocalScript               DrPlanUserDefinedStepStepTypeEnum = "RUN_LOCAL_SCRIPT"
-	DrPlanUserDefinedStepStepTypeInvokeFunction               DrPlanUserDefinedStepStepTypeEnum = "INVOKE_FUNCTION"
+	DrPlanUserDefinedStepStepTypeRunObjectstoreScriptPrecheck                  DrPlanUserDefinedStepStepTypeEnum = "RUN_OBJECTSTORE_SCRIPT_PRECHECK"
+	DrPlanUserDefinedStepStepTypeRunLocalScriptPrecheck                        DrPlanUserDefinedStepStepTypeEnum = "RUN_LOCAL_SCRIPT_PRECHECK"
+	DrPlanUserDefinedStepStepTypeInvokeFunctionPrecheck                        DrPlanUserDefinedStepStepTypeEnum = "INVOKE_FUNCTION_PRECHECK"
+	DrPlanUserDefinedStepStepTypeRunObjectstoreScript                          DrPlanUserDefinedStepStepTypeEnum = "RUN_OBJECTSTORE_SCRIPT"
+	DrPlanUserDefinedStepStepTypeRunLocalScript                                DrPlanUserDefinedStepStepTypeEnum = "RUN_LOCAL_SCRIPT"
+	DrPlanUserDefinedStepStepTypeInvokeFunction                                DrPlanUserDefinedStepStepTypeEnum = "INVOKE_FUNCTION"
+	DrPlanUserDefinedStepStepTypeRunObjectstoreScriptUserDefinedCustomPrecheck DrPlanUserDefinedStepStepTypeEnum = "RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK"
+	DrPlanUserDefinedStepStepTypeRunLocalScriptUserDefinedCustomPrecheck       DrPlanUserDefinedStepStepTypeEnum = "RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK"
+	DrPlanUserDefinedStepStepTypeInvokeFunctionUserDefinedCustomPrecheck       DrPlanUserDefinedStepStepTypeEnum = "INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK"
 )
 
 var mappingDrPlanUserDefinedStepStepTypeEnum = map[string]DrPlanUserDefinedStepStepTypeEnum{
-	"RUN_OBJECTSTORE_SCRIPT_PRECHECK": DrPlanUserDefinedStepStepTypeRunObjectstoreScriptPrecheck,
-	"RUN_LOCAL_SCRIPT_PRECHECK":       DrPlanUserDefinedStepStepTypeRunLocalScriptPrecheck,
-	"INVOKE_FUNCTION_PRECHECK":        DrPlanUserDefinedStepStepTypeInvokeFunctionPrecheck,
-	"RUN_OBJECTSTORE_SCRIPT":          DrPlanUserDefinedStepStepTypeRunObjectstoreScript,
-	"RUN_LOCAL_SCRIPT":                DrPlanUserDefinedStepStepTypeRunLocalScript,
-	"INVOKE_FUNCTION":                 DrPlanUserDefinedStepStepTypeInvokeFunction,
+	"RUN_OBJECTSTORE_SCRIPT_PRECHECK":                     DrPlanUserDefinedStepStepTypeRunObjectstoreScriptPrecheck,
+	"RUN_LOCAL_SCRIPT_PRECHECK":                           DrPlanUserDefinedStepStepTypeRunLocalScriptPrecheck,
+	"INVOKE_FUNCTION_PRECHECK":                            DrPlanUserDefinedStepStepTypeInvokeFunctionPrecheck,
+	"RUN_OBJECTSTORE_SCRIPT":                              DrPlanUserDefinedStepStepTypeRunObjectstoreScript,
+	"RUN_LOCAL_SCRIPT":                                    DrPlanUserDefinedStepStepTypeRunLocalScript,
+	"INVOKE_FUNCTION":                                     DrPlanUserDefinedStepStepTypeInvokeFunction,
+	"RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK": DrPlanUserDefinedStepStepTypeRunObjectstoreScriptUserDefinedCustomPrecheck,
+	"RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK":       DrPlanUserDefinedStepStepTypeRunLocalScriptUserDefinedCustomPrecheck,
+	"INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK":        DrPlanUserDefinedStepStepTypeInvokeFunctionUserDefinedCustomPrecheck,
 }
 
 var mappingDrPlanUserDefinedStepStepTypeEnumLowerCase = map[string]DrPlanUserDefinedStepStepTypeEnum{
-	"run_objectstore_script_precheck": DrPlanUserDefinedStepStepTypeRunObjectstoreScriptPrecheck,
-	"run_local_script_precheck":       DrPlanUserDefinedStepStepTypeRunLocalScriptPrecheck,
-	"invoke_function_precheck":        DrPlanUserDefinedStepStepTypeInvokeFunctionPrecheck,
-	"run_objectstore_script":          DrPlanUserDefinedStepStepTypeRunObjectstoreScript,
-	"run_local_script":                DrPlanUserDefinedStepStepTypeRunLocalScript,
-	"invoke_function":                 DrPlanUserDefinedStepStepTypeInvokeFunction,
+	"run_objectstore_script_precheck":                     DrPlanUserDefinedStepStepTypeRunObjectstoreScriptPrecheck,
+	"run_local_script_precheck":                           DrPlanUserDefinedStepStepTypeRunLocalScriptPrecheck,
+	"invoke_function_precheck":                            DrPlanUserDefinedStepStepTypeInvokeFunctionPrecheck,
+	"run_objectstore_script":                              DrPlanUserDefinedStepStepTypeRunObjectstoreScript,
+	"run_local_script":                                    DrPlanUserDefinedStepStepTypeRunLocalScript,
+	"invoke_function":                                     DrPlanUserDefinedStepStepTypeInvokeFunction,
+	"run_objectstore_script_user_defined_custom_precheck": DrPlanUserDefinedStepStepTypeRunObjectstoreScriptUserDefinedCustomPrecheck,
+	"run_local_script_user_defined_custom_precheck":       DrPlanUserDefinedStepStepTypeRunLocalScriptUserDefinedCustomPrecheck,
+	"invoke_function_user_defined_custom_precheck":        DrPlanUserDefinedStepStepTypeInvokeFunctionUserDefinedCustomPrecheck,
 }
 
 // GetDrPlanUserDefinedStepStepTypeEnumValues Enumerates the set of values for DrPlanUserDefinedStepStepTypeEnum
@@ -148,6 +169,9 @@ func GetDrPlanUserDefinedStepStepTypeEnumStringValues() []string {
 		"RUN_OBJECTSTORE_SCRIPT",
 		"RUN_LOCAL_SCRIPT",
 		"INVOKE_FUNCTION",
+		"RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK",
+		"RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK",
+		"INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK",
 	}
 }
 

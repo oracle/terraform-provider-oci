@@ -30,6 +30,10 @@ type CreateManagementApplianceDetails struct {
 	// Array of connections for management appliance.
 	Connections []ManagementApplianceConnection `mandatory:"true" json:"connections"`
 
+	// One or more public SSH keys to be included in `~/.ssh/authorized_keys` file for Management Appliance compute instance.
+	// Several public SSH keys must be separate by newline character.
+	PublicSshKeys *string `mandatory:"false" json:"publicSshKeys"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

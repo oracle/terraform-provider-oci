@@ -74,14 +74,14 @@ type CloudExadataInfrastructureSummary struct {
 	// The rack size of the Exadata infrastructure.
 	RackSize CloudExadataInfrastructureSummaryRackSizeEnum `mandatory:"false" json:"rackSize,omitempty"`
 
-	// The type of the Exadata infrastructure.
-	InfrastructureType CloudExadataInfrastructureSummaryInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
-
 	// The Oracle license model that applies to the database management resources.
 	LicenseModel CloudExadataInfrastructureSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The current lifecycle state of the database resource.
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The type of the Exadata infrastructure.
+	InfrastructureType CloudExadataInfrastructureDeploymentTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 }
 
 // GetId returns Id
@@ -146,15 +146,15 @@ func (m CloudExadataInfrastructureSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingCloudExadataInfrastructureSummaryRackSizeEnum(string(m.RackSize)); !ok && m.RackSize != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RackSize: %s. Supported values are: %s.", m.RackSize, strings.Join(GetCloudExadataInfrastructureSummaryRackSizeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingCloudExadataInfrastructureSummaryInfrastructureTypeEnum(string(m.InfrastructureType)); !ok && m.InfrastructureType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetCloudExadataInfrastructureSummaryInfrastructureTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingCloudExadataInfrastructureSummaryLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCloudExadataInfrastructureSummaryLicenseModelEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingDbmResourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbmResourceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudExadataInfrastructureDeploymentTypeEnum(string(m.InfrastructureType)); !ok && m.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetCloudExadataInfrastructureDeploymentTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -223,48 +223,6 @@ func GetCloudExadataInfrastructureSummaryRackSizeEnumStringValues() []string {
 // GetMappingCloudExadataInfrastructureSummaryRackSizeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudExadataInfrastructureSummaryRackSizeEnum(val string) (CloudExadataInfrastructureSummaryRackSizeEnum, bool) {
 	enum, ok := mappingCloudExadataInfrastructureSummaryRackSizeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// CloudExadataInfrastructureSummaryInfrastructureTypeEnum Enum with underlying type: string
-type CloudExadataInfrastructureSummaryInfrastructureTypeEnum string
-
-// Set of constants representing the allowable values for CloudExadataInfrastructureSummaryInfrastructureTypeEnum
-const (
-	CloudExadataInfrastructureSummaryInfrastructureTypeExadata   CloudExadataInfrastructureSummaryInfrastructureTypeEnum = "EXADATA"
-	CloudExadataInfrastructureSummaryInfrastructureTypeExadataCc CloudExadataInfrastructureSummaryInfrastructureTypeEnum = "EXADATA_CC"
-)
-
-var mappingCloudExadataInfrastructureSummaryInfrastructureTypeEnum = map[string]CloudExadataInfrastructureSummaryInfrastructureTypeEnum{
-	"EXADATA":    CloudExadataInfrastructureSummaryInfrastructureTypeExadata,
-	"EXADATA_CC": CloudExadataInfrastructureSummaryInfrastructureTypeExadataCc,
-}
-
-var mappingCloudExadataInfrastructureSummaryInfrastructureTypeEnumLowerCase = map[string]CloudExadataInfrastructureSummaryInfrastructureTypeEnum{
-	"exadata":    CloudExadataInfrastructureSummaryInfrastructureTypeExadata,
-	"exadata_cc": CloudExadataInfrastructureSummaryInfrastructureTypeExadataCc,
-}
-
-// GetCloudExadataInfrastructureSummaryInfrastructureTypeEnumValues Enumerates the set of values for CloudExadataInfrastructureSummaryInfrastructureTypeEnum
-func GetCloudExadataInfrastructureSummaryInfrastructureTypeEnumValues() []CloudExadataInfrastructureSummaryInfrastructureTypeEnum {
-	values := make([]CloudExadataInfrastructureSummaryInfrastructureTypeEnum, 0)
-	for _, v := range mappingCloudExadataInfrastructureSummaryInfrastructureTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCloudExadataInfrastructureSummaryInfrastructureTypeEnumStringValues Enumerates the set of values in String for CloudExadataInfrastructureSummaryInfrastructureTypeEnum
-func GetCloudExadataInfrastructureSummaryInfrastructureTypeEnumStringValues() []string {
-	return []string{
-		"EXADATA",
-		"EXADATA_CC",
-	}
-}
-
-// GetMappingCloudExadataInfrastructureSummaryInfrastructureTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCloudExadataInfrastructureSummaryInfrastructureTypeEnum(val string) (CloudExadataInfrastructureSummaryInfrastructureTypeEnum, bool) {
-	enum, ok := mappingCloudExadataInfrastructureSummaryInfrastructureTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

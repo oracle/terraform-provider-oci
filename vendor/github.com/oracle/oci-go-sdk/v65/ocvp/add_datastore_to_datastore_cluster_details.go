@@ -19,8 +19,8 @@ import (
 // AddDatastoreToDatastoreClusterDetails Details for the datastore attachment to Datastore Cluster.
 type AddDatastoreToDatastoreClusterDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore to add to Datastore Cluster.
-	DatastoreId *string `mandatory:"true" json:"datastoreId"`
+	// A list of datastores to be added.
+	DatastoreIds []string `mandatory:"true" json:"datastoreIds"`
 }
 
 func (m AddDatastoreToDatastoreClusterDetails) String() string {

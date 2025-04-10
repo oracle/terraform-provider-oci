@@ -80,21 +80,24 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCreateTable WorkRequestSummaryOperationTypeEnum = "CREATE_TABLE"
-	WorkRequestSummaryOperationTypeUpdateTable WorkRequestSummaryOperationTypeEnum = "UPDATE_TABLE"
-	WorkRequestSummaryOperationTypeDeleteTable WorkRequestSummaryOperationTypeEnum = "DELETE_TABLE"
+	WorkRequestSummaryOperationTypeCreateTable         WorkRequestSummaryOperationTypeEnum = "CREATE_TABLE"
+	WorkRequestSummaryOperationTypeUpdateTable         WorkRequestSummaryOperationTypeEnum = "UPDATE_TABLE"
+	WorkRequestSummaryOperationTypeDeleteTable         WorkRequestSummaryOperationTypeEnum = "DELETE_TABLE"
+	WorkRequestSummaryOperationTypeUpdateConfiguration WorkRequestSummaryOperationTypeEnum = "UPDATE_CONFIGURATION"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
-	"CREATE_TABLE": WorkRequestSummaryOperationTypeCreateTable,
-	"UPDATE_TABLE": WorkRequestSummaryOperationTypeUpdateTable,
-	"DELETE_TABLE": WorkRequestSummaryOperationTypeDeleteTable,
+	"CREATE_TABLE":         WorkRequestSummaryOperationTypeCreateTable,
+	"UPDATE_TABLE":         WorkRequestSummaryOperationTypeUpdateTable,
+	"DELETE_TABLE":         WorkRequestSummaryOperationTypeDeleteTable,
+	"UPDATE_CONFIGURATION": WorkRequestSummaryOperationTypeUpdateConfiguration,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
-	"create_table": WorkRequestSummaryOperationTypeCreateTable,
-	"update_table": WorkRequestSummaryOperationTypeUpdateTable,
-	"delete_table": WorkRequestSummaryOperationTypeDeleteTable,
+	"create_table":         WorkRequestSummaryOperationTypeCreateTable,
+	"update_table":         WorkRequestSummaryOperationTypeUpdateTable,
+	"delete_table":         WorkRequestSummaryOperationTypeDeleteTable,
+	"update_configuration": WorkRequestSummaryOperationTypeUpdateConfiguration,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -112,6 +115,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CREATE_TABLE",
 		"UPDATE_TABLE",
 		"DELETE_TABLE",
+		"UPDATE_CONFIGURATION",
 	}
 }
 

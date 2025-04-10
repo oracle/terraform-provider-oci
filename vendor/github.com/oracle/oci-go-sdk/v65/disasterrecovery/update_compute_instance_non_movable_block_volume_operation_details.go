@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// UpdateComputeInstanceNonMovableBlockVolumeOperationDetails The details for updating the operations performed on a block volume.
+// UpdateComputeInstanceNonMovableBlockVolumeOperationDetails Deprecated. Use the 'UpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails' definition instead of this.
+// The details for updating the operations performed on a block volume.
 type UpdateComputeInstanceNonMovableBlockVolumeOperationDetails struct {
 
 	// The OCID of the block volume.

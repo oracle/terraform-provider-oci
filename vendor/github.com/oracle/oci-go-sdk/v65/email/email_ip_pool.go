@@ -24,7 +24,7 @@ type EmailIpPool struct {
 	// The unique OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IpPool resource that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the IpPool. The name is unique within a compartment.
+	// The name of the IpPool. The name must be unique within a region.
 	// The name is case sensitive and supported characters include alphanumeric, hyphens ("-") and underscore ("_") characters.
 	// Example: green_pool-1
 	Name *string `mandatory:"true" json:"name"`

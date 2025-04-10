@@ -80,21 +80,24 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCreateTable WorkRequestOperationTypeEnum = "CREATE_TABLE"
-	WorkRequestOperationTypeUpdateTable WorkRequestOperationTypeEnum = "UPDATE_TABLE"
-	WorkRequestOperationTypeDeleteTable WorkRequestOperationTypeEnum = "DELETE_TABLE"
+	WorkRequestOperationTypeCreateTable         WorkRequestOperationTypeEnum = "CREATE_TABLE"
+	WorkRequestOperationTypeUpdateTable         WorkRequestOperationTypeEnum = "UPDATE_TABLE"
+	WorkRequestOperationTypeDeleteTable         WorkRequestOperationTypeEnum = "DELETE_TABLE"
+	WorkRequestOperationTypeUpdateConfiguration WorkRequestOperationTypeEnum = "UPDATE_CONFIGURATION"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"CREATE_TABLE": WorkRequestOperationTypeCreateTable,
-	"UPDATE_TABLE": WorkRequestOperationTypeUpdateTable,
-	"DELETE_TABLE": WorkRequestOperationTypeDeleteTable,
+	"CREATE_TABLE":         WorkRequestOperationTypeCreateTable,
+	"UPDATE_TABLE":         WorkRequestOperationTypeUpdateTable,
+	"DELETE_TABLE":         WorkRequestOperationTypeDeleteTable,
+	"UPDATE_CONFIGURATION": WorkRequestOperationTypeUpdateConfiguration,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"create_table": WorkRequestOperationTypeCreateTable,
-	"update_table": WorkRequestOperationTypeUpdateTable,
-	"delete_table": WorkRequestOperationTypeDeleteTable,
+	"create_table":         WorkRequestOperationTypeCreateTable,
+	"update_table":         WorkRequestOperationTypeUpdateTable,
+	"delete_table":         WorkRequestOperationTypeDeleteTable,
+	"update_configuration": WorkRequestOperationTypeUpdateConfiguration,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -112,6 +115,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CREATE_TABLE",
 		"UPDATE_TABLE",
 		"DELETE_TABLE",
+		"UPDATE_CONFIGURATION",
 	}
 }
 

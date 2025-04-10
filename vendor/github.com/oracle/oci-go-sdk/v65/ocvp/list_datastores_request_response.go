@@ -20,6 +20,9 @@ type ListDatastoresRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC Cluster.
+	ClusterId *string `mandatory:"false" contributesTo:"query" name:"clusterId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore.
 	DatastoreId *string `mandatory:"false" contributesTo:"query" name:"datastoreId"`
 
