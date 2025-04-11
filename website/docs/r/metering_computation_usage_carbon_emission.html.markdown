@@ -10,7 +10,7 @@ description: |-
 # oci_metering_computation_usage_carbon_emission
 This resource provides the Usage Carbon Emission resource in Oracle Cloud Infrastructure Metering Computation service.
 
-Returns usage carbon emission for the given account.
+Returns carbon emission usage for the given account.
 
 
 ## Example Usage
@@ -24,6 +24,9 @@ resource "oci_metering_computation_usage_carbon_emission" "test_usage_carbon_emi
 
 	#Optional
 	compartment_depth = var.usage_carbon_emission_compartment_depth
+	emission_calculation_method = var.usage_carbon_emission_emission_calculation_method
+	emission_type = var.usage_carbon_emission_emission_type
+	granularity = var.usage_carbon_emission_granularity
 	group_by = var.usage_carbon_emission_group_by
 	group_by_tag {
 
@@ -42,12 +45,15 @@ resource "oci_metering_computation_usage_carbon_emission" "test_usage_carbon_emi
 The following arguments are supported:
 
 * `compartment_depth` - (Optional) The compartment depth level.
+* `emission_calculation_method` - (Optional) Specifies the method used for emission calculation, such as POWER_BASED or SPEND_BASED
+* `emission_type` - (Optional) Specifies the type of emission, such as MARKET_BASED or LOCATION_BASED.
+* `granularity` - (Optional) The carbon emission granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation.
 * `group_by` - (Optional) Aggregate the result by. For example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "resourceName", "tenantId", "tenantName", "subscriptionId"]` 
 * `group_by_tag` - (Optional) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 	* `key` - (Optional) The tag key.
 	* `namespace` - (Optional) The tag namespace.
 	* `value` - (Optional) The tag value.
-* `is_aggregate_by_time` - (Optional) Specifies whether aggregated by time. If isAggregateByTime is true, all usage carbon emissions over the query time period will be added up.
+* `is_aggregate_by_time` - (Optional) Specifies whether aggregated by time. If isAggregateByTime is true, all carbon emissions usage over the query time period are summed.
 * `tenant_id` - (Required) Tenant ID.
 * `time_usage_ended` - (Required) The usage end time.
 * `time_usage_started` - (Required) The usage start time.
@@ -61,14 +67,15 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `group_by` - Aggregate the result by.
-* `items` - A list of usage carbon emission items.
+* `group_by` - Specifies what to aggregate the result by.
+* `items` - A list of carbon emission usage items.
 	* `ad` - The availability domain of the usage.
 	* `compartment_id` - The compartment OCID.
 	* `compartment_name` - The compartment name.
 	* `compartment_path` - The compartment path, starting from root.
-	* `computed_carbon_emission` - The carbon emission in MTCO2 unit.
-	* `emission_calculation_method` - The method used to calculate carbon emission.
+	* `computed_carbon_emission` - The carbon emission usage in MTCO2 units.
+	* `emission_calculation_method` - Specifies the approach for calculating carbon emissions, supports both SPEND_BASED (based on expenditure data) and POWER_BASED (based on power consumption, newly introduced in the metering pipeline)
+	* `emission_type` - The emission type, such as MARKET_BASED or LOCATION_BASED.
 	* `platform` - Platform for the cost.
 	* `region` - The region of the usage.
 	* `resource_id` - The resource OCID that is incurring the cost.

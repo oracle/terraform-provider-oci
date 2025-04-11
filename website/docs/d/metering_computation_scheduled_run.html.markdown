@@ -26,17 +26,17 @@ data "oci_metering_computation_scheduled_run" "test_scheduled_run" {
 
 The following arguments are supported:
 
-* `scheduled_run_id` - (Required) The scheduledRun unique OCID
+* `scheduled_run_id` - (Required) The scheduled run unique OCID.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `id` - The ocid representing unique shedule run
-* `lifecycle_details` - Additional details about scheduled run failure
-* `schedule_id` - The ocid representing unique shedule
-* `state` - Specifies if the schedule job was run successfully or not.
-* `time_created` - The time when schedule started executing
-* `time_finished` - The time when schedule finished executing
+* `id` - The OCID representing a unique shedule run.
+* `lifecycle_details` - Additional details about the scheduled run.
+* `schedule_id` - The OCID representing a unique shedule.
+* `state` - Specifies whether or not the schedule job was successfully run.
+* `time_created` - The time the schedule started executing.
+* `time_finished` - The time the schedule finished executing.
 

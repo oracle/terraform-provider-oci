@@ -10,7 +10,7 @@ description: |-
 # oci_metering_computation_usage_statement_email_recipients_group
 This resource provides the Usage Statement Email Recipients Group resource in Oracle Cloud Infrastructure Metering Computation service.
 
-Add a list of email recipients that can receive usage statements for the subscription.
+Creates a list of email recipients that can receive usage statements for the subscription.
 
 
 ## Example Usage
@@ -37,12 +37,12 @@ resource "oci_metering_computation_usage_statement_email_recipients_group" "test
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The customer tenancy.
-* `recipients_list` - (Required) (Updatable) The list of recipient will receive the usage statement email.
-	* `email_id` - (Required) (Updatable) the email of the recipient.
-	* `first_name` - (Optional) (Updatable) the first name of the recipient.
-	* `last_name` - (Optional) (Updatable) the last name of the recipient.
+* `recipients_list` - (Required) (Updatable) The list of recipients that will receive usage statement emails.
+	* `email_id` - (Required) (Updatable) The recipient email address.
+	* `first_name` - (Optional) (Updatable) The recipient first name.
+	* `last_name` - (Optional) (Updatable) The recipient last name.
 	* `state` - (Required) (Updatable) The email recipient lifecycle state.
-* `subscription_id` - (Required) The UsageStatement Subscription unique OCID.
+* `subscription_id` - (Required) The usage statement subscription unique OCID.
 
 
 ** IMPORTANT **
@@ -54,12 +54,12 @@ The following attributes are exported:
 
 * `compartment_id` - The customer tenancy OCID.
 * `id` - The usage statement email recipients group OCID.
-* `recipients_list` - The list of recipient will receive the usage statement email.
-	* `email_id` - the email of the recipient.
-	* `first_name` - the first name of the recipient.
-	* `last_name` - the last name of the recipient.
+* `recipients_list` - The list of recipients that will receive usage statement emails.
+	* `email_id` - The recipient email address.
+	* `first_name` - The recipient first name.
+	* `last_name` - The recipient last name.
 	* `state` - The email recipient lifecycle state.
-* `state` - The email recipient group lifecycle state.
+* `state` - The email recipients group lifecycle state.
 
 ## Timeouts
 

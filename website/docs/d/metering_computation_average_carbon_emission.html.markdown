@@ -34,5 +34,5 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `average_carbon_emission` - The average carbon emissions by SKU.
-* `sku_part_number` - The sku part number.
+* `sku_part_number` - The SKU part number.
 

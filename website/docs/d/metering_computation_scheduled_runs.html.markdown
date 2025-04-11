@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_metering_computation_scheduled_runs
 This data source provides the list of Scheduled Runs in Oracle Cloud Infrastructure Metering Computation service.
 
-Returns schedule history list.
+Returns the schedule history list.
 
 
 ## Example Usage
@@ -26,7 +26,7 @@ data "oci_metering_computation_scheduled_runs" "test_scheduled_runs" {
 
 The following arguments are supported:
 
-* `schedule_id` - (Required) The unique ID of a schedule.
+* `schedule_id` - (Required) The schedule unique ID.
 
 
 ## Attributes Reference
@@ -39,10 +39,10 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `id` - The ocid representing unique shedule run
-* `lifecycle_details` - Additional details about scheduled run failure
-* `schedule_id` - The ocid representing unique shedule
-* `state` - Specifies if the schedule job was run successfully or not.
-* `time_created` - The time when schedule started executing
-* `time_finished` - The time when schedule finished executing
+* `id` - The OCID representing a unique shedule run.
+* `lifecycle_details` - Additional details about the scheduled run.
+* `schedule_id` - The OCID representing a unique shedule.
+* `state` - Specifies whether or not the schedule job was successfully run.
+* `time_created` - The time the schedule started executing.
+* `time_finished` - The time the schedule finished executing.
 

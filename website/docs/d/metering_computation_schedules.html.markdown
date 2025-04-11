@@ -30,7 +30,7 @@ data "oci_metering_computation_schedules" "test_schedules" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment ID in which to list resources.
-* `name` - (Optional) Query parameter for filtering by name 
+* `name` - (Optional) The query parameter for filtering by name. 
 
 
 ## Attributes Reference

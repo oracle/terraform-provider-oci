@@ -54,6 +54,24 @@ func MeteringComputationUsageCarbonEmissionResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"emission_calculation_method": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"emission_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"granularity": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"group_by": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -141,6 +159,10 @@ func MeteringComputationUsageCarbonEmissionResource() *schema.Resource {
 							Computed: true,
 						},
 						"emission_calculation_method": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"emission_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -257,6 +279,18 @@ func (s *MeteringComputationUsageCarbonEmissionResourceCrud) Create() error {
 	if compartmentDepth, ok := s.D.GetOkExists("compartment_depth"); ok {
 		tmp := compartmentDepth.(int)
 		request.CompartmentDepth = &tmp
+	}
+
+	if emissionCalculationMethod, ok := s.D.GetOkExists("emission_calculation_method"); ok {
+		request.EmissionCalculationMethod = oci_metering_computation.RequestUsageCarbonEmissionsDetailsEmissionCalculationMethodEnum(emissionCalculationMethod.(string))
+	}
+
+	if emissionType, ok := s.D.GetOkExists("emission_type"); ok {
+		request.EmissionType = oci_metering_computation.RequestUsageCarbonEmissionsDetailsEmissionTypeEnum(emissionType.(string))
+	}
+
+	if granularity, ok := s.D.GetOkExists("granularity"); ok {
+		request.Granularity = oci_metering_computation.RequestUsageCarbonEmissionsDetailsGranularityEnum(granularity.(string))
 	}
 
 	if groupBy, ok := s.D.GetOkExists("group_by"); ok {
@@ -395,6 +429,8 @@ func UsageCarbonEmissionSummaryToMap(obj oci_metering_computation.UsageCarbonEmi
 	if obj.EmissionCalculationMethod != nil {
 		result["emission_calculation_method"] = string(*obj.EmissionCalculationMethod)
 	}
+
+	result["emission_type"] = string(obj.EmissionType)
 
 	if obj.Platform != nil {
 		result["platform"] = string(*obj.Platform)
