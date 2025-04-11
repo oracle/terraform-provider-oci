@@ -96,6 +96,21 @@ func MeteringComputationUsageCarbonEmissionsQueryResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"emission_calculation_method": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"emission_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"granularity": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"group_by": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -446,6 +461,18 @@ func (s *MeteringComputationUsageCarbonEmissionsQueryResourceCrud) mapToUsageCar
 		result.DateRangeName = oci_metering_computation.UsageCarbonEmissionsReportQueryDateRangeNameEnum(dateRangeName.(string))
 	}
 
+	if emissionCalculationMethod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "emission_calculation_method")); ok {
+		result.EmissionCalculationMethod = oci_metering_computation.RequestUsageCarbonEmissionsDetailsEmissionCalculationMethodEnum(emissionCalculationMethod.(string))
+	}
+
+	if emissionType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "emission_type")); ok {
+		result.EmissionType = oci_metering_computation.RequestUsageCarbonEmissionsDetailsEmissionTypeEnum(emissionType.(string))
+	}
+
+	if granularity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "granularity")); ok {
+		result.Granularity = oci_metering_computation.RequestUsageCarbonEmissionsDetailsGranularityEnum(granularity.(string))
+	}
+
 	if groupBy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_by")); ok {
 		interfaces := groupBy.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -523,6 +550,12 @@ func UsageCarbonEmissionsReportQueryToMap(obj *oci_metering_computation.UsageCar
 	}
 
 	result["date_range_name"] = string(obj.DateRangeName)
+
+	result["emission_calculation_method"] = string(obj.EmissionCalculationMethod)
+
+	result["emission_type"] = string(obj.EmissionType)
+
+	result["granularity"] = string(obj.Granularity)
 
 	result["group_by"] = obj.GroupBy
 

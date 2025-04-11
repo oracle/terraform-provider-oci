@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_metering_computation_usage_carbon_emissions_config
 This data source provides details about a specific Usage Carbon Emissions Config resource in Oracle Cloud Infrastructure Metering Computation service.
 
-Returns the configuration list for the UI drop-down list of carbon emission console.
+Returns the configuration list for the Console's carbon emission user interface drop-down list.
 
 
 ## Example Usage

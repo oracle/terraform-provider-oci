@@ -80,15 +80,21 @@ The following arguments are supported:
 		* `forecast` - (Optional) (Updatable) Forecast configuration of usage/cost.
 			* `forecast_type` - (Optional) (Updatable) BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 			* `time_forecast_ended` - (Required) (Updatable) The forecast end time.
-			* `time_forecast_started` - (Optional) (Updatable) The forecast start time. Defaults to UTC-1 if not specified.
+			* `time_forecast_started` - (Optional) (Updatable) The forecast start time. Defaults to UTC-1 if not specified. 
 		* `granularity` - (Required) (Updatable) The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
-		* `group_by` - (Optional) (Updatable) Aggregate the result by. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
+		* `group_by` - (Optional) (Updatable) Specifies what to aggregate the result by. For example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
 		* `group_by_tag` - (Optional) (Updatable) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 			* `key` - (Optional) (Updatable) The tag key.
 			* `namespace` - (Optional) (Updatable) The tag namespace.
 			* `value` - (Optional) (Updatable) The tag value.
-		* `is_aggregate_by_time` - (Optional) (Updatable) Whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
-		* `query_type` - (Optional) (Updatable) The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Credit - Query the credit adjustments data. ExpiredCredit - Query the expired credits data AllCredit - Query the credit adjustments and expired credit 
+		* `is_aggregate_by_time` - (Optional) (Updatable) Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.
+		* `query_type` - (Optional) (Updatable) The query usage type. COST by default if it is missing.
+			* Usage: Query the usage data.
+			* Cost: Query the cost/billing data.
+			* Credit: Query the credit adjustments data.
+			* ExpiredCredit: Query the expired credits data.
+			* AllCredit: Query the credit adjustments and expired credit. 
+		* `query_filter` - (Optional) (Updatable) The filter object for query usage.
 		* `tenant_id` - (Required) (Updatable) Tenant ID.
 		* `time_usage_ended` - (Optional) (Updatable) The usage end time.
 		* `time_usage_started` - (Optional) (Updatable) The usage start time.
@@ -116,15 +122,21 @@ The following attributes are exported:
 		* `forecast` - Forecast configuration of usage/cost.
 			* `forecast_type` - BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 			* `time_forecast_ended` - The forecast end time.
-			* `time_forecast_started` - The forecast start time. Defaults to UTC-1 if not specified.
+			* `time_forecast_started` - The forecast start time. Defaults to UTC-1 if not specified. 
 		* `granularity` - The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
-		* `group_by` - Aggregate the result by. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
+		* `group_by` - Specifies what to aggregate the result by. For example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
 		* `group_by_tag` - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 			* `key` - The tag key.
 			* `namespace` - The tag namespace.
 			* `value` - The tag value.
-		* `is_aggregate_by_time` - Whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
-		* `query_type` - The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Credit - Query the credit adjustments data. ExpiredCredit - Query the expired credits data AllCredit - Query the credit adjustments and expired credit 
+		* `is_aggregate_by_time` - Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.
+		* `query_type` - The query usage type. COST by default if it is missing.
+			* Usage: Query the usage data.
+			* Cost: Query the cost/billing data.
+			* Credit: Query the credit adjustments data.
+			* ExpiredCredit: Query the expired credits data.
+			* AllCredit: Query the credit adjustments and expired credit. 
+		* `query_filter` - The filter object for query usage.
 		* `tenant_id` - Tenant ID.
 		* `time_usage_ended` - The usage end time.
 		* `time_usage_started` - The usage start time.
