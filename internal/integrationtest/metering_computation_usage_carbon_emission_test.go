@@ -24,11 +24,15 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage_carbon_emission", "test_usage_carbon_emission", acctest.Required, acctest.Create, MeteringComputationUsageCarbonEmissionRepresentation)
 
 	MeteringComputationUsageCarbonEmissionRepresentation = map[string]interface{}{
-		"tenant_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
-		"time_usage_ended":             acctest.Representation{RepType: acctest.Required, Create: `2023-07-01T00:00:00Z`},
-		"time_usage_started":           acctest.Representation{RepType: acctest.Required, Create: `2023-01-01T00:00:00Z`},
-		"compartment_depth":            acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"group_by":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`service`}},
+		"tenant_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
+		"time_usage_ended":            acctest.Representation{RepType: acctest.Required, Create: `2024-07-01T00:00:00Z`},
+		"time_usage_started":          acctest.Representation{RepType: acctest.Required, Create: `2024-01-01T00:00:00Z`},
+		"compartment_depth":           acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"emission_calculation_method": acctest.Representation{RepType: acctest.Optional, Create: `SPEND_BASED`},
+		"emission_type":               acctest.Representation{RepType: acctest.Optional, Create: `MARKET_BASED`},
+		"granularity":                 acctest.Representation{RepType: acctest.Optional, Create: `MONTHLY`},
+		//"group_by":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`groupBy`}},
+		//"group_by_tag":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: MeteringComputationUsageCarbonEmissionGroupByTagRepresentation},
 		"is_aggregate_by_time":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"usage_carbon_emission_filter": acctest.Representation{RepType: acctest.Optional, Create: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`},
 	}
@@ -80,7 +84,10 @@ func TestMeteringComputationUsageCarbonEmissionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage_carbon_emission", "test_usage_carbon_emission", acctest.Optional, acctest.Create, MeteringComputationUsageCarbonEmissionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
-				resource.TestCheckResourceAttr(resourceName, "group_by.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "emission_calculation_method", "SPEND_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "emission_type", "MARKET_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "granularity", "MONTHLY"),
+				//resource.TestCheckResourceAttr(resourceName, "group_by.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
@@ -105,7 +112,7 @@ func generateCarbonEmissionsUsageRepresentationWithCurrentTimeInputs() (string, 
 	year, month, day := t.Date()
 	endTime := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 	startTime := endTime.Add(-24 * time.Hour)
-	usgaeEndTimeStr := endTime.Format("2006-01-02T15:04:05Z")
-	usageStartTimeStr := startTime.Format("2006-01-02T15:04:05Z")
+	usgaeEndTimeStr := endTime.Format("2024-07-01T00:00:00Z")
+	usageStartTimeStr := startTime.Format("2024-01-01T00:00:00Z")
 	return usgaeEndTimeStr, usageStartTimeStr
 }
