@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_metering_computation_usage_statement_email_recipients_groups
 This data source provides the list of Usage Statement Email Recipients Groups in Oracle Cloud Infrastructure Metering Computation service.
 
-Return the saved usage statement email recipient group.
+Returns the saved usage statement email recipients group.
 
 
 ## Example Usage
@@ -28,7 +28,7 @@ data "oci_metering_computation_usage_statement_email_recipients_groups" "test_us
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment ID in which to list resources.
-* `subscription_id` - (Required) The UsageStatement Subscription unique OCID.
+* `subscription_id` - (Required) The usage statement subscription unique OCID.
 
 
 ## Attributes Reference
@@ -43,10 +43,10 @@ The following attributes are exported:
 
 * `compartment_id` - The customer tenancy OCID.
 * `id` - The usage statement email recipients group OCID.
-* `recipients_list` - The list of recipient will receive the usage statement email.
-	* `email_id` - the email of the recipient.
-	* `first_name` - the first name of the recipient.
-	* `last_name` - the last name of the recipient.
+* `recipients_list` - The list of recipients that will receive usage statement emails.
+	* `email_id` - The recipient email address.
+	* `first_name` - The recipient first name.
+	* `last_name` - The recipient last name.
 	* `state` - The email recipient lifecycle state.
-* `state` - The email recipient group lifecycle state.
+* `state` - The email recipients group lifecycle state.
 

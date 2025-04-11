@@ -36,14 +36,14 @@ The following attributes are exported:
 * `compartment_id` - The custom table compartment OCID.
 * `id` - The custom table OCID.
 * `saved_custom_table` - The custom table for Cost Analysis UI rendering.
-	* `column_group_by` - The column groupBy key list. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
+	* `column_group_by` - The column groupBy key list. For example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
 	* `compartment_depth` - The compartment depth level.
 	* `display_name` - The name of the custom table.
 	* `group_by_tag` - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only one tag in the list is supported. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 		* `key` - The tag key.
 		* `namespace` - The tag namespace.
 		* `value` - The tag value.
-	* `row_group_by` - The row groupBy key list. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
+	* `row_group_by` - The row groupBy key list. For example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
 	* `version` - The version of the custom table.
 * `saved_report_id` - The custom table associated saved report OCID.
 
