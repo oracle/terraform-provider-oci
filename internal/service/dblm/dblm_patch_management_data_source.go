@@ -5,17 +5,19 @@ package dblm
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dblm "github.com/oracle/oci-go-sdk/v65/dblm"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func DblmVulnerabilityDataSource() *schema.Resource {
+func DblmPatchManagementDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDblmVulnerability,
+		Read: readSingularDblmPatchManagement,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -29,17 +31,26 @@ func DblmVulnerabilityDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_started_greater_than_or_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_started_less_than": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"message": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"patch_recommendations_summary": {
+			"images_patch_recommendation_summary": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -49,15 +60,52 @@ func DblmVulnerabilityDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
-						"total": {
+						"total_images_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"up_to_date": {
+						"up_to_date_images_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"patch_available": {
+						"image_patch_recommendations_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"message": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"patch_operations_summary": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"scheduled_patch_ops_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"running_patch_ops_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"successful_patch_ops_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"warnings_patch_ops_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"failed_patch_ops_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -142,7 +190,7 @@ func DblmVulnerabilityDataSource() *schema.Resource {
 					},
 				},
 			},
-			"resources_summary": {
+			"resources_patch_compliance_summary": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -156,25 +204,21 @@ func DblmVulnerabilityDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"registered_resources_count": {
+						"up_to_date_resources_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"not_registered_resources_count": {
+						"non_compliant_resources_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"vulnerable_resources_count": {
+						"not_subscribed_resources_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"clean_resources_count": {
+						"not_dblm_registered_resources_count": {
 							Type:     schema.TypeInt,
-							Optional: true,
-						},
-						"error_resources_count": {
-							Type:     schema.TypeInt,
-							Optional: true,
+							Computed: true,
 						},
 					},
 				},
@@ -188,67 +232,30 @@ func DblmVulnerabilityDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vulnerabilities_summary": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"total": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"critical": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"high": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"medium": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"info": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"low": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-					},
-				},
-			},
 		},
 	}
 }
 
-func readSingularDblmVulnerability(d *schema.ResourceData, m interface{}) error {
-	sync := &DblmVulnerabilityDataSourceCrud{}
+func readSingularDblmPatchManagement(d *schema.ResourceData, m interface{}) error {
+	sync := &DblmPatchManagementDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbLifeCycleManagementClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type DblmVulnerabilityDataSourceCrud struct {
+type DblmPatchManagementDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_dblm.DbLifeCycleManagementClient
-	Res    *oci_dblm.GetVulnerabilityResponse
+	Res    *oci_dblm.GetPatchManagementResponse
 }
 
-func (s *DblmVulnerabilityDataSourceCrud) VoidState() {
+func (s *DblmPatchManagementDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DblmVulnerabilityDataSourceCrud) Get() error {
-	request := oci_dblm.GetVulnerabilityRequest{}
+func (s *DblmPatchManagementDataSourceCrud) Get() error {
+	request := oci_dblm.GetPatchManagementRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -264,9 +271,25 @@ func (s *DblmVulnerabilityDataSourceCrud) Get() error {
 		request.LifecycleState = oci_dblm.DblmVulnerabilityLifecycleStateEnum(state.(string))
 	}
 
+	if timeStartedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_started_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStartedGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeStartedGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeStartedLessThan, ok := s.D.GetOkExists("time_started_less_than"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStartedLessThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeStartedLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dblm")
 
-	response, err := s.Client.GetVulnerability(context.Background(), request)
+	response, err := s.Client.GetPatchManagement(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -275,36 +298,46 @@ func (s *DblmVulnerabilityDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DblmVulnerabilityDataSourceCrud) SetData() error {
+func (s *DblmPatchManagementDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("DblmVulnerabilityDataSource-", DblmVulnerabilityDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("DblmPatchManagementDataSource-", DblmPatchManagementDataSource(), s.D))
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	resources_images_patch := []interface{}{}
+	for _, item := range s.Res.Resources {
+		resources_images_patch = append(resources_images_patch, DblmResourceInfoToMap(item))
+	}
+	s.D.Set("images_patch_recommendation_summary", resources_images_patch)
 
 	if s.Res.Message != nil {
 		s.D.Set("message", *s.Res.Message)
 	}
 
-	if s.Res.PatchRecommendationsSummary != nil {
-		s.D.Set("patch_recommendations_summary", []interface{}{objectToMap(s.Res.PatchRecommendationsSummary)})
-	} else {
-		s.D.Set("patch_recommendations_summary", nil)
+	resources_patch_operations := []interface{}{}
+	for _, item := range s.Res.Resources {
+		resources_patch_operations = append(resources_patch_operations, DblmResourceInfoToMap(item))
 	}
+	s.D.Set("patch_operations_summary", resources_patch_operations)
 
 	resources := []interface{}{}
 	for _, item := range s.Res.Resources {
-		resources = append(resources, ResourceInfoToMap(item))
+		resources = append(resources, DblmResourceInfoToMap(item))
 	}
 	s.D.Set("resources", resources)
 
-	if s.Res.ResourcesSummary != nil {
-		s.D.Set("resources_summary", []interface{}{objectToMap(s.Res.ResourcesSummary)})
-	} else {
-		s.D.Set("resources_summary", nil)
+	resources_patch_compliance := []interface{}{}
+	for _, item := range s.Res.Resources {
+		resources_patch_compliance = append(resources_patch_compliance, DblmResourceInfoToMap(item))
 	}
+	s.D.Set("resources_patch_compliance_summary", resources_patch_compliance)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -316,16 +349,10 @@ func (s *DblmVulnerabilityDataSourceCrud) SetData() error {
 		s.D.Set("time_enabled", s.Res.TimeEnabled.String())
 	}
 
-	if s.Res.VulnerabilitiesSummary != nil {
-		s.D.Set("vulnerabilities_summary", []interface{}{objectToMap(s.Res.VulnerabilitiesSummary)})
-	} else {
-		s.D.Set("vulnerabilities_summary", nil)
-	}
-
 	return nil
 }
 
-func HostInfoToMap(obj oci_dblm.HostInfo) map[string]interface{} {
+func DblmHostInfoToMap(obj oci_dblm.HostInfo) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.HostCores != nil {
@@ -339,7 +366,7 @@ func HostInfoToMap(obj oci_dblm.HostInfo) map[string]interface{} {
 	return result
 }
 
-func ResourceInfoToMap(obj oci_dblm.ResourceInfo) map[string]interface{} {
+func DblmResourceInfoToMap(obj oci_dblm.ResourceInfo) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AgentId != nil {
