@@ -21,6 +21,9 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	// The display name for the Autonomous Container Database.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Customer Contacts. Setting this to an empty list removes all customer contacts.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
 	// Database Patch model preference.
 	PatchModel UpdateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"false" json:"patchModel,omitempty"`
 
