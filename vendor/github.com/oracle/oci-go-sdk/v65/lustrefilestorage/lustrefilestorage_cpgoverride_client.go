@@ -141,7 +141,7 @@ func (client CpgOverrideClient) createCpgOverride(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/CreateCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "CreateCpgOverride", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client CpgOverrideClient) deleteCpgOverride(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/DeleteCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "DeleteCpgOverride", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client CpgOverrideClient) getCpgOverride(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/GetCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "GetCpgOverride", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client CpgOverrideClient) listCpgOverrides(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverrideCollection/ListCpgOverrides"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "ListCpgOverrides", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client CpgOverrideClient) updateCpgOverride(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/UpdateCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "UpdateCpgOverride", apiReferenceLink)
 		return response, err
 	}

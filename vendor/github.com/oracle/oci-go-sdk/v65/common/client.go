@@ -125,8 +125,12 @@ const (
 	// Environment variable to check whether dual stack endpoints should be enabled
 	ociDualStackEndpointEnabledEnvVar = "OCI_DUAL_STACK_ENDPOINT_ENABLED"
 
+	// String representing a single "phrase" of an endpoint template option
+	endpointTemplateOptionPhrase = "((\\w|\\.|\\-)+)"
+
 	// Checks for template for endpoint options
-	patternForEndpointTemplateOptions = "\\{\\w*\\?(\\w*.|\\s*)\\:(\\w*.|\\s*)\\}*"
+	patternForEndpointTemplateOptions = "\\{" + endpointTemplateOptionPhrase + "\\?((" + endpointTemplateOptionPhrase + ":" + endpointTemplateOptionPhrase + ")" +
+		"|(" + endpointTemplateOptionPhrase + ":\\s*)|(\\s*:" + endpointTemplateOptionPhrase + "))}"
 
 	dualStackOption = "{dualStack"
 )

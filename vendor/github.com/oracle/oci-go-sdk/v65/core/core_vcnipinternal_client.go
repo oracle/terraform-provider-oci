@@ -97,6 +97,12 @@ func (client *VcnipInternalClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *VcnipInternalClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
 // ByoipRangeLock Lock ByoipRange
 func (client VcnipInternalClient) ByoipRangeLock(ctx context.Context, request ByoipRangeLockRequest) (response ByoipRangeLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -134,6 +140,13 @@ func (client VcnipInternalClient) byoipRangeLock(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ByoipRangeLockResponse
 	var httpResponse *http.Response
@@ -187,6 +200,13 @@ func (client VcnipInternalClient) byoipRangeUnlock(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ByoipRangeUnlockResponse
 	var httpResponse *http.Response
