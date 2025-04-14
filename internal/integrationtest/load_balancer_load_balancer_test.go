@@ -146,13 +146,13 @@ var (
 			"test_network_security_group1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreNetworkSecurityGroupRepresentation, map[string]interface{}{
 				"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_lb_vcn.id}`},
 			})) // +
-	// For laptop testing comment out this line
-	// Failure to do so results in
-	//     test_helpers.go:535: Step 1/7 error: Error running apply: exit status 1
-	//       [DEBUG] Using modified User-Agent: Terraform/0.12.31 HashiCorp-terraform-exec/0.14.0
-	//       Error: 404-NotAuthorizedOrNotFound, Authorization failed or requested resource not found.
-	//       Suggestion: Either the resource has been deleted or service Identity Tag Namespace need policy to access this resource.
-	// DefinedTagsDependencies
+		// For laptop testing comment out this line
+		// Failure to do so results in
+		//     test_helpers.go:535: Step 1/7 error: Error running apply: exit status 1
+		//       [DEBUG] Using modified User-Agent: Terraform/0.12.31 HashiCorp-terraform-exec/0.14.0
+		//       Error: 404-NotAuthorizedOrNotFound, Authorization failed or requested resource not found.
+		//       Suggestion: Either the resource has been deleted or service Identity Tag Namespace need policy to access this resource.
+		// DefinedTagsDependencies
 )
 
 // issue-routing-tag: load_balancer/default
@@ -282,8 +282,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-MyRequestB-Id"),
-				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"), 
-				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"), 
+				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.value", "update-zpr-tersi-lbaas"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
