@@ -19,6 +19,10 @@ func ContainerengineClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
+	fieldMap["should_include_oidc_config_file"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+	}
 	return tfresource.GetSingularDataSourceItemSchema(ContainerengineClusterResource(), fieldMap, readSingularContainerengineCluster)
 }
 
@@ -46,6 +50,11 @@ func (s *ContainerengineClusterDataSourceCrud) Get() error {
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
 		tmp := clusterId.(string)
 		request.ClusterId = &tmp
+	}
+
+	if shouldIncludeOidcConfigFile, ok := s.D.GetOkExists("should_include_oidc_config_file"); ok {
+		tmp := shouldIncludeOidcConfigFile.(bool)
+		request.ShouldIncludeOidcConfigFile = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
