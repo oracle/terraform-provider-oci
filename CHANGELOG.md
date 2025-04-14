@@ -6,6 +6,7 @@
 ### Bug Fix
 - Container Instance HTTP health check port field set to required
 - Fix for privateenpointip and displayName params in update
+- For for zpr provider updates
 
 ## 6.34.0 (April 09, 2025)
 
