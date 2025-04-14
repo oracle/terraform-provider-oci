@@ -961,6 +961,11 @@ func (s *ContainerengineClusterResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
 
+	if shouldIncludeOidcConfigFile, ok := s.D.GetOkExists("should_include_oidc_config_file"); ok {
+		tmp := shouldIncludeOidcConfigFile.(bool)
+		request.ShouldIncludeOidcConfigFile = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.GetCluster(context.Background(), request)

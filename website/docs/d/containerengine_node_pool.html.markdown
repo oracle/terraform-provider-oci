@@ -68,12 +68,14 @@ The following attributes are exported:
 	* `size` - The number of nodes in the node pool. 
 * `node_eviction_node_pool_settings` - Node Eviction Details configuration
 	* `eviction_grace_duration` - Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M 
+	* `is_force_action_after_grace_duration` - If the node action should be performed if not all the pods can be evicted in the grace period
 	* `is_force_delete_after_grace_duration` - If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
 * `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_pool_cycling_details` - Node Pool Cycling Details
-	* `is_node_cycling_enabled` - If nodes in the nodepool will be cycled to have new changes.
+	* `cycle_modes` - An ordered list of cycle modes that should be performed on the OKE nodes.  
+	* `is_node_cycling_enabled` - If cycling operation should be performed on the nodes in the node pool.
 	* `maximum_surge` - Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100% 
 	* `maximum_unavailable` - Maximum active nodes that would be terminated from nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Nodepool size or 0% to 100% 
 * `node_shape` - The name of the node shape of the nodes in the node pool.
