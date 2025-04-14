@@ -1,3 +1,10 @@
+## 6.35.0 (Unreleased)
+
+### Added
+- Support for Add Cross-AD DR for GGS deployment in a multi-AD region
+### Bug Fix
+- Container Instance HTTP health check port field set to required
+
 ## 6.34.0 (Unreleased)
 
 ### Added
