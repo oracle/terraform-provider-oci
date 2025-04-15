@@ -892,6 +892,35 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
 	}
+	instanceUpdateShapeAndCapacityReservation = map[string]interface{}{
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"capacity_reservation_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_compute_capacity_reservation.before_test_compute_capacity_reservation.id}`, Update: `${oci_core_compute_capacity_reservation.after_test_compute_capacity_reservation.id}`},
+		"create_vnic_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`},
+		"source_details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceSourceDetailsRepresentation},
+	}
+	createCapacityReservationForInstanceBeforeUpdate = map[string]interface{}{
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: setCapacityReservationShapeBeforeUpdate},
+		"is_default_reservation":       acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+	setCapacityReservationShapeBeforeUpdate = map[string]interface{}{
+		"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"reserved_count": acctest.Representation{RepType: acctest.Required, Create: `1`},
+	}
+	createCapacityReservationForInstanceAfterUpdate = map[string]interface{}{
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: setCapacityReservationShapeAfterUpdate},
+		"is_default_reservation":       acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+	setCapacityReservationShapeAfterUpdate = map[string]interface{}{
+		"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
+		"reserved_count": acctest.Representation{RepType: acctest.Required, Create: `1`},
+	}
 )
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
@@ -1870,6 +1899,73 @@ func TestCoreInstanceResource_updateBootVolumeKmsKey(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId3 != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestCoreInstanceResource_updateShapeAndCapacityReservation(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceResource_updateShapeAndCapacityReservation")
+	defer httpreplay.SaveScenario()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	capacityReservationConfig :=
+		utils.OciImageIdsVariable +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			})) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			})) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create,
+				acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/30`}, CoreVlanRepresentation)) +
+			AvailabilityDomainConfig +
+			DefinedTagsDependencies +
+			CoreKeyResourceDependencyConfig +
+			acctest.ProviderTestConfig() + compartmentIdVariableStr +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "before_test_compute_capacity_reservation", acctest.Required, acctest.Create, createCapacityReservationForInstanceBeforeUpdate) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "after_test_compute_capacity_reservation", acctest.Required, acctest.Create, createCapacityReservationForInstanceAfterUpdate)
+
+	var resId, resId2 string
+	instanceCreationConfig := capacityReservationConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create,
+			instanceUpdateShapeAndCapacityReservation)
+	// Save TF content to Create resource with optional properties.
+	acctest.SaveConfigContent(instanceCreationConfig, "core", "instance", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: instanceCreationConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify update to add kms key id in source details
+		{
+			Config: capacityReservationConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Update,
+					instanceUpdateShapeAndCapacityReservation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
