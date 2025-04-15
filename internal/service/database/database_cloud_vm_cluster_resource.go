@@ -930,7 +930,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 			}
 		}
 	}
-	if !utils.IsMultiVm(*s.Infra.Shape, s.Infra.MaxDataStorageInTBs) {
+	if !utils.IsMultiVm(s.Infra.ActivatedStorageCount) {
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			if s.Infra.ComputeCount != nil && *s.Infra.ComputeCount != nodeCount {
 				request.ComputeNodes = []string{"ALL"}
