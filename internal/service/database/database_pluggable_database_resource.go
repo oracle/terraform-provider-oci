@@ -37,9 +37,10 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"pdb_name": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 
 			// Optional

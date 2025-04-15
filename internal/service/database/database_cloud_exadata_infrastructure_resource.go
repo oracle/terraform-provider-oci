@@ -676,7 +676,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 		if s.Res.ActivatedStorageCount != nil {
 			userStorageCount := storageCount.(int)
 			activatedStorageCount := *s.Res.ActivatedStorageCount
-			if utils.IsMultiVm(*s.Res.Shape, s.Res.MaxDataStorageInTBs) && activatedStorageCount < userStorageCount {
+			if utils.IsMultiVm(s.Res.ActivatedStorageCount) && activatedStorageCount < userStorageCount {
 				err := s.addStorageMVM()
 				if err != nil {
 					return err
