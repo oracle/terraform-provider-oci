@@ -142,6 +142,56 @@ func CloudGuardTargetResource() *schema.Resource {
 															// Optional
 
 															// Computed
+															"additional_properties": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"key": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"property_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"value": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"allowed_values": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"key": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"value": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"allowed_values_data_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"config_key": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -257,6 +307,10 @@ func CloudGuardTargetResource() *schema.Resource {
 											},
 										},
 									},
+									"is_cloneable": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -275,6 +329,30 @@ func CloudGuardTargetResource() *schema.Resource {
 									"resource_type": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"rule_type": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+											},
+										},
 									},
 									"service_type": {
 										Type:     schema.TypeString,
@@ -376,6 +454,56 @@ func CloudGuardTargetResource() *schema.Resource {
 															// Optional
 
 															// Computed
+															"additional_properties": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"key": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"property_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"value": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"allowed_values": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"key": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"value": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"allowed_values_data_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"config_key": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -479,6 +607,10 @@ func CloudGuardTargetResource() *schema.Resource {
 											},
 										},
 									},
+									"is_cloneable": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -497,6 +629,30 @@ func CloudGuardTargetResource() *schema.Resource {
 									"resource_type": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"rule_type": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+											},
+										},
 									},
 									"service_type": {
 										Type:     schema.TypeString,
@@ -1459,6 +1615,22 @@ func TargetResponderRecipeToMap(obj oci_cloud_guard.TargetResponderRecipe) map[s
 func DetectorConfigurationToMap(obj oci_cloud_guard.DetectorConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	additionalProperties := []interface{}{}
+	for _, item := range obj.AdditionalProperties {
+		additionalProperties = append(additionalProperties, AdditionalConfigPropertyDefinitionToMap(item))
+	}
+	result["additional_properties"] = additionalProperties
+
+	allowedValues := []interface{}{}
+	for _, item := range obj.AllowedValues {
+		allowedValues = append(allowedValues, PropertyTupleToMap(item))
+	}
+	result["allowed_values"] = allowedValues
+
+	if obj.AllowedValuesDataType != nil {
+		result["allowed_values_data_type"] = string(*obj.AllowedValuesDataType)
+	}
+
 	if obj.ConfigKey != nil {
 		result["config_key"] = string(*obj.ConfigKey)
 	}
@@ -1771,6 +1943,10 @@ func TargetDetectorDetailsToMap(obj *oci_cloud_guard.TargetDetectorDetails) map[
 	}
 	result["entities_mappings"] = entitiesMappings
 
+	if obj.IsCloneable != nil {
+		result["is_cloneable"] = bool(*obj.IsCloneable)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -1784,6 +1960,12 @@ func TargetDetectorDetailsToMap(obj *oci_cloud_guard.TargetDetectorDetails) map[
 	if obj.ResourceType != nil {
 		result["resource_type"] = string(*obj.ResourceType)
 	}
+
+	ruleType := []interface{}{}
+	for _, item := range obj.RuleType {
+		ruleType = append(ruleType, RuleTypeToMap(item))
+	}
+	result["rule_type"] = ruleType
 
 	if obj.ServiceType != nil {
 		result["service_type"] = string(*obj.ServiceType)
