@@ -21,9 +21,10 @@ data "oci_log_analytics_log_analytics_resource_categories_list" "test_log_analyt
 	namespace = var.log_analytics_resource_categories_list_namespace
 
 	#Optional
-        resource_ids = var.log_analytics_resource_categories_list_resource_ids
-        resource_types = var.log_analytics_resource_categories_list_resource_types
-        resource_categories = var.log_analytics_resource_categories_list_resource_categories
+	compartment_id = var.log_analytics_resource_categories_compartment_id
+	resource_ids = var.log_analytics_resource_categories_list_resource_ids
+	resource_types = var.log_analytics_resource_categories_list_resource_types
+	resource_categories = var.log_analytics_resource_categories_list_resource_categories
 }
 ```
 
@@ -31,7 +32,8 @@ data "oci_log_analytics_log_analytics_resource_categories_list" "test_log_analyt
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Logging Analytics namespace used for the request.
+* `compartment_id` - (Optional) The compartment id in which to list resources.
 * `resource_categories` - (Optional) A comma-separated list of category names used for filtering
 * `resource_ids` - (Optional) A comma-separated list of resource unique identifiers used for filtering. Only resources with matching unique identifiers will be returned. 
 * `resource_types` - (Optional) A comma-separated list of resource types used for filtering. Only resources of the types specified will be returned. Examples include SOURCE, PARSER, LOOKUP, etc. 
@@ -48,8 +50,10 @@ The following attributes are exported:
 	* `name` - The unique name that identifies the category.
 	* `type` - The category type. Values include "PRODUCT", "TIER", "VENDOR" and "GENERIC".
 * `items` - A list of resources and their category assignments
-	* `category_name` - The category name to which this resource belongs.
-	* `is_system` - The system flag. A value of false denotes a user-created category assignment. A value of true denotes an Oracle-defined category assignment. 
-	* `resource_id` - The unique identifier of the resource, usually a name or ocid.
-	* `resource_type` - The resource type.
+    * `category_name` - The category name to which this resource belongs.
+    * `compartment_id` - The compartment ID of the resource, if applicable.
+    * `is_system` - The system flag. A value of false denotes a user-created category assignment. A value of true denotes an Oracle-defined category assignment. 
+    * `resource_id` - The unique identifier of the resource, usually a name or ocid.
+    * `resource_display_name` - The resource display name.
+    * `resource_type` - The resource type.
 

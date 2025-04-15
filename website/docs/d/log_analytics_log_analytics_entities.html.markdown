@@ -21,11 +21,20 @@ data "oci_log_analytics_log_analytics_entities" "test_log_analytics_entities" {
 	namespace = var.log_analytics_entity_namespace
 
 	#Optional
+<<<<<<< ours
+	cloud_resource_id = oci_cloud_guard_resource.test_resource.id
+	defined_tag_equals = var.log_analytics_entity_defined_tag_equals
+	defined_tag_exists = var.log_analytics_entity_defined_tag_exists
+=======
 	cloud_resource_id = oci_log_analytics_cloud_resource.test_cloud_resource.id
+>>>>>>> theirs
 	entity_type_name = var.log_analytics_entity_entity_type_name
+	freeform_tag_equals = var.log_analytics_entity_freeform_tag_equals
+	freeform_tag_exists = var.log_analytics_entity_freeform_tag_exists
 	hostname = var.log_analytics_entity_hostname
 	hostname_contains = var.log_analytics_entity_hostname_contains
 	is_management_agent_id_null = var.log_analytics_entity_is_management_agent_id_null
+	is_show_associated_sources_count = var.log_analytics_entity_is_show_associated_sources_count
 	lifecycle_details_contains = var.log_analytics_entity_lifecycle_details_contains
 	metadata_equals = var.log_analytics_entity_metadata_equals
 	name = var.log_analytics_entity_name
@@ -41,10 +50,15 @@ The following arguments are supported:
 
 * `cloud_resource_id` - (Optional) A filter to return only log analytics entities whose cloudResourceId matches the cloudResourceId given. 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
+* `defined_tag_equals` - (Optional) A list of tag filters to apply.  Only entities with a defined tag matching the value will be returned. Each item in the list has the format "{namespace}.{tagName}.{value}".  All inputs are case-insensitive. Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR". Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND". 
+* `defined_tag_exists` - (Optional) A list of tag existence filters to apply.  Only entities for which the specified defined tags exist will be returned. Each item in the list has the format "{namespace}.{tagName}.true" (for checking existence of a defined tag) or "{namespace}.true".  All inputs are case-insensitive. Currently, only existence ("true" at the end) is supported. Absence ("false" at the end) is not supported. Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR". Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND". 
 * `entity_type_name` - (Optional) A filter to return only log analytics entities whose entityTypeName matches the entire log analytics entity type name of one of the entityTypeNames given in the list. The match is case-insensitive. 
+* `freeform_tag_equals` - (Optional) A list of tag filters to apply.  Only entities with a freeform tag matching the value will be returned. The key for each tag is "{tagName}.{value}".  All inputs are case-insensitive. Multiple values for the same tag name are interpreted as "OR".  Values for different tag names are interpreted as "AND". 
+* `freeform_tag_exists` - (Optional) A list of tag existence filters to apply.  Only entities for which the specified freeform tags exist the value will be returned. The key for each tag is "{tagName}.true".  All inputs are case-insensitive. Currently, only existence ("true" at the end) is supported. Absence ("false" at the end) is not supported. Multiple values for different tag names are interpreted as "AND". 
 * `hostname` - (Optional) A filter to return only log analytics entities whose hostname matches the entire hostname given. 
 * `hostname_contains` - (Optional) A filter to return only log analytics entities whose hostname contains the substring given. The match is case-insensitive. 
 * `is_management_agent_id_null` - (Optional) A filter to return only those log analytics entities whose managementAgentId is null or is not null. 
+* `is_show_associated_sources_count` - (Optional) Option to return count of associated log sources for log analytics entity(s).
 * `lifecycle_details_contains` - (Optional) A filter to return only log analytics entities whose lifecycleDetails contains the specified string. 
 * `metadata_equals` - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive. 
 * `name` - (Optional) A filter to return only log analytics entities whose name matches the entire name given. The match is case-insensitive. 
@@ -65,6 +79,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `are_logs_collected` - The Boolean flag to indicate if logs are collected for an entity for log analytics usage. 
+* `associated_sources_count` - The count of associated log sources for a given log analytics entity. 
 * `cloud_resource_id` - The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises. 
 * `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

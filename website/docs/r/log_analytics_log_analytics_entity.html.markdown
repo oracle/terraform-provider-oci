@@ -78,6 +78,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `are_logs_collected` - The Boolean flag to indicate if logs are collected for an entity for log analytics usage. 
+* `associated_sources_count` - The count of associated log sources for a given log analytics entity. 
 * `cloud_resource_id` - The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises. 
 * `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

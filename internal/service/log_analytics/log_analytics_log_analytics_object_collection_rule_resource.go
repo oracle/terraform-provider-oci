@@ -10,12 +10,14 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
 
@@ -36,10 +38,6 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Required: true,
 			},
 			"log_group_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"log_source_name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -125,6 +123,11 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"log_source_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"log_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -185,6 +188,22 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"stream_cursor_time": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
+			"stream_cursor_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"stream_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"timezone": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -192,6 +211,10 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 			},
 
 			// Computed
+			"last_collected_object": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -413,6 +436,23 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 		request.PollTill = &tmp
 	}
 
+	if streamCursorTime, ok := s.D.GetOkExists("stream_cursor_time"); ok {
+		tmp, err := time.Parse(time.RFC3339, streamCursorTime.(string))
+		if err != nil {
+			return err
+		}
+		request.StreamCursorTime = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if streamCursorType, ok := s.D.GetOkExists("stream_cursor_type"); ok {
+		request.StreamCursorType = oci_log_analytics.StreamCursorTypesEnum(streamCursorType.(string))
+	}
+
+	if streamId, ok := s.D.GetOkExists("stream_id"); ok {
+		tmp := streamId.(string)
+		request.StreamId = &tmp
+	}
+
 	if timezone, ok := s.D.GetOkExists("timezone"); ok {
 		tmp := timezone.(string)
 		request.Timezone = &tmp
@@ -569,6 +609,23 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() erro
 		}
 	}
 
+	if streamCursorTime, ok := s.D.GetOkExists("stream_cursor_time"); ok {
+		tmp, err := time.Parse(time.RFC3339, streamCursorTime.(string))
+		if err != nil {
+			return err
+		}
+		request.StreamCursorTime = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if streamCursorType, ok := s.D.GetOkExists("stream_cursor_type"); ok {
+		request.StreamCursorType = oci_log_analytics.StreamCursorTypesEnum(streamCursorType.(string))
+	}
+
+	if streamId, ok := s.D.GetOkExists("stream_id"); ok {
+		tmp := streamId.(string)
+		request.StreamId = &tmp
+	}
+
 	if timezone, ok := s.D.GetOkExists("timezone"); ok {
 		tmp := timezone.(string)
 		request.Timezone = &tmp
@@ -644,6 +701,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 		s.D.Set("is_force_historic_collection", *s.Res.IsForceHistoricCollection)
 	}
 
+	if s.Res.LastCollectedObject != nil {
+		s.D.Set("last_collected_object", *s.Res.LastCollectedObject)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -697,6 +758,16 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.StreamCursorTime != nil {
+		s.D.Set("stream_cursor_time", s.Res.StreamCursorTime.Format(time.RFC3339Nano))
+	}
+
+	s.D.Set("stream_cursor_type", s.Res.StreamCursorType)
+
+	if s.Res.StreamId != nil {
+		s.D.Set("stream_id", *s.Res.StreamId)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -781,6 +852,10 @@ func LogAnalyticsObjectCollectionRuleSummaryToMap(obj oci_log_analytics.LogAnaly
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.StreamId != nil {
+		result["stream_id"] = string(*obj.StreamId)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

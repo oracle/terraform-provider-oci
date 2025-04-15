@@ -18,8 +18,7 @@ Create a configuration to collect logs from object storage bucket.
 resource "oci_log_analytics_log_analytics_object_collection_rule" "test_log_analytics_object_collection_rule" {
 	#Required
 	compartment_id = var.compartment_id
-	log_group_id = oci_logging_log_group.test_log_group.id
-	log_source_name = var.log_analytics_object_collection_rule_log_source_name
+	log_group_id = oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group.id
 	name = var.log_analytics_object_collection_rule_name
 	namespace = var.log_analytics_object_collection_rule_namespace
 	os_bucket_name = oci_objectstorage_bucket.test_bucket.name
@@ -37,11 +36,15 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "test_log_anal
 	log_set = var.log_analytics_object_collection_rule_log_set
 	log_set_ext_regex = var.log_analytics_object_collection_rule_log_set_ext_regex
 	log_set_key = var.log_analytics_object_collection_rule_log_set_key
+	log_source_name = var.log_analytics_object_collection_rule_log_source_name
 	log_type = var.log_analytics_object_collection_rule_log_type
 	object_name_filters = var.log_analytics_object_collection_rule_object_name_filters
 	overrides = var.log_analytics_object_collection_rule_overrides
 	poll_since = var.log_analytics_object_collection_rule_poll_since
 	poll_till = var.log_analytics_object_collection_rule_poll_till
+	stream_cursor_time = var.log_analytics_object_collection_rule_stream_cursor_time
+	stream_cursor_type = var.log_analytics_object_collection_rule_stream_cursor_type
+	stream_id = oci_streaming_stream.test_stream.id
 	timezone = var.log_analytics_object_collection_rule_timezone
 }
 ```
@@ -63,7 +66,7 @@ The following arguments are supported:
 * `log_set` - (Optional) (Updatable) The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
 * `log_set_ext_regex` - (Optional) (Updatable) The regex to be applied against given logSetKey. Regex has to be in string escaped format. 
 * `log_set_key` - (Optional) (Updatable) An optional parameter to indicate from where the logSet to be extracted using logSetExtRegex. Default value is OBJECT_PATH (e.g. /n/<namespace>/b/<bucketname>/o/<objectname>). 
-* `log_source_name` - (Required) (Updatable) Name of the Logging Analytics Source to use for the processing.
+* `log_source_name` - (Optional) (Updatable) Name of the Logging Analytics Source to use for the processing.
 * `log_type` - (Optional) Type of files/objects in this object collection rule. 
 * `name` - (Required) A unique name given to the rule. The name must be unique within the tenancy, and cannot be modified.
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
@@ -73,6 +76,9 @@ The following arguments are supported:
 * `overrides` - (Optional) (Updatable) The override is used to modify some important configuration properties for objects matching a specific pattern inside the bucket. Supported propeties for override are: logSourceName, charEncoding, entityId. Supported matchType for override are "contains". 
 * `poll_since` - (Optional) The oldest time of the file in the bucket to consider for collection. Accepted values are: BEGINNING or CURRENT_TIME or RFC3339 formatted datetime string. Use this for HISTORIC or HISTORIC_LIVE collection types. When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error. 
 * `poll_till` - (Optional) The newest time of the file in the bucket to consider for collection. Accepted values are: CURRENT_TIME or RFC3339 formatted datetime string. Use this for HISTORIC collection type. When collectionType is LIVE or HISTORIC_LIVE, specifying pollTill will result in error. 
+* `stream_cursor_time` - (Optional) (Updatable) The time from which to consume the objects, if streamCursorType is AT_TIME.  
+* `stream_cursor_type` - (Optional) (Updatable) Cursor type used to fetch messages from stream. When the streamCursorType is set to DEFAULT, the existing cursor position will be used if already set by any previous objection collection rule(s) using the same stream.  Otherwise, the behaviour is to consume from the oldest available message in the stream.  When the streamCursorType is set to TRIM_HORIZON, the behaviour is to start consuming from the oldest available message in the stream.  When the streamCursorType is set to LATEST, the behavior is to start consuming messages that were published after the creation of this rule.  When the streamCursorType is set to AT_TIME, the behavior is to start consuming from a given time.  For more information on cursor types, see [Stream Consumer Groups](https://docs.oracle.com/en-us/iaas/Content/Streaming/Tasks/using_consumer_groups.htm). 
+* `stream_id` - (Optional) (Updatable) A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage. 
 * `timezone` - (Optional) (Updatable) Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.  When this property is not specified, the timezone of the entity specified is used.  If the entity is also not specified or do not have a valid timezone then UTC is used. 
 
 
@@ -93,6 +99,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 * `is_enabled` - Whether or not this rule is currently enabled. 
 * `is_force_historic_collection` - Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule 
+* `last_collected_object` - Last Collected Object for the rule 
 * `lifecycle_details` - A detailed status of the life cycle state.
 * `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
 * `log_set` - The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
@@ -108,6 +115,9 @@ The following attributes are exported:
 * `poll_since` - The oldest time of the file in the bucket to consider for collection. Accepted values are: BEGINNING or CURRENT_TIME or RFC3339 formatted datetime string. When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error. 
 * `poll_till` - The oldest time of the file in the bucket to consider for collection. Accepted values are: CURRENT_TIME or RFC3339 formatted datetime string. When collectionType is LIVE, specifying pollTill will result in error. 
 * `state` - The current state of the rule. 
+* `stream_cursor_time` - The time from which to consume the objects, if streamCursorType is AT_TIME.  
+* `stream_cursor_type` - Cursor type used to fetch messages from stream. When the streamCursorType is set to DEFAULT, the existing cursor position will be used if already set by any previous objection collection rule(s) using the same stream.  Otherwise, the behaviour is to consume from the oldest available message in the stream.  When the streamCursorType is set to TRIM_HORIZON, the behaviour is to start consuming from the oldest available message in the stream.  When the streamCursorType is set to LATEST, the behavior is to start consuming messages that were published after the creation of this rule.  When the streamCursorType is set to AT_TIME, the behavior is to start consuming from a given time.  For more information on cursor types, see [Stream Consumer Groups](https://docs.oracle.com/en-us/iaas/Content/Streaming/Tasks/using_consumer_groups.htm). 
+* `stream_id` - A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage. 
 * `time_created` - The time when this rule was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time when this rule was last updated. An RFC3339 formatted datetime string.
 * `timezone` - Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.  When this property is not specified, the timezone of the entity specified is used.  If the entity is also not specified or do not have a valid timezone then UTC is used. 
