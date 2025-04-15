@@ -159,6 +159,10 @@ func LogAnalyticsLogAnalyticsEntityResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"associated_sources_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"entity_type_internal_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -352,6 +356,11 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Get() error {
 	request := oci_log_analytics.GetLogAnalyticsEntityRequest{}
 
+	if isShowAssociatedSourcesCount, ok := s.D.GetOkExists("is_show_associated_sources_count"); ok {
+		tmp := isShowAssociatedSourcesCount.(bool)
+		request.IsShowAssociatedSourcesCount = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.LogAnalyticsEntityId = &tmp
 
@@ -468,6 +477,11 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Delete() error {
 	request := oci_log_analytics.DeleteLogAnalyticsEntityRequest{}
 
+	if isForceDelete, ok := s.D.GetOkExists("is_force_delete"); ok {
+		tmp := isForceDelete.(bool)
+		request.IsForceDelete = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.LogAnalyticsEntityId = &tmp
 
@@ -494,6 +508,10 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) SetData() error {
 
 	if s.Res.AreLogsCollected != nil {
 		s.D.Set("are_logs_collected", *s.Res.AreLogsCollected)
+	}
+
+	if s.Res.AssociatedSourcesCount != nil {
+		s.D.Set("associated_sources_count", *s.Res.AssociatedSourcesCount)
 	}
 
 	if s.Res.CloudResourceId != nil {
@@ -600,6 +618,10 @@ func LogAnalyticsEntitySummaryToMap(obj oci_log_analytics.LogAnalyticsEntitySumm
 
 	if obj.AreLogsCollected != nil {
 		result["are_logs_collected"] = bool(*obj.AreLogsCollected)
+	}
+
+	if obj.AssociatedSourcesCount != nil {
+		result["associated_sources_count"] = int(*obj.AssociatedSourcesCount)
 	}
 
 	if obj.CloudResourceId != nil {

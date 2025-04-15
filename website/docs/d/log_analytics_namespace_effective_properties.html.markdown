@@ -26,6 +26,7 @@ data "oci_log_analytics_namespace_effective_properties" "test_namespace_effectiv
 	is_include_patterns = var.namespace_effective_property_is_include_patterns
 	name = var.namespace_effective_property_name
 	pattern_id = oci_log_analytics_pattern.test_pattern.id
+	pattern_id_long = var.namespace_effective_property_pattern_id_long
 	source_name = var.namespace_effective_property_source_name
 }
 ```
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `name` - (Optional) The property name used for filtering. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `pattern_id` - (Optional) The pattern id. 
+* `pattern_id_long` - (Optional) The pattern id (long). 
 * `source_name` - (Optional) The source name.
 
 

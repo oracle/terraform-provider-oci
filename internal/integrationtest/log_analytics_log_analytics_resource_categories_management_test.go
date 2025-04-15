@@ -21,13 +21,13 @@ var (
 
 	LogAnalyticsLogAnalyticsResourceCategoriesManagementRepresentation = map[string]interface{}{
 		"namespace":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`, Update: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"resource_categories": acctest.Representation{RepType: acctest.Required, Create: []string{`cat1`, `cat2`, `cat3`}, Update: []string{`cat1`, `cat4`, `cat5`}},
+		"resource_categories": acctest.Representation{RepType: acctest.Required, Create: []string{`oracle`, `linux`, `database`}, Update: []string{`oracle`, `oracle_cloud`, `cloud`}},
 		"resource_id":         acctest.Representation{RepType: acctest.Required, Create: `resource1`, Update: `resource1`},
 		"resource_type":       acctest.Representation{RepType: acctest.Required, Create: `DASHBOARD`, Update: `DASHBOARD`},
 	}
 
 	LogAnalyticsLogAnalyticsResourceCategoriesManagementResourceDependencies = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default

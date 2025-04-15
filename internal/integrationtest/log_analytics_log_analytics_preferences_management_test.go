@@ -22,11 +22,11 @@ var (
 	}
 	LogAnalyticsLogAnalyticsPreferencesManagementItemsRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `DEFAULT_HOMEPAGE`, Update: `DEFAULT_HOMEPAGE`},
-		"value": acctest.Representation{RepType: acctest.Required, Create: `value1`, Update: `value2`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `OOBD-log-analytics-DBALERT`, Update: `OOBD-log-analytics-DBAUDIT`},
 	}
 
 	LogAnalyticsLogAnalyticsPreferencesManagementResourceDependencies = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -53,6 +53,9 @@ func TestLogAnalyticsLogAnalyticsPreferencesManagementResource_basic(t *testing.
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+
+				resource.TestCheckResourceAttr(resourceName, "items.0.name", "DEFAULT_HOMEPAGE"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.value", "OOBD-log-analytics-DBALERT"),
 			),
 		},
 
@@ -63,6 +66,9 @@ func TestLogAnalyticsLogAnalyticsPreferencesManagementResource_basic(t *testing.
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+
+				resource.TestCheckResourceAttr(resourceName, "items.0.name", "DEFAULT_HOMEPAGE"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.value", "OOBD-log-analytics-DBAUDIT"),
 			),
 		},
 

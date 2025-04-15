@@ -27,13 +27,23 @@ data "oci_objectstorage_namespace" "test_namespace" {
   compartment_id = var.tenancy_ocid
 }
 
+# List and filter for Linux ROOT Logins template
+data "oci_log_analytics_namespace_templates" "Linux_ROOT_Logins_Template" {
+  compartment_id        = var.tenancy_ocid
+  namespace             = data.oci_objectstorage_namespace.test_namespace.namespace
+  name                  = "Linux ROOT Logins"
+  state                 = "ACTIVE"
+  template_display_text = "root"
+  type                  = "Scheduled Search"
+}
+
 # create a purge scheduled task
 resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_task" {
   compartment_id = var.compartment_ocid
   namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   kind = "STANDARD"
   task_type = "PURGE"
-  display_name = "tfPurgeTask1"
+  display_name = "tfPurgeTask11"
 
   action {
     compartment_id_in_subtree = "false"
@@ -84,7 +94,44 @@ resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_
          repeat_count = "10"
        }
     }
-} 
+}
+
+resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_task_template" {
+  compartment_id = var.compartment_ocid
+  namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+  kind = "STANDARD"
+  task_type = "SAVED_SEARCH"
+  display_name = "tfPurgeTask4"
+
+  action {
+    metric_extraction {
+      compartment_id = var.compartment_ocid
+      namespace = "test_scheduled_task_metrics"
+      metric_name = "count"
+    }
+    template_details {
+      template_id = data.oci_log_analytics_namespace_templates.Linux_ROOT_Logins_Template.log_analytics_template_collection[0].items[0].id
+      template_params {
+        key_field = "RootLoginThreshold"
+        value_field = "2"
+      }
+      template_params {
+        key_field = "oci_la_compartment"
+        value_field = var.compartment_ocid
+      }
+    }
+    type = "STREAM"
+  }
+
+  schedules {
+    schedule {
+      type = "FIXED_FREQUENCY"
+      misfire_policy = "RETRY_ONCE"
+      recurring_interval = "PT5M"
+      repeat_count = "10"
+    }
+  }
+}
 
 # look up using the scheduled tasks data source
 data "oci_log_analytics_namespace_scheduled_tasks" "test_namespace_scheduled_tasks" {
@@ -104,4 +151,3 @@ data "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_task
   namespace = "${data.oci_objectstorage_namespace.test_namespace.namespace}"
   scheduled_task_id = "${oci_log_analytics_namespace_scheduled_task.test_namespace_scheduled_task.scheduled_task_id}"
 }
-

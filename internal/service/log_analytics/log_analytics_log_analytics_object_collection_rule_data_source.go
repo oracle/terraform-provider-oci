@@ -5,6 +5,7 @@ package log_analytics
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -107,6 +108,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 		s.D.Set("is_force_historic_collection", *s.Res.IsForceHistoricCollection)
 	}
 
+	if s.Res.LastCollectedObject != nil {
+		s.D.Set("last_collected_object", *s.Res.LastCollectedObject)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -160,6 +165,16 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.StreamCursorTime != nil {
+		s.D.Set("stream_cursor_time", s.Res.StreamCursorTime.Format(time.RFC3339Nano))
+	}
+
+	s.D.Set("stream_cursor_type", s.Res.StreamCursorType)
+
+	if s.Res.StreamId != nil {
+		s.D.Set("stream_id", *s.Res.StreamId)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

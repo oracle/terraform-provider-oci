@@ -29,6 +29,7 @@ variable "log_analytics_log_group_id" {}
 variable "log_analytics_entity_id" {}
 variable "object_collection_rule_bucket_name" {}
 variable "object_collection_rule_bucket_name_log_events" {}
+variable "object_collection_stream_id" {}
 
 variable "object_collection_rule_name" {
   default = "tf-obj-coll-example-opt"
@@ -103,6 +104,7 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
   log_source_name            = "LinuxSyslogSource"
   os_bucket_name             = var.object_collection_rule_bucket_name
   os_namespace               = data.oci_objectstorage_namespace.ns.namespace
+  stream_id = var.object_collection_stream_id
 }
 
 # Get details of above created object collection rule with required parameters
@@ -154,7 +156,6 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
   namespace                  = data.oci_objectstorage_namespace.ns.namespace
   name                       = var.object_collection_rule_name_log_events
   log_group_id               = var.log_analytics_log_group_id
-  log_source_name            = var.object_collection_rule_log_source_name
   os_bucket_name             = var.object_collection_rule_bucket_name_log_events
   os_namespace               = data.oci_objectstorage_namespace.ns.namespace
   collection_type            = var.object_collection_rule_collection_type

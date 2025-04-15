@@ -16,6 +16,8 @@ func init() {
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.GetIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	exportLogAnalyticsNamespaceScheduledTaskHints.GetIdFn = getLogAnalyticsNamespaceScheduledTaskId
 	exportLogAnalyticsNamespaceIngestTimeRuleHints.GetIdFn = getLogAnalyticsNamespaceIngestTimeRuleId
+	exportLogAnalyticsNamespaceLookupHints.GetIdFn = getLogAnalyticsNamespaceLookupId
+	exportLogAnalyticsNamespaceStorageArchivalConfigHints.GetIdFn = getLogAnalyticsNamespaceStorageArchivalConfigId
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.FindResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.ProcessDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
 	tf_export.RegisterCompartmentGraphs("log_analytics", logAnalyticsResourceGraph)
@@ -143,6 +145,25 @@ func getLogAnalyticsNamespaceIngestTimeRuleId(resource *tf_export.OCIResource) (
 	return GetNamespaceIngestTimeRuleCompositeId(ingestTimeRuleId, namespace), nil
 }
 
+func getLogAnalyticsNamespaceLookupId(resource *tf_export.OCIResource) (string, error) {
+
+	lookupName := resource.Parent.Id
+	namespace, ok := resource.SourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics NamespaceLookup")
+	}
+	return GetNamespaceLookupCompositeId(lookupName, namespace), nil
+}
+
+func getLogAnalyticsNamespaceStorageArchivalConfigId(resource *tf_export.OCIResource) (string, error) {
+
+	namespace, ok := resource.SourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics NamespaceStorageArchivalConfig")
+	}
+	return GetNamespaceStorageArchivalConfigCompositeId(namespace), nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
 var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_log_analytics_log_analytics_object_collection_rule",
@@ -198,6 +219,28 @@ var exportLogAnalyticsNamespaceIngestTimeRuleHints = &tf_export.TerraformResourc
 	DiscoverableLifecycleStates: []string{
 		string(oci_log_analytics.ConfigLifecycleStateActive),
 	},
+}
+
+var exportLogAnalyticsNamespaceLookupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_log_analytics_namespace_lookup",
+	DatasourceClass:      "oci_log_analytics_namespace_lookup",
+	ResourceAbbreviation: "namespace_lookup",
+}
+
+var exportLogAnalyticsNamespaceLookupsUpdateDataManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_log_analytics_namespace_lookups_update_data_management",
+	ResourceAbbreviation: "namespace_lookups_update_data_management",
+}
+
+var exportLogAnalyticsNamespaceLookupsAppendDataManagementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_log_analytics_namespace_lookups_append_data_management",
+	ResourceAbbreviation: "namespace_lookups_append_data_management",
+}
+
+var exportLogAnalyticsNamespaceStorageArchivalConfigHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_log_analytics_namespace_storage_archival_config",
+	DatasourceClass:      "oci_log_analytics_namespace_storage_archival_config",
+	ResourceAbbreviation: "namespace_storage_archival_config",
 }
 
 var logAnalyticsResourceGraph = tf_export.TerraformResourceGraph{

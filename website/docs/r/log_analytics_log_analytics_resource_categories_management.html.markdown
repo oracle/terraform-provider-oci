@@ -19,9 +19,9 @@ Updates the category assignments of DASHBOARD and SAVEDSEARCH resources.
 resource "oci_log_analytics_log_analytics_resource_categories_management" "test_log_analytics_resource_categories_management" {
 	#Required
 	namespace = var.log_analytics_resource_categories_management_namespace
-        resource_id = oci_log_analytics_resource_categories_management_resource_id
-        resource_type = var.log_analytics_resource_categories_management_resource_type
-        resource_categories = var.log_analytics_resource_categories_management_resource_categories
+	resource_id = oci_log_analytics_resource_categories_management_resource_id
+	resource_type = var.log_analytics_resource_categories_management_resource_type
+	resource_categories = var.log_analytics_resource_categories_management_resource_categories
 }
 ```
 
@@ -32,7 +32,7 @@ The following arguments are supported:
 * `namespace` - (Required) The Logging Analytics namespace used for the request.
 * `resource_categories` - (Required) The list of categories to be assigned to the resource.
 * `resource_id` - (Required) The resource unique identifier for which catagories are managed.
-* `resource_type` - (Required) The resource type of the resource for which categories are managed. 
+* `resource_type` - (Required) The resource type of the resource for which categories are managed.
 
 
 ** IMPORTANT **

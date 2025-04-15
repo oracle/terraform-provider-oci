@@ -2,7 +2,7 @@
 // Licensed under the Mozilla Public License v2.0
 
 /*
- * This example shows how to import custom content
+ * This example shows how to manage preferences
  */
 
 variable "tenancy_ocid" {}
@@ -30,7 +30,7 @@ resource "oci_log_analytics_log_analytics_preferences_management" "preferences" 
     namespace = data.oci_objectstorage_namespace.ns.namespace
     items {
         name  = "DEFAULT_HOMEPAGE"
-        value = "value1"
+        value = "OOBD-log-analytics-DBALERT"
     }
 }
 

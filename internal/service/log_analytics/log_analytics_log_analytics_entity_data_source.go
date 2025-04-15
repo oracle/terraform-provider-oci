@@ -16,6 +16,10 @@ import (
 
 func LogAnalyticsLogAnalyticsEntityDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["is_show_associated_sources_count"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+	}
 	fieldMap["log_analytics_entity_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
@@ -48,6 +52,11 @@ func (s *LogAnalyticsLogAnalyticsEntityDataSourceCrud) VoidState() {
 func (s *LogAnalyticsLogAnalyticsEntityDataSourceCrud) Get() error {
 	request := oci_log_analytics.GetLogAnalyticsEntityRequest{}
 
+	if isShowAssociatedSourcesCount, ok := s.D.GetOkExists("is_show_associated_sources_count"); ok {
+		tmp := isShowAssociatedSourcesCount.(bool)
+		request.IsShowAssociatedSourcesCount = &tmp
+	}
+
 	if logAnalyticsEntityId, ok := s.D.GetOkExists("log_analytics_entity_id"); ok {
 		tmp := logAnalyticsEntityId.(string)
 		request.LogAnalyticsEntityId = &tmp
@@ -78,6 +87,10 @@ func (s *LogAnalyticsLogAnalyticsEntityDataSourceCrud) SetData() error {
 
 	if s.Res.AreLogsCollected != nil {
 		s.D.Set("are_logs_collected", *s.Res.AreLogsCollected)
+	}
+
+	if s.Res.AssociatedSourcesCount != nil {
+		s.D.Set("associated_sources_count", *s.Res.AssociatedSourcesCount)
 	}
 
 	if s.Res.CloudResourceId != nil {

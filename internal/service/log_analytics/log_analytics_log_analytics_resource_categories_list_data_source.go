@@ -21,6 +21,10 @@ func LogAnalyticsLogAnalyticsResourceCategoriesListDataSource() *schema.Resource
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"resource_ids": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,8 +85,16 @@ func LogAnalyticsLogAnalyticsResourceCategoriesListDataSource() *schema.Resource
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"is_system": {
 							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"resource_display_name": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"resource_id": {
@@ -120,6 +132,11 @@ func (s *LogAnalyticsLogAnalyticsResourceCategoriesListDataSourceCrud) VoidState
 
 func (s *LogAnalyticsLogAnalyticsResourceCategoriesListDataSourceCrud) Get() error {
 	request := oci_log_analytics.ListResourceCategoriesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
@@ -181,8 +198,16 @@ func LogAnalyticsResourceCategoryToMap(obj oci_log_analytics.LogAnalyticsResourc
 		result["category_name"] = string(*obj.CategoryName)
 	}
 
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
 	if obj.IsSystem != nil {
 		result["is_system"] = bool(*obj.IsSystem)
+	}
+
+	if obj.ResourceDisplayName != nil {
+		result["resource_display_name"] = string(*obj.ResourceDisplayName)
 	}
 
 	if obj.ResourceId != nil {

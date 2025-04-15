@@ -21,6 +21,7 @@ data "oci_log_analytics_log_analytics_entity_topology" "test_log_analytics_entit
 	namespace = var.log_analytics_entity_topology_namespace
 
 	#Optional
+	context = var.log_analytics_entity_topology_context
 	metadata_equals = var.log_analytics_entity_topology_metadata_equals
 	state = var.log_analytics_entity_topology_state
 }
@@ -30,6 +31,7 @@ data "oci_log_analytics_log_analytics_entity_topology" "test_log_analytics_entit
 
 The following arguments are supported:
 
+* `context` - (Optional) A filter to return log analytics entity toplogy whose context matches the specified string. 
 * `log_analytics_entity_id` - (Required) The log analytics entity OCID. 
 * `metadata_equals` - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
@@ -43,11 +45,14 @@ The following attributes are exported:
 * `items` - Array of log analytics entity topologies.
 	* `links` - Collection of log analytics entity relationship links. 
 		* `items` - Array of log analytics entity relationship links.
+			* `contexts` - Array of log analytics entity relationship context.
 			* `destination_entity_id` - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud. 
 			* `source_entity_id` - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud. 
+			* `time_last_discovered` - The date and time the resource was last discovered, in the format defined by RFC3339. 
 	* `nodes` - Collection of log analytics entities. 
 		* `items` - Array of log analytics entity summary.
 			* `are_logs_collected` - The Boolean flag to indicate if logs are collected for an entity for log analytics usage. 
+			* `associated_sources_count` - The count of associated log sources for a given log analytics entity. 
 			* `cloud_resource_id` - The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises. 
 			* `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
