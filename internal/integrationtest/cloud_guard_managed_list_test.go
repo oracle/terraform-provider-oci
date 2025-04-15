@@ -52,6 +52,10 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_managed_list.test_managed_list.id}`}},
 	}
 
+	//ignoreManagedListDefinedTagsChangesRep = map[string]interface{}{
+	//	"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
+	//}
+
 	CloudGuardManagedListRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -63,6 +67,7 @@ var (
 		"list_items":             acctest.Representation{RepType: acctest.Required, Create: []string{`listItems`}, Update: []string{`listItems2`}},
 		"list_type":              acctest.Representation{RepType: acctest.Required, Create: `USERS`},
 		"source_managed_list_id": acctest.Representation{RepType: acctest.Optional, Create: nil},
+		//"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreManagedListDefinedTagsChangesRep},
 	}
 
 	CloudGuardManagedListResourceDependencies = DefinedTagsDependencies
@@ -98,7 +103,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-
+				resource.TestCheckNoResourceAttr(resourceName, "group"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -119,6 +124,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckNoResourceAttr(resourceName, "group"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "list_items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "list_type", "USERS"),
@@ -147,6 +153,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckNoResourceAttr(resourceName, "group"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "list_items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "list_type", "USERS"),
@@ -170,6 +177,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckNoResourceAttr(resourceName, "group"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "list_items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "list_type", "USERS"),
@@ -215,6 +223,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "feed_provider"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckNoResourceAttr(singularDatasourceName, "group"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_editable"),
 				//No life cycle details associated with ManagedList Resource

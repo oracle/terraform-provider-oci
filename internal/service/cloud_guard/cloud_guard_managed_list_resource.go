@@ -54,6 +54,11 @@ func CloudGuardManagedListResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"group": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"list_items": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -207,6 +212,11 @@ func (s *CloudGuardManagedListResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if group, ok := s.D.GetOkExists("group"); ok {
+		tmp := group.(string)
+		request.Group = &tmp
+	}
+
 	if listItems, ok := s.D.GetOkExists("list_items"); ok {
 		interfaces := listItems.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -291,6 +301,11 @@ func (s *CloudGuardManagedListResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if group, ok := s.D.GetOkExists("group"); ok {
+		tmp := group.(string)
+		request.Group = &tmp
+	}
+
 	if listItems, ok := s.D.GetOkExists("list_items"); ok {
 		interfaces := listItems.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -351,6 +366,10 @@ func (s *CloudGuardManagedListResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.Group != nil {
+		s.D.Set("group", *s.Res.Group)
+	}
+
 	if s.Res.IsEditable != nil {
 		s.D.Set("is_editable", *s.Res.IsEditable)
 	}
@@ -406,6 +425,10 @@ func ManagedListSummaryToMap(obj oci_cloud_guard.ManagedListSummary) map[string]
 	result["feed_provider"] = string(obj.FeedProvider)
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Group != nil {
+		result["group"] = string(*obj.Group)
+	}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
