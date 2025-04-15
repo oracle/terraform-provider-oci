@@ -62,12 +62,12 @@ var (
 		"target_detector_recipes":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetDetectorRecipesRepresentation},
 		"target_responder_recipes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetResponderRecipesRepresentation},
 		//todo: remove this before raising the PR
-		// 		"lifecycle": acctest.RepresentationGroup{acctest.Required, ignoreTargetDefinedTagsChangesRep},
+		//"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTargetDefinedTagsChangesRep},
 	}
 
-	// 	ignoreTargetDefinedTagsChangesRep = map[string]interface{}{
-	// 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	// 	}
+	//ignoreTargetDefinedTagsChangesRep = map[string]interface{}{
+	//	"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	//}
 
 	//Getting detectorRecipeId and responderRecipeId from a plural datasource call same as in detectorRecipeTest and responderRecipeTest
 	CloudGuardTargetTargetDetectorRecipesRepresentation = map[string]interface{}{
@@ -331,9 +331,11 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.detector"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.entities_mappings.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.is_cloneable"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.managed_list_types.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.recommendation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.rule_type.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.time_created"),

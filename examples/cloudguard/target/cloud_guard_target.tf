@@ -2,11 +2,8 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-//variable "user_ocid" {}
-//variable "fingerprint" {}
-//variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 variable "target_access_level" {
   default = "ACCESSIBLE"
@@ -84,13 +81,7 @@ provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-  //version             = "5.39.0"
-  /*
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  */
+#  version             = "6.34.0"
 }
 
 /*
@@ -114,18 +105,17 @@ data "oci_cloud_guard_responder_recipes" "test_responder_recipes" {
 }
 
 
-
 resource "oci_cloud_guard_target" "test_target" {
   #Required
-  compartment_id       = var.compartment_id
+  compartment_id       = var.compartment_ocid
   display_name         = var.target_display_name
   //For now target resource id has to be equal to comaprtment id
-  target_resource_id   = var.compartment_id
+  target_resource_id   = var.compartment_ocid
   target_resource_type = var.target_target_resource_type
 
   #Optional
-  description   = var.target_description
-  state         = var.target_state
+  description = var.target_description
+  state       = var.target_state
 
   target_detector_recipes {
     #Required
@@ -138,7 +128,7 @@ resource "oci_cloud_guard_target" "test_target" {
         #Optional
         condition_groups {
           #Required
-          compartment_id = var.compartment_id
+          compartment_id = var.compartment_ocid
           condition      = var.target_target_detector_recipes_detector_rules_details_condition_groups_condition
         }
       }
@@ -175,7 +165,7 @@ resource "oci_cloud_guard_target" "test_target" {
 
 data "oci_cloud_guard_targets" "test_targets" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   access_level              = var.target_access_level

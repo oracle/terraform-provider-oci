@@ -52,6 +52,10 @@ var (
 	// Filtering to get the 1st Configuration detector recipe. This will make sure detector recipe is compatible with the returned detector recipes.
 	detectorRecipeId = `${[for recipe in data.oci_cloud_guard_detector_recipes.oracle_detector_recipe.detector_recipe_collection.0.items : recipe.id if recipe.display_name=="OCI Configuration Detector Recipe"][0]}`
 
+	//ignoreDetectorRecipeDefinedTagsChangesRep = map[string]interface{}{
+	//	"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
+	//}
+
 	CloudGuardDetectorRecipeRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -61,7 +65,7 @@ var (
 		"source_detector_recipe_id": acctest.Representation{RepType: acctest.Required, Create: detectorRecipeId},
 		"detector_rules":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDetectorRecipeDetectorRulesRepresentation},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		// 		"lifecycle":                 acctest.RepresentationGroup{acctest.Required, ignoreDetectorRecipeDefinedTagsChangesRep},
+		//"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDetectorRecipeDefinedTagsChangesRep},
 	}
 
 	// Configurations and Conditions are dependent on the detectorRuleId selected, hence hardcoding one for testing purposes
@@ -176,6 +180,8 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.detector_rule_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.service_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.is_cloneable"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.rule_type.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -225,6 +231,8 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.detector_rule_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.service_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.is_cloneable"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.rule_type.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -269,6 +277,8 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.detector_rule_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.service_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.is_cloneable"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.rule_type.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -334,9 +344,11 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.risk_level", "LOW"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.detector"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.is_cloneable"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.managed_list_types.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.recommendation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.resource_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.rule_type.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.service_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.time_created"),

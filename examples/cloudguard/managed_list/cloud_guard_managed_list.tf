@@ -2,11 +2,8 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 //Acceptable values are ACCESSIBLE and RESTRICTED.
 variable "managed_list_access_level" {
@@ -57,22 +54,21 @@ variable "managed_list_state" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+#  version             = "6.34.0"
 }
 
 resource "oci_cloud_guard_managed_list" "test_managed_list" {
   #Required
-  compartment_id = "${var.compartment_id}"
-  display_name   = "${var.managed_list_display_name}"
+  compartment_id = var.compartment_ocid
+  display_name   = var.managed_list_display_name
 
   #Optional
-  description   = "${var.managed_list_description}"
-  list_items     = "${var.managed_list_list_items}"
-  list_type      = "${var.managed_list_list_type}"
+  description = var.managed_list_description
+  list_items  = var.managed_list_list_items
+  list_type   = var.managed_list_list_type
   /*
   When CloudGuard is Enabled, an Oracle Managed Managed List is made available having all the defaults.
   However if user wants to create and manage the ORACLE MANAGED Entity itself, it will have to enable the cloudguard with
@@ -86,12 +82,12 @@ resource "oci_cloud_guard_managed_list" "test_managed_list" {
 //Plural Data Source Representation
 data "oci_cloud_guard_managed_lists" "test_managed_lists" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 
   #Optional
-  access_level              = "${var.managed_list_access_level}"
-  compartment_id_in_subtree = "${var.managed_list_compartment_id_in_subtree}"
-  display_name              = "${var.managed_list_display_name}"
-  list_type                 = "${var.managed_list_list_type}"
-  state                     = "${var.managed_list_state}"
+  access_level              = var.managed_list_access_level
+  compartment_id_in_subtree = var.managed_list_compartment_id_in_subtree
+  display_name              = var.managed_list_display_name
+  list_type                 = var.managed_list_list_type
+  state                     = var.managed_list_state
 }

@@ -47,6 +47,14 @@ The following attributes are exported:
 	* `details` - Detailed information for a detector.
 		* `condition` - The base condition resource.
 		* `configurations` - List of detector rule configurations
+			* `additional_properties` - Map of additional property values for configuration
+				* `key` - Name for Additional Property, for example, "interpreter", "router"
+				* `property_type` - Property Type
+				* `value` - Value for Property Name, for example, "generic", "cloudguard"
+			* `allowed_values` - Map of possible values for configuration
+				* `key` - key
+				* `value` - value
+			* `allowed_values_data_type` - Map property Value data type
 			* `config_key` - Unique identifier of the configuration
 			* `data_type` - Configuration data type
 			* `name` - Configuration name
@@ -73,11 +81,15 @@ The following attributes are exported:
 		* `display_name` - Display name of the entity
 		* `entity_type` - Type of entity
 		* `query_field` - The entity value mapped to a data source query
+	* `is_cloneable` - Is the rule cloneable?
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 
 	* `managed_list_types` - List of managed list types related to this rule
 	* `recommendation` - Recommendation for DetectorRecipeDetectorRule resource
 	* `resource_type` - Resource type of the configuration to which the rule is applied
+	* `rule_type` - Detector rule type
+		* `key` - The unique identifier of the detector rule type
+		* `value` - Detector rule type value
 	* `service_type` - Service type of the configuration to which the rule is applied
 	* `state` - The current lifecycle state of the detector rule.
 	* `time_created` - The date and time the detector recipe rule was created. Format defined by RFC3339.
@@ -93,6 +105,14 @@ The following attributes are exported:
 	* `details` - Detailed information for a detector.
 		* `condition` - The base condition resource.
 		* `configurations` - List of detector rule configurations
+			* `additional_properties` - Map of additional property values for configuration
+				* `key` - Name for Additional Property, for example, "interpreter", "router"
+				* `property_type` - Property Type
+				* `value` - Value for Property Name, for example, "generic", "cloudguard"
+			* `allowed_values` - Map of possible values for configuration
+				* `key` - key
+				* `value` - value
+			* `allowed_values_data_type` - Map property Value data type
 			* `config_key` - Unique identifier of the configuration
 			* `data_type` - Configuration data type
 			* `name` - Configuration name
@@ -119,11 +139,15 @@ The following attributes are exported:
 		* `display_name` - Display name of the entity
 		* `entity_type` - Type of entity
 		* `query_field` - The entity value mapped to a data source query
+	* `is_cloneable` - Is the rule cloneable?
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 
 	* `managed_list_types` - List of managed list types related to this rule
 	* `recommendation` - Recommendation for DetectorRecipeDetectorRule resource
 	* `resource_type` - Resource type of the configuration to which the rule is applied
+	* `rule_type` - Detector rule type
+		* `key` - The unique identifier of the detector rule type
+		* `value` - Detector rule type value
 	* `service_type` - Service type of the configuration to which the rule is applied
 	* `state` - The current lifecycle state of the detector rule.
 	* `time_created` - The date and time the detector recipe rule was created. Format defined by RFC3339.

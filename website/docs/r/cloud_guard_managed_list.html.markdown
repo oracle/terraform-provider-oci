@@ -25,6 +25,7 @@ resource "oci_cloud_guard_managed_list" "test_managed_list" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.managed_list_description
 	freeform_tags = {"bar-key"= "value"}
+	group = var.managed_list_group
 	list_items = var.managed_list_list_items
 	list_type = var.managed_list_list_type
 	source_managed_list_id = oci_cloud_guard_managed_list.test_managed_list.id
@@ -46,6 +47,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
+* `group` - (Optional) (Updatable) Managed list type group
 * `list_items` - (Optional) (Updatable) List of items in the managed list
 * `list_type` - (Optional) Type of information stored in the list
 * `source_managed_list_id` - (Optional) OCID of the source managed list
@@ -66,6 +68,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
+* `group` - Managed list type group
 * `id` - Unique identifier that can't be changed after creation
 * `is_editable` - Is this list editable?
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. [DEPRECATE]

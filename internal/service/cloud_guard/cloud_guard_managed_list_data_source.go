@@ -86,6 +86,10 @@ func (s *CloudGuardManagedListDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.Group != nil {
+		s.D.Set("group", *s.Res.Group)
+	}
+
 	if s.Res.IsEditable != nil {
 		s.D.Set("is_editable", *s.Res.IsEditable)
 	}
