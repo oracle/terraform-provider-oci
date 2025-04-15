@@ -24,6 +24,7 @@ data "oci_log_analytics_namespace_scheduled_tasks" "test_namespace_scheduled_tas
 	display_name = var.namespace_scheduled_task_display_name
 	target_service = var.namespace_scheduled_task_target_service
 	task_type = var.namespace_scheduled_task_task_type
+	template_id = oci_log_analytics_template.test_template.id
 }
 ```
 
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `target_service` - (Optional) The target service to use for filtering. 
 * `task_type` - (Required when kind=STANDARD) Required parameter to specify schedule task type.
+* `template_id` - (Optional) A filter to return only scheduled tasks whose stream action templateId matches the given id  exactly. 
 
 
 ## Attributes Reference
@@ -55,6 +57,11 @@ The following attributes are exported:
 	* `purge_duration` - The duration of data to be retained, which is used to calculate the timeDataEnded when the task fires. The value should be negative. Purge duration in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. -P365D (not -P1Y) or -P14D (not -P2W). 
 	* `query_string` - Purge query string.
 	* `saved_search_id` - The ManagementSavedSearch id [OCID] utilized in the action.
+	* `template_details` - details for scheduled task using template
+		* `template_id` - The Config template Id of a particular template.
+		* `template_params` - To store macro params.
+			* `key_field` - Contains macro parameter's names.
+			* `value_field` - Contains macro parameter's value.
 	* `type` - Action type discriminator.
 * `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

@@ -19,6 +19,9 @@ data "oci_log_analytics_log_analytics_entity" "test_log_analytics_entity" {
 	#Required
 	log_analytics_entity_id = oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id
 	namespace = var.log_analytics_entity_namespace
+
+	#Optional
+	is_show_associated_sources_count = var.log_analytics_entity_is_show_associated_sources_count
 }
 ```
 
@@ -26,6 +29,7 @@ data "oci_log_analytics_log_analytics_entity" "test_log_analytics_entity" {
 
 The following arguments are supported:
 
+* `is_show_associated_sources_count` - (Optional) Option to return count of associated log sources for log analytics entity(s).
 * `log_analytics_entity_id` - (Required) The log analytics entity OCID. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 
@@ -35,6 +39,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `are_logs_collected` - The Boolean flag to indicate if logs are collected for an entity for log analytics usage. 
+* `associated_sources_count` - The count of associated log sources for a given log analytics entity. 
 * `cloud_resource_id` - The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises. 
 * `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

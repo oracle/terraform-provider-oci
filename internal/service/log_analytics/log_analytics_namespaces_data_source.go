@@ -41,12 +41,24 @@ func LogAnalyticsNamespacesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_archiving_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"is_onboarded": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"namespace": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_logset_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_data_ever_ingested": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 								},
@@ -131,12 +143,24 @@ func NamespaceSummaryToMap(obj oci_log_analytics.NamespaceSummary) map[string]in
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.IsArchivingEnabled != nil {
+		result["is_archiving_enabled"] = bool(*obj.IsArchivingEnabled)
+	}
+
 	if obj.IsOnboarded != nil {
 		result["is_onboarded"] = bool(*obj.IsOnboarded)
 	}
 
 	if obj.NamespaceName != nil {
 		result["namespace"] = string(*obj.NamespaceName)
+	}
+
+	if obj.IsLogSetEnabled != nil {
+		result["is_logset_enabled"] = bool(*obj.IsLogSetEnabled)
+	}
+
+	if obj.IsDataEverIngested != nil {
+		result["is_data_ever_ingested"] = bool(*obj.IsDataEverIngested)
 	}
 
 	return result

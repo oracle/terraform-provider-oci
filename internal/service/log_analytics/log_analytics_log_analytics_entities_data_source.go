@@ -26,7 +26,35 @@ func LogAnalyticsLogAnalyticsEntitiesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"defined_tag_equals": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"defined_tag_exists": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"entity_type_name": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"freeform_tag_equals": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"freeform_tag_exists": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Schema{
@@ -43,6 +71,10 @@ func LogAnalyticsLogAnalyticsEntitiesDataSource() *schema.Resource {
 			},
 			"is_management_agent_id_null": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_show_associated_sources_count": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"lifecycle_details_contains": {
@@ -125,6 +157,32 @@ func (s *LogAnalyticsLogAnalyticsEntitiesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTagEquals, ok := s.D.GetOkExists("defined_tag_equals"); ok {
+		interfaces := definedTagEquals.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("defined_tag_equals") {
+			request.DefinedTagEquals = tmp
+		}
+	}
+
+	if definedTagExists, ok := s.D.GetOkExists("defined_tag_exists"); ok {
+		interfaces := definedTagExists.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("defined_tag_exists") {
+			request.DefinedTagExists = tmp
+		}
+	}
+
 	if entityTypeName, ok := s.D.GetOkExists("entity_type_name"); ok {
 		interfaces := entityTypeName.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -135,6 +193,32 @@ func (s *LogAnalyticsLogAnalyticsEntitiesDataSourceCrud) Get() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("states") {
 			request.EntityTypeName = tmp
+		}
+	}
+
+	if freeformTagEquals, ok := s.D.GetOkExists("freeform_tag_equals"); ok {
+		interfaces := freeformTagEquals.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("freeform_tag_equals") {
+			request.FreeformTagEquals = tmp
+		}
+	}
+
+	if freeformTagExists, ok := s.D.GetOkExists("freeform_tag_exists"); ok {
+		interfaces := freeformTagExists.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("freeform_tag_exists") {
+			request.FreeformTagExists = tmp
 		}
 	}
 
@@ -150,6 +234,11 @@ func (s *LogAnalyticsLogAnalyticsEntitiesDataSourceCrud) Get() error {
 
 	if isManagementAgentIdNull, ok := s.D.GetOkExists("is_management_agent_id_null"); ok {
 		request.IsManagementAgentIdNull = oci_log_analytics.ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum(isManagementAgentIdNull.(string))
+	}
+
+	if isShowAssociatedSourcesCount, ok := s.D.GetOkExists("is_show_associated_sources_count"); ok {
+		tmp := isShowAssociatedSourcesCount.(bool)
+		request.IsShowAssociatedSourcesCount = &tmp
 	}
 
 	if lifecycleDetailsContains, ok := s.D.GetOkExists("lifecycle_details_contains"); ok {

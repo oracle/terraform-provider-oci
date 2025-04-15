@@ -41,6 +41,17 @@ resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_
 		purge_duration = var.namespace_scheduled_task_action_purge_duration
 		query_string = var.namespace_scheduled_task_action_query_string
 		saved_search_id = oci_log_analytics_saved_search.test_saved_search.id
+		template_details {
+
+			#Optional
+			template_id = oci_log_analytics_template.test_template.id
+			template_params {
+
+				#Optional
+				key_field = var.namespace_scheduled_task_action_template_details_template_params_key_field
+				value_field = var.namespace_scheduled_task_action_template_details_template_params_value_field
+			}
+		}
 	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.namespace_scheduled_task_display_name
@@ -68,15 +79,21 @@ The following arguments are supported:
 * `action` - (Required when kind=STANDARD) Action for scheduled task.
 	* `compartment_id_in_subtree` - (Applicable when type=PURGE) if true, purge child compartments data
 	* `data_type` - (Required when type=PURGE) the type of the log data to be purged
-	* `metric_extraction` - (Applicable when type=STREAM) Specify metric extraction for SAVED_SEARCH scheduled task execution to post to Oracle Cloud Infrastructure Monitoring. 
-		* `compartment_id` - (Required when type=STREAM) (Updatable) The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric. 
-		* `metric_name` - (Required when type=STREAM) The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
-		* `namespace` - (Required when type=STREAM) The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_). 
-		* `resource_group` - (Applicable when type=STREAM) The resource group of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
+	* `metric_extraction` - (Applicable when type=STREAM) Specify metric extraction for SAVED_SEARCH scheduled task execution to post to Oracle Cloud Infrastructure Monitoring.
+    * `compartment_id` - (Required when type=STREAM) (Updatable) The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric.
+    * `metric_name` - (Required when type=STREAM) The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+    * `namespace` - (Required when type=STREAM) The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_).
+    * `resource_group` - (Applicable when type=STREAM) The resource group of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+
 	* `purge_compartment_id` - (Required when type=PURGE) the compartment OCID under which the data will be purged
 	* `purge_duration` - (Required when type=PURGE) The duration of data to be retained, which is used to calculate the timeDataEnded when the task fires. The value should be negative. Purge duration in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. -P365D (not -P1Y) or -P14D (not -P2W). 
 	* `query_string` - (Required when type=PURGE) Purge query string.
-	* `saved_search_id` - (Applicable when type=STREAM) The ManagementSavedSearch id [OCID] utilized in the action.
+	* `saved_search_id` - (Applicable when type=STREAM) The ManagementSavedSearch id [OCID] utilized in the action.  Should not be provided when a template ID is present.
+	* `template_details` - (Applicable when type=STREAM) details for scheduled task using template
+		* `template_id` - (Applicable when type=STREAM) The template Id of a particular template.  Should not be provided when a saved search ID is present.
+		* `template_params` - (Applicable when type=STREAM) To store macro params.
+			* `key_field` - (Applicable when type=STREAM) Contains a template parameter's name.
+			* `value_field` - (Applicable when type=STREAM) Contains the desired value for a given parameter.
 	* `type` - (Required) Action type discriminator.
 * `compartment_id` - (Required) (Updatable) Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -85,12 +102,12 @@ The following arguments are supported:
 * `kind` - (Required) (Updatable) Discriminator.
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `saved_search_id` - (Required when kind=ACCELERATION) The ManagementSavedSearch id [OCID] to be accelerated.
-* `schedules` - (Required when kind=STANDARD) (Updatable) Schedules, typically a single schedule. Note there may only be a single schedule for SAVED_SEARCH and PURGE scheduled tasks. 
-	* `expression` - (Required when type=CRON) (Updatable) Value in cron format.
+* `schedules` - (Applicable when kind=STANDARD) (Updatable) Schedules, typically a single schedule. Note there may only be a single schedule for SAVED_SEARCH and PURGE scheduled tasks. 
+	* `expression` - (Applicable when type=CRON) (Updatable) Value in cron format.
 	* `misfire_policy` - (Applicable when kind=STANDARD) (Updatable) Schedule misfire retry policy.
-	* `recurring_interval` - (Required when type=FIXED_FREQUENCY) (Updatable) Recurring interval in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. P14D (not P2W). The value must be at least 5 minutes (PT5M) and at most 3 weeks (P21D or PT30240M). 
+	* `recurring_interval` - (Applicable when type=FIXED_FREQUENCY) (Updatable) Recurring interval in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. P14D (not P2W). The value must be at least 5 minutes (PT5M) and at most 3 weeks (P21D or PT30240M). 
 	* `repeat_count` - (Applicable when type=FIXED_FREQUENCY) (Updatable) Number of times (0-based) to execute until auto-stop. Default value -1 will execute indefinitely. Value 0 will execute once. 
-	* `time_zone` - (Required when type=CRON) (Updatable) Time zone, by default UTC.
+	* `time_zone` - (Applicable when type=CRON) (Updatable) Time zone, by default UTC.
 	* `type` - (Required) (Updatable) Schedule type discriminator.
 * `task_type` - (Required when kind=STANDARD) Task type.
 
@@ -114,6 +131,11 @@ The following attributes are exported:
 	* `purge_duration` - The duration of data to be retained, which is used to calculate the timeDataEnded when the task fires. The value should be negative. Purge duration in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. -P365D (not -P1Y) or -P14D (not -P2W). 
 	* `query_string` - Purge query string.
 	* `saved_search_id` - The ManagementSavedSearch id [OCID] utilized in the action.
+	* `template_details` - details for scheduled task using template
+		* `template_id` - The template Id of a particular template.
+		* `template_params` - To store macro params.
+			* `key_field` - Contains the name of a template parameter.
+			* `value_field` - Contains the desired value for the parameter.
 	* `type` - Action type discriminator.
 * `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

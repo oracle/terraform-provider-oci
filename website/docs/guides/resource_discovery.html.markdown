@@ -999,6 +999,10 @@ log_analytics
 * oci\_log\_analytics\_log\_analytics\_unprocessed\_data\_bucket\_management
 * oci\_log\_analytics\_log\_analytics\_resource\_categories\_management
 * oci\_log\_analytics\_namespace\_ingest\_time\_rule
+* oci\_log\_analytics\_namespace\_lookup
+* oci\_log\_analytics\_namespace\_lookups\_update\_data\_management
+* oci\_log\_analytics\_namespace\_lookups\_append\_data\_management
+* oci\_log\_analytics\_namespace\_storage\_archival\_config
 
 logging
     
