@@ -222,6 +222,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			// Optional
+			"enable_delete_scheduled_operations": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"db_version": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -518,16 +523,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				},
 			},
 			"scheduled_operations": {
-				Type:     schema.TypeSet,
-				Set:      scheduledOperationsForSets,
-				Optional: true,
-				Computed: true,
+				Type:             schema.TypeSet,
+				Set:              scheduledOperationsForSets,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.ScheduledOperationDbSuppressfunc,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 						"day_of_week": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -2151,6 +2157,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 			request.ScheduledOperations = tmp
+		}
+	}
+	if enableDeleteScheduledOps, ok := s.D.GetOkExists("enable_delete_scheduled_operations"); ok && s.D.HasChange("enable_delete_scheduled_operations") {
+		_, scheduledOpsOk := s.D.GetOkExists("scheduled_operations")
+		if enableDeleteScheduledOps == true && scheduledOpsOk {
+			request.ScheduledOperations = []oci_database.ScheduledOperationDetails{}
 		}
 	}
 

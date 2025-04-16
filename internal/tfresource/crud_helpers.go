@@ -1478,3 +1478,10 @@ func ValidateBoolInSlice(valid []bool) schema.SchemaValidateFunc {
 		return
 	}
 }
+func ScheduledOperationDbSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	enableSchduledOpDelete, _ := d.GetOkExists("enable_delete_scheduled_operations")
+	if enableSchduledOpDelete.(bool) {
+		return true
+	}
+	return false
+}
