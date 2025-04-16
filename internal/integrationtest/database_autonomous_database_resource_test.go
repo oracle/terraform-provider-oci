@@ -4687,7 +4687,7 @@ func TestDatabaseAutonomousDatabaseResource_DeveloperDatabases(t *testing.T) {
 		t.Skip("Skipping TestDatabaseAutonomousDatabase_opsi_dbms test.\n" + "Current TF_VAR_should_skip_adbs_test=" + shouldSkipADBStest)
 	}
 
-	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_scheduledOperations")
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_DeveloperDatabases")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -5011,6 +5011,46 @@ func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
 				},
 			),
 		},
+		//test to verify if the plan fails.
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationForScheduledOperations,
+						map[string]interface{}{
+							"enable_delete_scheduled_operations": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationForScheduledOperations,
+						map[string]interface{}{
+							"enable_delete_scheduled_operations": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+							"cpu_core_count":                     acctest.Representation{RepType: acctest.Optional, Create: `10`},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 	})
 }
 
@@ -5021,7 +5061,7 @@ func TestDatabaseAutonomousDatabaseResource_dbTools(t *testing.T) {
 		t.Skip("Skipping TestDatabaseAutonomousDatabaseResource_dbTools test.\n" + "Current TF_VAR_should_skip_adbs_test=" + shouldSkipADBStest)
 	}
 
-	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_scheduledOperations")
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_dbTools")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
