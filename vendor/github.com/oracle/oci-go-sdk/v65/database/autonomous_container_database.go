@@ -36,6 +36,9 @@ type AutonomousContainerDatabase struct {
 	// Database patch model preference.
 	PatchModel AutonomousContainerDatabasePatchModelEnum `mandatory:"true" json:"patchModel"`
 
+	// Customer Contacts. Setting this to an empty list removes all customer contacts.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 

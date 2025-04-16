@@ -18,6 +18,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_golden_gate_deployment_certificate", GoldenGateDeploymentCertificateDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_deployment_certificates", GoldenGateDeploymentCertificatesDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_deployment_environments", GoldenGateDeploymentEnvironmentsDataSource())
+	tfresource.RegisterDatasource("oci_golden_gate_deployment_peers", GoldenGateDeploymentPeersDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_deployment_type", GoldenGateDeploymentTypeDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_deployment_types", GoldenGateDeploymentTypesDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_deployment_upgrade", GoldenGateDeploymentUpgradeDataSource())

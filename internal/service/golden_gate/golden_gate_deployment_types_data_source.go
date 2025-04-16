@@ -83,6 +83,13 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"supported_capabilities": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"supported_technologies_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -217,6 +224,8 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 	}
 
 	result["source_technologies"] = obj.SourceTechnologies
+
+	result["supported_capabilities"] = obj.SupportedCapabilities
 
 	if obj.SupportedTechnologiesUrl != nil {
 		result["supported_technologies_url"] = string(*obj.SupportedTechnologiesUrl)

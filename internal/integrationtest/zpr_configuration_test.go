@@ -9,17 +9,17 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	ignoreChangesZprConfigurationRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags", "freeform_tags", "system_tags"}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags", "freeform_tags"}},
 	}
 
 	ZprConfigurationRequiredOnlyResource = ZprConfigurationResourceDependencies +
@@ -128,6 +128,7 @@ func getZprConfigurationConfigurationId(resourceName string) resource.ImportStat
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
 
-		return fmt.Sprintf("%s/%s", rs.Primary.Attributes["compartment_id"], rs.Primary.Attributes["id"]), nil
+		importStateID := fmt.Sprintf("%s/%s", rs.Primary.Attributes["compartment_id"], rs.Primary.Attributes["id"])
+		return importStateID, nil
 	}
 }
