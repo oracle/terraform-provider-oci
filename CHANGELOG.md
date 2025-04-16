@@ -1,4 +1,4 @@
-## 6.35.0 (Unreleased)
+## 6.35.0 (April 16, 2025)
 
 ### Added
 - Support for Add Cross-AD DR for GGS deployment in a multi-AD region
