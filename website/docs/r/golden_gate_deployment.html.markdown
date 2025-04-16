@@ -19,11 +19,7 @@ Creates a new Deployment.
 resource "oci_golden_gate_deployment" "test_deployment" {
 	#Required
 	compartment_id = var.compartment_id
-	cpu_core_count = var.deployment_cpu_core_count
-	deployment_type = var.deployment_deployment_type
 	display_name = var.deployment_display_name
-	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
-	license_model = var.deployment_license_model
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
@@ -36,13 +32,19 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		namespace = var.deployment_backup_schedule_namespace
 		time_backup_scheduled = var.deployment_backup_schedule_time_backup_scheduled
 	}
+	availability_domain = var.deployment_availability_domain
+	cpu_core_count = var.deployment_cpu_core_count
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
+	deployment_type = var.deployment_deployment_type
 	description = var.deployment_description
 	environment_type = var.deployment_environment_type
+	fault_domain = var.deployment_fault_domain
 	fqdn = var.deployment_fqdn
 	freeform_tags = {"bar-key"= "value"}
+	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
 	is_public = var.deployment_is_public
+	license_model = var.deployment_license_model
 	load_balancer_subnet_id = oci_core_subnet.test_subnet.id
 	locks {
 		#Required
@@ -89,6 +91,13 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		ogg_version = var.deployment_ogg_data_ogg_version
 		password_secret_id = oci_vault_secret.test_secret.id
 	}
+	placements {
+
+		#Optional
+		availability_domain = var.deployment_placements_availability_domain
+		fault_domain = var.deployment_placements_fault_domain
+	}
+	source_deployment_id = oci_golden_gate_deployment.test_deployment.id
 	state = var.deployment_state
 }
 ```
@@ -103,20 +112,22 @@ The following arguments are supported:
 	* `frequency_backup_scheduled` - (Required) (Updatable) The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
 	* `is_metadata_only` - (Required) (Updatable) Parameter to allow users to create backup without trails
 	* `namespace` - (Required) (Updatable) Name of namespace that serves as a container for all of your buckets
-	* `time_backup_scheduled` - (Required) (Updatable) The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
+	* `time_backup_scheduled` - (Required) (Updatable) The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`.
+* `availability_domain` - (Optional) The availability domain of a placement.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
-* `cpu_core_count` - (Required) (Updatable) The Minimum number of OCPUs to be made available for this Deployment. 
+* `cpu_core_count` - (Optional) (Updatable) The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
 * `deployment_backup_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced. 
-* `deployment_type` - (Required) The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
+* `deployment_type` - (Optional) The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
 * `display_name` - (Required) (Updatable) An object's Display Name. 
 * `environment_type` - (Optional) (Updatable) Specifies whether the deployment is used in a production or development/testing environment. 
+* `fault_domain` - (Optional) The fault domain of a placement.
 * `fqdn` - (Optional) (Updatable) A three-label Fully Qualified Domain Name (FQDN) for a resource. 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
-* `is_auto_scaling_enabled` - (Required) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
-* `is_public` - (Optional) (Updatable) True if this object is publicly available. 
-* `license_model` - (Required) (Updatable) The Oracle license model that applies to a Deployment.
+* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
+* `is_public` - (Optional) (Updatable) True if this object is publicly available.
+* `license_model` - (Optional) (Updatable) The Oracle license model that applies to a Deployment. 
 * `load_balancer_subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
 * `locks` - (Optional) Locks associated with this resource.
 	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
@@ -145,7 +156,11 @@ The following arguments are supported:
 	* `identity_domain_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `key` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the private key. 
 	* `ogg_version` - (Optional) Version of OGG 
-	* `password_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
+	* `password_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
+* `placements` - (Optional) (Updatable) An array of local peers of deployment 
+	* `availability_domain` - (Optional) (Updatable) The availability domain of a placement.
+	* `fault_domain` - (Optional) (Updatable) The fault domain of a placement.
+* `source_deployment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced.
 * `state` - (Optional) (Updatable) The target state for the deployment. Could be set to ACTIVE or INACTIVE. By setting this value to ACTIVE terraform will perform start operation, if your deployment is not ACTIVE already. Setting value to INACTIVE will stop your deployment.
 
@@ -163,7 +178,8 @@ The following attributes are exported:
 	* `frequency_backup_scheduled` - The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
 	* `is_metadata_only` - Parameter to allow users to create backup without trails
 	* `namespace` - Name of namespace that serves as a container for all of your buckets
-	* `time_backup_scheduled` - The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
+	* `time_backup_scheduled` - The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`.
+* `availability_domain` - The availability domain of a placement.
 * `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - The Minimum number of OCPUs to be made available for this Deployment. 
@@ -176,11 +192,14 @@ The following attributes are exported:
 	* `object` - Name of the diagnostic collected and uploaded to object storage
 	* `time_diagnostic_end` - The time until which the diagnostic collection should collect the logs. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	* `time_diagnostic_start` - The time from which the diagnostic collection should collect the logs. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+* `deployment_role` - The type of the deployment role. 
+* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'.
 * `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'.
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
 * `display_name` - An object's Display Name. 
 * `environment_type` - Specifies whether the deployment is used in a production or development/testing environment. 
+* `fault_domain` - The fault domain of a placement.
 * `fqdn` - A three-label Fully Qualified Domain Name (FQDN) for a resource. 
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
@@ -226,8 +245,12 @@ The following attributes are exported:
 	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `ogg_version` - Version of OGG 
 	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
+* `placements` - An array of local peers of deployment 
+	* `availability_domain` - The availability domain of a placement.
+	* `fault_domain` - The fault domain of a placement.
 * `private_ip_address` - The private IP address in the customer's VCN representing the access point for the associated endpoint service in the GoldenGate service VCN. 
 * `public_ip_address` - The public IP address representing the access point for the Deployment. 
+* `source_deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `state` - Possible lifecycle states. 
 * `storage_utilization_in_bytes` - The amount of storage being utilized (in bytes) 
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced. 
@@ -237,6 +260,7 @@ The following attributes are exported:
 * `time_next_backup_scheduled` - The timestamp of next deployment backup scheduled. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`. 
 * `time_of_next_maintenance` - The time of next maintenance schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_ogg_version_supported_until` - The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_role_changed` - The time of the last role change. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_upgrade_required` - Note: Deprecated: Use timeOfNextMaintenance instead, or related upgrade records  to check, when deployment will be forced to upgrade to a newer version. Old description: The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 

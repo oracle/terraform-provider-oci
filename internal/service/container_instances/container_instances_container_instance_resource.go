@@ -122,12 +122,6 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 											"TCP",
 										}, true),
 									},
-									"port": {
-										Type:     schema.TypeInt,
-										Required: true,
-										ForceNew: true,
-									},
-
 									// Optional
 									"failure_action": {
 										Type:     schema.TypeString,
@@ -188,6 +182,12 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 									},
 									"path": {
 										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"port": {
+										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,

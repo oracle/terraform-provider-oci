@@ -34,7 +34,6 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 		health_checks {
 			#Required
 			health_check_type = var.container_instance_containers_health_checks_health_check_type
-			port = var.container_instance_containers_health_checks_port
 
 			#Optional
 			failure_action = var.container_instance_containers_health_checks_failure_action
@@ -49,6 +48,7 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 			interval_in_seconds = var.container_instance_containers_health_checks_interval_in_seconds
 			name = var.container_instance_containers_health_checks_name
 			path = var.container_instance_containers_health_checks_path
+			port = var.container_instance_containers_health_checks_port
 			success_threshold = var.container_instance_containers_health_checks_success_threshold
 			timeout_in_seconds = var.container_instance_containers_health_checks_timeout_in_seconds
 		}

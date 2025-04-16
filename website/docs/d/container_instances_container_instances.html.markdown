@@ -77,7 +77,6 @@ The following attributes are exported:
 	* `processor_description` - A short description of the container instance's processor (CPU). 
 * `state` - The current state of the container instance.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. 
-* `tenant_id` - TenantId id of the container instance.
 * `time_created` - The time the container instance was created, in the format defined by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `time_updated` - The time the container instance was updated, in the format defined by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `vnics` - The virtual networks available to the containers in the container instance.
