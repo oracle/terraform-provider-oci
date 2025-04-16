@@ -568,5 +568,17 @@
         "realmKey": "oc42",
         "regionIdentifier": "us-ashburn-2",
         "realmDomainComponent": "oraclerealm42.com"
+    },
+    {
+        "regionKey": "zqo",
+        "realmKey": "oc1",
+        "regionIdentifier": "eu-dublin-3",
+        "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "nhj",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-boardman-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
