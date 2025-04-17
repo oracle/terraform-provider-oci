@@ -76,8 +76,12 @@ variable "opensearch_cluster_pipeline_opc_dry_run" {
   default = false
 }
 
+variable "opensearch_cluster_pipeline_node_shape" {
+  default = "VM.Standard.E3.Flex"
+}
+
 locals  {
-  pipeline_configuration_body = "version: 2\npipeline_configurations:\n  oci:\n    secrets:\n      opensearch-username:\n        secret_id: ocid1.vaultsecret.oc1.iad.amaaaaaahngrfpyagmlx4uz56urywg2rlenjwpdjuis6ncnzl4sfixltrxsq\n        refresh_interval: PT2H\n      opensearch-password:\n        secret_id: ocid1.vaultsecret.oc1.iad.amaaaaaahngrfpya5t4a2yhoqwbqg7rahhesrjuxjgyz2enopd6vkn2e5q7q\n        refresh_interval: PT2H\najapraka-log-pipeline:\n  source:\n    oci-object:\n      acknowledgments: true\n      codec:\n        newline:\n      compression: none\n      scan:\n        scheduling:\n          interval: PT30S\n        buckets:\n          - bucket:\n              namespace: idv3bncjikjv\n              name: data_prepper_integration_test_object_storage_source_bucket_0\n              region: us-ashburn-1\n  sink:\n    - opensearch:\n        hosts: [ ocid1.opensearchcluster.oc1.iad.amaaaaaahngrfpyazkwqhgnvrdtzr74fyl4nocmdw6qetnhdmqcx7baoe4zq ]\n        username: $${{oci_secrets:opensearch-username}}\n        password: $${{oci_secrets:opensearch-password}}\n        insecure: false\n        index: pipeline-stage-testing-index-1"
+  pipeline_configuration_body = "version: 2\npipeline_configurations:\n  oci:\n    secrets:\n      opensearch-username:\n        secret_id: {{username-vaultsecret}}\n        refresh_interval: PT2H\n      opensearch-password:\n        secret_id: {{password-vaultsecret}}\n        refresh_interval: PT2H\najapraka-log-pipeline:\n  source:\n    oci-object:\n      acknowledgments: true\n      codec:\n        newline:\n      compression: none\n      scan:\n        scheduling:\n          interval: PT30S\n        buckets:\n          - bucket:\n              namespace: idv3bncjikjv\n              name: data_prepper_integration_test_object_storage_source_bucket_0\n              region: us-ashburn-1\n  sink:\n    - opensearch:\n        hosts: [ {{clusterOCID}} ]\n        username: $${{oci_secrets:opensearch-username}}\n        password: $${{oci_secrets:opensearch-password}}\n        insecure: false\n        index: pipeline-stage-testing-index-1"
 }
 
 variable "opensearch_cluster_pipeline_reverse_connection_endpoints_customer_fqdn" {

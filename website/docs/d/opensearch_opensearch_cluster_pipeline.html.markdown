@@ -40,6 +40,7 @@ The following attributes are exported:
 * `id` - The OCID of the cluster pipeline.
 * `memory_gb` - The amount of memory in GB, for each pipeline node.
 * `node_count` - The number of nodes configured for the pipeline.
+* `node_shape` - The pipeline node shape.
 * `nsg_id` - The OCID of the NSG where the pipeline private endpoint vnic will be attached.
 * `ocpu_count` - The number of OCPUs configured for each pipeline node.
 * `opensearch_pipeline_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.

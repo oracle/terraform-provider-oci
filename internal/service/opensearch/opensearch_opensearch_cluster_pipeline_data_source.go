@@ -92,6 +92,10 @@ func (s *OpensearchOpensearchClusterPipelineDataSourceCrud) SetData() error {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
+	if s.Res.NodeShape != nil {
+		s.D.Set("node_shape", *s.Res.NodeShape)
+	}
+
 	if s.Res.NsgId != nil {
 		s.D.Set("nsg_id", *s.Res.NsgId)
 	}
