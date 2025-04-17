@@ -29,6 +29,7 @@ resource "oci_opensearch_opensearch_cluster_pipeline" "test_opensearch_cluster_p
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	node_shape = var.opensearch_cluster_pipeline_node_shape
 	nsg_id = oci_opensearch_nsg.test_nsg.id
 	opc_dry_run = var.opensearch_cluster_pipeline_opc_dry_run
 	reverse_connection_endpoints {
@@ -54,6 +55,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `memory_gb` - (Required) (Updatable) The amount of memory in GB, for each pipeline node.
 * `node_count` - (Required) (Updatable) The number of nodes configured for the pipeline.
+* `node_shape` - (Optional) (Updatable) The pipeline node shape.
 * `nsg_id` - (Optional) (Updatable) The OCID of the NSG where the pipeline private endpoint vnic will be attached.
 * `ocpu_count` - (Required) (Updatable) The number of OCPUs configured for each pipeline node.
 * `opc_dry_run` - (Optional) (Updatable) Indicates that the request is a dry run, if set to "true". A dry run request does not modify the configuration item details and is used only to perform validation on the submitted data. 
@@ -82,6 +84,7 @@ The following attributes are exported:
 * `id` - The OCID of the cluster pipeline.
 * `memory_gb` - The amount of memory in GB, for each pipeline node.
 * `node_count` - The number of nodes configured for the pipeline.
+* `node_shape` - The pipeline node shape.
 * `nsg_id` - The OCID of the NSG where the pipeline private endpoint vnic will be attached.
 * `ocpu_count` - The number of OCPUs configured for each pipeline node.
 * `opensearch_pipeline_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.

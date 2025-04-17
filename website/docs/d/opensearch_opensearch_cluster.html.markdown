@@ -52,6 +52,7 @@ The following attributes are exported:
 * `data_node_host_bare_metal_shape` - The bare metal shape for the cluster's data nodes.
 * `data_node_host_memory_gb` - The amount of memory in GB, for the cluster's data nodes.
 * `data_node_host_ocpu_count` - The number of OCPUs configured for the cluster's data nodes.
+* `data_node_host_shape` - The node shape for the cluster's data nodes.
 * `data_node_host_type` - The instance type for the cluster's data nodes.
 * `data_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's data nodes.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
@@ -70,11 +71,13 @@ The following attributes are exported:
 * `master_node_host_bare_metal_shape` - The bare metal shape for the cluster's master nodes.
 * `master_node_host_memory_gb` - The amount of memory in GB, for the cluster's master nodes.
 * `master_node_host_ocpu_count` - The number of OCPUs configured for cluster's master nodes.
+* `master_node_host_shape` - The node shape for the cluster's master nodes.
 * `master_node_host_type` - The instance type for the cluster's master nodes.
 * `opendashboard_fqdn` - The fully qualified domain name (FQDN) for the cluster's OpenSearch Dashboard API endpoint.
 * `opendashboard_node_count` - The number of OpenSearch Dashboard nodes configured for the cluster.
 * `opendashboard_node_host_memory_gb` - The amount of memory in GB, for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_node_host_ocpu_count` - The amount of memory in GB, for the cluster's OpenSearch Dashboard nodes.
+* `opendashboard_node_host_shape` - The node shape for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_private_ip` - The private IP address for the cluster's OpenSearch Dashboard.
 * `opensearch_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.
 * `opensearch_private_ip` - The cluster's private IP address.
@@ -90,6 +93,12 @@ The following attributes are exported:
 * `reverse_connection_endpoints` - The list of reverse connection endpoints.
 	* `customer_ip` - The IP addresses of the endpoint in customer VCN
 	* `nat_ip` - The NAT IP addresses of the endpoint in service VCN
+* `search_node_count` - The number of search nodes configured for the cluster.
+* `search_node_host_memory_gb` - The amount of memory in GB, for the cluster's search nodes.
+* `search_node_host_ocpu_count` - The number of OCPUs configured for the cluster's search nodes.
+* `search_node_host_shape` - The node shape for the cluster's search nodes.
+* `search_node_host_type` - The instance type for the cluster's search nodes.
+* `search_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's search nodes.
 * `security_master_user_name` - The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
 * `security_mode` - The security mode of the cluster.

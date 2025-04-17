@@ -127,6 +127,11 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"data_node_host_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -189,6 +194,16 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"master_node_host_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"opendashboard_node_host_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"outbound_cluster_config": {
 				Type:     schema.TypeList,
@@ -254,6 +269,37 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"search_node_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"search_node_host_memory_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"search_node_host_ocpu_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"search_node_host_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"search_node_host_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"search_node_storage_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"security_master_user_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -264,6 +310,53 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Optional:  true,
 				Computed:  true,
 				Sensitive: true,
+			},
+			"security_saml_config": {
+				Type:      schema.TypeList,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+				MaxItems:  1,
+				MinItems:  1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+						// Required
+						"idp_metadata_content": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						// Required
+						"idp_entity_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"opendashboard_url": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"admin_backend_role": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"subject_key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"roles_key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"security_mode": {
 				Type:     schema.TypeString,
@@ -505,6 +598,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.DataNodeHostOcpuCount = &tmp
 	}
 
+	if dataNodeHostShape, ok := s.D.GetOkExists("data_node_host_shape"); ok {
+		tmp := dataNodeHostShape.(string)
+		request.DataNodeHostShape = &tmp
+	}
+
 	if dataNodeHostType, ok := s.D.GetOkExists("data_node_host_type"); ok {
 		request.DataNodeHostType = oci_opensearch.DataNodeHostTypeEnum(dataNodeHostType.(string))
 	}
@@ -575,6 +673,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.MasterNodeHostOcpuCount = &tmp
 	}
 
+	if masterNodeHostShape, ok := s.D.GetOkExists("master_node_host_shape"); ok {
+		tmp := masterNodeHostShape.(string)
+		request.MasterNodeHostShape = &tmp
+	}
+
 	if masterNodeHostType, ok := s.D.GetOkExists("master_node_host_type"); ok {
 		request.MasterNodeHostType = oci_opensearch.MasterNodeHostTypeEnum(masterNodeHostType.(string))
 	}
@@ -592,6 +695,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 	if opendashboardNodeHostOcpuCount, ok := s.D.GetOkExists("opendashboard_node_host_ocpu_count"); ok {
 		tmp := opendashboardNodeHostOcpuCount.(int)
 		request.OpendashboardNodeHostOcpuCount = &tmp
+	}
+
+	if opendashboardNodeHostShape, ok := s.D.GetOkExists("opendashboard_node_host_shape"); ok {
+		tmp := opendashboardNodeHostShape.(string)
+		request.OpendashboardNodeHostShape = &tmp
 	}
 
 	if outboundClusterConfig, ok := s.D.GetOkExists("outbound_cluster_config"); ok {
@@ -618,6 +726,35 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		}
 	}
 
+	if searchNodeCount, ok := s.D.GetOkExists("search_node_count"); ok {
+		tmp := searchNodeCount.(int)
+		request.SearchNodeCount = &tmp
+	}
+
+	if searchNodeHostMemoryGB, ok := s.D.GetOkExists("search_node_host_memory_gb"); ok {
+		tmp := searchNodeHostMemoryGB.(int)
+		request.SearchNodeHostMemoryGB = &tmp
+	}
+
+	if searchNodeHostOcpuCount, ok := s.D.GetOkExists("search_node_host_ocpu_count"); ok {
+		tmp := searchNodeHostOcpuCount.(int)
+		request.SearchNodeHostOcpuCount = &tmp
+	}
+
+	if searchNodeHostShape, ok := s.D.GetOkExists("search_node_host_shape"); ok {
+		tmp := searchNodeHostShape.(string)
+		request.SearchNodeHostShape = &tmp
+	}
+
+	if searchNodeHostType, ok := s.D.GetOkExists("search_node_host_type"); ok {
+		request.SearchNodeHostType = oci_opensearch.SearchNodeHostTypeEnum(searchNodeHostType.(string))
+	}
+
+	if searchNodeStorageGB, ok := s.D.GetOkExists("search_node_storage_gb"); ok {
+		tmp := searchNodeStorageGB.(int)
+		request.SearchNodeStorageGB = &tmp
+	}
+
 	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
 		tmp := securityMasterUserName.(string)
 		request.SecurityMasterUserName = &tmp
@@ -626,6 +763,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 	if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
 		tmp := securityMasterUserPasswordHash.(string)
 		request.SecurityMasterUserPasswordHash = &tmp
+	}
+
+	if securitySamlConfig, ok := s.D.GetOkExists("security_saml_config"); ok {
+		if tmpList := securitySamlConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "security_saml_config", 0)
+			tmp, err := s.mapToSecuritySamlConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecuritySamlConfig = &tmp
+		}
 	}
 
 	if securityMode, ok := s.D.GetOkExists("security_mode"); ok {
@@ -832,6 +980,8 @@ func (s *OpensearchOpensearchClusterResourceCrud) HorizontalConditionMet() (resu
 		return true
 	} else if _, ok := s.D.GetOkExists("opendashboard_node_count"); ok && s.D.HasChange("opendashboard_node_count") {
 		return true
+	} else if _, ok := s.D.GetOkExists("search_node_count"); ok && s.D.HasChange("search_node_count") {
+		return true
 	}
 	return false
 }
@@ -850,6 +1000,20 @@ func (s *OpensearchOpensearchClusterResourceCrud) VerticalConditionMet() (result
 	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_ocpu_count"); ok && s.D.HasChange("opendashboard_node_host_ocpu_count") {
 		return true
 	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_memory_gb"); ok && s.D.HasChange("opendashboard_node_host_memory_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("search_node_host_memory_ocpu_count"); ok && s.D.HasChange("search_node_host_memory_ocpu_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("search_node_host_memory_gb"); ok && s.D.HasChange("search_node_host_memory_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("search_node_storage_gb"); ok && s.D.HasChange("search_node_storage_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("master_node_host_shape"); ok && s.D.HasChange("master_node_host_shape") {
+		return true
+	} else if _, ok := s.D.GetOkExists("data_node_host_shape"); ok && s.D.HasChange("data_node_host_shape") {
+		return true
+	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_shape"); ok && s.D.HasChange("opendashboard_node_host_shape") {
+		return true
+	} else if _, ok := s.D.GetOkExists("search_node_host_shape"); ok && s.D.HasChange("search_node_host_shape") {
 		return true
 	}
 	return false
@@ -939,6 +1103,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		request.SecurityMasterUserPasswordHash = &tmp
 	}
 
+	if securitySamlConfig, ok := s.D.GetOkExists("security_saml_config"); ok {
+		if tmpList := securitySamlConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "security_saml_config", 0)
+			tmp, err := s.mapToSecuritySamlConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecuritySamlConfig = &tmp
+		}
+	}
+
 	if securityMode, ok := s.D.GetOkExists("security_mode"); ok {
 		request.SecurityMode = oci_opensearch.SecurityModeEnum(securityMode.(string))
 	}
@@ -1002,6 +1177,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 		s.D.Set("data_node_host_ocpu_count", *s.Res.DataNodeHostOcpuCount)
 	}
 
+	if s.Res.DataNodeHostShape != nil {
+		s.D.Set("data_node_host_shape", *s.Res.DataNodeHostShape)
+	}
+
 	s.D.Set("data_node_host_type", s.Res.DataNodeHostType)
 
 	if s.Res.DataNodeStorageGB != nil {
@@ -1050,6 +1229,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 		s.D.Set("master_node_host_ocpu_count", *s.Res.MasterNodeHostOcpuCount)
 	}
 
+	if s.Res.MasterNodeHostShape != nil {
+		s.D.Set("master_node_host_shape", *s.Res.MasterNodeHostShape)
+	}
+
 	s.D.Set("master_node_host_type", s.Res.MasterNodeHostType)
 
 	if s.Res.OpendashboardFqdn != nil {
@@ -1066,6 +1249,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.OpendashboardNodeHostOcpuCount != nil {
 		s.D.Set("opendashboard_node_host_ocpu_count", *s.Res.OpendashboardNodeHostOcpuCount)
+	}
+
+	if s.Res.OpendashboardNodeHostShape != nil {
+		s.D.Set("opendashboard_node_host_shape", *s.Res.OpendashboardNodeHostShape)
 	}
 
 	if s.Res.OpendashboardPrivateIp != nil {
@@ -1094,12 +1281,38 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 	}
 	s.D.Set("reverse_connection_endpoints", reverseConnectionEndpoints)
 
+	if s.Res.SearchNodeCount != nil {
+		s.D.Set("search_node_count", *s.Res.SearchNodeCount)
+	}
+
+	if s.Res.SearchNodeHostMemoryGB != nil {
+		s.D.Set("search_node_host_memory_gb", *s.Res.SearchNodeHostMemoryGB)
+	}
+
+	if s.Res.SearchNodeHostOcpuCount != nil {
+		s.D.Set("search_node_host_ocpu_count", *s.Res.SearchNodeHostOcpuCount)
+	}
+
+	if s.Res.SearchNodeHostShape != nil {
+		s.D.Set("search_node_host_shape", *s.Res.SearchNodeHostShape)
+	}
+
+	s.D.Set("search_node_host_type", s.Res.SearchNodeHostType)
+
+	if s.Res.SearchNodeStorageGB != nil {
+		s.D.Set("search_node_storage_gb", *s.Res.SearchNodeStorageGB)
+	}
+
 	if s.Res.SecurityMasterUserName != nil {
 		s.D.Set("security_master_user_name", *s.Res.SecurityMasterUserName)
 	}
 
 	if s.Res.SecurityMasterUserPasswordHash != nil {
 		s.D.Set("security_master_user_password_hash", *s.Res.SecurityMasterUserPasswordHash)
+	}
+
+	if s.Res.SecuritySamlConfig != nil {
+		s.D.Set("security_saml_config", *s.Res.SecuritySamlConfig)
 	}
 
 	s.D.Set("security_mode", s.Res.SecurityMode)
@@ -1254,6 +1467,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizon
 	idTmp := s.D.Id()
 	request.OpensearchClusterId = &idTmp
 
+	if searchNodeCount, ok := s.D.GetOkExists("search_node_count"); ok {
+		tmp := searchNodeCount.(int)
+		request.SearchNodeCount = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
 	_, err := s.Client.ResizeOpensearchClusterHorizontal(context.Background(), request)
@@ -1282,6 +1500,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 		request.DataNodeHostOcpuCount = &tmp
 	}
 
+	if dataNodeHostShape, ok := s.D.GetOkExists("data_node_host_shape"); ok {
+		tmp := dataNodeHostShape.(string)
+		request.DataNodeHostShape = &tmp
+	}
+
 	if dataNodeStorageGB, ok := s.D.GetOkExists("data_node_storage_gb"); ok {
 		tmp := dataNodeStorageGB.(int)
 		request.DataNodeStorageGB = &tmp
@@ -1297,6 +1520,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 		request.MasterNodeHostOcpuCount = &tmp
 	}
 
+	if masterNodeHostShape, ok := s.D.GetOkExists("master_node_host_shape"); ok {
+		tmp := masterNodeHostShape.(string)
+		request.MasterNodeHostShape = &tmp
+	}
+
 	if opendashboardNodeHostMemoryGB, ok := s.D.GetOkExists("opendashboard_node_host_memory_gb"); ok {
 		tmp := opendashboardNodeHostMemoryGB.(int)
 		request.OpendashboardNodeHostMemoryGB = &tmp
@@ -1307,8 +1535,33 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 		request.OpendashboardNodeHostOcpuCount = &tmp
 	}
 
+	if opendashboardNodeHostShape, ok := s.D.GetOkExists("opendashboard_node_host_shape"); ok {
+		tmp := opendashboardNodeHostShape.(string)
+		request.OpendashboardNodeHostShape = &tmp
+	}
+
 	idTmp := s.D.Id()
 	request.OpensearchClusterId = &idTmp
+
+	if searchNodeHostMemoryGB, ok := s.D.GetOkExists("search_node_host_memory_gb"); ok {
+		tmp := searchNodeHostMemoryGB.(int)
+		request.SearchNodeHostMemoryGB = &tmp
+	}
+
+	if searchNodeHostOcpuCount, ok := s.D.GetOkExists("search_node_host_ocpu_count"); ok {
+		tmp := searchNodeHostOcpuCount.(int)
+		request.SearchNodeHostOcpuCount = &tmp
+	}
+
+	if searchNodeHostShape, ok := s.D.GetOkExists("search_node_host_shape"); ok {
+		tmp := searchNodeHostShape.(string)
+		request.SearchNodeHostShape = &tmp
+	}
+
+	if searchNodeStorageGB, ok := s.D.GetOkExists("search_node_storage_gb"); ok {
+		tmp := searchNodeStorageGB.(int)
+		request.SearchNodeStorageGB = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 

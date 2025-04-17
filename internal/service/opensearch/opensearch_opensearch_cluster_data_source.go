@@ -89,6 +89,10 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("data_node_host_ocpu_count", *s.Res.DataNodeHostOcpuCount)
 	}
 
+	if s.Res.DataNodeHostShape != nil {
+		s.D.Set("data_node_host_shape", *s.Res.DataNodeHostShape)
+	}
+
 	s.D.Set("data_node_host_type", s.Res.DataNodeHostType)
 
 	if s.Res.DataNodeStorageGB != nil {
@@ -137,6 +141,10 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("master_node_host_ocpu_count", *s.Res.MasterNodeHostOcpuCount)
 	}
 
+	if s.Res.MasterNodeHostShape != nil {
+		s.D.Set("master_node_host_shape", *s.Res.MasterNodeHostShape)
+	}
+
 	s.D.Set("master_node_host_type", s.Res.MasterNodeHostType)
 
 	if s.Res.OpendashboardFqdn != nil {
@@ -153,6 +161,10 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 
 	if s.Res.OpendashboardNodeHostOcpuCount != nil {
 		s.D.Set("opendashboard_node_host_ocpu_count", *s.Res.OpendashboardNodeHostOcpuCount)
+	}
+
+	if s.Res.OpendashboardNodeHostShape != nil {
+		s.D.Set("opendashboard_node_host_shape", *s.Res.OpendashboardNodeHostShape)
 	}
 
 	if s.Res.OpendashboardPrivateIp != nil {
@@ -181,6 +193,28 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 	}
 	s.D.Set("reverse_connection_endpoints", reverseConnectionEndpoints)
 
+	if s.Res.SearchNodeCount != nil {
+		s.D.Set("search_node_count", *s.Res.SearchNodeCount)
+	}
+
+	if s.Res.SearchNodeHostMemoryGB != nil {
+		s.D.Set("search_node_host_memory_gb", *s.Res.SearchNodeHostMemoryGB)
+	}
+
+	if s.Res.SearchNodeHostOcpuCount != nil {
+		s.D.Set("search_node_host_ocpu_count", *s.Res.SearchNodeHostOcpuCount)
+	}
+
+	if s.Res.SearchNodeHostShape != nil {
+		s.D.Set("search_node_host_shape", *s.Res.SearchNodeHostShape)
+	}
+
+	s.D.Set("search_node_host_type", s.Res.SearchNodeHostType)
+
+	if s.Res.SearchNodeStorageGB != nil {
+		s.D.Set("search_node_storage_gb", *s.Res.SearchNodeStorageGB)
+	}
+
 	if s.Res.SecurityMasterUserName != nil {
 		s.D.Set("security_master_user_name", *s.Res.SecurityMasterUserName)
 	}
@@ -193,6 +227,10 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 
 	if s.Res.SoftwareVersion != nil {
 		s.D.Set("software_version", *s.Res.SoftwareVersion)
+	}
+
+	if s.Res.SecuritySamlConfig != nil {
+		s.D.Set("security_saml_config", *s.Res.SecuritySamlConfig)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
