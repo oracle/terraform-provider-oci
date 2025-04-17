@@ -41,6 +41,10 @@ type SnowflakeConnectionSummary struct {
 	// e.g.: 'jdbc:snowflake://<account_name>.snowflakecomputing.com/?warehouse=<warehouse-name>&db=<db-name>'
 	ConnectionUrl *string `mandatory:"true" json:"connectionUrl"`
 
+	// The username Oracle GoldenGate uses to connect to Snowflake.
+	// This username must already exist and be available by Snowflake platform to be connected to.
+	Username *string `mandatory:"true" json:"username"`
+
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -90,10 +94,6 @@ type SnowflakeConnectionSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
-
-	// The username Oracle GoldenGate uses to connect to Snowflake.
-	// This username must already exist and be available by Snowflake platform to be connected to.
-	Username *string `mandatory:"false" json:"username"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.

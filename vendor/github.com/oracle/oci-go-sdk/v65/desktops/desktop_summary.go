@@ -36,6 +36,8 @@ type DesktopSummary struct {
 	// The pool ID of the desktop.
 	PoolId *string `mandatory:"true" json:"poolId"`
 
+	Image *DesktopImage `mandatory:"false" json:"image"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

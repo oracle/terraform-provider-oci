@@ -97,6 +97,7 @@ type UpdateDb2ConnectionDetails struct {
 	SslClientKeystashSecretId *string `mandatory:"false" json:"sslClientKeystashSecretId"`
 
 	// The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate.
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslServerCertificate *string `mandatory:"false" json:"sslServerCertificate"`
 
 	// Controls the network traffic direction to the target:

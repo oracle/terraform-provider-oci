@@ -53,6 +53,7 @@ type UpdateHdfsConnectionDetails struct {
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	CoreSiteXml *string `mandatory:"false" json:"coreSiteXml"`
 
 	// Controls the network traffic direction to the target:

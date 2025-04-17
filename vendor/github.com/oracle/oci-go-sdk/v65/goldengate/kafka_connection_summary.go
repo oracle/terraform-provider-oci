@@ -90,6 +90,10 @@ type KafkaConnectionSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Kafka cluster
+	// being referenced from OCI Streaming with Apache Kafka.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
+
 	// Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka:
 	// list of KafkaBootstrapServer objects specified by host/port.
 	// Used for establishing the initial connection to the Kafka cluster.

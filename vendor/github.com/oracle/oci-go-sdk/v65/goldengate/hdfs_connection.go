@@ -87,6 +87,10 @@ type HdfsConnection struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	CoreSiteXml *string `mandatory:"false" json:"coreSiteXml"`
+
 	// The Hadoop Distributed File System technology type.
 	TechnologyType HdfsConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 

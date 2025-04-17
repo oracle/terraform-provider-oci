@@ -90,6 +90,10 @@ type KafkaConnection struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Kafka cluster
+	// being referenced from OCI Streaming with Apache Kafka.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
+
 	// Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka:
 	// list of KafkaBootstrapServer objects specified by host/port.
 	// Used for establishing the initial connection to the Kafka cluster.
@@ -297,24 +301,27 @@ type KafkaConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for KafkaConnectionTechnologyTypeEnum
 const (
-	KafkaConnectionTechnologyTypeApacheKafka    KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
-	KafkaConnectionTechnologyTypeAzureEventHubs KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
-	KafkaConnectionTechnologyTypeConfluentKafka KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
-	KafkaConnectionTechnologyTypeOciStreaming   KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
+	KafkaConnectionTechnologyTypeApacheKafka                 KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
+	KafkaConnectionTechnologyTypeAzureEventHubs              KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
+	KafkaConnectionTechnologyTypeConfluentKafka              KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
+	KafkaConnectionTechnologyTypeOciStreaming                KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
+	KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
 )
 
 var mappingKafkaConnectionTechnologyTypeEnum = map[string]KafkaConnectionTechnologyTypeEnum{
-	"APACHE_KAFKA":     KafkaConnectionTechnologyTypeApacheKafka,
-	"AZURE_EVENT_HUBS": KafkaConnectionTechnologyTypeAzureEventHubs,
-	"CONFLUENT_KAFKA":  KafkaConnectionTechnologyTypeConfluentKafka,
-	"OCI_STREAMING":    KafkaConnectionTechnologyTypeOciStreaming,
+	"APACHE_KAFKA":                    KafkaConnectionTechnologyTypeApacheKafka,
+	"AZURE_EVENT_HUBS":                KafkaConnectionTechnologyTypeAzureEventHubs,
+	"CONFLUENT_KAFKA":                 KafkaConnectionTechnologyTypeConfluentKafka,
+	"OCI_STREAMING":                   KafkaConnectionTechnologyTypeOciStreaming,
+	"OCI_STREAMING_WITH_APACHE_KAFKA": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
 
 var mappingKafkaConnectionTechnologyTypeEnumLowerCase = map[string]KafkaConnectionTechnologyTypeEnum{
-	"apache_kafka":     KafkaConnectionTechnologyTypeApacheKafka,
-	"azure_event_hubs": KafkaConnectionTechnologyTypeAzureEventHubs,
-	"confluent_kafka":  KafkaConnectionTechnologyTypeConfluentKafka,
-	"oci_streaming":    KafkaConnectionTechnologyTypeOciStreaming,
+	"apache_kafka":                    KafkaConnectionTechnologyTypeApacheKafka,
+	"azure_event_hubs":                KafkaConnectionTechnologyTypeAzureEventHubs,
+	"confluent_kafka":                 KafkaConnectionTechnologyTypeConfluentKafka,
+	"oci_streaming":                   KafkaConnectionTechnologyTypeOciStreaming,
+	"oci_streaming_with_apache_kafka": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
 
 // GetKafkaConnectionTechnologyTypeEnumValues Enumerates the set of values for KafkaConnectionTechnologyTypeEnum
@@ -333,6 +340,7 @@ func GetKafkaConnectionTechnologyTypeEnumStringValues() []string {
 		"AZURE_EVENT_HUBS",
 		"CONFLUENT_KAFKA",
 		"OCI_STREAMING",
+		"OCI_STREAMING_WITH_APACHE_KAFKA",
 	}
 }
 

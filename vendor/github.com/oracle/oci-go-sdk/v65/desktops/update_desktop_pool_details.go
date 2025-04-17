@@ -55,6 +55,8 @@ type UpdateDesktopPoolDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	SessionLifecycleActions *UpdateDesktopPoolDesktopSessionLifecycleActions `mandatory:"false" json:"sessionLifecycleActions"`
+
+	Image *UpdateDesktopImage `mandatory:"false" json:"image"`
 }
 
 func (m UpdateDesktopPoolDetails) String() string {

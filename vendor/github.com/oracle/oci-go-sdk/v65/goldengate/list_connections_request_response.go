@@ -164,6 +164,7 @@ const (
 	ListConnectionsAssignableDeploymentTypeDatabaseMysql              ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListConnectionsAssignableDeploymentTypeDatabasePostgresql         ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 	ListConnectionsAssignableDeploymentTypeDatabaseDb2zos             ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListConnectionsAssignableDeploymentTypeDatabaseDb2i               ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_DB2I"
 	ListConnectionsAssignableDeploymentTypeGgsa                       ListConnectionsAssignableDeploymentTypeEnum = "GGSA"
 	ListConnectionsAssignableDeploymentTypeDataTransforms             ListConnectionsAssignableDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
@@ -176,6 +177,7 @@ var mappingListConnectionsAssignableDeploymentTypeEnum = map[string]ListConnecti
 	"DATABASE_MYSQL":               ListConnectionsAssignableDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListConnectionsAssignableDeploymentTypeDatabasePostgresql,
 	"DATABASE_DB2ZOS":              ListConnectionsAssignableDeploymentTypeDatabaseDb2zos,
+	"DATABASE_DB2I":                ListConnectionsAssignableDeploymentTypeDatabaseDb2i,
 	"GGSA":                         ListConnectionsAssignableDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListConnectionsAssignableDeploymentTypeDataTransforms,
 }
@@ -188,6 +190,7 @@ var mappingListConnectionsAssignableDeploymentTypeEnumLowerCase = map[string]Lis
 	"database_mysql":               ListConnectionsAssignableDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListConnectionsAssignableDeploymentTypeDatabasePostgresql,
 	"database_db2zos":              ListConnectionsAssignableDeploymentTypeDatabaseDb2zos,
+	"database_db2i":                ListConnectionsAssignableDeploymentTypeDatabaseDb2i,
 	"ggsa":                         ListConnectionsAssignableDeploymentTypeGgsa,
 	"data_transforms":              ListConnectionsAssignableDeploymentTypeDataTransforms,
 }
@@ -211,6 +214,7 @@ func GetListConnectionsAssignableDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"DATABASE_DB2ZOS",
+		"DATABASE_DB2I",
 		"GGSA",
 		"DATA_TRANSFORMS",
 	}

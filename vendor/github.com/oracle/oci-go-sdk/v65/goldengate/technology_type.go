@@ -27,6 +27,7 @@ const (
 	TechnologyTypeOciObjectStorage                      TechnologyTypeEnum = "OCI_OBJECT_STORAGE"
 	TechnologyTypeOciPostgresql                         TechnologyTypeEnum = "OCI_POSTGRESQL"
 	TechnologyTypeOciStreaming                          TechnologyTypeEnum = "OCI_STREAMING"
+	TechnologyTypeOciStreamingWithApacheKafka           TechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
 	TechnologyTypeOracleDatabase                        TechnologyTypeEnum = "ORACLE_DATABASE"
 	TechnologyTypeOracleExadata                         TechnologyTypeEnum = "ORACLE_EXADATA"
 	TechnologyTypeOracleExadataDatabaseAtAzure          TechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
@@ -37,6 +38,7 @@ const (
 	TechnologyTypeOracleExadataDatabaseAtAws            TechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
 	TechnologyTypeOracleAutonomousDatabaseAtAws         TechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
 	TechnologyTypeOracleNosql                           TechnologyTypeEnum = "ORACLE_NOSQL"
+	TechnologyTypeOracleRestDataServices                TechnologyTypeEnum = "ORACLE_REST_DATA_SERVICES"
 	TechnologyTypeOracleWeblogicJms                     TechnologyTypeEnum = "ORACLE_WEBLOGIC_JMS"
 	TechnologyTypeAmazonRdsOracle                       TechnologyTypeEnum = "AMAZON_RDS_ORACLE"
 	TechnologyTypeAmazonRdsSqlserver                    TechnologyTypeEnum = "AMAZON_RDS_SQLSERVER"
@@ -49,6 +51,7 @@ const (
 	TechnologyTypeAmazonRdsMariadb                      TechnologyTypeEnum = "AMAZON_RDS_MARIADB"
 	TechnologyTypeAmazonRdsMysql                        TechnologyTypeEnum = "AMAZON_RDS_MYSQL"
 	TechnologyTypeAmazonRdsPostgresql                   TechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
+	TechnologyTypeApacheIceberg                         TechnologyTypeEnum = "APACHE_ICEBERG"
 	TechnologyTypeApacheKafka                           TechnologyTypeEnum = "APACHE_KAFKA"
 	TechnologyTypeAzureCosmosDbForMongodb               TechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_MONGODB"
 	TechnologyTypeAzureCosmosDbForPostgresql            TechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_POSTGRESQL"
@@ -62,6 +65,7 @@ const (
 	TechnologyTypeConfluentKafka                        TechnologyTypeEnum = "CONFLUENT_KAFKA"
 	TechnologyTypeConfluentSchemaRegistry               TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
 	TechnologyTypeDatabricks                            TechnologyTypeEnum = "DATABRICKS"
+	TechnologyTypeDb2I                                  TechnologyTypeEnum = "DB2_I"
 	TechnologyTypeDb2Zos                                TechnologyTypeEnum = "DB2_ZOS"
 	TechnologyTypeElasticsearch                         TechnologyTypeEnum = "ELASTICSEARCH"
 	TechnologyTypeGoogleAlloyDbForPostgresql            TechnologyTypeEnum = "GOOGLE_ALLOY_DB_FOR_POSTGRESQL"
@@ -97,6 +101,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"OCI_OBJECT_STORAGE":                         TechnologyTypeOciObjectStorage,
 	"OCI_POSTGRESQL":                             TechnologyTypeOciPostgresql,
 	"OCI_STREAMING":                              TechnologyTypeOciStreaming,
+	"OCI_STREAMING_WITH_APACHE_KAFKA":            TechnologyTypeOciStreamingWithApacheKafka,
 	"ORACLE_DATABASE":                            TechnologyTypeOracleDatabase,
 	"ORACLE_EXADATA":                             TechnologyTypeOracleExadata,
 	"ORACLE_EXADATA_DATABASE_AT_AZURE":           TechnologyTypeOracleExadataDatabaseAtAzure,
@@ -107,6 +112,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"ORACLE_EXADATA_DATABASE_AT_AWS":             TechnologyTypeOracleExadataDatabaseAtAws,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":          TechnologyTypeOracleAutonomousDatabaseAtAws,
 	"ORACLE_NOSQL":                               TechnologyTypeOracleNosql,
+	"ORACLE_REST_DATA_SERVICES":                  TechnologyTypeOracleRestDataServices,
 	"ORACLE_WEBLOGIC_JMS":                        TechnologyTypeOracleWeblogicJms,
 	"AMAZON_RDS_ORACLE":                          TechnologyTypeAmazonRdsOracle,
 	"AMAZON_RDS_SQLSERVER":                       TechnologyTypeAmazonRdsSqlserver,
@@ -119,6 +125,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"AMAZON_RDS_MARIADB":                         TechnologyTypeAmazonRdsMariadb,
 	"AMAZON_RDS_MYSQL":                           TechnologyTypeAmazonRdsMysql,
 	"AMAZON_RDS_POSTGRESQL":                      TechnologyTypeAmazonRdsPostgresql,
+	"APACHE_ICEBERG":                             TechnologyTypeApacheIceberg,
 	"APACHE_KAFKA":                               TechnologyTypeApacheKafka,
 	"AZURE_COSMOS_DB_FOR_MONGODB":                TechnologyTypeAzureCosmosDbForMongodb,
 	"AZURE_COSMOS_DB_FOR_POSTGRESQL":             TechnologyTypeAzureCosmosDbForPostgresql,
@@ -132,6 +139,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"CONFLUENT_KAFKA":                            TechnologyTypeConfluentKafka,
 	"CONFLUENT_SCHEMA_REGISTRY":                  TechnologyTypeConfluentSchemaRegistry,
 	"DATABRICKS":                                 TechnologyTypeDatabricks,
+	"DB2_I":                                      TechnologyTypeDb2I,
 	"DB2_ZOS":                                    TechnologyTypeDb2Zos,
 	"ELASTICSEARCH":                              TechnologyTypeElasticsearch,
 	"GOOGLE_ALLOY_DB_FOR_POSTGRESQL":             TechnologyTypeGoogleAlloyDbForPostgresql,
@@ -167,6 +175,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"oci_object_storage":                         TechnologyTypeOciObjectStorage,
 	"oci_postgresql":                             TechnologyTypeOciPostgresql,
 	"oci_streaming":                              TechnologyTypeOciStreaming,
+	"oci_streaming_with_apache_kafka":            TechnologyTypeOciStreamingWithApacheKafka,
 	"oracle_database":                            TechnologyTypeOracleDatabase,
 	"oracle_exadata":                             TechnologyTypeOracleExadata,
 	"oracle_exadata_database_at_azure":           TechnologyTypeOracleExadataDatabaseAtAzure,
@@ -177,6 +186,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"oracle_exadata_database_at_aws":             TechnologyTypeOracleExadataDatabaseAtAws,
 	"oracle_autonomous_database_at_aws":          TechnologyTypeOracleAutonomousDatabaseAtAws,
 	"oracle_nosql":                               TechnologyTypeOracleNosql,
+	"oracle_rest_data_services":                  TechnologyTypeOracleRestDataServices,
 	"oracle_weblogic_jms":                        TechnologyTypeOracleWeblogicJms,
 	"amazon_rds_oracle":                          TechnologyTypeAmazonRdsOracle,
 	"amazon_rds_sqlserver":                       TechnologyTypeAmazonRdsSqlserver,
@@ -189,6 +199,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"amazon_rds_mariadb":                         TechnologyTypeAmazonRdsMariadb,
 	"amazon_rds_mysql":                           TechnologyTypeAmazonRdsMysql,
 	"amazon_rds_postgresql":                      TechnologyTypeAmazonRdsPostgresql,
+	"apache_iceberg":                             TechnologyTypeApacheIceberg,
 	"apache_kafka":                               TechnologyTypeApacheKafka,
 	"azure_cosmos_db_for_mongodb":                TechnologyTypeAzureCosmosDbForMongodb,
 	"azure_cosmos_db_for_postgresql":             TechnologyTypeAzureCosmosDbForPostgresql,
@@ -202,6 +213,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"confluent_kafka":                            TechnologyTypeConfluentKafka,
 	"confluent_schema_registry":                  TechnologyTypeConfluentSchemaRegistry,
 	"databricks":                                 TechnologyTypeDatabricks,
+	"db2_i":                                      TechnologyTypeDb2I,
 	"db2_zos":                                    TechnologyTypeDb2Zos,
 	"elasticsearch":                              TechnologyTypeElasticsearch,
 	"google_alloy_db_for_postgresql":             TechnologyTypeGoogleAlloyDbForPostgresql,
@@ -248,6 +260,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"OCI_OBJECT_STORAGE",
 		"OCI_POSTGRESQL",
 		"OCI_STREAMING",
+		"OCI_STREAMING_WITH_APACHE_KAFKA",
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
 		"ORACLE_EXADATA_DATABASE_AT_AZURE",
@@ -258,6 +271,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"ORACLE_EXADATA_DATABASE_AT_AWS",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
 		"ORACLE_NOSQL",
+		"ORACLE_REST_DATA_SERVICES",
 		"ORACLE_WEBLOGIC_JMS",
 		"AMAZON_RDS_ORACLE",
 		"AMAZON_RDS_SQLSERVER",
@@ -270,6 +284,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"AMAZON_RDS_MARIADB",
 		"AMAZON_RDS_MYSQL",
 		"AMAZON_RDS_POSTGRESQL",
+		"APACHE_ICEBERG",
 		"APACHE_KAFKA",
 		"AZURE_COSMOS_DB_FOR_MONGODB",
 		"AZURE_COSMOS_DB_FOR_POSTGRESQL",
@@ -283,6 +298,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"CONFLUENT_KAFKA",
 		"CONFLUENT_SCHEMA_REGISTRY",
 		"DATABRICKS",
+		"DB2_I",
 		"DB2_ZOS",
 		"ELASTICSEARCH",
 		"GOOGLE_ALLOY_DB_FOR_POSTGRESQL",

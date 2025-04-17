@@ -136,7 +136,7 @@ func (client ConfigMgmtClient) deleteTenancyConfiguration(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyConfigurationSummary/DeleteTenancyConfiguration"
 		err = common.PostProcessServiceError(err, "ConfigMgmt", "DeleteTenancyConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +190,7 @@ func (client ConfigMgmtClient) listProfiles(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ProfileCollection/ListProfiles"
 		err = common.PostProcessServiceError(err, "ConfigMgmt", "ListProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -244,7 +244,7 @@ func (client ConfigMgmtClient) listTenancyConfigurations(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/MapTenancyConfigurationCollection/ListTenancyConfigurations"
 		err = common.PostProcessServiceError(err, "ConfigMgmt", "ListTenancyConfigurations", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client ConfigMgmtClient) mapTenancyConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CreateMapTenancyConfiguration/MapTenancyConfiguration"
 		err = common.PostProcessServiceError(err, "ConfigMgmt", "MapTenancyConfiguration", apiReferenceLink)
 		return response, err
 	}

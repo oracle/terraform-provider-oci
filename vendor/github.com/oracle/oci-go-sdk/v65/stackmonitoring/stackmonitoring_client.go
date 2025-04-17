@@ -3264,7 +3264,7 @@ func (client StackMonitoringClient) listDefinedMonitoringTemplates(ctx context.C
 	return response, err
 }
 
-// ListDiagnosticActions Get a list of configurations in a compartment.
+// ListDiagnosticActions API to get the all the current diagnosticActions
 // A default retry strategy applies to this operation ListDiagnosticActions()
 func (client StackMonitoringClient) ListDiagnosticActions(ctx context.Context, request ListDiagnosticActionsRequest) (response ListDiagnosticActionsResponse, err error) {
 	var ociResponse common.OCIResponse
