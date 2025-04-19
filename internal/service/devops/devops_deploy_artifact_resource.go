@@ -5,7 +5,6 @@ package devops
 
 import (
 	"context"
-	b64 "encoding/base64"
 	"fmt"
 	"log"
 	"strings"
@@ -733,7 +732,7 @@ func DeployArtifactSourceToMap(obj *oci_devops.DeployArtifactSource) map[string]
 
 		if v.Base64EncodedContent != nil {
 			contentReader := v.Base64EncodedContent
-			result["base64encoded_content"] = DevopsDeployArtifactBase64Decode(contentReader)
+			result["base64encoded_content"] = string(contentReader)
 		}
 	case oci_devops.OcirDeployArtifactSource:
 		result["deploy_artifact_source_type"] = "OCIR"
@@ -880,9 +879,4 @@ func VerificationKeySourceToMap(obj *oci_devops.VerificationKeySource) map[strin
 	}
 
 	return result
-}
-
-func DevopsDeployArtifactBase64Decode(content []byte) string {
-	text := b64.StdEncoding.EncodeToString(content)
-	return text
 }
