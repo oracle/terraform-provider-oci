@@ -256,6 +256,65 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								},
 							},
 						},
+						"block_volume_attach_and_mount_operations": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"attachments": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"block_volume_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"volume_attachment_reference_instance_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"mounts": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"mount_point": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"block_volume_operations": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -322,12 +381,43 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"common_destination_key": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"vault_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"bucket": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
 						"destination_availability_domain": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_backup_policy_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -347,12 +437,43 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"destination_encryption_key": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"vault_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"destination_load_balancer_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
 						"destination_network_load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_snapshot_policy_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -565,6 +686,51 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"source_volume_to_destination_encryption_key_mappings": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"destination_encryption_key": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"encryption_key_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"vault_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"source_volume_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"vault_mappings": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -673,6 +839,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 										Computed: true,
 									},
 									"destination_primary_private_ip_hostname_label": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"destination_reserved_public_ip_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -1308,6 +1479,11 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceMova
 		result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
 	}
 
+	if destinationReservedPublicIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_reserved_public_ip_id")); ok {
+		tmp := destinationReservedPublicIpId.(string)
+		result.DestinationReservedPublicIpId = &tmp
+	}
+
 	if destinationSubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_subnet_id")); ok {
 		tmp := destinationSubnetId.(string)
 		result.DestinationSubnetId = &tmp
@@ -1332,6 +1508,10 @@ func ComputeInstanceMovableVnicMappingDetailsToMap(obj oci_disaster_recovery.Com
 
 	if obj.DestinationPrimaryPrivateIpHostnameLabel != nil {
 		result["destination_primary_private_ip_hostname_label"] = string(*obj.DestinationPrimaryPrivateIpHostnameLabel)
+	}
+
+	if obj.DestinationReservedPublicIpId != nil {
+		result["destination_reserved_public_ip_id"] = string(*obj.DestinationReservedPublicIpId)
 	}
 
 	if obj.DestinationSubnetId != nil {
@@ -1552,6 +1732,182 @@ func ComputeInstanceMovableFileSystemOperationToMap(obj oci_disaster_recovery.Co
 	return result
 }
 
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails, error) {
+	result := oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails{}
+
+	if attachments, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attachments")); ok {
+		interfaces := attachments.([]interface{})
+		tmp := make([]oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeAttachOperationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "attachments"), stateDataIndex)
+			converted, err := s.mapToCreateComputeInstanceNonMovableBlockVolumeAttachOperationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "attachments")) {
+			result.Attachments = tmp
+		}
+	}
+
+	if mounts, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mounts")); ok {
+		interfaces := mounts.([]interface{})
+		tmp := make([]oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeMountOperationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mounts"), stateDataIndex)
+			converted, err := s.mapToCreateComputeInstanceNonMovableBlockVolumeMountOperationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "mounts")) {
+			result.Mounts = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails, error) {
+	result := oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails{}
+
+	if attachments, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attachments")); ok {
+		interfaces := attachments.([]interface{})
+		tmp := make([]oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "attachments"), stateDataIndex)
+			converted, err := s.mapToUpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "attachments")) {
+			result.Attachments = tmp
+		}
+	}
+
+	if mounts, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mounts")); ok {
+		interfaces := mounts.([]interface{})
+		tmp := make([]oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mounts"), stateDataIndex)
+			converted, err := s.mapToUpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "mounts")) {
+			result.Mounts = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetailsToMap(obj *oci_disaster_recovery.ComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	attachments := []interface{}{}
+	for _, item := range obj.Attachments {
+		attachments = append(attachments, ComputeInstanceNonMovableBlockVolumeAttachOperationDetailsToMap(item))
+	}
+	result["attachments"] = attachments
+
+	mounts := []interface{}{}
+	for _, item := range obj.Mounts {
+		mounts = append(mounts, ComputeInstanceNonMovableBlockVolumeMountOperationDetailsToMap(item))
+	}
+	result["mounts"] = mounts
+
+	return result
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateComputeInstanceNonMovableBlockVolumeAttachOperationDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeAttachOperationDetails, error) {
+	result := oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeAttachOperationDetails{}
+
+	if blockVolumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_id")); ok {
+		tmp := blockVolumeId.(string)
+		result.BlockVolumeId = &tmp
+	}
+
+	if volumeAttachmentReferenceInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_attachment_reference_instance_id")); ok {
+		tmp := volumeAttachmentReferenceInstanceId.(string)
+		result.VolumeAttachmentReferenceInstanceId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetails, error) {
+	result := oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetails{}
+
+	if blockVolumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_id")); ok {
+		tmp := blockVolumeId.(string)
+		result.BlockVolumeId = &tmp
+	}
+
+	if volumeAttachmentReferenceInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_attachment_reference_instance_id")); ok {
+		tmp := volumeAttachmentReferenceInstanceId.(string)
+		result.VolumeAttachmentReferenceInstanceId = &tmp
+	}
+
+	return result, nil
+}
+
+func ComputeInstanceNonMovableBlockVolumeAttachOperationDetailsToMap(obj oci_disaster_recovery.ComputeInstanceNonMovableBlockVolumeAttachOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BlockVolumeId != nil {
+		result["block_volume_id"] = string(*obj.BlockVolumeId)
+	}
+
+	if obj.VolumeAttachmentReferenceInstanceId != nil {
+		result["volume_attachment_reference_instance_id"] = string(*obj.VolumeAttachmentReferenceInstanceId)
+	}
+
+	return result
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateComputeInstanceNonMovableBlockVolumeMountOperationDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeMountOperationDetails, error) {
+	result := oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeMountOperationDetails{}
+
+	if mountPoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_point")); ok {
+		tmp := mountPoint.(string)
+		result.MountPoint = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails, error) {
+	result := oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails{}
+
+	if mountPoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_point")); ok {
+		tmp := mountPoint.(string)
+		result.MountPoint = &tmp
+	}
+
+	return result, nil
+}
+
+func ComputeInstanceNonMovableBlockVolumeMountOperationDetailsToMap(obj oci_disaster_recovery.ComputeInstanceNonMovableBlockVolumeMountOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MountPoint != nil {
+		result["mount_point"] = string(*obj.MountPoint)
+	}
+
+	return result
+}
+
 func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateComputeInstanceNonMovableBlockVolumeOperationDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeOperationDetails, error) {
 	result := oci_disaster_recovery.CreateComputeInstanceNonMovableBlockVolumeOperationDetails{}
 
@@ -1648,7 +2004,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 	}
 	switch strings.ToLower(memberType) {
 	case strings.ToLower("AUTONOMOUS_CONTAINER_DATABASE"):
-		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
 		if connectionStringType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_string_type")); ok {
 			details.ConnectionStringType = oci_disaster_recovery.AutonomousContainerDatabaseSnapshotStandbyConnectionStringTypeEnum(connectionStringType.(string))
 		}
@@ -1658,15 +2014,24 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		}
 		baseObject = details
 	case strings.ToLower("AUTONOMOUS_DATABASE"):
-		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberAutonomousDatabaseDetails{}
 		if autonomousDatabaseStandbyTypeForDrDrills, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autonomous_database_standby_type_for_dr_drills")); ok {
 			details.AutonomousDatabaseStandbyTypeForDrDrills = oci_disaster_recovery.AutonomousDatabaseStandbyTypeForDrDrillsEnum(autonomousDatabaseStandbyTypeForDrDrills.(string))
+		}
+		if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
+			if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
+				tmp, err := s.mapToCreateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert destination_encryption_key, encountered error: %v", err)
+				}
+				details.DestinationEncryptionKey = &tmp
+			}
 		}
 		if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
 			tmp := passwordVaultSecretId.(string)
 			details.PasswordVaultSecretId = &tmp
 		}
-		details = oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
 			details.MemberId = &tmp
@@ -1821,6 +2186,22 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		if destinationAvailabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_availability_domain")); ok {
 			tmp := destinationAvailabilityDomain.(string)
 			details.DestinationAvailabilityDomain = &tmp
+		}
+		if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
+			if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
+				tmp, err := s.mapToCreateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert destination_encryption_key, encountered error: %v", err)
+				}
+				details.DestinationEncryptionKey = &tmp
+			}
+		}
+		if destinationSnapshotPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_snapshot_policy_id")); ok {
+			tmp := destinationSnapshotPolicyId.(string)
+			if tmp != "" {
+				details.DestinationSnapshotPolicyId = &tmp
+			}
 		}
 		if exportMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_mappings")); ok {
 			interfaces := exportMappings.([]interface{})
@@ -2074,6 +2455,16 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 				details.AutonomousDatabaseStandbyTypeForDrDrills = oci_disaster_recovery.AutonomousDatabaseStandbyTypeForDrDrillsEnum(tmp)
 			}
 		}
+		if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
+			if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
+				tmp, err := s.mapToUpdateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert destination_encryption_key, encountered error: %v", err)
+				}
+				details.DestinationEncryptionKey = &tmp
+			}
+		}
 		if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
 			tmp := passwordVaultSecretId.(string)
 			if tmp != "" {
@@ -2193,6 +2584,16 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 		baseObject = details
 	case strings.ToLower("COMPUTE_INSTANCE_NON_MOVABLE"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
+		if blockVolumeAttachAndMountOperations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_attach_and_mount_operations")); ok {
+			if tmpList := blockVolumeAttachAndMountOperations.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "block_volume_attach_and_mount_operations"), 0)
+				tmp, err := s.mapToUpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert block_volume_attach_and_mount_operations, encountered error: %v", err)
+				}
+				details.BlockVolumeAttachAndMountOperations = &tmp
+			}
+		}
 		if blockVolumeOperations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_operations")); ok {
 			interfaces := blockVolumeOperations.([]interface{})
 			tmp := make([]oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeOperationDetails, len(interfaces))
@@ -2257,6 +2658,22 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			tmp := destinationAvailabilityDomain.(string)
 			if tmp != "" {
 				details.DestinationAvailabilityDomain = &tmp
+			}
+		}
+		if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
+			if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
+				tmp, err := s.mapToUpdateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert destination_encryption_key, encountered error: %v", err)
+				}
+				details.DestinationEncryptionKey = &tmp
+			}
+		}
+		if destinationSnapshotPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_snapshot_policy_id")); ok {
+			tmp := destinationSnapshotPolicyId.(string)
+			if tmp != "" {
+				details.DestinationSnapshotPolicyId = &tmp
 			}
 		}
 		if exportMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_mappings")); ok {
@@ -2488,6 +2905,36 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
+		if commonDestinationKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "common_destination_key")); ok {
+			if tmpList := commonDestinationKey.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "common_destination_key"), 0)
+				tmp, err := s.mapToUpdateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert common_destination_key, encountered error: %v", err)
+				}
+				details.CommonDestinationKey = &tmp
+			}
+		}
+		if destinationBackupPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_backup_policy_id")); ok {
+			tmp := destinationBackupPolicyId.(string)
+			details.DestinationBackupPolicyId = &tmp
+		}
+		if sourceVolumeToDestinationEncryptionKeyMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings")); ok {
+			interfaces := sourceVolumeToDestinationEncryptionKeyMappings.([]interface{})
+			tmp := make([]oci_disaster_recovery.UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings"), stateDataIndex)
+				converted, err := s.mapToUpdateSourceVolumeToDestinationEncryptionKeyMappingDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings")) {
+				details.SourceVolumeToDestinationEncryptionKeyMappings = tmp
+			}
+		}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
 			details.MemberId = &tmp
@@ -2515,6 +2962,10 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 		result["member_type"] = "AUTONOMOUS_DATABASE"
 
 		result["autonomous_database_standby_type_for_dr_drills"] = string(v.AutonomousDatabaseStandbyTypeForDrDrills)
+
+		if v.DestinationEncryptionKey != nil {
+			result["destination_encryption_key"] = []interface{}{VaultAndEncryptionKeyToMap(v.DestinationEncryptionKey)}
+		}
 
 		if v.PasswordVaultSecretId != nil {
 			result["password_vault_secret_id"] = string(*v.PasswordVaultSecretId)
@@ -2584,6 +3035,10 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 	case oci_disaster_recovery.DrProtectionGroupMemberComputeInstanceNonMovable:
 		result["member_type"] = "COMPUTE_INSTANCE_NON_MOVABLE"
 
+		if v.BlockVolumeAttachAndMountOperations != nil {
+			result["block_volume_attach_and_mount_operations"] = []interface{}{ComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetailsToMap(v.BlockVolumeAttachAndMountOperations)}
+		}
+
 		blockVolumeOperations := []interface{}{}
 		for _, item := range v.BlockVolumeOperations {
 			blockVolumeOperations = append(blockVolumeOperations, ComputeInstanceNonMovableBlockVolumeOperationToMap(item))
@@ -2618,6 +3073,14 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 
 		if v.DestinationAvailabilityDomain != nil {
 			result["destination_availability_domain"] = string(*v.DestinationAvailabilityDomain)
+		}
+
+		if v.DestinationEncryptionKey != nil {
+			result["destination_encryption_key"] = []interface{}{VaultAndEncryptionKeyToMap(v.DestinationEncryptionKey)}
+		}
+
+		if v.DestinationSnapshotPolicyId != nil {
+			result["destination_snapshot_policy_id"] = string(*v.DestinationSnapshotPolicyId)
 		}
 
 		exportMappings := []interface{}{}
@@ -2675,7 +3138,7 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)
 		}
-
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberOkeClusterDetails:
 	case oci_disaster_recovery.DrProtectionGroupMemberOkeCluster:
 		result["member_type"] = "OKE_CLUSTER"
 
@@ -2731,6 +3194,20 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 
 	case oci_disaster_recovery.DrProtectionGroupMemberVolumeGroup:
 		result["member_type"] = "VOLUME_GROUP"
+
+		if v.CommonDestinationKey != nil {
+			result["common_destination_key"] = []interface{}{VaultAndEncryptionKeyToMap(v.CommonDestinationKey)}
+		}
+
+		if v.DestinationBackupPolicyId != nil {
+			result["destination_backup_policy_id"] = string(*v.DestinationBackupPolicyId)
+		}
+
+		sourceVolumeToDestinationEncryptionKeyMappings := []interface{}{}
+		for _, item := range v.SourceVolumeToDestinationEncryptionKeyMappings {
+			sourceVolumeToDestinationEncryptionKeyMappings = append(sourceVolumeToDestinationEncryptionKeyMappings, SourceVolumeToDestinationEncryptionKeyMappingToMap(item))
+		}
+		result["source_volume_to_destination_encryption_key_mappings"] = sourceVolumeToDestinationEncryptionKeyMappings
 
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)
@@ -3271,6 +3748,126 @@ func OkeClusterVirtualNodePoolConfigurationToMap(obj oci_disaster_recovery.OkeCl
 	return result
 }
 
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateSourceVolumeToDestinationEncryptionKeyMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateSourceVolumeToDestinationEncryptionKeyMappingDetails, error) {
+	result := oci_disaster_recovery.CreateSourceVolumeToDestinationEncryptionKeyMappingDetails{}
+
+	if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
+		if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
+			tmp, err := s.mapToCreateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert destination_encryption_key, encountered error: %v", err)
+			}
+			if tmp.EncryptionKeyId != nil || tmp.VaultId != nil {
+				result.DestinationEncryptionKey = &tmp
+			}
+		}
+	}
+
+	if sourceVolumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_volume_id")); ok {
+		tmp := sourceVolumeId.(string)
+		if tmp != "" {
+			result.SourceVolumeId = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateSourceVolumeToDestinationEncryptionKeyMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails, error) {
+	result := oci_disaster_recovery.UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails{}
+
+	if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
+		if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
+			tmp, err := s.mapToUpdateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert destination_encryption_key, encountered error: %v", err)
+			}
+			if tmp.EncryptionKeyId != nil || tmp.VaultId != nil {
+				result.DestinationEncryptionKey = &tmp
+			}
+		}
+	}
+
+	if sourceVolumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_volume_id")); ok {
+		tmp := sourceVolumeId.(string)
+		if tmp != "" {
+			result.SourceVolumeId = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func SourceVolumeToDestinationEncryptionKeyMappingToMap(obj oci_disaster_recovery.SourceVolumeToDestinationEncryptionKeyMapping) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DestinationEncryptionKey != nil {
+		result["destination_encryption_key"] = []interface{}{VaultAndEncryptionKeyToMap(obj.DestinationEncryptionKey)}
+	}
+
+	if obj.SourceVolumeId != nil {
+		result["source_volume_id"] = string(*obj.SourceVolumeId)
+	}
+
+	return result
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateVaultAndEncryptionKeyDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateVaultAndEncryptionKeyDetails, error) {
+	result := oci_disaster_recovery.CreateVaultAndEncryptionKeyDetails{}
+
+	if encryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_id")); ok {
+		tmp := encryptionKeyId.(string)
+		if tmp != "" {
+			result.EncryptionKeyId = &tmp
+		}
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		if tmp != "" {
+			result.VaultId = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateVaultAndEncryptionKeyDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateVaultAndEncryptionKeyDetails, error) {
+	result := oci_disaster_recovery.UpdateVaultAndEncryptionKeyDetails{}
+
+	if encryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_id")); ok {
+		tmp := encryptionKeyId.(string)
+		if tmp != "" {
+			result.EncryptionKeyId = &tmp
+		}
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		if tmp != "" {
+			result.VaultId = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func VaultAndEncryptionKeyToMap(obj *oci_disaster_recovery.VaultAndEncryptionKey) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EncryptionKeyId != nil {
+		result["encryption_key_id"] = string(*obj.EncryptionKeyId)
+	}
+
+	if obj.VaultId != nil {
+		result["vault_id"] = string(*obj.VaultId)
+	}
+
+	return result
+}
+
 func DrProtectionGroupSummaryToMap(obj oci_disaster_recovery.DrProtectionGroupSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3471,6 +4068,48 @@ func UpdateComputeInstanceMovableFileSystemOperationDetailsToMap(obj oci_disaste
 
 	if obj.UnmountDetails != nil {
 		result["unmount_details"] = []interface{}{UpdateFileSystemUnmountDetailsToMap(obj.UnmountDetails)}
+	}
+
+	return result
+}
+
+func UpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetailsToMap(obj *oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	attachments := []interface{}{}
+	for _, item := range obj.Attachments {
+		attachments = append(attachments, UpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetailsToMap(item))
+	}
+	result["attachments"] = attachments
+
+	mounts := []interface{}{}
+	for _, item := range obj.Mounts {
+		mounts = append(mounts, UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetailsToMap(item))
+	}
+	result["mounts"] = mounts
+
+	return result
+}
+
+func UpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetailsToMap(obj oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeAttachOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BlockVolumeId != nil {
+		result["block_volume_id"] = string(*obj.BlockVolumeId)
+	}
+
+	if obj.VolumeAttachmentReferenceInstanceId != nil {
+		result["volume_attachment_reference_instance_id"] = string(*obj.VolumeAttachmentReferenceInstanceId)
+	}
+
+	return result
+}
+
+func UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetailsToMap(obj oci_disaster_recovery.UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MountPoint != nil {
+		result["mount_point"] = string(*obj.MountPoint)
 	}
 
 	return result
@@ -3688,66 +4327,33 @@ func UpdateOkeClusterVirtualNodePoolConfigurationDetailsToMap(obj oci_disaster_r
 	return result
 }
 
-/*func (s *DisasterRecoveryDrProtectionGroupResourceCrud) populateTopLevelPolymorphicUpdateDrProtectionGroupRequest(request *oci_disaster_recovery.UpdateDrProtectionGroupRequest) error {
-	//discriminator
-	typeRaw, ok := s.D.GetOkExists("type")
-	var type_ string
-	if ok {
-		type_ = typeRaw.(string)
-	} else {
-		type_ = "" // default value
+func UpdateSourceVolumeToDestinationEncryptionKeyMappingDetailsToMap(obj oci_disaster_recovery.UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DestinationEncryptionKey != nil {
+		result["destination_encryption_key"] = []interface{}{UpdateVaultAndEncryptionKeyDetailsToMap(obj.DestinationEncryptionKey)}
 	}
-	switch strings.ToLower(type_) {
-	case strings.ToLower("DEFAULT"):
-		details := oci_disaster_recovery.DisassociateDrProtectionGroupDefaultDetails{}
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		tmp := s.D.Id()
-		request.DrProtectionGroupId = &tmp
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		if logLocation, ok := s.D.GetOkExists("log_location"); ok {
-			if tmpList := logLocation.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "log_location", 0)
-				tmp, err := s.mapToUpdateObjectStorageLogLocationDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.LogLocation = &tmp
-			}
-		}
-		if members, ok := s.D.GetOkExists("members"); ok {
-			interfaces := members.([]interface{})
-			tmp := make([]oci_disaster_recovery.UpdateDrProtectionGroupMemberDetails, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "members", stateDataIndex)
-				converted, err := s.mapToUpdateDrProtectionGroupMemberDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("members") {
-				details.Members = tmp
-			}
-		}
-		request.DisassociateDrProtectionGroupDetails = details
-	default:
-		return fmt.Errorf("unknown type '%v' was specified", type_)
+
+	if obj.SourceVolumeId != nil {
+		result["source_volume_id"] = string(*obj.SourceVolumeId)
 	}
-	return nil
-}*/
+
+	return result
+}
+
+func UpdateVaultAndEncryptionKeyDetailsToMap(obj *oci_disaster_recovery.UpdateVaultAndEncryptionKeyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EncryptionKeyId != nil {
+		result["encryption_key_id"] = string(*obj.EncryptionKeyId)
+	}
+
+	if obj.VaultId != nil {
+		result["vault_id"] = string(*obj.VaultId)
+	}
+
+	return result
+}
 
 func (s *DisasterRecoveryDrProtectionGroupResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_disaster_recovery.ChangeDrProtectionGroupCompartmentRequest{}
