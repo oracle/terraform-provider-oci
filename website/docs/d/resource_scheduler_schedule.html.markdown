@@ -39,6 +39,7 @@ The following attributes are exported:
 * `display_name` - This is a user-friendly name for the schedule. It does not have to be unique, and it's changeable.
 * `freeform_tags` - These are free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule
+* `last_run_status` - This is the status of the last work request.
 * `recurrence_details` - This is the frequency of recurrence of a schedule. The frequency field can either conform to RFC-5545 formatting or UNIX cron formatting for recurrences, based on the value specified by the recurrenceType field. 
 * `recurrence_type` - Type of recurrence of a schedule
 * `resource_filters` - This is a list of resources filters.  The schedule will be applied to resources matching all of them.
@@ -54,6 +55,11 @@ The following attributes are exported:
 	* `metadata` - This is additional information that helps to identity the resource for the schedule.
 
 		{ "id": "<OCID_of_bucket>" "metadata": { "namespaceName": "sampleNamespace", "bucketName": "sampleBucket" } } 
+	* `parameters` - This is the user input parameters to use when acting on the resource.
+
+		{ "parameters": [ { "parameterType": "BODY", "value": { "ip": "192.168.44.44", "memory": "1024", "synced_folders": [ { "host_path": "data/", "guest_path": "/var/www", "type": "default" } ], "forwarded_ports": [] } }, { "parameterType": "PATH", "value": { "compartmentId": "ocid1.compartment.oc1..xxxxx", "instanceId": "ocid1.vcn.oc1..yyyy" } }, { "parameterType": "QUERY", "value": { "limit": "10", "tenantId": "ocid1.tenant.oc1..zzzz" } }, { "parameterType": "HEADER", "value": { "token": "xxxx" } } ] } 
+		* `parameter_type` - This is the parameter type on which the input parameter is defined
+		* `value` - This is the HTTP request header value.
 * `state` - This is the current state of a schedule.
 * `system_tags` - These are system tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - This is the date and time the schedule was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

@@ -73,11 +73,11 @@ variable "schedule_state" {
 }
 
 variable "schedule_time_ends" {
-  default = "2024-12-20T00:00:00Z"
+  default = "2025-12-31T00:00:00Z"
 }
 
 variable "schedule_time_starts" {
-  default = "2024-12-01T00:00:00Z"
+  default = "2025-05-01T00:00:00Z"
 }
 
 
@@ -124,7 +124,7 @@ resource "oci_resource_scheduler_schedule" "test_schedule" {
   }
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.schedule_defined_tags_value)
+#   defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.schedule_defined_tags_value)
   description   = var.schedule_description
   display_name  = var.schedule_display_name
   freeform_tags = var.schedule_freeform_tags
