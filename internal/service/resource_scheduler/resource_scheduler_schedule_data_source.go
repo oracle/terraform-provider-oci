@@ -87,6 +87,8 @@ func (s *ResourceSchedulerScheduleDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("last_run_status", s.Res.LastRunStatus)
+
 	if s.Res.RecurrenceDetails != nil {
 		s.D.Set("recurrence_details", *s.Res.RecurrenceDetails)
 	}
