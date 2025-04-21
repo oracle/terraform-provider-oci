@@ -26,6 +26,10 @@ func ResourceSchedulerSchedulesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"schedule_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,11 @@ func (s *ResourceSchedulerSchedulesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
+		tmp := resourceId.(string)
+		request.ResourceId = &tmp
 	}
 
 	if scheduleId, ok := s.D.GetOkExists("id"); ok {
