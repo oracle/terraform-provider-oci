@@ -85,6 +85,7 @@ The following attributes are exported:
 		* `time_ended` - The time when execution ended. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
 		* `time_started` - The time when step execution began. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
 		* `type` - The step type. 
+		* `type_display_name` - The display name of the DR Plan step type.  Example: `Database Switchover` 
 	* `time_ended` - The time when group execution ended. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
 	* `time_started` - The time when group execution began. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
 	* `type` - The group type.  Example: `BUILT_IN` 
