@@ -58,8 +58,8 @@ var (
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Switchover from PHX to IAD`, Update: `displayName2`},
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_peer.id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `SWITCHOVER`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		//"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		//"source_plan_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_source_plan.test_source_plan.id}`},
 		"refresh_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 		"verify_trigger":  acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
@@ -70,8 +70,8 @@ var (
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Switchover from PHX to IAD`, Update: `displayName2`},
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_peer.id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `SWITCHOVER`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		//"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		//"source_plan_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_source_plan.test_source_plan.id}`},
 		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DefinedTagsIgnoreRepresentation},
 	}
@@ -97,11 +97,10 @@ var (
 	`
 
 	DisasterRecoveryDrPlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
-		OKEClusterDependencyConfig +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		AvailabilityDomainConfig
+	//DefinedTagsDependencies
 )
 
 // issue-routing-tag: disaster_recovery/default
@@ -239,7 +238,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
 				//resource.TestCheckResourceAttrSet(resourceName, "source_plan_id"),
-				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -272,7 +271,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
 				//resource.TestCheckResourceAttrSet(resourceName, "source_plan_id"),
-				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -339,7 +338,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 		},
 		// Disassociate DrProtectionGroup
 		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanResourceDependencies +
+			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
 				DrProtectionGroupWithDisassociateTriggerConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {

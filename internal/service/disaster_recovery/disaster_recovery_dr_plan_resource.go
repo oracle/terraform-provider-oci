@@ -169,6 +169,10 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"type_display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"user_defined_step": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -965,6 +969,10 @@ func DrPlanStepToMap(obj oci_disaster_recovery.DrPlanStep) map[string]interface{
 
 	result["type"] = string(obj.Type)
 
+	if obj.TypeDisplayName != nil {
+		result["type_display_name"] = string(*obj.TypeDisplayName)
+	}
+
 	if obj.UserDefinedStep != nil {
 		userDefinedStepArray := []interface{}{}
 		if userDefinedStepMap := DrPlanUserDefinedStepToMap(&obj.UserDefinedStep); userDefinedStepMap != nil {
@@ -1128,6 +1136,17 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 	case strings.ToLower("INVOKE_FUNCTION_PRECHECK"):
 		details := oci_disaster_recovery.UpdateInvokeFunctionPrecheckStepDetails{}
 		baseObject = details
+	case strings.ToLower("INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK"):
+		details := oci_disaster_recovery.UpdateInvokeFunctionUserDefinedCustomPrecheckStepDetails{}
+		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
+			tmp := functionId.(string)
+			details.FunctionId = &tmp
+		}
+		if requestBody, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_body")); ok {
+			tmp := requestBody.(string)
+			details.RequestBody = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("RUN_LOCAL_SCRIPT"):
 		details := oci_disaster_recovery.UpdateRunLocalScriptUserDefinedStepDetails{}
 		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
@@ -1145,6 +1164,21 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 		baseObject = details
 	case strings.ToLower("RUN_LOCAL_SCRIPT_PRECHECK"):
 		details := oci_disaster_recovery.UpdateLocalScriptPrecheckStepDetails{}
+		baseObject = details
+	case strings.ToLower("RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK"):
+		details := oci_disaster_recovery.UpdateRunLocalScriptUserDefinedCustomPrecheckStepDetails{}
+		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
+			tmp := runAsUser.(string)
+			details.RunAsUser = &tmp
+		}
+		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
+			tmp := runOnInstanceId.(string)
+			details.RunOnInstanceId = &tmp
+		}
+		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
+			tmp := scriptCommand.(string)
+			details.ScriptCommand = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT"):
 		details := oci_disaster_recovery.UpdateRunObjectStoreScriptUserDefinedStepDetails{}
@@ -1165,6 +1199,23 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 		baseObject = details
 	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT_PRECHECK"):
 		details := oci_disaster_recovery.UpdateObjectStoreScriptPrecheckStepDetails{}
+		baseObject = details
+	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK"):
+		details := oci_disaster_recovery.UpdateRunObjectStoreScriptUserDefinedCustomPrecheckStepDetails{}
+		if objectStorageScriptLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_script_location")); ok {
+			if tmpList := objectStorageScriptLocation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_script_location"), 0)
+				tmp, err := s.mapToUpdateObjectStorageScriptLocationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert object_storage_script_location, encountered error: %v", err)
+				}
+				details.ObjectStorageScriptLocation = &tmp
+			}
+		}
+		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
+			tmp := runOnInstanceId.(string)
+			details.RunOnInstanceId = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
@@ -1187,6 +1238,16 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 		}
 	case oci_disaster_recovery.UpdateInvokeFunctionPrecheckStepDetails:
 		result["step_type"] = "INVOKE_FUNCTION_PRECHECK"
+	case oci_disaster_recovery.UpdateInvokeFunctionUserDefinedCustomPrecheckStepDetails:
+		result["step_type"] = "INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK"
+
+		if v.FunctionId != nil {
+			result["function_id"] = string(*v.FunctionId)
+		}
+
+		if v.RequestBody != nil {
+			result["request_body"] = string(*v.RequestBody)
+		}
 	case oci_disaster_recovery.UpdateRunLocalScriptUserDefinedStepDetails:
 		result["step_type"] = "RUN_LOCAL_SCRIPT"
 
@@ -1203,6 +1264,20 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 		}
 	case oci_disaster_recovery.UpdateLocalScriptPrecheckStepDetails:
 		result["step_type"] = "RUN_LOCAL_SCRIPT_PRECHECK"
+	case oci_disaster_recovery.UpdateRunLocalScriptUserDefinedCustomPrecheckStepDetails:
+		result["step_type"] = "RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK"
+
+		if v.RunAsUser != nil {
+			result["run_as_user"] = string(*v.RunAsUser)
+		}
+
+		if v.RunOnInstanceId != nil {
+			result["run_on_instance_id"] = string(*v.RunOnInstanceId)
+		}
+
+		if v.ScriptCommand != nil {
+			result["script_command"] = string(*v.ScriptCommand)
+		}
 	case oci_disaster_recovery.UpdateRunObjectStoreScriptUserDefinedStepDetails:
 		result["step_type"] = "RUN_OBJECTSTORE_SCRIPT"
 
@@ -1215,6 +1290,16 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 		}
 	case oci_disaster_recovery.UpdateObjectStoreScriptPrecheckStepDetails:
 		result["step_type"] = "RUN_OBJECTSTORE_SCRIPT_PRECHECK"
+	case oci_disaster_recovery.UpdateRunObjectStoreScriptUserDefinedCustomPrecheckStepDetails:
+		result["step_type"] = "RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK"
+
+		if v.ObjectStorageScriptLocation != nil {
+			result["object_storage_script_location"] = []interface{}{UpdateObjectStorageScriptLocationDetailsToMap(v.ObjectStorageScriptLocation)}
+		}
+
+		if v.RunOnInstanceId != nil {
+			result["run_on_instance_id"] = string(*v.RunOnInstanceId)
+		}
 	default:
 		log.Printf("[WARN] Received 'step_type' of unknown type %v", *obj)
 		return nil
