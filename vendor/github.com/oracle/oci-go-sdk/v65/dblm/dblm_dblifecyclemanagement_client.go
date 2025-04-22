@@ -154,6 +154,64 @@ func (client DbLifeCycleManagementClient) createVulnerabilityScan(ctx context.Co
 	return response, err
 }
 
+// GetPatchManagement Overview of Patch Management.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dblm/GetPatchManagement.go.html to see an example of how to use GetPatchManagement API.
+// A default retry strategy applies to this operation GetPatchManagement()
+func (client DbLifeCycleManagementClient) GetPatchManagement(ctx context.Context, request GetPatchManagementRequest) (response GetPatchManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPatchManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPatchManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPatchManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPatchManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPatchManagementResponse")
+	}
+	return
+}
+
+// getPatchManagement implements the OCIOperation interface (enables retrying operations)
+func (client DbLifeCycleManagementClient) getPatchManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/patchManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPatchManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetPatchManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetVulnerability Gets a Vulnerability
 //
 // # See also
@@ -379,6 +437,64 @@ func (client DbLifeCycleManagementClient) listAggregatedVulnerabilityData(ctx co
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListAggregatedVulnerabilityData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabases Gets the list of databases
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dblm/ListDatabases.go.html to see an example of how to use ListDatabases API.
+// A default retry strategy applies to this operation ListDatabases()
+func (client DbLifeCycleManagementClient) ListDatabases(ctx context.Context, request ListDatabasesRequest) (response ListDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabasesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabasesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabasesResponse")
+	}
+	return
+}
+
+// listDatabases implements the OCIOperation interface (enables retrying operations)
+func (client DbLifeCycleManagementClient) listDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/patchManagement/databases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListDatabases", apiReferenceLink)
 		return response, err
 	}
 

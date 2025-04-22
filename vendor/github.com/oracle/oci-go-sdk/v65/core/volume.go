@@ -110,6 +110,9 @@ type Volume struct {
 
 	// The list of autotune policies enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
+
+	// Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
+	IsReservationsEnabled *bool `mandatory:"false" json:"isReservationsEnabled"`
 }
 
 func (m Volume) String() string {
@@ -148,6 +151,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		AutoTunedVpusPerGB      *int64                            `json:"autoTunedVpusPerGB"`
 		BlockVolumeReplicas     []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
 		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
+		IsReservationsEnabled   *bool                             `json:"isReservationsEnabled"`
 		AvailabilityDomain      *string                           `json:"availabilityDomain"`
 		CompartmentId           *string                           `json:"compartmentId"`
 		DisplayName             *string                           `json:"displayName"`
@@ -208,6 +212,8 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 			m.AutotunePolicies[i] = nil
 		}
 	}
+	m.IsReservationsEnabled = model.IsReservationsEnabled
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

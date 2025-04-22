@@ -17,28 +17,27 @@ import (
 	"strings"
 )
 
-// NodeEvictionNodePoolSettings Node Eviction Details configuration
-type NodeEvictionNodePoolSettings struct {
+// Image Describes image metadata.
+type Image struct {
 
-	// Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain.
-	// Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
-	EvictionGraceDuration *string `mandatory:"false" json:"evictionGraceDuration"`
+	// The Oracle Cloud ID (OCID) that uniquely identifies the image.
+	Id *string `mandatory:"false" json:"id"`
 
-	// If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
-	IsForceDeleteAfterGraceDuration *bool `mandatory:"false" json:"isForceDeleteAfterGraceDuration"`
+	// The OCID of the compartment that the image was created in.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// If the node action should be performed if not all the pods can be evicted in the grace period
-	IsForceActionAfterGraceDuration *bool `mandatory:"false" json:"isForceActionAfterGraceDuration"`
+	// A friendly user-specified name for the image.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 
-func (m NodeEvictionNodePoolSettings) String() string {
+func (m Image) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NodeEvictionNodePoolSettings) ValidateEnumValue() (bool, error) {
+func (m Image) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
