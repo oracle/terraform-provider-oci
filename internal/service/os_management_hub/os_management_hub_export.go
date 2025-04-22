@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	//tf_export.RegisterCompartmentGraphs("os_management_hub", osManagementHubResourceGraph)
+	tf_export.RegisterCompartmentGraphs("os_management_hub", osManagementHubResourceGraph)
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -286,15 +286,4 @@ var osManagementHubResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOsManagementHubSoftwareSourceHints},
 		{TerraformResourceHints: exportOsManagementHubEventHints},
 	},
-	/*
-		Below code is causing infinite loop in resource discovery
-		"oci_os_management_hub_software_source": {
-			{
-				TerraformResourceHints: exportOsManagementHubSoftwareSourceHints,
-				DatasourceQueryParams: map[string]string{
-					"software_source_id": "id",
-				},
-			},
-		},
-	*/
 }
