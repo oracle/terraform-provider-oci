@@ -1,3 +1,13 @@
+## 6.36.0 (Unreleased)
+
+### Added
+- Support for public network access control.
+- Support for DBM: Database Life Cycle Management (Externally Registered Database Patching)
+### Bug Fix
+- core instance resource security_attributes documentation
+- Exacs dbHome, pdb, cvm bug fixes
+- zpr provider updates
+
 ## 6.35.0 (Unreleased)
 
 ### Added
