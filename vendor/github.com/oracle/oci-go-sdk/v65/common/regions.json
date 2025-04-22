@@ -580,5 +580,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-boardman-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "kqq",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-desmoines-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
