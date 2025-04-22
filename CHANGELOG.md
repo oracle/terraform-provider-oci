@@ -1,6 +1,11 @@
 ## 6.36.0 (Unreleased)
 
 ### Added
+- Support for iSCSI-3 Persistant Reservation for Block Volume
+
+## 6.36.0 (Unreleased)
+
+### Added
 - Support for public network access control.
 - Support for DBM: Database Life Cycle Management (Externally Registered Database Patching)
 ### Bug Fix
