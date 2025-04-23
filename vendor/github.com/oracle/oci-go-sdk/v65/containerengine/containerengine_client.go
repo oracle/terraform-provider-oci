@@ -2268,6 +2268,132 @@ func (client ContainerEngineClient) listWorkloadMappings(ctx context.Context, re
 	return response, err
 }
 
+// RebootClusterNode perform reboot action to node in cluster
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/RebootClusterNode.go.html to see an example of how to use RebootClusterNode API.
+// A default retry strategy applies to this operation RebootClusterNode()
+func (client ContainerEngineClient) RebootClusterNode(ctx context.Context, request RebootClusterNodeRequest) (response RebootClusterNodeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rebootClusterNode, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RebootClusterNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RebootClusterNodeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RebootClusterNodeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RebootClusterNodeResponse")
+	}
+	return
+}
+
+// rebootClusterNode implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) rebootClusterNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/nodes/{nodeId}/actions/reboot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RebootClusterNodeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/RebootClusterNode"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "RebootClusterNode", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReplaceBootVolumeClusterNode perform cycle action to node in cluster
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ReplaceBootVolumeClusterNode.go.html to see an example of how to use ReplaceBootVolumeClusterNode API.
+// A default retry strategy applies to this operation ReplaceBootVolumeClusterNode()
+func (client ContainerEngineClient) ReplaceBootVolumeClusterNode(ctx context.Context, request ReplaceBootVolumeClusterNodeRequest) (response ReplaceBootVolumeClusterNodeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.replaceBootVolumeClusterNode, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplaceBootVolumeClusterNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplaceBootVolumeClusterNodeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplaceBootVolumeClusterNodeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplaceBootVolumeClusterNodeResponse")
+	}
+	return
+}
+
+// replaceBootVolumeClusterNode implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) replaceBootVolumeClusterNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/nodes/{nodeId}/actions/replaceBootVolume", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReplaceBootVolumeClusterNodeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ReplaceBootVolumeClusterNode"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ReplaceBootVolumeClusterNode", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartCredentialRotation Start cluster credential rotation by adding new credentials, old credentials will still work after this operation.
 //
 // # See also

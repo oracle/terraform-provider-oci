@@ -33,6 +33,7 @@ var (
 		"function_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_function.test_function.id}`},
 		"invoke_function_body": acctest.Representation{RepType: acctest.Optional, Create: `{\"name\":\"Bob\"}`},
 		"fn_intent":            acctest.Representation{RepType: acctest.Optional, Create: `httprequest`},
+		"is_dry_run":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"fn_invoke_type":       acctest.Representation{RepType: acctest.Optional, Create: `sync`},
 	}
 
@@ -47,38 +48,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig +
-		`
-	resource "oci_core_security_list" "test_security_list" {
-		compartment_id = "${var.compartment_id}"
-		egress_security_rules {
-    		destination = "0.0.0.0/0"
-    		protocol    = "6"
-  		}
-		ingress_security_rules {
-			protocol = "1"
-			source = "10.0.1.0/24"
-		}
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
-	}
+		KeyResourceDependencyConfig
 
-	resource "oci_core_subnet" "test_subnet" {
-		availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
-		cidr_block = "10.0.0.0/16"
-		compartment_id = "${var.compartment_id}"
-		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
-		dhcp_options_id = "${oci_core_dhcp_options.test_dhcp_options.id}"
-		display_name = "tf-subnet"
-		dns_label = "dnslabel"
-		freeform_tags = {
-			"Department" = "Accounting"
-		}
-		prohibit_public_ip_on_vnic = "false"
-		route_table_id = "${oci_core_route_table.test_route_table.id}"
-		security_list_ids = ["${oci_core_security_list.test_security_list.id}"]
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
-	}
-	`
 	sourceFile *os.File
 )
 
@@ -103,7 +74,6 @@ func createTmpSourceFile() (string, error) {
 
 // issue-routing-tag: functions/default
 func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
-	t.Skip("Skipping test until functions support async life cycle state transitions.")
 
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestFunctionsInvokeFunctionResource_basic in HttpReplay mode till json encoding is fixed.")
@@ -143,7 +113,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Required, acctest.Create, FunctionsInvokeFunctionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
-				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 World\"}\n"),
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\": \"Hello World\"}"),
 			),
 		},
 
@@ -156,7 +126,13 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create, FunctionsInvokeFunctionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+				resource.TestCheckResourceAttr(resourceName, "invoke_function_body", "{\"name\":\"Bob\"}"),
+				resource.TestCheckResourceAttr(resourceName, "fn_intent", "httprequest"),
+				resource.TestCheckResourceAttr(resourceName, "fn_invoke_type", "sync"),
+				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_dry_run", "false"),
+
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\": \"Hello Bob\"}"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -174,7 +150,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("fn_intent", acctest.Representation{RepType: acctest.Optional, Create: `cloudevent`}, FunctionsInvokeFunctionRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\": \"Hello Bob\"}"),
 			),
 		},
 		// verify Create with optionals
@@ -203,7 +179,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 						"input_body_source_path": acctest.Representation{RepType: acctest.Optional, Create: sourceFilePath},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\": \"Hello Bob\"}"),
 			),
 		},
 		// verify Create with base64 encoded input
@@ -214,7 +190,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 						"invoke_function_body_base64_encoded": acctest.Representation{RepType: acctest.Optional, Create: "eyJuYW1lIjoiQm9iIn0="},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\": \"Hello Bob\"}"),
 			),
 		},
 		// verify base64 encoded content
@@ -225,7 +201,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 						"base64_encode_content": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "content", "eyJtZXNzYWdlIjoiSGVsbG8gdjMgQm9iIn0K"),
+				resource.TestCheckResourceAttr(resourceName, "content", "eyJtZXNzYWdlIjogIkhlbGxvIEJvYiJ9"),
 			),
 		},
 	})

@@ -1,3 +1,69 @@
+## 6.36.0 (April 23, 2025)
+
+### Added
+- Support for iSCSI-3 Persistant Reservation for Block Volume
+- Support for public network access control.
+- Support for DBM: Database Life Cycle Management (Externally Registered Database Patching)
+### Bug Fix
+- core instance resource security_attributes documentation
+- Exacs dbHome, pdb, cvm bug fixes
+
+## 6.35.0 (April 16, 2025)
+
+### Added
+- Support for Add Cross-AD DR for GGS deployment in a multi-AD region
+- Security Attributes feature to Load Balancer Service
+### Bug Fix
+- Container Instance HTTP health check port field set to required
+- Fix for privateenpointip and displayName params in update
+- For for zpr provider updates
+
+## 6.34.0 (April 09, 2025)
+
+### Added
+- Support for New API header property to support Dry Run of Function Invocation
+- Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
+- Support for Ekm-Xrr
+- Support for Connector Source/Targets with Private Endpoints
+- Support for VCNIP - IP Lifetime support and related feature
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
+## 6.34.0 (April 09, 2025)
+
+### Added
+- Support for New API header property to support Dry Run of Function Invocation
+- Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
+- Support for Ekm-Xrr
+- Support for Connector Source/Targets with Private Endpoints
+- Support for VCNIP - IP Lifetime support and related feature
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
+## 6.33.0 (April 02, 2025)
+
+### Added
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+- Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
 ## 6.32.0 (March 26, 2025)
 
 ### Added

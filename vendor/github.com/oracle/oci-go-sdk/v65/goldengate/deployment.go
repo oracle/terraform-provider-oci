@@ -53,6 +53,25 @@ type Deployment struct {
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The availability domain of a placement.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// The fault domain of a placement.
+	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
+	// The type of the deployment role.
+	DeploymentRole DeploymentRoleEnum `mandatory:"false" json:"deploymentRole,omitempty"`
+
+	// The time of the last role change. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeRoleChanged *common.SDKTime `mandatory:"false" json:"timeRoleChanged"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
+	SourceDeploymentId *string `mandatory:"false" json:"sourceDeploymentId"`
+
+	// An array of local peers of deployment
+	Placements []DeploymentPlacementInfo `mandatory:"false" json:"placements"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced.
 	DeploymentBackupId *string `mandatory:"false" json:"deploymentBackupId"`
 
@@ -201,6 +220,9 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDeploymentRoleEnum(string(m.DeploymentRole)); !ok && m.DeploymentRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentRole: %s. Supported values are: %s.", m.DeploymentRole, strings.Join(GetDeploymentRoleEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}

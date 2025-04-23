@@ -118,6 +118,12 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"shape_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -372,6 +378,11 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedAttributes
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.ShapeName = &tmp
@@ -527,12 +538,14 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 	request.LoadBalancerId = &tmp
 
 	if requestIdHeader, ok := s.D.GetOkExists("request_id_header"); ok {
-		if requestIdHeader != nil {
-			tmp := requestIdHeader.(string)
-			request.RequestIdHeader = &tmp
-		}
+		tmp := requestIdHeader.(string)
+		request.RequestIdHeader = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedAttributes
+	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.UpdateLoadBalancer(context.Background(), request)
@@ -647,6 +660,8 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 	if s.Res.RequestIdHeader != nil {
 		s.D.Set("request_id_header", *s.Res.RequestIdHeader)
 	}
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape", *s.Res.ShapeName)

@@ -58,7 +58,6 @@ resource "oci_visual_builder_vb_instance" "test_vb_instance" {
   freeform_tags = {
     "bar-key" = "value"
   }
-
 }
 
 data "oci_visual_builder_vb_instances" "test_vb_instances" {

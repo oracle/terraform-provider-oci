@@ -141,33 +141,36 @@ type ListServiceConnectorsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListServiceConnectorsLifecycleStateEnum
 const (
-	ListServiceConnectorsLifecycleStateCreating ListServiceConnectorsLifecycleStateEnum = "CREATING"
-	ListServiceConnectorsLifecycleStateUpdating ListServiceConnectorsLifecycleStateEnum = "UPDATING"
-	ListServiceConnectorsLifecycleStateActive   ListServiceConnectorsLifecycleStateEnum = "ACTIVE"
-	ListServiceConnectorsLifecycleStateInactive ListServiceConnectorsLifecycleStateEnum = "INACTIVE"
-	ListServiceConnectorsLifecycleStateDeleting ListServiceConnectorsLifecycleStateEnum = "DELETING"
-	ListServiceConnectorsLifecycleStateDeleted  ListServiceConnectorsLifecycleStateEnum = "DELETED"
-	ListServiceConnectorsLifecycleStateFailed   ListServiceConnectorsLifecycleStateEnum = "FAILED"
+	ListServiceConnectorsLifecycleStateCreating       ListServiceConnectorsLifecycleStateEnum = "CREATING"
+	ListServiceConnectorsLifecycleStateUpdating       ListServiceConnectorsLifecycleStateEnum = "UPDATING"
+	ListServiceConnectorsLifecycleStateActive         ListServiceConnectorsLifecycleStateEnum = "ACTIVE"
+	ListServiceConnectorsLifecycleStateInactive       ListServiceConnectorsLifecycleStateEnum = "INACTIVE"
+	ListServiceConnectorsLifecycleStateNeedsAttention ListServiceConnectorsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListServiceConnectorsLifecycleStateDeleting       ListServiceConnectorsLifecycleStateEnum = "DELETING"
+	ListServiceConnectorsLifecycleStateDeleted        ListServiceConnectorsLifecycleStateEnum = "DELETED"
+	ListServiceConnectorsLifecycleStateFailed         ListServiceConnectorsLifecycleStateEnum = "FAILED"
 )
 
 var mappingListServiceConnectorsLifecycleStateEnum = map[string]ListServiceConnectorsLifecycleStateEnum{
-	"CREATING": ListServiceConnectorsLifecycleStateCreating,
-	"UPDATING": ListServiceConnectorsLifecycleStateUpdating,
-	"ACTIVE":   ListServiceConnectorsLifecycleStateActive,
-	"INACTIVE": ListServiceConnectorsLifecycleStateInactive,
-	"DELETING": ListServiceConnectorsLifecycleStateDeleting,
-	"DELETED":  ListServiceConnectorsLifecycleStateDeleted,
-	"FAILED":   ListServiceConnectorsLifecycleStateFailed,
+	"CREATING":        ListServiceConnectorsLifecycleStateCreating,
+	"UPDATING":        ListServiceConnectorsLifecycleStateUpdating,
+	"ACTIVE":          ListServiceConnectorsLifecycleStateActive,
+	"INACTIVE":        ListServiceConnectorsLifecycleStateInactive,
+	"NEEDS_ATTENTION": ListServiceConnectorsLifecycleStateNeedsAttention,
+	"DELETING":        ListServiceConnectorsLifecycleStateDeleting,
+	"DELETED":         ListServiceConnectorsLifecycleStateDeleted,
+	"FAILED":          ListServiceConnectorsLifecycleStateFailed,
 }
 
 var mappingListServiceConnectorsLifecycleStateEnumLowerCase = map[string]ListServiceConnectorsLifecycleStateEnum{
-	"creating": ListServiceConnectorsLifecycleStateCreating,
-	"updating": ListServiceConnectorsLifecycleStateUpdating,
-	"active":   ListServiceConnectorsLifecycleStateActive,
-	"inactive": ListServiceConnectorsLifecycleStateInactive,
-	"deleting": ListServiceConnectorsLifecycleStateDeleting,
-	"deleted":  ListServiceConnectorsLifecycleStateDeleted,
-	"failed":   ListServiceConnectorsLifecycleStateFailed,
+	"creating":        ListServiceConnectorsLifecycleStateCreating,
+	"updating":        ListServiceConnectorsLifecycleStateUpdating,
+	"active":          ListServiceConnectorsLifecycleStateActive,
+	"inactive":        ListServiceConnectorsLifecycleStateInactive,
+	"needs_attention": ListServiceConnectorsLifecycleStateNeedsAttention,
+	"deleting":        ListServiceConnectorsLifecycleStateDeleting,
+	"deleted":         ListServiceConnectorsLifecycleStateDeleted,
+	"failed":          ListServiceConnectorsLifecycleStateFailed,
 }
 
 // GetListServiceConnectorsLifecycleStateEnumValues Enumerates the set of values for ListServiceConnectorsLifecycleStateEnum
@@ -186,6 +189,7 @@ func GetListServiceConnectorsLifecycleStateEnumStringValues() []string {
 		"UPDATING",
 		"ACTIVE",
 		"INACTIVE",
+		"NEEDS_ATTENTION",
 		"DELETING",
 		"DELETED",
 		"FAILED",

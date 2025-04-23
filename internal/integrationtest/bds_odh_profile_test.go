@@ -21,7 +21,7 @@ var (
 	bdsInstanceRepresentation = map[string]interface{}{
 		"cluster_admin_password":  acctest.Representation{RepType: acctest.Required, Create: `T3JhY2xlVGVhbVVTQSExMjM=`},
 		"cluster_public_key":      acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com`},
-		"cluster_version":         acctest.Representation{RepType: acctest.Required, Create: `ODH1`},
+		"cluster_version":         acctest.Representation{RepType: acctest.Required, Create: `ODH2_0`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName`},
 		"is_high_availability":    acctest.Representation{RepType: acctest.Required, Create: `true`},
@@ -40,7 +40,7 @@ var (
 	}
 
 	bdsInstanceNodeGenericShapeRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.Generic`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E5.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
@@ -48,15 +48,15 @@ var (
 	}
 
 	bdsInstanceNodesWorkerRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.Generic`, Update: `VM.Standard.Generic`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E5.Flex`, Update: `VM.Standard.E5.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
+		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`, Update: `300`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `3`},
 		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
 
 	bdsInstanceEdgeNodeRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.Generic`, Update: `VM.Standard.Generic`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E5.Flex`, Update: `VM.Standard.E5.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
@@ -90,7 +90,7 @@ var (
 	}
 
 	kafkaBrokerNodeGenericShapeRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.Generic`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E5.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_kafka_nodes":    acctest.Representation{RepType: acctest.Required, Create: `1`},
@@ -105,6 +105,12 @@ var (
 	addBrokerRepresentation = acctest.RepresentationCopyWithNewProperties(kafkaBrokerNodeGenericShapeRepresentation,
 		map[string]interface{}{
 			"number_of_kafka_nodes": acctest.Representation{RepType: acctest.Required, Create: `4`},
+		})
+
+	addBlockStorageRepresentation = acctest.RepresentationCopyWithNewProperties(kafkaBrokerNodeGenericShapeRepresentation,
+		map[string]interface{}{
+			"number_of_kafka_nodes":    acctest.Representation{RepType: acctest.Required, Create: `4`},
+			"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `300`},
 		})
 )
 
@@ -159,7 +165,7 @@ func TestBdsOdhProfile(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttr(resourceName, "cluster_profile", "HBASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -210,7 +216,7 @@ func TestBdsOdhProfile(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
@@ -238,7 +244,7 @@ func TestBdsOdhProfile(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
@@ -265,7 +271,7 @@ func TestBdsOdhProfile(t *testing.T) {
 			),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "false"),
@@ -294,7 +300,7 @@ func TestBdsOdhProfile(t *testing.T) {
 			),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
@@ -318,7 +324,31 @@ func TestBdsOdhProfile(t *testing.T) {
 			),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+
+		// Add block storage to kafka Broker
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `KAFKA`, Update: `KAFKA`},
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: addBlockStorageRepresentation},
+				}),
+			),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
@@ -348,7 +378,7 @@ func TestBdsOdhProfile(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttr(resourceName, "cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -400,7 +430,7 @@ func TestBdsOdhProfile(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
@@ -433,7 +463,7 @@ func TestBdsOdhProfile(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_profile", "HADOOP"),
-				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.freeform_tags.%", "1"),
@@ -474,7 +504,7 @@ func TestBdsOdhProfile(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_profile", "HADOOP"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bd_cell_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bds_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.csql_cell_version"),

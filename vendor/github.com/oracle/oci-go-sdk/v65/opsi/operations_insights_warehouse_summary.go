@@ -29,7 +29,7 @@ type OperationsInsightsWarehouseSummary struct {
 	// User-friedly name of Ops Insights Warehouse that does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Number of OCPUs allocated to OPSI Warehouse ADW.
+	// Number of CPUs allocated to OPSI Warehouse ADW.
 	CpuAllocated *float64 `mandatory:"true" json:"cpuAllocated"`
 
 	// The time at which the resource was first created. An RFC3339 formatted datetime string
@@ -40,6 +40,9 @@ type OperationsInsightsWarehouseSummary struct {
 
 	// Possible lifecycle states
 	LifecycleState OperationsInsightsWarehouseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The compute model for the OPSI warehouse ADW (OCPU or ECPU)
+	ComputeModel OperationsInsightsWarehouseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// Number of OCPUs used by OPSI Warehouse ADW. Can be fractional.
 	CpuUsed *float64 `mandatory:"false" json:"cpuUsed"`
@@ -88,6 +91,9 @@ func (m OperationsInsightsWarehouseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOperationsInsightsWarehouseLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOperationsInsightsWarehouseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetOperationsInsightsWarehouseComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

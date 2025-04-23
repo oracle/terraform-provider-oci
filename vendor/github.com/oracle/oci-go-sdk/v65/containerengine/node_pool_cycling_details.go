@@ -30,8 +30,11 @@ type NodePoolCyclingDetails struct {
 	// Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100%
 	MaximumSurge *string `mandatory:"false" json:"maximumSurge"`
 
-	// If nodes in the nodepool will be cycled to have new changes.
+	// If cycling operation should be performed on the nodes in the node pool.
 	IsNodeCyclingEnabled *bool `mandatory:"false" json:"isNodeCyclingEnabled"`
+
+	// An ordered list of cycle modes that should be performed on the OKE nodes.
+	CycleModes []CycleModeEnum `mandatory:"false" json:"cycleModes"`
 }
 
 func (m NodePoolCyclingDetails) String() string {

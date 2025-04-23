@@ -50,6 +50,7 @@ The following attributes are exported:
 * `id` - The OCID of the volume.
 * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
+* `is_reservations_enabled` - Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 * `kms_key_id` - The OCID of the Vault service key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 

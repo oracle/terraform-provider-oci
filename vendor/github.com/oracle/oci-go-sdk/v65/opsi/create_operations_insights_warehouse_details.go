@@ -26,8 +26,11 @@ type CreateOperationsInsightsWarehouseDetails struct {
 	// User-friedly name of Ops Insights Warehouse that does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Number of OCPUs allocated to OPSI Warehouse ADW.
+	// Number of CPUs allocated to OPSI Warehouse ADW.
 	CpuAllocated *float64 `mandatory:"true" json:"cpuAllocated"`
+
+	// The compute model for the OPSI warehouse ADW (OCPU or ECPU)
+	ComputeModel OperationsInsightsWarehouseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// Storage allocated to OPSI Warehouse ADW.
 	StorageAllocatedInGBs *float64 `mandatory:"false" json:"storageAllocatedInGBs"`
@@ -51,6 +54,9 @@ func (m CreateOperationsInsightsWarehouseDetails) String() string {
 func (m CreateOperationsInsightsWarehouseDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingOperationsInsightsWarehouseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetOperationsInsightsWarehouseComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

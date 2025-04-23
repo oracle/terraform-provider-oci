@@ -72,6 +72,9 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("backup_schedule", nil)
 	}
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
 
 	s.D.Set("category", s.Res.Category)
 
@@ -97,6 +100,8 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("deployment_diagnostic_data", nil)
 	}
 
+	s.D.Set("deployment_role", s.Res.DeploymentRole)
+
 	s.D.Set("deployment_type", s.Res.DeploymentType)
 
 	if s.Res.DeploymentUrl != nil {
@@ -112,6 +117,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("environment_type", s.Res.EnvironmentType)
+
+	if s.Res.FaultDomain != nil {
+		s.D.Set("fault_domain", *s.Res.FaultDomain)
+	}
 
 	if s.Res.Fqdn != nil {
 		s.D.Set("fqdn", *s.Res.Fqdn)
@@ -193,12 +202,22 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("ogg_data", nil)
 	}
 
+	placements := []interface{}{}
+	for _, item := range s.Res.Placements {
+		placements = append(placements, DeploymentPlacementInfoToMap(item))
+	}
+	s.D.Set("placements", placements)
+
 	if s.Res.PrivateIpAddress != nil {
 		s.D.Set("private_ip_address", *s.Res.PrivateIpAddress)
 	}
 
 	if s.Res.PublicIpAddress != nil {
 		s.D.Set("public_ip_address", *s.Res.PublicIpAddress)
+	}
+
+	if s.Res.SourceDeploymentId != nil {
+		s.D.Set("source_deployment_id", *s.Res.SourceDeploymentId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -233,6 +252,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.TimeOggVersionSupportedUntil != nil {
 		s.D.Set("time_ogg_version_supported_until", s.Res.TimeOggVersionSupportedUntil.String())
+	}
+
+	if s.Res.TimeRoleChanged != nil {
+		s.D.Set("time_role_changed", s.Res.TimeRoleChanged.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

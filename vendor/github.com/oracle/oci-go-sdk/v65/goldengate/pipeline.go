@@ -55,6 +55,8 @@ type Pipeline interface {
 	// Metadata about this specific object.
 	GetDescription() *string
 
+	GetPipelineDiagnosticData() *PipelineDiagnosticData
+
 	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
 	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -84,6 +86,7 @@ type Pipeline interface {
 type pipeline struct {
 	JsonData                []byte
 	Description             *string                           `mandatory:"false" json:"description"`
+	PipelineDiagnosticData  *PipelineDiagnosticData           `mandatory:"false" json:"pipelineDiagnosticData"`
 	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags              map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -127,6 +130,7 @@ func (m *pipeline) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.Description = s.Model.Description
+	m.PipelineDiagnosticData = s.Model.PipelineDiagnosticData
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -160,6 +164,11 @@ func (m *pipeline) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 // GetDescription returns Description
 func (m pipeline) GetDescription() *string {
 	return m.Description
+}
+
+// GetPipelineDiagnosticData returns PipelineDiagnosticData
+func (m pipeline) GetPipelineDiagnosticData() *PipelineDiagnosticData {
+	return m.PipelineDiagnosticData
 }
 
 // GetFreeformTags returns FreeformTags

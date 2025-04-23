@@ -149,6 +149,11 @@ func CoreVolumeResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_reservations_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -435,6 +440,11 @@ func (s *CoreVolumeResourceCrud) Create() error {
 		request.IsAutoTuneEnabled = &tmp
 	}
 
+	if isReservationsEnabled, ok := s.D.GetOkExists("is_reservations_enabled"); ok {
+		tmp := isReservationsEnabled.(bool)
+		request.IsReservationsEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -596,6 +606,10 @@ func (s *CoreVolumeResourceCrud) Update() error {
 		request.IsAutoTuneEnabled = &tmp
 	}
 
+	if isReservationsEnabled, ok := s.D.GetOkExists("is_reservations_enabled"); ok {
+		tmp := isReservationsEnabled.(bool)
+		request.IsReservationsEnabled = &tmp
+	}
 	if s.D.HasChange("kms_key_id") {
 		keyUpdateRequest := oci_core.UpdateVolumeKmsKeyRequest{}
 
@@ -702,6 +716,10 @@ func (s *CoreVolumeResourceCrud) SetData() error {
 
 	if s.Res.IsHydrated != nil {
 		s.D.Set("is_hydrated", *s.Res.IsHydrated)
+	}
+
+	if s.Res.IsReservationsEnabled != nil {
+		s.D.Set("is_reservations_enabled", *s.Res.IsReservationsEnabled)
 	}
 
 	if s.Res.KmsKeyId != nil {
