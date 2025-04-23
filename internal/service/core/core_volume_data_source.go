@@ -113,6 +113,10 @@ func (s *CoreVolumeDataSourceCrud) SetData() error {
 		s.D.Set("is_hydrated", *s.Res.IsHydrated)
 	}
 
+	if s.Res.IsReservationsEnabled != nil {
+		s.D.Set("is_reservations_enabled", *s.Res.IsReservationsEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}

@@ -56,6 +56,7 @@ resource "oci_core_volume" "test_volume" {
 	display_name = var.volume_display_name
 	freeform_tags = {"Department"= "Finance"}
 	is_auto_tune_enabled = var.volume_is_auto_tune_enabled
+	is_reservations_enabled = var.volume_is_reservations_enabled
 	kms_key_id = oci_kms_key.test_key.id
 	size_in_gbs = var.volume_size_in_gbs
 	size_in_mbs = var.volume_size_in_mbs
@@ -95,6 +96,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+* `is_reservations_enabled` - (Optional) (Updatable) Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead. 
@@ -142,6 +144,7 @@ The following attributes are exported:
 * `id` - The OCID of the volume.
 * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
+* `is_reservations_enabled` - Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume. 
 * `kms_key_id` - The OCID of the Vault service key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 

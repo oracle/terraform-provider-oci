@@ -374,6 +374,8 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.EncryptionKeyLocationDetails != nil {
 		s.D.Set("encryption_key_location_details", []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")})
+	} else {
+		s.D.Set("encryption_key_location_details", nil)
 	}
 
 	if s.Res.KeyStoreId != nil {
