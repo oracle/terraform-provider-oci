@@ -1,4 +1,4 @@
-## 6.36.0 (Unreleased)
+## 6.36.0 (April 23, 2025)
 
 ### Added
 - Support for iSCSI-3 Persistant Reservation for Block Volume
