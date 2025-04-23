@@ -26,6 +26,9 @@ type NodeEvictionNodePoolSettings struct {
 
 	// If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 	IsForceDeleteAfterGraceDuration *bool `mandatory:"false" json:"isForceDeleteAfterGraceDuration"`
+
+	// If the node action should be performed if not all the pods can be evicted in the grace period
+	IsForceActionAfterGraceDuration *bool `mandatory:"false" json:"isForceActionAfterGraceDuration"`
 }
 
 func (m NodeEvictionNodePoolSettings) String() string {

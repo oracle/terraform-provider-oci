@@ -47,7 +47,7 @@ variable "cloud_vm_cluster_cpu_core_count" {
 }
 
 variable "cloud_vm_cluster_ocpu_count" {
-  default = "8.0"
+  default = "16.0"
 }
 
 variable "cloud_vm_cluster_gi_version" {

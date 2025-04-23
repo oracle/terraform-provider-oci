@@ -6,6 +6,8 @@ package dblm
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_dblm_patch_management", DblmPatchManagementDataSource())
+	tfresource.RegisterDatasource("oci_dblm_patch_management_databases", DblmPatchManagementDatabasesDataSource())
 	tfresource.RegisterDatasource("oci_dblm_vulnerability", DblmVulnerabilityDataSource())
 	tfresource.RegisterDatasource("oci_dblm_vulnerability_aggregated_vulnerability_data", DblmVulnerabilityAggregatedVulnerabilityDataDataSource())
 	tfresource.RegisterDatasource("oci_dblm_vulnerability_notifications", DblmVulnerabilityNotificationsDataSource())
