@@ -195,6 +195,7 @@ resource "oci_database_migration_migration" "test_migration" {
 		}
 	}
 	source_container_database_connection_id = oci_database_migration_connection.test_connection.id
+	source_standby_database_connection_id = oci_database_migration_connection.test_connection.id
 }
 ```
 
@@ -301,6 +302,7 @@ The following arguments are supported:
     * `target_type` - (Required) (Updatable) Type of Database Base Migration Target.
 * `source_container_database_connection_id` - (Applicable when database_combination=ORACLE) (Updatable) The OCID of the resource being referenced.
 * `source_database_connection_id` - (Required) (Updatable) The OCID of the resource being referenced.
+* `source_standby_database_connection_id` - (Applicable when database_combination=ORACLE) (Updatable) The OCID of the resource being referenced.
 * `target_database_connection_id` - (Required) (Updatable) The OCID of the resource being referenced.
 * `type` - (Required) (Updatable) The type of the migration to be performed. Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
 
@@ -403,6 +405,7 @@ The following attributes are exported:
 * `lifecycle_details` - Additional status related to the execution and current state of the Migration.
 * `source_container_database_connection_id` - The OCID of the resource being referenced.
 * `source_database_connection_id` - The OCID of the resource being referenced.
+* `source_standby_database_connection_id` - The OCID of the resource being referenced.
 * `state` - The current state of the Migration resource.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `target_database_connection_id` - The OCID of the resource being referenced.

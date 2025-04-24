@@ -125,6 +125,7 @@ The following attributes are exported:
 * `lifecycle_details` - Additional status related to the execution and current state of the Migration.
 * `source_container_database_connection_id` - The OCID of the resource being referenced.
 * `source_database_connection_id` - The OCID of the resource being referenced.
+* `source_standby_database_connection_id` - The OCID of the resource being referenced.
 * `state` - The current state of the Migration resource.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `target_database_connection_id` - The OCID of the resource being referenced.
