@@ -23,26 +23,11 @@ resource "oci_database_migration_connection" "test_connection_rds_source" {
   replication_username="replicationUsername"
 }
 
-resource "oci_database_migration_connection" "test_connection_rds_target" {
-  compartment_id = var.compartment_id
-  display_name = "TF_display_test_rds_target"
-  connection_type = "ORACLE"
-  key_id = var.kms_key_id
-  vault_id = var.kms_vault_id
-  database_id = var.database_autonomous_id
-  password = "BEstrO0ng_#11"
-  technology_type = "OCI_AUTONOMOUS_DATABASE"
-  username = "ggfe"
-  replication_password="replicationPassword"
-  replication_username="replicationUsername"
-  subnet_id = var.subnet_id
-}
-
 resource "oci_database_migration_migration" "test_oracle_rds_migration" {
   compartment_id = var.compartment_id
   database_combination = "ORACLE"
   source_database_connection_id = oci_database_migration_connection.test_connection_rds_source.id
-  target_database_connection_id = oci_database_migration_connection.test_connection_rds_target.id
+  target_database_connection_id = oci_database_migration_connection.test_connection_autonomous_target.id
 
   data_transfer_medium_details {
     type = "AWS_S3"

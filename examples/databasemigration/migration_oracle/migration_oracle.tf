@@ -2,66 +2,43 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
+  default = ""
 }
 
 variable "user_ocid" {
+  default = ""
 }
 
 variable "fingerprint" {
+  default = ""
 }
 
 variable "region" {
+  default = ""
 }
 
 variable "private_key_path" {
-}
-
-variable "compartment_ocid" {
+  default = ""
 }
 
 variable "kms_key_id" {
+  default = ""
 }
 
 variable "kms_vault_id" {
-}
-
-variable "ssh_public_keys" {
+  default = ""
 }
 
 variable "compartment_id" {
+  default = ""
 }
 
 variable "database_id" {
+  default = ""
 }
 
 variable "subnet_id" {
-}
-
-variable "vcn_id" {
-}
-
-variable "source_connection_id"{
-}
-
-variable "source_connection_container_id"{
-}
-
-variable "target_connection_id"{
-}
-
-variable "ssh_key" {
-}
-
-variable "src_database_id" {
-}
-
-variable "tgt_database_id" {
-}
-
-variable "bucket_id" {
-}
-
-variable "source_connection_rds_id" {
+  default = ""
 }
 
 variable "connection_string" {
@@ -88,19 +65,15 @@ variable "source_connection_container_oracle_id" {
   default = ""
 }
 
+variable "source_connection_standby_oracle_id"{
+  default = ""
+}
+
 variable "target_connection_oracle_id" {
   default = ""
 }
 
 variable "bucket_oracle_id" {
-  default = ""
-}
-
-variable "connection_pdb_string" {
-  default = ""
-}
-
-variable "connection_cdb_string" {
   default = ""
 }
 
@@ -187,6 +160,7 @@ resource "oci_database_migration_migration" "test_oracle_migration" {
   compartment_id = var.compartment_id
   database_combination = "ORACLE"
   source_database_connection_id = oci_database_migration_connection.test_connection_pdb_source.id
+  source_standby_database_connection_id = var.source_connection_standby_oracle_id
   source_container_database_connection_id = oci_database_migration_connection.test_connection_cdb_source.id
   target_database_connection_id = oci_database_migration_connection.test_connection_autonomous_target.id
   advanced_parameters {
