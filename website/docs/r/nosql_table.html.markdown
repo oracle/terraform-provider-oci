@@ -42,7 +42,7 @@ resource "oci_nosql_table" "test_table" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier.
-* `ddl_statement` - (Required) (Updatable) Complete CREATE TABLE DDL statement. When update ddl_statement, it should be ALTER TABLE DDL statement.
+* `ddl_statement` - (Required) (Updatable) CREATE TABLE DDL statement. While updating an existing table, note that the column order should not be changed, and new columns can only be appended at the end of the table.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace": {"bar-key": "value"}}` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_auto_reclaimable` - (Optional) True if table can be reclaimed after an idle period.

@@ -33,8 +33,9 @@ func NosqlTableResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				DiffSuppressFunc: compartmentIdSuppressFunction,
 			},
 			"ddl_statement": {
 				Type:             schema.TypeString,
@@ -1032,6 +1033,22 @@ func tableLimitsSuppressFunction(k string, old string, new string, d *schema.Res
 				k == fmt.Sprintf(fieldKeyFormat, "max_write_units") {
 				return true
 			}
+		}
+	}
+	return false
+}
+
+func compartmentIdSuppressFunction(k string, old string, new string, d *schema.ResourceData) bool {
+	if tableName, ok := d.GetOkExists("name"); ok {
+		/*
+		 * Ignore changing compartmentId for child table
+		 */
+		if strings.Contains(tableName.(string), ".") {
+			if old != "" {
+				log.Printf(" Suppress compartmentId change to the child table %s from %s to %s",
+					tableName, old, new)
+			}
+			return (old != "")
 		}
 	}
 	return false
