@@ -75,6 +75,18 @@ func TestNosqlTableReplicaResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "region", "ca-montreal-1"),
 				resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
+				resource.TestCheckResourceAttr(resourceName, "max_write_units", "10"),
+			),
+		},
+
+		// update the max_read_units/max_write_units of the resource, the changes should be ignored
+		{
+			Config: config + compartmentIdVariableStr + NosqlTableReplicaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table_replica", "test_table_replica", acctest.Optional, acctest.Create, NosqlTableReplicaRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "region", "ca-montreal-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
+				resource.TestCheckResourceAttr(resourceName, "max_write_units", "10"),
 			),
 		},
 

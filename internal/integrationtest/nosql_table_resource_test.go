@@ -102,6 +102,9 @@ func TestNosqlTableResource_test(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	ondemandResourceName := "oci_nosql_table.test_ondemand"
 	ondemandDatasourceName := "data.oci_nosql_tables.test_tables"
 	ondemandSingularDatasourceName := "data.oci_nosql_table.test_ondemand"
@@ -240,7 +243,22 @@ func TestNosqlTableResource_test(t *testing.T) {
 					resource.TestCheckResourceAttr(childResourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(childResourceName, "ddl_statement", childTableDdlStatement),
 					resource.TestCheckResourceAttr(childResourceName, "name", "test_table.test_child"),
-					resource.TestCheckNoResourceAttr(childResourceName, "table_limits"),
+					resource.TestCheckResourceAttr(childResourceName, "table_limits.#", "0"),
+				),
+			},
+
+			// verify updating compartment of the child table will be ignored
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ChildTableResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_child", acctest.Required, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(childTableRepresentation, map[string]interface{}{
+							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(childResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(childResourceName, "ddl_statement", childTableDdlStatement),
+					resource.TestCheckResourceAttr(childResourceName, "name", "test_table.test_child"),
+					resource.TestCheckResourceAttr(childResourceName, "table_limits.#", "0"),
 				),
 			},
 
@@ -257,7 +275,7 @@ func TestNosqlTableResource_test(t *testing.T) {
 					resource.TestCheckResourceAttrSet(childDataResourceName, "table_collection.0.id"),
 					resource.TestCheckResourceAttr(childDataResourceName, "table_collection.0.name", "test_table.test_child"),
 					resource.TestCheckResourceAttr(childDataResourceName, "table_collection.0.state", "ACTIVE"),
-					resource.TestCheckNoResourceAttr(childDataResourceName, "table_limits"),
+					resource.TestCheckResourceAttr(childDataResourceName, "table_limits.#", "0"),
 				),
 			},
 
@@ -276,7 +294,7 @@ func TestNosqlTableResource_test(t *testing.T) {
 					resource.TestCheckResourceAttr(singularChildDatasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(singularChildDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularChildDatasourceName, "time_updated"),
-					resource.TestCheckNoResourceAttr(singularChildDatasourceName, "table_limits"),
+					resource.TestCheckResourceAttr(singularChildDatasourceName, "table_limits.#", "0"),
 				),
 			},
 
