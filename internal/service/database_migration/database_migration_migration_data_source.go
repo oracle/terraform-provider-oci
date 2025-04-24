@@ -203,6 +203,10 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 			s.D.Set("source_container_database_connection_id", *v.SourceContainerDatabaseConnectionId)
 		}
 
+		if v.SourceStandbyDatabaseConnectionId != nil {
+			s.D.Set("source_standby_database_connection_id", *v.SourceStandbyDatabaseConnectionId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}

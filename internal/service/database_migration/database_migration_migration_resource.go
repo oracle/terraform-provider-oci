@@ -825,6 +825,10 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"source_standby_database_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"executing_job_id": {
@@ -1310,6 +1314,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 
 		if v.SourceContainerDatabaseConnectionId != nil {
 			s.D.Set("source_container_database_connection_id", *v.SourceContainerDatabaseConnectionId)
+		}
+
+		if v.SourceStandbyDatabaseConnectionId != nil {
+			s.D.Set("source_standby_database_connection_id", *v.SourceStandbyDatabaseConnectionId)
 		}
 
 		if v.CompartmentId != nil {
@@ -2865,6 +2873,10 @@ func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[stri
 
 		if v.SourceContainerDatabaseConnectionId != nil {
 			result["source_container_database_connection_id"] = string(*v.SourceContainerDatabaseConnectionId)
+		}
+
+		if v.SourceStandbyDatabaseConnectionId != nil {
+			result["source_standby_database_connection_id"] = string(*v.SourceStandbyDatabaseConnectionId)
 		}
 	default:
 		log.Printf("[WARN] Received 'database_combination' of unknown type %v", obj)
@@ -5088,6 +5100,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := sourceContainerDatabaseConnectionId.(string)
 			details.SourceContainerDatabaseConnectionId = &tmp
 		}
+		if sourceStandbyDatabaseConnectionId, ok := s.D.GetOkExists("source_standby_database_connection_id"); ok {
+			tmp := sourceStandbyDatabaseConnectionId.(string)
+			details.SourceStandbyDatabaseConnectionId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -5293,6 +5309,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) populateTopLevelPolymorphicUpda
 		if sourceContainerDatabaseConnectionId, ok := s.D.GetOkExists("source_container_database_connection_id"); ok {
 			tmp := sourceContainerDatabaseConnectionId.(string)
 			details.SourceContainerDatabaseConnectionId = &tmp
+		}
+		if sourceStandbyDatabaseConnectionId, ok := s.D.GetOkExists("source_standby_database_connection_id"); ok {
+			tmp := sourceStandbyDatabaseConnectionId.(string)
+			details.SourceStandbyDatabaseConnectionId = &tmp
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
