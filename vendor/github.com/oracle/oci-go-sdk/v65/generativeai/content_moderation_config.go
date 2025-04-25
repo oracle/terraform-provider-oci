@@ -18,11 +18,17 @@ import (
 	"strings"
 )
 
-// ContentModerationConfig The configuration details, whether to add the content moderation feature to the model. Content moderation removes toxic and biased content from responses. It's recommended to use content moderation.
+// ContentModerationConfig The configuration details, whether to add the content moderation feature to the model. Content moderation removes toxic and biased content from responses.
 type ContentModerationConfig struct {
 
 	// Whether to enable the content moderation feature.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
+
+	// Enum for the modes of operation for inference protection.
+	Mode ContentModerationConfigModeEnum `mandatory:"false" json:"mode,omitempty"`
+
+	// The OCID of the model used for the feature.
+	ModelId *string `mandatory:"false" json:"modelId"`
 }
 
 func (m ContentModerationConfig) String() string {
@@ -35,8 +41,53 @@ func (m ContentModerationConfig) String() string {
 func (m ContentModerationConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingContentModerationConfigModeEnum(string(m.Mode)); !ok && m.Mode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Mode: %s. Supported values are: %s.", m.Mode, strings.Join(GetContentModerationConfigModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ContentModerationConfigModeEnum Enum with underlying type: string
+type ContentModerationConfigModeEnum string
+
+// Set of constants representing the allowable values for ContentModerationConfigModeEnum
+const (
+	ContentModerationConfigModeInform ContentModerationConfigModeEnum = "INFORM"
+	ContentModerationConfigModeBlock  ContentModerationConfigModeEnum = "BLOCK"
+)
+
+var mappingContentModerationConfigModeEnum = map[string]ContentModerationConfigModeEnum{
+	"INFORM": ContentModerationConfigModeInform,
+	"BLOCK":  ContentModerationConfigModeBlock,
+}
+
+var mappingContentModerationConfigModeEnumLowerCase = map[string]ContentModerationConfigModeEnum{
+	"inform": ContentModerationConfigModeInform,
+	"block":  ContentModerationConfigModeBlock,
+}
+
+// GetContentModerationConfigModeEnumValues Enumerates the set of values for ContentModerationConfigModeEnum
+func GetContentModerationConfigModeEnumValues() []ContentModerationConfigModeEnum {
+	values := make([]ContentModerationConfigModeEnum, 0)
+	for _, v := range mappingContentModerationConfigModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetContentModerationConfigModeEnumStringValues Enumerates the set of values in String for ContentModerationConfigModeEnum
+func GetContentModerationConfigModeEnumStringValues() []string {
+	return []string{
+		"INFORM",
+		"BLOCK",
+	}
+}
+
+// GetMappingContentModerationConfigModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingContentModerationConfigModeEnum(val string) (ContentModerationConfigModeEnum, bool) {
+	enum, ok := mappingContentModerationConfigModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

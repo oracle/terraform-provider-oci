@@ -436,23 +436,5 @@
         "realmKey": "oc26",
         "regionIdentifier": "me-alain-1",
         "realmDomainComponent": "oraclecloud26.com"
-    },
-    {
-        "regionKey": "hsg",
-        "realmKey": "oc1",
-        "regionIdentifier": "ap-batam-1",
-        "realmDomainComponent": "oraclecloud.com"
-    },
-    {
-        "regionKey": "dfw",
-        "realmKey": "oc1",
-        "regionIdentifier": "us-dallas-1",
-        "realmDomainComponent": "oraclecloud.com"
-    },
-    {
-        "regionKey": "abl",
-        "realmKey": "oc1",
-        "regionIdentifier": "us-abilene-1",
-        "realmDomainComponent": "oraclecloud.com"
     }
 ]

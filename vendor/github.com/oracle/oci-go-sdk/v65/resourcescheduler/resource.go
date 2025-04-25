@@ -10,6 +10,7 @@
 package resourcescheduler
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -31,6 +32,48 @@ type Resource struct {
 	//       }
 	//     }
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
+	// This is the user input parameters to use when acting on the resource.
+	// {
+	//     "parameters": [
+	//         {
+	//             "parameterType": "BODY",
+	//             "value": {
+	//                 "ip": "192.168.44.44",
+	//                 "memory": "1024",
+	//                 "synced_folders": [
+	//                     {
+	//                         "host_path": "data/",
+	//                         "guest_path": "/var/www",
+	//                         "type": "default"
+	//                     }
+	//                 ],
+	//                 "forwarded_ports": []
+	//             }
+	//         },
+	//         {
+	//             "parameterType": "PATH",
+	//             "value": {
+	//                 "compartmentId": "ocid1.compartment.oc1..xxxxx",
+	//                 "instanceId": "ocid1.vcn.oc1..yyyy"
+	//             }
+	//         },
+	//         {
+	//             "parameterType": "QUERY",
+	//             "value": {
+	//                 "limit": "10",
+	//                 "tenantId": "ocid1.tenant.oc1..zzzz"
+	//             }
+	//         },
+	//         {
+	//             "parameterType": "HEADER",
+	//             "value": {
+	//               "token": "xxxx"
+	//             }
+	//         }
+	//     ]
+	// }
+	Parameters []Parameter `mandatory:"false" json:"parameters"`
 }
 
 func (m Resource) String() string {
@@ -47,4 +90,36 @@ func (m Resource) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Resource) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Metadata   map[string]string `json:"metadata"`
+		Parameters []parameter       `json:"parameters"`
+		Id         *string           `json:"id"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Metadata = model.Metadata
+
+	m.Parameters = make([]Parameter, len(model.Parameters))
+	for i, n := range model.Parameters {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.Parameters[i] = nn.(Parameter)
+		} else {
+			m.Parameters[i] = nil
+		}
+	}
+	m.Id = model.Id
+
+	return
 }

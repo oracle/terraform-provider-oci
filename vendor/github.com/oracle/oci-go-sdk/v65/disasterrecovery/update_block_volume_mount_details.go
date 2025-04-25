@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// UpdateBlockVolumeMountDetails The details for updating the file system mount on a block volume.
+// UpdateBlockVolumeMountDetails Deprecated. Use the 'UpdateComputeInstanceNonMovableBlockVolumeMountOperationDetails' definition instead of this.
+// The details for updating the file system mount on a block volume.
 type UpdateBlockVolumeMountDetails struct {
 
 	// The physical mount point used for mounting the file system on a block volume.

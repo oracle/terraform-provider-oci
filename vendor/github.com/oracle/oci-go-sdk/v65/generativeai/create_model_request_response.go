@@ -95,6 +95,9 @@ type CreateModelResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Provides deprecation details for models, included only when a model is deprecated.
+	ModelDeprecationInfo *string `presentIn:"header" name:"model-deprecation-info"`
 }
 
 func (response CreateModelResponse) String() string {
