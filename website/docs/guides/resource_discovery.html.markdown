@@ -218,7 +218,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `security_attribute` - Discovers security attribute resources across the entire tenancy
-    * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
@@ -1237,16 +1236,6 @@ security_attribute
     
 * oci\_security\_attribute\_security\_attribute\_namespace
 * oci\_security\_attribute\_security\_attribute
-
-service_mesh
-    
-* oci\_service\_mesh\_virtual\_service
-* oci\_service\_mesh\_access\_policy
-* oci\_service\_mesh\_mesh
-* oci\_service\_mesh\_ingress\_gateway\_route\_table
-* oci\_service\_mesh\_virtual\_service\_route\_table
-* oci\_service\_mesh\_virtual\_deployment
-* oci\_service\_mesh\_ingress\_gateway
 
 stack_monitoring
     
