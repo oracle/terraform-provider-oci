@@ -88,6 +88,9 @@ type Schedule struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeNextRun *common.SDKTime `mandatory:"false" json:"timeNextRun"`
 
+	// This is the status of the last work request.
+	LastRunStatus OperationStatusEnum `mandatory:"false" json:"lastRunStatus,omitempty"`
+
 	// These are system tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -112,6 +115,9 @@ func (m Schedule) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScheduleLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOperationStatusEnum(string(m.LastRunStatus)); !ok && m.LastRunStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastRunStatus: %s. Supported values are: %s.", m.LastRunStatus, strings.Join(GetOperationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -129,6 +135,7 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated       *common.SDKTime                   `json:"timeUpdated"`
 		TimeLastRun       *common.SDKTime                   `json:"timeLastRun"`
 		TimeNextRun       *common.SDKTime                   `json:"timeNextRun"`
+		LastRunStatus     OperationStatusEnum               `json:"lastRunStatus"`
 		SystemTags        map[string]map[string]interface{} `json:"systemTags"`
 		Id                *string                           `json:"id"`
 		CompartmentId     *string                           `json:"compartmentId"`
@@ -172,6 +179,8 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 	m.TimeLastRun = model.TimeLastRun
 
 	m.TimeNextRun = model.TimeNextRun
+
+	m.LastRunStatus = model.LastRunStatus
 
 	m.SystemTags = model.SystemTags
 
