@@ -1,3 +1,15 @@
+## 6.37.0 (Unreleased)
+
+### Added
+- Support for adding custom pre check step in DR Plans
+- Support for OKE: Node Cycling Improvements
+- Support for HeatWave Service: Change DB System Deletion Policy AutomaticBackupRetention default to RETAIN.
+provider support for Resource Scheduler enhancement feature
+- Support for iSCSI-3 Persistant Reservation for Block Volume
+### Bug Fix
+- move capacity_reservation_id update to the same request as shape update
+- TERRAFORM_ISSUE:NOSQL: Change on compartmentId of child table should be ignored
+
 ## 6.36.0 (Unreleased)
 
 ### Added
