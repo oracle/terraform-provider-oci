@@ -30,7 +30,7 @@ type UnifiedAuditPolicyDefinition struct {
 	// The current state of the unified audit policy definition.
 	LifecycleState UnifiedAuditPolicyDefinitionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The time the the unified audit policy was created, in the format defined by RFC3339.
+	// The time the unified audit policy was created, in the format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The description of the unified audit policy definition.
@@ -42,13 +42,16 @@ type UnifiedAuditPolicyDefinition struct {
 	// The unified audit policy name in the target database.
 	PolicyName *string `mandatory:"false" json:"policyName"`
 
-	// The category to which the unified audit policy belongs.
+	// Signifies whether the unified audit policy definition is seeded or not.
+	IsSeeded *bool `mandatory:"false" json:"isSeeded"`
+
+	// The category to which the unified audit policy belongs in the target database.
 	AuditPolicyCategory UnifiedAuditPolicyDefinitionAuditPolicyCategoryEnum `mandatory:"false" json:"auditPolicyCategory,omitempty"`
 
 	// The last date and time the unified audit policy was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The unified audit policy definition that will be provisioned in the target database.
+	// The definition of the unified audit policy to be provisioned in the target database.
 	PolicyDefinitionStatement *string `mandatory:"false" json:"policyDefinitionStatement"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

@@ -64,6 +64,9 @@ type ListComputeHostsRequest struct {
 	// A filter to return only ComputeHostSummary resources that match the given Compute Host health State OCID exactly.
 	ComputeHostHealth *string `mandatory:"false" contributesTo:"query" name:"computeHostHealth"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host group.
+	ComputeHostGroupId *string `mandatory:"false" contributesTo:"query" name:"computeHostGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -88,6 +91,21 @@ func (request ListComputeHostsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request ListComputeHostsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["compartmentId"] != nil {
+		templateParam := mandatoryParamMap["compartmentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CompartmentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

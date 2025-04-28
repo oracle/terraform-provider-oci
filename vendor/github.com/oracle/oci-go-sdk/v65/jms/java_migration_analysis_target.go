@@ -16,7 +16,7 @@ import (
 )
 
 // JavaMigrationAnalysisTarget The target describes the input data for Java migration analysis.
-// A target contains a managed instance, application Installation Key, sourceJdkVersion, targetJdkVersion and optional excludePackagePrefixes.
+// A target contains a managed instance, application Installation Key, sourceJdkVersion, targetJdkVersion, optional excludePackagePrefixes and optional includePackagePrefixes.
 type JavaMigrationAnalysisTarget struct {
 
 	// The OCID of the managed instance that hosts the application for which the Java migration analysis was performed.
@@ -31,8 +31,11 @@ type JavaMigrationAnalysisTarget struct {
 	// The JDK version against which the migration analysis was performed to identify effort required to move from source JDK.
 	TargetJdkVersion *string `mandatory:"true" json:"targetJdkVersion"`
 
-	// Excludes the packages that starts with the prefix from the migration analysis result.
+	// Excludes the packages that starts with the prefix from the migration analysis result. Either this or includePackagePrefixes can be specified.
 	ExcludePackagePrefixes []string `mandatory:"false" json:"excludePackagePrefixes"`
+
+	// includes the packages that starts with the prefix from the migration analysis result. Either this or excludePackagePrefixes can be specified.
+	IncludePackagePrefixes []string `mandatory:"false" json:"includePackagePrefixes"`
 }
 
 func (m JavaMigrationAnalysisTarget) String() string {

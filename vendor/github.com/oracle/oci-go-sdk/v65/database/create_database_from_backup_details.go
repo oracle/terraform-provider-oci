@@ -43,6 +43,11 @@ type CreateDatabaseFromBackupDetails struct {
 	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
 
 	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
+
+	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateInputDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {
@@ -64,15 +69,17 @@ func (m CreateDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupTDEPassword                  *string                      `json:"backupTDEPassword"`
-		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails `json:"sourceEncryptionKeyLocationDetails"`
-		DbUniqueName                       *string                      `json:"dbUniqueName"`
-		DbName                             *string                      `json:"dbName"`
-		SidPrefix                          *string                      `json:"sidPrefix"`
-		PluggableDatabases                 []string                     `json:"pluggableDatabases"`
-		StorageSizeDetails                 *DatabaseStorageSizeDetails  `json:"storageSizeDetails"`
-		BackupId                           *string                      `json:"backupId"`
-		AdminPassword                      *string                      `json:"adminPassword"`
+		BackupTDEPassword                  *string                            `json:"backupTDEPassword"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails       `json:"sourceEncryptionKeyLocationDetails"`
+		DbUniqueName                       *string                            `json:"dbUniqueName"`
+		DbName                             *string                            `json:"dbName"`
+		SidPrefix                          *string                            `json:"sidPrefix"`
+		PluggableDatabases                 []string                           `json:"pluggableDatabases"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails        `json:"storageSizeDetails"`
+		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails `json:"managedSoftwareUpdateDetails"`
+		VmClusterId                        *string                            `json:"vmClusterId"`
+		BackupId                           *string                            `json:"backupId"`
+		AdminPassword                      *string                            `json:"adminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -101,6 +108,10 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 	m.PluggableDatabases = make([]string, len(model.PluggableDatabases))
 	copy(m.PluggableDatabases, model.PluggableDatabases)
 	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
+
+	m.VmClusterId = model.VmClusterId
 
 	m.BackupId = model.BackupId
 

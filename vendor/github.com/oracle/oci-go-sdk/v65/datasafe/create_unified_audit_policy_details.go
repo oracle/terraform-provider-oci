@@ -28,7 +28,7 @@ type CreateUnifiedAuditPolicyDetails struct {
 	// The OCID of the compartment in which to create the unified audit policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Indicates whether the policy has been enabled or disabled.
+	// Indicates whether the unified audit policy has been enabled or disabled.
 	Status UnifiedAuditPolicyEnabledEntitiesEnum `mandatory:"true" json:"status"`
 
 	// Lists the audit policy provisioning conditions.

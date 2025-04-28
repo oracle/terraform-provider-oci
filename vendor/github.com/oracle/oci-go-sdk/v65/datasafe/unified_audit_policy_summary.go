@@ -42,13 +42,16 @@ type UnifiedAuditPolicySummary struct {
 	// The OCID of the associated unified audit policy definition.
 	UnifiedAuditPolicyDefinitionId *string `mandatory:"false" json:"unifiedAuditPolicyDefinitionId"`
 
-	// Details about the current state of the unified audit policy in Data Safe.
+	// The details of the current state of the unified audit policy in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Signifies whether the unified audit policy is seeded or not.
+	IsSeeded *bool `mandatory:"false" json:"isSeeded"`
 
 	// Indicates whether the policy has been enabled or disabled.
 	Status UnifiedAuditPolicyStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// Indicates on whom the audit policy is enabled.
+	// Indicates the users for which the unified audit policy is enabled.
 	EnabledEntities UnifiedAuditPolicyEnabledEntitiesEnum `mandatory:"false" json:"enabledEntities,omitempty"`
 
 	// The last date and time the unified audit policy was updated, in the format defined by RFC3339.

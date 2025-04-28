@@ -16,6 +16,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -74,6 +75,8 @@ type DedicatedVmHost struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
+
 	// The total memory of the dedicated VM host, in GBs.
 	TotalMemoryInGBs *float32 `mandatory:"false" json:"totalMemoryInGBs"`
 
@@ -98,6 +101,72 @@ func (m DedicatedVmHost) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		FaultDomain                *string                           `json:"faultDomain"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
+		TotalMemoryInGBs           *float32                          `json:"totalMemoryInGBs"`
+		RemainingMemoryInGBs       *float32                          `json:"remainingMemoryInGBs"`
+		AvailabilityDomain         *string                           `json:"availabilityDomain"`
+		CompartmentId              *string                           `json:"compartmentId"`
+		DedicatedVmHostShape       *string                           `json:"dedicatedVmHostShape"`
+		DisplayName                *string                           `json:"displayName"`
+		Id                         *string                           `json:"id"`
+		LifecycleState             DedicatedVmHostLifecycleStateEnum `json:"lifecycleState"`
+		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
+		TotalOcpus                 *float32                          `json:"totalOcpus"`
+		RemainingOcpus             *float32                          `json:"remainingOcpus"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DefinedTags = model.DefinedTags
+
+	m.FaultDomain = model.FaultDomain
+
+	m.FreeformTags = model.FreeformTags
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
+
+	m.TotalMemoryInGBs = model.TotalMemoryInGBs
+
+	m.RemainingMemoryInGBs = model.RemainingMemoryInGBs
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DedicatedVmHostShape = model.DedicatedVmHostShape
+
+	m.DisplayName = model.DisplayName
+
+	m.Id = model.Id
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TotalOcpus = model.TotalOcpus
+
+	m.RemainingOcpus = model.RemainingOcpus
+
+	return
 }
 
 // DedicatedVmHostLifecycleStateEnum Enum with underlying type: string

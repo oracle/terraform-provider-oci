@@ -19,7 +19,7 @@ import (
 // PolicyCondition The audit policy provisioning conditions.
 type PolicyCondition interface {
 
-	// The entity include or exclude selection.
+	// Specifies whether to include or exclude the specified users or roles.
 	GetEntitySelection() PolicyConditionEntitySelectionEnum
 
 	// The operation status that the policy must be enabled for.

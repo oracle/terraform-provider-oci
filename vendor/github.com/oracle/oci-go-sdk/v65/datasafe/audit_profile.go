@@ -75,13 +75,13 @@ type AuditProfile struct {
 	// potentially incurring additional charges. For more information, see Data Safe Price List (https://www.oracle.com/cloud/price-list/#data-safe).
 	IsOverrideGlobalPaidUsage *bool `mandatory:"false" json:"isOverrideGlobalPaidUsage"`
 
-	// The name or the OCID of the resource from which the online month retention setting is sourced. For example a target database group OCID or global.
+	// The name or the OCID of the resource from which the online month retention setting is sourced. For example, a global setting or a target database group OCID.
 	OnlineMonthsSource *string `mandatory:"false" json:"onlineMonthsSource"`
 
-	// The name or the OCID of the resource from which the offline month retention setting is sourced. For example a target database group OCID or global.
+	// The name or the OCID of the resource from which the offline month retention setting is sourced. For example, a global setting or a target database group OCID.
 	OfflineMonthsSource *string `mandatory:"false" json:"offlineMonthsSource"`
 
-	// The name or the OCID of the resource from which the paid usage setting is sourced. For example a target database group OCID or global.
+	// The name or the OCID of the resource from which the paid usage setting is sourced. For example, a global setting or a target database group OCID.
 	PaidUsageSource *string `mandatory:"false" json:"paidUsageSource"`
 
 	// The resource type that is represented by the audit profile.

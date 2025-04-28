@@ -82,18 +82,24 @@ const (
 	SecurityAssessmentTemplateBaselineComparisonLifecycleStateInProgress SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum = "IN_PROGRESS"
 	SecurityAssessmentTemplateBaselineComparisonLifecycleStateSucceeded  SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum = "SUCCEEDED"
 	SecurityAssessmentTemplateBaselineComparisonLifecycleStateFailed     SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum = "FAILED"
+	SecurityAssessmentTemplateBaselineComparisonLifecycleStateDeleted    SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum = "DELETED"
+	SecurityAssessmentTemplateBaselineComparisonLifecycleStateDeleting   SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum = "DELETING"
 )
 
 var mappingSecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum = map[string]SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum{
 	"IN_PROGRESS": SecurityAssessmentTemplateBaselineComparisonLifecycleStateInProgress,
 	"SUCCEEDED":   SecurityAssessmentTemplateBaselineComparisonLifecycleStateSucceeded,
 	"FAILED":      SecurityAssessmentTemplateBaselineComparisonLifecycleStateFailed,
+	"DELETED":     SecurityAssessmentTemplateBaselineComparisonLifecycleStateDeleted,
+	"DELETING":    SecurityAssessmentTemplateBaselineComparisonLifecycleStateDeleting,
 }
 
 var mappingSecurityAssessmentTemplateBaselineComparisonLifecycleStateEnumLowerCase = map[string]SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum{
 	"in_progress": SecurityAssessmentTemplateBaselineComparisonLifecycleStateInProgress,
 	"succeeded":   SecurityAssessmentTemplateBaselineComparisonLifecycleStateSucceeded,
 	"failed":      SecurityAssessmentTemplateBaselineComparisonLifecycleStateFailed,
+	"deleted":     SecurityAssessmentTemplateBaselineComparisonLifecycleStateDeleted,
+	"deleting":    SecurityAssessmentTemplateBaselineComparisonLifecycleStateDeleting,
 }
 
 // GetSecurityAssessmentTemplateBaselineComparisonLifecycleStateEnumValues Enumerates the set of values for SecurityAssessmentTemplateBaselineComparisonLifecycleStateEnum
@@ -111,6 +117,8 @@ func GetSecurityAssessmentTemplateBaselineComparisonLifecycleStateEnumStringValu
 		"IN_PROGRESS",
 		"SUCCEEDED",
 		"FAILED",
+		"DELETED",
+		"DELETING",
 	}
 }
 

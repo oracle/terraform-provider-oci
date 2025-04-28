@@ -21,8 +21,8 @@ import (
 // CredentialByVault Vault Credential Details to connect to the database.
 type CredentialByVault struct {
 
-	// Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-	CredentialSourceName *string `mandatory:"true" json:"credentialSourceName"`
+	// Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
+	CredentialSourceName *string `mandatory:"false" json:"credentialSourceName"`
 
 	// database user name.
 	UserName *string `mandatory:"false" json:"userName"`

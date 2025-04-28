@@ -119,6 +119,9 @@ const (
 	WorkRequestOperationTypePatchChecks                               WorkRequestOperationTypeEnum = "PATCH_CHECKS"
 	WorkRequestOperationTypeUpdateFindingSeverity                     WorkRequestOperationTypeEnum = "UPDATE_FINDING_SEVERITY"
 	WorkRequestOperationTypeApplyTemplate                             WorkRequestOperationTypeEnum = "APPLY_TEMPLATE"
+	WorkRequestOperationTypeFleetGenerateSecurityAssessmentReport     WorkRequestOperationTypeEnum = "FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeFleetGenerateUserAssessmentReport         WorkRequestOperationTypeEnum = "FLEET_GENERATE_USER_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeRefreshTargetDatabaseGroupWithChanges     WorkRequestOperationTypeEnum = "REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES"
 	WorkRequestOperationTypeUpdateFindingRisk                         WorkRequestOperationTypeEnum = "UPDATE_FINDING_RISK"
 	WorkRequestOperationTypeChangeSecurityAssessmentCompartment       WorkRequestOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
 	WorkRequestOperationTypeSetSecurityAssessmentBaseline             WorkRequestOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
@@ -236,6 +239,10 @@ const (
 	WorkRequestOperationTypeDeleteAlertPolicyRule                     WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
 	WorkRequestOperationTypeChangeAlertPolicyCompartment              WorkRequestOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
 	WorkRequestOperationTypeUpdateTargetGroupAuditProfile             WorkRequestOperationTypeEnum = "UPDATE_TARGET_GROUP_AUDIT_PROFILE"
+	WorkRequestOperationTypeCreateAttributeSet                        WorkRequestOperationTypeEnum = "CREATE_ATTRIBUTE_SET"
+	WorkRequestOperationTypeUpdateAttributeSet                        WorkRequestOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
+	WorkRequestOperationTypeDeleteAttributeSet                        WorkRequestOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
+	WorkRequestOperationTypeChangeAttributeSetCompartment             WorkRequestOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -285,6 +292,9 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PATCH_CHECKS":                                  WorkRequestOperationTypePatchChecks,
 	"UPDATE_FINDING_SEVERITY":                       WorkRequestOperationTypeUpdateFindingSeverity,
 	"APPLY_TEMPLATE":                                WorkRequestOperationTypeApplyTemplate,
+	"FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT":     WorkRequestOperationTypeFleetGenerateSecurityAssessmentReport,
+	"FLEET_GENERATE_USER_ASSESSMENT_REPORT":         WorkRequestOperationTypeFleetGenerateUserAssessmentReport,
+	"REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES":    WorkRequestOperationTypeRefreshTargetDatabaseGroupWithChanges,
 	"UPDATE_FINDING_RISK":                           WorkRequestOperationTypeUpdateFindingRisk,
 	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
 	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
@@ -402,6 +412,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DELETE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
 	"CHANGE_ALERT_POLICY_COMPARTMENT":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
 	"UPDATE_TARGET_GROUP_AUDIT_PROFILE":             WorkRequestOperationTypeUpdateTargetGroupAuditProfile,
+	"CREATE_ATTRIBUTE_SET":                          WorkRequestOperationTypeCreateAttributeSet,
+	"UPDATE_ATTRIBUTE_SET":                          WorkRequestOperationTypeUpdateAttributeSet,
+	"DELETE_ATTRIBUTE_SET":                          WorkRequestOperationTypeDeleteAttributeSet,
+	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":              WorkRequestOperationTypeChangeAttributeSetCompartment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -451,6 +465,9 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"patch_checks":                                  WorkRequestOperationTypePatchChecks,
 	"update_finding_severity":                       WorkRequestOperationTypeUpdateFindingSeverity,
 	"apply_template":                                WorkRequestOperationTypeApplyTemplate,
+	"fleet_generate_security_assessment_report":     WorkRequestOperationTypeFleetGenerateSecurityAssessmentReport,
+	"fleet_generate_user_assessment_report":         WorkRequestOperationTypeFleetGenerateUserAssessmentReport,
+	"refresh_target_database_group_with_changes":    WorkRequestOperationTypeRefreshTargetDatabaseGroupWithChanges,
 	"update_finding_risk":                           WorkRequestOperationTypeUpdateFindingRisk,
 	"change_security_assessment_compartment":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
 	"set_security_assessment_baseline":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
@@ -568,6 +585,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"delete_alert_policy_rule":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
 	"change_alert_policy_compartment":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
 	"update_target_group_audit_profile":             WorkRequestOperationTypeUpdateTargetGroupAuditProfile,
+	"create_attribute_set":                          WorkRequestOperationTypeCreateAttributeSet,
+	"update_attribute_set":                          WorkRequestOperationTypeUpdateAttributeSet,
+	"delete_attribute_set":                          WorkRequestOperationTypeDeleteAttributeSet,
+	"change_attribute_set_compartment":              WorkRequestOperationTypeChangeAttributeSetCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -628,6 +649,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PATCH_CHECKS",
 		"UPDATE_FINDING_SEVERITY",
 		"APPLY_TEMPLATE",
+		"FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT",
+		"FLEET_GENERATE_USER_ASSESSMENT_REPORT",
+		"REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES",
 		"UPDATE_FINDING_RISK",
 		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
 		"SET_SECURITY_ASSESSMENT_BASELINE",
@@ -745,6 +769,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_ALERT_POLICY_RULE",
 		"CHANGE_ALERT_POLICY_COMPARTMENT",
 		"UPDATE_TARGET_GROUP_AUDIT_PROFILE",
+		"CREATE_ATTRIBUTE_SET",
+		"UPDATE_ATTRIBUTE_SET",
+		"DELETE_ATTRIBUTE_SET",
+		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
 	}
 }
 

@@ -32,6 +32,10 @@ type UpdateInternalServiceVnicShardRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Indicates that this request is a dry-run.
+	// If set to true, nothing will be created, but only the validation will be performed.
+	IsDryRun *bool `mandatory:"false" contributesTo:"query" name:"isDryRun"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -56,6 +60,31 @@ func (request UpdateInternalServiceVnicShardRequest) BinaryRequestBody() (*commo
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateInternalServiceVnicShardRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["serviceVnicFleetName"] != nil {
+		templateParam := mandatoryParamMap["serviceVnicFleetName"]
+		for _, template := range templateParam {
+			replacementParam := *request.ServiceVnicFleetName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["serviceVnicShardName"] != nil {
+		templateParam := mandatoryParamMap["serviceVnicShardName"]
+		for _, template := range templateParam {
+			replacementParam := *request.ServiceVnicShardName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

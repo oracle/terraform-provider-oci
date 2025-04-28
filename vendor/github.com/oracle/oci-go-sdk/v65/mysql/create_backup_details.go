@@ -27,8 +27,8 @@ type CreateBackupDetails struct {
 	// A user-supplied description for the backup.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Retains the backup to be deleted (by a delete command or due to the retention policy)
-	// in DELETE SCHEDULED state for 7 days before permanently deleting it
+	// Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED
+	// state for 7 days before permanently deleting it.
 	SoftDelete SoftDeleteEnum `mandatory:"false" json:"softDelete,omitempty"`
 
 	// The type of backup.

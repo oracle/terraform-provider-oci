@@ -43,8 +43,11 @@ type UnifiedAuditPolicy struct {
 	// The OCID of the associated unified audit policy definition.
 	UnifiedAuditPolicyDefinitionId *string `mandatory:"false" json:"unifiedAuditPolicyDefinitionId"`
 
-	// Details about the current state of the unified audit policy in Data Safe.
+	// The details of the current state of the unified audit policy in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Indicates whether the unified audit policy is seeded or not.
+	IsSeeded *bool `mandatory:"false" json:"isSeeded"`
 
 	// Indicates whether the policy has been enabled or disabled.
 	Status UnifiedAuditPolicyStatusEnum `mandatory:"false" json:"status,omitempty"`
@@ -103,6 +106,7 @@ func (m *UnifiedAuditPolicy) UnmarshalJSON(data []byte) (e error) {
 		SecurityPolicyId               *string                               `json:"securityPolicyId"`
 		UnifiedAuditPolicyDefinitionId *string                               `json:"unifiedAuditPolicyDefinitionId"`
 		LifecycleDetails               *string                               `json:"lifecycleDetails"`
+		IsSeeded                       *bool                                 `json:"isSeeded"`
 		Status                         UnifiedAuditPolicyStatusEnum          `json:"status"`
 		EnabledEntities                UnifiedAuditPolicyEnabledEntitiesEnum `json:"enabledEntities"`
 		Conditions                     []policycondition                     `json:"conditions"`
@@ -129,6 +133,8 @@ func (m *UnifiedAuditPolicy) UnmarshalJSON(data []byte) (e error) {
 	m.UnifiedAuditPolicyDefinitionId = model.UnifiedAuditPolicyDefinitionId
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.IsSeeded = model.IsSeeded
 
 	m.Status = model.Status
 

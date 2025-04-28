@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// TargetDatabaseGroupSummary Summary of the target database group.
+// TargetDatabaseGroupSummary Summary of the target database group used in list operations. Contains essential information without matching criteria.
 type TargetDatabaseGroupSummary struct {
 
 	// The OCID for the compartment containing the target database group.

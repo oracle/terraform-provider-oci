@@ -20,33 +20,36 @@ type DatabaseEntitySourceAllEnum string
 
 // Set of constants representing the allowable values for DatabaseEntitySourceAllEnum
 const (
-	DatabaseEntitySourceAllAutonomousDatabase          DatabaseEntitySourceAllEnum = "AUTONOMOUS_DATABASE"
-	DatabaseEntitySourceAllEmManagedExternalDatabase   DatabaseEntitySourceAllEnum = "EM_MANAGED_EXTERNAL_DATABASE"
-	DatabaseEntitySourceAllMacsManagedExternalDatabase DatabaseEntitySourceAllEnum = "MACS_MANAGED_EXTERNAL_DATABASE"
-	DatabaseEntitySourceAllPeComanagedDatabase         DatabaseEntitySourceAllEnum = "PE_COMANAGED_DATABASE"
-	DatabaseEntitySourceAllMdsMysqlDatabaseSystem      DatabaseEntitySourceAllEnum = "MDS_MYSQL_DATABASE_SYSTEM"
-	DatabaseEntitySourceAllExternalMysqlDatabaseSystem DatabaseEntitySourceAllEnum = "EXTERNAL_MYSQL_DATABASE_SYSTEM"
-	DatabaseEntitySourceAllMacsManagedCloudDatabase    DatabaseEntitySourceAllEnum = "MACS_MANAGED_CLOUD_DATABASE"
+	DatabaseEntitySourceAllAutonomousDatabase            DatabaseEntitySourceAllEnum = "AUTONOMOUS_DATABASE"
+	DatabaseEntitySourceAllEmManagedExternalDatabase     DatabaseEntitySourceAllEnum = "EM_MANAGED_EXTERNAL_DATABASE"
+	DatabaseEntitySourceAllMacsManagedExternalDatabase   DatabaseEntitySourceAllEnum = "MACS_MANAGED_EXTERNAL_DATABASE"
+	DatabaseEntitySourceAllPeComanagedDatabase           DatabaseEntitySourceAllEnum = "PE_COMANAGED_DATABASE"
+	DatabaseEntitySourceAllMdsMysqlDatabaseSystem        DatabaseEntitySourceAllEnum = "MDS_MYSQL_DATABASE_SYSTEM"
+	DatabaseEntitySourceAllExternalMysqlDatabaseSystem   DatabaseEntitySourceAllEnum = "EXTERNAL_MYSQL_DATABASE_SYSTEM"
+	DatabaseEntitySourceAllMacsManagedCloudDatabase      DatabaseEntitySourceAllEnum = "MACS_MANAGED_CLOUD_DATABASE"
+	DatabaseEntitySourceAllMacsManagedAutonomousDatabase DatabaseEntitySourceAllEnum = "MACS_MANAGED_AUTONOMOUS_DATABASE"
 )
 
 var mappingDatabaseEntitySourceAllEnum = map[string]DatabaseEntitySourceAllEnum{
-	"AUTONOMOUS_DATABASE":            DatabaseEntitySourceAllAutonomousDatabase,
-	"EM_MANAGED_EXTERNAL_DATABASE":   DatabaseEntitySourceAllEmManagedExternalDatabase,
-	"MACS_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceAllMacsManagedExternalDatabase,
-	"PE_COMANAGED_DATABASE":          DatabaseEntitySourceAllPeComanagedDatabase,
-	"MDS_MYSQL_DATABASE_SYSTEM":      DatabaseEntitySourceAllMdsMysqlDatabaseSystem,
-	"EXTERNAL_MYSQL_DATABASE_SYSTEM": DatabaseEntitySourceAllExternalMysqlDatabaseSystem,
-	"MACS_MANAGED_CLOUD_DATABASE":    DatabaseEntitySourceAllMacsManagedCloudDatabase,
+	"AUTONOMOUS_DATABASE":              DatabaseEntitySourceAllAutonomousDatabase,
+	"EM_MANAGED_EXTERNAL_DATABASE":     DatabaseEntitySourceAllEmManagedExternalDatabase,
+	"MACS_MANAGED_EXTERNAL_DATABASE":   DatabaseEntitySourceAllMacsManagedExternalDatabase,
+	"PE_COMANAGED_DATABASE":            DatabaseEntitySourceAllPeComanagedDatabase,
+	"MDS_MYSQL_DATABASE_SYSTEM":        DatabaseEntitySourceAllMdsMysqlDatabaseSystem,
+	"EXTERNAL_MYSQL_DATABASE_SYSTEM":   DatabaseEntitySourceAllExternalMysqlDatabaseSystem,
+	"MACS_MANAGED_CLOUD_DATABASE":      DatabaseEntitySourceAllMacsManagedCloudDatabase,
+	"MACS_MANAGED_AUTONOMOUS_DATABASE": DatabaseEntitySourceAllMacsManagedAutonomousDatabase,
 }
 
 var mappingDatabaseEntitySourceAllEnumLowerCase = map[string]DatabaseEntitySourceAllEnum{
-	"autonomous_database":            DatabaseEntitySourceAllAutonomousDatabase,
-	"em_managed_external_database":   DatabaseEntitySourceAllEmManagedExternalDatabase,
-	"macs_managed_external_database": DatabaseEntitySourceAllMacsManagedExternalDatabase,
-	"pe_comanaged_database":          DatabaseEntitySourceAllPeComanagedDatabase,
-	"mds_mysql_database_system":      DatabaseEntitySourceAllMdsMysqlDatabaseSystem,
-	"external_mysql_database_system": DatabaseEntitySourceAllExternalMysqlDatabaseSystem,
-	"macs_managed_cloud_database":    DatabaseEntitySourceAllMacsManagedCloudDatabase,
+	"autonomous_database":              DatabaseEntitySourceAllAutonomousDatabase,
+	"em_managed_external_database":     DatabaseEntitySourceAllEmManagedExternalDatabase,
+	"macs_managed_external_database":   DatabaseEntitySourceAllMacsManagedExternalDatabase,
+	"pe_comanaged_database":            DatabaseEntitySourceAllPeComanagedDatabase,
+	"mds_mysql_database_system":        DatabaseEntitySourceAllMdsMysqlDatabaseSystem,
+	"external_mysql_database_system":   DatabaseEntitySourceAllExternalMysqlDatabaseSystem,
+	"macs_managed_cloud_database":      DatabaseEntitySourceAllMacsManagedCloudDatabase,
+	"macs_managed_autonomous_database": DatabaseEntitySourceAllMacsManagedAutonomousDatabase,
 }
 
 // GetDatabaseEntitySourceAllEnumValues Enumerates the set of values for DatabaseEntitySourceAllEnum
@@ -68,6 +71,7 @@ func GetDatabaseEntitySourceAllEnumStringValues() []string {
 		"MDS_MYSQL_DATABASE_SYSTEM",
 		"EXTERNAL_MYSQL_DATABASE_SYSTEM",
 		"MACS_MANAGED_CLOUD_DATABASE",
+		"MACS_MANAGED_AUTONOMOUS_DATABASE",
 	}
 }
 

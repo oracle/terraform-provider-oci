@@ -21,7 +21,7 @@ type AttributeSet struct {
 	// The OCID of an attribute set.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment that contains attribute set.
+	// The OCID of the compartment where the attribute set is stored.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The display name of an attribute set. The name does not have to be unique, and is changeable.
@@ -45,7 +45,7 @@ type AttributeSet struct {
 	// The date and time an attribute set was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Indicates whether the attribute set is user defined or pre defined in Data Safe. Values can either be 'true' or 'false'.
+	// A boolean flag indicating to list user defined or seeded attribute sets.
 	IsUserDefined *bool `mandatory:"false" json:"isUserDefined"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

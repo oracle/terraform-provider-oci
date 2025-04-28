@@ -32,7 +32,7 @@ type InternalOccmDemandSignal struct {
 	// SUBMITTED -> Once you have reviewed the details of the demand signal, you can transition it to SUBMITTED state so that OCI can start working on it.
 	// DELETED -> You can delete a demand signal as long as it is in either CREATED or SUBMITTED state.
 	// IN_PROGRESS -> Once OCI starts working on a given demand signal. They transition it to IN_PROGRESS.
-	// CANCELLED -> OCI can transition the demand signal to this state.
+	// REJECTED -> OCI can transition the demand signal to this state if all the demand signal items of that demand signal are declined.
 	// COMPLETED -> OCI will transition the demand signal to COMPLETED state once the quantities which OCI committed to deliver to you has been delivered.
 	LifecycleDetails OccmDemandSignalLifecycleDetailsEnum `mandatory:"true" json:"lifecycleDetails"`
 
@@ -44,6 +44,9 @@ type InternalOccmDemandSignal struct {
 
 	// The time when the demand signal was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// The OCID of the customer group in which the demand signal is created.
+	OccCustomerGroupId *string `mandatory:"true" json:"occCustomerGroupId"`
 
 	// A short description about the demand signal.
 	Description *string `mandatory:"false" json:"description"`
@@ -59,9 +62,6 @@ type InternalOccmDemandSignal struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
-	// The OCID of the customer group in which the demand signal is created.
-	OccCustomerGroupId *string `mandatory:"false" json:"occCustomerGroupId"`
 }
 
 func (m InternalOccmDemandSignal) String() string {

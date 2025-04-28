@@ -27,9 +27,6 @@ type BulkCreateOccmDemandSignalItem struct {
 	// The name of region for which you want to request the OCI resource.
 	Region *string `mandatory:"true" json:"region"`
 
-	// The name of the availability domain for which you want to request the OCI resource. This is an optional parameter.
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
 	// The OCID of the tenancy for which you want to request the OCI resource for. This is an optional parameter.
 	TargetCompartmentId *string `mandatory:"true" json:"targetCompartmentId"`
 
@@ -41,6 +38,9 @@ type BulkCreateOccmDemandSignalItem struct {
 
 	// A map of various properties associated with the OCI resource.
 	ResourceProperties map[string]string `mandatory:"true" json:"resourceProperties"`
+
+	// The name of the availability domain for which you want to request the OCI resource. This is an optional parameter.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// This field will serve as notes section for you. You can use this section to convey a message to OCI regarding your resource request.
 	// NOTE: The previous value gets overwritten with the new one for this once updated.

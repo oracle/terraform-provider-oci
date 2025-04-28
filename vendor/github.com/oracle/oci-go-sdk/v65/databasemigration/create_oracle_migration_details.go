@@ -60,6 +60,9 @@ type CreateOracleMigrationDetails struct {
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
+	// The OCID of the resource being referenced.
+	SourceStandbyDatabaseConnectionId *string `mandatory:"false" json:"sourceStandbyDatabaseConnectionId"`
+
 	// Database objects to exclude from migration, cannot be specified alongside 'includeObjects'
 	ExcludeObjects []OracleDatabaseObject `mandatory:"false" json:"excludeObjects"`
 
@@ -163,6 +166,7 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 		GgsDetails                          *CreateOracleGgsDeploymentDetails     `json:"ggsDetails"`
 		AdvancedParameters                  []MigrationParameterDetails           `json:"advancedParameters"`
 		SourceContainerDatabaseConnectionId *string                               `json:"sourceContainerDatabaseConnectionId"`
+		SourceStandbyDatabaseConnectionId   *string                               `json:"sourceStandbyDatabaseConnectionId"`
 		ExcludeObjects                      []OracleDatabaseObject                `json:"excludeObjects"`
 		IncludeObjects                      []OracleDatabaseObject                `json:"includeObjects"`
 		BulkIncludeExcludeData              *string                               `json:"bulkIncludeExcludeData"`
@@ -206,6 +210,8 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AdvancedParameters = make([]MigrationParameterDetails, len(model.AdvancedParameters))
 	copy(m.AdvancedParameters, model.AdvancedParameters)
 	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
+
+	m.SourceStandbyDatabaseConnectionId = model.SourceStandbyDatabaseConnectionId
 
 	m.ExcludeObjects = make([]OracleDatabaseObject, len(model.ExcludeObjects))
 	copy(m.ExcludeObjects, model.ExcludeObjects)

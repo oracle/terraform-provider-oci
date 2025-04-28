@@ -54,6 +54,9 @@ type InternalOccmDemandSignalItemSummary struct {
 	// The current lifecycle state of the demand signal item.
 	LifecycleState OccmDemandSignalItemLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The OCID of the customer group in which the demand signal is created.
+	OccCustomerGroupId *string `mandatory:"true" json:"occCustomerGroupId"`
+
 	// The name of the availability domain for which you want to request the OCI resource.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 

@@ -30,7 +30,7 @@ type UnifiedAuditPolicyDefinitionSummary struct {
 	// The current state of the unified audit policy definition.
 	LifecycleState UnifiedAuditPolicyDefinitionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The time the the unified audit policy was created, in the format defined by RFC3339.
+	// The time the unified audit policy was created, in the format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The description of the unified audit policy definition.
@@ -41,6 +41,9 @@ type UnifiedAuditPolicyDefinitionSummary struct {
 
 	// The unified audit policy name in the target database.
 	PolicyName *string `mandatory:"false" json:"policyName"`
+
+	// Signifies whether the unified audit policy definition is seeded or not.
+	IsSeeded *bool `mandatory:"false" json:"isSeeded"`
 
 	// The category to which the unified audit policy belongs.
 	AuditPolicyCategory UnifiedAuditPolicyDefinitionAuditPolicyCategoryEnum `mandatory:"false" json:"auditPolicyCategory,omitempty"`

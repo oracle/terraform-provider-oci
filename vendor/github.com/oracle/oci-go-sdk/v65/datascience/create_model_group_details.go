@@ -36,6 +36,12 @@ type CreateModelGroupDetails struct {
 	// A short description of the modelGroup.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model group version history to which the modelGroup is associated.
+	ModelGroupVersionHistoryId *string `mandatory:"false" json:"modelGroupVersionHistoryId"`
+
+	// An additional description of the lifecycle state of the model group.
+	VersionLabel *string `mandatory:"false" json:"versionLabel"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -43,12 +49,16 @@ type CreateModelGroupDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+}
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model group version history to which the modelGroup is associated.
-	ModelGroupVersionHistoryId *string `mandatory:"false" json:"modelGroupVersionHistoryId"`
+// GetCompartmentId returns CompartmentId
+func (m CreateModelGroupDetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
 
-	// An additional description of the lifecycle state of the model group.
-	VersionLabel *string `mandatory:"false" json:"versionLabel"`
+// GetProjectId returns ProjectId
+func (m CreateModelGroupDetails) GetProjectId() *string {
+	return m.ProjectId
 }
 
 func (m CreateModelGroupDetails) String() string {
@@ -86,10 +96,10 @@ func (m *CreateModelGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName                *string                           `json:"displayName"`
 		Description                *string                           `json:"description"`
-		FreeformTags               map[string]string                 `json:"freeformTags"`
-		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
 		ModelGroupVersionHistoryId *string                           `json:"modelGroupVersionHistoryId"`
 		VersionLabel               *string                           `json:"versionLabel"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
 		CompartmentId              *string                           `json:"compartmentId"`
 		ProjectId                  *string                           `json:"projectId"`
 		ModelGroupDetails          modelgroupdetails                 `json:"modelGroupDetails"`
@@ -105,13 +115,13 @@ func (m *CreateModelGroupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
 	m.ModelGroupVersionHistoryId = model.ModelGroupVersionHistoryId
 
 	m.VersionLabel = model.VersionLabel
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.CompartmentId = model.CompartmentId
 

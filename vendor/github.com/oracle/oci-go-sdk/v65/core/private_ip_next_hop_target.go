@@ -37,6 +37,13 @@ type PrivateIpNextHopTarget struct {
 
 	// Type of nextHop target.
 	TargetType PrivateIpNextHopTargetTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
+	// The 24 bit id of RCE (Reverse connection endpoint).
+	RceId *int `mandatory:"false" json:"rceId"`
+
+	// False: Allow traffic to the target
+	// True:  Drops the traffic
+	IsDrainEnabled *bool `mandatory:"false" json:"isDrainEnabled"`
 }
 
 func (m PrivateIpNextHopTarget) String() string {
@@ -63,18 +70,21 @@ type PrivateIpNextHopTargetTargetTypeEnum string
 
 // Set of constants representing the allowable values for PrivateIpNextHopTargetTargetTypeEnum
 const (
-	PrivateIpNextHopTargetTargetTypePadp       PrivateIpNextHopTargetTargetTypeEnum = "PADP"
-	PrivateIpNextHopTargetTargetTypeVnicWorker PrivateIpNextHopTargetTargetTypeEnum = "VNIC_WORKER"
+	PrivateIpNextHopTargetTargetTypePadp        PrivateIpNextHopTargetTargetTypeEnum = "PADP"
+	PrivateIpNextHopTargetTargetTypeVnicWorker  PrivateIpNextHopTargetTargetTypeEnum = "VNIC_WORKER"
+	PrivateIpNextHopTargetTargetTypeServiceVnic PrivateIpNextHopTargetTargetTypeEnum = "SERVICE_VNIC"
 )
 
 var mappingPrivateIpNextHopTargetTargetTypeEnum = map[string]PrivateIpNextHopTargetTargetTypeEnum{
-	"PADP":        PrivateIpNextHopTargetTargetTypePadp,
-	"VNIC_WORKER": PrivateIpNextHopTargetTargetTypeVnicWorker,
+	"PADP":         PrivateIpNextHopTargetTargetTypePadp,
+	"VNIC_WORKER":  PrivateIpNextHopTargetTargetTypeVnicWorker,
+	"SERVICE_VNIC": PrivateIpNextHopTargetTargetTypeServiceVnic,
 }
 
 var mappingPrivateIpNextHopTargetTargetTypeEnumLowerCase = map[string]PrivateIpNextHopTargetTargetTypeEnum{
-	"padp":        PrivateIpNextHopTargetTargetTypePadp,
-	"vnic_worker": PrivateIpNextHopTargetTargetTypeVnicWorker,
+	"padp":         PrivateIpNextHopTargetTargetTypePadp,
+	"vnic_worker":  PrivateIpNextHopTargetTargetTypeVnicWorker,
+	"service_vnic": PrivateIpNextHopTargetTargetTypeServiceVnic,
 }
 
 // GetPrivateIpNextHopTargetTargetTypeEnumValues Enumerates the set of values for PrivateIpNextHopTargetTargetTypeEnum
@@ -91,6 +101,7 @@ func GetPrivateIpNextHopTargetTargetTypeEnumStringValues() []string {
 	return []string{
 		"PADP",
 		"VNIC_WORKER",
+		"SERVICE_VNIC",
 	}
 }
 

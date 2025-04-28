@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeAttributeSetCompartmentDetails Details to change the compartment of an attribute set.
+// ChangeAttributeSetCompartmentDetails The compartment where the attribute set will move to.
 type ChangeAttributeSetCompartmentDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the new compartment were

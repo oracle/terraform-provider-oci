@@ -27,7 +27,7 @@ type BulkCreateUnifiedAuditPolicyDetails struct {
 	// The OCID of the compartment in which to create the unified audit policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of unified audit policy definition ocids.
+	// The list of unified audit policy definition ocids.
 	// If unified audit policy definition ids are provided, the imported
 	// audit policy will be associated to the specified unified audit policy
 	// definition based on the policy name.
@@ -35,7 +35,7 @@ type BulkCreateUnifiedAuditPolicyDetails struct {
 	// a new unified audit policy definition will be created.
 	UnifiedAuditPolicyDefinitionIds []string `mandatory:"false" json:"unifiedAuditPolicyDefinitionIds"`
 
-	// List of unified audit policy names to be imported.
+	// The list of unified audit policy names to be imported.
 	// If policy names are not provided, then all the audit policies
 	// from the target database will be imported.
 	PolicyNames []string `mandatory:"false" json:"policyNames"`

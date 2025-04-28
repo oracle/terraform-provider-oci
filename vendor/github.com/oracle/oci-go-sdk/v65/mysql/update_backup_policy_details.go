@@ -21,8 +21,8 @@ type UpdateBackupPolicyDetails struct {
 	// Specifies if automatic backups are enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// Retains the backup to be deleted (by a delete command or due to the retention policy)
-	// in DELETE SCHEDULED state for 7 days before permanently deleting it
+	// Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED
+	// state for 7 days before permanently deleting it.
 	SoftDelete SoftDeleteEnum `mandatory:"false" json:"softDelete,omitempty"`
 
 	// List of policies of a DB system to schedule cross-region DB system backup copy.

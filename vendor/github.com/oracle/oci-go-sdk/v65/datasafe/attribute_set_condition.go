@@ -22,7 +22,7 @@ type AttributeSetCondition struct {
 	// The OCID of the attribute set.
 	AttributeSetId *string `mandatory:"true" json:"attributeSetId"`
 
-	// The entity include or exclude selection.
+	// Specifies whether to include or exclude the specified users or roles.
 	EntitySelection PolicyConditionEntitySelectionEnum `mandatory:"true" json:"entitySelection"`
 
 	// The operation status that the policy must be enabled for.

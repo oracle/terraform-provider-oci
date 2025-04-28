@@ -504,6 +504,65 @@ func (client NetworkFirewallClient) bulkUploadMappedSecrets(ctx context.Context,
 	return response, err
 }
 
+// BulkUploadNatRules Creates a new NAT Rule at bulk for the Network Firewall Policy.
+// A default retry strategy applies to this operation BulkUploadNatRules()
+func (client NetworkFirewallClient) BulkUploadNatRules(ctx context.Context, request BulkUploadNatRulesRequest) (response BulkUploadNatRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.bulkUploadNatRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkUploadNatRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkUploadNatRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkUploadNatRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkUploadNatRulesResponse")
+	}
+	return
+}
+
+// bulkUploadNatRules implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) bulkUploadNatRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkFirewallPolicies/{networkFirewallPolicyId}/natRules/actions/bulkUpload", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkUploadNatRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/natRule/BulkUploadNatRules"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadNatRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkUploadSecurityRules Creates a new Security Rule at bulk for the Network Firewall Policy.
 // A default retry strategy applies to this operation BulkUploadSecurityRules()
 func (client NetworkFirewallClient) BulkUploadSecurityRules(ctx context.Context, request BulkUploadSecurityRulesRequest) (response BulkUploadSecurityRulesResponse, err error) {
@@ -971,7 +1030,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallPolicyCompartment(ctx c
 	return response, err
 }
 
-// CloneNetworkFirewallPolicy Moves a NetworkFirewallPolicy resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// CloneNetworkFirewallPolicy Clones a NetworkFirewallPolicy resource from an existing Network Firewall Policy. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation CloneNetworkFirewallPolicy()
 func (client NetworkFirewallClient) CloneNetworkFirewallPolicy(ctx context.Context, request CloneNetworkFirewallPolicyRequest) (response CloneNetworkFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1381,6 +1440,65 @@ func (client NetworkFirewallClient) createMappedSecret(ctx context.Context, requ
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &mappedsecret{})
+	return response, err
+}
+
+// CreateNatRule Creates a new NAT Rule for the Network Firewall Policy.
+// A default retry strategy applies to this operation CreateNatRule()
+func (client NetworkFirewallClient) CreateNatRule(ctx context.Context, request CreateNatRuleRequest) (response CreateNatRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createNatRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateNatRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateNatRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateNatRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateNatRuleResponse")
+	}
+	return
+}
+
+// createNatRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) createNatRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkFirewallPolicies/{networkFirewallPolicyId}/natRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateNatRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NatRule/CreateNatRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateNatRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &natrule{})
 	return response, err
 }
 
@@ -2121,6 +2239,60 @@ func (client NetworkFirewallClient) deleteMappedSecret(ctx context.Context, requ
 	return response, err
 }
 
+// DeleteNatRule Deletes a NAT Rule resource with the given identifier.
+// A default retry strategy applies to this operation DeleteNatRule()
+func (client NetworkFirewallClient) DeleteNatRule(ctx context.Context, request DeleteNatRuleRequest) (response DeleteNatRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteNatRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteNatRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteNatRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteNatRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteNatRuleResponse")
+	}
+	return
+}
+
+// deleteNatRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) deleteNatRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkFirewallPolicies/{networkFirewallPolicyId}/natRules/{natRuleName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteNatRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NatRule/DeleteNatRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteNatRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteNetworkFirewall Deletes a NetworkFirewall resource by identifier
 // A default retry strategy applies to this operation DeleteNetworkFirewall()
 func (client NetworkFirewallClient) DeleteNetworkFirewall(ctx context.Context, request DeleteNetworkFirewallRequest) (response DeleteNetworkFirewallResponse, err error) {
@@ -2820,6 +2992,60 @@ func (client NetworkFirewallClient) getMappedSecret(ctx context.Context, request
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &mappedsecret{})
+	return response, err
+}
+
+// GetNatRule Get NAT Rule by the given name in the context of network firewall policy.
+// A default retry strategy applies to this operation GetNatRule()
+func (client NetworkFirewallClient) GetNatRule(ctx context.Context, request GetNatRuleRequest) (response GetNatRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getNatRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNatRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNatRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNatRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNatRuleResponse")
+	}
+	return
+}
+
+// getNatRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) getNatRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkFirewallPolicies/{networkFirewallPolicyId}/natRules/{natRuleName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetNatRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NatRule/GetNatRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNatRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &natrule{})
 	return response, err
 }
 
@@ -3572,6 +3798,60 @@ func (client NetworkFirewallClient) listMappedSecrets(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/ListMappedSecrets"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListMappedSecrets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListNatRules Returns a list of NAT Rules for the Network Firewall Policy.
+// A default retry strategy applies to this operation ListNatRules()
+func (client NetworkFirewallClient) ListNatRules(ctx context.Context, request ListNatRulesRequest) (response ListNatRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listNatRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNatRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNatRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListNatRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListNatRulesResponse")
+	}
+	return
+}
+
+// listNatRules implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) listNatRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkFirewallPolicies/{networkFirewallPolicyId}/natRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListNatRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NatRule/ListNatRules"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListNatRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -4499,6 +4779,60 @@ func (client NetworkFirewallClient) updateMappedSecret(ctx context.Context, requ
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &mappedsecret{})
+	return response, err
+}
+
+// UpdateNatRule Updates the NAT Rule with the given name in the network firewall policy.
+// A default retry strategy applies to this operation UpdateNatRule()
+func (client NetworkFirewallClient) UpdateNatRule(ctx context.Context, request UpdateNatRuleRequest) (response UpdateNatRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateNatRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateNatRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateNatRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateNatRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateNatRuleResponse")
+	}
+	return
+}
+
+// updateNatRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) updateNatRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkFirewallPolicies/{networkFirewallPolicyId}/natRules/{natRuleName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateNatRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NatRule/UpdateNatRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateNatRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &natrule{})
 	return response, err
 }
 

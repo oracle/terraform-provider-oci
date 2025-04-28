@@ -20,9 +20,9 @@ import (
 type RoleCondition struct {
 
 	// List of roles that the policy must be enabled for.
-	EntityNames []string `mandatory:"true" json:"entityNames"`
+	RoleNames []string `mandatory:"true" json:"roleNames"`
 
-	// The entity include or exclude selection.
+	// Specifies whether to include or exclude the specified users or roles.
 	EntitySelection PolicyConditionEntitySelectionEnum `mandatory:"true" json:"entitySelection"`
 
 	// The operation status that the policy must be enabled for.

@@ -108,6 +108,10 @@ func (m *databaseconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := EmManagedExternalDatabaseConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACS_MANAGED_AUTONOMOUS_DATABASE":
+		mm := MacsManagedAutonomousDatabaseConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EXTERNAL_MYSQL_DATABASE_SYSTEM":
 		mm := ExternalMysqlDatabaseConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)

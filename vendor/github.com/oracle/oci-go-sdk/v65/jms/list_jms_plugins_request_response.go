@@ -26,7 +26,8 @@ type ListJmsPluginsRequest struct {
 	// The ID of the Fleet.
 	FleetId *string `mandatory:"false" contributesTo:"query" name:"fleetId"`
 
-	// The ManagementAgent (OMA) or Instance (OCA) OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that identifies the Agent.
+	// The ManagementAgent (OMA), Oracle Cloud Agent (OCA), or the Oracle Container Management Agent (OCMA) OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// that identifies the Agent.
 	AgentId *string `mandatory:"false" contributesTo:"query" name:"agentId"`
 
 	// Filter JmsPlugin with its lifecycle state.
@@ -250,18 +251,21 @@ type ListJmsPluginsAgentTypeEnum string
 
 // Set of constants representing the allowable values for ListJmsPluginsAgentTypeEnum
 const (
-	ListJmsPluginsAgentTypeOma ListJmsPluginsAgentTypeEnum = "OMA"
-	ListJmsPluginsAgentTypeOca ListJmsPluginsAgentTypeEnum = "OCA"
+	ListJmsPluginsAgentTypeOma  ListJmsPluginsAgentTypeEnum = "OMA"
+	ListJmsPluginsAgentTypeOca  ListJmsPluginsAgentTypeEnum = "OCA"
+	ListJmsPluginsAgentTypeOcma ListJmsPluginsAgentTypeEnum = "OCMA"
 )
 
 var mappingListJmsPluginsAgentTypeEnum = map[string]ListJmsPluginsAgentTypeEnum{
-	"OMA": ListJmsPluginsAgentTypeOma,
-	"OCA": ListJmsPluginsAgentTypeOca,
+	"OMA":  ListJmsPluginsAgentTypeOma,
+	"OCA":  ListJmsPluginsAgentTypeOca,
+	"OCMA": ListJmsPluginsAgentTypeOcma,
 }
 
 var mappingListJmsPluginsAgentTypeEnumLowerCase = map[string]ListJmsPluginsAgentTypeEnum{
-	"oma": ListJmsPluginsAgentTypeOma,
-	"oca": ListJmsPluginsAgentTypeOca,
+	"oma":  ListJmsPluginsAgentTypeOma,
+	"oca":  ListJmsPluginsAgentTypeOca,
+	"ocma": ListJmsPluginsAgentTypeOcma,
 }
 
 // GetListJmsPluginsAgentTypeEnumValues Enumerates the set of values for ListJmsPluginsAgentTypeEnum
@@ -278,6 +282,7 @@ func GetListJmsPluginsAgentTypeEnumStringValues() []string {
 	return []string{
 		"OMA",
 		"OCA",
+		"OCMA",
 	}
 }
 

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// TargetDatabaseGroupCollection Results of a target database group search. Contains target database group summary items.
+// TargetDatabaseGroupCollection The results of a target database group search. Contains target database group summary details.
 type TargetDatabaseGroupCollection struct {
 
 	// An array of target database group summary items.

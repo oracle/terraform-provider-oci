@@ -81,6 +81,7 @@ const (
 	ColumnApplicableOperatorsCoCs  ColumnApplicableOperatorsEnum = "CO_CS"
 	ColumnApplicableOperatorsNot   ColumnApplicableOperatorsEnum = "NOT"
 	ColumnApplicableOperatorsNotIn ColumnApplicableOperatorsEnum = "NOT_IN"
+	ColumnApplicableOperatorsInSet ColumnApplicableOperatorsEnum = "IN_SET"
 )
 
 var mappingColumnApplicableOperatorsEnum = map[string]ColumnApplicableOperatorsEnum{
@@ -98,6 +99,7 @@ var mappingColumnApplicableOperatorsEnum = map[string]ColumnApplicableOperatorsE
 	"CO_CS":  ColumnApplicableOperatorsCoCs,
 	"NOT":    ColumnApplicableOperatorsNot,
 	"NOT_IN": ColumnApplicableOperatorsNotIn,
+	"IN_SET": ColumnApplicableOperatorsInSet,
 }
 
 var mappingColumnApplicableOperatorsEnumLowerCase = map[string]ColumnApplicableOperatorsEnum{
@@ -115,6 +117,7 @@ var mappingColumnApplicableOperatorsEnumLowerCase = map[string]ColumnApplicableO
 	"co_cs":  ColumnApplicableOperatorsCoCs,
 	"not":    ColumnApplicableOperatorsNot,
 	"not_in": ColumnApplicableOperatorsNotIn,
+	"in_set": ColumnApplicableOperatorsInSet,
 }
 
 // GetColumnApplicableOperatorsEnumValues Enumerates the set of values for ColumnApplicableOperatorsEnum
@@ -143,6 +146,7 @@ func GetColumnApplicableOperatorsEnumStringValues() []string {
 		"CO_CS",
 		"NOT",
 		"NOT_IN",
+		"IN_SET",
 	}
 }
 

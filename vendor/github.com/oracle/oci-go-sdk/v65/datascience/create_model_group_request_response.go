@@ -15,7 +15,7 @@ import (
 type CreateModelGroupRequest struct {
 
 	// Details for creating a new model group.
-	CreateModelGroupDetails `contributesTo:"body"`
+	CreateBaseModelGroupDetails `contributesTo:"body"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

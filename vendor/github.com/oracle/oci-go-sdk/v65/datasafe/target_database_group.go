@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// TargetDatabaseGroup The details of the target database group.
+// TargetDatabaseGroup The details of the target database group including matching criteria. Used for a single resource retrieval.
 type TargetDatabaseGroup struct {
 
 	// The OCID for the compartment containing the target database group.

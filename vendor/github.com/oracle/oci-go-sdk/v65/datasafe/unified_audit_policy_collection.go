@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// UnifiedAuditPolicyCollection Collection of audit policy summary.
+// UnifiedAuditPolicyCollection Collection of audit policy summaries.
 type UnifiedAuditPolicyCollection struct {
 
-	// Array of audit policy summary.
+	// Array of audit policy summaries.
 	Items []UnifiedAuditPolicySummary `mandatory:"true" json:"items"`
 }
 

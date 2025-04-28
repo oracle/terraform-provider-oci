@@ -20,6 +20,12 @@ type ScanLibraryUsageDetails struct {
 
 	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of managed instances to scan.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
+
+	// Indicates whether the scan is dynamic or static.
+	IsDynamicScan *bool `mandatory:"false" json:"isDynamicScan"`
+
+	// The duration of the dynamic scan in minutes.
+	DynamicScanDurationInMinutes *int `mandatory:"false" json:"dynamicScanDurationInMinutes"`
 }
 
 func (m ScanLibraryUsageDetails) String() string {

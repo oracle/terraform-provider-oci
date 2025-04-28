@@ -16,19 +16,36 @@ import (
 	"strings"
 )
 
-// CloneCreateModelGroupDetails Parameters needed to clone a model group.
-type CloneCreateModelGroupDetails struct {
+// CloneModelGroupDetails Parameters needed to clone a model group.
+type CloneModelGroupDetails struct {
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the modelGroup in.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the modelGroup.
+	ProjectId *string `mandatory:"true" json:"projectId"`
+
 	ModelGroupCloneSourceDetails ModelGroupCloneSourceDetails `mandatory:"true" json:"modelGroupCloneSourceDetails"`
 }
 
-func (m CloneCreateModelGroupDetails) String() string {
+// GetCompartmentId returns CompartmentId
+func (m CloneModelGroupDetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetProjectId returns ProjectId
+func (m CloneModelGroupDetails) GetProjectId() *string {
+	return m.ProjectId
+}
+
+func (m CloneModelGroupDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CloneCreateModelGroupDetails) ValidateEnumValue() (bool, error) {
+func (m CloneModelGroupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -38,22 +55,24 @@ func (m CloneCreateModelGroupDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m CloneCreateModelGroupDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCloneCreateModelGroupDetails CloneCreateModelGroupDetails
+func (m CloneModelGroupDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCloneModelGroupDetails CloneModelGroupDetails
 	s := struct {
 		DiscriminatorParam string `json:"createType"`
-		MarshalTypeCloneCreateModelGroupDetails
+		MarshalTypeCloneModelGroupDetails
 	}{
 		"CLONE",
-		(MarshalTypeCloneCreateModelGroupDetails)(m),
+		(MarshalTypeCloneModelGroupDetails)(m),
 	}
 
 	return json.Marshal(&s)
 }
 
 // UnmarshalJSON unmarshals from json
-func (m *CloneCreateModelGroupDetails) UnmarshalJSON(data []byte) (e error) {
+func (m *CloneModelGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CompartmentId                *string                      `json:"compartmentId"`
+		ProjectId                    *string                      `json:"projectId"`
 		ModelGroupCloneSourceDetails modelgroupclonesourcedetails `json:"modelGroupCloneSourceDetails"`
 	}{}
 
@@ -62,6 +81,10 @@ func (m *CloneCreateModelGroupDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.CompartmentId = model.CompartmentId
+
+	m.ProjectId = model.ProjectId
+
 	nn, e = model.ModelGroupCloneSourceDetails.UnmarshalPolymorphicJSON(model.ModelGroupCloneSourceDetails.JsonData)
 	if e != nil {
 		return

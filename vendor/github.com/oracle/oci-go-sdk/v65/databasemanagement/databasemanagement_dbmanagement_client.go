@@ -5674,7 +5674,7 @@ func (client DbManagementClient) generateAwrSnapshot(ctx context.Context, reques
 	return response, err
 }
 
-// GetAwrDbReport Gets the AWR report for the specific database.
+// GetAwrDbReport Gets the AWR report for the specified database.
 func (client DbManagementClient) GetAwrDbReport(ctx context.Context, request GetAwrDbReportRequest) (response GetAwrDbReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5732,7 +5732,7 @@ func (client DbManagementClient) getAwrDbReport(ctx context.Context, request com
 	return response, err
 }
 
-// GetAwrDbSqlReport Gets the SQL health check report for one SQL of the specific database.
+// GetAwrDbSqlReport Gets the SQL health check report for one SQL of the specified database.
 func (client DbManagementClient) GetAwrDbSqlReport(ctx context.Context, request GetAwrDbSqlReportRequest) (response GetAwrDbSqlReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8226,7 +8226,7 @@ func (client DbManagementClient) getIormPlan(ctx context.Context, request common
 	return response, err
 }
 
-// GetJob Gets the details for the job specified by jobId.
+// GetJob Gets the details of the job specified by jobId.
 func (client DbManagementClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8279,7 +8279,7 @@ func (client DbManagementClient) getJob(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetJobExecution Gets the details for the job execution specified by jobExecutionId.
+// GetJobExecution Gets the details of the job execution specified by jobExecutionId.
 func (client DbManagementClient) GetJobExecution(ctx context.Context, request GetJobExecutionRequest) (response GetJobExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8332,7 +8332,7 @@ func (client DbManagementClient) getJobExecution(ctx context.Context, request co
 	return response, err
 }
 
-// GetJobRun Gets the details for the job run specified by jobRunId.
+// GetJobRun Gets the details of the job run specified by jobRunId.
 func (client DbManagementClient) GetJobRun(ctx context.Context, request GetJobRunRequest) (response GetJobRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8385,7 +8385,7 @@ func (client DbManagementClient) getJobRun(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetManagedDatabase Gets the details for the Managed Database specified by managedDatabaseId.
+// GetManagedDatabase Gets the details of the Managed Database specified by managedDatabaseId.
 func (client DbManagementClient) GetManagedDatabase(ctx context.Context, request GetManagedDatabaseRequest) (response GetManagedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8438,7 +8438,7 @@ func (client DbManagementClient) getManagedDatabase(ctx context.Context, request
 	return response, err
 }
 
-// GetManagedDatabaseGroup Gets the details for the Managed Database Group specified by managedDatabaseGroupId.
+// GetManagedDatabaseGroup Gets the details of the Managed Database Group specified by managedDatabaseGroupId.
 func (client DbManagementClient) GetManagedDatabaseGroup(ctx context.Context, request GetManagedDatabaseGroupRequest) (response GetManagedDatabaseGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9246,7 +9246,7 @@ func (client DbManagementClient) getUser(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetWorkRequest Gets the status of the work request with the given Work Request ID
+// GetWorkRequest Gets the status of the work request with the given Work Request ID.
 func (client DbManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13038,7 +13038,7 @@ func (client DbManagementClient) listWorkRequestLogs(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequests The list of work requests in a specific compartment was retrieved successfully.
+// ListWorkRequests Lists the work requests in a specific compartment.
 func (client DbManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16890,7 +16890,7 @@ func (client DbManagementClient) updateExternalMysqlDatabaseConnector(ctx contex
 	return response, err
 }
 
-// UpdateJob Updates the details for the recurring scheduled job specified by jobId. Note that non-recurring (one time) jobs cannot be updated.
+// UpdateJob Updates the details of the recurring scheduled job specified by jobId. Note that non-recurring (one time) jobs cannot be updated.
 func (client DbManagementClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

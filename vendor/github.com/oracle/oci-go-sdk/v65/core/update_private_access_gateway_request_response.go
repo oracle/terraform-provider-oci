@@ -55,6 +55,21 @@ func (request UpdatePrivateAccessGatewayRequest) BinaryRequestBody() (*common.OC
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdatePrivateAccessGatewayRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["privateAccessGatewayId"] != nil {
+		templateParam := mandatoryParamMap["privateAccessGatewayId"]
+		for _, template := range templateParam {
+			replacementParam := *request.PrivateAccessGatewayId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdatePrivateAccessGatewayRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

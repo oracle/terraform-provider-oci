@@ -208,6 +208,10 @@ const (
 	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceUsageDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "MDS-MYSQL"
 	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalMysql        SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-MYSQL"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpExacc             SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ATP-EXACC"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwExacc             SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ADW-EXACC"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalAdw          SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-ADW"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalAtp          SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-ATP"
 )
 
 var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum{
@@ -231,6 +235,10 @@ var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = map[string]Su
 	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceUsageDatabaseTypeMdsMysql,
 	"EXTERNAL-MYSQL":         SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalMysql,
+	"ATP-EXACC":              SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpExacc,
+	"ADW-EXACC":              SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwExacc,
+	"EXTERNAL-ADW":           SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalAdw,
+	"EXTERNAL-ATP":           SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalAtp,
 }
 
 var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum{
@@ -254,6 +262,10 @@ var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumLowerCase = map[
 	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceUsageDatabaseTypeMdsMysql,
 	"external-mysql":         SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalMysql,
+	"atp-exacc":              SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpExacc,
+	"adw-exacc":              SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwExacc,
+	"external-adw":           SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalAdw,
+	"external-atp":           SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalAtp,
 }
 
 // GetSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum
@@ -288,6 +300,10 @@ func GetSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumStringValues() []st
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 		"EXTERNAL-MYSQL",
+		"ATP-EXACC",
+		"ADW-EXACC",
+		"EXTERNAL-ADW",
+		"EXTERNAL-ATP",
 	}
 }
 

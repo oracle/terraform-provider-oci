@@ -45,8 +45,8 @@ type ListSecurityPolicyDeploymentsRequest struct {
 	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
-	// A filter to return the target database group that matches the specified OCID.
-	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+	// A optional filter to return only resources that belong to the specified target type.
+	TargetType SecurityPolicyDeploymentTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
 
 	// An optional filter to return only resources that match the specified OCID of the security policy resource.
 	SecurityPolicyId *string `mandatory:"false" contributesTo:"query" name:"securityPolicyId"`
@@ -103,6 +103,9 @@ func (request ListSecurityPolicyDeploymentsRequest) ValidateEnumValue() (bool, e
 	}
 	if _, ok := GetMappingListSecurityPolicyDeploymentsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSecurityPolicyDeploymentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSecurityPolicyDeploymentTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetSecurityPolicyDeploymentTargetTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListSecurityPolicyDeploymentsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSecurityPolicyDeploymentsSortOrderEnumStringValues(), ",")))

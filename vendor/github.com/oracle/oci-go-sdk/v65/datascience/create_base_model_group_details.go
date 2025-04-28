@@ -16,33 +16,43 @@ import (
 	"strings"
 )
 
-// CreateModelGroupDetailsBase The base create model group details.
-type CreateModelGroupDetailsBase interface {
+// CreateBaseModelGroupDetails The base create model group details.
+type CreateBaseModelGroupDetails interface {
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the modelGroup in.
+	GetCompartmentId() *string
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the modelGroup.
+	GetProjectId() *string
 }
 
-type createmodelgroupdetailsbase struct {
-	JsonData   []byte
-	CreateType string `json:"createType"`
+type createbasemodelgroupdetails struct {
+	JsonData      []byte
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	ProjectId     *string `mandatory:"true" json:"projectId"`
+	CreateType    string  `json:"createType"`
 }
 
 // UnmarshalJSON unmarshals json
-func (m *createmodelgroupdetailsbase) UnmarshalJSON(data []byte) error {
+func (m *createbasemodelgroupdetails) UnmarshalJSON(data []byte) error {
 	m.JsonData = data
-	type Unmarshalercreatemodelgroupdetailsbase createmodelgroupdetailsbase
+	type Unmarshalercreatebasemodelgroupdetails createbasemodelgroupdetails
 	s := struct {
-		Model Unmarshalercreatemodelgroupdetailsbase
+		Model Unmarshalercreatebasemodelgroupdetails
 	}{}
 	err := json.Unmarshal(data, &s.Model)
 	if err != nil {
 		return err
 	}
+	m.CompartmentId = s.Model.CompartmentId
+	m.ProjectId = s.Model.ProjectId
 	m.CreateType = s.Model.CreateType
 
 	return err
 }
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *createmodelgroupdetailsbase) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+func (m *createbasemodelgroupdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	if data == nil || string(data) == "null" {
 		return nil, nil
@@ -51,7 +61,7 @@ func (m *createmodelgroupdetailsbase) UnmarshalPolymorphicJSON(data []byte) (int
 	var err error
 	switch m.CreateType {
 	case "CLONE":
-		mm := CloneCreateModelGroupDetails{}
+		mm := CloneModelGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "CREATE":
@@ -59,19 +69,29 @@ func (m *createmodelgroupdetailsbase) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Received unsupported enum value for CreateModelGroupDetailsBase: %s.", m.CreateType)
+		common.Logf("Received unsupported enum value for CreateBaseModelGroupDetails: %s.", m.CreateType)
 		return *m, nil
 	}
 }
 
-func (m createmodelgroupdetailsbase) String() string {
+// GetCompartmentId returns CompartmentId
+func (m createbasemodelgroupdetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetProjectId returns ProjectId
+func (m createbasemodelgroupdetails) GetProjectId() *string {
+	return m.ProjectId
+}
+
+func (m createbasemodelgroupdetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m createmodelgroupdetailsbase) ValidateEnumValue() (bool, error) {
+func (m createbasemodelgroupdetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

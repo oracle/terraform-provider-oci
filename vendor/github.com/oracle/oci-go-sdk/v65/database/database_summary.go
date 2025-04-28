@@ -128,7 +128,12 @@ type DatabaseSummary struct {
 
 	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 
-	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
+	StorageSizeDetails *DatabaseStorageSizeResponseDetails `mandatory:"false" json:"storageSizeDetails"`
+
+	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
+
+	// Represents database will be under oracle managed home or customer managed home
+	HomeType DatabaseSummaryHomeTypeEnum `mandatory:"false" json:"homeType,omitempty"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -144,6 +149,9 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatabaseSummaryHomeTypeEnum(string(m.HomeType)); !ok && m.HomeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HomeType: %s. Supported values are: %s.", m.HomeType, strings.Join(GetDatabaseSummaryHomeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -153,42 +161,44 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CharacterSet                               *string                           `json:"characterSet"`
-		NcharacterSet                              *string                           `json:"ncharacterSet"`
-		DbHomeId                                   *string                           `json:"dbHomeId"`
-		DbSystemId                                 *string                           `json:"dbSystemId"`
-		VmClusterId                                *string                           `json:"vmClusterId"`
-		PdbName                                    *string                           `json:"pdbName"`
-		DbWorkload                                 *string                           `json:"dbWorkload"`
-		LifecycleDetails                           *string                           `json:"lifecycleDetails"`
-		TimeCreated                                *common.SDKTime                   `json:"timeCreated"`
-		LastBackupTimestamp                        *common.SDKTime                   `json:"lastBackupTimestamp"`
-		LastBackupDurationInSeconds                *int                              `json:"lastBackupDurationInSeconds"`
-		LastFailedBackupTimestamp                  *common.SDKTime                   `json:"lastFailedBackupTimestamp"`
-		DbBackupConfig                             *DbBackupConfig                   `json:"dbBackupConfig"`
-		FreeformTags                               map[string]string                 `json:"freeformTags"`
-		DefinedTags                                map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                                 map[string]map[string]interface{} `json:"systemTags"`
-		ConnectionStrings                          *DatabaseConnectionStrings        `json:"connectionStrings"`
-		LastRemoteBackupTimestamp                  *common.SDKTime                   `json:"lastRemoteBackupTimestamp"`
-		KmsKeyId                                   *string                           `json:"kmsKeyId"`
-		KmsKeyVersionId                            *string                           `json:"kmsKeyVersionId"`
-		VaultId                                    *string                           `json:"vaultId"`
-		SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime                   `json:"sourceDatabasePointInTimeRecoveryTimestamp"`
-		DatabaseSoftwareImageId                    *string                           `json:"databaseSoftwareImageId"`
-		IsCdb                                      *bool                             `json:"isCdb"`
-		DatabaseManagementConfig                   *CloudDatabaseManagementConfig    `json:"databaseManagementConfig"`
-		SidPrefix                                  *string                           `json:"sidPrefix"`
-		KeyStoreId                                 *string                           `json:"keyStoreId"`
-		KeyStoreWalletName                         *string                           `json:"keyStoreWalletName"`
-		DataGuardGroup                             *DataGuardGroup                   `json:"dataGuardGroup"`
-		EncryptionKeyLocationDetails               encryptionkeylocationdetails      `json:"encryptionKeyLocationDetails"`
-		StorageSizeDetails                         *DatabaseStorageSizeDetails       `json:"storageSizeDetails"`
-		Id                                         *string                           `json:"id"`
-		CompartmentId                              *string                           `json:"compartmentId"`
-		DbName                                     *string                           `json:"dbName"`
-		DbUniqueName                               *string                           `json:"dbUniqueName"`
-		LifecycleState                             DatabaseSummaryLifecycleStateEnum `json:"lifecycleState"`
+		CharacterSet                               *string                             `json:"characterSet"`
+		NcharacterSet                              *string                             `json:"ncharacterSet"`
+		DbHomeId                                   *string                             `json:"dbHomeId"`
+		DbSystemId                                 *string                             `json:"dbSystemId"`
+		VmClusterId                                *string                             `json:"vmClusterId"`
+		PdbName                                    *string                             `json:"pdbName"`
+		DbWorkload                                 *string                             `json:"dbWorkload"`
+		LifecycleDetails                           *string                             `json:"lifecycleDetails"`
+		TimeCreated                                *common.SDKTime                     `json:"timeCreated"`
+		LastBackupTimestamp                        *common.SDKTime                     `json:"lastBackupTimestamp"`
+		LastBackupDurationInSeconds                *int                                `json:"lastBackupDurationInSeconds"`
+		LastFailedBackupTimestamp                  *common.SDKTime                     `json:"lastFailedBackupTimestamp"`
+		DbBackupConfig                             *DbBackupConfig                     `json:"dbBackupConfig"`
+		FreeformTags                               map[string]string                   `json:"freeformTags"`
+		DefinedTags                                map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags                                 map[string]map[string]interface{}   `json:"systemTags"`
+		ConnectionStrings                          *DatabaseConnectionStrings          `json:"connectionStrings"`
+		LastRemoteBackupTimestamp                  *common.SDKTime                     `json:"lastRemoteBackupTimestamp"`
+		KmsKeyId                                   *string                             `json:"kmsKeyId"`
+		KmsKeyVersionId                            *string                             `json:"kmsKeyVersionId"`
+		VaultId                                    *string                             `json:"vaultId"`
+		SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime                     `json:"sourceDatabasePointInTimeRecoveryTimestamp"`
+		DatabaseSoftwareImageId                    *string                             `json:"databaseSoftwareImageId"`
+		IsCdb                                      *bool                               `json:"isCdb"`
+		DatabaseManagementConfig                   *CloudDatabaseManagementConfig      `json:"databaseManagementConfig"`
+		SidPrefix                                  *string                             `json:"sidPrefix"`
+		KeyStoreId                                 *string                             `json:"keyStoreId"`
+		KeyStoreWalletName                         *string                             `json:"keyStoreWalletName"`
+		DataGuardGroup                             *DataGuardGroup                     `json:"dataGuardGroup"`
+		EncryptionKeyLocationDetails               encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
+		StorageSizeDetails                         *DatabaseStorageSizeResponseDetails `json:"storageSizeDetails"`
+		ManagedSoftwareUpdateDetails               *ManagedSoftwareUpdateDetails       `json:"managedSoftwareUpdateDetails"`
+		HomeType                                   DatabaseSummaryHomeTypeEnum         `json:"homeType"`
+		Id                                         *string                             `json:"id"`
+		CompartmentId                              *string                             `json:"compartmentId"`
+		DbName                                     *string                             `json:"dbName"`
+		DbUniqueName                               *string                             `json:"dbUniqueName"`
+		LifecycleState                             DatabaseSummaryLifecycleStateEnum   `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -265,6 +275,10 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
+
+	m.HomeType = model.HomeType
 
 	m.Id = model.Id
 
@@ -350,5 +364,47 @@ func GetDatabaseSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingDatabaseSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseSummaryLifecycleStateEnum(val string) (DatabaseSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingDatabaseSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseSummaryHomeTypeEnum Enum with underlying type: string
+type DatabaseSummaryHomeTypeEnum string
+
+// Set of constants representing the allowable values for DatabaseSummaryHomeTypeEnum
+const (
+	DatabaseSummaryHomeTypeOracleManaged   DatabaseSummaryHomeTypeEnum = "ORACLE_MANAGED"
+	DatabaseSummaryHomeTypeCustomerManaged DatabaseSummaryHomeTypeEnum = "CUSTOMER_MANAGED"
+)
+
+var mappingDatabaseSummaryHomeTypeEnum = map[string]DatabaseSummaryHomeTypeEnum{
+	"ORACLE_MANAGED":   DatabaseSummaryHomeTypeOracleManaged,
+	"CUSTOMER_MANAGED": DatabaseSummaryHomeTypeCustomerManaged,
+}
+
+var mappingDatabaseSummaryHomeTypeEnumLowerCase = map[string]DatabaseSummaryHomeTypeEnum{
+	"oracle_managed":   DatabaseSummaryHomeTypeOracleManaged,
+	"customer_managed": DatabaseSummaryHomeTypeCustomerManaged,
+}
+
+// GetDatabaseSummaryHomeTypeEnumValues Enumerates the set of values for DatabaseSummaryHomeTypeEnum
+func GetDatabaseSummaryHomeTypeEnumValues() []DatabaseSummaryHomeTypeEnum {
+	values := make([]DatabaseSummaryHomeTypeEnum, 0)
+	for _, v := range mappingDatabaseSummaryHomeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseSummaryHomeTypeEnumStringValues Enumerates the set of values in String for DatabaseSummaryHomeTypeEnum
+func GetDatabaseSummaryHomeTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGED",
+		"CUSTOMER_MANAGED",
+	}
+}
+
+// GetMappingDatabaseSummaryHomeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseSummaryHomeTypeEnum(val string) (DatabaseSummaryHomeTypeEnum, bool) {
+	enum, ok := mappingDatabaseSummaryHomeTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

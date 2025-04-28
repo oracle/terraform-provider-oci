@@ -19,10 +19,10 @@ import (
 // UserCondition The audit policy provisioning conditions.
 type UserCondition struct {
 
-	// List of users that the policy must be enabled for.
-	EntityNames []string `mandatory:"true" json:"entityNames"`
+	// The list of users that the unified audit policy is enabled for.
+	UserNames []string `mandatory:"true" json:"userNames"`
 
-	// The entity include or exclude selection.
+	// Specifies whether to include or exclude the specified users or roles.
 	EntitySelection PolicyConditionEntitySelectionEnum `mandatory:"true" json:"entitySelection"`
 
 	// The operation status that the policy must be enabled for.

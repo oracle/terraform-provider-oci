@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateAttributeSetDetails Request details for creating an attribute set.
+// CreateAttributeSetDetails The details for an attribute set.
 type CreateAttributeSetDetails struct {
 
 	// The display name of the attribute set. The name is unique and changeable.

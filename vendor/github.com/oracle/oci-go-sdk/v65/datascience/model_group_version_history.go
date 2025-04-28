@@ -30,17 +30,8 @@ type ModelGroupVersionHistory struct {
 	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// A short description of the modelGroupVersionHistory.
-	Description *string `mandatory:"true" json:"description"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest version of the model group associated.
-	LatestModelGroupId *string `mandatory:"true" json:"latestModelGroupId"`
-
 	// The state of the modelGroupVersionHistory.
 	LifecycleState ModelGroupVersionHistoryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-
-	// Details about the lifecycle state of the model group version history.
-	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
 
 	// The date and time the resource was created in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: 2019-08-25T21:10:29.41Z
@@ -53,6 +44,12 @@ type ModelGroupVersionHistory struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the modelGroupVersionHistory.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
+	// A short description of the modelGroupVersionHistory.
+	Description *string `mandatory:"false" json:"description"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest version of the model group associated.
+	LatestModelGroupId *string `mandatory:"false" json:"latestModelGroupId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -64,6 +61,9 @@ type ModelGroupVersionHistory struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Details about the lifecycle state of the model group version history.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }
 
 func (m ModelGroupVersionHistory) String() string {

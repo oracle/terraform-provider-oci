@@ -7542,59 +7542,6 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 	return response, err
 }
 
-// ExecuteResourceQuery Executes the resource query.
-// A default retry strategy applies to this operation ExecuteResourceQuery()
-func (client DataSafeClient) ExecuteResourceQuery(ctx context.Context, request ExecuteResourceQueryRequest) (response ExecuteResourceQueryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.executeResourceQuery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ExecuteResourceQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ExecuteResourceQueryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ExecuteResourceQueryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ExecuteResourceQueryResponse")
-	}
-	return
-}
-
-// executeResourceQuery implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) executeResourceQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/resourceQuery", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ExecuteResourceQueryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ExecuteResourceQueryDetails/ExecuteResourceQuery"
-		err = common.PostProcessServiceError(err, "DataSafe", "ExecuteResourceQuery", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GenerateDiscoveryReportForDownload Generates a downloadable discovery report. It's a prerequisite for the DownloadDiscoveryReport operation. Use this
 // endpoint to generate a discovery report file and then use DownloadDiscoveryReport to download the generated file.
 // By default, it generates report for all the columns in a sensitive data model. Use the discoveryJobId attribute
@@ -15934,6 +15881,60 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ListTables"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListTables", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTargetAlertPolicyAssociationDeviations Gets the deviation details of target-alert policy association by its ID.
+// A default retry strategy applies to this operation ListTargetAlertPolicyAssociationDeviations()
+func (client DataSafeClient) ListTargetAlertPolicyAssociationDeviations(ctx context.Context, request ListTargetAlertPolicyAssociationDeviationsRequest) (response ListTargetAlertPolicyAssociationDeviationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTargetAlertPolicyAssociationDeviations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTargetAlertPolicyAssociationDeviationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTargetAlertPolicyAssociationDeviationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTargetAlertPolicyAssociationDeviationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTargetAlertPolicyAssociationDeviationsResponse")
+	}
+	return
+}
+
+// listTargetAlertPolicyAssociationDeviations implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTargetAlertPolicyAssociationDeviations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetAlertPolicyAssociations/{targetAlertPolicyAssociationId}/targetAlertPolicyAssociationDeviations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTargetAlertPolicyAssociationDeviationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/ListTargetAlertPolicyAssociationDeviations"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyAssociationDeviations", apiReferenceLink)
 		return response, err
 	}
 

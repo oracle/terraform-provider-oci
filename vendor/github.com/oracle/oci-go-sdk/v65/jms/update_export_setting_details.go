@@ -41,6 +41,8 @@ type UpdateExportSettingDetails struct {
 
 	// Schedule at which data will be exported.
 	ExportFrequency ExportFrequencyEnum `mandatory:"false" json:"exportFrequency,omitempty"`
+
+	ExportDataFilters *ExportDataFilters `mandatory:"false" json:"exportDataFilters"`
 }
 
 func (m UpdateExportSettingDetails) String() string {

@@ -19,10 +19,10 @@ import (
 // AuditPolicyEntryDetails Audit policy details.
 type AuditPolicyEntryDetails struct {
 
-	// Specifies the reason why the exclude datasafe user could not be applied.
+	// Specifies why exclusion of the Data Safe user did not succeed.
 	ExcludeDatasafeUserFailureMsg *string `mandatory:"false" json:"excludeDatasafeUserFailureMsg"`
 
-	// The status of datasafe user exclusion in the audit policy.
+	// The status of Data Safe user exclusion in the audit policy.
 	DatasafeUserExclusionStatus AuditPolicyEntryDetailsDatasafeUserExclusionStatusEnum `mandatory:"true" json:"datasafeUserExclusionStatus"`
 }
 

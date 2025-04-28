@@ -41,6 +41,7 @@ type PrivateIpNextHop struct {
 	// DEFAULT: Default behavior where packets are flow hashed to a range of ports.
 	// SKIP_PORT_SHARDING: Packets will skip port sharding.
 	// SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER: Packets will skip port sharding and a wildcard listener will be used.
+	// RCE_PROXY: Packets will be forwarded to RCE
 	NextHopForwardingConfig PrivateIpNextHopNextHopForwardingConfigEnum `mandatory:"false" json:"nextHopForwardingConfig,omitempty"`
 }
 
@@ -71,18 +72,21 @@ const (
 	PrivateIpNextHopNextHopForwardingConfigDefault                              PrivateIpNextHopNextHopForwardingConfigEnum = "DEFAULT"
 	PrivateIpNextHopNextHopForwardingConfigSkipPortSharding                     PrivateIpNextHopNextHopForwardingConfigEnum = "SKIP_PORT_SHARDING"
 	PrivateIpNextHopNextHopForwardingConfigSkipPortShardingWithWildcardListener PrivateIpNextHopNextHopForwardingConfigEnum = "SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER"
+	PrivateIpNextHopNextHopForwardingConfigRceProxy                             PrivateIpNextHopNextHopForwardingConfigEnum = "RCE_PROXY"
 )
 
 var mappingPrivateIpNextHopNextHopForwardingConfigEnum = map[string]PrivateIpNextHopNextHopForwardingConfigEnum{
 	"DEFAULT":            PrivateIpNextHopNextHopForwardingConfigDefault,
 	"SKIP_PORT_SHARDING": PrivateIpNextHopNextHopForwardingConfigSkipPortSharding,
 	"SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER": PrivateIpNextHopNextHopForwardingConfigSkipPortShardingWithWildcardListener,
+	"RCE_PROXY": PrivateIpNextHopNextHopForwardingConfigRceProxy,
 }
 
 var mappingPrivateIpNextHopNextHopForwardingConfigEnumLowerCase = map[string]PrivateIpNextHopNextHopForwardingConfigEnum{
 	"default":            PrivateIpNextHopNextHopForwardingConfigDefault,
 	"skip_port_sharding": PrivateIpNextHopNextHopForwardingConfigSkipPortSharding,
 	"skip_port_sharding_with_wildcard_listener": PrivateIpNextHopNextHopForwardingConfigSkipPortShardingWithWildcardListener,
+	"rce_proxy": PrivateIpNextHopNextHopForwardingConfigRceProxy,
 }
 
 // GetPrivateIpNextHopNextHopForwardingConfigEnumValues Enumerates the set of values for PrivateIpNextHopNextHopForwardingConfigEnum
@@ -100,6 +104,7 @@ func GetPrivateIpNextHopNextHopForwardingConfigEnumStringValues() []string {
 		"DEFAULT",
 		"SKIP_PORT_SHARDING",
 		"SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER",
+		"RCE_PROXY",
 	}
 }
 

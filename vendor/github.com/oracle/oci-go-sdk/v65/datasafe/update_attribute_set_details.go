@@ -21,7 +21,7 @@ type UpdateAttributeSetDetails struct {
 	// The display name of an attribute set. The name does not have to be unique, and is changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Description of an attribute set.
+	// The description of an attribute set.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The list of attribute set values that will replace existing values.

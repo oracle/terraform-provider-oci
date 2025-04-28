@@ -173,6 +173,9 @@ const (
 	WorkRequestSummaryOperationTypeUpdateTargetDatabaseGroup                 WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE_GROUP"
 	WorkRequestSummaryOperationTypeDeleteTargetDatabaseGroup                 WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE_GROUP"
 	WorkRequestSummaryOperationTypeChangeTargetDatabaseGroupCompartment      WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT"
+	WorkRequestSummaryOperationTypeFleetGenerateSecurityAssessmentReport     WorkRequestSummaryOperationTypeEnum = "FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeFleetGenerateUserAssessmentReport         WorkRequestSummaryOperationTypeEnum = "FLEET_GENERATE_USER_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeRefreshTargetDatabaseGroupWithChanges     WorkRequestSummaryOperationTypeEnum = "REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES"
 	WorkRequestSummaryOperationTypeCreateSensitiveDataModel                  WorkRequestSummaryOperationTypeEnum = "CREATE_SENSITIVE_DATA_MODEL"
 	WorkRequestSummaryOperationTypeUpdateSensitiveDataModel                  WorkRequestSummaryOperationTypeEnum = "UPDATE_SENSITIVE_DATA_MODEL"
 	WorkRequestSummaryOperationTypeDeleteSensitiveDataModel                  WorkRequestSummaryOperationTypeEnum = "DELETE_SENSITIVE_DATA_MODEL"
@@ -235,6 +238,10 @@ const (
 	WorkRequestSummaryOperationTypeDeleteAlertPolicyRule                     WorkRequestSummaryOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
 	WorkRequestSummaryOperationTypeChangeAlertPolicyCompartment              WorkRequestSummaryOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
 	WorkRequestSummaryOperationTypeUpdateTargetGroupAuditProfile             WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_GROUP_AUDIT_PROFILE"
+	WorkRequestSummaryOperationTypeCreateAttributeSet                        WorkRequestSummaryOperationTypeEnum = "CREATE_ATTRIBUTE_SET"
+	WorkRequestSummaryOperationTypeUpdateAttributeSet                        WorkRequestSummaryOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
+	WorkRequestSummaryOperationTypeDeleteAttributeSet                        WorkRequestSummaryOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
+	WorkRequestSummaryOperationTypeChangeAttributeSetCompartment             WorkRequestSummaryOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -338,6 +345,9 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_TARGET_DATABASE_GROUP":                  WorkRequestSummaryOperationTypeUpdateTargetDatabaseGroup,
 	"DELETE_TARGET_DATABASE_GROUP":                  WorkRequestSummaryOperationTypeDeleteTargetDatabaseGroup,
 	"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT":      WorkRequestSummaryOperationTypeChangeTargetDatabaseGroupCompartment,
+	"FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT":     WorkRequestSummaryOperationTypeFleetGenerateSecurityAssessmentReport,
+	"FLEET_GENERATE_USER_ASSESSMENT_REPORT":         WorkRequestSummaryOperationTypeFleetGenerateUserAssessmentReport,
+	"REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES":    WorkRequestSummaryOperationTypeRefreshTargetDatabaseGroupWithChanges,
 	"CREATE_SENSITIVE_DATA_MODEL":                   WorkRequestSummaryOperationTypeCreateSensitiveDataModel,
 	"UPDATE_SENSITIVE_DATA_MODEL":                   WorkRequestSummaryOperationTypeUpdateSensitiveDataModel,
 	"DELETE_SENSITIVE_DATA_MODEL":                   WorkRequestSummaryOperationTypeDeleteSensitiveDataModel,
@@ -400,6 +410,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"DELETE_ALERT_POLICY_RULE":                      WorkRequestSummaryOperationTypeDeleteAlertPolicyRule,
 	"CHANGE_ALERT_POLICY_COMPARTMENT":               WorkRequestSummaryOperationTypeChangeAlertPolicyCompartment,
 	"UPDATE_TARGET_GROUP_AUDIT_PROFILE":             WorkRequestSummaryOperationTypeUpdateTargetGroupAuditProfile,
+	"CREATE_ATTRIBUTE_SET":                          WorkRequestSummaryOperationTypeCreateAttributeSet,
+	"UPDATE_ATTRIBUTE_SET":                          WorkRequestSummaryOperationTypeUpdateAttributeSet,
+	"DELETE_ATTRIBUTE_SET":                          WorkRequestSummaryOperationTypeDeleteAttributeSet,
+	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":              WorkRequestSummaryOperationTypeChangeAttributeSetCompartment,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -503,6 +517,9 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_target_database_group":                  WorkRequestSummaryOperationTypeUpdateTargetDatabaseGroup,
 	"delete_target_database_group":                  WorkRequestSummaryOperationTypeDeleteTargetDatabaseGroup,
 	"change_target_database_group_compartment":      WorkRequestSummaryOperationTypeChangeTargetDatabaseGroupCompartment,
+	"fleet_generate_security_assessment_report":     WorkRequestSummaryOperationTypeFleetGenerateSecurityAssessmentReport,
+	"fleet_generate_user_assessment_report":         WorkRequestSummaryOperationTypeFleetGenerateUserAssessmentReport,
+	"refresh_target_database_group_with_changes":    WorkRequestSummaryOperationTypeRefreshTargetDatabaseGroupWithChanges,
 	"create_sensitive_data_model":                   WorkRequestSummaryOperationTypeCreateSensitiveDataModel,
 	"update_sensitive_data_model":                   WorkRequestSummaryOperationTypeUpdateSensitiveDataModel,
 	"delete_sensitive_data_model":                   WorkRequestSummaryOperationTypeDeleteSensitiveDataModel,
@@ -565,6 +582,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"delete_alert_policy_rule":                      WorkRequestSummaryOperationTypeDeleteAlertPolicyRule,
 	"change_alert_policy_compartment":               WorkRequestSummaryOperationTypeChangeAlertPolicyCompartment,
 	"update_target_group_audit_profile":             WorkRequestSummaryOperationTypeUpdateTargetGroupAuditProfile,
+	"create_attribute_set":                          WorkRequestSummaryOperationTypeCreateAttributeSet,
+	"update_attribute_set":                          WorkRequestSummaryOperationTypeUpdateAttributeSet,
+	"delete_attribute_set":                          WorkRequestSummaryOperationTypeDeleteAttributeSet,
+	"change_attribute_set_compartment":              WorkRequestSummaryOperationTypeChangeAttributeSetCompartment,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -679,6 +700,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_TARGET_DATABASE_GROUP",
 		"DELETE_TARGET_DATABASE_GROUP",
 		"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT",
+		"FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT",
+		"FLEET_GENERATE_USER_ASSESSMENT_REPORT",
+		"REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES",
 		"CREATE_SENSITIVE_DATA_MODEL",
 		"UPDATE_SENSITIVE_DATA_MODEL",
 		"DELETE_SENSITIVE_DATA_MODEL",
@@ -741,6 +765,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"DELETE_ALERT_POLICY_RULE",
 		"CHANGE_ALERT_POLICY_COMPARTMENT",
 		"UPDATE_TARGET_GROUP_AUDIT_PROFILE",
+		"CREATE_ATTRIBUTE_SET",
+		"UPDATE_ATTRIBUTE_SET",
+		"DELETE_ATTRIBUTE_SET",
+		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
 	}
 }
 

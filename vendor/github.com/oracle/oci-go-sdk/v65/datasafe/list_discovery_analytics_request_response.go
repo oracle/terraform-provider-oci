@@ -55,6 +55,9 @@ type ListDiscoveryAnalyticsRequest struct {
 	// library sensitive types which are frequently used to perform sensitive data discovery.
 	IsCommon *bool `mandatory:"false" contributesTo:"query" name:"isCommon"`
 
+	// An optional filter to return only resources that match the specified OCID of the sensitive type group resource.
+	SensitiveTypeGroupId *string `mandatory:"false" contributesTo:"query" name:"sensitiveTypeGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

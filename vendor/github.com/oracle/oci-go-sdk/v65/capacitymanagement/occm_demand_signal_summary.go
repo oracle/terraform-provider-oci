@@ -32,7 +32,7 @@ type OccmDemandSignalSummary struct {
 	// SUBMITTED -> Once you have reviewed the details of the demand signal, you can transition it to SUBMITTED state so that OCI can start working on it.
 	// DELETED -> You can delete a demand signal as long as it is in either CREATED or SUBMITTED state.
 	// IN_PROGRESS -> Once OCI starts working on a given demand signal. They transition it to IN_PROGRESS.
-	// CANCELLED -> OCI can transition the demand signal to this state.
+	// REJECTED -> OCI can transition the demand signal to this state if all the demand signal items of that demand signal are declined.
 	// COMPLETED -> OCI will transition the demand signal to COMPLETED state once the quantities which OCI committed to deliver to you has been delivered.
 	LifecycleDetails OccmDemandSignalLifecycleDetailsEnum `mandatory:"true" json:"lifecycleDetails"`
 

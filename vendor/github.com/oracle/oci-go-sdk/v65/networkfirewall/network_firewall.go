@@ -65,6 +65,8 @@ type NetworkFirewall struct {
 	// Example: `kIdk:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	NatConfiguration *NatConfigurationResponse `mandatory:"false" json:"natConfiguration"`
+
 	// An array of network security groups OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the Network Firewall.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 

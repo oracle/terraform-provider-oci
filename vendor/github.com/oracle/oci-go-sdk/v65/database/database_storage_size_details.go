@@ -18,10 +18,10 @@ import (
 // DatabaseStorageSizeDetails The database storage size details. This database option is supported for the Exadata VM cluster on Exascale Infrastructure.
 type DatabaseStorageSizeDetails struct {
 
-	// The data storage size, in gigabytes, that is applicable for the database.
+	// The DATA storage size, in gigabytes, that is applicable for the database.
 	DataStorageSizeInGBs *int `mandatory:"true" json:"dataStorageSizeInGBs"`
 
-	// The RECO/REDO storage size, in gigabytes, that is applicable for the database.
+	// The RECO storage size, in gigabytes, that is applicable for the database.
 	RecoStorageSizeInGBs *int `mandatory:"true" json:"recoStorageSizeInGBs"`
 }
 

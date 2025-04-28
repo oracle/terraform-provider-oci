@@ -43,6 +43,9 @@ type InternalDnsResolverConfig struct {
 
 	// The viewId associated to the given DnsResovler.
 	DnsViewId *string `mandatory:"false" json:"dnsViewId"`
+
+	// Indicates whether the associated VCN is a Substrate Service VCN.
+	IsSubstrateServiceVcn *bool `mandatory:"false" json:"isSubstrateServiceVcn"`
 }
 
 func (m InternalDnsResolverConfig) String() string {

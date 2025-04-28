@@ -16,6 +16,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -57,6 +58,8 @@ type CreateDedicatedVmHostDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
 }
 
 func (m CreateDedicatedVmHostDetails) String() string {
@@ -73,4 +76,49 @@ func (m CreateDedicatedVmHostDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDedicatedVmHostDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName                *string                           `json:"displayName"`
+		FaultDomain                *string                           `json:"faultDomain"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
+		AvailabilityDomain         *string                           `json:"availabilityDomain"`
+		CompartmentId              *string                           `json:"compartmentId"`
+		DedicatedVmHostShape       *string                           `json:"dedicatedVmHostShape"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.FaultDomain = model.FaultDomain
+
+	m.FreeformTags = model.FreeformTags
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DedicatedVmHostShape = model.DedicatedVmHostShape
+
+	return
 }

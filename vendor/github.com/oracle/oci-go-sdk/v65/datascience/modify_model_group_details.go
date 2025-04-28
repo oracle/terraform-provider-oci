@@ -18,12 +18,6 @@ import (
 // ModifyModelGroupDetails Overwrites the properties of the source modelGroup.
 type ModifyModelGroupDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the modelGroup in.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the modelGroup.
-	ProjectId *string `mandatory:"false" json:"projectId"`
-
 	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
 	// Example: `My ModelGroup`
 	DisplayName *string `mandatory:"false" json:"displayName"`

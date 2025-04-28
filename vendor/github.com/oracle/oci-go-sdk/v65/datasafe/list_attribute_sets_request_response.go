@@ -56,8 +56,8 @@ type ListAttributeSetsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A boolean flag indicating to list seeded attribute sets. Set this parameter to get list of seeded attribute sets.
-	IsSeeded *bool `mandatory:"false" contributesTo:"query" name:"isSeeded"`
+	// A boolean flag indicating to list user defined or seeded attribute sets.
+	IsUserDefined *bool `mandatory:"false" contributesTo:"query" name:"isUserDefined"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
