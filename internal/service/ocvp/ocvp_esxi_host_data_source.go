@@ -100,6 +100,14 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 	s.D.Set("current_commitment", s.Res.CurrentCommitment)
 	s.D.Set("current_sku", s.Res.CurrentCommitment)
 
+	datastoreAttachments := []interface{}{}
+	for _, item := range s.Res.DatastoreAttachments {
+		datastoreAttachments = append(datastoreAttachments, DatastoreAttachmentToMap(item))
+	}
+	s.D.Set("datastore_attachments", datastoreAttachments)
+
+	s.D.Set("datastore_cluster_ids", s.Res.DatastoreClusterIds)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}

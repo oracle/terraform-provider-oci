@@ -216,6 +216,22 @@ func OcvpClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"attach_datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				ConflictsWith: []string{"datastores"},
+			},
+			"detach_datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				ConflictsWith: []string{"datastores"},
+			},
 
 			// Computed
 			"actual_esxi_hosts_count": {
@@ -284,6 +300,13 @@ func OcvpClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 		},
 	}
 }
@@ -310,6 +333,7 @@ func updateOcvpCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
+	sync.DatastoreClusterClient = m.(*client.OracleClients).DatastoreClusterClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -330,6 +354,7 @@ type OcvpClusterResourceCrud struct {
 	Res                    *oci_ocvp.Cluster
 	DisableNotFoundRetries bool
 	WorkRequestClient      *oci_ocvp.WorkRequestClient
+	DatastoreClusterClient *oci_ocvp.DatastoreClusterClient
 }
 
 func (s *OcvpClusterResourceCrud) ID() string {
@@ -371,6 +396,19 @@ func (s *OcvpClusterResourceCrud) Create() error {
 	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
 		tmp := computeAvailabilityDomain.(string)
 		request.ComputeAvailabilityDomain = &tmp
+	}
+
+	if datastoreClusterIds, ok := s.D.GetOkExists("attach_datastore_cluster_ids"); ok {
+		interfaces := datastoreClusterIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("attach_datastore_cluster_ids") {
+			request.DatastoreClusterIds = tmp
+		}
 	}
 
 	if datastores, ok := s.D.GetOkExists("datastores"); ok {
@@ -673,13 +711,15 @@ func (s *OcvpClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.UpdateCluster(context.Background(), request)
+	_, err := s.Client.UpdateCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Cluster
-	return nil
+	if err = s.executeAttachDetachDatastoreClustersToCluster(); err != nil {
+		return err
+	}
+	return s.Get()
 }
 
 func (s *OcvpClusterResourceCrud) Delete() error {
@@ -715,11 +755,7 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
 	}
 
-	datastores := []interface{}{}
-	for _, item := range s.Res.Datastores {
-		datastores = append(datastores, DatastoreDetailsToMap(item))
-	}
-	s.D.Set("datastores", datastores)
+	s.D.Set("datastore_cluster_ids", s.Res.DatastoreClusterIds)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -1056,4 +1092,62 @@ func VsphereUpgradeObjectToMap(obj oci_ocvp.VsphereUpgradeObject) map[string]int
 	}
 
 	return result
+}
+
+func (s *OcvpClusterResourceCrud) executeAttachDetachDatastoreClustersToCluster() error {
+	var datastoreClusterIdsToDetach []string
+	var datastoreClusterIdsToAttach []string
+	if tmp, ok := s.D.GetOk("detach_datastore_cluster_ids"); ok && s.D.HasChange("detach_datastore_cluster_ids") {
+		datastoreClusterIdsToDetach = castToSliceOfStrings(tmp)
+		log.Printf("[DEBUG] datastore_cluster_ids requested to be detached: %v", datastoreClusterIdsToDetach)
+	}
+	if tmp, ok := s.D.GetOk("attach_datastore_cluster_ids"); ok && s.D.HasChange("attach_datastore_cluster_ids") {
+		datastoreClusterIdsToAttach = castToSliceOfStrings(tmp)
+		log.Printf("[DEBUG] datastore_cluster_ids requested to be attached: %v", datastoreClusterIdsToAttach)
+	}
+	for _, datastoreClusterId := range datastoreClusterIdsToDetach {
+		log.Printf("[DEBUG] detaching datastore cluster %v", datastoreClusterId)
+		if err := s.detachDatastoreClusterFromCluster(datastoreClusterId); err != nil {
+			return err
+		}
+	}
+	for _, datastoreClusterId := range datastoreClusterIdsToAttach {
+		log.Printf("[DEBUG] attaching datastore cluster %v", datastoreClusterId)
+		if err := s.attachDatastoreClusterToCluster(datastoreClusterId); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *OcvpClusterResourceCrud) attachDatastoreClusterToCluster(datastoreClusterId string) error {
+	clusterId := s.D.Id()
+	request := oci_ocvp.AttachDatastoreClusterToClusterRequest{
+		DatastoreClusterId: &datastoreClusterId,
+		AttachDatastoreClusterToClusterDetails: oci_ocvp.AttachDatastoreClusterToClusterDetails{
+			ClusterId: &clusterId,
+		},
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	response, err := s.DatastoreClusterClient.AttachDatastoreClusterToCluster(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries, s.WorkRequestClient)
+	return err
+}
+
+func (s *OcvpClusterResourceCrud) detachDatastoreClusterFromCluster(datastoreClusterId string) error {
+	request := oci_ocvp.DetachDatastoreClusterFromClusterRequest{
+		DatastoreClusterId: &datastoreClusterId,
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	response, err := s.DatastoreClusterClient.DetachDatastoreClusterFromCluster(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries, s.WorkRequestClient)
+	return err
 }

@@ -45,6 +45,7 @@ resource "oci_ocvp_cluster" "test_cluster" {
 
 	#Optional
 	capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
+	datastore_cluster_ids = var.cluster_datastore_cluster_ids
 	datastores {
 		#Required
 		block_volume_ids = var.cluster_datastores_block_volume_ids
@@ -70,11 +71,12 @@ The following arguments are supported:
 
 * `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
 * `compute_availability_domain` - (Required) The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
+* `datastore_cluster_ids` - (Optional) A list of datastore clusters. 
 * `datastores` - (Optional) A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
 	* `block_volume_ids` - (Required) A list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.
 	* `datastore_type` - (Required) Type of the datastore.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A descriptive name for the Cluster. Cluster name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
+* `display_name` - (Optional) (Updatable) A descriptive name for the Cluster. Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
 * `esxi_hosts_count` - (Required) The number of ESXi hosts to create in the Cluster. You can add more hosts later (see [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost)). 
 
 	**Note:** If you later delete EXSi hosts from a production Cluster to make SDDC total host count less than 3, you are still billed for the 3 minimum recommended  ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until the  SDDC again has at least 3 ESXi hosts. 
@@ -146,6 +148,7 @@ The following attributes are exported:
 * `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the Cluster. 
 * `compute_availability_domain` - The availability domain the ESXi hosts are running in. For Multi-AD Cluster, it is `multi-AD`.  Example: `Uocm:PHX-AD-1`, `multi-AD` 
+* `datastore_cluster_ids` - A list of datastore clusters. 
 * `datastores` - Datastores used for the Cluster. 
 	* `block_volume_ids` - A list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.
 	* `capacity` - Size of the Block Storage Volume in GB.

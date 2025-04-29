@@ -57,20 +57,37 @@ var (
 		"is_swap_billing_only": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
+	donorHostsHourlyDataSourceRepresentation = map[string]interface{}{
+		"is_billing_donors_only": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"filter": []acctest.RepresentationGroup{
+			{RepType: acctest.Required, Group: map[string]interface{}{
+				"name":   acctest.Representation{RepType: acctest.Required, Create: `host_shape_name`},
+				"values": acctest.Representation{RepType: acctest.Required, Create: []string{esxiShapeName}},
+			}},
+			{RepType: acctest.Required, Group: map[string]interface{}{
+				"name":   acctest.Representation{RepType: acctest.Required, Create: `current_sku`},
+				"values": acctest.Representation{RepType: acctest.Required, Create: []string{`HOUR`}},
+			}},
+		},
+	}
+
 	esxiShapeName  = "VM.Standard.E4.Flex"
-	esxiOcpuCount  = "8"
+	esxiOcpuCount  = "4"
 	esxiName       = fmt.Sprintf("host%d", time.Now().Unix())
 	esxiUpdateName = fmt.Sprintf("host%d", time.Now().Unix()+1)
 
 	OcvpEsxiHostRepresentation = map[string]interface{}{
-		"cluster_id":                  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_ocvp_clusters.test_clusters_v7_management.cluster_collection[0].items[0].id}`},
-		"capacity_reservation_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_esxi_host_compute_capacity_reservation.id}`},
-		"compute_availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}`},
-		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: esxiName, Update: esxiUpdateName},
-		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"host_ocpu_count":             acctest.Representation{RepType: acctest.Optional, Create: esxiOcpuCount},
-		"host_shape_name":             acctest.Representation{RepType: acctest.Optional, Create: esxiShapeName},
-		"esxi_software_version":       acctest.Representation{RepType: acctest.Optional, Create: `esxi7u3k-21313628-1`},
+		"cluster_id":                   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_ocvp_clusters.test_clusters_v7_management.cluster_collection[0].items[0].id}`},
+		"capacity_reservation_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_esxi_host_compute_capacity_reservation.id}`},
+		"compute_availability_domain":  acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: esxiName, Update: esxiUpdateName},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"host_ocpu_count":              acctest.Representation{RepType: acctest.Optional, Create: esxiOcpuCount},
+		"host_shape_name":              acctest.Representation{RepType: acctest.Optional, Create: esxiShapeName},
+		"esxi_software_version":        acctest.Representation{RepType: acctest.Optional, Create: `esxi7u3k-21313628-1`},
+		"attach_datastore_cluster_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_ocvp_datastore_cluster.test_datastore_clusters[0].id}`, `${oci_ocvp_datastore_cluster.test_datastore_clusters[1].id}`}, Update: []string{}},
+		"detach_datastore_cluster_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{}, Update: []string{`${oci_ocvp_datastore_cluster.test_datastore_clusters[0].id}`}},
 	}
 
 	ocvpEsxiHostCapacityReservationResource = `
@@ -116,6 +133,30 @@ resource "oci_core_compute_capacity_reservation" "test_esxi_host_compute_capacit
   }
 }
 `
+	ocvpEsxiHostDatastoreClusterResources = `
+resource "oci_core_volume" "test_volumes" {
+  count               = 2
+  display_name		  = "test_volume_${count.index}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  compartment_id      = var.compartment_id
+  size_in_gbs         = 50
+}
+resource "oci_ocvp_datastore" "test_datastores" {
+  count               = 2
+  compartment_id      = var.compartment_id
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  display_name        = "test_datastore_${count.index}"
+  block_volume_ids = [oci_core_volume.test_volumes[count.index].id]
+}
+resource "oci_ocvp_datastore_cluster" "test_datastore_clusters" {
+  count                  = 2
+  compartment_id         = var.compartment_id
+  availability_domain    = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  datastore_cluster_type = "WORKLOAD"
+  display_name           = "test_datastore_cluster_${count.index}"
+  datastore_ids          = [oci_ocvp_datastore.test_datastores[count.index].id]
+}
+`
 
 	EsxiHostResourceDependencies = sddcDataSourceDependencies + `
 data "oci_ocvp_clusters" "test_clusters_v7_management" {
@@ -132,7 +173,7 @@ data "oci_ocvp_clusters" "test_clusters_v7_management" {
 }
 `
 
-	EsxiHostOptionalResourceDependencies = EsxiHostResourceDependencies + ocvpAvailabilityDomainDependency + ocvpEsxiHostCapacityReservationResource
+	EsxiHostOptionalResourceDependencies = EsxiHostResourceDependencies + ocvpAvailabilityDomainDependency + ocvpEsxiHostCapacityReservationResource + ocvpEsxiHostDatastoreClusterResources
 )
 
 // issue-routing-tag: ocvp/default
@@ -195,10 +236,14 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet("data.oci_ocvp_esxi_hosts.swap_billing_esxi_hosts", "id"),
 			),
 		},
-		// delete before next Create and verify donor host data source
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies,
+		},
+		// verify donor host data source
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", acctest.Optional, acctest.Create, donorHostsDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", acctest.Optional, acctest.Create, donorHostsHourlyDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "is_billing_donors_only", "true"),
@@ -209,7 +254,6 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 			),
 		},
-
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostOptionalResourceDependencies +
@@ -235,6 +279,10 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
 				resource.TestCheckResourceAttrSet(resourceName, "is_billing_continuation_in_progress"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_cluster_ids.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "attach_datastore_cluster_ids.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "detach_datastore_cluster_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_attachments.#", "2"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -270,6 +318,10 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "attach_datastore_cluster_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "detach_datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_attachments.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -320,6 +372,8 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_commitment"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datastore_attachments.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datastore_cluster_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_software_version", "esxi7u3k-21313628-1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "next_commitment"),
@@ -341,7 +395,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Config:                  config + OcvpEsxiHostRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"attach_datastore_cluster_ids", "detach_datastore_cluster_ids"},
 			ResourceName:            resourceName,
 		},
 	})

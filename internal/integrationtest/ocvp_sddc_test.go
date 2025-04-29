@@ -69,6 +69,9 @@ var (
 	esxiSoftwareVersion        = `esxi6.7-19195723-2`
 	esxiSoftwareVersionUpdated = `esxi7u3k-21313628-1`
 
+	sddcInitialHostShapeName = "BM.Standard2.52"
+	sddcInitialHostOcpuCount = "12"
+
 	OcvpSddcRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"initial_configuration":   acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationRepresentation},
@@ -81,7 +84,7 @@ var (
 		"is_single_host_sddc":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_hcx_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"hcx_action":              acctest.Representation{RepType: acctest.Optional, Create: ocvp.UpgradeHcxAction},
-		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTagsChangesRepresentation},
 	}
 	OcvpSddcInitialConfigurationRepresentation = map[string]interface{}{
 		"initial_cluster_configurations": acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsRepresentation},
@@ -100,8 +103,8 @@ var (
 		"datastores":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
 		"initial_commitment":           acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `12`},
-		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostOcpuCount},
+		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostShapeName},
 		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
 		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
@@ -116,12 +119,18 @@ var (
 		"datastores":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
 		"initial_commitment":           acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `12`},
-		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostOcpuCount},
+		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostShapeName},
 		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
 		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
 	}
+
+	OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentationWithDatastoreCluster = acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentation, []string{"datastores"}),
+		map[string]interface{}{
+			"datastore_cluster_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ocvp_datastore_cluster.test_datastore_cluster.id}`}},
+		})
 
 	OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationRepresentation = map[string]interface{}{
 		"nsx_edge_vtep_vlan_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_vtep_vlan.id}`},
@@ -154,6 +163,9 @@ var (
 	ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
+	ignoreTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+	}
 	OcvpSddcDatastoresRepresentation = map[string]interface{}{
 		"block_volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.test_volume.id}`}},
 		"datastore_type":   acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
@@ -163,6 +175,11 @@ var (
 		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: noInstanceVmwareVersionV7},
 		"esxi_software_version":   acctest.Representation{RepType: acctest.Required, Create: esxiSoftwareVersionUpdated},
 	})
+
+	sddcV7RepresentationWithDatastoreCluster = acctest.GetUpdatedRepresentationCopy(
+		"initial_configuration.initial_cluster_configurations",
+		acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentationWithDatastoreCluster},
+		sddcV7Representation)
 
 	sddcUpgradedRepresentation = acctest.RepresentationCopyWithNewProperties(OcvpSddcRepresentation, map[string]interface{}{
 		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: noInstanceVmwareVersionV7},
@@ -485,20 +502,37 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   display_name   = "tf-esxi-host-test-capacity-reservation"
   instance_reservation_configs {
-    instance_shape = "BM.Standard2.52"
+    instance_shape = "` + sddcInitialHostShapeName + `"
     reserved_count = 1
     fault_domain = "FAULT-DOMAIN-1"
   }
   instance_reservation_configs {
-    instance_shape = "BM.Standard2.52"
+    instance_shape = "` + sddcInitialHostShapeName + `"
     reserved_count = 1
     fault_domain = "FAULT-DOMAIN-2"
   }
   instance_reservation_configs {
-    instance_shape = "BM.Standard2.52"
+    instance_shape = "` + sddcInitialHostShapeName + `"
     reserved_count = 1
     fault_domain = "FAULT-DOMAIN-3"
   }
+}
+`
+
+	OcvsSddcDatastoreClusterResource = `
+resource "oci_ocvp_datastore" "test_datastore" {
+	compartment_id = var.compartment_id
+	availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+	display_name = "test_datastore"
+	block_volume_ids = [oci_core_volume.test_volume.id]
+}
+
+resource "oci_ocvp_datastore_cluster" "test_datastore_cluster" {
+	compartment_id = var.compartment_id
+	availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+	display_name = "test_datastore_cluster"
+	datastore_cluster_type = "MANAGEMENT"
+	datastore_ids = [oci_ocvp_datastore.test_datastore.id]
 }
 `
 
@@ -658,6 +692,70 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies,
 		},
+		// verify Create with optionals using datastore cluster
+		{
+			Config: config + compartmentIdVariableStr + OcvpSddcOptionalResourceDependencies + OcvsSddcDatastoreClusterResource +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcV7RepresentationWithDatastoreCluster),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "clusters_count"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKey),
+				resource.TestCheckResourceAttr(resourceName, "esxi_software_version", esxiSoftwareVersionUpdated),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_mode", "ENTERPRISE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.workload_network_cidr", "172.20.0.0/24"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + OcvpSddcOptionalResourceDependencies +
@@ -676,13 +774,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastore_cluster_ids.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
@@ -744,13 +843,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastore_cluster_ids.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
@@ -808,13 +908,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastore_cluster_ids.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
@@ -889,13 +990,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastore_cluster_ids.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
