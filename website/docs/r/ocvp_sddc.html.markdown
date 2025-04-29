@@ -50,6 +50,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
 
 			#Optional
 			capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
+			datastore_cluster_ids = var.sddc_initial_configuration_initial_cluster_configurations_datastore_cluster_ids
 			datastores {
 				#Required
 				block_volume_ids = var.sddc_initial_configuration_initial_cluster_configurations_datastores_block_volume_ids
@@ -108,10 +109,11 @@ The following arguments are supported:
 	* `initial_cluster_configurations` - (Required) The configurations for Clusters initially created in the SDDC. 
 		* `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
 		* `compute_availability_domain` - (Required) The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
+		* `datastore_cluster_ids` - (Optional) A list of datastore clusters. 
 		* `datastores` - (Optional) A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
 			* `block_volume_ids` - (Required) A list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.
 			* `datastore_type` - (Required) Type of the datastore.
-		* `display_name` - (Optional) A descriptive name for the Cluster. Cluster name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
+		* `display_name` - (Optional) A descriptive name for the Cluster. Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
 		* `esxi_hosts_count` - (Required) The number of ESXi hosts to create in the Cluster. You can add more hosts later (see [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost)). Creating a Cluster with a ESXi host count of 1 will be considered a single ESXi host Cluster.
 
 			**Note:** If you later delete EXSi hosts from a production Cluster to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until it again has at least 3 ESXi hosts. 
@@ -242,10 +244,11 @@ The following attributes are exported:
 	* `initial_cluster_configurations` - The configurations for Clusters initially created in the SDDC. 
 		* `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
 		* `compute_availability_domain` - The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
+		* `datastore_cluster_ids` - A list of datastore clusters. 
 		* `datastores` - A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
 			* `block_volume_ids` - A list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.
 			* `datastore_type` - Type of the datastore.
-		* `display_name` - A descriptive name for the Cluster. Cluster name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
+		* `display_name` - A descriptive name for the Cluster. Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
 		* `esxi_hosts_count` - The number of ESXi hosts to create in the Cluster. You can add more hosts later (see [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost)). Creating a Cluster with a ESXi host count of 1 will be considered a single ESXi host Cluster.
 
 			**Note:** If you later delete EXSi hosts from a production Cluster to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until it again has at least 3 ESXi hosts. 

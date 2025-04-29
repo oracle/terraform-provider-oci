@@ -1130,6 +1130,8 @@ ocvp
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
 * oci\_ocvp\_cluster
+* oci\_ocvp\_datastore
+* oci\_ocvp\_datastore\_cluster
 
 oda
     
