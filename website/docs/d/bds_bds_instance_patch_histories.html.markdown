@@ -47,7 +47,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `patch_type` - The type of current patch history. DP - Data Plane patch(This history type is internal available only) ODH - Oracle Distribution of Hadoop patch OS - Operating System patch 
+* `patch_type` - The type of current patch history. DP - Data Plane patch(This history type is internal available only) ODH - Oracle Distribution of Hadoop update OS - Operating System update BDS - Big Data Service update 
 * `state` - The status of this patch.
 * `time_updated` - The time when the patch history was last updated.
 * `version` - The version of the patch.

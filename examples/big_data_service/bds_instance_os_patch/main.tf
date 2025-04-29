@@ -40,11 +40,16 @@ variable "bds_instance_get_os_patch_os_patch_version" {
  default = "ol7.9-x86_64-1.27.0.696-0.0"
 }
 
+variable "is_dry_run" {
+ default = "true"
+}
+
 resource "oci_bds_bds_instance_os_patch_action" "test_bds_instance_os_patch_action" {
   #Required
   bds_instance_id        = var.bds_instance_id
   cluster_admin_password = var.bds_instance_os_patch_action_cluster_admin_password
   os_patch_version       = var.bds_instance_os_patch_action_os_patch_version
+  isDryRun               = var.is_dry_run
   patching_configs {
     patching_config_strategy              = var.bds_instance_os_patch_action_patching_config_strategy
     batch_size                            = var.bds_instance_os_patch_action_batch_size

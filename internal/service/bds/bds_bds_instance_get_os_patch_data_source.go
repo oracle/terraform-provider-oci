@@ -58,6 +58,10 @@ func BdsBdsInstanceGetOsPatchDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"package_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"related_cv_es": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -156,6 +160,8 @@ func OsPatchPackageSummaryToMap(obj oci_bds.OsPatchPackageSummary) map[string]in
 	if obj.PackageName != nil {
 		result["package_name"] = string(*obj.PackageName)
 	}
+
+	result["package_type"] = string(obj.PackageType)
 
 	result["related_cv_es"] = obj.RelatedCVEs
 
