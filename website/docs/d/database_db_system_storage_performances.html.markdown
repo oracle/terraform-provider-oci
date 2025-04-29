@@ -22,6 +22,9 @@ data "oci_database_db_system_storage_performances" "test_db_system_storage_perfo
 
 	#Optional
 	shape_type = var.db_system_storage_performance_shape_type
+
+	#Optional
+	daatabase_edition = var.db_system_storage_performance_database_edition
 }
 ```
 
@@ -33,6 +36,12 @@ The following arguments are supported:
 * `storage_management` - (Required) The DB system storage management option. Used to list database versions available for that storage manager. Valid values are `ASM` and `LVM`.
 	* ASM specifies Oracle Automatic Storage Management
 	* LVM specifies logical volume manager, sometimes called logical disk manager. 
+* `database_edition` - (Optional) Optional. Filters the performance results by database edition. Valid values are:
+	* STANDARD_EDITION
+	* ENTERPRISE_EDITION
+	* ENTERPRISE_EDITION_HIGH_PERFORMANCE
+	* ENTERPRISE_EDITION_EXTREME
+	* ENTERPRISE_EDITION_DEVELOPER
 
 
 ## Attributes Reference
