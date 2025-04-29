@@ -28,8 +28,8 @@ func TestBdsBdsInstanceOSPatchActionResource_basic(t *testing.T) {
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
 	// Pass cluster ocid as variable to directly apply OS patch to existing cluster
-	bdsinstanceId := utils.GetEnvSettingWithBlankDefault("bdsinstance_ocid")
-	bdsinstanceIdVariableStr := fmt.Sprintf("variable \"bdsinstance_id\" { default = \"%s\" }\n", bdsinstanceId)
+	bdsInstanceId := utils.GetEnvSettingWithBlankDefault("bds_instance_ocid")
+	bdsInstanceIdVariableStr := fmt.Sprintf("variable \"bds_instance_id\" { default = \"%s\" }\n", bdsInstanceId)
 
 	// Passing patching configs strategy & parameters in this representation
 	BdsBdsInstanceOSPatchConfigRepresentation := map[string]interface{}{
@@ -38,7 +38,7 @@ func TestBdsBdsInstanceOSPatchActionResource_basic(t *testing.T) {
 		"wait_time_between_batch_in_seconds": acctest.Representation{RepType: acctest.Required, Create: "600"},
 		"tolerance_threshold_per_batch":      acctest.Representation{RepType: acctest.Required, Create: "1"},
 
-		"wait_time_between_domain_in_seconds": acctest.Representation{RepType: acctest.Required, Create: "300"},
+		"wait_time_between_domain_in_seconds": acctest.Representation{RepType: acctest.Required, Create: "120"},
 		"tolerance_threshold_per_domain":      acctest.Representation{RepType: acctest.Required, Create: "1"},
 	}
 
@@ -52,33 +52,34 @@ func TestBdsBdsInstanceOSPatchActionResource_basic(t *testing.T) {
 	// To use default patching strategy (nodes will be patched and rebooted AD/FD by AD/FD), comment patching_configs & above config representation
 	var (
 		BdsBdsInstanceOSPatchActionRepresentation = map[string]interface{}{
-			"bds_instance_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
-			"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `clusterAdminPassword`},
-			"os_patch_version":       acctest.Representation{RepType: acctest.Required, Create: "patchVersion"},
+			"bds_instance_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.bds_instance_id}`},
+			"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `T3JhY2xlVGVhbVVTQSExMjM=`},
+			"is_dry_run":             acctest.Representation{RepType: acctest.Required, Create: "true"},
+			"os_patch_version":       acctest.Representation{RepType: acctest.Required, Create: "ol8.10-x86_64-2.2.0.999-0.0"},
 			"patching_configs":       acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsBdsInstanceOSPatchConfigRepresentation},
 			"timeouts":               acctest.RepresentationGroup{RepType: acctest.Required, Group: PatchTimeoutsRepresentation},
 		}
 
-		BdsBdsInstanceOSPatchActionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation) +
-			acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-			acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
+		//BdsBdsInstanceOSPatchActionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation) +
+		//	acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		//	acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 	)
 
 	resourceName := "oci_bds_bds_instance_os_patch_action.test_bds_instance_os_patch_action"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+subnetIdVariableStr+bdsinstanceIdVariableStr+BdsBdsInstanceOSPatchActionResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+subnetIdVariableStr+bdsInstanceIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_os_patch_action", "test_bds_instance_os_patch_action", acctest.Required, acctest.Create, BdsBdsInstanceOSPatchActionRepresentation), "bds", "bdsInstanceOSPatchAction", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + subnetIdVariableStr + bdsinstanceIdVariableStr + BdsBdsInstanceOSPatchActionResourceDependencies +
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + bdsInstanceIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_os_patch_action", "test_bds_instance_os_patch_action", acctest.Required, acctest.Create, BdsBdsInstanceOSPatchActionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbUlEQzMzIUAj"),
-				resource.TestCheckResourceAttr(resourceName, "os_patch_version", "ol7.9-x86_64-1.27.0.696-0.0"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "os_patch_version", "ol8.10-x86_64-2.2.0.999-0.0"),
 			),
 		},
 	})

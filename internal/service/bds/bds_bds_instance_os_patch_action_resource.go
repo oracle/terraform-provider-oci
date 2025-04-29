@@ -50,6 +50,12 @@ func BdsBdsInstanceOSPatchActionResource() *schema.Resource {
 				ForceNew: true,
 			},
 
+			"is_dry_run": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				ForceNew: true,
+			},
+
 			"patching_configs": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -145,6 +151,11 @@ func (s *BdsBdsInstanceOSPatchActionResourceCrud) Create() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if isDryRun, ok := s.D.GetOkExists("is_dry_run"); ok {
+		tmp := isDryRun.(bool)
+		request.IsDryRun = &tmp
 	}
 
 	if osPatchVersion, ok := s.D.GetOkExists("os_patch_version"); ok {
