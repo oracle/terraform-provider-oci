@@ -384,6 +384,21 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
   }
 }
 
+resource "oci_ocvp_datastore" "test_datastore" {
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
+  block_volume_ids = ["${oci_core_volume.test_block_volume.id}"]
+  compartment_id = var.compartment_ocid
+  display_name = "displayName"
+}
+
+resource "oci_ocvp_datastore_cluster" "test_datastore_cluster" {
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
+  compartment_id = var.compartment_ocid
+  datastore_cluster_type = "MANAGEMENT"
+  datastore_ids = ["${oci_ocvp_datastore.test_datastore.id}"]
+  display_name = "displayName"
+}
+
 resource "oci_ocvp_sddc" "test_sddc" {
   // Required
   compartment_id          = var.compartment_ocid
@@ -415,11 +430,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
       initial_host_shape_name      = var.instance_shape
       instance_display_name_prefix = "prefix"
       is_shielded_instance_enabled = true
-      datastores {
-        #Required
-        block_volume_ids = ["${oci_core_volume.test_block_volume.id}"]
-        datastore_type   = "MANAGEMENT"
-      }
+      datastore_cluster_ids = ["${oci_ocvp_datastore_cluster.test_datastore_cluster.id}"]
       workload_network_cidr = "172.20.0.0/24"
     }
   }
