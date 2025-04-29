@@ -26,6 +26,10 @@ func DatabaseDbSystemStoragePerformancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"database_edition": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_storage_performances": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -193,6 +197,10 @@ func (s *DatabaseDbSystemStoragePerformancesDataSourceCrud) Get() error {
 
 	if storageManagement, ok := s.D.GetOkExists("storage_management"); ok {
 		request.StorageManagement = oci_database.DbSystemOptionsStorageManagementEnum(storageManagement.(string))
+	}
+
+	if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+		request.DatabaseEdition = oci_database.ListDbSystemStoragePerformancesDatabaseEditionEnum(databaseEdition.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
