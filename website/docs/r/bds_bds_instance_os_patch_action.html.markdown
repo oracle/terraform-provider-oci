@@ -23,6 +23,7 @@ resource "oci_bds_bds_instance_os_patch_action" "test_bds_instance_os_patch_acti
   os_patch_version = var.bds_instance_os_patch_action_os_patch_version
 
   #Optional
+  isDryRun = var.is_dry_run
   patching_configs {
     #Required
     patching_config_strategy = var.bds_instance_os_patch_action_patching_config_strategy
@@ -34,7 +35,7 @@ resource "oci_bds_bds_instance_os_patch_action" "test_bds_instance_os_patch_acti
 
     wait_time_between_domain_in_seconds = var.bds_instance_os_patch_action_wait_time_between_domain_in_seconds
     tolerance_threshold_per_domain          = var.bds_instance_os_patch_action_tolerance_threshold_per_domain
-  }
+  } 
 }
 ```
 
@@ -44,6 +45,7 @@ The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
 * `cluster_admin_password` - (Required) Base-64 encoded password for the cluster admin user.
+* `isDryRun` - (Optional) Perform dry run for the patch and stop without actually patching the cluster.
 * `patching_configs` - (Optional) Detailed configurations for defining the behavior when installing ODH patches. If not provided, nodes will be patched with down time.
     * `patching_config_strategy` - (Required) Type of strategy used for detailed patching configuration
     * `batch_size` - (Required when patching_config_strategy=BATCHING_BASED) How many nodes to be patched in each iteration.

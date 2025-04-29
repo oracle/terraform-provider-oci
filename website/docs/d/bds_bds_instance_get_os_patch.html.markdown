@@ -47,6 +47,7 @@ The following attributes are exported:
 * `release_date` - Released date of the OS patch.
 * `target_packages` - List of summaries of individual target packages.
 	* `package_name` - The package's name.
+	* `package_type` - Package type based on package installation manager.
 	* `related_cv_es` - Related CVEs of the package update.
 	* `target_version` - The target version of the package.
 	* `update_type` - The action that current package will be executed on the cluster.
