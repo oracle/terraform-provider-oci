@@ -419,6 +419,8 @@ bds
 * oci\_bds\_bds\_instance\_metastore\_config
 * oci\_bds\_bds\_instance\_resource\_principal\_configuration
 * oci\_bds\_bds\_instance\_identity\_configuration
+* oci\_bds\_bds\_capacity\_report
+* oci\_bds\_bds\_instance\_software\_update
 
 blockchain
     
@@ -704,6 +706,15 @@ datascience
 * oci\_datascience\_schedule
 * oci\_datascience\_model\_defined\_metadata\_artifact
 * oci\_datascience\_model\_custom\_metadata\_artifact
+
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
+
+delegate_access_control
+    
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
 
 dblm
     
