@@ -24,15 +24,20 @@ import (
 )
 
 var (
-	autonomousDatabaseOcid = utils.GetEnvSettingWithBlankDefault("autonomousDatabase_ocid")
-	computeInstanceOcid    = utils.GetEnvSettingWithBlankDefault("computeInstance_ocid")
-
 	ResourceSchedulerScheduleWithResourceOcidRequiredOnlyResource = ResourceSchedulerScheduleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Required, acctest.Create, ResourceSchedulerScheduleWithResourceOcidRepresentation)
 
 	ResourceSchedulerScheduleSingularDataSourceRepresentation = map[string]interface{}{
 		"schedule_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_resource_scheduler_schedule.test_schedule.id}`},
 	}
+
+	//ResourceSchedulerScheduleDataSourceRepresentation = map[string]interface{}{
+	//	"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+	//	"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+	//	"resource_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_resource.test_resource.id}`},
+	//	"schedule_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_resource_scheduler_schedule.test_schedule.id}`},
+	//	"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+	//	"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ResourceSchedulerScheduleDataSourceFilterRepresentation}}
 
 	ResourceSchedulerScheduleDataSourceRepresentation = map[string]interface{}{
 		// must include at least one of `compartmentId` and `schedule_id`
@@ -59,18 +64,45 @@ var (
 		// Optionals
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
-		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2024-11-20T00:00:00Z`, Update: `2024-11-30T00:00:00Z`},
-		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2024-11-15T00:00:00Z`, Update: `2024-11-19T00:00:00Z`},
+		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2025-12-31T00:00:00Z`, Update: `2025-12-25T00:00:00Z`},
+		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2025-05-01T00:00:00Z`, Update: `2025-05-11T00:00:00Z`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
+	}
+
+	ResourceSchedulerScheduleRepresentation = map[string]interface{}{
+		// Required
+		"action":             acctest.Representation{RepType: acctest.Required, Create: `START_RESOURCE`, Update: `START_RESOURCE`},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"recurrence_details": acctest.Representation{RepType: acctest.Required, Create: `FREQ=DAILY;INTERVAL=1`, Update: `FREQ=DAILY;INTERVAL=2`},
+		"recurrence_type":    acctest.Representation{RepType: acctest.Required, Create: `ICAL`, Update: `ICAL`},
+		// Must include either `resources` or `resource_filters` when creating schedules
+		"resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: ResourceSchedulerScheduleResourcesRepresentation},
+		// Optionals
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
+		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2025-12-31T00:00:00Z`, Update: `2025-12-25T00:00:00Z`},
+		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2025-05-01T00:00:00Z`, Update: `2025-05-11T00:00:00Z`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
 	}
 
 	ResourceSchedulerScheduleResourcesRepresentation = map[string]interface{}{
-		"id":       acctest.Representation{RepType: acctest.Required, Create: autonomousDatabaseOcid, Update: computeInstanceOcid},
-		"metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
+		"id":         acctest.Representation{RepType: acctest.Required, Create: `${var.function_ocid}`, Update: `${var.function_ocid}`},
+		"metadata":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
+		"parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ResourceSchedulerScheduleResourcesParametersParametersRepresentation},
 	}
 
+	ResourceSchedulerScheduleResourcesParametersParametersRepresentation = map[string]interface{}{
+		"parameter_type": acctest.Representation{RepType: acctest.Required, Create: `BODY`, Update: `BODY`},
+		"value":          acctest.Representation{RepType: acctest.Optional, Create: []string{`{\"dummyKey\": \"dummyValue\"}`}, Update: []string{`{\"dummyKey2\": \"dummyValue2\"}`}},
+	}
+
+	//ResourceSchedulerScheduleResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_resources", "test_resources", acctest.Required, acctest.Create, CloudGuardResourceDataSourceRepresentation) +
+	//	DefinedTagsDependencies +
+	//	acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Required, acctest.Create, ResourceSchedulerScheduleRepresentation)
 	ResourceSchedulerScheduleResourceDependencies = DefinedTagsDependencies
 )
 
@@ -84,6 +116,15 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	functionOcid := utils.GetEnvSettingWithBlankDefault("function_ocid")
+	functionOcidVariableStr := fmt.Sprintf("variable \"function_ocid\" { default = \"%s\" }\n", functionOcid)
+
+	//computeOcid := utils.GetEnvSettingWithBlankDefault("function_ocid")
+	//computeOcidVariableStr := fmt.Sprintf("variable \"compute_ocid\" { default = \"%s\" }\n", computeOcid)
+
 	resourceName := "oci_resource_scheduler_schedule.test_schedule"
 	singularDatasourceName := "data.oci_resource_scheduler_schedule.test_schedule"
 	datasourceName := "data.oci_resource_scheduler_schedules.test_schedules"
@@ -96,7 +137,7 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckResourceSchedulerScheduleDestroy, []resource.TestStep{
 		//verify Create with Required - resourceOCID
 		{
-			Config: config + compartmentIdVariableStr + ResourceSchedulerScheduleResourceDependencies +
+			Config: config + compartmentIdVariableStr + functionOcidVariableStr + ResourceSchedulerScheduleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Required, acctest.Create, ResourceSchedulerScheduleWithResourceOcidRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -106,7 +147,7 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "recurrence_details", "FREQ=DAILY;INTERVAL=1"),
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.id", autonomousDatabaseOcid),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.id", functionOcid),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "0"),
 
 				func(s *terraform.State) (err error) {
@@ -123,23 +164,30 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 
 		// verify create with optionals - resourceOCID
 		{
-			Config: config + compartmentIdVariableStr + ResourceSchedulerScheduleResourceDependencies +
+			Config: config + compartmentIdVariableStr + functionOcidVariableStr + ResourceSchedulerScheduleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Optional, acctest.Create, ResourceSchedulerScheduleWithResourceOcidRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
 				resource.TestCheckResourceAttr(resourceName, "action", "START_RESOURCE"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "recurrence_details", "FREQ=DAILY;INTERVAL=1"),
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName1"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-11-20T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-11-15T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2025-12-31T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2025-05-01T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.id", autonomousDatabaseOcid),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.id", functionOcid),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.parameter_type", "BODY"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.value.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2025-12-31T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2025-05-01T00:00:00Z"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -148,9 +196,36 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + functionOcidVariableStr + ResourceSchedulerScheduleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(ResourceSchedulerScheduleRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "action", "START_RESOURCE"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "recurrence_details", "FREQ=DAILY;INTERVAL=1"),
+				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
+				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.id", functionOcid),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		//verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ResourceSchedulerScheduleResourceDependencies +
+			Config: config + compartmentIdVariableStr + functionOcidVariableStr + ResourceSchedulerScheduleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Optional, acctest.Update, ResourceSchedulerScheduleWithResourceOcidRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -161,12 +236,16 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-11-30T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-11-19T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2025-12-25T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2025-05-11T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.id", computeInstanceOcid),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.id", functionOcid),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.parameter_type", "BODY"),
+				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.value.#", "1"),
+				resource.TestCheckTypeSetElemAttr(resourceName, "resources.0.parameters.0.value.*", `{"dummyKey2":"dummyValue2"}`),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -178,36 +257,35 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_resource_scheduler_schedules", "test_schedules", acctest.Optional, acctest.Update, ResourceSchedulerScheduleDataSourceRepresentation) +
+				compartmentIdVariableStr + functionOcidVariableStr + ResourceSchedulerScheduleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Optional, acctest.Update, ResourceSchedulerScheduleRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "schedule_collection.#", "1"),
+			),
+		},
+
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Required, acctest.Create, ResourceSchedulerScheduleSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ResourceSchedulerScheduleWithResourceOcidRequiredOnlyResource,
+				compartmentIdVariableStr + functionOcidVariableStr + ResourceSchedulerScheduleWithResourceOcidRequiredOnlyResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "action", "START_RESOURCE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "recurrence_details", "FREQ=DAILY;INTERVAL=1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "recurrence_type", "ICAL"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "resources.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "resources.0.id", autonomousDatabaseOcid),
-			),
-		},
-
-		// verify datasources
-		{
-			Config: config + compartmentIdVariableStr + ResourceSchedulerScheduleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Required, acctest.Create, ResourceSchedulerScheduleWithResourceOcidRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_resource_scheduler_schedules", "test_schedules", acctest.Required, acctest.Create, ResourceSchedulerScheduleDataSourceRepresentation),
-
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
-				resource.TestCheckResourceAttr(datasourceName, "schedule_collection.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resources.0.id", functionOcid),
 			),
 		},
 

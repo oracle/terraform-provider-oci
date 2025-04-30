@@ -75,6 +75,7 @@ The following attributes are exported:
 		* `refresh_status` - The DR plan step refresh status.  Example: `STEP_ADDED` 
 		* `timeout` - The timeout in seconds for executing this step.  Example: `600` 
 		* `type` - The plan step type. 
+		* `type_display_name` - The display name of the DR Plan step type.  Example: `Database Switchover` 
 		* `user_defined_step` - The details for a user-defined step in a DR plan.
 			* `function_id` - The OCID of function to be invoked.  Example: `ocid1.fnfunc.oc1..uniqueID` 
 			* `function_region` - The region in which the function is deployed.  Example: `us-ashburn-1` 
@@ -95,17 +96,23 @@ The following attributes are exported:
 			* `script_command` - The script name and arguments.  Example: `/usr/bin/python3 /home/opc/scripts/my_app_script.py arg1 arg2 arg3` 
 			* `step_type` - The type of the user-defined step.
 
-				**RUN_OBJECTSTORE_SCRIPT_PRECHECK** - A step which performs a precheck on a script stored in Oracle Cloud Infrastructure object storage.
+				**RUN_OBJECTSTORE_SCRIPT_PRECHECK** - A built-in step which performs a precheck on a script stored in Oracle Cloud Infrastructure object storage.  This step cannot be added, deleted, or customized by the user.
 
-				**RUN_LOCAL_SCRIPT_PRECHECK** - A step which performs a precheck on a script which resides locally on a compute instance.
+				**RUN_LOCAL_SCRIPT_PRECHECK** - A built-in step which performs a precheck on a script which resides locally on a compute instance.  This step cannot be added, deleted, or customized by the user.
 
-				**INVOKE_FUNCTION_PRECHECK** - A step which performs a precheck on an Oracle Cloud Infrastructure function. See https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm.
+				**INVOKE_FUNCTION_PRECHECK** - A built-in step which performs a precheck on an Oracle Cloud Infrastructure function.  This  step cannot be added, deleted, or customized by the user. See https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm.
 
 				**RUN_OBJECTSTORE_SCRIPT** - A step which runs a script stored in Oracle Cloud Infrastructure object storage.
 
 				**RUN_LOCAL_SCRIPT** - A step which runs a script that resides locally on a compute instance.
 
-				**INVOKE_FUNCTION** - A step which invokes an Oracle Cloud Infrastructure function. See https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm. 
+				**INVOKE_FUNCTION** - A step which invokes an Oracle Cloud Infrastructure function. See https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm.
+
+				**RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK** - A user-defined step which performs a precheck by executing a user-provided script stored in Oracle Cloud Infrastructure object storage.
+
+				**RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK** - A user-defined step which performs a precheck by executing a user-provided script which resides locally on a compute instance.
+
+				**INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK** - A user-defined step which performs a precheck by executing a user-provided Oracle Cloud Infrastructure function. See https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm. 
 	* `type` - The group type.  Example: `BUILT_IN` 
 * `source_plan_id` - If this is a cloned DR plan, the OCID of the source DR plan that was used to clone this DR plan. If this DR plan was not cloned, then the value for this will be `null`.  Example: `ocid1.drplan.oc1..uniqueID` 
 * `state` - The current state of the DR plan. 

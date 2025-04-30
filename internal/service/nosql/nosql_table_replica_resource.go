@@ -355,6 +355,9 @@ func (s *NosqlTableReplicaResourceCrud) Delete() error {
 }
 
 func (s *NosqlTableReplicaResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
 	region, tableNameOrId, err := parseTableReplicaCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("region", &region)
@@ -391,8 +394,9 @@ func parseTableReplicaCompositeId(compositeId string) (region string, tableNameO
 }
 
 func anyChangeSuppressFunction(k string, old string, new string, d *schema.ResourceData) bool {
-	if old == "" && new != "" {
+	if d.Id() == "" {
 		return false
 	}
+	log.Printf("[INFO] Replica resource doesn't support update, ignoring change to %s, k=%s, old=%s, new=%s", d.Id(), k, old, new)
 	return true
 }

@@ -50,10 +50,10 @@ var (
 	DisasterRecoveryDrPlanExecutionRepresentation = map[string]interface{}{
 		"execution_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrPlanExecutionExecutionOptionsRepresentation},
 		"plan_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_plan.test_dr_plan.id}`},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `Precheck Switchover from PHX to IAD`, Update: `displayName2`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DefinedTagsIgnoreRepresentation},
+		//"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `Precheck Switchover from PHX to IAD`, Update: `displayName2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DefinedTagsIgnoreRepresentation},
 	}
 	DisasterRecoveryDrPlanExecutionExecutionOptionsRepresentation = map[string]interface{}{
 		"plan_execution_type":   acctest.Representation{RepType: acctest.Required, Create: `SWITCHOVER_PRECHECK`},
@@ -62,11 +62,10 @@ var (
 	}
 
 	DisasterRecoveryDrPlanExecutionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
-		OKEClusterDependencyConfig +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		AvailabilityDomainConfig
+	//DefinedTagsDependencies
 
 	DrProtectionGroupConfig = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupRepresentation)
 

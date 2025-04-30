@@ -18,10 +18,11 @@ import (
 	"strings"
 )
 
-// CreateBlockVolumeMountDetails The details for creating a mount for a file system on a block volume.
+// CreateBlockVolumeMountDetails Deprecated. Use the 'CreateComputeInstanceNonMovableBlockVolumeMountOperationDetails' definition instead of this.
+// The details for creating a mount for a file system on a block volume.
 type CreateBlockVolumeMountDetails struct {
 
-	// The physical mount point used for mounting the file system on the block volume.
+	// The physical mount point where the file system is mounted on the block volume.
 	// Example: `/mnt/yourmountpoint`
 	MountPoint *string `mandatory:"false" json:"mountPoint"`
 }

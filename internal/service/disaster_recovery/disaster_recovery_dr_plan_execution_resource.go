@@ -217,6 +217,10 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"type_display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -1029,6 +1033,10 @@ func DrPlanStepExecutionToMap(obj oci_disaster_recovery.DrPlanStepExecution) map
 	}
 
 	result["type"] = string(obj.Type)
+
+	if obj.TypeDisplayName != nil {
+		result["type_display_name"] = string(*obj.TypeDisplayName)
+	}
 
 	return result
 }

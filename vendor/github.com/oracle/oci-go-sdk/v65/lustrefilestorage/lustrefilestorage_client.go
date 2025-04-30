@@ -140,7 +140,7 @@ func (client LustreFileStorageClient) cancelWorkRequest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -199,7 +199,7 @@ func (client LustreFileStorageClient) changeLustreFileSystemCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/ChangeLustreFileSystemCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "ChangeLustreFileSystemCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -262,7 +262,7 @@ func (client LustreFileStorageClient) createLustreFileSystem(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/CreateLustreFileSystem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "CreateLustreFileSystem", apiReferenceLink)
 		return response, err
 	}
@@ -320,7 +320,7 @@ func (client LustreFileStorageClient) deleteLustreFileSystem(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/DeleteLustreFileSystem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "DeleteLustreFileSystem", apiReferenceLink)
 		return response, err
 	}
@@ -378,7 +378,7 @@ func (client LustreFileStorageClient) getLustreFileSystem(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/GetLustreFileSystem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "GetLustreFileSystem", apiReferenceLink)
 		return response, err
 	}
@@ -436,7 +436,7 @@ func (client LustreFileStorageClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -494,7 +494,7 @@ func (client LustreFileStorageClient) listLustreFileSystems(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystemCollection/ListLustreFileSystems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListLustreFileSystems", apiReferenceLink)
 		return response, err
 	}
@@ -552,7 +552,7 @@ func (client LustreFileStorageClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -610,7 +610,7 @@ func (client LustreFileStorageClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -668,7 +668,7 @@ func (client LustreFileStorageClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -726,7 +726,7 @@ func (client LustreFileStorageClient) updateLustreFileSystem(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/UpdateLustreFileSystem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "UpdateLustreFileSystem", apiReferenceLink)
 		return response, err
 	}
