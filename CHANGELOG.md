@@ -1,3 +1,14 @@
+## 6.37.0 (April 30, 2025)
+
+### Added
+- Support for adding custom pre check step in DR Plans
+- Support for OKE: Node Cycling Improvements
+- Support for HeatWave Service: Change DB System Deletion Policy AutomaticBackupRetention default to RETAIN.
+- provider support for Resource Scheduler enhancement feature
+### Bug Fix
+- move capacity_reservation_id update to the same request as shape update
+- TERRAFORM_ISSUE:NOSQL: Change on compartmentId of child table should be ignored
+
 ## 6.36.0 (April 23, 2025)
 
 ### Added

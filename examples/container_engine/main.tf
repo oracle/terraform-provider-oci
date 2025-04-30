@@ -48,6 +48,10 @@ variable "node_pool_cycling_details_maximum_unavailable" {
   default = "0"
 }
 
+variable "node_pool_cycling_details_cycle_modes" {
+  default = ["INSTANCE_REPLACE"]
+}
+
 variable "node_pool_state" {
   default = []
 }
@@ -261,6 +265,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     is_node_cycling_enabled = var.node_pool_cycling_details_is_node_cycling_enabled
     maximum_surge           = var.node_pool_cycling_details_maximum_surge
     maximum_unavailable     = var.node_pool_cycling_details_maximum_unavailable
+    cycle_modes             = var.node_pool_cycling_details_cycle_modes
   }
 
   node_source_details {
@@ -282,7 +287,7 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
   compartment_id     = var.compartment_ocid
   kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "flexShapePool"
-  node_shape         = "VM.Standard.E4.Flex"
+  node_shape         = "VM.Standard.E5.Flex"
   subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id]
 
   node_source_details {

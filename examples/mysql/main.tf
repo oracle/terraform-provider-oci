@@ -133,7 +133,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
   #Optional
   deletion_policy {
-    automatic_backup_retention = "DELETE"
+    automatic_backup_retention = "RETAIN"
     final_backup = "SKIP_FINAL_BACKUP"
     is_delete_protected = "false"
   }

@@ -18,6 +18,9 @@ Get the details of a cluster.
 data "oci_containerengine_cluster" "test_cluster" {
 	#Required
 	cluster_id = oci_containerengine_cluster.test_cluster.id
+
+	#Optional
+	should_include_oidc_config_file = var.cluster_should_include_oidc_config_file
 }
 ```
 
@@ -26,6 +29,7 @@ data "oci_containerengine_cluster" "test_cluster" {
 The following arguments are supported:
 
 * `cluster_id` - (Required) The OCID of the cluster.
+* `should_include_oidc_config_file` - (Optional) Boolean value to determine if the OpenIdConnectAuth configuration file should be displayed for the provided cluster. 
 
 
 ## Attributes Reference

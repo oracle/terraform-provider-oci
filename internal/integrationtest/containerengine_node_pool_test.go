@@ -59,7 +59,7 @@ var (
 		"node_pool_cycling_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolNodePoolCyclingDetailsRepresentation},
 		"ssh_public_key":                   acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 		"node_config_details":              acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeConfigDetailsRepresentation},
-		"node_eviction_node_pool_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolNodeEvictionNodePoolSettingsRepresentation},
+		"node_eviction_node_pool_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolNodeEvictionNodePoolSettingsRepresentation},
 	}
 
 	nodeConfigDetailsRepresentation = map[string]interface{}{
@@ -88,11 +88,14 @@ var (
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
-	nodePoolNodeEvictionNodePoolSettingsRepresentation = map[string]interface{}{
+
+	ContainerengineNodePoolNodeEvictionNodePoolSettingsRepresentation = map[string]interface{}{
 		"eviction_grace_duration":              acctest.Representation{RepType: acctest.Optional, Create: `PT1H`, Update: `PT50M`},
+		"is_force_action_after_grace_duration": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_force_delete_after_grace_duration": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	ContainerengineNodePoolNodePoolCyclingDetailsRepresentation = map[string]interface{}{
+		"cycle_modes":             acctest.Representation{RepType: acctest.Optional, Create: []string{"INSTANCE_REPLACE"}, Update: []string{"INSTANCE_REPLACE"}},
 		"is_node_cycling_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"maximum_surge":           acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"maximum_unavailable":     acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
@@ -164,7 +167,10 @@ var (
 		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.22.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool1`}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.23.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool2`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(ContainerengineClusterRepresentation, map[string]interface{}{
+				"type": acctest.Representation{RepType: acctest.Required, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
+			})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
@@ -201,7 +207,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Required, acctest.Create, nodePoolRepresentation),
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Required, acctest.Create, nodePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -235,10 +242,12 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.eviction_grace_duration", "PT1H"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_action_after_grace_duration", "false"),
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.cycle_modes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.is_node_cycling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_surge", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_unavailable", "0"),
@@ -275,6 +284,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.eviction_grace_duration", "PT50M"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_action_after_grace_duration", "false"),
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
@@ -320,6 +330,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.0.eviction_grace_duration", "PT50M"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.0.is_force_action_after_grace_duration", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
@@ -352,6 +363,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.0.eviction_grace_duration", "PT50M"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.0.is_force_action_after_grace_duration", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
