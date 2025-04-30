@@ -106,6 +106,8 @@ const (
 	RegionUSBoardman1 Region = "us-boardman-1"
 	//RegionUSDesmoines1 region Desmoines
 	RegionUSDesmoines1 Region = "us-desmoines-1"
+	//RegionAPKulai1 region Kulai
+	RegionAPKulai1 Region = "ap-kulai-1"
 	//RegionUSLangley1 region Langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region Luke
@@ -192,8 +194,6 @@ const (
 	RegionUSTukwila3 Region = "us-tukwila-3"
 	//RegionUSAshburn2 region Ashburn
 	RegionUSAshburn2 Region = "us-ashburn-2"
-	//RegionAPPathumthani1 region Pathumthani
-	RegionAPPathumthani1 Region = "ap-pathumthani-1"
 	//RegionUKLondon2 region London
 	RegionUKLondon2 Region = "uk-london-2"
 	//RegionUKLondon3 region London
@@ -254,6 +254,7 @@ var shortNameRegion = map[string]Region{
 	"zqo": RegionEUDublin3,
 	"nhj": RegionUSBoardman1,
 	"kqq": RegionUSDesmoines1,
+	"fyv": RegionAPKulai1,
 	"lfi": RegionUSLangley1,
 	"luf": RegionUSLuke1,
 	"ric": RegionUSGovAshburn1,
@@ -297,7 +298,6 @@ var shortNameRegion = map[string]Region{
 	"gda": RegionUSTukwila2,
 	"nbq": RegionUSTukwila3,
 	"yxj": RegionUSAshburn2,
-	"mez": RegionAPPathumthani1,
 	"den": RegionUKLondon2,
 	"kal": RegionUKLondon3,
 	"jsk": RegionEUBudapest1,
@@ -329,7 +329,6 @@ var realm = map[string]string{
 	"oc38": "oraclecloud38.com",
 	"oc39": "oraclecloud39.com",
 	"oc42": "oraclerealm42.com",
-	"oc43": "oraclecloud43.com",
 	"oc46": "oraclecloud46.com",
 	"oc47": "oraclecloud47.com",
 	"oc51": "oraclecloud51.com",
@@ -387,6 +386,7 @@ var regionRealm = map[Region]string{
 	RegionEUDublin3:       "oc1",
 	RegionUSBoardman1:     "oc1",
 	RegionUSDesmoines1:    "oc1",
+	RegionAPKulai1:        "oc1",
 
 	RegionUSLangley1: "oc2",
 	RegionUSLuke1:    "oc2",
@@ -454,8 +454,6 @@ var regionRealm = map[Region]string{
 	RegionUSTukwila3: "oc39",
 
 	RegionUSAshburn2: "oc42",
-
-	RegionAPPathumthani1: "oc43",
 
 	RegionUKLondon2: "oc46",
 
