@@ -1,4 +1,4 @@
-## 6.37.0 (Unreleased)
+## 6.37.0 (April 30, 2025)
 
 ### Added
 - Support for adding custom pre check step in DR Plans
