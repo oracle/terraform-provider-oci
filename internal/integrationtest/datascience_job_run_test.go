@@ -51,16 +51,17 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_job_run.test_job_run.id}`}},
 	}
 
+	// MULTI NODE JOB RUN
 	DatascienceJobRunRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"job_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_job.test_job.id}`},
 		"project_id":                         acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"asynchronous":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"job_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobRunJobConfigurationOverrideDetailsRepresentation},
-		"job_environment_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation},
+		"job_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobConfigurationOverrideDetailsRepresentation},
+		"job_environment_configuration_override_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation},
+		"job_infrastructure_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunEmptyJobInfrastructureConfigurationOverrideDetailsRepresentation},
+		"job_node_configuration_override_details":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsRepresentation},
 		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreJobRunDefinedTagsChangesRepresentation},
 	}
 	DatascienceJobRunJobConfigurationOverrideDetailsRepresentation = map[string]interface{}{
@@ -68,6 +69,7 @@ var (
 		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
 		"environment_variables":      acctest.Representation{RepType: acctest.Required, Create: map[string]string{"environmentVariables": "environmentVariables"}},
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"startup_probe_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobConfigurationOverrideDetailsStartupProbeDetailsRepresentation},
 	}
 	DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation = map[string]interface{}{
 		"image":                acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/byod_hello_wrld:1.0`},
@@ -77,12 +79,90 @@ var (
 		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: ``},
 		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
+	DatascienceJobRunEmptyJobInfrastructureConfigurationOverrideDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type": acctest.Representation{RepType: acctest.Required, Create: `EMPTY`},
+	}
+	DatascienceJobRunJobInfrastructureConfigurationOverrideDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobInfrastructureConfigurationOverrideDetailsJobShapeConfigDetailsRepresentation},
+		"shape_name":                acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+	DatascienceJobRunJobLogConfigurationOverrideDetailsRepresentation = map[string]interface{}{
+		"enable_auto_log_creation": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"enable_logging":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"log_group_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.test_log.id}`},
+	}
 	ignoreJobRunDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsRepresentation = map[string]interface{}{
+		"job_node_type":                             acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
+		"job_network_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNetworkConfigurationRepresentation},
+		"job_node_group_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationDetailsRepresentation},
+		"maximum_runtime_in_minutes":                acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"startup_order":                             acctest.Representation{RepType: acctest.Optional, Create: `IN_ORDER`},
+	}
+	DatascienceJobRunJobConfigurationOverrideDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
+		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},
+		"job_probe_check_type":     acctest.Representation{RepType: acctest.Required, Create: `EXEC`},
+		"failure_threshold":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"initial_delay_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"period_in_seconds":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	DatascienceJobRunJobInfrastructureConfigurationOverrideDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `3.0`},
+	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNetworkConfigurationRepresentation = map[string]interface{}{
+		"job_network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
+		"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `subnet_id`},
+	}
+	DatascienceJobRunJobNodeConfigurationDetailsRepresentation = map[string]interface{}{
+		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"job_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsRepresentation},
+		// "job_environment_configuration_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobEnvironmentConfigurationDetailsRepresentation},
+		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation},
+		"minimum_success_replicas":                 acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"replicas":                                 acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_type":                   acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
+		"environment_variables":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}, Update: map[string]string{"environmentVariables2": "environmentVariables2"}},
+		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		// "startup_probe_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsStartupProbeDetailsRepresentation},
+	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
+		"image":                acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"job_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
+		"cmd":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`cmd`}},
+		"entrypoint":           acctest.Representation{RepType: acctest.Optional, Create: []string{`entrypoint`}},
+		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: `imageDigest`},
+		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_image_signature.test_image_signature.id}`},
+	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"shape_name":                acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`},
+		// "subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: ``},
+	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
+		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},
+		"job_probe_check_type":     acctest.Representation{RepType: acctest.Required, Create: `EXEC`},
+		"failure_threshold":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"initial_delay_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"period_in_seconds":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `3.0`},
+	}
 
-	DatascienceJobRunResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, mlJobWithArtifactNoLogging) +
+	DatascienceJobRunResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, DatascienceJobRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceDatascienceJobShapeDataSourceRepresentation) +
 		DefinedTagsDependencies
 )
@@ -145,7 +225,8 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_override_details.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.command_line_arguments", "commandLineArguments"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.environment_variables.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.job_type", "DEFAULT"),
@@ -157,6 +238,11 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image_digest", ""),
 					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image_signature_id", ""),
 					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.job_environment_type", "OCIR_CONTAINER"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_override_details.#", "0"),
@@ -186,11 +272,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.command_line_arguments", "commandLineArguments"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.environment_variables.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.job_type", "DEFAULT"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.maximum_runtime_in_minutes", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.cmd.#", ""),
 					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.entrypoint.#", ""),
@@ -256,14 +338,10 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.0.command_line_arguments", "commandLineArguments"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.0.environment_variables.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.0.job_type", "DEFAULT"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.0.maximum_runtime_in_minutes", "10"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.#", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_log_configuration_override_details.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.#", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.cmd.#", ""),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.entrypoint.#", ""),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
