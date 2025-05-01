@@ -34,6 +34,20 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.pipeline_run_display_name
 	freeform_tags = {"Department"= "Finance"}
+	infrastructure_configuration_override_details {
+		#Required
+		block_storage_size_in_gbs = var.pipeline_run_infrastructure_configuration_override_details_block_storage_size_in_gbs
+		shape_name = oci_core_shape.test_shape.name
+
+		#Optional
+		shape_config_details {
+
+			#Optional
+			memory_in_gbs = var.pipeline_run_infrastructure_configuration_override_details_shape_config_details_memory_in_gbs
+			ocpus = var.pipeline_run_infrastructure_configuration_override_details_shape_config_details_ocpus
+		}
+		subnet_id = oci_core_subnet.test_subnet.id
+	}
 	log_configuration_override_details {
 
 		#Optional
@@ -91,6 +105,20 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
 			num_executors = var.pipeline_run_step_override_details_step_dataflow_configuration_details_num_executors
 			warehouse_bucket_uri = var.pipeline_run_step_override_details_step_dataflow_configuration_details_warehouse_bucket_uri
 		}
+		step_infrastructure_configuration_details {
+			#Required
+			block_storage_size_in_gbs = var.pipeline_run_step_override_details_step_infrastructure_configuration_details_block_storage_size_in_gbs
+			shape_name = oci_core_shape.test_shape.name
+
+			#Optional
+			shape_config_details {
+
+				#Optional
+				memory_in_gbs = var.pipeline_run_step_override_details_step_infrastructure_configuration_details_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_run_step_override_details_step_infrastructure_configuration_details_shape_config_details_ocpus
+			}
+			subnet_id = oci_core_subnet.test_subnet.id
+		}
 	}
 	system_tags = var.pipeline_run_system_tags
 }
@@ -109,6 +137,13 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly display name for the resource.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `infrastructure_configuration_override_details` - (Optional) The infrastructure configuration details of a pipeline or a step.
+	* `block_storage_size_in_gbs` - (Required) The size of the block storage volume to attach to the instance. 
+	* `shape_config_details` - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+	* `shape_name` - (Required) The shape used to launch the instance for all step runs in the pipeline.
+	* `subnet_id` - (Optional) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `log_configuration_override_details` - (Optional) The pipeline log configuration details.
 	* `enable_auto_log_creation` - (Optional) If automatic on-behalf-of log object creation is enabled for pipeline runs.
 	* `enable_logging` - (Optional) If customer logging is enabled for pipeline.
@@ -144,6 +179,13 @@ The following arguments are supported:
 		* `logs_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
 		* `num_executors` - (Optional) The number of executor VMs requested.
 		* `warehouse_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
+	* `step_infrastructure_configuration_details` - (Optional) The infrastructure configuration details of a pipeline or a step.
+		* `block_storage_size_in_gbs` - (Required) The size of the block storage volume to attach to the instance. 
+		* `shape_config_details` - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `shape_name` - (Required) The shape used to launch the instance for all step runs in the pipeline.
+		* `subnet_id` - (Optional) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - (Required) The name of the step.
 * `system_tags` - (Optional) Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 
@@ -171,6 +213,13 @@ The following attributes are exported:
 * `display_name` - A user-friendly display name for the resource.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
+* `infrastructure_configuration_override_details` - The infrastructure configuration details of a pipeline or a step.
+	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
+	* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+	* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 * `log_configuration_override_details` - The pipeline log configuration details.
 	* `enable_auto_log_creation` - If automatic on-behalf-of log object creation is enabled for pipeline runs.
@@ -210,6 +259,13 @@ The following attributes are exported:
 		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
 		* `num_executors` - The number of executor VMs requested.
 		* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
+	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
+		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
+		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+		* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - The name of the step.
 * `step_runs` - Array of StepRun object for each step.
 	* `dataflow_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow run triggered for this step run.
