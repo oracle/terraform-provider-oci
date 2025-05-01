@@ -66,6 +66,13 @@ The following attributes are exported:
 * `display_name` - A user-friendly display name for the resource.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
+* `infrastructure_configuration_override_details` - The infrastructure configuration details of a pipeline or a step.
+	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
+	* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+	* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 * `log_configuration_override_details` - The pipeline log configuration details.
 	* `enable_auto_log_creation` - If automatic on-behalf-of log object creation is enabled for pipeline runs.
@@ -105,6 +112,13 @@ The following attributes are exported:
 		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
 		* `num_executors` - The number of executor VMs requested.
 		* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
+	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
+		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
+		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+		* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - The name of the step.
 * `step_runs` - Array of StepRun object for each step.
 	* `dataflow_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow run triggered for this step run.
