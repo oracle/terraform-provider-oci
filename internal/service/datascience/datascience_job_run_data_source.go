@@ -118,10 +118,30 @@ func (s *DatascienceJobRunDataSourceCrud) SetData() error {
 		s.D.Set("job_infrastructure_configuration_details", nil)
 	}
 
+	if s.Res.JobInfrastructureConfigurationOverrideDetails != nil {
+		jobInfrastructureConfigurationOverrideDetailsArray := []interface{}{}
+		if jobInfrastructureConfigurationOverrideDetailsMap := JobInfrastructureConfigurationDetailsToMap(&s.Res.JobInfrastructureConfigurationOverrideDetails); jobInfrastructureConfigurationOverrideDetailsMap != nil {
+			jobInfrastructureConfigurationOverrideDetailsArray = append(jobInfrastructureConfigurationOverrideDetailsArray, jobInfrastructureConfigurationOverrideDetailsMap)
+		}
+		s.D.Set("job_infrastructure_configuration_override_details", jobInfrastructureConfigurationOverrideDetailsArray)
+	} else {
+		s.D.Set("job_infrastructure_configuration_override_details", nil)
+	}
+
 	if s.Res.JobLogConfigurationOverrideDetails != nil {
 		s.D.Set("job_log_configuration_override_details", []interface{}{JobLogConfigurationDetailsToMap(s.Res.JobLogConfigurationOverrideDetails)})
 	} else {
 		s.D.Set("job_log_configuration_override_details", nil)
+	}
+
+	if s.Res.JobNodeConfigurationOverrideDetails != nil {
+		jobNodeConfigurationOverrideDetailsArray := []interface{}{}
+		if jobNodeConfigurationOverrideDetailsMap := JobNodeConfigurationDetailsToMap(&s.Res.JobNodeConfigurationOverrideDetails); jobNodeConfigurationOverrideDetailsMap != nil {
+			jobNodeConfigurationOverrideDetailsArray = append(jobNodeConfigurationOverrideDetailsArray, jobNodeConfigurationOverrideDetailsMap)
+		}
+		s.D.Set("job_node_configuration_override_details", jobNodeConfigurationOverrideDetailsArray)
+	} else {
+		s.D.Set("job_node_configuration_override_details", nil)
 	}
 
 	jobStorageMountConfigurationDetailsList := []interface{}{}
@@ -139,6 +159,12 @@ func (s *DatascienceJobRunDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("log_details", nil)
 	}
+
+	nodeGroupDetailsList := []interface{}{}
+	for _, item := range s.Res.NodeGroupDetailsList {
+		nodeGroupDetailsList = append(nodeGroupDetailsList, NodeGroupDetailsToMap(item))
+	}
+	s.D.Set("node_group_details_list", nodeGroupDetailsList)
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)

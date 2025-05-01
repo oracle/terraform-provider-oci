@@ -103,6 +103,12 @@ func (s *DatasciencePipelineRunDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InfrastructureConfigurationOverrideDetails != nil {
+		s.D.Set("infrastructure_configuration_override_details", []interface{}{PipelineInfrastructureConfigurationDetailsToMap(s.Res.InfrastructureConfigurationOverrideDetails)})
+	} else {
+		s.D.Set("infrastructure_configuration_override_details", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

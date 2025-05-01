@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -19,15 +20,23 @@ import (
 )
 
 func DatascienceJobRunResource() *schema.Resource {
+	var (
+		TwentyMinutes = 20 * time.Minute
+		OneHour       = 60 * time.Minute
+	)
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceJobRun,
-		Read:     readDatascienceJobRun,
-		Update:   updateDatascienceJobRun,
-		Delete:   deleteDatascienceJobRun,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &OneHour,
+			Update: &TwentyMinutes,
+			Delete: &OneHour,
+		},
+		Create: createDatascienceJobRun,
+		Read:   readDatascienceJobRun,
+		Update: updateDatascienceJobRun,
+		Delete: deleteDatascienceJobRun,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -87,6 +96,7 @@ func DatascienceJobRunResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"DEFAULT",
+								"EMPTY",
 							}, true),
 						},
 
@@ -111,6 +121,58 @@ func DatascienceJobRunResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"startup_probe_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"command": {
+										Type:     schema.TypeList,
+										Required: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"job_probe_check_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"EXEC",
+										}, true),
+									},
+
+									// Optional
+									"failure_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"initial_delay_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"period_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
@@ -178,6 +240,82 @@ func DatascienceJobRunResource() *schema.Resource {
 					},
 				},
 			},
+			"job_infrastructure_configuration_override_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"job_infrastructure_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"EMPTY",
+								"ME_STANDALONE",
+								"MULTI_NODE",
+								"STANDALONE",
+							}, true),
+						},
+
+						// Optional
+						"block_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"job_shape_config_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"job_log_configuration_override_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -209,6 +347,348 @@ func DatascienceJobRunResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"log_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"job_node_configuration_override_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"job_node_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"MULTI_NODE",
+							}, true),
+						},
+
+						// Optional
+						"job_network_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"job_network_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"CUSTOM_NETWORK",
+											"DEFAULT_NETWORK",
+										}, true),
+									},
+
+									// Optional
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"job_node_group_configuration_details_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"job_configuration_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"job_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"DEFAULT",
+														"EMPTY",
+													}, true),
+												},
+
+												// Optional
+												"command_line_arguments": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"environment_variables": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
+												},
+												"maximum_runtime_in_minutes": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													ValidateFunc:     tfresource.ValidateInt64TypeString,
+													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+												},
+												"startup_probe_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"command": {
+																Type:     schema.TypeList,
+																Required: true,
+																ForceNew: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"job_probe_check_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"EXEC",
+																}, true),
+															},
+
+															// Optional
+															"failure_threshold": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"initial_delay_in_seconds": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"period_in_seconds": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"job_environment_configuration_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"image": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"job_environment_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"OCIR_CONTAINER",
+													}, true),
+												},
+
+												// Optional
+												"cmd": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"entrypoint": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"image_digest": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"image_signature_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"job_infrastructure_configuration_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"job_infrastructure_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"EMPTY",
+														"ME_STANDALONE",
+														"MULTI_NODE",
+														"STANDALONE",
+													}, true),
+												},
+
+												// Optional
+												"block_storage_size_in_gbs": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"job_shape_config_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"memory_in_gbs": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"ocpus": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"shape_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"minimum_success_replicas": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"replicas": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"maximum_runtime_in_minutes": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"startup_order": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -353,6 +833,31 @@ func DatascienceJobRunResource() *schema.Resource {
 					},
 				},
 			},
+			"node_group_details_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -434,16 +939,16 @@ func (s *DatascienceJobRunResourceCrud) CreatedPending() []string {
 }
 
 func (s *DatascienceJobRunResourceCrud) CreatedTarget() []string {
-	invokeAsynchronously := true
-	if async, ok := s.D.GetOkExists("asynchronous"); ok {
-		invokeAsynchronously = async.(bool)
-	}
+	// invokeAsynchronously := true
+	// if async, ok := s.D.GetOkExists("asynchronous"); ok {
+	// 	invokeAsynchronously = async.(bool)
+	// }
 
-	if invokeAsynchronously {
-		return []string{
-			string(oci_datascience.JobRunLifecycleStateAccepted),
-		}
-	}
+	// if invokeAsynchronously {
+	// 	return []string{
+	// 		string(oci_datascience.JobRunLifecycleStateAccepted),
+	// 	}
+	// }
 
 	return []string{
 		string(oci_datascience.JobRunLifecycleStateSucceeded),
@@ -515,6 +1020,17 @@ func (s *DatascienceJobRunResourceCrud) Create() error {
 		request.JobId = &tmp
 	}
 
+	if jobInfrastructureConfigurationOverrideDetails, ok := s.D.GetOkExists("job_infrastructure_configuration_override_details"); ok {
+		if tmpList := jobInfrastructureConfigurationOverrideDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "job_infrastructure_configuration_override_details", 0)
+			tmp, err := s.mapToJobInfrastructureConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.JobInfrastructureConfigurationOverrideDetails = tmp
+		}
+	}
+
 	if jobLogConfigurationOverrideDetails, ok := s.D.GetOkExists("job_log_configuration_override_details"); ok {
 		if tmpList := jobLogConfigurationOverrideDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "job_log_configuration_override_details", 0)
@@ -523,6 +1039,17 @@ func (s *DatascienceJobRunResourceCrud) Create() error {
 				return err
 			}
 			request.JobLogConfigurationOverrideDetails = &tmp
+		}
+	}
+
+	if jobNodeConfigurationOverrideDetails, ok := s.D.GetOkExists("job_node_configuration_override_details"); ok {
+		if tmpList := jobNodeConfigurationOverrideDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "job_node_configuration_override_details", 0)
+			tmp, err := s.mapToJobNodeConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.JobNodeConfigurationOverrideDetails = tmp
 		}
 	}
 
@@ -672,10 +1199,30 @@ func (s *DatascienceJobRunResourceCrud) SetData() error {
 		s.D.Set("job_infrastructure_configuration_details", nil)
 	}
 
+	if s.Res.JobInfrastructureConfigurationOverrideDetails != nil {
+		jobInfrastructureConfigurationOverrideDetailsArray := []interface{}{}
+		if jobInfrastructureConfigurationOverrideDetailsMap := JobInfrastructureConfigurationDetailsToMap(&s.Res.JobInfrastructureConfigurationOverrideDetails); jobInfrastructureConfigurationOverrideDetailsMap != nil {
+			jobInfrastructureConfigurationOverrideDetailsArray = append(jobInfrastructureConfigurationOverrideDetailsArray, jobInfrastructureConfigurationOverrideDetailsMap)
+		}
+		s.D.Set("job_infrastructure_configuration_override_details", jobInfrastructureConfigurationOverrideDetailsArray)
+	} else {
+		s.D.Set("job_infrastructure_configuration_override_details", nil)
+	}
+
 	if s.Res.JobLogConfigurationOverrideDetails != nil {
 		s.D.Set("job_log_configuration_override_details", []interface{}{JobLogConfigurationDetailsToMap(s.Res.JobLogConfigurationOverrideDetails)})
 	} else {
 		s.D.Set("job_log_configuration_override_details", nil)
+	}
+
+	if s.Res.JobNodeConfigurationOverrideDetails != nil {
+		jobNodeConfigurationOverrideDetailsArray := []interface{}{}
+		if jobNodeConfigurationOverrideDetailsMap := JobNodeConfigurationDetailsToMap(&s.Res.JobNodeConfigurationOverrideDetails); jobNodeConfigurationOverrideDetailsMap != nil {
+			jobNodeConfigurationOverrideDetailsArray = append(jobNodeConfigurationOverrideDetailsArray, jobNodeConfigurationOverrideDetailsMap)
+		}
+		s.D.Set("job_node_configuration_override_details", jobNodeConfigurationOverrideDetailsArray)
+	} else {
+		s.D.Set("job_node_configuration_override_details", nil)
 	}
 
 	jobStorageMountConfigurationDetailsList := []interface{}{}
@@ -693,6 +1240,12 @@ func (s *DatascienceJobRunResourceCrud) SetData() error {
 	} else {
 		s.D.Set("log_details", nil)
 	}
+
+	nodeGroupDetailsList := []interface{}{}
+	for _, item := range s.Res.NodeGroupDetailsList {
+		nodeGroupDetailsList = append(nodeGroupDetailsList, NodeGroupDetailsToMap(item))
+	}
+	s.D.Set("node_group_details_list", nodeGroupDetailsList)
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
@@ -743,6 +1296,19 @@ func (s *DatascienceJobRunResourceCrud) mapToJobConfigurationDetails(fieldKeyFor
 			}
 			details.MaximumRuntimeInMinutes = &tmpInt64
 		}
+		if startupProbeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "startup_probe_details")); ok {
+			if tmpList := startupProbeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "startup_probe_details"), 0)
+				tmp, err := s.mapToJobProbeDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert startup_probe_details, encountered error: %v", err)
+				}
+				details.StartupProbeDetails = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("EMPTY"):
+		details := oci_datascience.EmptyJobConfigurationDetails{}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown job_type '%v' was specified", jobType)
@@ -806,6 +1372,93 @@ func (s *DatascienceJobRunResourceCrud) mapToJobEnvironmentConfigurationDetails(
 	return baseObject, nil
 }
 
+func (s *DatascienceJobRunResourceCrud) mapToJobInfrastructureConfigurationDetails(fieldKeyFormat string) (oci_datascience.JobInfrastructureConfigurationDetails, error) {
+	var baseObject oci_datascience.JobInfrastructureConfigurationDetails
+	//discriminator
+	jobInfrastructureTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_infrastructure_type"))
+	var jobInfrastructureType string
+	if ok {
+		jobInfrastructureType = jobInfrastructureTypeRaw.(string)
+	} else {
+		jobInfrastructureType = "" // default value
+	}
+	switch strings.ToLower(jobInfrastructureType) {
+	case strings.ToLower("EMPTY"):
+		details := oci_datascience.EmptyJobInfrastructureConfigurationDetails{}
+		baseObject = details
+	case strings.ToLower("ME_STANDALONE"):
+		details := oci_datascience.ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
+		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
+			tmp := blockStorageSizeInGBs.(int)
+			details.BlockStorageSizeInGBs = &tmp
+		}
+		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
+			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_shape_config_details"), 0)
+				tmp, err := s.mapToJobShapeConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert job_shape_config_details, encountered error: %v", err)
+				}
+				details.JobShapeConfigDetails = &tmp
+			}
+		}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("MULTI_NODE"):
+		details := oci_datascience.MultiNodeJobInfrastructureConfigurationDetails{}
+		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
+			tmp := blockStorageSizeInGBs.(int)
+			details.BlockStorageSizeInGBs = &tmp
+		}
+		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
+			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_shape_config_details"), 0)
+				tmp, err := s.mapToJobShapeConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert job_shape_config_details, encountered error: %v", err)
+				}
+				details.JobShapeConfigDetails = &tmp
+			}
+		}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("STANDALONE"):
+		details := oci_datascience.StandaloneJobInfrastructureConfigurationDetails{}
+		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
+			tmp := blockStorageSizeInGBs.(int)
+			details.BlockStorageSizeInGBs = &tmp
+		}
+		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
+			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_shape_config_details"), 0)
+				tmp, err := s.mapToJobShapeConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert job_shape_config_details, encountered error: %v", err)
+				}
+				details.JobShapeConfigDetails = &tmp
+			}
+		}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown job_infrastructure_type '%v' was specified", jobInfrastructureType)
+	}
+	return baseObject, nil
+}
+
 func (s *DatascienceJobRunResourceCrud) mapToJobLogConfigurationDetails(fieldKeyFormat string) (oci_datascience.JobLogConfigurationDetails, error) {
 	result := oci_datascience.JobLogConfigurationDetails{}
 
@@ -832,6 +1485,188 @@ func (s *DatascienceJobRunResourceCrud) mapToJobLogConfigurationDetails(fieldKey
 	return result, nil
 }
 
+func (s *DatascienceJobRunResourceCrud) mapToJobNetworkConfiguration(fieldKeyFormat string) (oci_datascience.JobNetworkConfiguration, error) {
+	var baseObject oci_datascience.JobNetworkConfiguration
+	//discriminator
+	jobNetworkTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_network_type"))
+	var jobNetworkType string
+	if ok {
+		jobNetworkType = jobNetworkTypeRaw.(string)
+	} else {
+		jobNetworkType = "" // default value
+	}
+	switch strings.ToLower(jobNetworkType) {
+	case strings.ToLower("CUSTOM_NETWORK"):
+		details := oci_datascience.JobCustomNetworkConfiguration{}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT_NETWORK"):
+		details := oci_datascience.JobDefaultNetworkConfiguration{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown job_network_type '%v' was specified", jobNetworkType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatascienceJobRunResourceCrud) mapToJobNodeConfigurationDetails(fieldKeyFormat string) (oci_datascience.JobNodeConfigurationDetails, error) {
+	var baseObject oci_datascience.JobNodeConfigurationDetails
+	//discriminator
+	jobNodeTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_node_type"))
+	var jobNodeType string
+	if ok {
+		jobNodeType = jobNodeTypeRaw.(string)
+	} else {
+		jobNodeType = "" // default value
+	}
+	switch strings.ToLower(jobNodeType) {
+	case strings.ToLower("MULTI_NODE"):
+		details := oci_datascience.MultiNodeJobNodeConfigurationDetails{}
+		if jobNetworkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_network_configuration")); ok {
+			if tmpList := jobNetworkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_network_configuration"), 0)
+				tmp, err := s.mapToJobNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert job_network_configuration, encountered error: %v", err)
+				}
+				details.JobNetworkConfiguration = tmp
+			}
+		}
+		if jobNodeGroupConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_node_group_configuration_details_list")); ok {
+			interfaces := jobNodeGroupConfigurationDetailsList.([]interface{})
+			tmp := make([]oci_datascience.JobNodeGroupConfigurationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_node_group_configuration_details_list"), stateDataIndex)
+				converted, err := s.mapToJobNodeGroupConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "job_node_group_configuration_details_list")) {
+				details.JobNodeGroupConfigurationDetailsList = tmp
+			}
+		}
+		if maximumRuntimeInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_runtime_in_minutes")); ok {
+			tmp := maximumRuntimeInMinutes.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert maximumRuntimeInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.MaximumRuntimeInMinutes = &tmpInt64
+		}
+		if startupOrder, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "startup_order")); ok {
+			details.StartupOrder = oci_datascience.MultiNodeJobNodeConfigurationDetailsStartupOrderEnum(startupOrder.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown job_node_type '%v' was specified", jobNodeType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatascienceJobRunResourceCrud) mapToJobNodeGroupConfigurationDetails(fieldKeyFormat string) (oci_datascience.JobNodeGroupConfigurationDetails, error) {
+	result := oci_datascience.JobNodeGroupConfigurationDetails{}
+
+	if jobConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_configuration_details")); ok {
+		if tmpList := jobConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_configuration_details"), 0)
+			tmp, err := s.mapToJobConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert job_configuration_details, encountered error: %v", err)
+			}
+			result.JobConfigurationDetails = tmp
+		}
+	}
+
+	if jobEnvironmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_environment_configuration_details")); ok {
+		if tmpList := jobEnvironmentConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_environment_configuration_details"), 0)
+			tmp, err := s.mapToJobEnvironmentConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert job_environment_configuration_details, encountered error: %v", err)
+			}
+			result.JobEnvironmentConfigurationDetails = tmp
+		}
+	}
+
+	if jobInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_infrastructure_configuration_details")); ok {
+		if tmpList := jobInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_infrastructure_configuration_details"), 0)
+			tmp, err := s.mapToJobInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert job_infrastructure_configuration_details, encountered error: %v", err)
+			}
+			result.JobInfrastructureConfigurationDetails = tmp
+		}
+	}
+
+	if minimumSuccessReplicas, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "minimum_success_replicas")); ok {
+		tmp := minimumSuccessReplicas.(int)
+		result.MinimumSuccessReplicas = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if replicas, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replicas")); ok {
+		tmp := replicas.(int)
+		result.Replicas = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatascienceJobRunResourceCrud) mapToJobProbeDetails(fieldKeyFormat string) (oci_datascience.JobProbeDetails, error) {
+	var baseObject oci_datascience.JobProbeDetails
+	//discriminator
+	jobProbeCheckTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_probe_check_type"))
+	var jobProbeCheckType string
+	if ok {
+		jobProbeCheckType = jobProbeCheckTypeRaw.(string)
+	} else {
+		jobProbeCheckType = "" // default value
+	}
+	switch strings.ToLower(jobProbeCheckType) {
+	case strings.ToLower("EXEC"):
+		details := oci_datascience.JobExecProbeDetails{}
+		if command, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "command")); ok {
+			interfaces := command.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "command")) {
+				details.Command = tmp
+			}
+		}
+		if failureThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "failure_threshold")); ok {
+			tmp := failureThreshold.(int)
+			details.FailureThreshold = &tmp
+		}
+		if initialDelayInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "initial_delay_in_seconds")); ok {
+			tmp := initialDelayInSeconds.(int)
+			details.InitialDelayInSeconds = &tmp
+		}
+		if periodInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "period_in_seconds")); ok {
+			tmp := periodInSeconds.(int)
+			details.PeriodInSeconds = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown job_probe_check_type '%v' was specified", jobProbeCheckType)
+	}
+	return baseObject, nil
+}
+
 func JobRunLogDetailsToMap(obj *oci_datascience.JobRunLogDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -854,16 +1689,32 @@ func (s *DatascienceJobRunResourceCrud) mapToJobShapeConfigDetails(fieldKeyForma
 	}
 
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
-		tmp := memoryInGBs.(float32)
+		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
 	}
 
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
-		tmp := ocpus.(float32)
+		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
 	}
 
 	return result, nil
+}
+
+func NodeGroupDetailsToMap(obj oci_datascience.NodeGroupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	return result
 }
 
 func (s *DatascienceJobRunResourceCrud) updateCompartment(compartment interface{}) error {
