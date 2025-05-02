@@ -780,6 +780,10 @@ em_warehouse
 
 * oci\_em\_warehouse\_em\_warehouse
 
+em_warehouse
+
+* oci\_em\_warehouse\_em\_warehouse
+
 email
     
 * oci\_email\_suppression

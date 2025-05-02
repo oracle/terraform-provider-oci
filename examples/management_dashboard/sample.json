@@ -22,6 +22,7 @@
         {
           "displayName": "Simple table",
           "savedSearchId": "ocid1.managementsavedsearch.dev..aaaaaaaaycxfhipu5wjd56jrzbnffz633nwzgtt4cvuejhk5vr_dummy_ocids",
+          "description": "new description",
           "row": 0,
           "column": 6,
           "height": 3,
