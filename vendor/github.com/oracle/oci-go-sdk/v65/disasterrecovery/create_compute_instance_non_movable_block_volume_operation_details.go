@@ -18,8 +18,7 @@ import (
 	"strings"
 )
 
-// CreateComputeInstanceNonMovableBlockVolumeOperationDetails Deprecated. Use the 'CreateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails' definition instead of this.
-// The details for creating the operations performed on a block volume.
+// CreateComputeInstanceNonMovableBlockVolumeOperationDetails The details for creating the operations performed on a block volume.
 type CreateComputeInstanceNonMovableBlockVolumeOperationDetails struct {
 
 	// The OCID of the block volume.

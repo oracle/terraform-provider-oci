@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateDrProtectionGroupMemberDatabaseDetails Update properties for a Database member.
+// UpdateDrProtectionGroupMemberDatabaseDetails Update properties for a Database (DBCS) member.
 type UpdateDrProtectionGroupMemberDatabaseDetails struct {
 
 	// The OCID of the member.

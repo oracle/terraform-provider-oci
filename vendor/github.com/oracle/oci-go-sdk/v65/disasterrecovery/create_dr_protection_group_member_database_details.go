@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateDrProtectionGroupMemberDatabaseDetails Create properties for a Database member.
+// CreateDrProtectionGroupMemberDatabaseDetails Create properties for a Database (DBCS) member.
 type CreateDrProtectionGroupMemberDatabaseDetails struct {
 
 	// The OCID of the member.

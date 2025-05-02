@@ -52,10 +52,6 @@ func (m *updatenetworkendpointdetails) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.NetworkEndpointType {
-	case "PUBLIC":
-		mm := UpdatePublicEndpointDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "PRIVATE":
 		mm := UpdatePrivateEndpointDetails{}
 		err = json.Unmarshal(data, &mm)

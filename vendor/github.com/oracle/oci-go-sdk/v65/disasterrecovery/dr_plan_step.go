@@ -37,10 +37,6 @@ type DrPlanStep struct {
 	// Example: `DATABASE_SWITCHOVER`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The display name of the DR Plan step type.
-	// Example: `Database Switchover`
-	TypeDisplayName *string `mandatory:"true" json:"typeDisplayName"`
-
 	// The error mode for this step.
 	ErrorMode DrPlanStepErrorModeEnum `mandatory:"true" json:"errorMode"`
 
@@ -98,7 +94,6 @@ func (m *DrPlanStep) UnmarshalJSON(data []byte) (e error) {
 		GroupId         *string                     `json:"groupId"`
 		Type            DrPlanStepTypeEnum          `json:"type"`
 		DisplayName     *string                     `json:"displayName"`
-		TypeDisplayName *string                     `json:"typeDisplayName"`
 		ErrorMode       DrPlanStepErrorModeEnum     `json:"errorMode"`
 		Timeout         *int                        `json:"timeout"`
 		IsEnabled       *bool                       `json:"isEnabled"`
@@ -130,8 +125,6 @@ func (m *DrPlanStep) UnmarshalJSON(data []byte) (e error) {
 	m.Type = model.Type
 
 	m.DisplayName = model.DisplayName
-
-	m.TypeDisplayName = model.TypeDisplayName
 
 	m.ErrorMode = model.ErrorMode
 

@@ -63,9 +63,6 @@ type UpdateVolumeDetails struct {
 
 	// The list of autotune policies enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
-
-	// Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
-	IsReservationsEnabled *bool `mandatory:"false" json:"isReservationsEnabled"`
 }
 
 func (m UpdateVolumeDetails) String() string {
@@ -87,15 +84,14 @@ func (m UpdateVolumeDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName           *string                           `json:"displayName"`
-		FreeformTags          map[string]string                 `json:"freeformTags"`
-		VpusPerGB             *int64                            `json:"vpusPerGB"`
-		SizeInGBs             *int64                            `json:"sizeInGBs"`
-		IsAutoTuneEnabled     *bool                             `json:"isAutoTuneEnabled"`
-		BlockVolumeReplicas   []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
-		AutotunePolicies      []autotunepolicy                  `json:"autotunePolicies"`
-		IsReservationsEnabled *bool                             `json:"isReservationsEnabled"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName         *string                           `json:"displayName"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		VpusPerGB           *int64                            `json:"vpusPerGB"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
+		BlockVolumeReplicas []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
+		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -129,7 +125,5 @@ func (m *UpdateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 			m.AutotunePolicies[i] = nil
 		}
 	}
-	m.IsReservationsEnabled = model.IsReservationsEnabled
-
 	return
 }

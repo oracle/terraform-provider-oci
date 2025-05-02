@@ -21,19 +21,19 @@ type VulnerabilitiesSummary struct {
 	// Total number of vulnerabilities.
 	Total *int `mandatory:"true" json:"total"`
 
-	// Cumulative number of resources that have critical level vulnerabilities.
+	// Cummulative number of resources that have critical level vulnerabilities.
 	Critical *int `mandatory:"true" json:"critical"`
 
-	// Cumulative number of resources that have high level vulnerabilities.
+	// Cummulative number of resources that have high level vulnerabilities.
 	High *int `mandatory:"true" json:"high"`
 
-	// Cumulative number of resources that have medium level vulnerabilities.
+	// Cummulative number of resources that have medium level vulnerabilities.
 	Medium *int `mandatory:"true" json:"medium"`
 
-	// Cumulative number of resources that have info level vulnerabilities.
+	// Cummulative number of resources that have info level vulnerabilities.
 	Info *int `mandatory:"true" json:"info"`
 
-	// Cumulative number of resources that have low level vulnerabilities.
+	// Cummulative number of resources that have low level vulnerabilities.
 	Low *int `mandatory:"true" json:"low"`
 }
 
