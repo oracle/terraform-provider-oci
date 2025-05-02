@@ -18,12 +18,11 @@ import (
 	"strings"
 )
 
-// BlockVolumeAttachmentDetails Deprecated. Use the 'ComputeInstanceNonMovableBlockVolumeAttachOperationDetails' definition instead of this.
-// The details for attaching or detaching a block volume.
+// BlockVolumeAttachmentDetails The details for attaching or detaching a block volume.
 type BlockVolumeAttachmentDetails struct {
 
-	// The OCID of the reference compute instance needed to obtain the volume attachment details.
-	// This reference compute instance belongs to the peer DR protection group.
+	// The OCID of the reference compute instance from which to obtain the attachment details for the volume.
+	// This reference compute instance is from the peer DR protection group.
 	// Example: `ocid1.instance.oc1..uniqueID`
 	VolumeAttachmentReferenceInstanceId *string `mandatory:"true" json:"volumeAttachmentReferenceInstanceId"`
 }

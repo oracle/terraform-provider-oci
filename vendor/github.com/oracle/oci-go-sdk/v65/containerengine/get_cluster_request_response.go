@@ -25,9 +25,6 @@ type GetClusterRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Boolean value to determine if the OpenIdConnectAuth configuration file should be displayed for the provided cluster.
-	ShouldIncludeOidcConfigFile *bool `mandatory:"false" contributesTo:"query" name:"shouldIncludeOidcConfigFile"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
