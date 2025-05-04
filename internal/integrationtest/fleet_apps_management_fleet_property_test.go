@@ -246,7 +246,7 @@ func getFleetAppsManagementFleetPropertyIds(compartment string) ([]string, error
 	fleetAppsManagementClient := acctest.GetTestClients(&schema.ResourceData{}).FleetAppsManagementClient()
 
 	listFleetPropertiesRequest := oci_fleet_apps_management.ListFleetPropertiesRequest{}
-	listFleetPropertiesRequest.CompartmentId = &compartmentId
+	//listFleetPropertiesRequest.CompartmentId = &compartmentId
 
 	fleetIds, error := getFleetAppsManagementFleetIds(compartment)
 	if error != nil {
