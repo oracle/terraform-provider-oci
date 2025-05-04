@@ -308,7 +308,7 @@ func getFleetAppsManagementFleetCredentialIds(compartment string) ([]string, err
 	fleetAppsManagementClient := acctest.GetTestClients(&schema.ResourceData{}).FleetAppsManagementClient()
 
 	listFleetCredentialsRequest := oci_fleet_apps_management.ListFleetCredentialsRequest{}
-	listFleetCredentialsRequest.CompartmentId = &compartmentId
+	//listFleetCredentialsRequest.CompartmentId = &compartmentId
 
 	fleetIds, error := getFleetAppsManagementFleetIds(compartment)
 	if error != nil {
