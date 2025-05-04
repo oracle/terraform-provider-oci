@@ -10,40 +10,53 @@
 package fleetappsmanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// Associations Associations for the runbook.
-type Associations struct {
+// MaintenanceWindowSchedule MaintenanceWindow Information for Schedule.
+type MaintenanceWindowSchedule struct {
 
-	// A set of tasks to execute in the runbook.
-	Tasks []Task `mandatory:"true" json:"tasks"`
+	// Start Date for the schedule. An RFC3339 formatted datetime string
+	ExecutionStartdate *common.SDKTime `mandatory:"true" json:"executionStartdate"`
 
-	// The groups of the runbook.
-	Groups []Group `mandatory:"true" json:"groups"`
-
-	ExecutionWorkflowDetails *ExecutionWorkflowDetails `mandatory:"true" json:"executionWorkflowDetails"`
-
-	RollbackWorkflowDetails *RollbackWorkflowDetails `mandatory:"false" json:"rollbackWorkflowDetails"`
-
-	// The version of the runbook.
-	Version *string `mandatory:"false" json:"version"`
+	// Provide MaintenanceWindowId
+	MaintenanceWindowId *string `mandatory:"true" json:"maintenanceWindowId"`
 }
 
-func (m Associations) String() string {
+// GetExecutionStartdate returns ExecutionStartdate
+func (m MaintenanceWindowSchedule) GetExecutionStartdate() *common.SDKTime {
+	return m.ExecutionStartdate
+}
+
+func (m MaintenanceWindowSchedule) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Associations) ValidateEnumValue() (bool, error) {
+func (m MaintenanceWindowSchedule) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m MaintenanceWindowSchedule) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeMaintenanceWindowSchedule MaintenanceWindowSchedule
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeMaintenanceWindowSchedule
+	}{
+		"MAINTENANCE_WINDOW",
+		(MarshalTypeMaintenanceWindowSchedule)(m),
+	}
+
+	return json.Marshal(&s)
 }

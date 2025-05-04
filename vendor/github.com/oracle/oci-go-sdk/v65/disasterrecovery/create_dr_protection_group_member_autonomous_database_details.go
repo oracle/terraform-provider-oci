@@ -31,6 +31,8 @@ type CreateDrProtectionGroupMemberAutonomousDatabaseDetails struct {
 	// Example: `ocid1.vaultsecret.oc1..uniqueID`
 	PasswordVaultSecretId *string `mandatory:"false" json:"passwordVaultSecretId"`
 
+	DestinationEncryptionKey *CreateVaultAndEncryptionKeyDetails `mandatory:"false" json:"destinationEncryptionKey"`
+
 	// This specifies the mechanism used to create a temporary Autonomous Database instance for DR Drills.
 	// See https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-clone-about.html for information about these clone types.
 	// See https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-data-guard-snapshot-standby.html for information about snapshot standby.

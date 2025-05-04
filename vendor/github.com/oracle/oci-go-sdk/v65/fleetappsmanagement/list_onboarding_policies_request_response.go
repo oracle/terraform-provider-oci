@@ -18,6 +18,9 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListOnboardingPolicies.go.html to see an example of how to use ListOnboardingPoliciesRequest.
 type ListOnboardingPoliciesRequest struct {
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

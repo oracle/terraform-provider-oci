@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetTaskRecord.go.html to see an example of how to use GetTaskRecordRequest.
 type GetTaskRecordRequest struct {
 
-	// unique TaskDetail identifier
+	// The OCID of the task record.
 	TaskRecordId *string `mandatory:"true" contributesTo:"path" name:"taskRecordId"`
 
 	// The client request ID for tracing.

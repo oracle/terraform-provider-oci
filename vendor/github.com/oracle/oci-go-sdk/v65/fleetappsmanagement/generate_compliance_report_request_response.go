@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GenerateComplianceReport.go.html to see an example of how to use GenerateComplianceReportRequest.
 type GenerateComplianceReportRequest struct {
 
-	// Details for generating Compliance Report for the Fleet.
+	// Details for generating compliance report for the Fleet.
 	GenerateComplianceReportDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

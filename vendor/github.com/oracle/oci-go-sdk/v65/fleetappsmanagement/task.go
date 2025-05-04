@@ -22,9 +22,6 @@ type Task struct {
 	// The name of the task step.
 	StepName *string `mandatory:"true" json:"stepName"`
 
-	// The association type of the task
-	AssociationType TaskAssociationTypeEnum `mandatory:"true" json:"associationType"`
-
 	TaskRecordDetails AssociatedTaskDetails `mandatory:"true" json:"taskRecordDetails"`
 
 	StepProperties *ComponentProperties `mandatory:"false" json:"stepProperties"`
@@ -42,9 +39,6 @@ func (m Task) String() string {
 // Not recommended for calling this function directly
 func (m Task) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingTaskAssociationTypeEnum(string(m.AssociationType)); !ok && m.AssociationType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AssociationType: %s. Supported values are: %s.", m.AssociationType, strings.Join(GetTaskAssociationTypeEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -58,7 +52,6 @@ func (m *Task) UnmarshalJSON(data []byte) (e error) {
 		StepProperties         *ComponentProperties    `json:"stepProperties"`
 		OutputVariableMappings []OutputVariableMapping `json:"outputVariableMappings"`
 		StepName               *string                 `json:"stepName"`
-		AssociationType        TaskAssociationTypeEnum `json:"associationType"`
 		TaskRecordDetails      associatedtaskdetails   `json:"taskRecordDetails"`
 	}{}
 
@@ -73,8 +66,6 @@ func (m *Task) UnmarshalJSON(data []byte) (e error) {
 	copy(m.OutputVariableMappings, model.OutputVariableMappings)
 	m.StepName = model.StepName
 
-	m.AssociationType = model.AssociationType
-
 	nn, e = model.TaskRecordDetails.UnmarshalPolymorphicJSON(model.TaskRecordDetails.JsonData)
 	if e != nil {
 		return
@@ -86,42 +77,4 @@ func (m *Task) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	return
-}
-
-// TaskAssociationTypeEnum Enum with underlying type: string
-type TaskAssociationTypeEnum string
-
-// Set of constants representing the allowable values for TaskAssociationTypeEnum
-const (
-	TaskAssociationTypeTask TaskAssociationTypeEnum = "TASK"
-)
-
-var mappingTaskAssociationTypeEnum = map[string]TaskAssociationTypeEnum{
-	"TASK": TaskAssociationTypeTask,
-}
-
-var mappingTaskAssociationTypeEnumLowerCase = map[string]TaskAssociationTypeEnum{
-	"task": TaskAssociationTypeTask,
-}
-
-// GetTaskAssociationTypeEnumValues Enumerates the set of values for TaskAssociationTypeEnum
-func GetTaskAssociationTypeEnumValues() []TaskAssociationTypeEnum {
-	values := make([]TaskAssociationTypeEnum, 0)
-	for _, v := range mappingTaskAssociationTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetTaskAssociationTypeEnumStringValues Enumerates the set of values in String for TaskAssociationTypeEnum
-func GetTaskAssociationTypeEnumStringValues() []string {
-	return []string{
-		"TASK",
-	}
-}
-
-// GetMappingTaskAssociationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingTaskAssociationTypeEnum(val string) (TaskAssociationTypeEnum, bool) {
-	enum, ok := mappingTaskAssociationTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

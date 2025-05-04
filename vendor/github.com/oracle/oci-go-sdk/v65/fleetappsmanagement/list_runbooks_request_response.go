@@ -19,6 +19,7 @@ import (
 type ListRunbooksRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
@@ -27,14 +28,12 @@ type ListRunbooksRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return runbooks whose identifier matches the given identifier.
+	// Unique identifier or OCID for listing a single Runbook by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// A filter to return runbooks whose type matches the given type.
 	Type RunbookTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
-
-	// A filter to return runbooks whose runbookRelevance matches the given runbookRelevance.
-	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"false" contributesTo:"query" name:"runbookRelevance" omitEmpty:"true"`
 
 	// A filter to return runbooks whose platform matches the given platform.
 	Platform *string `mandatory:"false" contributesTo:"query" name:"platform"`
@@ -52,6 +51,7 @@ type ListRunbooksRequest struct {
 	SortOrder ListRunbooksSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
+	//
 	SortBy ListRunbooksSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -98,9 +98,6 @@ func (request ListRunbooksRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingRunbookTypeEnum(string(request.Type)); !ok && request.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetRunbookTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingRunbookRunbookRelevanceEnum(string(request.RunbookRelevance)); !ok && request.RunbookRelevance != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunbookRelevance: %s. Supported values are: %s.", request.RunbookRelevance, strings.Join(GetRunbookRunbookRelevanceEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListRunbooksSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRunbooksSortOrderEnumStringValues(), ",")))

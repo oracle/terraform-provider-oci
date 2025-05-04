@@ -34,7 +34,7 @@ type LogAnalyticsSourceExtendedFieldDefinition struct {
 	// The conditional data type.
 	ConditionDataType *string `mandatory:"false" json:"conditionDataType"`
 
-	// The onditional field.
+	// The conditional field.
 	ConditionField *string `mandatory:"false" json:"conditionField"`
 
 	// The conditional operator.
@@ -64,6 +64,11 @@ type LogAnalyticsSourceExtendedFieldDefinition struct {
 
 	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// String representation of the extended field condition. This supports specifying multiple condition blocks at various nested levels.
+	ConditionString *string `mandatory:"false" json:"conditionString"`
+
+	ConditionBlock *GenericConditionBlock `mandatory:"false" json:"conditionBlock"`
 }
 
 func (m LogAnalyticsSourceExtendedFieldDefinition) String() string {

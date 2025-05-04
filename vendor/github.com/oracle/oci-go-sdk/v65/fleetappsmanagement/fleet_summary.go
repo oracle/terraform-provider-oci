@@ -10,6 +10,7 @@
 package fleetappsmanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,7 +22,7 @@ type FleetSummary struct {
 	// The OCID of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Tenancy OCID
+	// compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -32,13 +33,6 @@ type FleetSummary struct {
 	// The time this resource was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Type of the Fleet.
-	// PRODUCT - A fleet of product-specific resources for a product type.
-	// ENVIRONMENT - A fleet of environment-specific resources for a product stack.
-	// GROUP - A fleet of a fleet of either environment or product fleets.
-	// GENERIC - A fleet of resources selected dynamically or manually for reporting purposes
-	FleetType FleetFleetTypeEnum `mandatory:"true" json:"fleetType"`
-
 	// The lifecycle state of the Fleet.
 	LifecycleState FleetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -47,6 +41,8 @@ type FleetSummary struct {
 
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	Details FleetDetails `mandatory:"false" json:"details"`
 
 	// Environment Type associated with the Fleet.
 	// Applicable for ENVIRONMENT fleet types.
@@ -77,9 +73,6 @@ func (m FleetSummary) String() string {
 // Not recommended for calling this function directly
 func (m FleetSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingFleetFleetTypeEnum(string(m.FleetType)); !ok && m.FleetType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FleetType: %s. Supported values are: %s.", m.FleetType, strings.Join(GetFleetFleetTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingFleetLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFleetLifecycleStateEnumStringValues(), ",")))
 	}
@@ -88,4 +81,64 @@ func (m FleetSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *FleetSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ResourceRegion   *string                           `json:"resourceRegion"`
+		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
+		Details          fleetdetails                      `json:"details"`
+		EnvironmentType  *string                           `json:"environmentType"`
+		LifecycleDetails *string                           `json:"lifecycleDetails"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
+		Id               *string                           `json:"id"`
+		CompartmentId    *string                           `json:"compartmentId"`
+		DisplayName      *string                           `json:"displayName"`
+		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState   FleetLifecycleStateEnum           `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.ResourceRegion = model.ResourceRegion
+
+	m.TimeUpdated = model.TimeUpdated
+
+	nn, e = model.Details.UnmarshalPolymorphicJSON(model.Details.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Details = nn.(FleetDetails)
+	} else {
+		m.Details = nil
+	}
+
+	m.EnvironmentType = model.EnvironmentType
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DisplayName = model.DisplayName
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }

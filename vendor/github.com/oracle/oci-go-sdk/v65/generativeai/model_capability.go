@@ -26,6 +26,7 @@ const (
 	ModelCapabilityTextEmbeddings    ModelCapabilityEnum = "TEXT_EMBEDDINGS"
 	ModelCapabilityFineTune          ModelCapabilityEnum = "FINE_TUNE"
 	ModelCapabilityChat              ModelCapabilityEnum = "CHAT"
+	ModelCapabilityTextRerank        ModelCapabilityEnum = "TEXT_RERANK"
 )
 
 var mappingModelCapabilityEnum = map[string]ModelCapabilityEnum{
@@ -34,6 +35,7 @@ var mappingModelCapabilityEnum = map[string]ModelCapabilityEnum{
 	"TEXT_EMBEDDINGS":    ModelCapabilityTextEmbeddings,
 	"FINE_TUNE":          ModelCapabilityFineTune,
 	"CHAT":               ModelCapabilityChat,
+	"TEXT_RERANK":        ModelCapabilityTextRerank,
 }
 
 var mappingModelCapabilityEnumLowerCase = map[string]ModelCapabilityEnum{
@@ -42,6 +44,7 @@ var mappingModelCapabilityEnumLowerCase = map[string]ModelCapabilityEnum{
 	"text_embeddings":    ModelCapabilityTextEmbeddings,
 	"fine_tune":          ModelCapabilityFineTune,
 	"chat":               ModelCapabilityChat,
+	"text_rerank":        ModelCapabilityTextRerank,
 }
 
 // GetModelCapabilityEnumValues Enumerates the set of values for ModelCapabilityEnum
@@ -61,6 +64,7 @@ func GetModelCapabilityEnumStringValues() []string {
 		"TEXT_EMBEDDINGS",
 		"FINE_TUNE",
 		"CHAT",
+		"TEXT_RERANK",
 	}
 }
 

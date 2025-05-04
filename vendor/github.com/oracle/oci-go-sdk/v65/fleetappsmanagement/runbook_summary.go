@@ -29,17 +29,8 @@ type RunbookSummary struct {
 	// The type of the runbook.
 	Type RunbookTypeEnum `mandatory:"true" json:"type"`
 
-	// Type of runbook structure.
-	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"true" json:"runbookRelevance"`
-
 	// The lifecycle operation performed by the runbook.
 	Operation *string `mandatory:"true" json:"operation"`
-
-	// The OS type for the runbook.
-	OsType OsTypeEnum `mandatory:"true" json:"osType"`
-
-	// The platform of the runbook.
-	Platform *string `mandatory:"true" json:"platform"`
 
 	// Is the runbook default?
 	// Sets this runbook as the default for the chosen product/product stack for the specified lifecycle operation.
@@ -61,8 +52,20 @@ type RunbookSummary struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OS type for the runbook.
+	OsType OsTypeEnum `mandatory:"false" json:"osType,omitempty"`
+
+	// The platform of the runbook.
+	Platform *string `mandatory:"false" json:"platform"`
+
 	// Estimated time to successfully complete the runbook execution.
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
+
+	// Latest runbook version
+	LatestVersion *string `mandatory:"false" json:"latestVersion"`
+
+	// Does this runbook has draft versions?
+	HasDraftVersion *bool `mandatory:"false" json:"hasDraftVersion"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -95,16 +98,13 @@ func (m RunbookSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingRunbookTypeEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetRunbookTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingRunbookRunbookRelevanceEnum(string(m.RunbookRelevance)); !ok && m.RunbookRelevance != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunbookRelevance: %s. Supported values are: %s.", m.RunbookRelevance, strings.Join(GetRunbookRunbookRelevanceEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingRunbookLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRunbookLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

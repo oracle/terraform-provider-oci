@@ -10,6 +10,7 @@
 package fleetappsmanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -26,7 +27,7 @@ type SchedulerJob struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
@@ -66,12 +67,6 @@ type SchedulerJob struct {
 	// Count of targets affected by the schedule.
 	CountOfAffectedTargets *int `mandatory:"false" json:"countOfAffectedTargets"`
 
-	// All Action Group types are part of the schedule.
-	ActionGroupTypes []LifeCycleActionGroupTypeEnum `mandatory:"false" json:"actionGroupTypes,omitempty"`
-
-	// All application types that are part of the schedule for an ENVIRONMENT action group Type.
-	ApplicationTypes []string `mandatory:"false" json:"applicationTypes"`
-
 	// All products that are part of the schedule for a PRODUCT action group type.
 	Products []string `mandatory:"false" json:"products"`
 
@@ -81,7 +76,7 @@ type SchedulerJob struct {
 	// Action Groups associated with the Schedule.
 	ActionGroups []ActionGroupDetails `mandatory:"false" json:"actionGroups"`
 
-	AssociatedScheduleDefinition *AssociatedSchedulerDefinition `mandatory:"false" json:"associatedScheduleDefinition"`
+	SchedulerDefinition *AssociatedSchedulerDefinition `mandatory:"false" json:"schedulerDefinition"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -104,16 +99,93 @@ func (m SchedulerJob) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSchedulerJobLifecycleStateEnumStringValues(), ",")))
 	}
 
-	for _, val := range m.ActionGroupTypes {
-		if _, ok := GetMappingLifeCycleActionGroupTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionGroupTypes: %s. Supported values are: %s.", val, strings.Join(GetLifeCycleActionGroupTypeEnumStringValues(), ",")))
-		}
-	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *SchedulerJob) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeUpdated                 *common.SDKTime                   `json:"timeUpdated"`
+		TimeScheduled               *common.SDKTime                   `json:"timeScheduled"`
+		TimeStarted                 *common.SDKTime                   `json:"timeStarted"`
+		TimeEnded                   *common.SDKTime                   `json:"timeEnded"`
+		CountOfAffectedActionGroups *int                              `json:"countOfAffectedActionGroups"`
+		CountOfAffectedResources    *int                              `json:"countOfAffectedResources"`
+		CountOfAffectedTargets      *int                              `json:"countOfAffectedTargets"`
+		Products                    []string                          `json:"products"`
+		LifecycleOperations         []string                          `json:"lifecycleOperations"`
+		ActionGroups                []actiongroupdetails              `json:"actionGroups"`
+		SchedulerDefinition         *AssociatedSchedulerDefinition    `json:"schedulerDefinition"`
+		LifecycleDetails            *string                           `json:"lifecycleDetails"`
+		SystemTags                  map[string]map[string]interface{} `json:"systemTags"`
+		Id                          *string                           `json:"id"`
+		DisplayName                 *string                           `json:"displayName"`
+		CompartmentId               *string                           `json:"compartmentId"`
+		TimeCreated                 *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState              SchedulerJobLifecycleStateEnum    `json:"lifecycleState"`
+		FreeformTags                map[string]string                 `json:"freeformTags"`
+		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeUpdated = model.TimeUpdated
+
+	m.TimeScheduled = model.TimeScheduled
+
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeEnded = model.TimeEnded
+
+	m.CountOfAffectedActionGroups = model.CountOfAffectedActionGroups
+
+	m.CountOfAffectedResources = model.CountOfAffectedResources
+
+	m.CountOfAffectedTargets = model.CountOfAffectedTargets
+
+	m.Products = make([]string, len(model.Products))
+	copy(m.Products, model.Products)
+	m.LifecycleOperations = make([]string, len(model.LifecycleOperations))
+	copy(m.LifecycleOperations, model.LifecycleOperations)
+	m.ActionGroups = make([]ActionGroupDetails, len(model.ActionGroups))
+	for i, n := range model.ActionGroups {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ActionGroups[i] = nn.(ActionGroupDetails)
+		} else {
+			m.ActionGroups[i] = nil
+		}
+	}
+	m.SchedulerDefinition = model.SchedulerDefinition
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }
 
 // SchedulerJobLifecycleStateEnum Enum with underlying type: string
@@ -121,21 +193,33 @@ type SchedulerJobLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SchedulerJobLifecycleStateEnum
 const (
-	SchedulerJobLifecycleStateActive  SchedulerJobLifecycleStateEnum = "ACTIVE"
-	SchedulerJobLifecycleStateDeleted SchedulerJobLifecycleStateEnum = "DELETED"
-	SchedulerJobLifecycleStateFailed  SchedulerJobLifecycleStateEnum = "FAILED"
+	SchedulerJobLifecycleStateAccepted       SchedulerJobLifecycleStateEnum = "ACCEPTED"
+	SchedulerJobLifecycleStateInProgress     SchedulerJobLifecycleStateEnum = "IN_PROGRESS"
+	SchedulerJobLifecycleStateWaiting        SchedulerJobLifecycleStateEnum = "WAITING"
+	SchedulerJobLifecycleStateFailed         SchedulerJobLifecycleStateEnum = "FAILED"
+	SchedulerJobLifecycleStateSucceeded      SchedulerJobLifecycleStateEnum = "SUCCEEDED"
+	SchedulerJobLifecycleStateCanceled       SchedulerJobLifecycleStateEnum = "CANCELED"
+	SchedulerJobLifecycleStateNeedsAttention SchedulerJobLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingSchedulerJobLifecycleStateEnum = map[string]SchedulerJobLifecycleStateEnum{
-	"ACTIVE":  SchedulerJobLifecycleStateActive,
-	"DELETED": SchedulerJobLifecycleStateDeleted,
-	"FAILED":  SchedulerJobLifecycleStateFailed,
+	"ACCEPTED":        SchedulerJobLifecycleStateAccepted,
+	"IN_PROGRESS":     SchedulerJobLifecycleStateInProgress,
+	"WAITING":         SchedulerJobLifecycleStateWaiting,
+	"FAILED":          SchedulerJobLifecycleStateFailed,
+	"SUCCEEDED":       SchedulerJobLifecycleStateSucceeded,
+	"CANCELED":        SchedulerJobLifecycleStateCanceled,
+	"NEEDS_ATTENTION": SchedulerJobLifecycleStateNeedsAttention,
 }
 
 var mappingSchedulerJobLifecycleStateEnumLowerCase = map[string]SchedulerJobLifecycleStateEnum{
-	"active":  SchedulerJobLifecycleStateActive,
-	"deleted": SchedulerJobLifecycleStateDeleted,
-	"failed":  SchedulerJobLifecycleStateFailed,
+	"accepted":        SchedulerJobLifecycleStateAccepted,
+	"in_progress":     SchedulerJobLifecycleStateInProgress,
+	"waiting":         SchedulerJobLifecycleStateWaiting,
+	"failed":          SchedulerJobLifecycleStateFailed,
+	"succeeded":       SchedulerJobLifecycleStateSucceeded,
+	"canceled":        SchedulerJobLifecycleStateCanceled,
+	"needs_attention": SchedulerJobLifecycleStateNeedsAttention,
 }
 
 // GetSchedulerJobLifecycleStateEnumValues Enumerates the set of values for SchedulerJobLifecycleStateEnum
@@ -150,9 +234,13 @@ func GetSchedulerJobLifecycleStateEnumValues() []SchedulerJobLifecycleStateEnum 
 // GetSchedulerJobLifecycleStateEnumStringValues Enumerates the set of values in String for SchedulerJobLifecycleStateEnum
 func GetSchedulerJobLifecycleStateEnumStringValues() []string {
 	return []string{
-		"ACTIVE",
-		"DELETED",
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"WAITING",
 		"FAILED",
+		"SUCCEEDED",
+		"CANCELED",
+		"NEEDS_ATTENTION",
 	}
 }
 

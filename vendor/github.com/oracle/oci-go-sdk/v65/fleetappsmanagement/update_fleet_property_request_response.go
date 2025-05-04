@@ -18,13 +18,13 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateFleetProperty.go.html to see an example of how to use UpdateFleetPropertyRequest.
 type UpdateFleetPropertyRequest struct {
 
-	// unique FleetProperty identifier.
+	// Unique fleetProperty identifier.
 	FleetPropertyId *string `mandatory:"true" contributesTo:"path" name:"fleetPropertyId"`
 
 	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// The information to be updated.
+	// Attributes to update a fleet property.
 	UpdateFleetPropertyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

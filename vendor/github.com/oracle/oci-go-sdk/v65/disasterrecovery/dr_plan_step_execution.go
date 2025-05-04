@@ -36,6 +36,10 @@ type DrPlanStepExecution struct {
 	// Example: `DATABASE_SWITCHOVER`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// The display name of the DR Plan step type.
+	// Example: `Database Switchover`
+	TypeDisplayName *string `mandatory:"true" json:"typeDisplayName"`
+
 	LogLocation *ObjectStorageLogLocation `mandatory:"true" json:"logLocation"`
 
 	// The status of the step execution.

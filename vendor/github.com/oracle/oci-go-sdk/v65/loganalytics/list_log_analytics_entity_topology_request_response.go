@@ -48,6 +48,9 @@ type ListLogAnalyticsEntityTopologyRequest struct {
 	// Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive.
 	MetadataEquals []string `contributesTo:"query" name:"metadataEquals" collectionFormat:"multi"`
 
+	// A filter to return log analytics entity toplogy whose context matches the specified string.
+	Context *string `mandatory:"false" contributesTo:"query" name:"context"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

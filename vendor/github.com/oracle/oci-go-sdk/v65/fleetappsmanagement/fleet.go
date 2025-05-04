@@ -10,6 +10,7 @@
 package fleetappsmanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,7 +22,7 @@ type Fleet struct {
 	// The OCID of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -31,13 +32,6 @@ type Fleet struct {
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
-
-	// Type of the Fleet.
-	// PRODUCT - A fleet of product-specific resources for a product type.
-	// ENVIRONMENT - A fleet of environment-specific resources for a product stack.
-	// GROUP - A fleet of a fleet of either environment or product fleets.
-	// GENERIC - A fleet of resources selected dynamically or manually for reporting purposes
-	FleetType FleetFleetTypeEnum `mandatory:"true" json:"fleetType"`
 
 	// The lifecycle state of the Fleet.
 	LifecycleState FleetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -63,25 +57,16 @@ type Fleet struct {
 	// Products associated with the Fleet.
 	Products []string `mandatory:"false" json:"products"`
 
-	// Product stack associated with the Fleet.
-	// Applicable for ENVIRONMENT fleet types.
-	ApplicationType *string `mandatory:"false" json:"applicationType"`
+	Details FleetDetails `mandatory:"false" json:"details"`
 
 	// Environment Type associated with the Fleet.
 	// Applicable for ENVIRONMENT fleet types.
 	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 
-	// Group Type associated with Group Fleet.
-	// Applicable for GROUP fleet types.
-	GroupType FleetGroupTypeEnum `mandatory:"false" json:"groupType,omitempty"`
+	ResourceSelection ResourceSelection `mandatory:"false" json:"resourceSelection"`
 
-	// Type of resource selection in a Fleet.
-	// Select resources manually or select resources based on rules.
-	ResourceSelectionType FleetResourceSelectionTypeEnum `mandatory:"false" json:"resourceSelectionType,omitempty"`
-
-	RuleSelectionCriteria *SelectionCriteria `mandatory:"false" json:"ruleSelectionCriteria"`
-
-	NotificationPreferences *NotificationPreferences `mandatory:"false" json:"notificationPreferences"`
+	// Notification Preferences associated with the Fleet.
+	NotificationPreferences []NotificationPreference `mandatory:"false" json:"notificationPreferences"`
 
 	// Resources associated with the Fleet if resourceSelectionType is MANUAL.
 	Resources []AssociatedFleetResourceDetails `mandatory:"false" json:"resources"`
@@ -91,6 +76,9 @@ type Fleet struct {
 
 	// Credentials associated with the Fleet.
 	Credentials []AssociatedFleetCredentialDetails `mandatory:"false" json:"credentials"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet that would be the parent for this fleet.
+	ParentFleetId *string `mandatory:"false" json:"parentFleetId"`
 
 	// A value that represents if auto-confirming of the targets can be enabled.
 	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
@@ -113,157 +101,109 @@ func (m Fleet) String() string {
 // Not recommended for calling this function directly
 func (m Fleet) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingFleetFleetTypeEnum(string(m.FleetType)); !ok && m.FleetType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FleetType: %s. Supported values are: %s.", m.FleetType, strings.Join(GetFleetFleetTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingFleetLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFleetLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingFleetGroupTypeEnum(string(m.GroupType)); !ok && m.GroupType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GroupType: %s. Supported values are: %s.", m.GroupType, strings.Join(GetFleetGroupTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingFleetResourceSelectionTypeEnum(string(m.ResourceSelectionType)); !ok && m.ResourceSelectionType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceSelectionType: %s. Supported values are: %s.", m.ResourceSelectionType, strings.Join(GetFleetResourceSelectionTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
 
-// FleetFleetTypeEnum Enum with underlying type: string
-type FleetFleetTypeEnum string
+// UnmarshalJSON unmarshals from json
+func (m *Fleet) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ResourceRegion          *string                            `json:"resourceRegion"`
+		Description             *string                            `json:"description"`
+		TimeUpdated             *common.SDKTime                    `json:"timeUpdated"`
+		Products                []string                           `json:"products"`
+		Details                 fleetdetails                       `json:"details"`
+		EnvironmentType         *string                            `json:"environmentType"`
+		ResourceSelection       resourceselection                  `json:"resourceSelection"`
+		NotificationPreferences []NotificationPreference           `json:"notificationPreferences"`
+		Resources               []AssociatedFleetResourceDetails   `json:"resources"`
+		Properties              []AssociatedFleetPropertyDetails   `json:"properties"`
+		Credentials             []AssociatedFleetCredentialDetails `json:"credentials"`
+		ParentFleetId           *string                            `json:"parentFleetId"`
+		IsTargetAutoConfirm     *bool                              `json:"isTargetAutoConfirm"`
+		LifecycleDetails        *string                            `json:"lifecycleDetails"`
+		SystemTags              map[string]map[string]interface{}  `json:"systemTags"`
+		Id                      *string                            `json:"id"`
+		CompartmentId           *string                            `json:"compartmentId"`
+		DisplayName             *string                            `json:"displayName"`
+		TimeCreated             *common.SDKTime                    `json:"timeCreated"`
+		LifecycleState          FleetLifecycleStateEnum            `json:"lifecycleState"`
+		FreeformTags            map[string]string                  `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{}  `json:"definedTags"`
+	}{}
 
-// Set of constants representing the allowable values for FleetFleetTypeEnum
-const (
-	FleetFleetTypeProduct     FleetFleetTypeEnum = "PRODUCT"
-	FleetFleetTypeEnvironment FleetFleetTypeEnum = "ENVIRONMENT"
-	FleetFleetTypeGeneric     FleetFleetTypeEnum = "GENERIC"
-	FleetFleetTypeGroup       FleetFleetTypeEnum = "GROUP"
-)
-
-var mappingFleetFleetTypeEnum = map[string]FleetFleetTypeEnum{
-	"PRODUCT":     FleetFleetTypeProduct,
-	"ENVIRONMENT": FleetFleetTypeEnvironment,
-	"GENERIC":     FleetFleetTypeGeneric,
-	"GROUP":       FleetFleetTypeGroup,
-}
-
-var mappingFleetFleetTypeEnumLowerCase = map[string]FleetFleetTypeEnum{
-	"product":     FleetFleetTypeProduct,
-	"environment": FleetFleetTypeEnvironment,
-	"generic":     FleetFleetTypeGeneric,
-	"group":       FleetFleetTypeGroup,
-}
-
-// GetFleetFleetTypeEnumValues Enumerates the set of values for FleetFleetTypeEnum
-func GetFleetFleetTypeEnumValues() []FleetFleetTypeEnum {
-	values := make([]FleetFleetTypeEnum, 0)
-	for _, v := range mappingFleetFleetTypeEnum {
-		values = append(values, v)
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
 	}
-	return values
-}
+	var nn interface{}
+	m.ResourceRegion = model.ResourceRegion
 
-// GetFleetFleetTypeEnumStringValues Enumerates the set of values in String for FleetFleetTypeEnum
-func GetFleetFleetTypeEnumStringValues() []string {
-	return []string{
-		"PRODUCT",
-		"ENVIRONMENT",
-		"GENERIC",
-		"GROUP",
+	m.Description = model.Description
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Products = make([]string, len(model.Products))
+	copy(m.Products, model.Products)
+	nn, e = model.Details.UnmarshalPolymorphicJSON(model.Details.JsonData)
+	if e != nil {
+		return
 	}
-}
-
-// GetMappingFleetFleetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingFleetFleetTypeEnum(val string) (FleetFleetTypeEnum, bool) {
-	enum, ok := mappingFleetFleetTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// FleetGroupTypeEnum Enum with underlying type: string
-type FleetGroupTypeEnum string
-
-// Set of constants representing the allowable values for FleetGroupTypeEnum
-const (
-	FleetGroupTypeEnvironment FleetGroupTypeEnum = "ENVIRONMENT"
-	FleetGroupTypeProduct     FleetGroupTypeEnum = "PRODUCT"
-)
-
-var mappingFleetGroupTypeEnum = map[string]FleetGroupTypeEnum{
-	"ENVIRONMENT": FleetGroupTypeEnvironment,
-	"PRODUCT":     FleetGroupTypeProduct,
-}
-
-var mappingFleetGroupTypeEnumLowerCase = map[string]FleetGroupTypeEnum{
-	"environment": FleetGroupTypeEnvironment,
-	"product":     FleetGroupTypeProduct,
-}
-
-// GetFleetGroupTypeEnumValues Enumerates the set of values for FleetGroupTypeEnum
-func GetFleetGroupTypeEnumValues() []FleetGroupTypeEnum {
-	values := make([]FleetGroupTypeEnum, 0)
-	for _, v := range mappingFleetGroupTypeEnum {
-		values = append(values, v)
+	if nn != nil {
+		m.Details = nn.(FleetDetails)
+	} else {
+		m.Details = nil
 	}
-	return values
-}
 
-// GetFleetGroupTypeEnumStringValues Enumerates the set of values in String for FleetGroupTypeEnum
-func GetFleetGroupTypeEnumStringValues() []string {
-	return []string{
-		"ENVIRONMENT",
-		"PRODUCT",
+	m.EnvironmentType = model.EnvironmentType
+
+	nn, e = model.ResourceSelection.UnmarshalPolymorphicJSON(model.ResourceSelection.JsonData)
+	if e != nil {
+		return
 	}
-}
-
-// GetMappingFleetGroupTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingFleetGroupTypeEnum(val string) (FleetGroupTypeEnum, bool) {
-	enum, ok := mappingFleetGroupTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// FleetResourceSelectionTypeEnum Enum with underlying type: string
-type FleetResourceSelectionTypeEnum string
-
-// Set of constants representing the allowable values for FleetResourceSelectionTypeEnum
-const (
-	FleetResourceSelectionTypeDynamic FleetResourceSelectionTypeEnum = "DYNAMIC"
-	FleetResourceSelectionTypeManual  FleetResourceSelectionTypeEnum = "MANUAL"
-)
-
-var mappingFleetResourceSelectionTypeEnum = map[string]FleetResourceSelectionTypeEnum{
-	"DYNAMIC": FleetResourceSelectionTypeDynamic,
-	"MANUAL":  FleetResourceSelectionTypeManual,
-}
-
-var mappingFleetResourceSelectionTypeEnumLowerCase = map[string]FleetResourceSelectionTypeEnum{
-	"dynamic": FleetResourceSelectionTypeDynamic,
-	"manual":  FleetResourceSelectionTypeManual,
-}
-
-// GetFleetResourceSelectionTypeEnumValues Enumerates the set of values for FleetResourceSelectionTypeEnum
-func GetFleetResourceSelectionTypeEnumValues() []FleetResourceSelectionTypeEnum {
-	values := make([]FleetResourceSelectionTypeEnum, 0)
-	for _, v := range mappingFleetResourceSelectionTypeEnum {
-		values = append(values, v)
+	if nn != nil {
+		m.ResourceSelection = nn.(ResourceSelection)
+	} else {
+		m.ResourceSelection = nil
 	}
-	return values
-}
 
-// GetFleetResourceSelectionTypeEnumStringValues Enumerates the set of values in String for FleetResourceSelectionTypeEnum
-func GetFleetResourceSelectionTypeEnumStringValues() []string {
-	return []string{
-		"DYNAMIC",
-		"MANUAL",
-	}
-}
+	m.NotificationPreferences = make([]NotificationPreference, len(model.NotificationPreferences))
+	copy(m.NotificationPreferences, model.NotificationPreferences)
+	m.Resources = make([]AssociatedFleetResourceDetails, len(model.Resources))
+	copy(m.Resources, model.Resources)
+	m.Properties = make([]AssociatedFleetPropertyDetails, len(model.Properties))
+	copy(m.Properties, model.Properties)
+	m.Credentials = make([]AssociatedFleetCredentialDetails, len(model.Credentials))
+	copy(m.Credentials, model.Credentials)
+	m.ParentFleetId = model.ParentFleetId
 
-// GetMappingFleetResourceSelectionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingFleetResourceSelectionTypeEnum(val string) (FleetResourceSelectionTypeEnum, bool) {
-	enum, ok := mappingFleetResourceSelectionTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
+	m.IsTargetAutoConfirm = model.IsTargetAutoConfirm
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DisplayName = model.DisplayName
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }
 
 // FleetLifecycleStateEnum Enum with underlying type: string

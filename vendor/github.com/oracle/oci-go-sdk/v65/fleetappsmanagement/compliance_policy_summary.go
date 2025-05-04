@@ -45,6 +45,9 @@ type CompliancePolicySummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// The type of the Compliance Policy.
+	Type CompliancePolicyTypeEnum `mandatory:"false" json:"type,omitempty"`
+
 	// The date and time the CompliancePolicy was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -71,6 +74,9 @@ func (m CompliancePolicySummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCompliancePolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingCompliancePolicyTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCompliancePolicyTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateTaskRecord.go.html to see an example of how to use CreateTaskRecordRequest.
 type CreateTaskRecordRequest struct {
 
-	// Details for the new TaskRecord.
+	// Attributes to create a task record.
 	CreateTaskRecordDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

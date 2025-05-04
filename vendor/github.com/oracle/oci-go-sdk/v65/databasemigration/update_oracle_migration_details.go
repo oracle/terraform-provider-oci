@@ -54,7 +54,7 @@ type UpdateOracleMigrationDetails struct {
 	// List of Migration Parameter objects.
 	AdvancedParameters []MigrationParameterDetails `mandatory:"false" json:"advancedParameters"`
 
-	// The OCID of the resource being referenced.
+	// The OCID of the resource being updated.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
 	// The type of the migration to be performed.

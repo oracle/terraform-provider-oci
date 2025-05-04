@@ -18,8 +18,11 @@ import (
 // CreateMaintenanceWindowDetails The information about the new MaintenanceWindow.
 type CreateMaintenanceWindowDetails struct {
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// Specify the date and time of the day that the maintenance window starts.
+	TimeScheduleStart *common.SDKTime `mandatory:"true" json:"timeScheduleStart"`
 
 	// Duration of the maintenance window.
 	// Specify how long the maintenance window remains open.
@@ -39,21 +42,12 @@ type CreateMaintenanceWindowDetails struct {
 	// It means a period when the application is not accessible.
 	IsOutage *bool `mandatory:"false" json:"isOutage"`
 
-	// Type of maintenenace window
-	MaintenanceWindowType MaintenanceWindowTypeEnum `mandatory:"false" json:"maintenanceWindowType,omitempty"`
-
-	// Specify the date and time of the day that the maintenance window starts.
-	TimeScheduleStart *common.SDKTime `mandatory:"false" json:"timeScheduleStart"`
-
 	// Is this a recurring maintenance window?
 	IsRecurring *bool `mandatory:"false" json:"isRecurring"`
 
 	// Recurrence rule specification if maintenance window recurring.
 	// Specify the frequency of running the maintenance window.
 	Recurrences *string `mandatory:"false" json:"recurrences"`
-
-	// Task initiation cutoff time for the maintenance window.
-	TaskInitiationCutoff *int `mandatory:"false" json:"taskInitiationCutoff"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -74,9 +68,6 @@ func (m CreateMaintenanceWindowDetails) String() string {
 func (m CreateMaintenanceWindowDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingMaintenanceWindowTypeEnum(string(m.MaintenanceWindowType)); !ok && m.MaintenanceWindowType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceWindowType: %s. Supported values are: %s.", m.MaintenanceWindowType, strings.Join(GetMaintenanceWindowTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -18,7 +18,7 @@ import (
 
 // PlatformSpecificArtifact Patch artifact metadata Details which is platform specific.
 type PlatformSpecificArtifact struct {
-	Content ContentDetails `mandatory:"true" json:"content"`
+	Content PatchFileContentDetails `mandatory:"true" json:"content"`
 
 	// The OS type the patch is applicable for.
 	OsType PlatformSpecificArtifactOsTypeEnum `mandatory:"true" json:"osType"`
@@ -52,7 +52,7 @@ func (m PlatformSpecificArtifact) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PlatformSpecificArtifact) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Content      contentdetails                           `json:"content"`
+		Content      patchfilecontentdetails                  `json:"content"`
 		OsType       PlatformSpecificArtifactOsTypeEnum       `json:"osType"`
 		Architecture PlatformSpecificArtifactArchitectureEnum `json:"architecture"`
 	}{}
@@ -67,7 +67,7 @@ func (m *PlatformSpecificArtifact) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	if nn != nil {
-		m.Content = nn.(ContentDetails)
+		m.Content = nn.(PatchFileContentDetails)
 	} else {
 		m.Content = nil
 	}

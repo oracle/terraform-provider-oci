@@ -18,7 +18,7 @@ import (
 // AssociatedFleetPropertyDetails The information about associated FleetProperty.
 type AssociatedFleetPropertyDetails struct {
 
-	// Tenancy OCID
+	// compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Type of the FleetProperty.
