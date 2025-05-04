@@ -74,6 +74,12 @@ type ModelSummary struct {
 	// Corresponds to the time when the custom model and its associated foundation model will be deprecated.
 	TimeDeprecated *common.SDKTime `mandatory:"false" json:"timeDeprecated"`
 
+	// The timestamp indicating when the base model will no longer be available for on-demand usage.
+	TimeOnDemandRetired *common.SDKTime `mandatory:"false" json:"timeOnDemandRetired"`
+
+	// The timestamp indicating when the custom model and its associated foundation model will be fully retired.
+	TimeDedicatedRetired *common.SDKTime `mandatory:"false" json:"timeDedicatedRetired"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -120,24 +126,26 @@ func (m ModelSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		LifecycleDetails    *string                           `json:"lifecycleDetails"`
-		DisplayName         *string                           `json:"displayName"`
-		Vendor              *string                           `json:"vendor"`
-		Version             *string                           `json:"version"`
-		BaseModelId         *string                           `json:"baseModelId"`
-		FineTuneDetails     *FineTuneDetails                  `json:"fineTuneDetails"`
-		ModelMetrics        modelmetrics                      `json:"modelMetrics"`
-		IsLongTermSupported *bool                             `json:"isLongTermSupported"`
-		TimeDeprecated      *common.SDKTime                   `json:"timeDeprecated"`
-		FreeformTags        map[string]string                 `json:"freeformTags"`
-		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags          map[string]map[string]interface{} `json:"systemTags"`
-		Id                  *string                           `json:"id"`
-		CompartmentId       *string                           `json:"compartmentId"`
-		Capabilities        []ModelCapabilityEnum             `json:"capabilities"`
-		LifecycleState      ModelLifecycleStateEnum           `json:"lifecycleState"`
-		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
-		Type                ModelTypeEnum                     `json:"type"`
+		LifecycleDetails     *string                           `json:"lifecycleDetails"`
+		DisplayName          *string                           `json:"displayName"`
+		Vendor               *string                           `json:"vendor"`
+		Version              *string                           `json:"version"`
+		BaseModelId          *string                           `json:"baseModelId"`
+		FineTuneDetails      *FineTuneDetails                  `json:"fineTuneDetails"`
+		ModelMetrics         modelmetrics                      `json:"modelMetrics"`
+		IsLongTermSupported  *bool                             `json:"isLongTermSupported"`
+		TimeDeprecated       *common.SDKTime                   `json:"timeDeprecated"`
+		TimeOnDemandRetired  *common.SDKTime                   `json:"timeOnDemandRetired"`
+		TimeDedicatedRetired *common.SDKTime                   `json:"timeDedicatedRetired"`
+		FreeformTags         map[string]string                 `json:"freeformTags"`
+		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags           map[string]map[string]interface{} `json:"systemTags"`
+		Id                   *string                           `json:"id"`
+		CompartmentId        *string                           `json:"compartmentId"`
+		Capabilities         []ModelCapabilityEnum             `json:"capabilities"`
+		LifecycleState       ModelLifecycleStateEnum           `json:"lifecycleState"`
+		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
+		Type                 ModelTypeEnum                     `json:"type"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -170,6 +178,10 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	m.IsLongTermSupported = model.IsLongTermSupported
 
 	m.TimeDeprecated = model.TimeDeprecated
+
+	m.TimeOnDemandRetired = model.TimeOnDemandRetired
+
+	m.TimeDedicatedRetired = model.TimeDedicatedRetired
 
 	m.FreeformTags = model.FreeformTags
 

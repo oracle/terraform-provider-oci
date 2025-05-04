@@ -64,6 +64,7 @@ type ListInventoryResourcesRequest struct {
 	SortOrder ListInventoryResourcesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
+	//
 	SortBy ListInventoryResourcesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

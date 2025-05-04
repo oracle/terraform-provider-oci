@@ -19,6 +19,7 @@ import (
 type ListWorkRequestsRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The ID of the asynchronous work request.

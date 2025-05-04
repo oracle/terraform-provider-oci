@@ -60,7 +60,7 @@ func newFleetAppsManagementRunbooksClientFromBaseClient(baseClient common.BaseCl
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = FleetAppsManagementRunbooksClient{BaseClient: baseClient}
-	client.BasePath = "20230831"
+	client.BasePath = "20250228"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -91,7 +91,135 @@ func (client *FleetAppsManagementRunbooksClient) ConfigurationProvider() *common
 	return client.config
 }
 
-// CreateRunbook Creates a new Runbook.
+// ChangeRunbookCompartment Moves a Runbook into a different compartment within the same tenancy. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ChangeRunbookCompartment.go.html to see an example of how to use ChangeRunbookCompartment API.
+// A default retry strategy applies to this operation ChangeRunbookCompartment()
+func (client FleetAppsManagementRunbooksClient) ChangeRunbookCompartment(ctx context.Context, request ChangeRunbookCompartmentRequest) (response ChangeRunbookCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRunbookCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRunbookCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRunbookCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRunbookCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRunbookCompartmentResponse")
+	}
+	return
+}
+
+// changeRunbookCompartment implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) changeRunbookCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbooks/{runbookId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRunbookCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/ChangeRunbookCompartment"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ChangeRunbookCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeTaskRecordCompartment Moves a task record into a different compartment within the same tenancy. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ChangeTaskRecordCompartment.go.html to see an example of how to use ChangeTaskRecordCompartment API.
+// A default retry strategy applies to this operation ChangeTaskRecordCompartment()
+func (client FleetAppsManagementRunbooksClient) ChangeTaskRecordCompartment(ctx context.Context, request ChangeTaskRecordCompartmentRequest) (response ChangeTaskRecordCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeTaskRecordCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeTaskRecordCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeTaskRecordCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeTaskRecordCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeTaskRecordCompartmentResponse")
+	}
+	return
+}
+
+// changeTaskRecordCompartment implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) changeTaskRecordCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/taskRecords/{taskRecordId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeTaskRecordCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/ChangeTaskRecordCompartment"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ChangeTaskRecordCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateRunbook Creates a runbook.
 //
 // # See also
 //
@@ -145,7 +273,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/Runbook/CreateRunbook"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/CreateRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "CreateRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -154,7 +282,70 @@ func (client FleetAppsManagementRunbooksClient) createRunbook(ctx context.Contex
 	return response, err
 }
 
-// CreateTaskRecord Creates a new Task.
+// CreateRunbookVersion Add RunbookVersion in Fleet Application Management.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateRunbookVersion.go.html to see an example of how to use CreateRunbookVersion API.
+// A default retry strategy applies to this operation CreateRunbookVersion()
+func (client FleetAppsManagementRunbooksClient) CreateRunbookVersion(ctx context.Context, request CreateRunbookVersionRequest) (response CreateRunbookVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRunbookVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRunbookVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRunbookVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRunbookVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRunbookVersionResponse")
+	}
+	return
+}
+
+// createRunbookVersion implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) createRunbookVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbookVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRunbookVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/CreateRunbookVersion"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "CreateRunbookVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateTaskRecord Creates a new task record.
 //
 // # See also
 //
@@ -208,7 +399,7 @@ func (client FleetAppsManagementRunbooksClient) createTaskRecord(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/TaskRecord/CreateTaskRecord"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/CreateTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "CreateTaskRecord", apiReferenceLink)
 		return response, err
 	}
@@ -217,7 +408,7 @@ func (client FleetAppsManagementRunbooksClient) createTaskRecord(ctx context.Con
 	return response, err
 }
 
-// DeleteRunbook Deletes a Runbook resource by identifier
+// DeleteRunbook Deletes a runbook specified by the identifier.
 //
 // # See also
 //
@@ -266,7 +457,7 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/Runbook/DeleteRunbook"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/DeleteRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "DeleteRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -275,7 +466,65 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbook(ctx context.Contex
 	return response, err
 }
 
-// DeleteTaskRecord Deletes a Task Record resource by identifier
+// DeleteRunbookVersion Removes a Runbook Version from the runbook in Fleet Application Management.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteRunbookVersion.go.html to see an example of how to use DeleteRunbookVersion API.
+// A default retry strategy applies to this operation DeleteRunbookVersion()
+func (client FleetAppsManagementRunbooksClient) DeleteRunbookVersion(ctx context.Context, request DeleteRunbookVersionRequest) (response DeleteRunbookVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRunbookVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRunbookVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRunbookVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRunbookVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRunbookVersionResponse")
+	}
+	return
+}
+
+// deleteRunbookVersion implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) deleteRunbookVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/runbookVersions/{runbookVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRunbookVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/DeleteRunbookVersion"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "DeleteRunbookVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteTaskRecord Deletes the task record specified by an identifier.
 //
 // # See also
 //
@@ -324,7 +573,7 @@ func (client FleetAppsManagementRunbooksClient) deleteTaskRecord(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/TaskRecord/DeleteTaskRecord"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/DeleteTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "DeleteTaskRecord", apiReferenceLink)
 		return response, err
 	}
@@ -382,7 +631,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbook(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/Runbook/GetRunbook"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/GetRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -391,7 +640,65 @@ func (client FleetAppsManagementRunbooksClient) getRunbook(ctx context.Context, 
 	return response, err
 }
 
-// GetTaskRecord Gets a Task by identifier
+// GetRunbookVersion Gets a Runbook Version by identifier.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbookVersion.go.html to see an example of how to use GetRunbookVersion API.
+// A default retry strategy applies to this operation GetRunbookVersion()
+func (client FleetAppsManagementRunbooksClient) GetRunbookVersion(ctx context.Context, request GetRunbookVersionRequest) (response GetRunbookVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRunbookVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRunbookVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRunbookVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRunbookVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRunbookVersionResponse")
+	}
+	return
+}
+
+// getRunbookVersion implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) getRunbookVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runbookVersions/{runbookVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRunbookVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/GetRunbookVersion"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbookVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetTaskRecord Gets information for the specified task record.
 //
 // # See also
 //
@@ -440,7 +747,7 @@ func (client FleetAppsManagementRunbooksClient) getTaskRecord(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/TaskRecord/GetTaskRecord"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/GetTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetTaskRecord", apiReferenceLink)
 		return response, err
 	}
@@ -449,7 +756,66 @@ func (client FleetAppsManagementRunbooksClient) getTaskRecord(ctx context.Contex
 	return response, err
 }
 
-// ListRunbooks List runbooks in Fleet Application Management.
+// ListRunbookVersions List versions for a runbook in Fleet Application Management.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListRunbookVersions.go.html to see an example of how to use ListRunbookVersions API.
+// A default retry strategy applies to this operation ListRunbookVersions()
+func (client FleetAppsManagementRunbooksClient) ListRunbookVersions(ctx context.Context, request ListRunbookVersionsRequest) (response ListRunbookVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRunbookVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRunbookVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRunbookVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRunbookVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRunbookVersionsResponse")
+	}
+	return
+}
+
+// listRunbookVersions implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) listRunbookVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runbookVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRunbookVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersionCollection/ListRunbookVersions"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbookVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRunbooks Returns a list of all the runbooks in the specified compartment.
+// The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 //
 // # See also
 //
@@ -498,7 +864,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbooks(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/RunbookCollection/ListRunbooks"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookCollection/ListRunbooks"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbooks", apiReferenceLink)
 		return response, err
 	}
@@ -507,7 +873,8 @@ func (client FleetAppsManagementRunbooksClient) listRunbooks(ctx context.Context
 	return response, err
 }
 
-// ListTaskRecords Returns a list of TaskRecords.
+// ListTaskRecords Returns a list of all the task records in the specified compartment.
+// The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 //
 // # See also
 //
@@ -556,7 +923,7 @@ func (client FleetAppsManagementRunbooksClient) listTaskRecords(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/TaskRecordCollection/ListTaskRecords"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecordCollection/ListTaskRecords"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListTaskRecords", apiReferenceLink)
 		return response, err
 	}
@@ -565,7 +932,8 @@ func (client FleetAppsManagementRunbooksClient) listTaskRecords(ctx context.Cont
 	return response, err
 }
 
-// PublishRunbook Publish a Runbook.
+// PublishRunbook Publish the specified version of the runbook.
+// The specified version of the runbook becomes acitve when it is published.Only active versions of runbook can be used in execution.
 //
 // # See also
 //
@@ -619,7 +987,7 @@ func (client FleetAppsManagementRunbooksClient) publishRunbook(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/Runbook/PublishRunbook"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/PublishRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "PublishRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -628,7 +996,7 @@ func (client FleetAppsManagementRunbooksClient) publishRunbook(ctx context.Conte
 	return response, err
 }
 
-// SetDefaultRunbook Publish a Runbook.
+// SetDefaultRunbook Set a runbook as default.
 //
 // # See also
 //
@@ -682,7 +1050,7 @@ func (client FleetAppsManagementRunbooksClient) setDefaultRunbook(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/Runbook/SetDefaultRunbook"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/SetDefaultRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "SetDefaultRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -691,7 +1059,7 @@ func (client FleetAppsManagementRunbooksClient) setDefaultRunbook(ctx context.Co
 	return response, err
 }
 
-// UpdateRunbook Updates the Ronbook
+// UpdateRunbook Updates the runbook specified by the identifier.
 //
 // # See also
 //
@@ -740,7 +1108,7 @@ func (client FleetAppsManagementRunbooksClient) updateRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/Runbook/UpdateRunbook"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/UpdateRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "UpdateRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -749,7 +1117,65 @@ func (client FleetAppsManagementRunbooksClient) updateRunbook(ctx context.Contex
 	return response, err
 }
 
-// UpdateTaskRecord Updates the Task
+// UpdateRunbookVersion Updates the RunbookVersion.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateRunbookVersion.go.html to see an example of how to use UpdateRunbookVersion API.
+// A default retry strategy applies to this operation UpdateRunbookVersion()
+func (client FleetAppsManagementRunbooksClient) UpdateRunbookVersion(ctx context.Context, request UpdateRunbookVersionRequest) (response UpdateRunbookVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRunbookVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRunbookVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRunbookVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRunbookVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRunbookVersionResponse")
+	}
+	return
+}
+
+// updateRunbookVersion implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) updateRunbookVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/runbookVersions/{runbookVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRunbookVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/UpdateRunbookVersion"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "UpdateRunbookVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateTaskRecord Updates certain attributes for the specified task record.
 //
 // # See also
 //
@@ -798,7 +1224,7 @@ func (client FleetAppsManagementRunbooksClient) updateTaskRecord(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20230831/TaskRecord/UpdateTaskRecord"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/UpdateTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "UpdateTaskRecord", apiReferenceLink)
 		return response, err
 	}

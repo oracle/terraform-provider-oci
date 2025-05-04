@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetProperty.go.html to see an example of how to use CreateFleetPropertyRequest.
 type CreateFleetPropertyRequest struct {
 
-	// Details for the new FleetProperty.
+	// Details for the new fleet property.
 	CreateFleetPropertyDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

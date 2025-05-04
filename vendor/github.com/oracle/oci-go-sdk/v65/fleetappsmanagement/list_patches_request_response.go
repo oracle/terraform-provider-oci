@@ -19,12 +19,13 @@ import (
 type ListPatchesRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Product platformConfigurationId associated with the Patch.
 	ProductId *string `mandatory:"false" contributesTo:"query" name:"productId"`
 
-	// Product version
+	// Product version.
 	Version *string `mandatory:"false" contributesTo:"query" name:"version"`
 
 	// DefinedBy type.
@@ -36,16 +37,17 @@ type ListPatchesRequest struct {
 	// A filter to return only resources that match the entire name given.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// unique Patch identifier
+	// Unique identifier or OCID for listing a single Patch by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// Patch Released Date
+	// A filter to return patches whose release date is greater than or equal to the given date.
 	TimeReleasedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeReleasedGreaterThanOrEqualTo"`
 
-	// Patch Released Date
+	// A filter to return patches whose release date is less than the given date.
 	TimeReleasedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeReleasedLessThan"`
 
-	// Filter patch based on compliance policy rules for the Product
+	// Filter patch based on compliance policy rules for the Product.
 	ShouldCompliancePolicyRulesBeApplied *bool `mandatory:"false" contributesTo:"query" name:"shouldCompliancePolicyRulesBeApplied"`
 
 	// The maximum number of items to return.
@@ -57,7 +59,7 @@ type ListPatchesRequest struct {
 	// The current state of the Patch.
 	LifecycleState PatchLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
+	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for name is ascending.
 	SortBy ListPatchesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
@@ -154,17 +156,17 @@ type ListPatchesSortByEnum string
 // Set of constants representing the allowable values for ListPatchesSortByEnum
 const (
 	ListPatchesSortByTimecreated ListPatchesSortByEnum = "timeCreated"
-	ListPatchesSortByDisplayname ListPatchesSortByEnum = "displayName"
+	ListPatchesSortByName        ListPatchesSortByEnum = "name"
 )
 
 var mappingListPatchesSortByEnum = map[string]ListPatchesSortByEnum{
 	"timeCreated": ListPatchesSortByTimecreated,
-	"displayName": ListPatchesSortByDisplayname,
+	"name":        ListPatchesSortByName,
 }
 
 var mappingListPatchesSortByEnumLowerCase = map[string]ListPatchesSortByEnum{
 	"timecreated": ListPatchesSortByTimecreated,
-	"displayname": ListPatchesSortByDisplayname,
+	"name":        ListPatchesSortByName,
 }
 
 // GetListPatchesSortByEnumValues Enumerates the set of values for ListPatchesSortByEnum
@@ -180,7 +182,7 @@ func GetListPatchesSortByEnumValues() []ListPatchesSortByEnum {
 func GetListPatchesSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
-		"displayName",
+		"name",
 	}
 }
 

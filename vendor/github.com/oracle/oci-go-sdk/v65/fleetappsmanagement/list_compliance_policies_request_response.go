@@ -19,6 +19,7 @@ import (
 type ListCompliancePoliciesRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the given lifecycle state. The
@@ -28,7 +29,11 @@ type ListCompliancePoliciesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique CompliancePolicy identifier.
+	// A filter to return Platform Configurations whose type matches the given type.
+	Type CompliancePolicyTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
+
+	// Unique identifier or OCID for listing a single Compliance Policy by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.
@@ -84,6 +89,9 @@ func (request ListCompliancePoliciesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingCompliancePolicyLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetCompliancePolicyLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCompliancePolicyTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetCompliancePolicyTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListCompliancePoliciesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCompliancePoliciesSortOrderEnumStringValues(), ",")))

@@ -18376,6 +18376,63 @@ func (client DatabaseClient) listSchedulingWindows(ctx context.Context, request 
 	return response, err
 }
 
+// ListSystemVersionMinorVersions Retrieves a list of supported minor versions for the specified Exadata System Software major version. You must provide either a `shape` or `resourceId` value.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListSystemVersionMinorVersions.go.html to see an example of how to use ListSystemVersionMinorVersions API.
+func (client DatabaseClient) ListSystemVersionMinorVersions(ctx context.Context, request ListSystemVersionMinorVersionsRequest) (response ListSystemVersionMinorVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSystemVersionMinorVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSystemVersionMinorVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSystemVersionMinorVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSystemVersionMinorVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSystemVersionMinorVersionsResponse")
+	}
+	return
+}
+
+// listSystemVersionMinorVersions implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listSystemVersionMinorVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/systemVersions/{majorVersion}/minorVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSystemVersionMinorVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/SystemVersionMinorVersionCollection/ListSystemVersionMinorVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListSystemVersionMinorVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSystemVersions Gets a list of supported Exadata system versions for a given shape and GI version.
 //
 // # See also

@@ -18,7 +18,7 @@ import (
 // Rule Rule for DYNAMIC selection.
 type Rule struct {
 
-	// Tenancy Id (Root Compartment Id)for which the rule is created.
+	// Compartment Id for which the rule is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The Compartment ID to dynamically search resources.

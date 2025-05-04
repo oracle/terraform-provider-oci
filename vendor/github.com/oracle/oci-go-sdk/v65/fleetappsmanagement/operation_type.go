@@ -21,6 +21,7 @@ const (
 	OperationTypeCreateFleet                 OperationTypeEnum = "CREATE_FLEET"
 	OperationTypeUpdateFleet                 OperationTypeEnum = "UPDATE_FLEET"
 	OperationTypeDeleteFleet                 OperationTypeEnum = "DELETE_FLEET"
+	OperationTypeMoveFleet                   OperationTypeEnum = "MOVE_FLEET"
 	OperationTypeConfirmTarget               OperationTypeEnum = "CONFIRM_TARGET"
 	OperationTypeGenerateCompliance          OperationTypeEnum = "GENERATE_COMPLIANCE"
 	OperationTypeRequestTargetDiscovery      OperationTypeEnum = "REQUEST_TARGET_DISCOVERY"
@@ -40,6 +41,12 @@ const (
 	OperationTypeUpdateRunbook               OperationTypeEnum = "UPDATE_RUNBOOK"
 	OperationTypeDeleteRunbook               OperationTypeEnum = "DELETE_RUNBOOK"
 	OperationTypePublishRunbook              OperationTypeEnum = "PUBLISH_RUNBOOK"
+	OperationTypeMoveRunbook                 OperationTypeEnum = "MOVE_RUNBOOK"
+	OperationTypeCreateRunbookVersion        OperationTypeEnum = "CREATE_RUNBOOK_VERSION"
+	OperationTypeUpdateRunbookVersion        OperationTypeEnum = "UPDATE_RUNBOOK_VERSION"
+	OperationTypeDeleteRunbookVersion        OperationTypeEnum = "DELETE_RUNBOOK_VERSION"
+	OperationTypePublishRunbookVersion       OperationTypeEnum = "PUBLISH_RUNBOOK_VERSION"
+	OperationTypeMoveTask                    OperationTypeEnum = "MOVE_TASK"
 	OperationTypeUpdateTask                  OperationTypeEnum = "UPDATE_TASK"
 	OperationTypeDeleteTask                  OperationTypeEnum = "DELETE_TASK"
 	OperationTypeUpdateFamsOnboarding        OperationTypeEnum = "UPDATE_FAMS_ONBOARDING"
@@ -49,15 +56,29 @@ const (
 	OperationTypeDeleteCompliancePolicyRule  OperationTypeEnum = "DELETE_COMPLIANCE_POLICY_RULE"
 	OperationTypeUpdatePatch                 OperationTypeEnum = "UPDATE_PATCH"
 	OperationTypeDeletePatch                 OperationTypeEnum = "DELETE_PATCH"
+	OperationTypeMovePatch                   OperationTypeEnum = "MOVE_PATCH"
 	OperationTypeManageJobExecution          OperationTypeEnum = "MANAGE_JOB_EXECUTION"
 	OperationTypeDeletePlatformConfiguration OperationTypeEnum = "DELETE_PLATFORM_CONFIGURATION"
 	OperationTypeUpdatePlatformConfiguration OperationTypeEnum = "UPDATE_PLATFORM_CONFIGURATION"
+	OperationTypeMovePlatformConfiguration   OperationTypeEnum = "MOVE_PLATFORM_CONFIGURATION"
+	OperationTypeCreatePlatformConfiguration OperationTypeEnum = "CREATE_PLATFORM_CONFIGURATION"
+	OperationTypeMoveProperty                OperationTypeEnum = "MOVE_PROPERTY"
+	OperationTypeCreateCatalogItem           OperationTypeEnum = "CREATE_CATALOG_ITEM"
+	OperationTypeUpdateCatalogItem           OperationTypeEnum = "UPDATE_CATALOG_ITEM"
+	OperationTypeDeleteCatalogItem           OperationTypeEnum = "DELETE_CATALOG_ITEM"
+	OperationTypeMoveCatalogItem             OperationTypeEnum = "MOVE_CATALOG_ITEM"
+	OperationTypeCloneCatalogItem            OperationTypeEnum = "CLONE_CATALOG_ITEM"
+	OperationTypeCreateProvision             OperationTypeEnum = "CREATE_PROVISION"
+	OperationTypeUpdateProvision             OperationTypeEnum = "UPDATE_PROVISION"
+	OperationTypeDeleteProvision             OperationTypeEnum = "DELETE_PROVISION"
+	OperationTypeMoveProvision               OperationTypeEnum = "MOVE_PROVISION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_FLEET":                  OperationTypeCreateFleet,
 	"UPDATE_FLEET":                  OperationTypeUpdateFleet,
 	"DELETE_FLEET":                  OperationTypeDeleteFleet,
+	"MOVE_FLEET":                    OperationTypeMoveFleet,
 	"CONFIRM_TARGET":                OperationTypeConfirmTarget,
 	"GENERATE_COMPLIANCE":           OperationTypeGenerateCompliance,
 	"REQUEST_TARGET_DISCOVERY":      OperationTypeRequestTargetDiscovery,
@@ -77,6 +98,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_RUNBOOK":                OperationTypeUpdateRunbook,
 	"DELETE_RUNBOOK":                OperationTypeDeleteRunbook,
 	"PUBLISH_RUNBOOK":               OperationTypePublishRunbook,
+	"MOVE_RUNBOOK":                  OperationTypeMoveRunbook,
+	"CREATE_RUNBOOK_VERSION":        OperationTypeCreateRunbookVersion,
+	"UPDATE_RUNBOOK_VERSION":        OperationTypeUpdateRunbookVersion,
+	"DELETE_RUNBOOK_VERSION":        OperationTypeDeleteRunbookVersion,
+	"PUBLISH_RUNBOOK_VERSION":       OperationTypePublishRunbookVersion,
+	"MOVE_TASK":                     OperationTypeMoveTask,
 	"UPDATE_TASK":                   OperationTypeUpdateTask,
 	"DELETE_TASK":                   OperationTypeDeleteTask,
 	"UPDATE_FAMS_ONBOARDING":        OperationTypeUpdateFamsOnboarding,
@@ -86,15 +113,29 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_COMPLIANCE_POLICY_RULE": OperationTypeDeleteCompliancePolicyRule,
 	"UPDATE_PATCH":                  OperationTypeUpdatePatch,
 	"DELETE_PATCH":                  OperationTypeDeletePatch,
+	"MOVE_PATCH":                    OperationTypeMovePatch,
 	"MANAGE_JOB_EXECUTION":          OperationTypeManageJobExecution,
 	"DELETE_PLATFORM_CONFIGURATION": OperationTypeDeletePlatformConfiguration,
 	"UPDATE_PLATFORM_CONFIGURATION": OperationTypeUpdatePlatformConfiguration,
+	"MOVE_PLATFORM_CONFIGURATION":   OperationTypeMovePlatformConfiguration,
+	"CREATE_PLATFORM_CONFIGURATION": OperationTypeCreatePlatformConfiguration,
+	"MOVE_PROPERTY":                 OperationTypeMoveProperty,
+	"CREATE_CATALOG_ITEM":           OperationTypeCreateCatalogItem,
+	"UPDATE_CATALOG_ITEM":           OperationTypeUpdateCatalogItem,
+	"DELETE_CATALOG_ITEM":           OperationTypeDeleteCatalogItem,
+	"MOVE_CATALOG_ITEM":             OperationTypeMoveCatalogItem,
+	"CLONE_CATALOG_ITEM":            OperationTypeCloneCatalogItem,
+	"CREATE_PROVISION":              OperationTypeCreateProvision,
+	"UPDATE_PROVISION":              OperationTypeUpdateProvision,
+	"DELETE_PROVISION":              OperationTypeDeleteProvision,
+	"MOVE_PROVISION":                OperationTypeMoveProvision,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"create_fleet":                  OperationTypeCreateFleet,
 	"update_fleet":                  OperationTypeUpdateFleet,
 	"delete_fleet":                  OperationTypeDeleteFleet,
+	"move_fleet":                    OperationTypeMoveFleet,
 	"confirm_target":                OperationTypeConfirmTarget,
 	"generate_compliance":           OperationTypeGenerateCompliance,
 	"request_target_discovery":      OperationTypeRequestTargetDiscovery,
@@ -114,6 +155,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_runbook":                OperationTypeUpdateRunbook,
 	"delete_runbook":                OperationTypeDeleteRunbook,
 	"publish_runbook":               OperationTypePublishRunbook,
+	"move_runbook":                  OperationTypeMoveRunbook,
+	"create_runbook_version":        OperationTypeCreateRunbookVersion,
+	"update_runbook_version":        OperationTypeUpdateRunbookVersion,
+	"delete_runbook_version":        OperationTypeDeleteRunbookVersion,
+	"publish_runbook_version":       OperationTypePublishRunbookVersion,
+	"move_task":                     OperationTypeMoveTask,
 	"update_task":                   OperationTypeUpdateTask,
 	"delete_task":                   OperationTypeDeleteTask,
 	"update_fams_onboarding":        OperationTypeUpdateFamsOnboarding,
@@ -123,9 +170,22 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_compliance_policy_rule": OperationTypeDeleteCompliancePolicyRule,
 	"update_patch":                  OperationTypeUpdatePatch,
 	"delete_patch":                  OperationTypeDeletePatch,
+	"move_patch":                    OperationTypeMovePatch,
 	"manage_job_execution":          OperationTypeManageJobExecution,
 	"delete_platform_configuration": OperationTypeDeletePlatformConfiguration,
 	"update_platform_configuration": OperationTypeUpdatePlatformConfiguration,
+	"move_platform_configuration":   OperationTypeMovePlatformConfiguration,
+	"create_platform_configuration": OperationTypeCreatePlatformConfiguration,
+	"move_property":                 OperationTypeMoveProperty,
+	"create_catalog_item":           OperationTypeCreateCatalogItem,
+	"update_catalog_item":           OperationTypeUpdateCatalogItem,
+	"delete_catalog_item":           OperationTypeDeleteCatalogItem,
+	"move_catalog_item":             OperationTypeMoveCatalogItem,
+	"clone_catalog_item":            OperationTypeCloneCatalogItem,
+	"create_provision":              OperationTypeCreateProvision,
+	"update_provision":              OperationTypeUpdateProvision,
+	"delete_provision":              OperationTypeDeleteProvision,
+	"move_provision":                OperationTypeMoveProvision,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -143,6 +203,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_FLEET",
 		"UPDATE_FLEET",
 		"DELETE_FLEET",
+		"MOVE_FLEET",
 		"CONFIRM_TARGET",
 		"GENERATE_COMPLIANCE",
 		"REQUEST_TARGET_DISCOVERY",
@@ -162,6 +223,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_RUNBOOK",
 		"DELETE_RUNBOOK",
 		"PUBLISH_RUNBOOK",
+		"MOVE_RUNBOOK",
+		"CREATE_RUNBOOK_VERSION",
+		"UPDATE_RUNBOOK_VERSION",
+		"DELETE_RUNBOOK_VERSION",
+		"PUBLISH_RUNBOOK_VERSION",
+		"MOVE_TASK",
 		"UPDATE_TASK",
 		"DELETE_TASK",
 		"UPDATE_FAMS_ONBOARDING",
@@ -171,9 +238,22 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_COMPLIANCE_POLICY_RULE",
 		"UPDATE_PATCH",
 		"DELETE_PATCH",
+		"MOVE_PATCH",
 		"MANAGE_JOB_EXECUTION",
 		"DELETE_PLATFORM_CONFIGURATION",
 		"UPDATE_PLATFORM_CONFIGURATION",
+		"MOVE_PLATFORM_CONFIGURATION",
+		"CREATE_PLATFORM_CONFIGURATION",
+		"MOVE_PROPERTY",
+		"CREATE_CATALOG_ITEM",
+		"UPDATE_CATALOG_ITEM",
+		"DELETE_CATALOG_ITEM",
+		"MOVE_CATALOG_ITEM",
+		"CLONE_CATALOG_ITEM",
+		"CREATE_PROVISION",
+		"UPDATE_PROVISION",
+		"DELETE_PROVISION",
+		"MOVE_PROVISION",
 	}
 }
 

@@ -10,6 +10,7 @@
 package fleetappsmanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -26,7 +27,7 @@ type SchedulerDefinition struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
@@ -48,10 +49,7 @@ type SchedulerDefinition struct {
 	// The scheduled date for the next run of the Job.
 	TimeOfNextRun *common.SDKTime `mandatory:"false" json:"timeOfNextRun"`
 
-	// Activity Initiation Cut Off.
-	ActivityInitiationCutOff *int `mandatory:"false" json:"activityInitiationCutOff"`
-
-	Schedule *Schedule `mandatory:"false" json:"schedule"`
+	Schedule Schedule `mandatory:"false" json:"schedule"`
 
 	// Count of Action Groups affected by the Schedule.
 	CountOfAffectedActionGroups *int `mandatory:"false" json:"countOfAffectedActionGroups"`
@@ -61,12 +59,6 @@ type SchedulerDefinition struct {
 
 	// Count of Targets affected by the Schedule.
 	CountOfAffectedTargets *int `mandatory:"false" json:"countOfAffectedTargets"`
-
-	// All ActionGroup Types that are part of the schedule.
-	ActionGroupTypes []LifeCycleActionGroupTypeEnum `mandatory:"false" json:"actionGroupTypes,omitempty"`
-
-	// All application types that are part of the schedule for ENVIRONMENT ActionGroup Type.
-	ApplicationTypes []string `mandatory:"false" json:"applicationTypes"`
 
 	// All products that are part of the schedule for PRODUCT ActionGroup Type.
 	Products []string `mandatory:"false" json:"products"`
@@ -109,16 +101,104 @@ func (m SchedulerDefinition) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSchedulerDefinitionLifecycleStateEnumStringValues(), ",")))
 	}
 
-	for _, val := range m.ActionGroupTypes {
-		if _, ok := GetMappingLifeCycleActionGroupTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionGroupTypes: %s. Supported values are: %s.", val, strings.Join(GetLifeCycleActionGroupTypeEnumStringValues(), ",")))
-		}
-	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *SchedulerDefinition) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description                 *string                               `json:"description"`
+		ResourceRegion              *string                               `json:"resourceRegion"`
+		TimeUpdated                 *common.SDKTime                       `json:"timeUpdated"`
+		TimeOfNextRun               *common.SDKTime                       `json:"timeOfNextRun"`
+		Schedule                    schedule                              `json:"schedule"`
+		CountOfAffectedActionGroups *int                                  `json:"countOfAffectedActionGroups"`
+		CountOfAffectedResources    *int                                  `json:"countOfAffectedResources"`
+		CountOfAffectedTargets      *int                                  `json:"countOfAffectedTargets"`
+		Products                    []string                              `json:"products"`
+		LifecycleOperations         []string                              `json:"lifecycleOperations"`
+		ActionGroups                []actiongroup                         `json:"actionGroups"`
+		RunBooks                    []OperationRunbook                    `json:"runBooks"`
+		LifecycleDetails            *string                               `json:"lifecycleDetails"`
+		FreeformTags                map[string]string                     `json:"freeformTags"`
+		DefinedTags                 map[string]map[string]interface{}     `json:"definedTags"`
+		SystemTags                  map[string]map[string]interface{}     `json:"systemTags"`
+		Id                          *string                               `json:"id"`
+		DisplayName                 *string                               `json:"displayName"`
+		CompartmentId               *string                               `json:"compartmentId"`
+		TimeCreated                 *common.SDKTime                       `json:"timeCreated"`
+		LifecycleState              SchedulerDefinitionLifecycleStateEnum `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.ResourceRegion = model.ResourceRegion
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.TimeOfNextRun = model.TimeOfNextRun
+
+	nn, e = model.Schedule.UnmarshalPolymorphicJSON(model.Schedule.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Schedule = nn.(Schedule)
+	} else {
+		m.Schedule = nil
+	}
+
+	m.CountOfAffectedActionGroups = model.CountOfAffectedActionGroups
+
+	m.CountOfAffectedResources = model.CountOfAffectedResources
+
+	m.CountOfAffectedTargets = model.CountOfAffectedTargets
+
+	m.Products = make([]string, len(model.Products))
+	copy(m.Products, model.Products)
+	m.LifecycleOperations = make([]string, len(model.LifecycleOperations))
+	copy(m.LifecycleOperations, model.LifecycleOperations)
+	m.ActionGroups = make([]ActionGroup, len(model.ActionGroups))
+	for i, n := range model.ActionGroups {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ActionGroups[i] = nn.(ActionGroup)
+		} else {
+			m.ActionGroups[i] = nil
+		}
+	}
+	m.RunBooks = make([]OperationRunbook, len(model.RunBooks))
+	copy(m.RunBooks, model.RunBooks)
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }
 
 // SchedulerDefinitionLifecycleStateEnum Enum with underlying type: string

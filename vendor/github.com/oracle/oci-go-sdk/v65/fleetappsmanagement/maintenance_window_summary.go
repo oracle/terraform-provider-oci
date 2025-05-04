@@ -21,7 +21,7 @@ type MaintenanceWindowSummary struct {
 	// The OCID of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -44,9 +44,6 @@ type MaintenanceWindowSummary struct {
 	// Is this a recurring maintenance window?
 	IsRecurring *bool `mandatory:"true" json:"isRecurring"`
 
-	// Task initiation cutoff time for the maintenance window.
-	TaskInitiationCutoff *int `mandatory:"true" json:"taskInitiationCutoff"`
-
 	// The current state of the MaintenanceWindow.
 	LifecycleState MaintenanceWindowLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -67,9 +64,6 @@ type MaintenanceWindowSummary struct {
 
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
-
-	// Type of the MaintenanceWindow.
-	MaintenanceWindowType MaintenanceWindowTypeEnum `mandatory:"false" json:"maintenanceWindowType,omitempty"`
 
 	// Specify the date and time of the day that the maintenance window starts.
 	TimeScheduleStart *common.SDKTime `mandatory:"false" json:"timeScheduleStart"`
@@ -99,9 +93,6 @@ func (m MaintenanceWindowSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMaintenanceWindowLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingMaintenanceWindowTypeEnum(string(m.MaintenanceWindowType)); !ok && m.MaintenanceWindowType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceWindowType: %s. Supported values are: %s.", m.MaintenanceWindowType, strings.Join(GetMaintenanceWindowTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

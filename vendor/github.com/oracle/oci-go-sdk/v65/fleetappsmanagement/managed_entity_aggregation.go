@@ -18,7 +18,7 @@ import (
 // ManagedEntityAggregation Aggregated summary information for ManagedEntity
 type ManagedEntityAggregation struct {
 
-	// count of Managed Entities in a Tenancy.
+	// Count of managed entities in a compartment.
 	Count *int `mandatory:"true" json:"count"`
 
 	Dimensions *ManagedEntityDimension `mandatory:"true" json:"dimensions"`

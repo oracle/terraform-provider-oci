@@ -24,7 +24,7 @@ type ComplianceDetailResource struct {
 	// Name of the resource.
 	ResourceName *string `mandatory:"true" json:"resourceName"`
 
-	// TenancyId of the resource.
+	// Compartment OCID of the resource.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Compartment the resource belongs to.

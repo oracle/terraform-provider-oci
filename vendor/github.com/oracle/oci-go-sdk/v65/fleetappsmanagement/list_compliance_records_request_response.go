@@ -19,7 +19,7 @@ import (
 type ListComplianceRecordsRequest struct {
 
 	// The ID of the compartment in which to list resources.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Resource identifier.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
@@ -38,6 +38,10 @@ type ListComplianceRecordsRequest struct {
 
 	// Target Compliance State.
 	ComplianceState *string `mandatory:"false" contributesTo:"query" name:"complianceState"`
+
+	// If set to true, resources will be returned for not only the provided compartment, but all compartments which
+	// descend from it. Which resources are returned and their field contents depends on the value of accessLevel.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

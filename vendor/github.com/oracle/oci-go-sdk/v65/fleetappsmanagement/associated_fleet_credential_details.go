@@ -24,7 +24,7 @@ type AssociatedFleetCredentialDetails struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	EntitySpecifics CredentialEntitySpecificDetails `mandatory:"true" json:"entitySpecifics"`

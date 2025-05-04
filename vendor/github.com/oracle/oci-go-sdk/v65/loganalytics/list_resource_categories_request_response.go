@@ -32,6 +32,9 @@ type ListResourceCategoriesRequest struct {
 	// with matching unique identifiers will be returned.
 	ResourceIds *string `mandatory:"false" contributesTo:"query" name:"resourceIds"`
 
+	// The compartment id
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListResourceCategoriesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 

@@ -15,17 +15,18 @@ import (
 	"strings"
 )
 
-// CreateTaskRecordDetails The information about new Task.
+// CreateTaskRecordDetails Attributes to create a task record.
 type CreateTaskRecordDetails struct {
-	Details *Details `mandatory:"true" json:"details"`
-
-	// OCID of the compartment to which the resource belongs to.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	Details *Details `mandatory:"true" json:"details"`
+
+	// OCID of the compartment to which the resource belongs to.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly description. To provide some insight about the resource.
 	// Avoid entering confidential information.

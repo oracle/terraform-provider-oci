@@ -66,6 +66,21 @@ type LogAnalyticsLookup struct {
 	// An array of categories assigned to this lookup.
 	// The isSystem flag denotes if each category assignment is user-created or Oracle-defined.
 	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
+
+	// The log analytics entity OCID. This ID is a reference used by log analytics features and it represents
+	// a resource that is provisioned and managed by the customer on their premises or on the cloud.
+	Id *string `mandatory:"false" json:"id"`
+
+	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m LogAnalyticsLookup) String() string {

@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// BlockVolumeMountDetails The details for mounting or unmounting the file system on a block volume.
+// BlockVolumeMountDetails Deprecated. Use the 'ComputeInstanceNonMovableBlockVolumeMountOperationDetails' definition instead of this.
+// The details for mounting or unmounting the file system on a block volume.
 type BlockVolumeMountDetails struct {
 
 	// The physical mount point used for mounting and unmounting the file system on a block volume.

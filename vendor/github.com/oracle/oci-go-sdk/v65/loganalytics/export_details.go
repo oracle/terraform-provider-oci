@@ -87,18 +87,21 @@ type ExportDetailsOutputFormatEnum string
 
 // Set of constants representing the allowable values for ExportDetailsOutputFormatEnum
 const (
-	ExportDetailsOutputFormatCsv  ExportDetailsOutputFormatEnum = "CSV"
-	ExportDetailsOutputFormatJson ExportDetailsOutputFormatEnum = "JSON"
+	ExportDetailsOutputFormatCsv     ExportDetailsOutputFormatEnum = "CSV"
+	ExportDetailsOutputFormatJson    ExportDetailsOutputFormatEnum = "JSON"
+	ExportDetailsOutputFormatParquet ExportDetailsOutputFormatEnum = "PARQUET"
 )
 
 var mappingExportDetailsOutputFormatEnum = map[string]ExportDetailsOutputFormatEnum{
-	"CSV":  ExportDetailsOutputFormatCsv,
-	"JSON": ExportDetailsOutputFormatJson,
+	"CSV":     ExportDetailsOutputFormatCsv,
+	"JSON":    ExportDetailsOutputFormatJson,
+	"PARQUET": ExportDetailsOutputFormatParquet,
 }
 
 var mappingExportDetailsOutputFormatEnumLowerCase = map[string]ExportDetailsOutputFormatEnum{
-	"csv":  ExportDetailsOutputFormatCsv,
-	"json": ExportDetailsOutputFormatJson,
+	"csv":     ExportDetailsOutputFormatCsv,
+	"json":    ExportDetailsOutputFormatJson,
+	"parquet": ExportDetailsOutputFormatParquet,
 }
 
 // GetExportDetailsOutputFormatEnumValues Enumerates the set of values for ExportDetailsOutputFormatEnum
@@ -115,6 +118,7 @@ func GetExportDetailsOutputFormatEnumStringValues() []string {
 	return []string{
 		"CSV",
 		"JSON",
+		"PARQUET",
 	}
 }
 

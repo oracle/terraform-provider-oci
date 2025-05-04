@@ -44,6 +44,10 @@ type RecallArchivedDataDetails struct {
 
 	// This indicates if user checked system recommended time range
 	IsUseRecommendedDataSet *bool `mandatory:"false" json:"isUseRecommendedDataSet"`
+
+	// This is the id for the recalled data collection to be used only for recall new data.
+	// If specified, only this collection will be eligible for IsRecallNewDataOnly
+	CollectionId *int64 `mandatory:"false" json:"collectionId"`
 }
 
 func (m RecallArchivedDataDetails) String() string {

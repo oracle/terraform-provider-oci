@@ -18,21 +18,24 @@ type RecallStatusEnum string
 
 // Set of constants representing the allowable values for RecallStatusEnum
 const (
-	RecallStatusRecalled RecallStatusEnum = "RECALLED"
-	RecallStatusPending  RecallStatusEnum = "PENDING"
-	RecallStatusFailed   RecallStatusEnum = "FAILED"
+	RecallStatusRecalled        RecallStatusEnum = "RECALLED"
+	RecallStatusPending         RecallStatusEnum = "PENDING"
+	RecallStatusFailed          RecallStatusEnum = "FAILED"
+	RecallStatusPartialRecalled RecallStatusEnum = "PARTIAL_RECALLED"
 )
 
 var mappingRecallStatusEnum = map[string]RecallStatusEnum{
-	"RECALLED": RecallStatusRecalled,
-	"PENDING":  RecallStatusPending,
-	"FAILED":   RecallStatusFailed,
+	"RECALLED":         RecallStatusRecalled,
+	"PENDING":          RecallStatusPending,
+	"FAILED":           RecallStatusFailed,
+	"PARTIAL_RECALLED": RecallStatusPartialRecalled,
 }
 
 var mappingRecallStatusEnumLowerCase = map[string]RecallStatusEnum{
-	"recalled": RecallStatusRecalled,
-	"pending":  RecallStatusPending,
-	"failed":   RecallStatusFailed,
+	"recalled":         RecallStatusRecalled,
+	"pending":          RecallStatusPending,
+	"failed":           RecallStatusFailed,
+	"partial_recalled": RecallStatusPartialRecalled,
 }
 
 // GetRecallStatusEnumValues Enumerates the set of values for RecallStatusEnum
@@ -50,6 +53,7 @@ func GetRecallStatusEnumStringValues() []string {
 		"RECALLED",
 		"PENDING",
 		"FAILED",
+		"PARTIAL_RECALLED",
 	}
 }
 

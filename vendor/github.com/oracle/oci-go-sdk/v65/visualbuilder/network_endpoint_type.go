@@ -19,14 +19,17 @@ type NetworkEndpointTypeEnum string
 
 // Set of constants representing the allowable values for NetworkEndpointTypeEnum
 const (
+	NetworkEndpointTypePublic  NetworkEndpointTypeEnum = "PUBLIC"
 	NetworkEndpointTypePrivate NetworkEndpointTypeEnum = "PRIVATE"
 )
 
 var mappingNetworkEndpointTypeEnum = map[string]NetworkEndpointTypeEnum{
+	"PUBLIC":  NetworkEndpointTypePublic,
 	"PRIVATE": NetworkEndpointTypePrivate,
 }
 
 var mappingNetworkEndpointTypeEnumLowerCase = map[string]NetworkEndpointTypeEnum{
+	"public":  NetworkEndpointTypePublic,
 	"private": NetworkEndpointTypePrivate,
 }
 
@@ -42,6 +45,7 @@ func GetNetworkEndpointTypeEnumValues() []NetworkEndpointTypeEnum {
 // GetNetworkEndpointTypeEnumStringValues Enumerates the set of values in String for NetworkEndpointTypeEnum
 func GetNetworkEndpointTypeEnumStringValues() []string {
 	return []string{
+		"PUBLIC",
 		"PRIVATE",
 	}
 }

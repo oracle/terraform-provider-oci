@@ -27,6 +27,9 @@ type GetLogAnalyticsEntityRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Option to return count of associated log sources for log analytics entity(s).
+	IsShowAssociatedSourcesCount *bool `mandatory:"false" contributesTo:"query" name:"isShowAssociatedSourcesCount"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

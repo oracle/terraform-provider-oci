@@ -40,6 +40,12 @@ type EstimateRecallDataSizeResult struct {
 
 	// This is the size limit in bytes
 	SizeLimitInBytes *int64 `mandatory:"false" json:"sizeLimitInBytes"`
+
+	// This message shows existing recall overlapping details like collection id, purpose
+	Message *string `mandatory:"false" json:"message"`
+
+	// This is the total number of batches data will be recalled in
+	TotalBatchSize *int `mandatory:"false" json:"totalBatchSize"`
 }
 
 func (m EstimateRecallDataSizeResult) String() string {

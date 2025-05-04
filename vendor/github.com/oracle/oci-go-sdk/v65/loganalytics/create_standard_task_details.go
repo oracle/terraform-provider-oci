@@ -24,10 +24,6 @@ type CreateStandardTaskDetails struct {
 	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Schedules, typically a single schedule.
-	// Note there may only be a single schedule for SAVED_SEARCH and PURGE scheduled tasks.
-	Schedules []Schedule `mandatory:"true" json:"schedules"`
-
 	Action Action `mandatory:"true" json:"action"`
 
 	// A user-friendly name that is changeable and that does not have to be unique.
@@ -43,6 +39,10 @@ type CreateStandardTaskDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Schedules, typically a single schedule.
+	// Note there may only be a single schedule for SAVED_SEARCH and PURGE scheduled tasks.
+	Schedules []Schedule `mandatory:"false" json:"schedules"`
 
 	// Task type.
 	TaskType TaskTypeEnum `mandatory:"true" json:"taskType"`
@@ -107,9 +107,9 @@ func (m *CreateStandardTaskDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName   *string                           `json:"displayName"`
 		FreeformTags  map[string]string                 `json:"freeformTags"`
 		DefinedTags   map[string]map[string]interface{} `json:"definedTags"`
+		Schedules     []schedule                        `json:"schedules"`
 		CompartmentId *string                           `json:"compartmentId"`
 		TaskType      TaskTypeEnum                      `json:"taskType"`
-		Schedules     []schedule                        `json:"schedules"`
 		Action        action                            `json:"action"`
 	}{}
 
@@ -124,10 +124,6 @@ func (m *CreateStandardTaskDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
-	m.CompartmentId = model.CompartmentId
-
-	m.TaskType = model.TaskType
-
 	m.Schedules = make([]Schedule, len(model.Schedules))
 	for i, n := range model.Schedules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -140,6 +136,10 @@ func (m *CreateStandardTaskDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Schedules[i] = nil
 		}
 	}
+	m.CompartmentId = model.CompartmentId
+
+	m.TaskType = model.TaskType
+
 	nn, e = model.Action.UnmarshalPolymorphicJSON(model.Action.JsonData)
 	if e != nil {
 		return

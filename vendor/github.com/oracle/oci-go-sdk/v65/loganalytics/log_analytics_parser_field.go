@@ -44,6 +44,9 @@ type LogAnalyticsParserField struct {
 
 	// The structured column information.
 	StructuredColumnInfo *string `mandatory:"false" json:"structuredColumnInfo"`
+
+	// List of actions/operations to be performed while fetching or parsing the logs.
+	Actions []ParserAction `mandatory:"false" json:"actions"`
 }
 
 func (m LogAnalyticsParserField) String() string {

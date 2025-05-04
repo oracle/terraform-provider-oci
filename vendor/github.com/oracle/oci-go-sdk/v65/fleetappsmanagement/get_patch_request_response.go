@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetPatch.go.html to see an example of how to use GetPatchRequest.
 type GetPatchRequest struct {
 
-	// unique Patch identifier
+	// Unique Patch identifier.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// The client request ID for tracing.

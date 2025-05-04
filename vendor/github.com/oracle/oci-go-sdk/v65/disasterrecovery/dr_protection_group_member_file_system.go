@@ -33,6 +33,12 @@ type DrProtectionGroupMemberFileSystem struct {
 
 	// A list of mappings between the primary region file system export and destination region mount target.
 	ExportMappings []FileSystemExportMapping `mandatory:"false" json:"exportMappings"`
+
+	DestinationEncryptionKey *VaultAndEncryptionKey `mandatory:"false" json:"destinationEncryptionKey"`
+
+	// The OCID of the snapshot policy to use in the destination region. This policy will be attached to the file system after it moves to the destination region.
+	// Example: `ocid1.filesystemsnapshotpolicy.oc1..uniqueID`
+	DestinationSnapshotPolicyId *string `mandatory:"false" json:"destinationSnapshotPolicyId"`
 }
 
 // GetMemberId returns MemberId

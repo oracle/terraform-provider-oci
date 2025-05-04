@@ -32,6 +32,9 @@ type NamespaceSummary struct {
 
 	// This indicates if data has ever been ingested for the tenancy in Logging Analytics
 	IsDataEverIngested *bool `mandatory:"false" json:"isDataEverIngested"`
+
+	// This indicates if old data can be archived for a tenancy
+	IsArchivingEnabled *bool `mandatory:"false" json:"isArchivingEnabled"`
 }
 
 func (m NamespaceSummary) String() string {

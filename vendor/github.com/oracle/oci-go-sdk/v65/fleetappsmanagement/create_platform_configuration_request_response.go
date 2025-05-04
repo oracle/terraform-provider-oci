@@ -82,8 +82,17 @@ type CreatePlatformConfigurationResponse struct {
 	// The PlatformConfiguration instance
 	PlatformConfiguration `presentIn:"body"`
 
+	// URL for the created PlatformConfiguration, the PlatformConfiguration id will be generated after this request is sent.
+	Location *string `presentIn:"header" name:"location"`
+
+	// Same as location
+	ContentLocation *string `presentIn:"header" name:"content-location"`
+
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
+
+	// Unique Oracle-assigned identifier for the asynchronous work. You can use this to query its status.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

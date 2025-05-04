@@ -22,6 +22,7 @@ type ListFleetProductsRequest struct {
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Resource Identifier

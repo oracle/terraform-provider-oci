@@ -17,15 +17,28 @@ import (
 
 // Preferences Preferences to send notifications on the fleet activities.
 type Preferences struct {
-
-	// Enables notification on upcoming schedule.
-	OnUpcomingSchedule *bool `mandatory:"false" json:"onUpcomingSchedule"`
+	UpcomingSchedule *UpcomingSchedule `mandatory:"false" json:"upcomingSchedule"`
 
 	// Enables or disables notification on Job Failures.
 	OnJobFailure *bool `mandatory:"false" json:"onJobFailure"`
 
 	// Enables or disables notification on Environment Fleet Topology Modification.
 	OnTopologyModification *bool `mandatory:"false" json:"onTopologyModification"`
+
+	// Enables or disables notification when a task is paused.
+	OnTaskPause *bool `mandatory:"false" json:"onTaskPause"`
+
+	// Enables or disables notification on task failure.
+	OnTaskFailure *bool `mandatory:"false" json:"onTaskFailure"`
+
+	// Enables or disables notification on task success.
+	OnTaskSuccess *bool `mandatory:"false" json:"onTaskSuccess"`
+
+	// Enables or disables notification when fleet resource becomes non compliant.
+	OnResourceNonCompliance *bool `mandatory:"false" json:"onResourceNonCompliance"`
+
+	// Enables or disables notification when a newer version of runbook associated with a fleet is available
+	OnRunbookNewerVersion *bool `mandatory:"false" json:"onRunbookNewerVersion"`
 }
 
 func (m Preferences) String() string {

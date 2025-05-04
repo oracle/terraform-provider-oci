@@ -21,7 +21,7 @@ type FleetPropertySummary struct {
 	// The unique id of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// OCID referring to global level metadata property.

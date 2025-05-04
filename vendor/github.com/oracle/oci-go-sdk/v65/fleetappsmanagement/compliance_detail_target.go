@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ComplianceDetailTarget Details of the Target
+// ComplianceDetailTarget Details of the Target.
 type ComplianceDetailTarget struct {
 
 	// Target Identifier.

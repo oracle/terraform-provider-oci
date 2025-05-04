@@ -19,6 +19,7 @@ import (
 type ListPropertiesRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
@@ -27,8 +28,13 @@ type ListPropertiesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources whose Property identifier matches the given identifier.
+	// Unique identifier or OCID for listing a single Property by id.
+	// Either compartmentId or id must be provided.
+	//
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
+
+	// A filter to return properties whose type matches the given type.
+	Type PropertyTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
 
 	// A filter to return only resources their scope matches the given scope.
 	Scope ListPropertiesScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
@@ -86,6 +92,9 @@ func (request ListPropertiesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingPropertyLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetPropertyLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingPropertyTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetPropertyTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListPropertiesScopeEnum(string(request.Scope)); !ok && request.Scope != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListPropertiesScopeEnumStringValues(), ",")))

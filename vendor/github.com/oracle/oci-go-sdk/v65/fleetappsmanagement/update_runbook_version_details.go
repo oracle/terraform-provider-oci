@@ -15,27 +15,28 @@ import (
 	"strings"
 )
 
-// NotificationPreferences Notification information to get notified when the fleet status changes.
-type NotificationPreferences struct {
+// UpdateRunbookVersionDetails The information to be updated.
+type UpdateRunbookVersionDetails struct {
 
-	// Topic Id where the notifications will be directed.
-	// A topic is a communication channel for sending messages on chosen events to subscriptions.
-	TopicId *string `mandatory:"true" json:"topicId"`
+	// A set of tasks to execute in the runbook.
+	Tasks []Task `mandatory:"false" json:"tasks"`
 
-	// Compartment ID the topic belongs to.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// The groups of the runbook.
+	Groups []Group `mandatory:"false" json:"groups"`
 
-	Preferences *Preferences `mandatory:"false" json:"preferences"`
+	ExecutionWorkflowDetails *ExecutionWorkflowDetails `mandatory:"false" json:"executionWorkflowDetails"`
+
+	RollbackWorkflowDetails *RollbackWorkflowDetails `mandatory:"false" json:"rollbackWorkflowDetails"`
 }
 
-func (m NotificationPreferences) String() string {
+func (m UpdateRunbookVersionDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NotificationPreferences) ValidateEnumValue() (bool, error) {
+func (m UpdateRunbookVersionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

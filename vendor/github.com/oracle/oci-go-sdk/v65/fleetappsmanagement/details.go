@@ -20,14 +20,14 @@ import (
 type Details struct {
 	ExecutionDetails ExecutionDetails `mandatory:"true" json:"executionDetails"`
 
-	// The OS for the task
-	OsType OsTypeEnum `mandatory:"true" json:"osType"`
-
 	// The scope of the task
 	Scope TaskScopeEnum `mandatory:"true" json:"scope"`
 
 	// The platform of the runbook.
 	Platform *string `mandatory:"false" json:"platform"`
+
+	// The OS for the task
+	OsType OsTypeEnum `mandatory:"false" json:"osType,omitempty"`
 
 	Properties *Properties `mandatory:"false" json:"properties"`
 
@@ -37,6 +37,9 @@ type Details struct {
 	// Is this an Apply Subject Task?
 	// Set this to true for a Patch Execution Task which applies patches(subjects) on a target.
 	IsApplySubjectTask *bool `mandatory:"false" json:"isApplySubjectTask"`
+
+	// The lifecycle operation performed by the runbook.
+	Operation *string `mandatory:"false" json:"operation"`
 }
 
 func (m Details) String() string {
@@ -48,13 +51,13 @@ func (m Details) String() string {
 // Not recommended for calling this function directly
 func (m Details) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingTaskScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetTaskScopeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -65,11 +68,12 @@ func (m Details) ValidateEnumValue() (bool, error) {
 func (m *Details) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Platform              *string          `json:"platform"`
+		OsType                OsTypeEnum       `json:"osType"`
 		Properties            *Properties      `json:"properties"`
 		IsDiscoveryOutputTask *bool            `json:"isDiscoveryOutputTask"`
 		IsApplySubjectTask    *bool            `json:"isApplySubjectTask"`
+		Operation             *string          `json:"operation"`
 		ExecutionDetails      executiondetails `json:"executionDetails"`
-		OsType                OsTypeEnum       `json:"osType"`
 		Scope                 TaskScopeEnum    `json:"scope"`
 	}{}
 
@@ -80,11 +84,15 @@ func (m *Details) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Platform = model.Platform
 
+	m.OsType = model.OsType
+
 	m.Properties = model.Properties
 
 	m.IsDiscoveryOutputTask = model.IsDiscoveryOutputTask
 
 	m.IsApplySubjectTask = model.IsApplySubjectTask
+
+	m.Operation = model.Operation
 
 	nn, e = model.ExecutionDetails.UnmarshalPolymorphicJSON(model.ExecutionDetails.JsonData)
 	if e != nil {
@@ -95,8 +103,6 @@ func (m *Details) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ExecutionDetails = nil
 	}
-
-	m.OsType = model.OsType
 
 	m.Scope = model.Scope
 

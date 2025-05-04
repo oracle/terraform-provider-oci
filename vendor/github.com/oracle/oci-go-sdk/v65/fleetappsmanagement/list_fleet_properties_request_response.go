@@ -21,9 +21,6 @@ type ListFleetPropertiesRequest struct {
 	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// The ID of the compartment in which to list resources.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
-
 	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
 	LifecycleState FleetPropertyLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

@@ -42,6 +42,9 @@ type ListLookupsRequest struct {
 	// A comma-separated list of categories used for filtering
 	Categories *string `mandatory:"false" contributesTo:"query" name:"categories"`
 
+	// The compartment id
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// A flag indicating whether or not to return OMC annotated or hidden lookups.
 	IsHideSpecial *bool `mandatory:"false" contributesTo:"query" name:"isHideSpecial"`
 

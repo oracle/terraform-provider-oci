@@ -35,7 +35,7 @@ type FleetCredentialSummary struct {
 	// The current state of the FleetCredential.
 	LifecycleState FleetCredentialLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The time this resource was last updated. An RFC3339 formatted datetime string.

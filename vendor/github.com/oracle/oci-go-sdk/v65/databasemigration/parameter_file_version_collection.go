@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ParameterFileVersionCollection Results of request for Parameter Files.  Contents is a collection of ParameterFileVersionSummary.
+// ParameterFileVersionCollection The result of the request for Parameter Files. It contains a collection of ParameterFileVersionSummary
 type ParameterFileVersionCollection struct {
 
-	// A list of A parameter file metadata
+	// List of parameter file metadata
 	Items []ParameterFileVersionSummary `mandatory:"true" json:"items"`
 }
 

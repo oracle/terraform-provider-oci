@@ -18,7 +18,7 @@ import (
 // SchedulerJobAggregation Aggregated summary information for SchedulerJob.
 type SchedulerJobAggregation struct {
 
-	// Count of jobs in a Tenancy.
+	// Count of jobs in a Compartment.
 	Count *int `mandatory:"true" json:"count"`
 
 	Dimensions *SchedulerJobDimension `mandatory:"true" json:"dimensions"`
