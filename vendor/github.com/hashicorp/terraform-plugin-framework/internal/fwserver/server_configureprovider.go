@@ -37,4 +37,5 @@ func (s *Server) ConfigureProvider(ctx context.Context, req *provider.ConfigureR
 	s.deferred = resp.Deferred
 	s.DataSourceConfigureData = resp.DataSourceData
 	s.ResourceConfigureData = resp.ResourceData
+	s.EphemeralResourceConfigureData = resp.EphemeralResourceData
 }

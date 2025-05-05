@@ -190,7 +190,7 @@ func (a SetNestedAttribute) GetNestedObject() fwschema.NestedAttributeObject {
 	return a.NestedObject
 }
 
-// GetNestingMode always returns NestingModeList.
+// GetNestingMode always returns NestingModeSet.
 func (a SetNestedAttribute) GetNestingMode() fwschema.NestingMode {
 	return fwschema.NestingModeSet
 }
@@ -224,6 +224,11 @@ func (a SetNestedAttribute) IsRequired() bool {
 // IsSensitive returns the Sensitive field value.
 func (a SetNestedAttribute) IsSensitive() bool {
 	return a.Sensitive
+}
+
+// IsWriteOnly returns false as write-only attributes are not supported in data source schemas.
+func (a SetNestedAttribute) IsWriteOnly() bool {
+	return false
 }
 
 // SetValidators returns the Validators field value.
