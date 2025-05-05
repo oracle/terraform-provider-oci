@@ -35,6 +35,10 @@ type LatestVersion struct {
 	SkipChecksumVerification bool
 	InstallDir               string
 
+	// LicenseDir represents directory path where to install license files.
+	// If empty, license files will placed in the same directory as the binary.
+	LicenseDir string
+
 	// ArmoredPublicKey is a public PGP key in ASCII/armor format to use
 	// instead of built-in pubkey to verify signature of downloaded checksums
 	ArmoredPublicKey string
@@ -126,7 +130,9 @@ func (lv *LatestVersion) Install(ctx context.Context) (string, error) {
 	if lv.ArmoredPublicKey != "" {
 		d.ArmoredPublicKey = lv.ArmoredPublicKey
 	}
-	up, err := d.DownloadAndUnpack(ctx, pv, dstDir, "")
+
+	licenseDir := lv.LicenseDir
+	up, err := d.DownloadAndUnpack(ctx, pv, dstDir, licenseDir)
 	if up != nil {
 		lv.pathsToRemove = append(lv.pathsToRemove, up.PathsToRemove...)
 	}
