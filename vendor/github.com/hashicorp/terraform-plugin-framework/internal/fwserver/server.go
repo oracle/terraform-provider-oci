@@ -10,6 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/function"
 	"github.com/hashicorp/terraform-plugin-framework/internal/fwschema"
 	"github.com/hashicorp/terraform-plugin-framework/internal/logging"
@@ -33,6 +34,11 @@ type Server struct {
 	// to [resource.ConfigureRequest.ProviderData].
 	ResourceConfigureData any
 
+	// EphemeralResourceConfigureData is the
+	// [provider.ConfigureResponse.EphemeralResourceData] field value which is passed
+	// to [ephemeral.ConfigureRequest.ProviderData].
+	EphemeralResourceConfigureData any
+
 	// dataSourceSchemas is the cached DataSource Schemas for RPCs that need to
 	// convert configuration data from the protocol. If not found, it will be
 	// fetched from the DataSourceType.GetSchema() method.
@@ -55,6 +61,29 @@ type Server struct {
 	// dataSourceTypesMutex is a mutex to protect concurrent dataSourceTypes
 	// access from race conditions.
 	dataSourceTypesMutex sync.Mutex
+
+	// ephemeralResourceSchemas is the cached EphemeralResource Schemas for RPCs that need to
+	// convert configuration data from the protocol. If not found, it will be
+	// fetched from the EphemeralResourceType.GetSchema() method.
+	ephemeralResourceSchemas map[string]fwschema.Schema
+
+	// ephemeralResourceSchemasMutex is a mutex to protect concurrent ephemeralResourceSchemas
+	// access from race conditions.
+	ephemeralResourceSchemasMutex sync.RWMutex
+
+	// ephemeralResourceFuncs is the cached EphemeralResource functions for RPCs that need to
+	// access ephemeral resources. If not found, it will be fetched from the
+	// Provider.EphemeralResources() method.
+	ephemeralResourceFuncs map[string]func() ephemeral.EphemeralResource
+
+	// ephemeralResourceFuncsDiags is the cached Diagnostics obtained while populating
+	// ephemeralResourceFuncs. This is to ensure any warnings or errors are also
+	// returned appropriately when fetching ephemeralResourceFuncs.
+	ephemeralResourceFuncsDiags diag.Diagnostics
+
+	// ephemeralResourceFuncsMutex is a mutex to protect concurrent ephemeralResourceFuncs
+	// access from race conditions.
+	ephemeralResourceFuncsMutex sync.Mutex
 
 	// deferred indicates an automatic provider deferral. When this is set,
 	// the provider will automatically defer the PlanResourceChange, ReadResource,
