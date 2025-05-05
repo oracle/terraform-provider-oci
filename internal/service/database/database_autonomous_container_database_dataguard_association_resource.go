@@ -106,6 +106,18 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 										Computed: true,
 										ForceNew: true,
 									},
+									"is_remote": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"remote_region": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"vpc_password": {
 										Type:      schema.TypeString,
 										Optional:  true,
@@ -620,6 +632,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) ma
 	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
 		tmp := internetProxy.(string)
 		result.InternetProxy = &tmp
+	}
+
+	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
+		tmp := isRemote.(bool)
+		result.IsRemote = &tmp
+	}
+
+	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
+		tmp := remoteRegion.(string)
+		result.RemoteRegion = &tmp
 	}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {

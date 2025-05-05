@@ -143,7 +143,7 @@ var (
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id"}), map[string]interface{}{
 			"service_level_agreement_type":              acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 			"protection_mode":                           acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_AVAILABILITY`, Update: `MAXIMUM_PERFORMANCE`},
-			"is_automatic_failover_enabled":             acctest.Representation{RepType: acctest.Optional, Update: `false`},
+			"is_automatic_failover_enabled":             acctest.Representation{RepType: acctest.Optional, Update: `true`}, // changing to true - not handled for fake resources. Also for real instances, sync with backend
 			"fast_start_fail_over_lag_limit_in_seconds": acctest.Representation{RepType: acctest.Optional, Update: `30`},
 			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
 		})) + AdbdDgDependencies
@@ -176,7 +176,7 @@ var (
 	PeerCloudAvmRepresentation                 = acctest.GetUpdatedRepresentationCopy("cloud_exadata_infrastructure_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.peer_cloud_exadata_infrastructure.id}`}, ATPDCloudAutonomousVmClusterRepresentation)
 
 	ExaCCACDResourceDependencies = DatabaseAVMClusterWithSingleNetworkResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseOCPUAutonomousVmClusterRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseECPUAutonomousVmClusterRepresentation)
 
 	peerExadataInfraNewProperties = map[string]interface{}{
 		"activation_file": acctest.Representation{RepType: acctest.Required, Create: activationFilePath},
@@ -191,7 +191,7 @@ var (
 		"vm_cluster_network_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.peer_vm_cluster_network.id}`},
 	}
 
-	peerAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseOCPUAutonomousVmClusterRepresentation, peerAutonomousVmClusterNewProperties)
+	peerAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseECPUAutonomousVmClusterRepresentation, peerAutonomousVmClusterNewProperties)
 
 	ExaccACDWithDataGuardResourceDependencies = ExaCCACDResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "peer_exadata_infrastructure", acctest.Required, acctest.Create, peerExadataInfraRepresentation) +

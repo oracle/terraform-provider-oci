@@ -22,10 +22,11 @@ var (
 		"autonomous_patch_type":            acctest.Representation{RepType: acctest.Required, Create: `QUARTERLY`},
 	}
 
-	DatabaseAutonomousContainerPatchResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabasePatchAutonomousContainerDatabaseRepresentation) +
+	DatabaseAutonomousContainerPatchResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_backups", "test_autonomous_container_database_backups", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseBackupDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation) +
 		DatabaseCloudAutonomousVmClusterResourceConfig
 
-	ExaccDatabaseAutonomousContainerPatchResourceConfig = ACDatabaseResourceDependencies +
+	ExaccDatabaseAutonomousContainerPatchResourceConfig = ACDECPUatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ExaccMRACDatabaseRepresentation)
 
 	DatabasePatchAutonomousContainerDatabaseRepresentation = map[string]interface{}{
@@ -89,7 +90,7 @@ func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 
 // issue-routing-tag: database/default
 func TestExaccDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseAutonomousContainerPatchResource_basic")
+	httpreplay.SetScenario("TestExaccDatabaseAutonomousContainerPatchResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()

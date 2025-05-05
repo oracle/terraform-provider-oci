@@ -22,6 +22,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	patch_model = var.autonomous_container_database_patch_model
 
 	#Optional
+	autonomous_container_database_backup_id = oci_database_autonomous_container_database_backup.test_autonomous_container_database_backup.id
 	cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	backup_config {
@@ -35,6 +36,8 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 			dbrs_policy_id = oci_identity_policy.test_policy.id
 			id = var.autonomous_container_database_backup_config_backup_destination_details_id
 			internet_proxy = var.autonomous_container_database_backup_config_backup_destination_details_internet_proxy
+			is_remote = var.autonomous_container_database_backup_config_backup_destination_details_is_remote
+			remote_region = var.autonomous_container_database_backup_config_backup_destination_details_remote_region
 			vpc_password = var.autonomous_container_database_backup_config_backup_destination_details_vpc_password
 			vpc_user = var.autonomous_container_database_backup_config_backup_destination_details_vpc_user
 		}
@@ -90,6 +93,8 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 			dbrs_policy_id = oci_identity_policy.test_policy.id
 			id = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_id
 			internet_proxy = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_internet_proxy
+			is_remote = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_is_remote
+			remote_region = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_remote_region
 			vpc_password = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_password
 			vpc_user = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_user
 		}
@@ -99,6 +104,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	peer_autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	peer_db_unique_name = var.autonomous_container_database_peer_db_unique_name
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
+	source = var.autonomous_container_database_source
 	vault_id = oci_kms_vault.test_vault.id
 	version_preference = var.autonomous_container_database_version_preference
 	vm_failover_reservation = var.autonomous_container_database_vm_failover_reservation
@@ -120,6 +126,10 @@ The following arguments are supported:
 		* `dbrs_policy_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - (Optional) (Updatable) Proxy URL to connect to object store.
+		* `is_remote` - (Optional) (Updatable) Indicates whether the backup destination is cross-region or local region.
+		* `remote_region` - (Optional) (Updatable) The name of the remote region where the remote automatic incremental backups will be stored.
+
+			For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 		* `type` - (Required) (Updatable) Type of the database backup destination.
 		* `vpc_password` - (Optional) (Updatable) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - (Optional) (Updatable) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
@@ -169,6 +179,10 @@ The following arguments are supported:
 		* `dbrs_policy_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - (Optional) Proxy URL to connect to object store.
+		* `is_remote` - (Optional) Indicates whether the backup destination is cross-region or local region.
+		* `remote_region` - (Optional) The name of the remote region where the remote automatic incremental backups will be stored.
+
+			For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 		* `type` - (Required) Type of the database backup destination.
 		* `vpc_password` - (Optional) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - (Optional) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
@@ -180,6 +194,7 @@ The following arguments are supported:
 * `peer_db_unique_name` - (Optional) **Deprecated.** The `DB_UNIQUE_NAME` of the peer Autonomous Container Database in a Data Guard association is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
 * `protection_mode` - (Optional) (Updatable) The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
+* `source` - (Optional) The source of the database: Use `NONE` for creating a new Autonomous Container Database. Use `BACKUP_FROM_ID` for creating a new Autonomous Container Database from a specified backup.
 * `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `version_preference` - (Optional) (Updatable) The next maintenance version preference. 
@@ -217,6 +232,10 @@ The following attributes are exported:
 		* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - Proxy URL to connect to object store.
+		* `is_remote` - Indicates whether the backup destination is cross-region or local region.
+		* `remote_region` - The name of the remote region where the remote automatic incremental backups will be stored.
+
+			For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 		* `type` - Type of the database backup destination.
 		* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
@@ -314,17 +333,14 @@ The following attributes are exported:
 * `patch_model` - Database patch model preference.
 * `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database. 
 * `provisioned_cpus` - The number of CPUs provisioned in an Autonomous Container Database.
-<<<<<<< ours
 * `reclaimable_cpus` - CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database. 
 * `recovery_appliance_details` - Information about the recovery appliance configuration associated with the Autonomous Container Database.
 	* `allocated_storage_size_in_gbs` - The storage size of the backup destination allocated for an Autonomous Container Database to store backups on the recovery appliance, in GBs, rounded to the nearest integer.
 	* `recovery_window_in_days` - Number of days between the current and earliest point of recoverability covered by automatic backups.
 	* `time_recovery_appliance_details_updated` - The time when the recovery appliance details are updated.
-=======
 * `reclaimable_cpus` - For Autonomous Databases on Dedicated Exadata Infrastructure:
     * These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
     * The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
->>>>>>> theirs
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous Container Database.
     * These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database. 
     * The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.

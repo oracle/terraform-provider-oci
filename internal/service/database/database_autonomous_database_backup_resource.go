@@ -81,6 +81,18 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"is_remote": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"remote_region": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"vpc_password": {
 							Type:      schema.TypeString,
 							Optional:  true,
@@ -462,6 +474,16 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) mapToAutonomousBackupDest
 		result.InternetProxy = &tmp
 	}
 
+	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
+		tmp := isRemote.(bool)
+		result.IsRemote = &tmp
+	}
+
+	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
+		tmp := remoteRegion.(string)
+		result.RemoteRegion = &tmp
+	}
+
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
 	}
@@ -488,6 +510,14 @@ func AutonomousBackupDestinationDetailsToMap(obj *oci_database.BackupDestination
 
 	if obj.InternetProxy != nil {
 		result["internet_proxy"] = string(*obj.InternetProxy)
+	}
+
+	if obj.IsRemote != nil {
+		result["is_remote"] = bool(*obj.IsRemote)
+	}
+
+	if obj.RemoteRegion != nil {
+		result["remote_region"] = string(*obj.RemoteRegion)
 	}
 
 	result["type"] = string(obj.Type)
