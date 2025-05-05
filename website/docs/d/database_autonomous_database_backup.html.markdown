@@ -36,6 +36,10 @@ The following attributes are exported:
 * `backup_destination_details` - Backup destination details
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 	* `internet_proxy` - Proxy URL to connect to object store.
+	* `is_remote` - Indicates whether the backup destination is cross-region or local region.
+	* `remote_region` - The name of the remote region where the remote automatic incremental backups will be stored.
+
+		For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 	* `type` - Type of the database backup destination.
 	* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
