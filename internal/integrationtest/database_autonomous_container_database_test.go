@@ -53,6 +53,8 @@ var (
 	}
 
 	DatabaseAutonomousContainerDatabaseRepresentation = map[string]interface{}{
+		//"autonomous_container_database_backup_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_container_database_backup.test_autonomous_container_database_backup.id}`},
+		"source":                         acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
 		"db_split_threshold":             acctest.Representation{RepType: acctest.Optional, Create: `12`},
 		"distribution_affinity":          acctest.Representation{RepType: acctest.Optional, Create: `MINIMUM_DISTRIBUTION`},
 		"net_services_architecture":      acctest.Representation{RepType: acctest.Optional, Create: `DEDICATED`},
@@ -268,6 +270,10 @@ func TestDatabaseAdbdAutonomousContainerDatabaseResource_switchover(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 			),
 		},
+		// NEW STEP: Refresh state
+		{
+			RefreshState: true, // reload state
+		},
 		{
 			Config:             config + compartmentIdVariableStr + DatabaseAdbdAutonomousContainerDatabaseWithDGConfig + AdbdStandbyAcdResourceConfig,
 			ImportState:        true,
@@ -328,6 +334,10 @@ func TestDatabaseAdbccAutonomousContainerDatabaseResource_switchover(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 			),
+		},
+		// NEW STEP: Refresh state
+		{
+			RefreshState: true, // reload state
 		},
 		{
 			Config:             config + compartmentIdVariableStr + DatabaseAdbccAutonomousContainerDatabaseWithDGConfig + AdbccStandbyAcdResourceConfig,
@@ -390,6 +400,10 @@ func TestDatabaseAdbdAutonomousContainerDatabaseResource_failover_reinstate(t *t
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerDatabase2"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 			),
+		},
+		// NEW STEP: Refresh state
+		{
+			RefreshState: true, // reload state
 		},
 		{
 			Config:             config + compartmentIdVariableStr + DatabaseAdbdAutonomousContainerDatabaseWithDGConfig + AdbdStandbyAcdResourceConfig,
@@ -517,6 +531,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_backup_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerDatabase2"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
@@ -538,6 +553,10 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, DatabaseAutonomousContainerDatabaseRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_backup_id"),
+				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "7"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
@@ -566,6 +585,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 				// all peer related properties are not returned in GET, hence commented check on the below peer related properties
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.#", "1"),
@@ -604,6 +624,10 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: compartmentIdU},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_backup_id"),
+				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
@@ -632,6 +656,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 				// all peer related properties are not returned in GET, hence commented check on the below peer related properties
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.#", "1"),
@@ -665,6 +690,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, AutonomousContainerDatabaseDedicatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_backup_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
@@ -693,6 +719,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 				// all peer related properties are not returned in GET, hence commented check on the below peer related properties
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.#", "1"),
@@ -930,6 +957,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				//"autonomous_container_database_backup_id",
 				"database_software_image_id",
 				"is_automatic_failover_enabled",
 				"rotate_key_trigger",
@@ -942,7 +970,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				"peer_autonomous_exadata_infrastructure_id",
 				"peer_db_unique_name",
 				"protection_mode",
+				"source",
 				"lifecycle_details",
+				"time_of_last_backup",
 			},
 			ResourceName: resourceName,
 		},
@@ -1077,5 +1107,16 @@ func getStandbyAcdOcid(resourceName string) resource.ImportStateIdFunc {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
 		return fmt.Sprintf(rs.Primary.Attributes["dataguard_group_members.1.autonomous_container_database_id"]), nil
+	}
+}
+
+func getStandbyAcdOcidOldDG(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		fmt.Printf("MyState: %s", s.RootModule().Resources)
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf(rs.Primary.Attributes["autonomous_container_database_dataguard_associations.0.peer_autonomous_container_database_id"]), nil
 	}
 }

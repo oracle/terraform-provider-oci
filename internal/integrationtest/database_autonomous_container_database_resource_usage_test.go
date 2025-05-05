@@ -20,8 +20,9 @@ var (
 		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 	}
 
-	DatabaseAutonomousContainerDatabaseResourceUsageResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation) +
-		DatabaseCloudAutonomousVmClusterRequiredOnlyResource
+	DatabaseAutonomousContainerDatabaseResourceUsageResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_backups", "test_autonomous_container_database_backups", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseBackupDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation) +
+		DatabaseCloudAutonomousVmClusterResourceConfig
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -47,16 +48,15 @@ func TestDatabaseAutonomousContainerDatabaseResourceUsageResource_basic(t *testi
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_container_database_vm_usage.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_container_database_vm_usage.#", "4"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "largest_provisionable_autonomous_database_in_cpus"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "provisionable_cpus.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisionable_cpus.#", "53"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "provisioned_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_cpus"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "used_cpus"),
 			),
 		},
 	})

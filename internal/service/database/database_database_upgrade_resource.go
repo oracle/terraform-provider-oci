@@ -244,6 +244,14 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_remote": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"remote_region": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"type": {
 										Type:     schema.TypeString,
 										Computed: true,
