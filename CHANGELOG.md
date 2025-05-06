@@ -1,4 +1,4 @@
-## 7.0.0 (Unreleased)
+## 7.0.0 (May 06, 2025)
 
 ### Added
 - deprecated service mesh
