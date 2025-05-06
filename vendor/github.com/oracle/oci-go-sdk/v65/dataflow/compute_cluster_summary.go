@@ -70,6 +70,8 @@ type ComputeClusterSummary struct {
 
 	ExecutorShapeConfig *ShapeConfig `mandatory:"false" json:"executorShapeConfig"`
 
+	ActiveClusterResources *ActiveClusterResources `mandatory:"false" json:"activeClusterResources"`
+
 	// The OCID of the user who created the resource.
 	OwnerPrincipalId *string `mandatory:"false" json:"ownerPrincipalId"`
 

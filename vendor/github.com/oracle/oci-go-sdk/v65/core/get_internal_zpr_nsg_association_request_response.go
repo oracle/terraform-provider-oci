@@ -14,8 +14,8 @@ import (
 // GetInternalZprNsgAssociationRequest wrapper for the GetInternalZprNsgAssociation operation
 type GetInternalZprNsgAssociationRequest struct {
 
-	// Details for fetching zpr related resources for a resource.
-	GetInternalZprNsgAssociationDetails `contributesTo:"body"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -27,6 +27,12 @@ type GetInternalZprNsgAssociationRequest struct {
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// The OCID of the VNIC.
+	VnicId *string `mandatory:"false" contributesTo:"query" name:"vnicId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the gateway id.
+	GatewayId *string `mandatory:"false" contributesTo:"query" name:"gatewayId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -57,6 +63,16 @@ func (request GetInternalZprNsgAssociationRequest) BinaryRequestBody() (*common.
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
 func (request GetInternalZprNsgAssociationRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["compartmentId"] != nil {
+		templateParam := mandatoryParamMap["compartmentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CompartmentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

@@ -61,6 +61,8 @@ type Backup struct {
 	// state for 7 days before permanently deleting it.
 	SoftDelete SoftDeleteEnum `mandatory:"false" json:"softDelete,omitempty"`
 
+	BackupValidationDetails *BackupValidationDetails `mandatory:"false" json:"backupValidationDetails"`
+
 	DbSystemSnapshot *DbSystemSnapshot `mandatory:"false" json:"dbSystemSnapshot"`
 
 	// The size of the backup in base-2 (IEC) gibibytes. (GiB).

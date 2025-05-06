@@ -62,8 +62,8 @@ type Datastore struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC that Datastore is associated with.
 	SddcId *string `mandatory:"false" json:"sddcId"`
 
-	// Size of the Datastore in GB.
-	Capacity *float64 `mandatory:"false" json:"capacity"`
+	// Total size of the datastore in GB.
+	CapacityInGBs *float64 `mandatory:"false" json:"capacityInGBs"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

@@ -17,11 +17,11 @@ import (
 	"strings"
 )
 
-// SynchronizeAutonomousDatabaseToExadataDetails The information to be updated when infrastructure need to be updated
+// SynchronizeAutonomousDatabaseToExadataDetails The details of onboarded autonomous database need to synchroized with infracture information.
 type SynchronizeAutonomousDatabaseToExadataDetails struct {
 
-	// only AUTONOMOUS_DATABASE is supported.
-	EntitySource DatabaseEntitySourceEnum `mandatory:"true" json:"entitySource"`
+	// Source of the database entity. Currently only AUTONOMOUS_DATABASE source is supported.
+	EntitySource DatabaseEntitySourceAllEnum `mandatory:"true" json:"entitySource"`
 }
 
 func (m SynchronizeAutonomousDatabaseToExadataDetails) String() string {
@@ -33,8 +33,8 @@ func (m SynchronizeAutonomousDatabaseToExadataDetails) String() string {
 // Not recommended for calling this function directly
 func (m SynchronizeAutonomousDatabaseToExadataDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingDatabaseEntitySourceEnum(string(m.EntitySource)); !ok && m.EntitySource != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntitySource: %s. Supported values are: %s.", m.EntitySource, strings.Join(GetDatabaseEntitySourceEnumStringValues(), ",")))
+	if _, ok := GetMappingDatabaseEntitySourceAllEnum(string(m.EntitySource)); !ok && m.EntitySource != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntitySource: %s. Supported values are: %s.", m.EntitySource, strings.Join(GetDatabaseEntitySourceAllEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

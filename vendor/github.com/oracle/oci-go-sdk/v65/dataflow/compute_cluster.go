@@ -73,6 +73,8 @@ type ComputeCluster struct {
 
 	ExecutorShapeConfig *ShapeConfig `mandatory:"false" json:"executorShapeConfig"`
 
+	ActiveClusterResources *ActiveClusterResources `mandatory:"false" json:"activeClusterResources"`
+
 	// The OCID of OCI Lake.
 	LakeId *string `mandatory:"false" json:"lakeId"`
 

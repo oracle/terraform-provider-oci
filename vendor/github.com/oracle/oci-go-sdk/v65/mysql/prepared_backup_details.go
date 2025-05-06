@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Flow API
+// MySQL Database Service API
 //
-// Use the Data Flow APIs to run any Apache Spark application at any scale without deploying or managing any infrastructure.
+// The API for the MySQL Database Service
 //
 
-package dataflow
+package mysql
 
 import (
 	"fmt"
@@ -15,30 +15,24 @@ import (
 	"strings"
 )
 
-// StartComputeClusterDetails Start compute cluster optional information.
-type StartComputeClusterDetails struct {
+// PreparedBackupDetails Prepared backup details.
+type PreparedBackupDetails struct {
 
-	// URL to give callback.
-	CallbackUrl *string `mandatory:"false" json:"callbackUrl"`
+	// The estimated time saving when this prepared backup is restored.
+	PreparedBackupRestoreReductionInMinutes *int `mandatory:"false" json:"preparedBackupRestoreReductionInMinutes"`
 
-	// HubProxyEndpoint of the cluster.
-	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
-
-	// Async Operation Key for the operation on the cluster.
-	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
-
-	// Specify the logId to publish spark diagnostic logs.
-	LogId *string `mandatory:"false" json:"logId"`
+	// The date and time the backup was prepared.
+	TimePrepared *common.SDKTime `mandatory:"false" json:"timePrepared"`
 }
 
-func (m StartComputeClusterDetails) String() string {
+func (m PreparedBackupDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m StartComputeClusterDetails) ValidateEnumValue() (bool, error) {
+func (m PreparedBackupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
