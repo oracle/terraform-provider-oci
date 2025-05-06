@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/PublishRunbook.go.html to see an example of how to use PublishRunbookRequest.
 type PublishRunbookRequest struct {
 
-	// Details for publishing the Runbook.
+	// Details for publishing the specified version of runbook.
 	PublishRunbookDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

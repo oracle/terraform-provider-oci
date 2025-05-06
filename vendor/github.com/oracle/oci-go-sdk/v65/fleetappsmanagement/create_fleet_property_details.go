@@ -18,9 +18,6 @@ import (
 // CreateFleetPropertyDetails The information about new Property to manage fleet metadata details.
 type CreateFleetPropertyDetails struct {
 
-	// Tenancy OCID
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
 	// Value of the Property.
 	Value *string `mandatory:"true" json:"value"`
 

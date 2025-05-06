@@ -25,6 +25,12 @@ type LogAnalyticsEntityTopologyLink struct {
 	// The log analytics entity OCID. This ID is a reference used by log analytics features and it represents
 	// a resource that is provisioned and managed by the customer on their premises or on the cloud.
 	DestinationEntityId *string `mandatory:"true" json:"destinationEntityId"`
+
+	// Array of log analytics entity relationship context.
+	Contexts []string `mandatory:"false" json:"contexts"`
+
+	// The date and time the resource was last discovered, in the format defined by RFC3339.
+	TimeLastDiscovered *common.SDKTime `mandatory:"false" json:"timeLastDiscovered"`
 }
 
 func (m LogAnalyticsEntityTopologyLink) String() string {

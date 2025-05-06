@@ -21,7 +21,7 @@ type UpdateSchedulerJobRequest struct {
 	// unique SchedulerJob identifier
 	SchedulerJobId *string `mandatory:"true" contributesTo:"path" name:"schedulerJobId"`
 
-	// The information to be updated.
+	// Attributes to update a schedule job.
 	UpdateSchedulerJobDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

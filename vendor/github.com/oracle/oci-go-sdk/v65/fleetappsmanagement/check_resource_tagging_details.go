@@ -18,7 +18,7 @@ import (
 // CheckResourceTaggingDetails Request to check resource tagging.
 type CheckResourceTaggingDetails struct {
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Resource OCIDS that need to be verified if a tag can be enabled for them.

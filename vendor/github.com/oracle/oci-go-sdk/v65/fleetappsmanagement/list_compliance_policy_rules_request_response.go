@@ -19,6 +19,7 @@ import (
 type ListCompliancePolicyRulesRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the entire display name given.
@@ -34,7 +35,8 @@ type ListCompliancePolicyRulesRequest struct {
 	// unique CompliancePolicy identifier.
 	CompliancePolicyId *string `mandatory:"false" contributesTo:"query" name:"compliancePolicyId"`
 
-	// unique CompliancePolicyRule identifier.
+	// Unique identifier or OCID for listing a single Compliance Policy Rule by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

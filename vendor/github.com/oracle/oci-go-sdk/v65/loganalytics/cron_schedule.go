@@ -19,15 +19,15 @@ import (
 // CronSchedule Cron schedule for a scheduled task.
 type CronSchedule struct {
 
-	// Value in cron format.
-	Expression *string `mandatory:"true" json:"expression"`
-
-	// Time zone, by default UTC.
-	TimeZone *string `mandatory:"true" json:"timeZone"`
-
 	// The date and time the scheduled task should execute first time after create or update;
 	// thereafter the task will execute as specified in the schedule.
 	TimeOfFirstExecution *common.SDKTime `mandatory:"false" json:"timeOfFirstExecution"`
+
+	// Value in cron format.
+	Expression *string `mandatory:"false" json:"expression"`
+
+	// Time zone, by default UTC.
+	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// Schedule misfire retry policy.
 	MisfirePolicy ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`

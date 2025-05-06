@@ -101,7 +101,6 @@ import (
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"
 	tf_os_management_hub "github.com/oracle/terraform-provider-oci/internal/service/os_management_hub"
-	tf_osmanagement "github.com/oracle/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/oracle/terraform-provider-oci/internal/service/osp_gateway"
 	tf_osub_billing_schedule "github.com/oracle/terraform-provider-oci/internal/service/osub_billing_schedule"
 	tf_osub_organization_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_organization_subscription"
@@ -118,7 +117,6 @@ import (
 	tf_security_attribute "github.com/oracle/terraform-provider-oci/internal/service/security_attribute"
 	tf_service_catalog "github.com/oracle/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/oracle/terraform-provider-oci/internal/service/service_manager_proxy"
-	tf_service_mesh "github.com/oracle/terraform-provider-oci/internal/service/service_mesh"
 	tf_stack_monitoring "github.com/oracle/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/oracle/terraform-provider-oci/internal/service/streaming"
 	tf_tenantmanagercontrolplane "github.com/oracle/terraform-provider-oci/internal/service/tenantmanagercontrolplane"
@@ -426,9 +424,6 @@ func init() {
 	if common.CheckForEnabledServices("osmanagementhub") {
 		tf_os_management_hub.RegisterResource()
 	}
-	if common.CheckForEnabledServices("osmanagement") {
-		tf_osmanagement.RegisterResource()
-	}
 	if common.CheckForEnabledServices("ospgateway") {
 		tf_osp_gateway.RegisterResource()
 	}
@@ -476,9 +471,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("servicemanagerproxy") {
 		tf_service_manager_proxy.RegisterResource()
-	}
-	if common.CheckForEnabledServices("servicemesh") {
-		tf_service_mesh.RegisterResource()
 	}
 	if common.CheckForEnabledServices("stackmonitoring") {
 		tf_stack_monitoring.RegisterResource()

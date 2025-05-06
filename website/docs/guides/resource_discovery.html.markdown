@@ -209,7 +209,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources within the specified compartment
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
-    * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
@@ -219,7 +218,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `security_attribute` - Discovers security attribute resources across the entire tenancy
-    * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
@@ -999,6 +997,10 @@ log_analytics
 * oci\_log\_analytics\_log\_analytics\_unprocessed\_data\_bucket\_management
 * oci\_log\_analytics\_log\_analytics\_resource\_categories\_management
 * oci\_log\_analytics\_namespace\_ingest\_time\_rule
+* oci\_log\_analytics\_namespace\_lookup
+* oci\_log\_analytics\_namespace\_lookups\_update\_data\_management
+* oci\_log\_analytics\_namespace\_lookups\_append\_data\_management
+* oci\_log\_analytics\_namespace\_storage\_archival\_config
 
 logging
     
@@ -1193,12 +1195,6 @@ os_management_hub
 * oci\_os\_management\_hub\_event
 * oci\_os\_management\_hub\_work\_request\_rerun\_management
 
-osmanagement
-    
-* oci\_osmanagement\_managed\_instance
-* oci\_osmanagement\_managed\_instance\_group
-* oci\_osmanagement\_software\_source
-
 osp_gateway
     
 * oci\_osp\_gateway\_subscription
@@ -1240,16 +1236,6 @@ security_attribute
     
 * oci\_security\_attribute\_security\_attribute\_namespace
 * oci\_security\_attribute\_security\_attribute
-
-service_mesh
-    
-* oci\_service\_mesh\_virtual\_service
-* oci\_service\_mesh\_access\_policy
-* oci\_service\_mesh\_mesh
-* oci\_service\_mesh\_ingress\_gateway\_route\_table
-* oci\_service\_mesh\_virtual\_service\_route\_table
-* oci\_service\_mesh\_virtual\_deployment
-* oci\_service\_mesh\_ingress\_gateway
 
 stack_monitoring
     

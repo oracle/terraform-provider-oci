@@ -26,7 +26,7 @@ type FleetTargetSummary struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
+	// compartment OCID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Current version of target.

@@ -36,6 +36,9 @@ type ListEffectivePropertiesRequest struct {
 	// The pattern id.
 	PatternId *int `mandatory:"false" contributesTo:"query" name:"patternId"`
 
+	// The pattern id (long).
+	PatternIdLong *int64 `mandatory:"false" contributesTo:"query" name:"patternIdLong"`
+
 	// The property name used for filtering.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 

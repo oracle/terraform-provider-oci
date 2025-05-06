@@ -970,17 +970,17 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 		ch <- struct{}{}
 
 		go func(i int, childType tf_export.TerraformResourceAssociation) {
-			utils.Debugf("[DEBUG] findResources: finding resources for resource type index: %d", i)
+			utils.Debugf("[DEBUG] findResources: finding resources for resource: %s for child type %s - index: %d for compartment %s", root.TerraformClass, childType.DatasourceClass, i, root.CompartmentId)
 
 			defer func(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
 				<-ch
 				if r := recover(); r != nil {
-					utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.ResourceClass)
-					returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.ResourceClass)
+					utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s for child type %s - index: %d for compartment %s \n continuing discovery...", root.TerraformClass, childType.DatasourceClass, i, root.CompartmentId)
+					returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s for compartment %s", tfMeta.ResourceClass, root.CompartmentId)
 					*err = returnErr
 					debug.PrintStack()
 				}
-				utils.Debugf("[DEBUG] findResourcesWg done, resource type index: %d", i)
+				utils.Debugf("[DEBUG] findResourcesWg done, for resource: %s for child type %s - index: %d for compartment %s, found %d", root.TerraformClass, childType.DatasourceClass, i, root.CompartmentId, len(foundResources))
 				findResourcesWg.Done()
 			}(&childType, &err)
 
@@ -1041,7 +1041,7 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 				foundResources = append(foundResources, subResources...)
 				foundResourcesLock.Unlock()
 			}
-			utils.Debugf("[DEBUG] findResources: Completed for resource type index %d", i)
+			utils.Debugf("[DEBUG] findResources: Completed for resource: %s for child type %s - index: %d for compartment %s", root.TerraformClass, childType.DatasourceClass, i, root.CompartmentId)
 		}(i, childType)
 	}
 

@@ -19,6 +19,8 @@ var (
 	DatabaseSystemVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"gi_version":     acctest.Representation{RepType: acctest.Required, Create: `18.0.0.0`},
+		"is_latest":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"resource_id":    acctest.Representation{RepType: acctest.Optional, Create: `resource_id`},
 		"shape":          acctest.Representation{RepType: acctest.Required, Create: `Exadata.X9M`},
 	}
 

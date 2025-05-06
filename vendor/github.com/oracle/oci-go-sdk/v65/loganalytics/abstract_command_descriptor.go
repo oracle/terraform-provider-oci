@@ -104,6 +104,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := OutlierCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "UPDATETABLE":
+		mm := UpdateTableCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEMO_MODE":
 		mm := DemoModeCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
@@ -390,6 +394,7 @@ const (
 	AbstractCommandDescriptorNameDelete          AbstractCommandDescriptorNameEnum = "DELETE"
 	AbstractCommandDescriptorNameCreatetable     AbstractCommandDescriptorNameEnum = "CREATETABLE"
 	AbstractCommandDescriptorNameSequence        AbstractCommandDescriptorNameEnum = "SEQUENCE"
+	AbstractCommandDescriptorNameUpdatetable     AbstractCommandDescriptorNameEnum = "UPDATETABLE"
 	AbstractCommandDescriptorNameDelta           AbstractCommandDescriptorNameEnum = "DELTA"
 	AbstractCommandDescriptorNameDistinct        AbstractCommandDescriptorNameEnum = "DISTINCT"
 	AbstractCommandDescriptorNameSearchLookup    AbstractCommandDescriptorNameEnum = "SEARCH_LOOKUP"
@@ -448,6 +453,7 @@ var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescrip
 	"DELETE":           AbstractCommandDescriptorNameDelete,
 	"CREATETABLE":      AbstractCommandDescriptorNameCreatetable,
 	"SEQUENCE":         AbstractCommandDescriptorNameSequence,
+	"UPDATETABLE":      AbstractCommandDescriptorNameUpdatetable,
 	"DELTA":            AbstractCommandDescriptorNameDelta,
 	"DISTINCT":         AbstractCommandDescriptorNameDistinct,
 	"SEARCH_LOOKUP":    AbstractCommandDescriptorNameSearchLookup,
@@ -506,6 +512,7 @@ var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractComma
 	"delete":           AbstractCommandDescriptorNameDelete,
 	"createtable":      AbstractCommandDescriptorNameCreatetable,
 	"sequence":         AbstractCommandDescriptorNameSequence,
+	"updatetable":      AbstractCommandDescriptorNameUpdatetable,
 	"delta":            AbstractCommandDescriptorNameDelta,
 	"distinct":         AbstractCommandDescriptorNameDistinct,
 	"search_lookup":    AbstractCommandDescriptorNameSearchLookup,
@@ -575,6 +582,7 @@ func GetAbstractCommandDescriptorNameEnumStringValues() []string {
 		"DELETE",
 		"CREATETABLE",
 		"SEQUENCE",
+		"UPDATETABLE",
 		"DELTA",
 		"DISTINCT",
 		"SEARCH_LOOKUP",

@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdatePatch.go.html to see an example of how to use UpdatePatchRequest.
 type UpdatePatchRequest struct {
 
-	// unique Patch identifier
+	// Unique Patch identifier.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// The information to be updated.

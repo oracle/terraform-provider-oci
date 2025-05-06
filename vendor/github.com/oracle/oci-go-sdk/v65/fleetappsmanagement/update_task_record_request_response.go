@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/UpdateTaskRecord.go.html to see an example of how to use UpdateTaskRecordRequest.
 type UpdateTaskRecordRequest struct {
 
-	// unique TaskDetail identifier
+	// The OCID of the task record.
 	TaskRecordId *string `mandatory:"true" contributesTo:"path" name:"taskRecordId"`
 
-	// The information to be updated.
+	// Attributes to update a task record.
 	UpdateTaskRecordDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

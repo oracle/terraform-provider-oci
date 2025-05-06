@@ -30,6 +30,12 @@ type LogAnalyticsResourceCategory struct {
 	// The system flag. A value of false denotes a user-created category assignment.
 	// A value of true denotes an Oracle-defined category assignment.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
+
+	// The resource display name.
+	ResourceDisplayName *string `mandatory:"false" json:"resourceDisplayName"`
+
+	// Compartment ID of the resource
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
 func (m LogAnalyticsResourceCategory) String() string {

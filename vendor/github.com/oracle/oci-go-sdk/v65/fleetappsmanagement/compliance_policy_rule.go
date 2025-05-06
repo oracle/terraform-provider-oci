@@ -34,7 +34,7 @@ type CompliancePolicyRule struct {
 	ProductVersion *ProductVersionDetails `mandatory:"true" json:"productVersion"`
 
 	// PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
-	PatchType []string `mandatory:"true" json:"patchType"`
+	PatchTypeId []string `mandatory:"true" json:"patchTypeId"`
 
 	PatchSelection PatchSelectionDetails `mandatory:"true" json:"patchSelection"`
 
@@ -113,7 +113,7 @@ func (m *CompliancePolicyRule) UnmarshalJSON(data []byte) (e error) {
 		DisplayName        *string                                `json:"displayName"`
 		CompliancePolicyId *string                                `json:"compliancePolicyId"`
 		ProductVersion     *ProductVersionDetails                 `json:"productVersion"`
-		PatchType          []string                               `json:"patchType"`
+		PatchTypeId        []string                               `json:"patchTypeId"`
 		PatchSelection     patchselectiondetails                  `json:"patchSelection"`
 		CompartmentId      *string                                `json:"compartmentId"`
 		TimeCreated        *common.SDKTime                        `json:"timeCreated"`
@@ -145,8 +145,8 @@ func (m *CompliancePolicyRule) UnmarshalJSON(data []byte) (e error) {
 
 	m.ProductVersion = model.ProductVersion
 
-	m.PatchType = make([]string, len(model.PatchType))
-	copy(m.PatchType, model.PatchType)
+	m.PatchTypeId = make([]string, len(model.PatchTypeId))
+	copy(m.PatchTypeId, model.PatchTypeId)
 	nn, e = model.PatchSelection.UnmarshalPolymorphicJSON(model.PatchSelection.JsonData)
 	if e != nil {
 		return

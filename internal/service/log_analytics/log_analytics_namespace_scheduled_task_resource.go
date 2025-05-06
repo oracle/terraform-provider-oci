@@ -156,6 +156,56 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"template_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"template_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"template_params": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"key_field": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"value_field": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -622,6 +672,16 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToAction(fieldKeyFor
 			tmp := savedSearchId.(string)
 			details.SavedSearchId = &tmp
 		}
+		if templateDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "template_details")); ok {
+			if tmpList := templateDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "template_details"), 0)
+				tmp, err := s.mapToTemplateDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert template_details, encountered error: %v", err)
+				}
+				details.TemplateDetails = &tmp
+			}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
@@ -680,6 +740,10 @@ func LAActionToMap(obj oci_log_analytics.Action) map[string]interface{} {
 
 		if v.SavedSearchId != nil {
 			result["saved_search_id"] = string(*v.SavedSearchId)
+		}
+
+		if v.TemplateDetails != nil {
+			result["template_details"] = []interface{}{TemplateDetailsToMap(v.TemplateDetails)}
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
@@ -745,9 +809,15 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToSchedule(fieldKeyF
 	if ok {
 		type_ = typeRaw.(string)
 	} else {
-		type_ = "" // default value
+		type_ = "AUTO" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("AUTO"):
+		details := oci_log_analytics.AutoSchedule{}
+		if misfirePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "misfire_policy")); ok {
+			details.MisfirePolicy = oci_log_analytics.ScheduleMisfirePolicyEnum(misfirePolicy.(string))
+		}
+		baseObject = details
 	case strings.ToLower("CRON"):
 		details := oci_log_analytics.CronSchedule{}
 		if expression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expression")); ok {
@@ -803,6 +873,8 @@ func LoganScheduleToMap(obj oci_log_analytics.Schedule) map[string]interface{} {
 	result["misfire_policy"] = string(obj.GetMisfirePolicy())
 
 	switch v := (obj).(type) {
+	case oci_log_analytics.AutoSchedule:
+		result["type"] = "AUTO"
 	case oci_log_analytics.CronSchedule:
 		result["type"] = "CRON"
 
@@ -872,6 +944,80 @@ func ScheduledTaskSummaryToMap(obj oci_log_analytics.ScheduledTaskSummary) map[s
 
 	if obj.WorkRequestId != nil {
 		result["work_request_id"] = string(*obj.WorkRequestId)
+	}
+
+	return result
+}
+
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToTemplateDetails(fieldKeyFormat string) (oci_log_analytics.TemplateDetails, error) {
+	result := oci_log_analytics.TemplateDetails{}
+
+	if templateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "template_id")); ok {
+		tmp := templateId.(string)
+		result.TemplateId = &tmp
+	}
+
+	if templateParams, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "template_params")); ok {
+		interfaces := templateParams.([]interface{})
+		tmp := make([]oci_log_analytics.TemplateParams, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "template_params"), stateDataIndex)
+			converted, err := s.mapToTemplateParams(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "template_params")) {
+			result.TemplateParams = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func TemplateDetailsToMap(obj *oci_log_analytics.TemplateDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TemplateId != nil {
+		result["template_id"] = string(*obj.TemplateId)
+	}
+
+	templateParams := []interface{}{}
+	for _, item := range obj.TemplateParams {
+		templateParams = append(templateParams, TemplateParamsToMap(item))
+	}
+	result["template_params"] = templateParams
+
+	return result
+}
+
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToTemplateParams(fieldKeyFormat string) (oci_log_analytics.TemplateParams, error) {
+	result := oci_log_analytics.TemplateParams{}
+
+	if keyField, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_field")); ok {
+		tmp := keyField.(string)
+		result.KeyField = &tmp
+	}
+
+	if valueField, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_field")); ok {
+		tmp := valueField.(string)
+		result.ValueField = &tmp
+	}
+
+	return result, nil
+}
+
+func TemplateParamsToMap(obj oci_log_analytics.TemplateParams) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KeyField != nil {
+		result["key_field"] = string(*obj.KeyField)
+	}
+
+	if obj.ValueField != nil {
+		result["value_field"] = string(*obj.ValueField)
 	}
 
 	return result

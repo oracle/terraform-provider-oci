@@ -91,7 +91,10 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_archiving_enabled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_onboarded"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_logset_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_data_ever_ingested"),
 			),
 		},
 		// verify offboard

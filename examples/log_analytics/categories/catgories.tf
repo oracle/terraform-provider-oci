@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 /*
@@ -53,7 +53,7 @@ resource "oci_log_analytics_log_analytics_resource_categories_management" "VCN_D
     namespace = data.oci_objectstorage_namespace.ns.namespace
     resource_id = "VCN_DB1"
     resource_type = "DASHBOARD"
-    resource_categories = ["oracle", "oci", "network"]
+    resource_categories = ["oracle", "linux", "database"]
 }
 
 # Fetch all category assignments of dashboard named VCN_DB1
@@ -62,4 +62,31 @@ data "oci_log_analytics_log_analytics_resource_categories_list" "VCN_DB1_categor
     namespace = data.oci_objectstorage_namespace.ns.namespace
     resource_ids = "VCN_DB1"
     resource_types = "DASHBOARD"
+}
+
+# Create a lookup with categories
+resource "oci_log_analytics_namespace_lookup" "TFLookup" {
+  compartment_id       = var.compartment_ocid
+  namespace            = data.oci_objectstorage_namespace.ns.namespace
+  lookup_name          = "TFLookup"
+  type                 = "Lookup"
+  description          = "A simple lookup"
+  register_lookup_file = "./files/vendor.csv"
+
+  categories {
+    name = "database"
+    type = "TIER"
+  }
+
+  categories {
+    name = "oracle"
+    type = "VENDOR"
+  }
+}
+
+# Fetch all category assignments in compartment
+data "oci_log_analytics_log_analytics_resource_categories_list" "compartment_resource_categories_list" {
+  depends_on = [oci_log_analytics_namespace_lookup.TFLookup]
+  namespace = data.oci_objectstorage_namespace.ns.namespace
+  compartment_id = var.compartment_ocid
 }

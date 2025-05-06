@@ -19,6 +19,7 @@ import (
 type ListMaintenanceWindowsRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
@@ -30,7 +31,8 @@ type ListMaintenanceWindowsRequest struct {
 	// A filter to return only resources whose timeScheduleStart is greater than or equal to the provided date and time.
 	TimeScheduleStartGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeScheduleStartGreaterThanOrEqualTo"`
 
-	// A filter to return only the Maintenance Windows whose identifier matches the given identifier.
+	// Unique identifier or OCID for listing a single maintenance window by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

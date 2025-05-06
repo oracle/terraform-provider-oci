@@ -33,7 +33,7 @@ type AnnouncementSummary struct {
 	// Announcement start date.
 	AnnouncementStart *common.SDKTime `mandatory:"true" json:"announcementStart"`
 
-	// Announcement end date
+	// Announcement end date.
 	AnnouncementEnd *common.SDKTime `mandatory:"true" json:"announcementEnd"`
 
 	// Associated region
@@ -54,7 +54,7 @@ type AnnouncementSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Announcement Details.
+	// Announcement details.
 	Details *string `mandatory:"false" json:"details"`
 
 	// URL to the announcement.

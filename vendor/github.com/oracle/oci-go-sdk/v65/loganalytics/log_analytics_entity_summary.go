@@ -76,6 +76,9 @@ type LogAnalyticsEntitySummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The count of associated log sources for a given log analytics entity.
+	AssociatedSourcesCount *int `mandatory:"false" json:"associatedSourcesCount"`
 }
 
 func (m LogAnalyticsEntitySummary) String() string {

@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/SetDefaultRunbook.go.html to see an example of how to use SetDefaultRunbookRequest.
 type SetDefaultRunbookRequest struct {
 
-	// Details for setting the Runbook as default.
+	// Details for setting the runbook as default for a platform and operation.
 	SetDefaultRunbookDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

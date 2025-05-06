@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DependentParser A parser used by another parser.
+// DependentParser A parser that depends on or uses the resource such as a field or another parser.
 type DependentParser struct {
 
 	// The parser name.

@@ -17,8 +17,9 @@ import (
 var (
 	DatabaseDatabaseGiVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"shape":               acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.Quarter3.100`},
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"resource_id":         acctest.Representation{RepType: acctest.Optional, Create: `resource_id`},
+		"shape":               acctest.Representation{RepType: acctest.Optional, Create: `ExadataCC.Quarter3.100`},
 	}
 
 	DatabaseGiVersionResourceConfig = AvailabilityDomainConfig

@@ -22,9 +22,6 @@ type UploadLogFileRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The name of the upload. This can be considered as a container name where different kind of logs will be collected and searched together. This upload name/id can further be used for retrieving the details of the upload, including its status or deleting the upload.
-	UploadName *string `mandatory:"true" contributesTo:"query" name:"uploadName"`
-
 	// Name of the log source that will be used to process the files being uploaded.
 	LogSourceName *string `mandatory:"true" contributesTo:"query" name:"logSourceName"`
 
@@ -36,6 +33,9 @@ type UploadLogFileRequest struct {
 
 	// Log data
 	UploadLogFileBody io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
+
+	// The name of the upload. This can be considered as a container name where different kind of logs will be collected and searched together. This upload name/id can further be used for retrieving the details of the upload, including its status or deleting the upload.
+	UploadName *string `mandatory:"false" contributesTo:"query" name:"uploadName"`
 
 	// The entity OCID.
 	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`

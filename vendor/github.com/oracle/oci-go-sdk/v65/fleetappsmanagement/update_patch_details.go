@@ -38,9 +38,6 @@ type UpdatePatchDetails struct {
 	// Dependent Patches.
 	DependentPatches []DependentPatchDetails `mandatory:"false" json:"dependentPatches"`
 
-	// OCID of the compartment to which the resource belongs to.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -79,7 +76,6 @@ func (m *UpdatePatchDetails) UnmarshalJSON(data []byte) (e error) {
 		ArtifactDetails  artifactdetails                   `json:"artifactDetails"`
 		Product          *PatchProduct                     `json:"product"`
 		DependentPatches []DependentPatchDetails           `json:"dependentPatches"`
-		CompartmentId    *string                           `json:"compartmentId"`
 		FreeformTags     map[string]string                 `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
 	}{}
@@ -111,8 +107,6 @@ func (m *UpdatePatchDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DependentPatches = make([]DependentPatchDetails, len(model.DependentPatches))
 	copy(m.DependentPatches, model.DependentPatches)
-	m.CompartmentId = model.CompartmentId
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

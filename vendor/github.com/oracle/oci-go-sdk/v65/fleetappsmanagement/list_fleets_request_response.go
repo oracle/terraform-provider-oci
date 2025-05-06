@@ -22,15 +22,16 @@ type ListFleetsRequest struct {
 	LifecycleState FleetLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return fleets whose fleetType matches the given fleetType.
-	FleetType FleetFleetTypeEnum `mandatory:"false" contributesTo:"query" name:"fleetType" omitEmpty:"true"`
+	FleetType FleetDetailsFleetTypeEnum `mandatory:"false" contributesTo:"query" name:"fleetType" omitEmpty:"true"`
 
 	// A filter to return resources that match the Application Type/Product Stack given..
 	ApplicationType *string `mandatory:"false" contributesTo:"query" name:"applicationType"`
 
-	// A filter to return resources that match the Product given.
+	// A filter to return resources that match the Product/Product Stack given.
 	Product *string `mandatory:"false" contributesTo:"query" name:"product"`
 
 	// A filter to return resources that match the Environment Type given.
@@ -39,7 +40,8 @@ type ListFleetsRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return fleets whose id matches the given Fleet identifier
+	// Unique identifier or OCID for listing a single fleet by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.
@@ -96,8 +98,8 @@ func (request ListFleetsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingFleetLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetFleetLifecycleStateEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingFleetFleetTypeEnum(string(request.FleetType)); !ok && request.FleetType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FleetType: %s. Supported values are: %s.", request.FleetType, strings.Join(GetFleetFleetTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingFleetDetailsFleetTypeEnum(string(request.FleetType)); !ok && request.FleetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FleetType: %s. Supported values are: %s.", request.FleetType, strings.Join(GetFleetDetailsFleetTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListFleetsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFleetsSortOrderEnumStringValues(), ",")))

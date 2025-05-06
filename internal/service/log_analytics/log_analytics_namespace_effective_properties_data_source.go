@@ -5,6 +5,8 @@ package log_analytics
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
@@ -40,6 +42,10 @@ func LogAnalyticsNamespaceEffectivePropertiesDataSource() *schema.Resource {
 			},
 			"pattern_id": {
 				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"pattern_id_long": {
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"source_name": {
@@ -162,6 +168,15 @@ func (s *LogAnalyticsNamespaceEffectivePropertiesDataSourceCrud) Get() error {
 	if patternId, ok := s.D.GetOkExists("pattern_id"); ok {
 		tmp := patternId.(int)
 		request.PatternId = &tmp
+	}
+
+	if patternIdLong, ok := s.D.GetOkExists("pattern_id_long"); ok {
+		tmp := patternIdLong.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert patternIdLong string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.PatternIdLong = &tmpInt64
 	}
 
 	if sourceName, ok := s.D.GetOkExists("source_name"); ok {

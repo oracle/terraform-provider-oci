@@ -22,7 +22,7 @@ type PatchProduct struct {
 	PlatformConfigurationId *string `mandatory:"true" json:"platformConfigurationId"`
 
 	// product version.
-	Version *string `mandatory:"false" json:"version"`
+	Version *string `mandatory:"true" json:"version"`
 }
 
 func (m PatchProduct) String() string {

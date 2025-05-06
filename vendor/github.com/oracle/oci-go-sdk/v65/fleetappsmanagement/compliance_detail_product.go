@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ComplianceDetailProduct Details of the Product
+// ComplianceDetailProduct Details of the Product.
 type ComplianceDetailProduct struct {
 
 	// Product Name.
