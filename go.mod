@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/terraform-plugin-mux v0.16.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.34.0
 	github.com/hashicorp/terraform-plugin-testing v1.9.0
-	github.com/oracle/oci-go-sdk/v65 v65.89.3
+	github.com/oracle/oci-go-sdk/v65 v65.90.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/mod v0.20.0
 	gopkg.in/yaml.v2 v2.3.0
@@ -72,6 +72,6 @@ require (
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-replace github.com/oracle/oci-go-sdk/v65 v65.89.3 => ./vendor/github.com/oracle/oci-go-sdk
+//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
 
 go 1.21
