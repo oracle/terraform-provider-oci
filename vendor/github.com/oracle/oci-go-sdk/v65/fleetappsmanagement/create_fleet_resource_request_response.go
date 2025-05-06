@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CreateFleetResource.go.html to see an example of how to use CreateFleetResourceRequest.
 type CreateFleetResourceRequest struct {
 
-	// Details for the new FleetResource.
+	// Details for the new fleet resource.
 	CreateFleetResourceDetails `contributesTo:"body"`
 
 	// Unique Fleet identifier.

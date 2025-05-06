@@ -67,6 +67,9 @@ type ScheduledTaskSummary struct {
 
 	// The date and time the scheduled task last executed, in the format defined by RFC3339.
 	TimeLastExecuted *common.SDKTime `mandatory:"false" json:"timeLastExecuted"`
+
+	// Type of the task schedule
+	ScheduleType ScheduledTaskSummaryScheduleTypeEnum `mandatory:"false" json:"scheduleType,omitempty"`
 }
 
 func (m ScheduledTaskSummary) String() string {
@@ -93,6 +96,9 @@ func (m ScheduledTaskSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingScheduledTaskSummaryLastExecutionStatusEnum(string(m.LastExecutionStatus)); !ok && m.LastExecutionStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastExecutionStatus: %s. Supported values are: %s.", m.LastExecutionStatus, strings.Join(GetScheduledTaskSummaryLastExecutionStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingScheduledTaskSummaryScheduleTypeEnum(string(m.ScheduleType)); !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetScheduledTaskSummaryScheduleTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -189,5 +195,47 @@ func GetScheduledTaskSummaryLastExecutionStatusEnumStringValues() []string {
 // GetMappingScheduledTaskSummaryLastExecutionStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingScheduledTaskSummaryLastExecutionStatusEnum(val string) (ScheduledTaskSummaryLastExecutionStatusEnum, bool) {
 	enum, ok := mappingScheduledTaskSummaryLastExecutionStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ScheduledTaskSummaryScheduleTypeEnum Enum with underlying type: string
+type ScheduledTaskSummaryScheduleTypeEnum string
+
+// Set of constants representing the allowable values for ScheduledTaskSummaryScheduleTypeEnum
+const (
+	ScheduledTaskSummaryScheduleTypeFixedFrequency ScheduledTaskSummaryScheduleTypeEnum = "FIXED_FREQUENCY"
+	ScheduledTaskSummaryScheduleTypeCron           ScheduledTaskSummaryScheduleTypeEnum = "CRON"
+)
+
+var mappingScheduledTaskSummaryScheduleTypeEnum = map[string]ScheduledTaskSummaryScheduleTypeEnum{
+	"FIXED_FREQUENCY": ScheduledTaskSummaryScheduleTypeFixedFrequency,
+	"CRON":            ScheduledTaskSummaryScheduleTypeCron,
+}
+
+var mappingScheduledTaskSummaryScheduleTypeEnumLowerCase = map[string]ScheduledTaskSummaryScheduleTypeEnum{
+	"fixed_frequency": ScheduledTaskSummaryScheduleTypeFixedFrequency,
+	"cron":            ScheduledTaskSummaryScheduleTypeCron,
+}
+
+// GetScheduledTaskSummaryScheduleTypeEnumValues Enumerates the set of values for ScheduledTaskSummaryScheduleTypeEnum
+func GetScheduledTaskSummaryScheduleTypeEnumValues() []ScheduledTaskSummaryScheduleTypeEnum {
+	values := make([]ScheduledTaskSummaryScheduleTypeEnum, 0)
+	for _, v := range mappingScheduledTaskSummaryScheduleTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetScheduledTaskSummaryScheduleTypeEnumStringValues Enumerates the set of values in String for ScheduledTaskSummaryScheduleTypeEnum
+func GetScheduledTaskSummaryScheduleTypeEnumStringValues() []string {
+	return []string{
+		"FIXED_FREQUENCY",
+		"CRON",
+	}
+}
+
+// GetMappingScheduledTaskSummaryScheduleTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingScheduledTaskSummaryScheduleTypeEnum(val string) (ScheduledTaskSummaryScheduleTypeEnum, bool) {
+	enum, ok := mappingScheduledTaskSummaryScheduleTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

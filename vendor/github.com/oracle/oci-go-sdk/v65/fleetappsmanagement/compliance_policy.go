@@ -16,7 +16,7 @@ import (
 )
 
 // CompliancePolicy Define software patch compliance policies for various products running in OCI resources.
-// A compliance policy is a configuration you set up for various products to report compliance by defining the schedule and patch baseline
+// A compliance policy is a configuration you set up for various products to report compliance by defining the schedule and patch baseline.
 type CompliancePolicy struct {
 
 	// The OCID of the CompliancePolicy.
@@ -46,6 +46,9 @@ type CompliancePolicy struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// The type of the Compliance Policy.
+	Type CompliancePolicyTypeEnum `mandatory:"false" json:"type,omitempty"`
+
 	// The date and time the CompliancePolicy was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -72,10 +75,55 @@ func (m CompliancePolicy) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCompliancePolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingCompliancePolicyTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCompliancePolicyTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CompliancePolicyTypeEnum Enum with underlying type: string
+type CompliancePolicyTypeEnum string
+
+// Set of constants representing the allowable values for CompliancePolicyTypeEnum
+const (
+	CompliancePolicyTypeUserDefined   CompliancePolicyTypeEnum = "USER_DEFINED"
+	CompliancePolicyTypeOracleDefined CompliancePolicyTypeEnum = "ORACLE_DEFINED"
+)
+
+var mappingCompliancePolicyTypeEnum = map[string]CompliancePolicyTypeEnum{
+	"USER_DEFINED":   CompliancePolicyTypeUserDefined,
+	"ORACLE_DEFINED": CompliancePolicyTypeOracleDefined,
+}
+
+var mappingCompliancePolicyTypeEnumLowerCase = map[string]CompliancePolicyTypeEnum{
+	"user_defined":   CompliancePolicyTypeUserDefined,
+	"oracle_defined": CompliancePolicyTypeOracleDefined,
+}
+
+// GetCompliancePolicyTypeEnumValues Enumerates the set of values for CompliancePolicyTypeEnum
+func GetCompliancePolicyTypeEnumValues() []CompliancePolicyTypeEnum {
+	values := make([]CompliancePolicyTypeEnum, 0)
+	for _, v := range mappingCompliancePolicyTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCompliancePolicyTypeEnumStringValues Enumerates the set of values in String for CompliancePolicyTypeEnum
+func GetCompliancePolicyTypeEnumStringValues() []string {
+	return []string{
+		"USER_DEFINED",
+		"ORACLE_DEFINED",
+	}
+}
+
+// GetMappingCompliancePolicyTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCompliancePolicyTypeEnum(val string) (CompliancePolicyTypeEnum, bool) {
+	enum, ok := mappingCompliancePolicyTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // CompliancePolicyLifecycleStateEnum Enum with underlying type: string

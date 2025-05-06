@@ -19,7 +19,12 @@ import (
 type ListSchedulerJobsRequest struct {
 
 	// The ID of the compartment in which to list resources.
+	// Empty only if the resource OCID query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// If set to true, resources will be returned for not only the provided compartment, but all compartments which
+	// descend from it. Which resources are returned and their field contents depends on the value of accessLevel.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
 	LifecycleState SchedulerJobLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
@@ -37,16 +42,17 @@ type ListSchedulerJobsRequest struct {
 	IsRemediationJobNeeded *bool `mandatory:"false" contributesTo:"query" name:"isRemediationJobNeeded"`
 
 	// A filter to return only resources their subState matches the given subState.
-	SubState *string `mandatory:"false" contributesTo:"query" name:"subState"`
+	Substate *string `mandatory:"false" contributesTo:"query" name:"substate"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique SchedulerJob identifier
+	// Unique identifier or OCID for listing a single Schedule Job by id.
+	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// SchedulerJob Definition identifier
-	DefintionId *string `mandatory:"false" contributesTo:"query" name:"defintionId"`
+	// SchedulerDefinition identifier
+	SchedulerDefintionId *string `mandatory:"false" contributesTo:"query" name:"schedulerDefintionId"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

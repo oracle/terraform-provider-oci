@@ -21,7 +21,7 @@ type Property struct {
 	// The OCID of the resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -108,21 +108,24 @@ type PropertyLifecycleStateEnum string
 
 // Set of constants representing the allowable values for PropertyLifecycleStateEnum
 const (
-	PropertyLifecycleStateActive  PropertyLifecycleStateEnum = "ACTIVE"
-	PropertyLifecycleStateDeleted PropertyLifecycleStateEnum = "DELETED"
-	PropertyLifecycleStateFailed  PropertyLifecycleStateEnum = "FAILED"
+	PropertyLifecycleStateActive   PropertyLifecycleStateEnum = "ACTIVE"
+	PropertyLifecycleStateDeleted  PropertyLifecycleStateEnum = "DELETED"
+	PropertyLifecycleStateFailed   PropertyLifecycleStateEnum = "FAILED"
+	PropertyLifecycleStateUpdating PropertyLifecycleStateEnum = "UPDATING"
 )
 
 var mappingPropertyLifecycleStateEnum = map[string]PropertyLifecycleStateEnum{
-	"ACTIVE":  PropertyLifecycleStateActive,
-	"DELETED": PropertyLifecycleStateDeleted,
-	"FAILED":  PropertyLifecycleStateFailed,
+	"ACTIVE":   PropertyLifecycleStateActive,
+	"DELETED":  PropertyLifecycleStateDeleted,
+	"FAILED":   PropertyLifecycleStateFailed,
+	"UPDATING": PropertyLifecycleStateUpdating,
 }
 
 var mappingPropertyLifecycleStateEnumLowerCase = map[string]PropertyLifecycleStateEnum{
-	"active":  PropertyLifecycleStateActive,
-	"deleted": PropertyLifecycleStateDeleted,
-	"failed":  PropertyLifecycleStateFailed,
+	"active":   PropertyLifecycleStateActive,
+	"deleted":  PropertyLifecycleStateDeleted,
+	"failed":   PropertyLifecycleStateFailed,
+	"updating": PropertyLifecycleStateUpdating,
 }
 
 // GetPropertyLifecycleStateEnumValues Enumerates the set of values for PropertyLifecycleStateEnum
@@ -140,6 +143,7 @@ func GetPropertyLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"DELETED",
 		"FAILED",
+		"UPDATING",
 	}
 }
 

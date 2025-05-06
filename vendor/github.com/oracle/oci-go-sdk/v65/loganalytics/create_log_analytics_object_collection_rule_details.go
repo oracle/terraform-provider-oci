@@ -33,9 +33,6 @@ type CreateLogAnalyticsObjectCollectionRuleDetails struct {
 	// Logging Analytics Log group OCID to associate the processed logs with.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 
-	// Name of the Logging Analytics Source to use for the processing.
-	LogSourceName *string `mandatory:"true" json:"logSourceName"`
-
 	// A string that describes the details of the rule. It does not have to be unique, and can be changed.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
@@ -52,6 +49,9 @@ type CreateLogAnalyticsObjectCollectionRuleDetails struct {
 	// Accepted values are: CURRENT_TIME or RFC3339 formatted datetime string.
 	// Use this for HISTORIC collection type. When collectionType is LIVE or HISTORIC_LIVE, specifying pollTill will result in error.
 	PollTill *string `mandatory:"false" json:"pollTill"`
+
+	// Name of the Logging Analytics Source to use for the processing.
+	LogSourceName *string `mandatory:"false" json:"logSourceName"`
 
 	// Logging Analytics entity OCID. Associates the processed logs with the given entity (optional).
 	EntityId *string `mandatory:"false" json:"entityId"`
@@ -98,6 +98,21 @@ type CreateLogAnalyticsObjectCollectionRuleDetails struct {
 	// Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule
 	IsForceHistoricCollection *bool `mandatory:"false" json:"isForceHistoricCollection"`
 
+	// A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage.
+	StreamId *string `mandatory:"false" json:"streamId"`
+
+	// Cursor type used to fetch messages from stream.
+	// When the streamCursorType is set to DEFAULT, the existing cursor position will be used if already set by any previous objection collection rule(s) using the same stream.
+	// Otherwise, the behaviour is to consume from the oldest available message in the stream.
+	// When the streamCursorType is set to TRIM_HORIZON, the behaviour is to start consuming from the oldest available message in the stream.
+	// When the streamCursorType is set to LATEST, the behavior is to start consuming messages that were published after the creation of this rule.
+	// When the streamCursorType is set to AT_TIME, the behavior is to start consuming from a given time.
+	// For more information on cursor types, see Stream Consumer Groups (https://docs.oracle.com/en-us/iaas/Content/Streaming/Tasks/using_consumer_groups.htm).
+	StreamCursorType StreamCursorTypesEnum `mandatory:"false" json:"streamCursorType,omitempty"`
+
+	// The time from which to consume the objects, if streamCursorType is AT_TIME.
+	StreamCursorTime *common.SDKTime `mandatory:"false" json:"streamCursorTime"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -125,6 +140,9 @@ func (m CreateLogAnalyticsObjectCollectionRuleDetails) ValidateEnumValue() (bool
 	}
 	if _, ok := GetMappingLogTypesEnum(string(m.LogType)); !ok && m.LogType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", m.LogType, strings.Join(GetLogTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingStreamCursorTypesEnum(string(m.StreamCursorType)); !ok && m.StreamCursorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StreamCursorType: %s. Supported values are: %s.", m.StreamCursorType, strings.Join(GetStreamCursorTypesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

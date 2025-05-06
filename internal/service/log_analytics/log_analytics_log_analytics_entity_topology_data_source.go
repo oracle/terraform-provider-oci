@@ -17,6 +17,11 @@ func LogAnalyticsLogAnalyticsEntityTopologyDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularLogAnalyticsLogAnalyticsEntityTopology,
 		Schema: map[string]*schema.Schema{
+			"filter": tfresource.DataSourceFiltersSchema(),
+			"context": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"log_analytics_entity_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -74,6 +79,34 @@ func LogAnalyticsLogAnalyticsEntityTopologyDataSource() *schema.Resource {
 												"source_entity_id": {
 													Type:     schema.TypeString,
 													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"contexts": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"destination_entity_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"source_entity_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"time_last_discovered": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
 												},
 											},
 										},
@@ -175,6 +208,10 @@ func LogAnalyticsLogAnalyticsEntityTopologyDataSource() *schema.Resource {
 															// Computed
 															"are_logs_collected": {
 																Type:     schema.TypeBool,
+																Computed: true,
+															},
+															"associated_sources_count": {
+																Type:     schema.TypeInt,
 																Computed: true,
 															},
 															"cloud_resource_id": {
@@ -318,6 +355,11 @@ func (s *LogAnalyticsLogAnalyticsEntityTopologyDataSourceCrud) VoidState() {
 func (s *LogAnalyticsLogAnalyticsEntityTopologyDataSourceCrud) Get() error {
 	request := oci_log_analytics.ListLogAnalyticsEntityTopologyRequest{}
 
+	if context, ok := s.D.GetOkExists("context"); ok {
+		tmp := context.(string)
+		request.Context = &tmp
+	}
+
 	if logAnalyticsEntityId, ok := s.D.GetOkExists("log_analytics_entity_id"); ok {
 		tmp := logAnalyticsEntityId.(string)
 		request.LogAnalyticsEntityId = &tmp
@@ -387,12 +429,18 @@ func LogAnalyticsEntityCollectionToMap(obj *oci_log_analytics.LogAnalyticsEntity
 func LogAnalyticsEntityTopologyLinkToMap(obj oci_log_analytics.LogAnalyticsEntityTopologyLink) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["contexts"] = obj.Contexts
+
 	if obj.DestinationEntityId != nil {
 		result["destination_entity_id"] = string(*obj.DestinationEntityId)
 	}
 
 	if obj.SourceEntityId != nil {
 		result["source_entity_id"] = string(*obj.SourceEntityId)
+	}
+
+	if obj.TimeLastDiscovered != nil {
+		result["time_last_discovered"] = obj.TimeLastDiscovered.String()
 	}
 
 	return result

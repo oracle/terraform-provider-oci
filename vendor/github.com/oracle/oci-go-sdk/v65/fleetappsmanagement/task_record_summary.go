@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// TaskRecordSummary Summary of the TaskRecord.
+// TaskRecordSummary Summary of the task record.
 type TaskRecordSummary struct {
 
 	// The OCID of the resource.
@@ -29,7 +29,7 @@ type TaskRecordSummary struct {
 	// Task type.
 	Type TaskRecordTypeEnum `mandatory:"true" json:"type"`
 
-	// The current state of the TaskRecord.
+	// The current state of the task record.
 	LifecycleState TaskRecordLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
@@ -50,7 +50,7 @@ type TaskRecordSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The version of the task
+	// The version of the task record.
 	Version *string `mandatory:"false" json:"version"`
 
 	// Associated region

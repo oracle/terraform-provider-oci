@@ -32,6 +32,9 @@ type UpsertLogAnalyticsFieldDetails struct {
 
 	// The field internal name.
 	Name *string `mandatory:"false" json:"name"`
+
+	// A flag indicating whether duplicates should be retained while processing multi-valued fields.
+	IsKeepDuplicates *bool `mandatory:"false" json:"isKeepDuplicates"`
 }
 
 func (m UpsertLogAnalyticsFieldDetails) String() string {

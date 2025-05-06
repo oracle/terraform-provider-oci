@@ -18,7 +18,7 @@ import (
 // ComplianceRecordAggregation Aggregated summary information for ComplianceRecord
 type ComplianceRecordAggregation struct {
 
-	// count of ComplianceRecord in a Tenancy.
+	// Count of compliance records in a compartment.
 	Count *int `mandatory:"true" json:"count"`
 
 	Dimensions *ComplianceRecordDimension `mandatory:"true" json:"dimensions"`

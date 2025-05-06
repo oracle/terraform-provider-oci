@@ -1,3 +1,12 @@
+## 7.0.0 (May 06, 2025)
+
+### Added
+- deprecated service mesh
+- deprecated OS Management Service
+- filter to ListSystemVersions api to get Latest Versions only
+- Support for Logging Analytics Ironwood Release
+- Support for new migration phase to current list
+
 ## 6.37.0 (April 30, 2025)
 
 ### Added

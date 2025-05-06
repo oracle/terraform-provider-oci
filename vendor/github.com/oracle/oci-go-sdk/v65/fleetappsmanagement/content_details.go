@@ -50,6 +50,10 @@ func (m *contentdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 
 	var err error
 	switch m.SourceType {
+	case "CATALOG":
+		mm := CatalogContentDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_STORAGE_BUCKET":
 		mm := ObjectStorageBucketContentDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -82,14 +86,17 @@ type ContentDetailsSourceTypeEnum string
 // Set of constants representing the allowable values for ContentDetailsSourceTypeEnum
 const (
 	ContentDetailsSourceTypeObjectStorageBucket ContentDetailsSourceTypeEnum = "OBJECT_STORAGE_BUCKET"
+	ContentDetailsSourceTypeCatalog             ContentDetailsSourceTypeEnum = "CATALOG"
 )
 
 var mappingContentDetailsSourceTypeEnum = map[string]ContentDetailsSourceTypeEnum{
 	"OBJECT_STORAGE_BUCKET": ContentDetailsSourceTypeObjectStorageBucket,
+	"CATALOG":               ContentDetailsSourceTypeCatalog,
 }
 
 var mappingContentDetailsSourceTypeEnumLowerCase = map[string]ContentDetailsSourceTypeEnum{
 	"object_storage_bucket": ContentDetailsSourceTypeObjectStorageBucket,
+	"catalog":               ContentDetailsSourceTypeCatalog,
 }
 
 // GetContentDetailsSourceTypeEnumValues Enumerates the set of values for ContentDetailsSourceTypeEnum
@@ -105,6 +112,7 @@ func GetContentDetailsSourceTypeEnumValues() []ContentDetailsSourceTypeEnum {
 func GetContentDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"OBJECT_STORAGE_BUCKET",
+		"CATALOG",
 	}
 }
 

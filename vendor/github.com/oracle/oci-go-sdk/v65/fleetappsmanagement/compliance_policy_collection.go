@@ -18,7 +18,7 @@ import (
 // CompliancePolicyCollection Results of a compliancePolicy search. Contains both CompliancePolicySummary items and other information, such as metadata.
 type CompliancePolicyCollection struct {
 
-	// List of compliancePolicys.
+	// List of compliance policies.
 	Items []CompliancePolicySummary `mandatory:"true" json:"items"`
 }
 

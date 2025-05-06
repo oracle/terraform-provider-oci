@@ -17,9 +17,10 @@ import (
 
 var (
 	LogAnalyticsLogAnalyticsNamespaceEffectivePropertyDataSourceRepresentation = map[string]interface{}{
-		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"source_name": acctest.Representation{RepType: acctest.Optional, Create: `LinuxSyslogSource`},
-		"name":        acctest.Representation{RepType: acctest.Optional, Create: `management_agent.database_sql.badsql_retry`},
+		"namespace":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"source_name":     acctest.Representation{RepType: acctest.Optional, Create: `LinuxCronLogSource`},
+		"name":            acctest.Representation{RepType: acctest.Optional, Create: `management_agent.os_file.timezone`},
+		"pattern_id_long": acctest.Representation{RepType: acctest.Optional, Create: `3965542293988174204`},
 	}
 
 	LogAnalyticsLogAnalyticsPreferencesManagementCollectionPropertyRepresentation = map[string]interface{}{
@@ -28,8 +29,8 @@ var (
 	}
 
 	LogAnalyticsLogAnalyticsPreferencesManagementCollectionPropertyItemsRepresentation = map[string]interface{}{
-		"name":  acctest.Representation{RepType: acctest.Required, Create: `management_agent.database_sql.badsql_retry`},
-		"value": acctest.Representation{RepType: acctest.Required, Create: `PT25M`},
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `management_agent.os_file.timezone`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `PST`},
 	}
 
 	LogAnalyticsNamespaceEffectivePropertyResourceConfig = "" +
@@ -86,8 +87,8 @@ func TestLogAnalyticsNamespaceEffectivePropertyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "namespace"),
 				resource.TestCheckResourceAttr(optionalDatasourceName, "effective_property_collection.0.items.#", "1"),
-				resource.TestCheckResourceAttr(optionalDatasourceName, "effective_property_collection.0.items.0.name", "management_agent.database_sql.badsql_retry"),
-				resource.TestCheckResourceAttr(optionalDatasourceName, "effective_property_collection.0.items.0.value", "PT25M"),
+				resource.TestCheckResourceAttr(optionalDatasourceName, "effective_property_collection.0.items.0.name", "management_agent.os_file.timezone"),
+				resource.TestCheckResourceAttr(optionalDatasourceName, "effective_property_collection.0.items.0.value", "PST"),
 				resource.TestCheckResourceAttr(optionalDatasourceName, "effective_property_collection.0.items.0.effective_level", "TENANT"),
 			),
 		},

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PlatformSpecificArtifactDetails Patch artifact description and content details which is platform specific
+// PlatformSpecificArtifactDetails Patch artifact description and content details which is platform specific.
 type PlatformSpecificArtifactDetails struct {
 
 	// Artifacts.

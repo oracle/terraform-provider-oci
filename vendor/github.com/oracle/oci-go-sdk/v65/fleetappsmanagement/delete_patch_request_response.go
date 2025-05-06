@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeletePatch.go.html to see an example of how to use DeletePatchRequest.
 type DeletePatchRequest struct {
 
-	// unique Patch identifier
+	// Unique Patch identifier.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

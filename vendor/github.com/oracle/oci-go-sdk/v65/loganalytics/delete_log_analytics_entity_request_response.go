@@ -34,6 +34,9 @@ type DeleteLogAnalyticsEntityRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Option to delete entity even if the entity is associated with a log source and stop any log collections associated with this entity.
+	IsForceDelete *bool `mandatory:"false" contributesTo:"query" name:"isForceDelete"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

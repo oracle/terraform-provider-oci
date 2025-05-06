@@ -26,9 +26,17 @@ func DatabaseSystemVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_latest": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"system_version_collection": {
 				Type:     schema.TypeList,
@@ -104,6 +112,16 @@ func (s *DatabaseSystemVersionsDataSourceCrud) Get() error {
 	if giVersion, ok := s.D.GetOkExists("gi_version"); ok {
 		tmp := giVersion.(string)
 		request.GiVersion = &tmp
+	}
+
+	if isLatest, ok := s.D.GetOkExists("is_latest"); ok {
+		tmp := isLatest.(bool)
+		request.IsLatest = &tmp
+	}
+
+	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
+		tmp := resourceId.(string)
+		request.ResourceId = &tmp
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {

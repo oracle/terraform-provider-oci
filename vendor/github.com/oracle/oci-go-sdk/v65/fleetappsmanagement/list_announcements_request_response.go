@@ -18,6 +18,9 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListAnnouncements.go.html to see an example of how to use ListAnnouncementsRequest.
 type ListAnnouncementsRequest struct {
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Filter the list of announcements that contains the given summary value.
 	SummaryContains *string `mandatory:"false" contributesTo:"query" name:"summaryContains"`
 

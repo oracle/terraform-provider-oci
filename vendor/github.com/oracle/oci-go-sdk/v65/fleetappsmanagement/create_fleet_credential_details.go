@@ -24,9 +24,6 @@ type CreateFleetCredentialDetails struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Tenancy OCID
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
 	EntitySpecifics CredentialEntitySpecificDetails `mandatory:"true" json:"entitySpecifics"`
 
 	User CredentialDetails `mandatory:"true" json:"user"`
@@ -54,7 +51,6 @@ func (m CreateFleetCredentialDetails) ValidateEnumValue() (bool, error) {
 func (m *CreateFleetCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName     *string                         `json:"displayName"`
-		CompartmentId   *string                         `json:"compartmentId"`
 		EntitySpecifics credentialentityspecificdetails `json:"entitySpecifics"`
 		User            credentialdetails               `json:"user"`
 		Password        credentialdetails               `json:"password"`
@@ -66,8 +62,6 @@ func (m *CreateFleetCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
-
-	m.CompartmentId = model.CompartmentId
 
 	nn, e = model.EntitySpecifics.UnmarshalPolymorphicJSON(model.EntitySpecifics.JsonData)
 	if e != nil {

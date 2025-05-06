@@ -21,9 +21,6 @@ type ListFleetResourcesRequest struct {
 	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// Resource Tenancy Id
-	TenancyId *string `mandatory:"false" contributesTo:"query" name:"tenancyId"`
-
 	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
 	LifecycleState FleetResourceLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

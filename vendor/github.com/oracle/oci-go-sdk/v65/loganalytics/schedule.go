@@ -65,6 +65,10 @@ func (m *schedule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := CronSchedule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AUTO":
+		mm := AutoSchedule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FIXED_FREQUENCY":
 		mm := FixedFrequencySchedule{}
 		err = json.Unmarshal(data, &mm)
@@ -157,16 +161,19 @@ type ScheduleTypeEnum string
 const (
 	ScheduleTypeFixedFrequency ScheduleTypeEnum = "FIXED_FREQUENCY"
 	ScheduleTypeCron           ScheduleTypeEnum = "CRON"
+	ScheduleTypeAuto           ScheduleTypeEnum = "AUTO"
 )
 
 var mappingScheduleTypeEnum = map[string]ScheduleTypeEnum{
 	"FIXED_FREQUENCY": ScheduleTypeFixedFrequency,
 	"CRON":            ScheduleTypeCron,
+	"AUTO":            ScheduleTypeAuto,
 }
 
 var mappingScheduleTypeEnumLowerCase = map[string]ScheduleTypeEnum{
 	"fixed_frequency": ScheduleTypeFixedFrequency,
 	"cron":            ScheduleTypeCron,
+	"auto":            ScheduleTypeAuto,
 }
 
 // GetScheduleTypeEnumValues Enumerates the set of values for ScheduleTypeEnum
@@ -183,6 +190,7 @@ func GetScheduleTypeEnumStringValues() []string {
 	return []string{
 		"FIXED_FREQUENCY",
 		"CRON",
+		"AUTO",
 	}
 }
 

@@ -19,15 +19,15 @@ import (
 // CreatePlatformConfigurationDetails The information about new PlatformConfiguration.
 type CreatePlatformConfigurationDetails struct {
 
-	// Tenancy OCID
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	ConfigCategoryDetails ConfigCategoryDetails `mandatory:"true" json:"configCategoryDetails"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	ConfigCategoryDetails ConfigCategoryDetails `mandatory:"true" json:"configCategoryDetails"`
 
 	// A user-friendly description. To provide some insight about the resource.
 	// Avoid entering confidential information.
@@ -53,9 +53,9 @@ func (m CreatePlatformConfigurationDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName           *string               `json:"displayName"`
 		Description           *string               `json:"description"`
 		CompartmentId         *string               `json:"compartmentId"`
+		DisplayName           *string               `json:"displayName"`
 		ConfigCategoryDetails configcategorydetails `json:"configCategoryDetails"`
 	}{}
 
@@ -64,11 +64,11 @@ func (m *CreatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	var nn interface{}
-	m.DisplayName = model.DisplayName
-
 	m.Description = model.Description
 
 	m.CompartmentId = model.CompartmentId
+
+	m.DisplayName = model.DisplayName
 
 	nn, e = model.ConfigCategoryDetails.UnmarshalPolymorphicJSON(model.ConfigCategoryDetails.JsonData)
 	if e != nil {

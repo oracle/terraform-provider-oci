@@ -38,6 +38,10 @@ func LogAnalyticsNamespaceScheduledTasksDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"template_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"scheduled_task_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -99,6 +103,11 @@ func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) Get() error {
 
 	if taskType, ok := s.D.GetOkExists("task_type"); ok {
 		request.TaskType = oci_log_analytics.ListScheduledTasksTaskTypeEnum(taskType.(string))
+	}
+
+	if templateId, ok := s.D.GetOkExists("template_id"); ok {
+		tmp := templateId.(string)
+		request.TemplateId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")

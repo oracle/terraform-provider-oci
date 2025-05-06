@@ -54,6 +54,10 @@ func (m *executiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := ScriptBasedExecutionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "TERRAFORM":
+		mm := TerraformBasedExecutionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "API":
 		mm := ApiBasedExecutionDetails{}
 		err = json.Unmarshal(data, &mm)

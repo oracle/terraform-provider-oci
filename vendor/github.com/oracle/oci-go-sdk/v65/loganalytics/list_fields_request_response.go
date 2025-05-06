@@ -257,18 +257,21 @@ type ListFieldsSortByEnum string
 
 // Set of constants representing the allowable values for ListFieldsSortByEnum
 const (
-	ListFieldsSortByName     ListFieldsSortByEnum = "name"
-	ListFieldsSortByDatatype ListFieldsSortByEnum = "dataType"
+	ListFieldsSortByName        ListFieldsSortByEnum = "name"
+	ListFieldsSortByDatatype    ListFieldsSortByEnum = "dataType"
+	ListFieldsSortByTimeupdated ListFieldsSortByEnum = "timeUpdated"
 )
 
 var mappingListFieldsSortByEnum = map[string]ListFieldsSortByEnum{
-	"name":     ListFieldsSortByName,
-	"dataType": ListFieldsSortByDatatype,
+	"name":        ListFieldsSortByName,
+	"dataType":    ListFieldsSortByDatatype,
+	"timeUpdated": ListFieldsSortByTimeupdated,
 }
 
 var mappingListFieldsSortByEnumLowerCase = map[string]ListFieldsSortByEnum{
-	"name":     ListFieldsSortByName,
-	"datatype": ListFieldsSortByDatatype,
+	"name":        ListFieldsSortByName,
+	"datatype":    ListFieldsSortByDatatype,
+	"timeupdated": ListFieldsSortByTimeupdated,
 }
 
 // GetListFieldsSortByEnumValues Enumerates the set of values for ListFieldsSortByEnum
@@ -285,6 +288,7 @@ func GetListFieldsSortByEnumStringValues() []string {
 	return []string{
 		"name",
 		"dataType",
+		"timeUpdated",
 	}
 }
 

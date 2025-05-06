@@ -19,7 +19,10 @@ import (
 type OperationRunbook struct {
 
 	// The ID of the Runbook
-	Id *string `mandatory:"true" json:"id"`
+	RunbookId *string `mandatory:"true" json:"runbookId"`
+
+	// The runbook version name
+	RunbookVersionName *string `mandatory:"true" json:"runbookVersionName"`
 
 	// Input Parameters for the Task
 	InputParameters []InputParameter `mandatory:"false" json:"inputParameters"`
