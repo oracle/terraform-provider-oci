@@ -40,7 +40,6 @@ func DataSafeUnsetSecurityAssessmentBaselineResource() *schema.Resource {
 			"target_ids": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
 				ForceNew: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
