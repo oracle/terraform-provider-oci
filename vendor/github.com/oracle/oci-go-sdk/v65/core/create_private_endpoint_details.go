@@ -115,6 +115,12 @@ type CreatePrivateEndpointDetails struct {
 	// The Cluster Proximity Group OCID to be used for the PE ServiceVnic placement.
 	// Optional and valid only for Private Access to support ADB-S low latency support.
 	CpgId *string `mandatory:"false" json:"cpgId"`
+
+	// The resource ocid for which the Private Endpoint needs to be created. This resource ID will be used
+	// to propagate PE metadata (instead of PE ocid) to supporting service like Identity, NLB, LBaaS for enforcing
+	// - Network Access Policies (NAP)
+	// - Proxy Protocol V2 (PPv2) for load balancers in traffic path
+	AssociatedResource *string `mandatory:"false" json:"associatedResource"`
 }
 
 func (m CreatePrivateEndpointDetails) String() string {

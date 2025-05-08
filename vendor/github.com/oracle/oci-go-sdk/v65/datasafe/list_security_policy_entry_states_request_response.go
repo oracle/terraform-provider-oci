@@ -126,6 +126,7 @@ const (
 	ListSecurityPolicyEntryStatesDeploymentStatusConflict          ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CONFLICT"
 	ListSecurityPolicyEntryStatesDeploymentStatusConnectivityIssue ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CONNECTIVITY_ISSUE"
 	ListSecurityPolicyEntryStatesDeploymentStatusUnsupportedSyntax ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNSUPPORTED_SYNTAX"
+	ListSecurityPolicyEntryStatesDeploymentStatusUnknownError      ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNKNOWN_ERROR"
 	ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized      ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNAUTHORIZED"
 	ListSecurityPolicyEntryStatesDeploymentStatusDeleted           ListSecurityPolicyEntryStatesDeploymentStatusEnum = "DELETED"
 )
@@ -136,6 +137,7 @@ var mappingListSecurityPolicyEntryStatesDeploymentStatusEnum = map[string]ListSe
 	"CONFLICT":           ListSecurityPolicyEntryStatesDeploymentStatusConflict,
 	"CONNECTIVITY_ISSUE": ListSecurityPolicyEntryStatesDeploymentStatusConnectivityIssue,
 	"UNSUPPORTED_SYNTAX": ListSecurityPolicyEntryStatesDeploymentStatusUnsupportedSyntax,
+	"UNKNOWN_ERROR":      ListSecurityPolicyEntryStatesDeploymentStatusUnknownError,
 	"UNAUTHORIZED":       ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized,
 	"DELETED":            ListSecurityPolicyEntryStatesDeploymentStatusDeleted,
 }
@@ -146,6 +148,7 @@ var mappingListSecurityPolicyEntryStatesDeploymentStatusEnumLowerCase = map[stri
 	"conflict":           ListSecurityPolicyEntryStatesDeploymentStatusConflict,
 	"connectivity_issue": ListSecurityPolicyEntryStatesDeploymentStatusConnectivityIssue,
 	"unsupported_syntax": ListSecurityPolicyEntryStatesDeploymentStatusUnsupportedSyntax,
+	"unknown_error":      ListSecurityPolicyEntryStatesDeploymentStatusUnknownError,
 	"unauthorized":       ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized,
 	"deleted":            ListSecurityPolicyEntryStatesDeploymentStatusDeleted,
 }
@@ -167,6 +170,7 @@ func GetListSecurityPolicyEntryStatesDeploymentStatusEnumStringValues() []string
 		"CONFLICT",
 		"CONNECTIVITY_ISSUE",
 		"UNSUPPORTED_SYNTAX",
+		"UNKNOWN_ERROR",
 		"UNAUTHORIZED",
 		"DELETED",
 	}

@@ -29,7 +29,7 @@ type CreateUnifiedAuditPolicyDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Indicates whether the unified audit policy has been enabled or disabled.
-	Status UnifiedAuditPolicyEnabledEntitiesEnum `mandatory:"true" json:"status"`
+	Status UnifiedAuditPolicyStatusEnum `mandatory:"true" json:"status"`
 
 	// Lists the audit policy provisioning conditions.
 	Conditions []PolicyCondition `mandatory:"true" json:"conditions"`
@@ -58,8 +58,8 @@ func (m CreateUnifiedAuditPolicyDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateUnifiedAuditPolicyDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingUnifiedAuditPolicyEnabledEntitiesEnum(string(m.Status)); !ok && m.Status != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUnifiedAuditPolicyEnabledEntitiesEnumStringValues(), ",")))
+	if _, ok := GetMappingUnifiedAuditPolicyStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUnifiedAuditPolicyStatusEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -71,15 +71,15 @@ func (m CreateUnifiedAuditPolicyDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateUnifiedAuditPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                    *string                               `json:"displayName"`
-		Description                    *string                               `json:"description"`
-		FreeformTags                   map[string]string                     `json:"freeformTags"`
-		DefinedTags                    map[string]map[string]interface{}     `json:"definedTags"`
-		SecurityPolicyId               *string                               `json:"securityPolicyId"`
-		UnifiedAuditPolicyDefinitionId *string                               `json:"unifiedAuditPolicyDefinitionId"`
-		CompartmentId                  *string                               `json:"compartmentId"`
-		Status                         UnifiedAuditPolicyEnabledEntitiesEnum `json:"status"`
-		Conditions                     []policycondition                     `json:"conditions"`
+		DisplayName                    *string                           `json:"displayName"`
+		Description                    *string                           `json:"description"`
+		FreeformTags                   map[string]string                 `json:"freeformTags"`
+		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
+		SecurityPolicyId               *string                           `json:"securityPolicyId"`
+		UnifiedAuditPolicyDefinitionId *string                           `json:"unifiedAuditPolicyDefinitionId"`
+		CompartmentId                  *string                           `json:"compartmentId"`
+		Status                         UnifiedAuditPolicyStatusEnum      `json:"status"`
+		Conditions                     []policycondition                 `json:"conditions"`
 	}{}
 
 	e = json.Unmarshal(data, &model)

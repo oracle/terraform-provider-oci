@@ -89,6 +89,10 @@ type AuditTrail struct {
 	// The details of the audit trail purge job that ran at the time specified by purgeJobTime".
 	PurgeJobDetails *string `mandatory:"false" json:"purgeJobDetails"`
 
+	// Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field
+	// is enabled, this field must be true.
+	CanUpdateLastArchiveTimeOnTarget *bool `mandatory:"false" json:"canUpdateLastArchiveTimeOnTarget"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

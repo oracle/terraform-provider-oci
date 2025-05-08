@@ -26,7 +26,7 @@ type UpdateUnifiedAuditPolicyDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// Indicates whether the policy has been enabled or disabled.
-	Status UnifiedAuditPolicyEnabledEntitiesEnum `mandatory:"false" json:"status,omitempty"`
+	Status UnifiedAuditPolicyStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// Lists the audit policy provisioning conditions.
 	Conditions []PolicyCondition `mandatory:"false" json:"conditions"`
@@ -50,8 +50,8 @@ func (m UpdateUnifiedAuditPolicyDetails) String() string {
 func (m UpdateUnifiedAuditPolicyDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingUnifiedAuditPolicyEnabledEntitiesEnum(string(m.Status)); !ok && m.Status != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUnifiedAuditPolicyEnabledEntitiesEnumStringValues(), ",")))
+	if _, ok := GetMappingUnifiedAuditPolicyStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUnifiedAuditPolicyStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -62,12 +62,12 @@ func (m UpdateUnifiedAuditPolicyDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateUnifiedAuditPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName  *string                               `json:"displayName"`
-		Description  *string                               `json:"description"`
-		Status       UnifiedAuditPolicyEnabledEntitiesEnum `json:"status"`
-		Conditions   []policycondition                     `json:"conditions"`
-		FreeformTags map[string]string                     `json:"freeformTags"`
-		DefinedTags  map[string]map[string]interface{}     `json:"definedTags"`
+		DisplayName  *string                           `json:"displayName"`
+		Description  *string                           `json:"description"`
+		Status       UnifiedAuditPolicyStatusEnum      `json:"status"`
+		Conditions   []policycondition                 `json:"conditions"`
+		FreeformTags map[string]string                 `json:"freeformTags"`
+		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)

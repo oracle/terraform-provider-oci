@@ -206,6 +206,7 @@ const (
 	ListSecurityPolicyConfigsLifecycleStateFailed         ListSecurityPolicyConfigsLifecycleStateEnum = "FAILED"
 	ListSecurityPolicyConfigsLifecycleStateNeedsAttention ListSecurityPolicyConfigsLifecycleStateEnum = "NEEDS_ATTENTION"
 	ListSecurityPolicyConfigsLifecycleStateDeleting       ListSecurityPolicyConfigsLifecycleStateEnum = "DELETING"
+	ListSecurityPolicyConfigsLifecycleStateDeleted        ListSecurityPolicyConfigsLifecycleStateEnum = "DELETED"
 )
 
 var mappingListSecurityPolicyConfigsLifecycleStateEnum = map[string]ListSecurityPolicyConfigsLifecycleStateEnum{
@@ -215,6 +216,7 @@ var mappingListSecurityPolicyConfigsLifecycleStateEnum = map[string]ListSecurity
 	"FAILED":          ListSecurityPolicyConfigsLifecycleStateFailed,
 	"NEEDS_ATTENTION": ListSecurityPolicyConfigsLifecycleStateNeedsAttention,
 	"DELETING":        ListSecurityPolicyConfigsLifecycleStateDeleting,
+	"DELETED":         ListSecurityPolicyConfigsLifecycleStateDeleted,
 }
 
 var mappingListSecurityPolicyConfigsLifecycleStateEnumLowerCase = map[string]ListSecurityPolicyConfigsLifecycleStateEnum{
@@ -224,6 +226,7 @@ var mappingListSecurityPolicyConfigsLifecycleStateEnumLowerCase = map[string]Lis
 	"failed":          ListSecurityPolicyConfigsLifecycleStateFailed,
 	"needs_attention": ListSecurityPolicyConfigsLifecycleStateNeedsAttention,
 	"deleting":        ListSecurityPolicyConfigsLifecycleStateDeleting,
+	"deleted":         ListSecurityPolicyConfigsLifecycleStateDeleted,
 }
 
 // GetListSecurityPolicyConfigsLifecycleStateEnumValues Enumerates the set of values for ListSecurityPolicyConfigsLifecycleStateEnum
@@ -244,6 +247,7 @@ func GetListSecurityPolicyConfigsLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"NEEDS_ATTENTION",
 		"DELETING",
+		"DELETED",
 	}
 }
 

@@ -30,9 +30,6 @@ type BackupDestinationConfigurationSummary struct {
 	// For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 	VpcPassword *string `mandatory:"false" json:"vpcPassword"`
 
-	// Indicates whether Zero Data Loss functionality is enabled for a Recovery Appliance backup destination in an Autonomous Container Database. When enabled, the database automatically ships all redo logs in real-time to the Recovery Appliance for a Zero Data Loss recovery setup (sub-second RPO). Defaults to `TRUE` if no value is given.
-	IsZeroDataLossEnabled *bool `mandatory:"false" json:"isZeroDataLossEnabled"`
-
 	// Proxy URL to connect to object store.
 	InternetProxy *string `mandatory:"false" json:"internetProxy"`
 
@@ -89,7 +86,7 @@ const (
 	BackupDestinationConfigurationSummaryTypeObjectStore       BackupDestinationConfigurationSummaryTypeEnum = "OBJECT_STORE"
 	BackupDestinationConfigurationSummaryTypeLocal             BackupDestinationConfigurationSummaryTypeEnum = "LOCAL"
 	BackupDestinationConfigurationSummaryTypeDbrs              BackupDestinationConfigurationSummaryTypeEnum = "DBRS"
-	BackupDestinationConfigurationSummaryTypeAws               BackupDestinationConfigurationSummaryTypeEnum = "AWS"
+	BackupDestinationConfigurationSummaryTypeAwsS3             BackupDestinationConfigurationSummaryTypeEnum = "AWS_S3"
 )
 
 var mappingBackupDestinationConfigurationSummaryTypeEnum = map[string]BackupDestinationConfigurationSummaryTypeEnum{
@@ -98,7 +95,7 @@ var mappingBackupDestinationConfigurationSummaryTypeEnum = map[string]BackupDest
 	"OBJECT_STORE":       BackupDestinationConfigurationSummaryTypeObjectStore,
 	"LOCAL":              BackupDestinationConfigurationSummaryTypeLocal,
 	"DBRS":               BackupDestinationConfigurationSummaryTypeDbrs,
-	"AWS":                BackupDestinationConfigurationSummaryTypeAws,
+	"AWS_S3":             BackupDestinationConfigurationSummaryTypeAwsS3,
 }
 
 var mappingBackupDestinationConfigurationSummaryTypeEnumLowerCase = map[string]BackupDestinationConfigurationSummaryTypeEnum{
@@ -107,7 +104,7 @@ var mappingBackupDestinationConfigurationSummaryTypeEnumLowerCase = map[string]B
 	"object_store":       BackupDestinationConfigurationSummaryTypeObjectStore,
 	"local":              BackupDestinationConfigurationSummaryTypeLocal,
 	"dbrs":               BackupDestinationConfigurationSummaryTypeDbrs,
-	"aws":                BackupDestinationConfigurationSummaryTypeAws,
+	"aws_s3":             BackupDestinationConfigurationSummaryTypeAwsS3,
 }
 
 // GetBackupDestinationConfigurationSummaryTypeEnumValues Enumerates the set of values for BackupDestinationConfigurationSummaryTypeEnum
@@ -127,7 +124,7 @@ func GetBackupDestinationConfigurationSummaryTypeEnumStringValues() []string {
 		"OBJECT_STORE",
 		"LOCAL",
 		"DBRS",
-		"AWS",
+		"AWS_S3",
 	}
 }
 

@@ -32,6 +32,9 @@ type ListUnifiedAuditPolicyDefinitionsRequest struct {
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A boolean flag indicating to list seeded unified audit policy definitions. Set this parameter to get list of seeded unified audit policy definitions.
+	IsSeeded *bool `mandatory:"false" contributesTo:"query" name:"isSeeded"`
+
 	// The category to which the unified audit policy definition belongs to.
 	UnifiedAuditPolicyCategory UnifiedAuditPolicyDefinitionAuditPolicyCategoryEnum `mandatory:"false" contributesTo:"query" name:"unifiedAuditPolicyCategory" omitEmpty:"true"`
 

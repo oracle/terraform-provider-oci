@@ -45,6 +45,9 @@ type AttributeSetSummary struct {
 	// Indicates whether the attribute set is user defined or pre defined in Data Safe. Values can either be 'true' or 'false'.
 	IsUserDefined *bool `mandatory:"false" json:"isUserDefined"`
 
+	// Indicates whether the attribute set is in use by other resource.
+	InUse AttributeSetSummaryInUseEnum `mandatory:"false" json:"inUse,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -74,8 +77,53 @@ func (m AttributeSetSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeSetType: %s. Supported values are: %s.", m.AttributeSetType, strings.Join(GetAttributeSetAttributeSetTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAttributeSetSummaryInUseEnum(string(m.InUse)); !ok && m.InUse != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InUse: %s. Supported values are: %s.", m.InUse, strings.Join(GetAttributeSetSummaryInUseEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// AttributeSetSummaryInUseEnum Enum with underlying type: string
+type AttributeSetSummaryInUseEnum string
+
+// Set of constants representing the allowable values for AttributeSetSummaryInUseEnum
+const (
+	AttributeSetSummaryInUseYes  AttributeSetSummaryInUseEnum = "YES"
+	AttributeSetSummaryInUseNone AttributeSetSummaryInUseEnum = "NONE"
+)
+
+var mappingAttributeSetSummaryInUseEnum = map[string]AttributeSetSummaryInUseEnum{
+	"YES":  AttributeSetSummaryInUseYes,
+	"NONE": AttributeSetSummaryInUseNone,
+}
+
+var mappingAttributeSetSummaryInUseEnumLowerCase = map[string]AttributeSetSummaryInUseEnum{
+	"yes":  AttributeSetSummaryInUseYes,
+	"none": AttributeSetSummaryInUseNone,
+}
+
+// GetAttributeSetSummaryInUseEnumValues Enumerates the set of values for AttributeSetSummaryInUseEnum
+func GetAttributeSetSummaryInUseEnumValues() []AttributeSetSummaryInUseEnum {
+	values := make([]AttributeSetSummaryInUseEnum, 0)
+	for _, v := range mappingAttributeSetSummaryInUseEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAttributeSetSummaryInUseEnumStringValues Enumerates the set of values in String for AttributeSetSummaryInUseEnum
+func GetAttributeSetSummaryInUseEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NONE",
+	}
+}
+
+// GetMappingAttributeSetSummaryInUseEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAttributeSetSummaryInUseEnum(val string) (AttributeSetSummaryInUseEnum, bool) {
+	enum, ok := mappingAttributeSetSummaryInUseEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

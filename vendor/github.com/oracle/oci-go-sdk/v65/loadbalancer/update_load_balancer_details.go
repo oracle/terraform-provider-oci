@@ -25,6 +25,12 @@ type UpdateLoadBalancerDetails struct {
 	// Example: `example_load_balancer`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Whether the load balancer has an IPv4 or IPv6 IP address.
+	//   If "IPV4", the service assigns an IPv4 address and the load balancer supports IPv4 traffic.
+	//   If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
+	//   Example: "ipMode":"IPV6"
+	IpMode UpdateLoadBalancerDetailsIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
+
 	// Whether or not the load balancer has delete protection enabled.
 	// If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
 	// If "false", the loadbalancer will not be protected against deletion.
@@ -81,8 +87,53 @@ func (m UpdateLoadBalancerDetails) String() string {
 func (m UpdateLoadBalancerDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateLoadBalancerDetailsIpModeEnum(string(m.IpMode)); !ok && m.IpMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetUpdateLoadBalancerDetailsIpModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateLoadBalancerDetailsIpModeEnum Enum with underlying type: string
+type UpdateLoadBalancerDetailsIpModeEnum string
+
+// Set of constants representing the allowable values for UpdateLoadBalancerDetailsIpModeEnum
+const (
+	UpdateLoadBalancerDetailsIpModeIpv4 UpdateLoadBalancerDetailsIpModeEnum = "IPV4"
+	UpdateLoadBalancerDetailsIpModeIpv6 UpdateLoadBalancerDetailsIpModeEnum = "IPV6"
+)
+
+var mappingUpdateLoadBalancerDetailsIpModeEnum = map[string]UpdateLoadBalancerDetailsIpModeEnum{
+	"IPV4": UpdateLoadBalancerDetailsIpModeIpv4,
+	"IPV6": UpdateLoadBalancerDetailsIpModeIpv6,
+}
+
+var mappingUpdateLoadBalancerDetailsIpModeEnumLowerCase = map[string]UpdateLoadBalancerDetailsIpModeEnum{
+	"ipv4": UpdateLoadBalancerDetailsIpModeIpv4,
+	"ipv6": UpdateLoadBalancerDetailsIpModeIpv6,
+}
+
+// GetUpdateLoadBalancerDetailsIpModeEnumValues Enumerates the set of values for UpdateLoadBalancerDetailsIpModeEnum
+func GetUpdateLoadBalancerDetailsIpModeEnumValues() []UpdateLoadBalancerDetailsIpModeEnum {
+	values := make([]UpdateLoadBalancerDetailsIpModeEnum, 0)
+	for _, v := range mappingUpdateLoadBalancerDetailsIpModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateLoadBalancerDetailsIpModeEnumStringValues Enumerates the set of values in String for UpdateLoadBalancerDetailsIpModeEnum
+func GetUpdateLoadBalancerDetailsIpModeEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV6",
+	}
+}
+
+// GetMappingUpdateLoadBalancerDetailsIpModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateLoadBalancerDetailsIpModeEnum(val string) (UpdateLoadBalancerDetailsIpModeEnum, bool) {
+	enum, ok := mappingUpdateLoadBalancerDetailsIpModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

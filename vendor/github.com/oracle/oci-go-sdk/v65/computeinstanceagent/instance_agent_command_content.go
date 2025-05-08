@@ -26,6 +26,9 @@ type InstanceAgentCommandContent struct {
 	// The output destination for the command.
 	Output InstanceAgentCommandOutputDetails `mandatory:"false" json:"output"`
 
+	// Set to true, if the source is archived directory.
+	IsArchived *bool `mandatory:"false" json:"isArchived"`
+
 	// Command String is a fully formed command that runcommand executes.
 	// Example: main.sh is stored in object storage and user provides the following command with parameters to execute
 	// /bin/sh main.sh abc 10 foo.sh
@@ -52,6 +55,7 @@ func (m InstanceAgentCommandContent) ValidateEnumValue() (bool, error) {
 func (m *InstanceAgentCommandContent) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Output        instanceagentcommandoutputdetails `json:"output"`
+		IsArchived    *bool                             `json:"isArchived"`
 		CommandString *string                           `json:"commandString"`
 		Source        instanceagentcommandsourcedetails `json:"source"`
 	}{}
@@ -70,6 +74,8 @@ func (m *InstanceAgentCommandContent) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Output = nil
 	}
+
+	m.IsArchived = model.IsArchived
 
 	m.CommandString = model.CommandString
 

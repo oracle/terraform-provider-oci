@@ -20,6 +20,12 @@ type DeleteComputeClusterDetails struct {
 
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
+
+	// Indicates whether this compute cluster operation is due to DataLake Operation
+	IsDataLakeDelete *bool `mandatory:"false" json:"isDataLakeDelete"`
+
+	// Indicates whether this compute cluster operation is due to Workspace Operation
+	IsWorkspaceDelete *bool `mandatory:"false" json:"isWorkspaceDelete"`
 }
 
 func (m DeleteComputeClusterDetails) String() string {

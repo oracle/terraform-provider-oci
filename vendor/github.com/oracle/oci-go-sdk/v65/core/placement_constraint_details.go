@@ -16,26 +16,68 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// DummyFieldTargetedLaunch dummy field
-type DummyFieldTargetedLaunch struct {
-
-	// Determines the type of targeted launch.
-	Type *string `mandatory:"true" json:"type"`
+// PlacementConstraintDetails Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
+type PlacementConstraintDetails interface {
 }
 
-func (m DummyFieldTargetedLaunch) String() string {
+type placementconstraintdetails struct {
+	JsonData []byte
+	Type     string `json:"type"`
+}
+
+// UnmarshalJSON unmarshals json
+func (m *placementconstraintdetails) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalerplacementconstraintdetails placementconstraintdetails
+	s := struct {
+		Model Unmarshalerplacementconstraintdetails
+	}{}
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
+	}
+	m.Type = s.Model.Type
+
+	return err
+}
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *placementconstraintdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
+	var err error
+	switch m.Type {
+	case "HOST_GROUP":
+		mm := HostGroupPlacementConstraintDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_BARE_METAL_HOST":
+		mm := ComputeBareMetalHostPlacementConstraintDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		common.Logf("Received unsupported enum value for PlacementConstraintDetails: %s.", m.Type)
+		return *m, nil
+	}
+}
+
+func (m placementconstraintdetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DummyFieldTargetedLaunch) ValidateEnumValue() (bool, error) {
+func (m placementconstraintdetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

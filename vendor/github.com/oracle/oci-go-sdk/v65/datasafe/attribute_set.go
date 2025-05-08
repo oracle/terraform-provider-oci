@@ -48,6 +48,9 @@ type AttributeSet struct {
 	// A boolean flag indicating to list user defined or seeded attribute sets.
 	IsUserDefined *bool `mandatory:"false" json:"isUserDefined"`
 
+	// Indicates whether the attribute set is in use by other resource.
+	InUse AttributeSetInUseEnum `mandatory:"false" json:"inUse,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -77,6 +80,9 @@ func (m AttributeSet) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeSetType: %s. Supported values are: %s.", m.AttributeSetType, strings.Join(GetAttributeSetAttributeSetTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAttributeSetInUseEnum(string(m.InUse)); !ok && m.InUse != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InUse: %s. Supported values are: %s.", m.InUse, strings.Join(GetAttributeSetInUseEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -188,5 +194,47 @@ func GetAttributeSetAttributeSetTypeEnumStringValues() []string {
 // GetMappingAttributeSetAttributeSetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAttributeSetAttributeSetTypeEnum(val string) (AttributeSetAttributeSetTypeEnum, bool) {
 	enum, ok := mappingAttributeSetAttributeSetTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AttributeSetInUseEnum Enum with underlying type: string
+type AttributeSetInUseEnum string
+
+// Set of constants representing the allowable values for AttributeSetInUseEnum
+const (
+	AttributeSetInUseYes  AttributeSetInUseEnum = "YES"
+	AttributeSetInUseNone AttributeSetInUseEnum = "NONE"
+)
+
+var mappingAttributeSetInUseEnum = map[string]AttributeSetInUseEnum{
+	"YES":  AttributeSetInUseYes,
+	"NONE": AttributeSetInUseNone,
+}
+
+var mappingAttributeSetInUseEnumLowerCase = map[string]AttributeSetInUseEnum{
+	"yes":  AttributeSetInUseYes,
+	"none": AttributeSetInUseNone,
+}
+
+// GetAttributeSetInUseEnumValues Enumerates the set of values for AttributeSetInUseEnum
+func GetAttributeSetInUseEnumValues() []AttributeSetInUseEnum {
+	values := make([]AttributeSetInUseEnum, 0)
+	for _, v := range mappingAttributeSetInUseEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAttributeSetInUseEnumStringValues Enumerates the set of values in String for AttributeSetInUseEnum
+func GetAttributeSetInUseEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NONE",
+	}
+}
+
+// GetMappingAttributeSetInUseEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAttributeSetInUseEnum(val string) (AttributeSetInUseEnum, bool) {
+	enum, ok := mappingAttributeSetInUseEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

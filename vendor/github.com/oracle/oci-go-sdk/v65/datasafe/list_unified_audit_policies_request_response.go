@@ -32,6 +32,9 @@ type ListUnifiedAuditPoliciesRequest struct {
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A boolean flag indicating to list seeded unified audit policies. Set this parameter to get list of seeded unified audit policies.
+	IsSeeded *bool `mandatory:"false" contributesTo:"query" name:"isSeeded"`
+
 	// A filter to return only the resources that were created after the specified date and time, as defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.
 	// **Example:** 2016-12-19T16:39:57.600Z
@@ -168,6 +171,7 @@ const (
 	ListUnifiedAuditPoliciesLifecycleStateFailed         ListUnifiedAuditPoliciesLifecycleStateEnum = "FAILED"
 	ListUnifiedAuditPoliciesLifecycleStateDeleting       ListUnifiedAuditPoliciesLifecycleStateEnum = "DELETING"
 	ListUnifiedAuditPoliciesLifecycleStateNeedsAttention ListUnifiedAuditPoliciesLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListUnifiedAuditPoliciesLifecycleStateDeleted        ListUnifiedAuditPoliciesLifecycleStateEnum = "DELETED"
 )
 
 var mappingListUnifiedAuditPoliciesLifecycleStateEnum = map[string]ListUnifiedAuditPoliciesLifecycleStateEnum{
@@ -178,6 +182,7 @@ var mappingListUnifiedAuditPoliciesLifecycleStateEnum = map[string]ListUnifiedAu
 	"FAILED":          ListUnifiedAuditPoliciesLifecycleStateFailed,
 	"DELETING":        ListUnifiedAuditPoliciesLifecycleStateDeleting,
 	"NEEDS_ATTENTION": ListUnifiedAuditPoliciesLifecycleStateNeedsAttention,
+	"DELETED":         ListUnifiedAuditPoliciesLifecycleStateDeleted,
 }
 
 var mappingListUnifiedAuditPoliciesLifecycleStateEnumLowerCase = map[string]ListUnifiedAuditPoliciesLifecycleStateEnum{
@@ -188,6 +193,7 @@ var mappingListUnifiedAuditPoliciesLifecycleStateEnumLowerCase = map[string]List
 	"failed":          ListUnifiedAuditPoliciesLifecycleStateFailed,
 	"deleting":        ListUnifiedAuditPoliciesLifecycleStateDeleting,
 	"needs_attention": ListUnifiedAuditPoliciesLifecycleStateNeedsAttention,
+	"deleted":         ListUnifiedAuditPoliciesLifecycleStateDeleted,
 }
 
 // GetListUnifiedAuditPoliciesLifecycleStateEnumValues Enumerates the set of values for ListUnifiedAuditPoliciesLifecycleStateEnum
@@ -209,6 +215,7 @@ func GetListUnifiedAuditPoliciesLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"DELETING",
 		"NEEDS_ATTENTION",
+		"DELETED",
 	}
 }
 

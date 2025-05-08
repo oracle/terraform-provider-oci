@@ -39,6 +39,10 @@ type BulkCreateUnifiedAuditPolicyDetails struct {
 	// If policy names are not provided, then all the audit policies
 	// from the target database will be imported.
 	PolicyNames []string `mandatory:"false" json:"policyNames"`
+
+	// Indicates whether the casing of the policy names provided in the request payload should be preserved during creation.
+	// By default all policy names will be converted to upper case.
+	ShouldPreserveCasing *bool `mandatory:"false" json:"shouldPreserveCasing"`
 }
 
 func (m BulkCreateUnifiedAuditPolicyDetails) String() string {

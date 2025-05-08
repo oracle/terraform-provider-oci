@@ -11382,6 +11382,65 @@ func (client DataSafeClient) listAlerts(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// ListAssociatedResources Returns list of all associated resources.
+// A default retry strategy applies to this operation ListAssociatedResources()
+func (client DataSafeClient) ListAssociatedResources(ctx context.Context, request ListAssociatedResourcesRequest) (response ListAssociatedResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listAssociatedResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAssociatedResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAssociatedResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAssociatedResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAssociatedResourcesResponse")
+	}
+	return
+}
+
+// listAssociatedResources implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listAssociatedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/attributeSets/{attributeSetId}/associatedResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAssociatedResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AttributeSet/ListAssociatedResources"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAssociatedResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAttributeSets Retrieves the list of attribute sets.
 // The ListAttributeSets operation returns only the attribute sets in the specified `compartmentId`.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -15888,60 +15947,6 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ListTargetAlertPolicyAssociationDeviations Gets the deviation details of target-alert policy association by its ID.
-// A default retry strategy applies to this operation ListTargetAlertPolicyAssociationDeviations()
-func (client DataSafeClient) ListTargetAlertPolicyAssociationDeviations(ctx context.Context, request ListTargetAlertPolicyAssociationDeviationsRequest) (response ListTargetAlertPolicyAssociationDeviationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listTargetAlertPolicyAssociationDeviations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListTargetAlertPolicyAssociationDeviationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListTargetAlertPolicyAssociationDeviationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListTargetAlertPolicyAssociationDeviationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListTargetAlertPolicyAssociationDeviationsResponse")
-	}
-	return
-}
-
-// listTargetAlertPolicyAssociationDeviations implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listTargetAlertPolicyAssociationDeviations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetAlertPolicyAssociations/{targetAlertPolicyAssociationId}/targetAlertPolicyAssociationDeviations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListTargetAlertPolicyAssociationDeviationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/ListTargetAlertPolicyAssociationDeviations"
-		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyAssociationDeviations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListTargetAlertPolicyAssociations Gets a list of all target-alert policy associations.
 // A default retry strategy applies to this operation ListTargetAlertPolicyAssociations()
 func (client DataSafeClient) ListTargetAlertPolicyAssociations(ctx context.Context, request ListTargetAlertPolicyAssociationsRequest) (response ListTargetAlertPolicyAssociationsResponse, err error) {
@@ -15989,6 +15994,60 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociationSummary/ListTargetAlertPolicyAssociations"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTargetAlertPolicyUnassociatedMembers Gets the details of target-alert policy association and its unassociated members by its ID.
+// A default retry strategy applies to this operation ListTargetAlertPolicyUnassociatedMembers()
+func (client DataSafeClient) ListTargetAlertPolicyUnassociatedMembers(ctx context.Context, request ListTargetAlertPolicyUnassociatedMembersRequest) (response ListTargetAlertPolicyUnassociatedMembersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTargetAlertPolicyUnassociatedMembers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTargetAlertPolicyUnassociatedMembersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTargetAlertPolicyUnassociatedMembersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTargetAlertPolicyUnassociatedMembersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTargetAlertPolicyUnassociatedMembersResponse")
+	}
+	return
+}
+
+// listTargetAlertPolicyUnassociatedMembers implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTargetAlertPolicyUnassociatedMembers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetAlertPolicyAssociations/{targetAlertPolicyAssociationId}/unassociatedTargetMembers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTargetAlertPolicyUnassociatedMembersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/ListTargetAlertPolicyUnassociatedMembers"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyUnassociatedMembers", apiReferenceLink)
 		return response, err
 	}
 

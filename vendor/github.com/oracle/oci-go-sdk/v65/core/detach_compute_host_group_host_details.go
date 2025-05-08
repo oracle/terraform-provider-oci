@@ -21,21 +21,21 @@ import (
 	"strings"
 )
 
-// DummyFieldHostGroup dummy field
-type DummyFieldHostGroup struct {
+// DetachComputeHostGroupHostDetails Specifies the host group id
+type DetachComputeHostGroupHostDetails struct {
 
-	// Determines the type of targeted launch.
-	Type *string `mandatory:"true" json:"type"`
+	// 'The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host group.'
+	ComputeHostGroupId *string `mandatory:"true" json:"computeHostGroupId"`
 }
 
-func (m DummyFieldHostGroup) String() string {
+func (m DetachComputeHostGroupHostDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DummyFieldHostGroup) ValidateEnumValue() (bool, error) {
+func (m DetachComputeHostGroupHostDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

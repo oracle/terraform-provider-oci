@@ -67,57 +67,60 @@ type ColumnApplicableOperatorsEnum string
 
 // Set of constants representing the allowable values for ColumnApplicableOperatorsEnum
 const (
-	ColumnApplicableOperatorsIn    ColumnApplicableOperatorsEnum = "IN"
-	ColumnApplicableOperatorsEq    ColumnApplicableOperatorsEnum = "EQ"
-	ColumnApplicableOperatorsEqCs  ColumnApplicableOperatorsEnum = "EQ_CS"
-	ColumnApplicableOperatorsGt    ColumnApplicableOperatorsEnum = "GT"
-	ColumnApplicableOperatorsGe    ColumnApplicableOperatorsEnum = "GE"
-	ColumnApplicableOperatorsLt    ColumnApplicableOperatorsEnum = "LT"
-	ColumnApplicableOperatorsLe    ColumnApplicableOperatorsEnum = "LE"
-	ColumnApplicableOperatorsAnd   ColumnApplicableOperatorsEnum = "AND"
-	ColumnApplicableOperatorsOr    ColumnApplicableOperatorsEnum = "OR"
-	ColumnApplicableOperatorsNe    ColumnApplicableOperatorsEnum = "NE"
-	ColumnApplicableOperatorsCo    ColumnApplicableOperatorsEnum = "CO"
-	ColumnApplicableOperatorsCoCs  ColumnApplicableOperatorsEnum = "CO_CS"
-	ColumnApplicableOperatorsNot   ColumnApplicableOperatorsEnum = "NOT"
-	ColumnApplicableOperatorsNotIn ColumnApplicableOperatorsEnum = "NOT_IN"
-	ColumnApplicableOperatorsInSet ColumnApplicableOperatorsEnum = "IN_SET"
+	ColumnApplicableOperatorsIn       ColumnApplicableOperatorsEnum = "IN"
+	ColumnApplicableOperatorsEq       ColumnApplicableOperatorsEnum = "EQ"
+	ColumnApplicableOperatorsEqCs     ColumnApplicableOperatorsEnum = "EQ_CS"
+	ColumnApplicableOperatorsGt       ColumnApplicableOperatorsEnum = "GT"
+	ColumnApplicableOperatorsGe       ColumnApplicableOperatorsEnum = "GE"
+	ColumnApplicableOperatorsLt       ColumnApplicableOperatorsEnum = "LT"
+	ColumnApplicableOperatorsLe       ColumnApplicableOperatorsEnum = "LE"
+	ColumnApplicableOperatorsAnd      ColumnApplicableOperatorsEnum = "AND"
+	ColumnApplicableOperatorsOr       ColumnApplicableOperatorsEnum = "OR"
+	ColumnApplicableOperatorsNe       ColumnApplicableOperatorsEnum = "NE"
+	ColumnApplicableOperatorsCo       ColumnApplicableOperatorsEnum = "CO"
+	ColumnApplicableOperatorsCoCs     ColumnApplicableOperatorsEnum = "CO_CS"
+	ColumnApplicableOperatorsNot      ColumnApplicableOperatorsEnum = "NOT"
+	ColumnApplicableOperatorsNotIn    ColumnApplicableOperatorsEnum = "NOT_IN"
+	ColumnApplicableOperatorsInSet    ColumnApplicableOperatorsEnum = "IN_SET"
+	ColumnApplicableOperatorsNotInSet ColumnApplicableOperatorsEnum = "NOT_IN_SET"
 )
 
 var mappingColumnApplicableOperatorsEnum = map[string]ColumnApplicableOperatorsEnum{
-	"IN":     ColumnApplicableOperatorsIn,
-	"EQ":     ColumnApplicableOperatorsEq,
-	"EQ_CS":  ColumnApplicableOperatorsEqCs,
-	"GT":     ColumnApplicableOperatorsGt,
-	"GE":     ColumnApplicableOperatorsGe,
-	"LT":     ColumnApplicableOperatorsLt,
-	"LE":     ColumnApplicableOperatorsLe,
-	"AND":    ColumnApplicableOperatorsAnd,
-	"OR":     ColumnApplicableOperatorsOr,
-	"NE":     ColumnApplicableOperatorsNe,
-	"CO":     ColumnApplicableOperatorsCo,
-	"CO_CS":  ColumnApplicableOperatorsCoCs,
-	"NOT":    ColumnApplicableOperatorsNot,
-	"NOT_IN": ColumnApplicableOperatorsNotIn,
-	"IN_SET": ColumnApplicableOperatorsInSet,
+	"IN":         ColumnApplicableOperatorsIn,
+	"EQ":         ColumnApplicableOperatorsEq,
+	"EQ_CS":      ColumnApplicableOperatorsEqCs,
+	"GT":         ColumnApplicableOperatorsGt,
+	"GE":         ColumnApplicableOperatorsGe,
+	"LT":         ColumnApplicableOperatorsLt,
+	"LE":         ColumnApplicableOperatorsLe,
+	"AND":        ColumnApplicableOperatorsAnd,
+	"OR":         ColumnApplicableOperatorsOr,
+	"NE":         ColumnApplicableOperatorsNe,
+	"CO":         ColumnApplicableOperatorsCo,
+	"CO_CS":      ColumnApplicableOperatorsCoCs,
+	"NOT":        ColumnApplicableOperatorsNot,
+	"NOT_IN":     ColumnApplicableOperatorsNotIn,
+	"IN_SET":     ColumnApplicableOperatorsInSet,
+	"NOT_IN_SET": ColumnApplicableOperatorsNotInSet,
 }
 
 var mappingColumnApplicableOperatorsEnumLowerCase = map[string]ColumnApplicableOperatorsEnum{
-	"in":     ColumnApplicableOperatorsIn,
-	"eq":     ColumnApplicableOperatorsEq,
-	"eq_cs":  ColumnApplicableOperatorsEqCs,
-	"gt":     ColumnApplicableOperatorsGt,
-	"ge":     ColumnApplicableOperatorsGe,
-	"lt":     ColumnApplicableOperatorsLt,
-	"le":     ColumnApplicableOperatorsLe,
-	"and":    ColumnApplicableOperatorsAnd,
-	"or":     ColumnApplicableOperatorsOr,
-	"ne":     ColumnApplicableOperatorsNe,
-	"co":     ColumnApplicableOperatorsCo,
-	"co_cs":  ColumnApplicableOperatorsCoCs,
-	"not":    ColumnApplicableOperatorsNot,
-	"not_in": ColumnApplicableOperatorsNotIn,
-	"in_set": ColumnApplicableOperatorsInSet,
+	"in":         ColumnApplicableOperatorsIn,
+	"eq":         ColumnApplicableOperatorsEq,
+	"eq_cs":      ColumnApplicableOperatorsEqCs,
+	"gt":         ColumnApplicableOperatorsGt,
+	"ge":         ColumnApplicableOperatorsGe,
+	"lt":         ColumnApplicableOperatorsLt,
+	"le":         ColumnApplicableOperatorsLe,
+	"and":        ColumnApplicableOperatorsAnd,
+	"or":         ColumnApplicableOperatorsOr,
+	"ne":         ColumnApplicableOperatorsNe,
+	"co":         ColumnApplicableOperatorsCo,
+	"co_cs":      ColumnApplicableOperatorsCoCs,
+	"not":        ColumnApplicableOperatorsNot,
+	"not_in":     ColumnApplicableOperatorsNotIn,
+	"in_set":     ColumnApplicableOperatorsInSet,
+	"not_in_set": ColumnApplicableOperatorsNotInSet,
 }
 
 // GetColumnApplicableOperatorsEnumValues Enumerates the set of values for ColumnApplicableOperatorsEnum
@@ -147,6 +150,7 @@ func GetColumnApplicableOperatorsEnumStringValues() []string {
 		"NOT",
 		"NOT_IN",
 		"IN_SET",
+		"NOT_IN_SET",
 	}
 }
 

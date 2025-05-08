@@ -38,6 +38,9 @@ type StartComputeClusterRequest struct {
 	// User delegation token.
 	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
 
+	// The time stamp at which the resource operation was triggered. An RFC3339 formatted datetime string.
+	ResourceOperationTimestamp *common.SDKTime `mandatory:"false" contributesTo:"header" name:"resource-operation-timestamp"`
+
 	// The optional parameter of details for start compute cluster command.
 	StartComputeClusterDetails `contributesTo:"body"`
 

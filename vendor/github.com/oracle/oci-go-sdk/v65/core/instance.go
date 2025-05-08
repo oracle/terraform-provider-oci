@@ -75,6 +75,8 @@ type Instance struct {
 	// For more information, see Capacity Reservations (https://docs.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
+
 	// The OCID of the cluster placement group of the instance.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
@@ -204,6 +206,9 @@ type Instance struct {
 
 	// List of licensing configurations associated with the instance.
 	LicensingConfigs []LicensingConfig `mandatory:"false" json:"licensingConfigs"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group
+	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
 }
 
 func (m Instance) String() string {
@@ -238,6 +243,7 @@ func (m Instance) ValidateEnumValue() (bool, error) {
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		CapacityReservationId      *string                                `json:"capacityReservationId"`
+		PlacementConstraintDetails placementconstraintdetails             `json:"placementConstraintDetails"`
 		ClusterPlacementGroupId    *string                                `json:"clusterPlacementGroupId"`
 		DedicatedVmHostId          *string                                `json:"dedicatedVmHostId"`
 		DefinedTags                map[string]map[string]interface{}      `json:"definedTags"`
@@ -266,6 +272,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		PlatformConfig             platformconfig                         `json:"platformConfig"`
 		InstanceConfigurationId    *string                                `json:"instanceConfigurationId"`
 		LicensingConfigs           []LicensingConfig                      `json:"licensingConfigs"`
+		ComputeHostGroupId         *string                                `json:"computeHostGroupId"`
 		AvailabilityDomain         *string                                `json:"availabilityDomain"`
 		CompartmentId              *string                                `json:"compartmentId"`
 		Id                         *string                                `json:"id"`
@@ -281,6 +288,16 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.CapacityReservationId = model.CapacityReservationId
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
@@ -354,6 +371,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 
 	m.LicensingConfigs = make([]LicensingConfig, len(model.LicensingConfigs))
 	copy(m.LicensingConfigs, model.LicensingConfigs)
+	m.ComputeHostGroupId = model.ComputeHostGroupId
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

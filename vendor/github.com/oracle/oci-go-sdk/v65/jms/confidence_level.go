@@ -18,24 +18,21 @@ type ConfidenceLevelEnum string
 
 // Set of constants representing the allowable values for ConfidenceLevelEnum
 const (
-	ConfidenceLevelHigh    ConfidenceLevelEnum = "HIGH"
-	ConfidenceLevelMedium  ConfidenceLevelEnum = "MEDIUM"
-	ConfidenceLevelLow     ConfidenceLevelEnum = "LOW"
-	ConfidenceLevelUnknown ConfidenceLevelEnum = "UNKNOWN"
+	ConfidenceLevelHigh   ConfidenceLevelEnum = "HIGH"
+	ConfidenceLevelMedium ConfidenceLevelEnum = "MEDIUM"
+	ConfidenceLevelLow    ConfidenceLevelEnum = "LOW"
 )
 
 var mappingConfidenceLevelEnum = map[string]ConfidenceLevelEnum{
-	"HIGH":    ConfidenceLevelHigh,
-	"MEDIUM":  ConfidenceLevelMedium,
-	"LOW":     ConfidenceLevelLow,
-	"UNKNOWN": ConfidenceLevelUnknown,
+	"HIGH":   ConfidenceLevelHigh,
+	"MEDIUM": ConfidenceLevelMedium,
+	"LOW":    ConfidenceLevelLow,
 }
 
 var mappingConfidenceLevelEnumLowerCase = map[string]ConfidenceLevelEnum{
-	"high":    ConfidenceLevelHigh,
-	"medium":  ConfidenceLevelMedium,
-	"low":     ConfidenceLevelLow,
-	"unknown": ConfidenceLevelUnknown,
+	"high":   ConfidenceLevelHigh,
+	"medium": ConfidenceLevelMedium,
+	"low":    ConfidenceLevelLow,
 }
 
 // GetConfidenceLevelEnumValues Enumerates the set of values for ConfidenceLevelEnum
@@ -53,7 +50,6 @@ func GetConfidenceLevelEnumStringValues() []string {
 		"HIGH",
 		"MEDIUM",
 		"LOW",
-		"UNKNOWN",
 	}
 }
 

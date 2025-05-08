@@ -41,6 +41,9 @@ type ChangeComputeClusterCompartmentRequest struct {
 	// User delegation token.
 	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
 
+	// The time stamp at which the resource operation was triggered. An RFC3339 formatted datetime string.
+	ResourceOperationTimestamp *common.SDKTime `mandatory:"false" contributesTo:"header" name:"resource-operation-timestamp"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

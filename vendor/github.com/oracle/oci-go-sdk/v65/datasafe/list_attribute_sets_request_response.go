@@ -36,10 +36,10 @@ type ListAttributeSetsRequest struct {
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// OCID of an attribute set.
+	// A filter to return only attribute set resources that matches the specified attribute set OCID query param.
 	AttributeSetId *string `mandatory:"false" contributesTo:"query" name:"attributeSetId"`
 
-	// A filter to return only resources that matches the specified attribute set type.
+	// A filter to return only attribute set resources that matches the specified attribute set type query param.
 	AttributeSetType AttributeSetAttributeSetTypeEnum `mandatory:"false" contributesTo:"query" name:"attributeSetType" omitEmpty:"true"`
 
 	// The current state of an attribute set.
@@ -56,8 +56,11 @@ type ListAttributeSetsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A boolean flag indicating to list user defined or seeded attribute sets.
+	// A filter to return user defined or seeded attribute set resources that matches the specified is user defined query param. A true value indicates user defined attribute set.
 	IsUserDefined *bool `mandatory:"false" contributesTo:"query" name:"isUserDefined"`
+
+	// A filter to return attribute set resources that are in use by other associated resources.
+	InUse ListAttributeSetsInUseEnum `mandatory:"false" contributesTo:"query" name:"inUse" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -109,6 +112,9 @@ func (request ListAttributeSetsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListAttributeSetsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAttributeSetsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListAttributeSetsInUseEnum(string(request.InUse)); !ok && request.InUse != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InUse: %s. Supported values are: %s.", request.InUse, strings.Join(GetListAttributeSetsInUseEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -269,5 +275,47 @@ func GetListAttributeSetsSortByEnumStringValues() []string {
 // GetMappingListAttributeSetsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListAttributeSetsSortByEnum(val string) (ListAttributeSetsSortByEnum, bool) {
 	enum, ok := mappingListAttributeSetsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListAttributeSetsInUseEnum Enum with underlying type: string
+type ListAttributeSetsInUseEnum string
+
+// Set of constants representing the allowable values for ListAttributeSetsInUseEnum
+const (
+	ListAttributeSetsInUseYes  ListAttributeSetsInUseEnum = "YES"
+	ListAttributeSetsInUseNone ListAttributeSetsInUseEnum = "NONE"
+)
+
+var mappingListAttributeSetsInUseEnum = map[string]ListAttributeSetsInUseEnum{
+	"YES":  ListAttributeSetsInUseYes,
+	"NONE": ListAttributeSetsInUseNone,
+}
+
+var mappingListAttributeSetsInUseEnumLowerCase = map[string]ListAttributeSetsInUseEnum{
+	"yes":  ListAttributeSetsInUseYes,
+	"none": ListAttributeSetsInUseNone,
+}
+
+// GetListAttributeSetsInUseEnumValues Enumerates the set of values for ListAttributeSetsInUseEnum
+func GetListAttributeSetsInUseEnumValues() []ListAttributeSetsInUseEnum {
+	values := make([]ListAttributeSetsInUseEnum, 0)
+	for _, v := range mappingListAttributeSetsInUseEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListAttributeSetsInUseEnumStringValues Enumerates the set of values in String for ListAttributeSetsInUseEnum
+func GetListAttributeSetsInUseEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NONE",
+	}
+}
+
+// GetMappingListAttributeSetsInUseEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListAttributeSetsInUseEnum(val string) (ListAttributeSetsInUseEnum, bool) {
+	enum, ok := mappingListAttributeSetsInUseEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -48,6 +48,9 @@ type SecurityPolicyDeploymentSummary struct {
 	// Indicates whether the security policy will be un-deployed when a target is removed from a target group.
 	AutomaticUndeploy SecurityPolicyDeploymentAutomaticUndeployEnum `mandatory:"false" json:"automaticUndeploy,omitempty"`
 
+	// The last date and time the security policy was deployed, in the format defined by RFC3339.
+	TimeDeployed *common.SDKTime `mandatory:"false" json:"timeDeployed"`
+
 	// The last date and time the security policy deployment was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 

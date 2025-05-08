@@ -24,6 +24,7 @@ const (
 	SecurityPolicyConfigLifecycleStateFailed         SecurityPolicyConfigLifecycleStateEnum = "FAILED"
 	SecurityPolicyConfigLifecycleStateNeedsAttention SecurityPolicyConfigLifecycleStateEnum = "NEEDS_ATTENTION"
 	SecurityPolicyConfigLifecycleStateDeleting       SecurityPolicyConfigLifecycleStateEnum = "DELETING"
+	SecurityPolicyConfigLifecycleStateDeleted        SecurityPolicyConfigLifecycleStateEnum = "DELETED"
 )
 
 var mappingSecurityPolicyConfigLifecycleStateEnum = map[string]SecurityPolicyConfigLifecycleStateEnum{
@@ -33,6 +34,7 @@ var mappingSecurityPolicyConfigLifecycleStateEnum = map[string]SecurityPolicyCon
 	"FAILED":          SecurityPolicyConfigLifecycleStateFailed,
 	"NEEDS_ATTENTION": SecurityPolicyConfigLifecycleStateNeedsAttention,
 	"DELETING":        SecurityPolicyConfigLifecycleStateDeleting,
+	"DELETED":         SecurityPolicyConfigLifecycleStateDeleted,
 }
 
 var mappingSecurityPolicyConfigLifecycleStateEnumLowerCase = map[string]SecurityPolicyConfigLifecycleStateEnum{
@@ -42,6 +44,7 @@ var mappingSecurityPolicyConfigLifecycleStateEnumLowerCase = map[string]Security
 	"failed":          SecurityPolicyConfigLifecycleStateFailed,
 	"needs_attention": SecurityPolicyConfigLifecycleStateNeedsAttention,
 	"deleting":        SecurityPolicyConfigLifecycleStateDeleting,
+	"deleted":         SecurityPolicyConfigLifecycleStateDeleted,
 }
 
 // GetSecurityPolicyConfigLifecycleStateEnumValues Enumerates the set of values for SecurityPolicyConfigLifecycleStateEnum
@@ -62,6 +65,7 @@ func GetSecurityPolicyConfigLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"NEEDS_ATTENTION",
 		"DELETING",
+		"DELETED",
 	}
 }
 

@@ -21,7 +21,7 @@ type ActiveClusterResources struct {
 	// The number of active executors currently running in the cluster.
 	ActiveExecutorCount *float64 `mandatory:"false" json:"activeExecutorCount"`
 
-	// The total number of OCPUs currently allocated to the driver and executors.
+	// The total number of CPU cores currently allocated to the driver and executors.
 	ActiveCores *float64 `mandatory:"false" json:"activeCores"`
 
 	// The total number of GPU cores currently allocated to the driver and executors.

@@ -15,21 +15,21 @@ import (
 	"strings"
 )
 
-// TargetAlertPolicyAssociationDeviationCollection Collection of target alert policy association deviation summary.
-type TargetAlertPolicyAssociationDeviationCollection struct {
+// AssociatedResourceCollection The details of associated resources of an attribute set.
+type AssociatedResourceCollection struct {
 
-	// Array of target alert policy association deviation summary.
-	Items []TargetAlertPolicyAssociationDeviationSummary `mandatory:"true" json:"items"`
+	// Array of associated resources.
+	Items []AssociatedResourceSummary `mandatory:"true" json:"items"`
 }
 
-func (m TargetAlertPolicyAssociationDeviationCollection) String() string {
+func (m AssociatedResourceCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TargetAlertPolicyAssociationDeviationCollection) ValidateEnumValue() (bool, error) {
+func (m AssociatedResourceCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

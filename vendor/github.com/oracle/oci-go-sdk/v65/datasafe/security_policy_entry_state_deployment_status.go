@@ -23,6 +23,7 @@ const (
 	SecurityPolicyEntryStateDeploymentStatusConflict          SecurityPolicyEntryStateDeploymentStatusEnum = "CONFLICT"
 	SecurityPolicyEntryStateDeploymentStatusConnectivityIssue SecurityPolicyEntryStateDeploymentStatusEnum = "CONNECTIVITY_ISSUE"
 	SecurityPolicyEntryStateDeploymentStatusUnsupportedSyntax SecurityPolicyEntryStateDeploymentStatusEnum = "UNSUPPORTED_SYNTAX"
+	SecurityPolicyEntryStateDeploymentStatusUnknownError      SecurityPolicyEntryStateDeploymentStatusEnum = "UNKNOWN_ERROR"
 	SecurityPolicyEntryStateDeploymentStatusUnauthorized      SecurityPolicyEntryStateDeploymentStatusEnum = "UNAUTHORIZED"
 	SecurityPolicyEntryStateDeploymentStatusDeleted           SecurityPolicyEntryStateDeploymentStatusEnum = "DELETED"
 )
@@ -33,6 +34,7 @@ var mappingSecurityPolicyEntryStateDeploymentStatusEnum = map[string]SecurityPol
 	"CONFLICT":           SecurityPolicyEntryStateDeploymentStatusConflict,
 	"CONNECTIVITY_ISSUE": SecurityPolicyEntryStateDeploymentStatusConnectivityIssue,
 	"UNSUPPORTED_SYNTAX": SecurityPolicyEntryStateDeploymentStatusUnsupportedSyntax,
+	"UNKNOWN_ERROR":      SecurityPolicyEntryStateDeploymentStatusUnknownError,
 	"UNAUTHORIZED":       SecurityPolicyEntryStateDeploymentStatusUnauthorized,
 	"DELETED":            SecurityPolicyEntryStateDeploymentStatusDeleted,
 }
@@ -43,6 +45,7 @@ var mappingSecurityPolicyEntryStateDeploymentStatusEnumLowerCase = map[string]Se
 	"conflict":           SecurityPolicyEntryStateDeploymentStatusConflict,
 	"connectivity_issue": SecurityPolicyEntryStateDeploymentStatusConnectivityIssue,
 	"unsupported_syntax": SecurityPolicyEntryStateDeploymentStatusUnsupportedSyntax,
+	"unknown_error":      SecurityPolicyEntryStateDeploymentStatusUnknownError,
 	"unauthorized":       SecurityPolicyEntryStateDeploymentStatusUnauthorized,
 	"deleted":            SecurityPolicyEntryStateDeploymentStatusDeleted,
 }
@@ -64,6 +67,7 @@ func GetSecurityPolicyEntryStateDeploymentStatusEnumStringValues() []string {
 		"CONFLICT",
 		"CONNECTIVITY_ISSUE",
 		"UNSUPPORTED_SYNTAX",
+		"UNKNOWN_ERROR",
 		"UNAUTHORIZED",
 		"DELETED",
 	}

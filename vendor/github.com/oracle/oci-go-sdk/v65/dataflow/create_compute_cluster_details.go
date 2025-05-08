@@ -115,6 +115,9 @@ type CreateComputeClusterDetails struct {
 
 	// Indicates whether this compute cluster should be created as default cluster
 	IsDefaultComputeCluster *bool `mandatory:"false" json:"isDefaultComputeCluster"`
+
+	// Tag slug from user tenancy passed from Datalake as Base64.getEncoder().encodeToString(data)
+	UserTenancyTagSlug *string `mandatory:"false" json:"userTenancyTagSlug"`
 }
 
 func (m CreateComputeClusterDetails) String() string {

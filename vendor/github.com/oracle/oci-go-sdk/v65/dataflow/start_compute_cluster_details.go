@@ -26,9 +26,6 @@ type StartComputeClusterDetails struct {
 
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
-
-	// Specify the logId to publish spark diagnostic logs.
-	LogId *string `mandatory:"false" json:"logId"`
 }
 
 func (m StartComputeClusterDetails) String() string {

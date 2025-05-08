@@ -15,17 +15,17 @@ import (
 	"strings"
 )
 
-// TargetAlertPolicyAssociationDeviationSummary Summary of the target databases that deviate from the association of the target database group.
-type TargetAlertPolicyAssociationDeviationSummary struct {
+// TargetAlertPolicyUnassociatedSummary Summary of the target databases that differ from the association of the target database group.
+type TargetAlertPolicyUnassociatedSummary struct {
 
-	// The OCID of the target database that deviates from the alert policy association of the target database group.
+	// The OCID of the target database that differs from the alert policy association of the target database group.
 	TargetDatabaseId *string `mandatory:"true" json:"targetDatabaseId"`
 
 	// Indicates if the target-alert policy association is enabled or disabled by user.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// Details on why target is deviating from target alert policy association.
-	DeviationDetails *string `mandatory:"false" json:"deviationDetails"`
+	// Details on why policy is not applied on target.
+	NotAppliedReason *string `mandatory:"false" json:"notAppliedReason"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
@@ -40,14 +40,14 @@ type TargetAlertPolicyAssociationDeviationSummary struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-func (m TargetAlertPolicyAssociationDeviationSummary) String() string {
+func (m TargetAlertPolicyUnassociatedSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TargetAlertPolicyAssociationDeviationSummary) ValidateEnumValue() (bool, error) {
+func (m TargetAlertPolicyUnassociatedSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

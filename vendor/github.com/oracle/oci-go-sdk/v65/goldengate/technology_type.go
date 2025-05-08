@@ -27,7 +27,6 @@ const (
 	TechnologyTypeOciObjectStorage                      TechnologyTypeEnum = "OCI_OBJECT_STORAGE"
 	TechnologyTypeOciPostgresql                         TechnologyTypeEnum = "OCI_POSTGRESQL"
 	TechnologyTypeOciStreaming                          TechnologyTypeEnum = "OCI_STREAMING"
-	TechnologyTypeOciStreamingWithApacheKafka           TechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
 	TechnologyTypeOracleDatabase                        TechnologyTypeEnum = "ORACLE_DATABASE"
 	TechnologyTypeOracleExadata                         TechnologyTypeEnum = "ORACLE_EXADATA"
 	TechnologyTypeOracleExadataDatabaseAtAzure          TechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
@@ -101,7 +100,6 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"OCI_OBJECT_STORAGE":                         TechnologyTypeOciObjectStorage,
 	"OCI_POSTGRESQL":                             TechnologyTypeOciPostgresql,
 	"OCI_STREAMING":                              TechnologyTypeOciStreaming,
-	"OCI_STREAMING_WITH_APACHE_KAFKA":            TechnologyTypeOciStreamingWithApacheKafka,
 	"ORACLE_DATABASE":                            TechnologyTypeOracleDatabase,
 	"ORACLE_EXADATA":                             TechnologyTypeOracleExadata,
 	"ORACLE_EXADATA_DATABASE_AT_AZURE":           TechnologyTypeOracleExadataDatabaseAtAzure,
@@ -175,7 +173,6 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"oci_object_storage":                         TechnologyTypeOciObjectStorage,
 	"oci_postgresql":                             TechnologyTypeOciPostgresql,
 	"oci_streaming":                              TechnologyTypeOciStreaming,
-	"oci_streaming_with_apache_kafka":            TechnologyTypeOciStreamingWithApacheKafka,
 	"oracle_database":                            TechnologyTypeOracleDatabase,
 	"oracle_exadata":                             TechnologyTypeOracleExadata,
 	"oracle_exadata_database_at_azure":           TechnologyTypeOracleExadataDatabaseAtAzure,
@@ -260,7 +257,6 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"OCI_OBJECT_STORAGE",
 		"OCI_POSTGRESQL",
 		"OCI_STREAMING",
-		"OCI_STREAMING_WITH_APACHE_KAFKA",
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
 		"ORACLE_EXADATA_DATABASE_AT_AZURE",

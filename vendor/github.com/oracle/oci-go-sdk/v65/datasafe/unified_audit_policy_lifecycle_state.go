@@ -25,6 +25,7 @@ const (
 	UnifiedAuditPolicyLifecycleStateFailed         UnifiedAuditPolicyLifecycleStateEnum = "FAILED"
 	UnifiedAuditPolicyLifecycleStateDeleting       UnifiedAuditPolicyLifecycleStateEnum = "DELETING"
 	UnifiedAuditPolicyLifecycleStateNeedsAttention UnifiedAuditPolicyLifecycleStateEnum = "NEEDS_ATTENTION"
+	UnifiedAuditPolicyLifecycleStateDeleted        UnifiedAuditPolicyLifecycleStateEnum = "DELETED"
 )
 
 var mappingUnifiedAuditPolicyLifecycleStateEnum = map[string]UnifiedAuditPolicyLifecycleStateEnum{
@@ -35,6 +36,7 @@ var mappingUnifiedAuditPolicyLifecycleStateEnum = map[string]UnifiedAuditPolicyL
 	"FAILED":          UnifiedAuditPolicyLifecycleStateFailed,
 	"DELETING":        UnifiedAuditPolicyLifecycleStateDeleting,
 	"NEEDS_ATTENTION": UnifiedAuditPolicyLifecycleStateNeedsAttention,
+	"DELETED":         UnifiedAuditPolicyLifecycleStateDeleted,
 }
 
 var mappingUnifiedAuditPolicyLifecycleStateEnumLowerCase = map[string]UnifiedAuditPolicyLifecycleStateEnum{
@@ -45,6 +47,7 @@ var mappingUnifiedAuditPolicyLifecycleStateEnumLowerCase = map[string]UnifiedAud
 	"failed":          UnifiedAuditPolicyLifecycleStateFailed,
 	"deleting":        UnifiedAuditPolicyLifecycleStateDeleting,
 	"needs_attention": UnifiedAuditPolicyLifecycleStateNeedsAttention,
+	"deleted":         UnifiedAuditPolicyLifecycleStateDeleted,
 }
 
 // GetUnifiedAuditPolicyLifecycleStateEnumValues Enumerates the set of values for UnifiedAuditPolicyLifecycleStateEnum
@@ -66,6 +69,7 @@ func GetUnifiedAuditPolicyLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"DELETING",
 		"NEEDS_ATTENTION",
+		"DELETED",
 	}
 }
 
