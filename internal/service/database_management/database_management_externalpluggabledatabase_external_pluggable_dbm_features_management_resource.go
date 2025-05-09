@@ -39,7 +39,16 @@ func DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesMana
 				Type:     schema.TypeBool,
 				Required: true,
 			},
-
+			"feature": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"DB_LIFECYCLE_MANAGEMENT",
+					"DIAGNOSTICS_AND_MANAGEMENT",
+					"SQLWATCH",
+				}, true),
+			},
 			// Optional
 			"feature_details": {
 				Type:     schema.TypeList,
@@ -423,15 +432,6 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 }
 
 func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) Delete() error {
-	var operation bool
-	if enableOperation, ok := s.D.GetOkExists("enable_external_pluggable_dbm_feature"); ok {
-		operation = enableOperation.(bool)
-	}
-
-	if !operation {
-		return nil
-	}
-
 	request := oci_database_management.DisableExternalPluggableDatabaseManagementFeatureRequest{}
 
 	if externalPluggableDatabaseId, ok := s.D.GetOkExists("external_pluggable_database_id"); ok {
@@ -439,17 +439,7 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = "" // default value
-			}
-		}
-	}
+	request.Feature = resolveFeatureForDBOperation(&s.BaseCrud)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 

@@ -24,7 +24,7 @@ variable "managed_database_id" {
 }
 
 variable "managed_database_deployment_type" {
-  default = "ONPREMISE"
+  default = "VM"
 }
 
 variable "managed_database_management_option" {
@@ -43,10 +43,35 @@ variable "managed_db_freeform_tags" {
   default = { "bar-key" = "value" }
 }
 
+// Use this flags to enable/disable cloud database related resources
+variable "enable_cloud_test" {
+  type   = bool
+  default = true
+}
+
+// Use this flags to enable/disable external database related resources
+variable "enable_external_test" {
+  type   = bool
+  default = true
+}
+
+// Use this flags to enable/disable non cdb database related resources
+variable "enable_non_cdb_test" {
+  type   = bool
+  default = true
+}
+
+// Use this flags to enable/disable cloud database bulk pdb related resources
+variable "enable_bulk_cloud_test" {
+  type   = bool
+  default = true
+}
+
+
 # Create a new Tag Namespace.
 resource "oci_identity_tag_namespace" "tag_namespace1" {
   #Required
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_id
   description    = "example tag namespace"
   name           = "example-tag-namespace-all"
 }
@@ -80,6 +105,8 @@ resource "oci_database_management_managed_database" "test_managed_database" {
   freeform_tags = var.managed_db_freeform_tags
 }
 
+
+
 # External CDB
 variable "external_cdb_id" {
   default = "ocid1.test.oc1..<unique_ID>EXAMPLE-external-cdb-id-Value"
@@ -96,8 +123,8 @@ variable "pdb_connector_id" {
   default = "ocid1.test.oc1..<unique_ID>EXAMPLE-external-pdb-conector-id-Value"
 }
 
-
 resource "oci_database_management_externalcontainerdatabase_external_container_dbm_features_management" "test_externalcontainerdatabase_external_container_dbm_features_management_dbm" {
+  count = var.enable_external_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "EXTERNAL"
@@ -105,12 +132,18 @@ resource "oci_database_management_externalcontainerdatabase_external_container_d
     }
     feature = "DIAGNOSTICS_AND_MANAGEMENT"
     license_model = "LICENSE_INCLUDED"
+    # Optional
+    # can_enable_all_current_pdbs = "true"
   }
   external_container_database_id = var.external_cdb_id
   enable_external_container_dbm_feature = "true"
+  
+  # Optional
+  # can_disable_all_pdbs = "true"
 }
 
 resource "oci_database_management_externalcontainerdatabase_external_container_dbm_features_management" "test_externalcontainerdatabase_external_container_dbm_features_management_sqlwatch" {
+  count = var.enable_external_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "EXTERNAL"
@@ -144,8 +177,8 @@ resource "oci_database_management_externalcontainerdatabase_external_container_d
 }
 */
 
-
 resource "oci_database_management_externalpluggabledatabase_external_pluggable_dbm_features_management" "test_externalpluggabledatabase_external_pluggable_dbm_features_management_dbm" {
+  count = var.enable_external_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "EXTERNAL"
@@ -162,6 +195,7 @@ resource "oci_database_management_externalpluggabledatabase_external_pluggable_d
 }
 
 resource "oci_database_management_externalpluggabledatabase_external_pluggable_dbm_features_management" "test_externalpluggabledatabase_external_pluggable_dbm_features_management_sqlwatch" {
+  count = var.enable_external_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "EXTERNAL"
@@ -188,6 +222,7 @@ variable "non_cdb_connector_id" {
 }
 
 resource "oci_database_management_externalnoncontainerdatabase_external_non_container_dbm_features_management" "test_externalnoncontainerdatabase_external_non_container_dbm_features_management_dbm" {
+  count = var.enable_non_cdb_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "EXTERNAL"
@@ -201,6 +236,7 @@ resource "oci_database_management_externalnoncontainerdatabase_external_non_cont
 }
 
 resource "oci_database_management_externalnoncontainerdatabase_external_non_container_dbm_features_management" "test_externalnoncontainerdatabase_external_non_container_dbm_features_management_sqlwatch" {
+  count = var.enable_non_cdb_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "EXTERNAL"
@@ -216,7 +252,7 @@ resource "oci_database_management_externalnoncontainerdatabase_external_non_cont
   ]
 }
 
-/*
+/* Keep disabled
 resource "oci_database_management_externalnoncontainerdatabase_external_non_container_dbm_features_management" "test_externalnoncontainerdatabase_external_non_container_dbm_features_management_dblm" {
   feature_details {
     connector_details {
@@ -278,6 +314,7 @@ variable "db_service" {
 
 # Enable DIAGNOSTICS_AND_MANAGEMENT
 resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management_diag_enable" {
+  count = var.enable_cloud_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "PE"
@@ -307,6 +344,7 @@ resource "oci_database_management_database_dbm_features_management" "test_databa
 
 # Modify DIAGNOSTICS_AND_MANAGEMENT
 resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management_diag_modify" {
+  count = var.enable_cloud_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "PE"
@@ -337,10 +375,9 @@ resource "oci_database_management_database_dbm_features_management" "test_databa
   ]
 }
 
-
-# Uncomment PDB enable APIs only after CDB enablement is done
 # Enable DIAGNOSTICS_AND_MANAGEMENT for Cloud PDB
 resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management" "test_pluggabledatabase_pluggable_database_dbm_features_management_enable_diag" {
+  count = var.enable_cloud_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "PE"
@@ -373,6 +410,7 @@ resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_featu
 
 # Modify DIAGNOSTICS_AND_MANAGEMENT for Cloud PDB
 resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management" "test_pluggabledatabase_pluggable_database_dbm_features_management_modify_diag" {
+  count = var.enable_cloud_test ? 1 : 0
   feature_details {
     connector_details {
       connector_type = "PE"
@@ -404,13 +442,10 @@ resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_featu
 }
 
 
-
 # Disable DIAGNOSTICS_AND_MANAGEMENT for Cloud PDB
 resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management" "test_pluggabledatabase_pluggable_database_dbm_features_management_disable_diag" {
-  feature_details {
-    feature = "DIAGNOSTICS_AND_MANAGEMENT"
-    management_type = "ADVANCED"
-  }
+  count = var.enable_cloud_test ? 1 : 0
+  feature = "DIAGNOSTICS_AND_MANAGEMENT"
   pluggable_database_id = var.cloud_pdb_id
   enable_pluggable_database_dbm_feature = "false"
   depends_on = [
@@ -418,13 +453,10 @@ resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_featu
   ]
 }
 
-
 # Disable DIAGNOSTICS_AND_MANAGEMENT for Cloud CDB
 resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management_diag_disable" {
-  feature_details {
-    feature = "DIAGNOSTICS_AND_MANAGEMENT"
-    management_type = "ADVANCED"
-  }
+  count = var.enable_cloud_test ? 1 : 0
+  feature = "DIAGNOSTICS_AND_MANAGEMENT"
   database_id = var.cloud_cdb_id
   enable_database_dbm_feature = "false"
 
@@ -432,6 +464,53 @@ resource "oci_database_management_database_dbm_features_management" "test_databa
     oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management.test_pluggabledatabase_pluggable_database_dbm_features_management_disable_diag
   ]
 }
+
+# Bulk Enable DIAGNOSTICS_AND_MANAGEMENT for cloud CDB
+resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management_cloud_cdb_diag_bulk_pdb_enable" {
+  count = var.enable_bulk_cloud_test ? 1 : 0
+  feature_details {
+    connector_details {
+      connector_type = "PE"
+      private_end_point_id = var.cdb_pe_id
+    }
+    database_connection_details {
+      connection_credentials {
+        credential_type = "DETAILS"
+        password_secret_id = var.vault_secret_id
+        role = var.cdb_user_role
+        user_name = var.cdb_user
+      }
+      connection_string {
+        connection_type = "BASIC"
+        port = "1521"
+        protocol = "TCP"
+        service = var.cdb_service
+      }
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+    management_type = "ADVANCED"
+    can_enable_all_current_pdbs = "true"
+    is_auto_enable_pluggable_database = "true"
+  }
+
+  database_id = var.cloud_cdb_id
+  enable_database_dbm_feature = "true"
+
+}
+
+# Bulk Disable DIAGNOSTICS_AND_MANAGEMENT for cloud CDB
+resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management_cloud_cdb_diag_bulk_pdb_disable" {
+  count = var.enable_bulk_cloud_test ? 1 : 0
+  feature = "DIAGNOSTICS_AND_MANAGEMENT"
+  can_disable_all_pdbs = "true"
+  database_id = var.cloud_cdb_id
+  enable_database_dbm_feature = "false"
+  depends_on = [
+    oci_database_management_database_dbm_features_management.test_database_dbm_features_management_cloud_cdb_diag_bulk_pdb_enable
+  ]
+}
+
+
 
 variable "adb_id" {
   default = "ocid1.autonomousdatabase<>"
@@ -486,3 +565,4 @@ resource "oci_database_management_autonomous_database_autonomous_database_dbm_fe
   autonomous_database_id = var.adb_id
   enable_autonomous_database_dbm_feature = "true"
 }
+

@@ -42,7 +42,17 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
-
+			"feature": {
+				Type:     schema.TypeString,
+				Optional: true,
+				//ForceNew:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"DB_LIFECYCLE_MANAGEMENT",
+					"DIAGNOSTICS_AND_MANAGEMENT",
+					"SQLWATCH",
+				}, true),
+			},
 			// Optional
 			"feature_details": {
 				Type:     schema.TypeList,
@@ -64,6 +74,12 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 						},
 
 						// Optional
+						"can_enable_all_current_pdbs": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"connector_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -424,15 +440,6 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 }
 
 func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) Delete() error {
-	var operation bool
-	if enableOperation, ok := s.D.GetOkExists("enable_pluggable_database_dbm_feature"); ok {
-		operation = enableOperation.(bool)
-	}
-
-	if !operation {
-		return nil
-	}
-
 	// default value
 	return disableCloudPDBFeature(s)
 }
@@ -648,6 +655,10 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.DatabaseDiagnosticsAndManagementFeatureDetails{}
+		if canEnableAllCurrentPdbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "can_enable_all_current_pdbs")); ok {
+			tmp := canEnableAllCurrentPdbs.(bool)
+			details.CanEnableAllCurrentPdbs = &tmp
+		}
 		if isAutoEnablePluggableDatabase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_enable_pluggable_database")); ok {
 			tmp := isAutoEnablePluggableDatabase.(bool)
 			details.IsAutoEnablePluggableDatabase = &tmp
@@ -743,22 +754,12 @@ func enableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDataba
 func disableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
 	request := oci_database_management.DisablePluggableDatabaseManagementFeatureRequest{}
 
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = ""
-			}
-		}
-	}
-
 	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
 		tmp := pluggableDatabaseId.(string)
 		request.PluggableDatabaseId = &tmp
 	}
+
+	request.Feature = resolveFeatureForDBOperation(&s.BaseCrud)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 

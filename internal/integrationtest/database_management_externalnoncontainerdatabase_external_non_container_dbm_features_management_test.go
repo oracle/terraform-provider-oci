@@ -21,11 +21,15 @@ var (
 		"feature_details":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalNonContainerDbmFeaturesManagementFeatureDetailsRepresentation},
 		"enable_external_non_container_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
+
 	DatabaseManagementExternalNonContainerDbmFeaturesManagementFeatureDetailsRepresentation = map[string]interface{}{
-		"connector_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalNonContainerDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
-		"feature":           acctest.Representation{RepType: acctest.Required, Create: `DIAGNOSTICS_AND_MANAGEMENT`},
-		"license_model":     acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`},
+		"connector_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalNonContainerDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
+		"feature":                           acctest.Representation{RepType: acctest.Required, Create: `DIAGNOSTICS_AND_MANAGEMENT`},
+		"can_enable_all_current_pdbs":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"license_model":                     acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`},
 	}
+
 	DatabaseManagementExternalNonContainerDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation = map[string]interface{}{
 		"connector_type":        acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
 		"database_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${var.connector_id}`},
@@ -98,16 +102,6 @@ func TestDatabaseManagementExternalnoncontainerdatabaseExternalNonContainerDbmFe
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.license_model", "LICENSE_INCLUDED"),
 			),
 		},
-		// Update to disable DIAGNOSTICS_AND_MANAGEMENT
-		{
-			Config: config + externalVariableStr + ExternalnoncontainerdatabaseExternalNonContainerDbmFeaturesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_externalnoncontainerdatabase_external_non_container_dbm_features_management", "test_externalnoncontainerdatabase_external_non_container_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementExternalNonContainerDbmFeaturesManagementRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "feature_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
-			),
-		},
 		/* Commenting as we do not have a release date for DBLM
 		// create with enable DB_LIFECYCLE_MANAGEMENT
 		{
@@ -146,16 +140,6 @@ func TestDatabaseManagementExternalnoncontainerdatabaseExternalNonContainerDbmFe
 				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.connector_details.0.database_connector_id"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "SQLWATCH"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.license_model", "LICENSE_INCLUDED"),
-			),
-		},
-		// Update to disable SQLWATCH
-		{
-			Config: config + externalVariableStr + ExternalnoncontainerdatabaseExternalNonContainerDbmFeaturesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_externalnoncontainerdatabase_external_non_container_dbm_features_management", "test_externalnoncontainerdatabase_external_non_container_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementExternalNonContainerDbmSQLWatchFeaturesManagementRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "feature_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "SQLWATCH"),
 			),
 		},
 	})

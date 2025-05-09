@@ -49,7 +49,7 @@ The following attributes are exported:
 * `database_sub_type` - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database. 
 * `database_type` - The type of Oracle Database installation.
 * `database_version` - The Oracle Database version.
-* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system that this Managed Database is part of. 
+* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system that this Managed Database is part of. 
 * `dbmgmt_feature_configs` - The list of feature configurations
 	* `connector_details` - The connector details required to connect to an Oracle cloud database.
 		* `connector_type` - The list of supported connection types:
