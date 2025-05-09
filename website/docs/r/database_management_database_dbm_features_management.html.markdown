@@ -59,6 +59,7 @@ resource "oci_database_management_database_dbm_features_management" "test_databa
 				service = var.database_dbm_features_management_feature_details_database_connection_details_connection_string_service
 			}
 		}
+		can_enable_all_current_pdbs = var.database_dbm_features_management_feature_details_can_enable_all_current_pdbs
 		is_auto_enable_pluggable_database = var.database_dbm_features_management_feature_details_is_auto_enable_pluggable_database
 		management_type = var.database_dbm_features_management_feature_details_management_type
 	}
@@ -71,6 +72,7 @@ The following arguments are supported:
 
 * `database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
 * `feature_details` - (Optional) The details required to enable the specified Database Management feature.
+	* `can_enable_all_current_pdbs` - (Applicable when feature=DIAGNOSTICS_AND_MANAGEMENT) Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
 	* `connector_details` - (Optional) The connector details required to connect to an Oracle cloud database.
 		* `connector_type` - (Optional) The list of supported connection types:
 			* PE: Private endpoint
@@ -98,7 +100,7 @@ The following arguments are supported:
 			* `protocol` - (Optional) The protocol used to connect to the database.
 			* `service` - (Optional) The service name of the database.
 	* `feature` - (Required) The name of the Database Management feature.
-	* `is_auto_enable_pluggable_database` - (Applicable when feature=DIAGNOSTICS_AND_MANAGEMENT) Indicates whether the pluggable database can be enabled automatically.
+	* `is_auto_enable_pluggable_database` - (Applicable when feature=DIAGNOSTICS_AND_MANAGEMENT) Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
 	* `management_type` - (Applicable when feature=DIAGNOSTICS_AND_MANAGEMENT) The management type for the database.
 * `enable_database_dbm_feature` - (Required) (Updatable) A required field when set to `true` calls enable action and when set to `false` calls disable action.
 

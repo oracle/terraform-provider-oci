@@ -75,6 +75,7 @@ The following attributes are exported:
 		* `association_type` - The association type.
 		* `component_id` - The identifier of the associated component.
 		* `component_type` - The type of associated component.
+	* `can_enable_all_current_pdbs` - Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
 	* `cluster_id` - The unique identifier of the Oracle cluster.
 	* `cluster_instances` - 
 		* `adr_home_directory` - The Automatic Diagnostic Repository (ADR) home directory for the cluster instance.
@@ -173,6 +174,7 @@ The following attributes are exported:
 	* `home_directory` - The location of the DB home.
 	* `host_name` - The name of the host on which the external listener is running.
 	* `instance_name` - The name of the ASM instance.
+	* `is_auto_enable_pluggable_database` - Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
 	* `is_cluster` - Indicates whether the Oracle Database is part of a cluster.
 	* `is_flex_cluster` - Indicates whether the cluster is an Oracle Flex Cluster or not.
 	* `is_flex_enabled` - Indicates whether Oracle Flex ASM is enabled or not.
