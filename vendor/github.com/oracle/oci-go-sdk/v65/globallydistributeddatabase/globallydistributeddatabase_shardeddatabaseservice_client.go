@@ -145,7 +145,7 @@ func (client ShardedDatabaseServiceClient) changePrivateEndpointCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/PrivateEndpoint/ChangePrivateEndpointCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/PrivateEndpoint/ChangePrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ChangePrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -208,7 +208,7 @@ func (client ShardedDatabaseServiceClient) changeShardedDatabaseCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/ChangeShardedDatabaseCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/ChangeShardedDatabaseCompartment"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ChangeShardedDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -274,7 +274,7 @@ func (client ShardedDatabaseServiceClient) configureShardedDatabaseGsms(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/ConfigureShardedDatabaseGsms"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/ConfigureShardedDatabaseGsms"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ConfigureShardedDatabaseGsms", apiReferenceLink)
 		return response, err
 	}
@@ -341,7 +341,7 @@ func (client ShardedDatabaseServiceClient) configureSharding(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/ConfigureSharding"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/ConfigureSharding"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ConfigureSharding", apiReferenceLink)
 		return response, err
 	}
@@ -530,7 +530,7 @@ func (client ShardedDatabaseServiceClient) deletePrivateEndpoint(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/PrivateEndpoint/DeletePrivateEndpoint"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/PrivateEndpoint/DeletePrivateEndpoint"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "DeletePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -593,7 +593,7 @@ func (client ShardedDatabaseServiceClient) deleteShardedDatabase(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/DeleteShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/DeleteShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "DeleteShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -658,7 +658,7 @@ func (client ShardedDatabaseServiceClient) downloadGsmCertificateSigningRequest(
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/DownloadGsmCertificateSigningRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/DownloadGsmCertificateSigningRequest"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "DownloadGsmCertificateSigningRequest", apiReferenceLink)
 		return response, err
 	}
@@ -721,7 +721,7 @@ func (client ShardedDatabaseServiceClient) fetchConnectionString(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/FetchConnectionString"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/FetchConnectionString"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "FetchConnectionString", apiReferenceLink)
 		return response, err
 	}
@@ -784,7 +784,7 @@ func (client ShardedDatabaseServiceClient) fetchShardableCloudAutonomousVmCluste
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/FetchShardableCloudAutonomousVmClusters"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/FetchShardableCloudAutonomousVmClusters"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "FetchShardableCloudAutonomousVmClusters", apiReferenceLink)
 		return response, err
 	}
@@ -849,7 +849,7 @@ func (client ShardedDatabaseServiceClient) generateGsmCertificateSigningRequest(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/GenerateGsmCertificateSigningRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/GenerateGsmCertificateSigningRequest"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "GenerateGsmCertificateSigningRequest", apiReferenceLink)
 		return response, err
 	}
@@ -911,7 +911,7 @@ func (client ShardedDatabaseServiceClient) generateWallet(ctx context.Context, r
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/GenerateWallet"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/GenerateWallet"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "GenerateWallet", apiReferenceLink)
 		return response, err
 	}
@@ -969,7 +969,7 @@ func (client ShardedDatabaseServiceClient) getPrivateEndpoint(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/PrivateEndpoint/GetPrivateEndpoint"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/PrivateEndpoint/GetPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "GetPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1027,7 +1027,7 @@ func (client ShardedDatabaseServiceClient) getShardedDatabase(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/GetShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/GetShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "GetShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1085,7 +1085,7 @@ func (client ShardedDatabaseServiceClient) getWorkRequest(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/WorkRequest/GetWorkRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1143,7 +1143,7 @@ func (client ShardedDatabaseServiceClient) listPrivateEndpoints(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/PrivateEndpointCollection/ListPrivateEndpoints"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/PrivateEndpointCollection/ListPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ListPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -1201,7 +1201,7 @@ func (client ShardedDatabaseServiceClient) listShardedDatabases(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabaseCollection/ListShardedDatabases"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabaseCollection/ListShardedDatabases"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ListShardedDatabases", apiReferenceLink)
 		return response, err
 	}
@@ -1259,7 +1259,7 @@ func (client ShardedDatabaseServiceClient) listWorkRequestErrors(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1317,7 +1317,7 @@ func (client ShardedDatabaseServiceClient) listWorkRequestLogs(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1375,7 +1375,7 @@ func (client ShardedDatabaseServiceClient) listWorkRequests(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/WorkRequest/ListWorkRequests"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1435,7 +1435,7 @@ func (client ShardedDatabaseServiceClient) patchShardedDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/PatchShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/PatchShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "PatchShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1498,7 +1498,7 @@ func (client ShardedDatabaseServiceClient) prevalidateShardedDatabase(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/PrevalidateShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/PrevalidateShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "PrevalidateShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1561,7 +1561,7 @@ func (client ShardedDatabaseServiceClient) reinstateProxyInstance(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/PrivateEndpoint/ReinstateProxyInstance"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/PrivateEndpoint/ReinstateProxyInstance"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ReinstateProxyInstance", apiReferenceLink)
 		return response, err
 	}
@@ -1624,7 +1624,7 @@ func (client ShardedDatabaseServiceClient) startShardedDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/StartShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/StartShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "StartShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1687,7 +1687,7 @@ func (client ShardedDatabaseServiceClient) stopShardedDatabase(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/StopShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/StopShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "StopShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1750,7 +1750,7 @@ func (client ShardedDatabaseServiceClient) updatePrivateEndpoint(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/PrivateEndpoint/UpdatePrivateEndpoint"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/PrivateEndpoint/UpdatePrivateEndpoint"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "UpdatePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1808,7 +1808,7 @@ func (client ShardedDatabaseServiceClient) updateShardedDatabase(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/UpdateShardedDatabase"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/UpdateShardedDatabase"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "UpdateShardedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1873,7 +1873,7 @@ func (client ShardedDatabaseServiceClient) uploadSignedCertificateAndGenerateWal
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/UploadSignedCertificateAndGenerateWallet"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/UploadSignedCertificateAndGenerateWallet"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "UploadSignedCertificateAndGenerateWallet", apiReferenceLink)
 		return response, err
 	}
@@ -1936,7 +1936,7 @@ func (client ShardedDatabaseServiceClient) validateNetwork(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20230301/ShardedDatabase/ValidateNetwork"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20230301/ShardedDatabase/ValidateNetwork"
 		err = common.PostProcessServiceError(err, "ShardedDatabaseService", "ValidateNetwork", apiReferenceLink)
 		return response, err
 	}
