@@ -448,6 +448,63 @@ func (client OpensearchClusterClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
+// ListOpensearchClusterShapes Retrieves available OpenSearch Cluster node shapes.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchClusterShapes.go.html to see an example of how to use ListOpensearchClusterShapes API.
+func (client OpensearchClusterClient) ListOpensearchClusterShapes(ctx context.Context, request ListOpensearchClusterShapesRequest) (response ListOpensearchClusterShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOpensearchClusterShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOpensearchClusterShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOpensearchClusterShapesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOpensearchClusterShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOpensearchClusterShapesResponse")
+	}
+	return
+}
+
+// listOpensearchClusterShapes implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) listOpensearchClusterShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shapes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOpensearchClusterShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/ShapesDetails/ListOpensearchClusterShapes"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListOpensearchClusterShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListOpensearchClusters Returns a list of OpensearchClusters.
 //
 // # See also

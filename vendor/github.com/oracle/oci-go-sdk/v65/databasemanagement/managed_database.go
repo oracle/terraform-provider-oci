@@ -59,8 +59,7 @@ type ManagedDatabase struct {
 	// A list of Managed Database Groups that the Managed Database belongs to.
 	ManagedDatabaseGroups []ParentGroup `mandatory:"false" json:"managedDatabaseGroups"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external
-	// DB system that this Managed Database is part of.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system that this Managed Database is part of.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the storage DB system.

@@ -22,6 +22,12 @@ import (
 type ExternalDatabaseDiagnosticsAndManagementFeatureDetails struct {
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
 
+	// Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
+	CanEnableAllCurrentPdbs *bool `mandatory:"false" json:"canEnableAllCurrentPdbs"`
+
+	// Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
+	IsAutoEnablePluggableDatabase *bool `mandatory:"false" json:"isAutoEnablePluggableDatabase"`
+
 	// The Oracle license model that applies to the external database.
 	LicenseModel ExternalDatabaseDiagnosticsAndManagementFeatureDetailsLicenseModelEnum `mandatory:"true" json:"licenseModel"`
 }
@@ -67,8 +73,10 @@ func (m ExternalDatabaseDiagnosticsAndManagementFeatureDetails) MarshalJSON() (b
 // UnmarshalJSON unmarshals from json
 func (m *ExternalDatabaseDiagnosticsAndManagementFeatureDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ConnectorDetails connectordetails                                                       `json:"connectorDetails"`
-		LicenseModel     ExternalDatabaseDiagnosticsAndManagementFeatureDetailsLicenseModelEnum `json:"licenseModel"`
+		CanEnableAllCurrentPdbs       *bool                                                                  `json:"canEnableAllCurrentPdbs"`
+		IsAutoEnablePluggableDatabase *bool                                                                  `json:"isAutoEnablePluggableDatabase"`
+		ConnectorDetails              connectordetails                                                       `json:"connectorDetails"`
+		LicenseModel                  ExternalDatabaseDiagnosticsAndManagementFeatureDetailsLicenseModelEnum `json:"licenseModel"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -76,6 +84,10 @@ func (m *ExternalDatabaseDiagnosticsAndManagementFeatureDetails) UnmarshalJSON(d
 		return
 	}
 	var nn interface{}
+	m.CanEnableAllCurrentPdbs = model.CanEnableAllCurrentPdbs
+
+	m.IsAutoEnablePluggableDatabase = model.IsAutoEnablePluggableDatabase
+
 	nn, e = model.ConnectorDetails.UnmarshalPolymorphicJSON(model.ConnectorDetails.JsonData)
 	if e != nil {
 		return

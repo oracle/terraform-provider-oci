@@ -6658,9 +6658,10 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetNamedCredential.go.html to see an example of how to use GetNamedCredential API.
+// A default retry strategy applies to this operation GetNamedCredential()
 func (client DbManagementClient) GetNamedCredential(ctx context.Context, request GetNamedCredentialRequest) (response GetNamedCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9452,9 +9453,10 @@ func (client DbManagementClient) listMySqlDatabaseConnectors(ctx context.Context
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListNamedCredentials.go.html to see an example of how to use ListNamedCredentials API.
+// A default retry strategy applies to this operation ListNamedCredentials()
 func (client DbManagementClient) ListNamedCredentials(ctx context.Context, request ListNamedCredentialsRequest) (response ListNamedCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10728,6 +10730,69 @@ func (client DbManagementClient) modifyDatabaseManagementFeature(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ModifyDatabaseManagementFeature"
 		err = common.PostProcessServiceError(err, "DbManagement", "ModifyDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ModifyExternalContainerDatabaseManagementFeature Modifies a Database Management feature for the specified external container database.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ModifyExternalContainerDatabaseManagementFeature.go.html to see an example of how to use ModifyExternalContainerDatabaseManagementFeature API.
+// A default retry strategy applies to this operation ModifyExternalContainerDatabaseManagementFeature()
+func (client DbManagementClient) ModifyExternalContainerDatabaseManagementFeature(ctx context.Context, request ModifyExternalContainerDatabaseManagementFeatureRequest) (response ModifyExternalContainerDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyExternalContainerDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyExternalContainerDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyExternalContainerDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyExternalContainerDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyExternalContainerDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// modifyExternalContainerDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) modifyExternalContainerDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/modifyDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ModifyExternalContainerDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ModifyExternalContainerDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "ModifyExternalContainerDatabaseManagementFeature", apiReferenceLink)
 		return response, err
 	}
 

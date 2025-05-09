@@ -30,6 +30,9 @@ type UpdateOpensearchClusterPipelineDetails struct {
 	// The number of nodes configured for the pipeline.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
+	// The pipeline node shape.
+	NodeShape *string `mandatory:"false" json:"nodeShape"`
+
 	// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \.
 	PipelineConfigurationBody *string `mandatory:"false" json:"pipelineConfigurationBody"`
 
