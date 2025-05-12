@@ -151,6 +151,10 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	subscription_id = oci_onesubscription_subscription.test_subscription.id
 	time_of_auto_refresh_start = var.autonomous_database_time_of_auto_refresh_start
 	timestamp = var.autonomous_database_timestamp
+    transportable_tablespace {
+    #Required
+    tts_bundle_url = var.autonomous_database_transportable_tablespace_tts_bundle_url
+    }
 	use_latest_available_backup_time_stamp = var.autonomous_database_use_latest_available_backup_time_stamp
 	vault_id = oci_kms_vault.test_vault.id
 	whitelisted_ips = var.autonomous_database_whitelisted_ips
@@ -333,6 +337,8 @@ The following arguments are supported:
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `time_of_auto_refresh_start` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) The the date and time that auto-refreshing will begin for an Autonomous AI Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
 * `timestamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) The timestamp specified for the point-in-time clone of the source Autonomous AI Database. The timestamp must be in the past.
+* `transportable_tablespace` - (Optional) Details for importing transportable tablespace for an Autonomous Database.
+    * `tts_bundle_url` - (Required) URL for Oracle Cloud Infrastructure Storage location for a Transportable Tablespace (TTS) bundle.
 * `use_latest_available_backup_time_stamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) Clone from latest available backup timestamp. 
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `whitelisted_ips` - (Optional) (Updatable) The client IP access control list (ACL). This feature is available for [Autonomous AI Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer. Only clients connecting from an IP address included in the ACL may access the Autonomous AI Database instance. If `arePrimaryWhitelistedIpsUsed` is 'TRUE' then Autonomous AI Database uses this primary's IP access control list (ACL) for the disaster recovery peer called `standbywhitelistedips`.
