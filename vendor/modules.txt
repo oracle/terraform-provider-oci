@@ -298,6 +298,7 @@ github.com/oracle/oci-go-sdk/v65/analytics
 github.com/oracle/oci-go-sdk/v65/announcementsservice
 github.com/oracle/oci-go-sdk/v65/apiaccesscontrol
 github.com/oracle/oci-go-sdk/v65/apigateway
+github.com/oracle/oci-go-sdk/v65/apiplatform
 github.com/oracle/oci-go-sdk/v65/apmconfig
 github.com/oracle/oci-go-sdk/v65/apmcontrolplane
 github.com/oracle/oci-go-sdk/v65/apmsynthetics
