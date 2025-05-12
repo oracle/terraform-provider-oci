@@ -1,5 +1,8 @@
 ## 7.1.0 (Unreleased)
 
+
+## 7.1.0 (Unreleased)
+
 ### Added
 - Support for OpenSearch OBO metering for external customers
 - Support for bulk PDB enablement and monitoring in Database Management Service
