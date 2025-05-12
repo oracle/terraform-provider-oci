@@ -1,5 +1,10 @@
 ## 7.1.0 (Unreleased)
 
+### Added
+- Support for OpenSearch OBO metering for external customers
+- Support for bulk PDB enablement and monitoring in Database Management Service
+### Bug Fix
+- fix infinite loop for OSMH resource discovery
 
 ## 7.0.0 (May 06, 2025)
 
