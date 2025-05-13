@@ -68,6 +68,8 @@ func TestDatabaseManagementManagedMySqlDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "heat_wave_cluster_display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "heat_wave_management_type"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 
