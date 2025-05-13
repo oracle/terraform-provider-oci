@@ -8,6 +8,9 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
+variable "digest"{}
+variable "test_managed_database_id"{}
+
 
 provider "oci" {
  // version = "5.36.0"
@@ -54,6 +57,49 @@ data "oci_database_management_managed_my_sql_database_sql_data" "test_managed_my
 
  
 }
+
+data "oci_database_management_managed_my_sql_database_outbound_replications" "test_managed_my_sql_database_outbound_replications" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.3.id
+}
+
+data "oci_database_management_managed_my_sql_database_inbound_replications" "test_managed_my_sql_database_inbound_replications" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.0.id
+}
+
+data "oci_database_management_managed_my_sql_database_high_availability_members" "test_managed_my_sql_database_high_availability_members" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.3.id
+}
+
+data "oci_database_management_managed_my_sql_database_general_replication_information" "test_managed_my_sql_database_general_replication_information" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.3.id
+}
+
+data "oci_database_management_managed_my_sql_database_binary_log_information" "test_managed_my_sql_database_binary_log_information" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.3.id
+}
+
+data "oci_database_management_managed_my_sql_database_query_detail" "test_managed_my_sql_database_query_detail" {
+  #Required
+ // digest                     = var.digest
+  digest  = "8e6a579423a4d2efea0a5884b7dbb72697023a99cc8e1922c3a6cbc355ab4487"
+  managed_my_sql_database_id = var.test_managed_database_id
+  //managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.3.id
+}
+
+
+data "oci_database_management_managed_my_sql_database_digest_errors" "test_managed_my_sql_database_digest_errors" {
+  #Required
+  //digest                     = var.digest
+  digest  = "8e6a579423a4d2efea0a5884b7dbb72697023a99cc8e1922c3a6cbc355ab4487"
+   managed_my_sql_database_id = var.test_managed_database_id
+  //managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.3.id
+}
+
 
 
 
