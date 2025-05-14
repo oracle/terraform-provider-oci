@@ -34,18 +34,18 @@ The following attributes are exported:
 
 * `compartment_id` - The compartment Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the remediation recipe.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `detect_configuration` - A configuration to define the constraints when detecting vulnerable dependencies. 
+* `detect_configuration` - A configuration to define the constraints when detecting vulnerable dependencies and recommending remediations. 
 	* `exclusions` - The list of dependencies to be ignored by the recommendation algorithm. The dependency pattern is matched against the 'group:artifact:version' or the purl of a dependency. An asterisk (*) at the end in the dependency pattern acts as a wildcard and matches zero or more characters. 
-	* `max_permissible_cvss_v2score` - The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. An artifact with a CVSS V2 score below this value is not considered for patching.
-	* `max_permissible_cvss_v3score` - The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. An artifact with a CVSS V3 score below this value is not considered for patching.
-	* `max_permissible_severity` - The maximum ADM Severity. An artifact with an ADM Severity below this value is not considered for patching.
+	* `max_permissible_cvss_v2score` - The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. A vulnerability with a CVSS V2 score below this value is not considered for remediation.
+	* `max_permissible_cvss_v3score` - The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. A vulnerability with a CVSS V3 score below this value is not considered for patching.
+	* `max_permissible_severity` - The maximum ADM Severity. A vulnerability with an severity below this value is not considered for remediation.
 	* `upgrade_policy` - The upgrade policy for recommendations. The `Nearest` upgrade policy upgrades a dependency to the oldest version that meets both of the following criteria: it is newer than the current version and it is not affected by a vulnerability. 
 * `display_name` - The name of the Remediation Recipe.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the remediation recipe.
 * `is_run_triggered_on_kb_change` - Boolean indicating if a run should be automatically triggered once the Knowledge Base contents are updated.
 * `knowledge_base_id` - The Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the knowledge base.
-* `network_configuration` - A network configuration defines the required network characteristics for an ADM remediation recipe. A network configuration is required if the build service is one of: GitHub Actions, GitLab Pipeline, or Jenkins Pipeline. 
+* `network_configuration` - A network configuration defines the required network characteristics for the remediation run of the recipe to access the source repository and/or verify build services. 
 	* `nsg_ids` - The list of Oracle Cloud Identifiers ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) corresponding to Network Security Groups.
 	* `subnet_id` - The Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the subnet.
 * `scm_configuration` - A configuration for the Source Code Management tool/platform used by a remediation recipe.
