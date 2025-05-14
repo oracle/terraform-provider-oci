@@ -1,4 +1,4 @@
-## 7.1.0 (Unreleased)
+## 7.1.0 (May 14, 2025)
 
 ### Added
 - Support for OpenSearch OBO metering for external customers
