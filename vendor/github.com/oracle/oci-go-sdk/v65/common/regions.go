@@ -328,7 +328,7 @@ var realm = map[string]string{
 	"oc35": "oraclecloud35.com",
 	"oc38": "oraclecloud38.com",
 	"oc39": "oraclecloud39.com",
-	"oc42": "oraclerealm42.com",
+	"oc42": "oraclecloud42.com",
 	"oc46": "oraclecloud46.com",
 	"oc47": "oraclecloud47.com",
 	"oc51": "oraclecloud51.com",
