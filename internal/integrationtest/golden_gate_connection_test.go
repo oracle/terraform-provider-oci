@@ -571,6 +571,21 @@ var (
 					Update: `06ecaabf-8b80-4ec8-a0ec-20cbf463703f`},
 			},
 		},
+
+		// Iceberg
+		{connectionType: oci_golden_gate.ConnectionTypeIceberg, technologyType: oci_golden_gate.TechnologyTypeApacheIceberg,
+			representation: map[string]interface{}{
+				"catalog": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+					"catalog_type": acctest.Representation{RepType: acctest.Required, Create: `HADOOP`},
+				}},
+				"storage": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+					"storage_type":                       acctest.Representation{RepType: acctest.Required, Create: `GOOGLE_CLOUD_STORAGE`},
+					"bucket":                             acctest.Representation{RepType: acctest.Required, Create: `bucket`},
+					"project_id":                         acctest.Representation{RepType: acctest.Required, Create: `projectId`},
+					"service_account_key_file_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`},
+				}},
+			},
+		},
 	}
 
 	ExcludedFields = []string{
@@ -597,6 +612,7 @@ var (
 		"secret_access_key",
 		"service_account_key_file",
 		"is_lock_override",
+		"view",
 		"trigger_refresh",
 		"tls_ca_file",
 	}
