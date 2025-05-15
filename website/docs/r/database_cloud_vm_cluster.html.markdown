@@ -104,7 +104,7 @@ The following arguments are supported:
 * `cloud_exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure resource.
 * `cluster_name` - (Optional) The cluster name for cloud VM cluster. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for a cloud VM cluster. Valid values depend on the specified shape:
+* `cpu_core_count` - (Required) (Updatable) The number of ECPUs (X11M and higher) or number of OCPUs (X10M and earlier) to enable for the VM cluster. 
 	* Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
 	* Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
 	* Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.

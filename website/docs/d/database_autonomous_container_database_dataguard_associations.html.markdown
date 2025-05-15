@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_container_database_dataguard_associations
 This data source provides the list of Autonomous Container Database Dataguard Associations in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Autonomous Container Databases with Autonomous Data Guard-enabled associated with the specified Autonomous Container Database.
+**Deprecated.** Use the [ListAutonomousContainerDatabases](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/AutonomousContainerDatabase/ListAutonomousContainerDatabases) operation to get a list of the Autonomous Container Databases (ACDs)with Autonomous Data Guard-enabled associated with the specified ACD.
 
 
 ## Example Usage

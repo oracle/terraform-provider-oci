@@ -163,8 +163,14 @@ func DatabaseDatabaseResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"type": {
-													Type:     schema.TypeString,
-													Optional: true,
+													Type:             schema.TypeString,
+													Optional:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														string(oci_database.BackupBackupDestinationTypeAwsS3),
+														string(oci_database.BackupBackupDestinationTypeDbrs),
+														string(oci_database.BackupBackupDestinationTypeObjectStore),
+													}, true),
 												},
 												"vpc_user": {
 													Type:     schema.TypeString,
