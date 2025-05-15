@@ -150,6 +150,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"soft_delete": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"window_start_time": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -2053,6 +2058,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 		result.RetentionInDays = &tmp
 	}
 
+	if softDelete, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "soft_delete")); ok {
+		result.SoftDelete = oci_mysql.SoftDeleteEnum(softDelete.(string))
+	}
+
 	if windowStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_start_time")); ok {
 		tmp := windowStartTime.(string)
 		result.WindowStartTime = &tmp
@@ -2523,6 +2532,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 	if retentionInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_in_days")); ok {
 		tmp := retentionInDays.(int)
 		result.RetentionInDays = &tmp
+	}
+
+	if softDelete, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "soft_delete")); ok {
+		result.SoftDelete = oci_mysql.SoftDeleteEnum(softDelete.(string))
 	}
 
 	if windowStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_start_time")); ok {

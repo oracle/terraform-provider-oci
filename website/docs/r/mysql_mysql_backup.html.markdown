@@ -27,6 +27,7 @@ resource "oci_mysql_mysql_backup" "test_mysql_backup" {
 	display_name = var.mysql_backup_display_name
 	freeform_tags = {"bar-key"= "value"}
 	retention_in_days = var.mysql_backup_retention_in_days
+	soft_delete = var.mysql_backup_soft_delete
 }
 ```
 
@@ -42,11 +43,11 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-supplied display name for the backup.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `retention_in_days` - (Optional) (Updatable) Number of days to retain this backup.
+* `soft_delete` - (Optional) (Updatable) Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
 * `source_details` - (Optional) Details of backup source in the cloud.
 	* `region` - (Required) The region of the backup source.
 	* `backup_id` - (Required) The OCID of the source backup.
     * `compartment_id` - (Required) The OCID of the compartment where DB system backup is to be copied to.
-
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -86,6 +87,7 @@ The following attributes are exported:
 		* `pitr_policy` - The PITR policy for the DB System.
 			* `is_enabled` - Specifies if PITR is enabled or disabled.
 		* `retention_in_days` - The number of days automated backups are retained. 
+		* `soft_delete` - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
 		* `window_start_time` - The start of a 30-minute window of time in which daily, automated backups occur.
 
 			This should be in the format of the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
@@ -181,6 +183,7 @@ The following attributes are exported:
 * `original_source_backup_id` - The OCID of the original source DB system backup from which this DB system backup was copied. 
 * `retention_in_days` - Number of days to retain this backup.
 * `shape_name` - The shape of the DB System instance used for backup.
+* `soft_delete` - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
 * `state` - The state of the backup.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_copy_created` - The date and time the DB system backup copy was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

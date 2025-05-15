@@ -86,6 +86,7 @@ The following attributes are exported:
 	* `pitr_policy` - The PITR policy for the DB System.
 		* `is_enabled` - Specifies if PITR is enabled or disabled.
 	* `retention_in_days` - The number of days automated backups are retained. 
+	* `soft_delete` - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
 	* `window_start_time` - The start of a 30-minute window of time in which daily, automated backups occur.
 
 		This should be in the format of the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
