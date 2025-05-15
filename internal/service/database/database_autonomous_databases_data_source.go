@@ -613,6 +613,14 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_disaster_recovery_role_changed"] = r.TimeDisasterRecoveryRoleChanged.String()
 		}
 
+		if r.TimeEarliestAvailableDbVersionUpgrade != nil {
+			autonomousDatabase["time_earliest_available_db_version_upgrade"] = r.TimeEarliestAvailableDbVersionUpgrade.String()
+		}
+
+		if r.TimeLatestAvailableDbVersionUpgrade != nil {
+			autonomousDatabase["time_latest_available_db_version_upgrade"] = r.TimeLatestAvailableDbVersionUpgrade.String()
+		}
+
 		if r.TimeLocalDataGuardEnabled != nil {
 			autonomousDatabase["time_local_data_guard_enabled"] = r.TimeLocalDataGuardEnabled.String()
 		}
@@ -655,6 +663,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeScheduledDbVersionUpgrade != nil {
+			autonomousDatabase["time_scheduled_db_version_upgrade"] = r.TimeScheduledDbVersionUpgrade.String()
 		}
 
 		if r.TimeUndeleted != nil {

@@ -381,6 +381,16 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_disable_db_version_upgrade_schedule": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_schedule_db_version_upgrade_to_earliest": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_data_guard_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1387,6 +1397,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_earliest_available_db_version_upgrade": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_latest_available_db_version_upgrade": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_local_data_guard_enabled": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1426,6 +1444,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"time_reclamation_of_free_autonomous_database": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"time_scheduled_db_version_upgrade": {
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"time_undeleted": {
 				Type:     schema.TypeString,
@@ -1953,6 +1977,67 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
 	}
 
+	if timeScheduledDbVersionUpgrade, ok := s.D.GetOkExists("time_scheduled_db_version_upgrade"); ok && s.D.HasChange("time_scheduled_db_version_upgrade") {
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
+			scheduleUgReq := oci_database.UpdateAutonomousDatabaseRequest{}
+			tmpSchTime, err := time.Parse(time.RFC3339, timeScheduledDbVersionUpgrade.(string))
+			if err != nil {
+				return err
+			}
+			tmpVersion := dbVersion.(string)
+			tmpId := s.D.Id()
+			scheduleUgReq.TimeScheduledDbVersionUpgrade = &oci_common.SDKTime{Time: tmpSchTime}
+			scheduleUgReq.DbVersion = &tmpVersion
+			scheduleUgReq.AutonomousDatabaseId = &tmpId
+			scheduleUgReq.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+			response, err := s.Client.UpdateAutonomousDatabase(context.Background(), scheduleUgReq)
+			if err != nil {
+				return err
+			}
+
+			workId := response.OpcWorkRequestId
+			if workId != nil {
+				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
+			}
+
+			s.Res = &response.AutonomousDatabase
+			return nil
+		}
+	}
+
+	if isScheduleDbVersionUpgradeToEarliest, ok := s.D.GetOkExists("is_schedule_db_version_upgrade_to_earliest"); ok && s.D.HasChange("is_schedule_db_version_upgrade_to_earliest") {
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
+			scheduleUgEarliestReq := oci_database.UpdateAutonomousDatabaseRequest{}
+			tmpScheToEarliest := isScheduleDbVersionUpgradeToEarliest.(bool)
+			tmpVersion := dbVersion.(string)
+			tmpId := s.D.Id()
+			scheduleUgEarliestReq.IsScheduleDbVersionUpgradeToEarliest = &tmpScheToEarliest
+			scheduleUgEarliestReq.DbVersion = &tmpVersion
+			scheduleUgEarliestReq.AutonomousDatabaseId = &tmpId
+			scheduleUgEarliestReq.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+			response, err := s.Client.UpdateAutonomousDatabase(context.Background(), scheduleUgEarliestReq)
+			if err != nil {
+				return err
+			}
+
+			workId := response.OpcWorkRequestId
+			if workId != nil {
+				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
+			}
+
+			s.Res = &response.AutonomousDatabase
+			return nil
+		}
+	}
+
 	if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
 		err := s.updateDbVersion(dbVersion.(string))
 		if err != nil {
@@ -2030,6 +2115,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok && s.D.HasChange("is_dev_tier") {
 		tmp := isDevTier.(bool)
 		request.IsDevTier = &tmp
+	}
+
+	if isDisableDbVersionUpgradeSchedule, ok := s.D.GetOkExists("is_disable_db_version_upgrade_schedule"); ok && s.D.HasChange("is_disable_db_version_upgrade_schedule") {
+		tmp := isDisableDbVersionUpgradeSchedule.(bool)
+		request.IsDisableDbVersionUpgradeSchedule = &tmp
 	}
 
 	if isDisconnectPeer, ok := s.D.GetOkExists("is_disconnect_peer"); ok && s.D.HasChange("is_disconnect_peer") {
@@ -2729,6 +2819,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_disaster_recovery_role_changed", s.Res.TimeDisasterRecoveryRoleChanged.String())
 	}
 
+	if s.Res.TimeEarliestAvailableDbVersionUpgrade != nil {
+		s.D.Set("time_earliest_available_db_version_upgrade", s.Res.TimeEarliestAvailableDbVersionUpgrade.String())
+	}
+
+	if s.Res.TimeLatestAvailableDbVersionUpgrade != nil {
+		s.D.Set("time_latest_available_db_version_upgrade", s.Res.TimeLatestAvailableDbVersionUpgrade.String())
+	}
+
 	if s.Res.TimeLocalDataGuardEnabled != nil {
 		s.D.Set("time_local_data_guard_enabled", s.Res.TimeLocalDataGuardEnabled.String())
 	}
@@ -2771,6 +2869,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_reclamation_of_free_autonomous_database", s.Res.TimeReclamationOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeScheduledDbVersionUpgrade != nil {
+		s.D.Set("time_scheduled_db_version_upgrade", s.Res.TimeScheduledDbVersionUpgrade.Format(time.RFC3339))
 	}
 
 	if s.Res.TimeUndeleted != nil {

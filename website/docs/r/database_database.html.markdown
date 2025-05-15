@@ -85,10 +85,10 @@ resource "oci_database_database" "test_database" {
 		transport_type = var.database_database_transport_type
 		vault_id = oci_kms_vault.test_vault.id
 	}
-	db_home_id = oci_database_db_home.test_db_home.id
 	source = var.database_source
 
 	#Optional
+	db_home_id = oci_database_db_home.test_db_home.id
 	db_version = var.database_db_version
 	kms_key_id = oci_kms_key.test_key.id
 	kms_key_version_id = oci_kms_key_version.test_key_version.id
@@ -166,7 +166,7 @@ The following arguments are supported:
 
 		**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
 	* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
-* `db_home_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+* `db_home_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `db_version` - (Optional) A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
