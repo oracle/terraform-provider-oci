@@ -556,8 +556,6 @@ core
 * oci\_core\_byoasn
 * oci\_core\_compute\_gpu\_memory\_cluster
 * oci\_core\_compute\_gpu\_memory\_fabric
-* oci\_core\_compute\_host
-* oci\_core\_compute\_host\_group
 
 data_labeling_service
     
@@ -777,16 +775,12 @@ fleet_apps_management
 * oci\_fleet\_apps\_management\_task\_record
 * oci\_fleet\_apps\_management\_maintenance\_window
 * oci\_fleet\_apps\_management\_fleet
-* oci\_fleet\_apps\_management\_onboarding
 * oci\_fleet\_apps\_management\_scheduler\_definition
 * oci\_fleet\_apps\_management\_property
 * oci\_fleet\_apps\_management\_runbook
 * oci\_fleet\_apps\_management\_platform\_configuration
 * oci\_fleet\_apps\_management\_compliance\_policy\_rule
 * oci\_fleet\_apps\_management\_patch
-* oci\_fleet\_apps\_management\_runbook\_version
-* oci\_fleet\_apps\_management\_catalog\_item
-* oci\_fleet\_apps\_management\_provision
 
 fleet_software_update
     
@@ -1186,6 +1180,7 @@ recovery
 * oci\_recovery\_recovery\_service\_subnet
 * oci\_recovery\_protected\_database
 * oci\_recovery\_protection\_policy
+* oci\_recovery\_long\_term\_backup
 
 redis
     
