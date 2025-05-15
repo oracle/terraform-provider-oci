@@ -38,6 +38,10 @@ func MysqlMysqlBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"soft_delete": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -94,6 +98,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if softDelete, ok := s.D.GetOkExists("soft_delete"); ok {
+		request.SoftDelete = oci_mysql.ListBackupsSoftDeleteEnum(softDelete.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -180,6 +188,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 			mysqlBackup["immediate_source_backup_id"] = *r.ImmediateSourceBackupId
 		}
 
+		if r.LifecycleDetails != nil {
+			mysqlBackup["lifecycle_details"] = *r.LifecycleDetails
+		}
+
 		if r.MysqlVersion != nil {
 			mysqlBackup["mysql_version"] = *r.MysqlVersion
 		}
@@ -195,6 +207,8 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 		if r.ShapeName != nil {
 			mysqlBackup["shape_name"] = *r.ShapeName
 		}
+
+		mysqlBackup["soft_delete"] = r.SoftDelete
 
 		mysqlBackup["state"] = r.LifecycleState
 

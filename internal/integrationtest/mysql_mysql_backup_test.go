@@ -41,6 +41,7 @@ var (
 		"creation_type":  acctest.Representation{RepType: acctest.Optional, Create: `MANUAL`},
 		"db_system_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"soft_delete":    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupDataSourceFilterRepresentation}}
 	MysqlMysqlBackupDataSourceFilterRepresentation = map[string]interface{}{
@@ -49,14 +50,15 @@ var (
 	}
 
 	MysqlMysqlBackupRepresentation = map[string]interface{}{
-		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
 		"backup_type":       acctest.Representation{RepType: acctest.Optional, Create: `INCREMENTAL`},
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"soft_delete":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlBackup},
 	}
 
@@ -129,6 +131,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "retention_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "soft_delete", "ENABLED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -190,6 +193,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "retention_in_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "soft_delete", "DISABLED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -215,6 +219,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "creation_type", "MANUAL"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "soft_delete", "DISABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
@@ -231,6 +236,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.mysql_version"),
 				resource.TestCheckResourceAttr(datasourceName, "backups.0.retention_in_days", "11"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "backups.0.soft_delete", "DISABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_created"),
 			),
@@ -256,6 +262,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "retention_in_days", "11"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "soft_delete", "DISABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

@@ -25,6 +25,7 @@ data "oci_mysql_mysql_backups" "test_mysql_backups" {
 	creation_type = var.mysql_backup_creation_type
 	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
 	display_name = var.mysql_backup_display_name
+	soft_delete = var.mysql_backup_soft_delete
 	state = var.mysql_backup_state
 }
 ```
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `creation_type` - (Optional) Backup creationType
 * `db_system_id` - (Optional) The DB System [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only the resource matching the given display name exactly.
+* `soft_delete` - (Optional) Backup Soft Delete
 * `state` - (Optional) Backup Lifecycle State
 
 
@@ -82,6 +84,7 @@ The following attributes are exported:
 		* `pitr_policy` - The PITR policy for the DB System.
 			* `is_enabled` - Specifies if PITR is enabled or disabled.
 		* `retention_in_days` - The number of days automated backups are retained. 
+		* `soft_delete` - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
 		* `window_start_time` - The start of a 30-minute window of time in which daily, automated backups occur.
 
 			This should be in the format of the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
@@ -177,6 +180,7 @@ The following attributes are exported:
 * `original_source_backup_id` - The OCID of the original source DB system backup from which this DB system backup was copied. 
 * `retention_in_days` - Number of days to retain this backup.
 * `shape_name` - The shape of the DB System instance used for backup.
+* `soft_delete` - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
 * `state` - The state of the backup.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_copy_created` - The date and time the DB system backup copy was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
