@@ -164,7 +164,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
-    * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
@@ -188,6 +187,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `log_analytics` - Discovers log_analytics resources within the specified compartment
     * `logging` - Discovers logging resources within the specified compartment
+    * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
@@ -419,8 +419,6 @@ bds
 * oci\_bds\_bds\_instance\_metastore\_config
 * oci\_bds\_bds\_instance\_resource\_principal\_configuration
 * oci\_bds\_bds\_instance\_identity\_configuration
-* oci\_bds\_bds\_capacity\_report
-* oci\_bds\_bds\_instance\_software\_update
 
 blockchain
     
@@ -554,13 +552,10 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
-* oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
 * oci\_core\_byoasn
 * oci\_core\_compute\_gpu\_memory\_cluster
 * oci\_core\_compute\_gpu\_memory\_fabric
-* oci\_core\_compute\_host
-* oci\_core\_compute\_host\_group
 
 data_labeling_service
     
@@ -643,13 +638,6 @@ database
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 * oci\_database\_autonomous\_database\_software\_image
-* oci\_database\_scheduling\_plan
-* oci\_database\_scheduling\_policy\_scheduling\_window
-* oci\_database\_scheduling\_policy
-* oci\_database\_execution\_action
-* oci\_database\_execution\_window
-* oci\_database\_scheduled\_action
-* oci\_database\_exadata\_infrastructure\_configure\_exascale\_management
 * oci\_database\_autonomous\_container\_database\_snapshot\_standby
 * oci\_database\_autonomous\_container\_database\_add\_standby
 
@@ -705,36 +693,9 @@ datascience
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
-* oci\_datascience\_schedule
-* oci\_datascience\_model\_defined\_metadata\_artifact
-* oci\_datascience\_model\_custom\_metadata\_artifact
-
-dblm
-    
-* oci\_dblm\_vulnerability\_scan
-
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
-
-dblm
-    
-* oci\_dblm\_vulnerability\_scan
-
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
-
-dblm
-    
-* oci\_dblm\_vulnerability\_scan
-
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
+* oci\_datascience\_ml\_application\_implementation
+* oci\_datascience\_ml\_application\_instance
+* oci\_datascience\_ml\_application
 
 dblm
     
@@ -785,17 +746,6 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
-* oci\_dns\_resolver
-* oci\_dns\_resolver\_endpoint
-* oci\_dns\_view
-
-em_warehouse
-
-* oci\_em\_warehouse\_em\_warehouse
-
-em_warehouse
-
-* oci\_em\_warehouse\_em\_warehouse
 
 email
     
@@ -819,22 +769,6 @@ file_storage
 * oci\_file\_storage\_filesystem\_snapshot\_policy
 * oci\_file\_storage\_outbound\_connector
 * oci\_file\_storage\_file\_system\_quota\_rule
-
-fleet_apps_management
-    
-* oci\_fleet\_apps\_management\_task\_record
-* oci\_fleet\_apps\_management\_maintenance\_window
-* oci\_fleet\_apps\_management\_fleet
-* oci\_fleet\_apps\_management\_onboarding
-* oci\_fleet\_apps\_management\_scheduler\_definition
-* oci\_fleet\_apps\_management\_property
-* oci\_fleet\_apps\_management\_runbook
-* oci\_fleet\_apps\_management\_platform\_configuration
-* oci\_fleet\_apps\_management\_compliance\_policy\_rule
-* oci\_fleet\_apps\_management\_patch
-* oci\_fleet\_apps\_management\_runbook\_version
-* oci\_fleet\_apps\_management\_catalog\_item
-* oci\_fleet\_apps\_management\_provision
 
 fleet_apps_management
     
@@ -1040,6 +974,10 @@ logging
 * oci\_logging\_log\_saved\_search
 * oci\_logging\_unified\_agent\_configuration
 
+lustre_file_storage
+    
+* oci\_lustre\_file\_storage\_lustre\_file\_system
+
 management_agent
     
 * oci\_management\_agent\_management\_agent
@@ -1098,7 +1036,6 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_service
 * oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
 * oci\_network\_firewall\_network\_firewall\_policy\_tunnel\_inspection\_rule
-* oci\_network\_firewall\_network\_firewall\_policy\_nat\_rule
 
 network_load_balancer
     
