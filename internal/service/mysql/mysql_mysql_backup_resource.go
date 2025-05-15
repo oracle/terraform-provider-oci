@@ -102,6 +102,11 @@ func MysqlMysqlBackupResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"soft_delete": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"backup_size_in_gbs": {
@@ -203,6 +208,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 									},
 									"retention_in_days": {
 										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"soft_delete": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"window_start_time": {
@@ -708,6 +717,10 @@ func (s *MysqlMysqlBackupResourceCrud) createMysqlBackup() error {
 		request.RetentionInDays = &tmp
 	}
 
+	if softDelete, ok := s.D.GetOkExists("soft_delete"); ok {
+		request.SoftDelete = oci_mysql.SoftDeleteEnum(softDelete.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.CreateBackup(context.Background(), request)
@@ -846,6 +859,10 @@ func (s *MysqlMysqlBackupResourceCrud) Update() error {
 		request.RetentionInDays = &tmp
 	}
 
+	if softDelete, ok := s.D.GetOkExists("soft_delete"); ok {
+		request.SoftDelete = oci_mysql.SoftDeleteEnum(softDelete.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.UpdateBackup(context.Background(), request)
@@ -941,6 +958,8 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
 
+	s.D.Set("soft_delete", s.Res.SoftDelete)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -988,6 +1007,8 @@ func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 	if obj.RetentionInDays != nil {
 		result["retention_in_days"] = int(*obj.RetentionInDays)
 	}
+
+	result["soft_delete"] = string(obj.SoftDelete)
 
 	if obj.WindowStartTime != nil {
 		result["window_start_time"] = string(*obj.WindowStartTime)
