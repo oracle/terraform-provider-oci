@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
@@ -73,5 +74,31 @@ func ImportStateClientCapabilities(in *tfprotov6.ImportResourceStateClientCapabi
 
 	return resource.ImportStateClientCapabilities{
 		DeferralAllowed: in.DeferralAllowed,
+	}
+}
+
+func OpenEphemeralResourceClientCapabilities(in *tfprotov6.OpenEphemeralResourceClientCapabilities) ephemeral.OpenClientCapabilities {
+	if in == nil {
+		// Client did not indicate any supported capabilities
+		return ephemeral.OpenClientCapabilities{
+			DeferralAllowed: false,
+		}
+	}
+
+	return ephemeral.OpenClientCapabilities{
+		DeferralAllowed: in.DeferralAllowed,
+	}
+}
+
+func ValidateResourceConfigClientCapabilities(in *tfprotov6.ValidateResourceConfigClientCapabilities) resource.ValidateConfigClientCapabilities {
+	if in == nil {
+		// Client did not indicate any supported capabilities
+		return resource.ValidateConfigClientCapabilities{
+			WriteOnlyAttributesAllowed: false,
+		}
+	}
+
+	return resource.ValidateConfigClientCapabilities{
+		WriteOnlyAttributesAllowed: in.WriteOnlyAttributesAllowed,
 	}
 }

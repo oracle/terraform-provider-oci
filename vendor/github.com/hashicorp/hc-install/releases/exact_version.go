@@ -27,6 +27,10 @@ type ExactVersion struct {
 	InstallDir string
 	Timeout    time.Duration
 
+	// LicenseDir represents directory path where to install license files
+	// (required for enterprise versions, optional for Community editions).
+	LicenseDir string
+
 	// Enterprise indicates installation of enterprise version (leave nil for Community editions)
 	Enterprise *EnterpriseOptions
 
@@ -72,7 +76,7 @@ func (ev *ExactVersion) Validate() error {
 		return fmt.Errorf("unknown version")
 	}
 
-	if err := validateEnterpriseOptions(ev.Enterprise); err != nil {
+	if err := validateEnterpriseOptions(ev.Enterprise, ev.LicenseDir); err != nil {
 		return err
 	}
 
@@ -131,10 +135,7 @@ func (ev *ExactVersion) Install(ctx context.Context) (string, error) {
 		d.BaseURL = ev.ApiBaseURL
 	}
 
-	licenseDir := ""
-	if ev.Enterprise != nil {
-		licenseDir = ev.Enterprise.LicenseDir
-	}
+	licenseDir := ev.LicenseDir
 	up, err := d.DownloadAndUnpack(ctx, pv, dstDir, licenseDir)
 	if up != nil {
 		ev.pathsToRemove = append(ev.pathsToRemove, up.PathsToRemove...)

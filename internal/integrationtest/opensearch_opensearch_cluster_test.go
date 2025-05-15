@@ -49,6 +49,15 @@ var (
 	}
 
 	OpensearchOpensearchClusterRepresentation = map[string]interface{}{
+		"opendashboard_node_host_shape":      acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"master_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"data_node_host_shape":               acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"search_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"search_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"search_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"search_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"search_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"search_node_storage_gb":             acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"maintenance_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: OpensearchOpensearchClusterMaintenanceDetailsRepresentation},
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`},
@@ -197,8 +206,17 @@ var (
 	}
 
 	OpensearchOpensearchClusterHorizontalResizeRepresentation = map[string]interface{}{
+		"opendashboard_node_host_shape":      acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"master_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"data_node_host_shape":               acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"search_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
 		"maintenance_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: OpensearchOpensearchClusterMaintenanceDetailsRepresentation},
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"search_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"search_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"search_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"search_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"search_node_storage_gb":             acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `20`},
 		"data_node_host_ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`},
@@ -224,8 +242,17 @@ var (
 	}
 
 	OpensearchOpensearchClusterVerticalResizeRepresentation = map[string]interface{}{
+		"opendashboard_node_host_shape":      acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`, Update: `VM.Standard.E4.Flex`},
+		"master_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`, Update: `VM.Standard.E4.Flex`},
+		"data_node_host_shape":               acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`, Update: `VM.Standard.E4.Flex`},
+		"search_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`, Update: `VM.Standard.E4.Flex`},
 		"maintenance_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: OpensearchOpensearchClusterMaintenanceDetailsRepresentation},
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"search_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"search_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"search_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"search_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"search_node_storage_gb":             acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `20`, Update: `40`},
 		"data_node_host_ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `4`},
@@ -640,12 +667,21 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_shape", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "tf_provider_cluster_updated"),
 				resource.TestCheckResourceAttr(resourceName, "master_node_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "master_node_host_memory_gb", "20"),
@@ -684,6 +720,15 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				return configStr
 			}(),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
@@ -736,8 +781,16 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				return configStr
 			}(),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "40"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "4"),
@@ -989,6 +1042,22 @@ func init() {
 			F:            sweepOpensearchOpensearchClusterResource,
 		})
 	}
+}
+
+func getListOpensearchClusterShapes() ([]string, error) {
+	var shapes []string
+	opensearchClusterClient := acctest.GetTestClients(&schema.ResourceData{}).OpensearchClusterClient()
+	listOpensearchClusterShapesRequest := oci_opensearch.ListOpensearchClusterShapesRequest{}
+
+	listOpensearchClustersResponse, err := opensearchClusterClient.ListOpensearchClusterShapes(context.Background(), listOpensearchClusterShapesRequest)
+
+	if err != nil {
+		return shapes, fmt.Errorf("Error getting OpensearchCluster list %s \n", err)
+	}
+	for _, shape := range listOpensearchClustersResponse.Shapes {
+		shapes = append(shapes, shape)
+	}
+	return shapes, nil
 }
 
 func sweepOpensearchOpensearchClusterResource(compartment string) error {

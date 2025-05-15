@@ -20,7 +20,8 @@ var (
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementRepresentation = map[string]interface{}{
 		"feature_details":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsRepresentation},
 		"pluggable_database_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_pluggable_database_id}`},
-		"enable_pluggable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"enable_pluggable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+		"feature":                               acctest.Representation{RepType: acctest.Optional, Update: `DIAGNOSTICS_AND_MANAGEMENT`},
 	}
 
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementModifyRepresentation = map[string]interface{}{
@@ -34,26 +35,27 @@ var (
 		"connector_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
 		"database_connection_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsRepresentation},
 		"feature":                           acctest.Representation{RepType: acctest.Required, Create: `DIAGNOSTICS_AND_MANAGEMENT`},
-		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"can_enable_all_current_pdbs":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"management_type":                   acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
 	}
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation = map[string]interface{}{
-		"connector_type":        acctest.Representation{RepType: acctest.Required, Create: `PE`},
-		"database_connector_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_database_connector.test_database_connector.id}`},
-		"management_agent_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_management_agent_management_agent.test_management_agent.id}`},
-		"private_end_point_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.private_end_point_id}`},
+		"connector_type": acctest.Representation{RepType: acctest.Required, Create: `PE`},
+		//"database_connector_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_database_connector.test_database_connector.id}`},
+		//"management_agent_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_management_agent_management_agent.test_management_agent.id}`},
+		"private_end_point_id": acctest.Representation{RepType: acctest.Required, Create: `${var.private_end_point_id}`},
 	}
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsRepresentation = map[string]interface{}{
 		"connection_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionCredentialsRepresentation},
 		"connection_string":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionStringRepresentation},
 	}
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionCredentialsRepresentation = map[string]interface{}{
-		"credential_name":    acctest.Representation{RepType: acctest.Optional, Create: `credentialName`},
+		//"credential_name":    acctest.Representation{RepType: acctest.Optional, Create: `credentialName`},
 		"credential_type":    acctest.Representation{RepType: acctest.Required, Create: `DETAILS`},
 		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`, Update: `${var.modified_password_secret_id}`},
 		"role":               acctest.Representation{RepType: acctest.Required, Create: `${var.dbmgmt_db_user_role}`},
-		"ssl_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
-		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `dbsnmp`},
+		//"ssl_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"user_name": acctest.Representation{RepType: acctest.Required, Create: `dbsnmp`},
 	}
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionStringRepresentation = map[string]interface{}{
 		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
@@ -160,16 +162,5 @@ func TestDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
 			),
 		},
-		// Update to disable
-		/*
-			{
-				Config: config + variableStr + PluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management", "test_pluggabledatabase_pluggable_database_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementPluggableDatabaseDbmFeaturesManagementRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
-					resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
-				),
-			},
-		*/
 	})
 }

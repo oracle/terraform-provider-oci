@@ -65,7 +65,7 @@ func (r *Releases) SetLogger(logger *log.Logger) {
 }
 
 func (r *Releases) ListProductVersions(ctx context.Context, productName string) (ProductVersionsMap, error) {
-	client := httpclient.NewHTTPClient()
+	client := httpclient.NewHTTPClient(r.logger)
 
 	productIndexURL := fmt.Sprintf("%s/%s/index.json",
 		r.BaseURL,
@@ -122,7 +122,7 @@ func (r *Releases) ListProductVersions(ctx context.Context, productName string) 
 }
 
 func (r *Releases) GetProductVersion(ctx context.Context, product string, version *version.Version) (*ProductVersion, error) {
-	client := httpclient.NewHTTPClient()
+	client := httpclient.NewHTTPClient(r.logger)
 
 	indexURL := fmt.Sprintf("%s/%s/%s/index.json",
 		r.BaseURL,

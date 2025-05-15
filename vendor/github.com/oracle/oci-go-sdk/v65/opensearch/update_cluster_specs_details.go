@@ -27,17 +27,35 @@ type UpdateClusterSpecsDetails struct {
 	// Updated value of memory for master nodes in the cluster (in GB).
 	MasterNodeHostMemoryGB *int `mandatory:"false" json:"masterNodeHostMemoryGB"`
 
+	// The node shape for the cluster's master nodes.
+	MasterNodeHostShape *string `mandatory:"false" json:"masterNodeHostShape"`
+
 	// Updated value of OCPU's configured for data nodes of the cluster.
 	DataNodeHostOcpuCount *int `mandatory:"false" json:"dataNodeHostOcpuCount"`
 
 	// Updated value of memory for data nodes in the cluster (in GB).
 	DataNodeHostMemoryGB *int `mandatory:"false" json:"dataNodeHostMemoryGB"`
 
+	// The node shape for the cluster's data nodes.
+	DataNodeHostShape *string `mandatory:"false" json:"dataNodeHostShape"`
+
+	// The node shape for the cluster's search nodes.
+	SearchNodeHostShape *string `mandatory:"false" json:"searchNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's search nodes.
+	SearchNodeHostOcpuCount *int `mandatory:"false" json:"searchNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's search nodes.
+	SearchNodeHostMemoryGB *int `mandatory:"false" json:"searchNodeHostMemoryGB"`
+
 	// Updated version of the software the cluster is currently running.
 	SoftwareVersion *string `mandatory:"false" json:"softwareVersion"`
 
 	// Updated version of the dashboard software the cluster is currently running.
 	DashboardSoftwareVersion *string `mandatory:"false" json:"dashboardSoftwareVersion"`
+
+	// The shape node for the cluster's OpenSearch Dashboard nodes.
+	OpendashboardNodeHostShape *string `mandatory:"false" json:"opendashboardNodeHostShape"`
 
 	// Updated Private endpoint of cluster.
 	ClusterPrivateEndpoint *string `mandatory:"false" json:"clusterPrivateEndpoint"`

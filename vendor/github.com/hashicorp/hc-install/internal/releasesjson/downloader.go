@@ -62,25 +62,11 @@ func (d *Downloader) DownloadAndUnpack(ctx context.Context, pv *ProductVersion, 
 		}
 	}
 
-	client := httpclient.NewHTTPClient()
+	client := httpclient.NewHTTPClient(d.Logger)
 
-	archiveURL := pb.URL
-	if d.BaseURL != "" {
-		// If custom URL is set, use that instead of the one from the JSON.
-		// Also ensures that absolute download links from mocked responses
-		// are still pointing to the mock server if one is set.
-		baseURL, err := url.Parse(d.BaseURL)
-		if err != nil {
-			return nil, err
-		}
-
-		u, err := url.Parse(archiveURL)
-		if err != nil {
-			return nil, err
-		}
-		u.Scheme = baseURL.Scheme
-		u.Host = baseURL.Host
-		archiveURL = u.String()
+	archiveURL, err := determineArchiveURL(pb.URL, d.BaseURL)
+	if err != nil {
+		return nil, err
 	}
 
 	d.Logger.Printf("downloading archive from %s", archiveURL)
@@ -114,11 +100,18 @@ func (d *Downloader) DownloadAndUnpack(ctx context.Context, pv *ProductVersion, 
 	if err != nil {
 		return nil, err
 	}
-	defer pkgFile.Close()
-	pkgFilePath, err := filepath.Abs(pkgFile.Name())
+	defer func() {
+		pkgFile.Close()
+		filePath := pkgFile.Name()
+		err = os.Remove(filePath)
+		if err != nil {
+			d.Logger.Printf("failed to delete unpacked archive at %s: %s", filePath, err)
+			return
+		}
+		d.Logger.Printf("deleted unpacked archive at %s", filePath)
+	}()
 
 	up = &UnpackedProduct{}
-	up.PathsToRemove = append(up.PathsToRemove, pkgFilePath)
 
 	d.Logger.Printf("copying %q (%d bytes) to %s", pb.Filename, expectedSize, pkgFile.Name())
 
@@ -175,6 +168,7 @@ func (d *Downloader) DownloadAndUnpack(ctx context.Context, pv *ProductVersion, 
 
 		// Determine the appropriate destination file path
 		dstDir := binDir
+		// for license files, use binDir if licenseDir is not set
 		if isLicenseFile(f.Name) && licenseDir != "" {
 			dstDir = licenseDir
 		}
@@ -235,4 +229,29 @@ func isLicenseFile(filename string) bool {
 		}
 	}
 	return false
+}
+
+// determineArchiveURL determines the archive URL based on the base URL provided.
+func determineArchiveURL(archiveURL, baseURL string) (string, error) {
+	// If custom URL is set, use that instead of the one from the JSON.
+	// Also ensures that absolute download links from mocked responses
+	// are still pointing to the mock server if one is set.
+	if baseURL == "" {
+		return archiveURL, nil
+	}
+
+	base, err := url.Parse(baseURL)
+	if err != nil {
+		return "", err
+	}
+
+	u, err := url.Parse(archiveURL)
+	if err != nil {
+		return "", err
+	}
+
+	// Use base URL path and append the path from the archive URL.
+	newArchiveURL := base.JoinPath(u.Path)
+
+	return newArchiveURL.String(), nil
 }

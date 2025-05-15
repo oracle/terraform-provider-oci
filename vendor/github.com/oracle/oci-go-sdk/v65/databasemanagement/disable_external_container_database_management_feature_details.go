@@ -22,6 +22,9 @@ type DisableExternalContainerDatabaseManagementFeatureDetails struct {
 
 	// The name of the Database Management feature.
 	Feature DbManagementFeatureEnum `mandatory:"true" json:"feature"`
+
+	// Indicates whether Diagnostics & Management should be disabled for the pluggable databases before disabling it for the container database.
+	CanDisableAllPdbs *bool `mandatory:"false" json:"canDisableAllPdbs"`
 }
 
 func (m DisableExternalContainerDatabaseManagementFeatureDetails) String() string {
