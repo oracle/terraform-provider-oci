@@ -1302,6 +1302,111 @@ func TestResourceDatabaseAutonomousDatabaseResource_longtermBackup(t *testing.T)
 	})
 }
 
+func TestDatabaseAutonomousDatabaseResource_schedule_upgrade(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_schedule_upgrade")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependenciesLockBckRetention+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationLockBckRetention), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationLockBckRetention),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+			),
+		},
+		//1. schedule to earliest available time
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"is_schedule_db_version_upgrade_to_earliest": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `true`},
+						"db_version": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `23ai`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+			),
+		},
+		//2. update schedule time for db upgrade
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"time_scheduled_db_version_upgrade": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: timeOfAutoRefreshCreate.Truncate(10 * time.Minute).Add(10 * time.Minute).Format(time.RFC3339)},
+						"db_version":                        acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `23ai`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled_db_version_upgrade"),
+			),
+		},
+		//3. re-schedule time for db upgrade
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"time_scheduled_db_version_upgrade": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: timeOfAutoRefreshUpdate.Truncate(10 * time.Minute).Add(10 * time.Minute).Format(time.RFC3339)},
+						"db_version":                        acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `23ai`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled_db_version_upgrade"),
+			),
+		},
+		//4. cancel time for db upgrade
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"is_disable_db_version_upgrade_schedule": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `true`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+			),
+		},
+		//5. scheduled db upgrade time again
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"time_scheduled_db_version_upgrade":      acctest.Representation{RepType: acctest.Optional, Create: nil, Update: timeOfAutoRefreshCreate.Truncate(10 * time.Minute).Add(10 * time.Minute).Format(time.RFC3339)},
+						"is_disable_db_version_upgrade_schedule": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `false`},
+						"db_version":                             acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `23ai`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled_db_version_upgrade"),
+			),
+		},
+	})
+}
+
 // issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T) {
 	shouldSkipADBStest := os.Getenv("TF_VAR_should_skip_adbs_test")

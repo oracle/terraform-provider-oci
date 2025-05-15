@@ -1098,6 +1098,14 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_earliest_available_db_version_upgrade": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_latest_available_db_version_upgrade": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_local_data_guard_enabled": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1139,6 +1147,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"time_reclamation_of_free_autonomous_database": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_scheduled_db_version_upgrade": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1671,6 +1683,14 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["time_disaster_recovery_role_changed"] = r.TimeDisasterRecoveryRoleChanged.String()
 		}
 
+		if r.TimeEarliestAvailableDbVersionUpgrade != nil {
+			autonomousDatabasesClone["time_earliest_available_db_version_upgrade"] = r.TimeEarliestAvailableDbVersionUpgrade.String()
+		}
+
+		if r.TimeLatestAvailableDbVersionUpgrade != nil {
+			autonomousDatabasesClone["time_latest_available_db_version_upgrade"] = r.TimeLatestAvailableDbVersionUpgrade.String()
+		}
+
 		if r.TimeLocalDataGuardEnabled != nil {
 			autonomousDatabasesClone["time_local_data_guard_enabled"] = r.TimeLocalDataGuardEnabled.String()
 		}
@@ -1713,6 +1733,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeScheduledDbVersionUpgrade != nil {
+			autonomousDatabasesClone["time_scheduled_db_version_upgrade"] = r.TimeScheduledDbVersionUpgrade.String()
 		}
 
 		if r.TimeUndeleted != nil {
