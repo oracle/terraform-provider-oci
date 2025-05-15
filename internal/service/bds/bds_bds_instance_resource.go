@@ -1596,7 +1596,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		isKafkaBrokerAdded = isKafkaBrokerAdded1
 	}
 
-	if _, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
+	if _, ok := s.D.GetOkExists("bootstrap_script_url"); ok && s.D.HasChange("bootstrap_script_url") {
 		err := s.ExecuteBootstrapScript()
 		if err != nil {
 			return err
