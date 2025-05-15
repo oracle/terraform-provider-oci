@@ -24,8 +24,11 @@ type DatabaseDiagnosticsAndManagementFeatureDetails struct {
 
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
 
-	// Indicates whether the pluggable database can be enabled automatically.
+	// Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
 	IsAutoEnablePluggableDatabase *bool `mandatory:"false" json:"isAutoEnablePluggableDatabase"`
+
+	// Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
+	CanEnableAllCurrentPdbs *bool `mandatory:"false" json:"canEnableAllCurrentPdbs"`
 
 	// The management type for the database.
 	ManagementType DatabaseDiagnosticsAndManagementFeatureDetailsManagementTypeEnum `mandatory:"true" json:"managementType"`
@@ -78,6 +81,7 @@ func (m DatabaseDiagnosticsAndManagementFeatureDetails) MarshalJSON() (buff []by
 func (m *DatabaseDiagnosticsAndManagementFeatureDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		IsAutoEnablePluggableDatabase *bool                                                            `json:"isAutoEnablePluggableDatabase"`
+		CanEnableAllCurrentPdbs       *bool                                                            `json:"canEnableAllCurrentPdbs"`
 		DatabaseConnectionDetails     *DatabaseConnectionDetails                                       `json:"databaseConnectionDetails"`
 		ConnectorDetails              connectordetails                                                 `json:"connectorDetails"`
 		ManagementType                DatabaseDiagnosticsAndManagementFeatureDetailsManagementTypeEnum `json:"managementType"`
@@ -89,6 +93,8 @@ func (m *DatabaseDiagnosticsAndManagementFeatureDetails) UnmarshalJSON(data []by
 	}
 	var nn interface{}
 	m.IsAutoEnablePluggableDatabase = model.IsAutoEnablePluggableDatabase
+
+	m.CanEnableAllCurrentPdbs = model.CanEnableAllCurrentPdbs
 
 	m.DatabaseConnectionDetails = model.DatabaseConnectionDetails
 

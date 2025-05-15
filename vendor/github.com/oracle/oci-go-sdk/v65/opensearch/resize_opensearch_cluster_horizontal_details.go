@@ -27,6 +27,9 @@ type ResizeOpensearchClusterHorizontalDetails struct {
 	// The number of OpenSearch Dashboard nodes to configure for the cluster.
 	OpendashboardNodeCount *int `mandatory:"false" json:"opendashboardNodeCount"`
 
+	// The number of search nodes configured for the cluster.
+	SearchNodeCount *int `mandatory:"false" json:"searchNodeCount"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

@@ -38,7 +38,20 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 				Type:     schema.TypeBool,
 				Required: true,
 			},
-
+			"feature": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"DB_LIFECYCLE_MANAGEMENT",
+					"DIAGNOSTICS_AND_MANAGEMENT",
+					"SQLWATCH",
+				}, true),
+			},
+			"can_disable_all_pdbs": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			// Optional
 			"feature_details": {
 				Type:     schema.TypeList,
@@ -63,6 +76,12 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 						},
 
 						// Optional
+						"can_enable_all_current_pdbs": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"connector_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -109,6 +128,12 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 									// Computed
 								},
 							},
+						},
+						"is_auto_enable_pluggable_database": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"license_model": {
 							Type:     schema.TypeString,
@@ -162,6 +187,7 @@ func deleteDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatur
 type DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResponse struct {
 	enableResponse  *oci_database_management.EnableExternalContainerDatabaseManagementFeatureResponse
 	disableResponse *oci_database_management.DisableExternalContainerDatabaseManagementFeatureResponse
+	modifyResponse  *oci_database_management.ModifyExternalContainerDatabaseManagementFeatureResponse
 }
 
 type DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud struct {
@@ -217,6 +243,11 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 	}
 
 	request := oci_database_management.DisableExternalContainerDatabaseManagementFeatureRequest{}
+
+	if canDisableAllPdbs, ok := s.D.GetOkExists("can_disable_all_pdbs"); ok {
+		tmp := canDisableAllPdbs.(bool)
+		request.CanDisableAllPdbs = &tmp
+	}
 
 	if externalContainerDatabaseId, ok := s.D.GetOkExists("external_container_database_id"); ok {
 		tmp := externalContainerDatabaseId.(string)
@@ -365,7 +396,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 	}
 
 	if operation {
-		request := oci_database_management.EnableExternalContainerDatabaseManagementFeatureRequest{}
+		request := oci_database_management.ModifyExternalContainerDatabaseManagementFeatureRequest{}
 
 		if externalContainerDatabaseId, ok := s.D.GetOkExists("external_container_database_id"); ok {
 			tmp := externalContainerDatabaseId.(string)
@@ -385,7 +416,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalContainerDatabaseManagementFeature(context.Background(), request)
+		response, err := s.Client.ModifyExternalContainerDatabaseManagementFeature(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -395,11 +426,16 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 		if err != nil {
 			return err
 		}
-		s.Res.enableResponse = &response
+		s.Res.modifyResponse = &response
 		return nil
 	}
 
 	request := oci_database_management.DisableExternalContainerDatabaseManagementFeatureRequest{}
+
+	if canDisableAllPdbs, ok := s.D.GetOkExists("can_disable_all_pdbs"); ok {
+		tmp := canDisableAllPdbs.(bool)
+		request.CanDisableAllPdbs = &tmp
+	}
 
 	if externalContainerDatabaseId, ok := s.D.GetOkExists("external_container_database_id"); ok {
 		tmp := externalContainerDatabaseId.(string)
@@ -436,33 +472,19 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) Delete() error {
 	log.Printf("[INFO] Executing delete for DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource")
-	var operation bool
-	if enableOperation, ok := s.D.GetOkExists("enable_external_container_dbm_feature"); ok {
-		operation = enableOperation.(bool)
-	}
-
-	if !operation {
-		return nil
-	}
-
 	request := oci_database_management.DisableExternalContainerDatabaseManagementFeatureRequest{}
+
+	if canDisableAllPdbs, ok := s.D.GetOkExists("can_disable_all_pdbs"); ok {
+		tmp := canDisableAllPdbs.(bool)
+		request.CanDisableAllPdbs = &tmp
+	}
 
 	if externalContainerDatabaseId, ok := s.D.GetOkExists("external_container_database_id"); ok {
 		tmp := externalContainerDatabaseId.(string)
 		request.ExternalContainerDatabaseId = &tmp
 	}
 
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = "" // default value
-			}
-		}
-	}
+	request.Feature = resolveFeatureForDBOperation(&s.BaseCrud)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
@@ -555,6 +577,14 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetails{}
+		if canEnableAllCurrentPdbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "can_enable_all_current_pdbs")); ok {
+			tmp := canEnableAllCurrentPdbs.(bool)
+			details.CanEnableAllCurrentPdbs = &tmp
+		}
+		if isAutoEnablePluggableDatabase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_enable_pluggable_database")); ok {
+			tmp := isAutoEnablePluggableDatabase.(bool)
+			details.IsAutoEnablePluggableDatabase = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_model")); ok {
 			details.LicenseModel = oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetailsLicenseModelEnum(licenseModel.(string))
 		}
@@ -597,6 +627,14 @@ func ExternalDatabaseFeatureDetailsToMap(obj *oci_database_management.ExternalDa
 		result["license_model"] = string(v.LicenseModel)
 	case oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetails:
 		result["feature"] = "DIAGNOSTICS_AND_MANAGEMENT"
+
+		if v.CanEnableAllCurrentPdbs != nil {
+			result["can_enable_all_current_pdbs"] = bool(*v.CanEnableAllCurrentPdbs)
+		}
+
+		if v.IsAutoEnablePluggableDatabase != nil {
+			result["is_auto_enable_pluggable_database"] = bool(*v.IsAutoEnablePluggableDatabase)
+		}
 
 		result["license_model"] = string(v.LicenseModel)
 	case oci_database_management.ExternalDatabaseSqlWatchFeatureDetails:

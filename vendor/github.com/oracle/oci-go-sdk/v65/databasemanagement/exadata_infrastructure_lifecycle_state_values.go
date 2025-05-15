@@ -20,8 +20,8 @@ import (
 // ExadataInfrastructureLifecycleStateValues the lifecycle state values for the Exadata infrastructure.
 type ExadataInfrastructureLifecycleStateValues struct {
 
-	// The current lifecycle state of the database resource.
-	LifecycleState ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	// The current lifecycle state of the Exadata infrastructure resource.
+	State ExadataInfrastructureLifecycleStateValuesStateEnum `mandatory:"false" json:"state,omitempty"`
 }
 
 func (m ExadataInfrastructureLifecycleStateValues) String() string {
@@ -34,8 +34,8 @@ func (m ExadataInfrastructureLifecycleStateValues) String() string {
 func (m ExadataInfrastructureLifecycleStateValues) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExadataInfrastructureLifecycleStateValuesLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingExadataInfrastructureLifecycleStateValuesStateEnum(string(m.State)); !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetExadataInfrastructureLifecycleStateValuesStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -43,51 +43,54 @@ func (m ExadataInfrastructureLifecycleStateValues) ValidateEnumValue() (bool, er
 	return false, nil
 }
 
-// ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum Enum with underlying type: string
-type ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum string
+// ExadataInfrastructureLifecycleStateValuesStateEnum Enum with underlying type: string
+type ExadataInfrastructureLifecycleStateValuesStateEnum string
 
-// Set of constants representing the allowable values for ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum
+// Set of constants representing the allowable values for ExadataInfrastructureLifecycleStateValuesStateEnum
 const (
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateCreating ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "CREATING"
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateActive   ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "ACTIVE"
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateInactive ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "INACTIVE"
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateUpdating ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "UPDATING"
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateDeleting ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "DELETING"
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateDeleted  ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "DELETED"
-	ExadataInfrastructureLifecycleStateValuesLifecycleStateFailed   ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = "FAILED"
+	ExadataInfrastructureLifecycleStateValuesStateCreating ExadataInfrastructureLifecycleStateValuesStateEnum = "CREATING"
+	ExadataInfrastructureLifecycleStateValuesStateActive   ExadataInfrastructureLifecycleStateValuesStateEnum = "ACTIVE"
+	ExadataInfrastructureLifecycleStateValuesStateInactive ExadataInfrastructureLifecycleStateValuesStateEnum = "INACTIVE"
+	ExadataInfrastructureLifecycleStateValuesStateUpdating ExadataInfrastructureLifecycleStateValuesStateEnum = "UPDATING"
+	ExadataInfrastructureLifecycleStateValuesStateDeleting ExadataInfrastructureLifecycleStateValuesStateEnum = "DELETING"
+	ExadataInfrastructureLifecycleStateValuesStateDeleted  ExadataInfrastructureLifecycleStateValuesStateEnum = "DELETED"
+	ExadataInfrastructureLifecycleStateValuesStateFailed   ExadataInfrastructureLifecycleStateValuesStateEnum = "FAILED"
+	ExadataInfrastructureLifecycleStateValuesStateUnknown  ExadataInfrastructureLifecycleStateValuesStateEnum = "UNKNOWN"
 )
 
-var mappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnum = map[string]ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum{
-	"CREATING": ExadataInfrastructureLifecycleStateValuesLifecycleStateCreating,
-	"ACTIVE":   ExadataInfrastructureLifecycleStateValuesLifecycleStateActive,
-	"INACTIVE": ExadataInfrastructureLifecycleStateValuesLifecycleStateInactive,
-	"UPDATING": ExadataInfrastructureLifecycleStateValuesLifecycleStateUpdating,
-	"DELETING": ExadataInfrastructureLifecycleStateValuesLifecycleStateDeleting,
-	"DELETED":  ExadataInfrastructureLifecycleStateValuesLifecycleStateDeleted,
-	"FAILED":   ExadataInfrastructureLifecycleStateValuesLifecycleStateFailed,
+var mappingExadataInfrastructureLifecycleStateValuesStateEnum = map[string]ExadataInfrastructureLifecycleStateValuesStateEnum{
+	"CREATING": ExadataInfrastructureLifecycleStateValuesStateCreating,
+	"ACTIVE":   ExadataInfrastructureLifecycleStateValuesStateActive,
+	"INACTIVE": ExadataInfrastructureLifecycleStateValuesStateInactive,
+	"UPDATING": ExadataInfrastructureLifecycleStateValuesStateUpdating,
+	"DELETING": ExadataInfrastructureLifecycleStateValuesStateDeleting,
+	"DELETED":  ExadataInfrastructureLifecycleStateValuesStateDeleted,
+	"FAILED":   ExadataInfrastructureLifecycleStateValuesStateFailed,
+	"UNKNOWN":  ExadataInfrastructureLifecycleStateValuesStateUnknown,
 }
 
-var mappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnumLowerCase = map[string]ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum{
-	"creating": ExadataInfrastructureLifecycleStateValuesLifecycleStateCreating,
-	"active":   ExadataInfrastructureLifecycleStateValuesLifecycleStateActive,
-	"inactive": ExadataInfrastructureLifecycleStateValuesLifecycleStateInactive,
-	"updating": ExadataInfrastructureLifecycleStateValuesLifecycleStateUpdating,
-	"deleting": ExadataInfrastructureLifecycleStateValuesLifecycleStateDeleting,
-	"deleted":  ExadataInfrastructureLifecycleStateValuesLifecycleStateDeleted,
-	"failed":   ExadataInfrastructureLifecycleStateValuesLifecycleStateFailed,
+var mappingExadataInfrastructureLifecycleStateValuesStateEnumLowerCase = map[string]ExadataInfrastructureLifecycleStateValuesStateEnum{
+	"creating": ExadataInfrastructureLifecycleStateValuesStateCreating,
+	"active":   ExadataInfrastructureLifecycleStateValuesStateActive,
+	"inactive": ExadataInfrastructureLifecycleStateValuesStateInactive,
+	"updating": ExadataInfrastructureLifecycleStateValuesStateUpdating,
+	"deleting": ExadataInfrastructureLifecycleStateValuesStateDeleting,
+	"deleted":  ExadataInfrastructureLifecycleStateValuesStateDeleted,
+	"failed":   ExadataInfrastructureLifecycleStateValuesStateFailed,
+	"unknown":  ExadataInfrastructureLifecycleStateValuesStateUnknown,
 }
 
-// GetExadataInfrastructureLifecycleStateValuesLifecycleStateEnumValues Enumerates the set of values for ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum
-func GetExadataInfrastructureLifecycleStateValuesLifecycleStateEnumValues() []ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum {
-	values := make([]ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum, 0)
-	for _, v := range mappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnum {
+// GetExadataInfrastructureLifecycleStateValuesStateEnumValues Enumerates the set of values for ExadataInfrastructureLifecycleStateValuesStateEnum
+func GetExadataInfrastructureLifecycleStateValuesStateEnumValues() []ExadataInfrastructureLifecycleStateValuesStateEnum {
+	values := make([]ExadataInfrastructureLifecycleStateValuesStateEnum, 0)
+	for _, v := range mappingExadataInfrastructureLifecycleStateValuesStateEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetExadataInfrastructureLifecycleStateValuesLifecycleStateEnumStringValues Enumerates the set of values in String for ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum
-func GetExadataInfrastructureLifecycleStateValuesLifecycleStateEnumStringValues() []string {
+// GetExadataInfrastructureLifecycleStateValuesStateEnumStringValues Enumerates the set of values in String for ExadataInfrastructureLifecycleStateValuesStateEnum
+func GetExadataInfrastructureLifecycleStateValuesStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
@@ -96,11 +99,12 @@ func GetExadataInfrastructureLifecycleStateValuesLifecycleStateEnumStringValues(
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"UNKNOWN",
 	}
 }
 
-// GetMappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnum(val string) (ExadataInfrastructureLifecycleStateValuesLifecycleStateEnum, bool) {
-	enum, ok := mappingExadataInfrastructureLifecycleStateValuesLifecycleStateEnumLowerCase[strings.ToLower(val)]
+// GetMappingExadataInfrastructureLifecycleStateValuesStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadataInfrastructureLifecycleStateValuesStateEnum(val string) (ExadataInfrastructureLifecycleStateValuesStateEnum, bool) {
+	enum, ok := mappingExadataInfrastructureLifecycleStateValuesStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

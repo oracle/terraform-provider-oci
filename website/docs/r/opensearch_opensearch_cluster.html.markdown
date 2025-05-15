@@ -53,6 +53,7 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 
 	#Optional
 	data_node_host_bare_metal_shape = var.opensearch_cluster_data_node_host_bare_metal_shape
+	data_node_host_shape = var.opensearch_cluster_data_node_host_shape
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	inbound_cluster_ids = var.opensearch_cluster_inbound_cluster_ids
@@ -62,6 +63,8 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 		notification_email_ids = var.opensearch_cluster_maintenance_details_notification_email_ids
 	}
 	master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
+	master_node_host_shape = var.opensearch_cluster_master_node_host_shape
+	opendashboard_node_host_shape = var.opensearch_cluster_opendashboard_node_host_shape
 	outbound_cluster_config {
 		#Required
 		is_enabled = var.opensearch_cluster_outbound_cluster_config_is_enabled
@@ -77,6 +80,12 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 		}
 	}
 	reverse_connection_endpoint_customer_ips = var.opensearch_cluster_reverse_connection_endpoint_customer_ips
+	search_node_count = var.opensearch_cluster_search_node_count
+	search_node_host_memory_gb = var.opensearch_cluster_search_node_host_memory_gb
+	search_node_host_ocpu_count = var.opensearch_cluster_search_node_host_ocpu_count
+	search_node_host_shape = var.opensearch_cluster_search_node_host_shape
+	search_node_host_type = var.opensearch_cluster_search_node_host_type
+	search_node_storage_gb = var.opensearch_cluster_search_node_storage_gb
 	security_master_user_name = oci_identity_user.test_user.name
 	security_master_user_password_hash = var.opensearch_cluster_security_master_user_password_hash
 	security_mode = var.opensearch_cluster_security_mode
@@ -93,6 +102,7 @@ The following arguments are supported:
 * `data_node_host_bare_metal_shape` - (Optional) The bare metal shape for the cluster's data nodes.
 * `data_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure per node for the cluster's data nodes.
 * `data_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluster's data nodes.
+* `data_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's data nodes.
 * `data_node_host_type` - (Required) TThe instance type for the cluster's data nodes.
 * `data_node_storage_gb` - (Required) (Updatable) The amount of storage in GB, to configure per node for the cluster's data nodes.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
@@ -105,10 +115,12 @@ The following arguments are supported:
 * `master_node_host_bare_metal_shape` - (Optional) The bare metal shape for the cluster's master nodes.
 * `master_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure per node for the cluster's master nodes.
 * `master_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluser's master nodes.
+* `master_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's master nodes.
 * `master_node_host_type` - (Required) The instance type for the cluster's master nodes.
 * `opendashboard_node_count` - (Required) (Updatable) The number of OpenSearch Dashboard nodes to configure for the cluster.
 * `opendashboard_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.
+* `opendashboard_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's OpenSearch Dashboard nodes.
 * `outbound_cluster_config` - (Optional) (Updatable) This configuration is used for passing request details to connect outbound cluster(s) to the inbound cluster (coordinating cluster) 
 	* `is_enabled` - (Required) (Updatable) Flag to indicate whether outbound cluster configuration is enabled
 	* `outbound_clusters` - (Required) (Updatable) List of outbound clusters to be connected to the inbound cluster
@@ -118,6 +130,12 @@ The following arguments are supported:
 		* `ping_schedule` - (Optional) (Updatable) Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
 		* `seed_cluster_id` - (Required) (Updatable) OCID of the Outbound cluster
 * `reverse_connection_endpoint_customer_ips` - (Optional) (Updatable) The customer IP addresses of the endpoint in customer VCN
+* `search_node_count` - (Optional) (Updatable) The number of search nodes configured for the cluster.
+* `search_node_host_memory_gb` - (Optional) (Updatable) The amount of memory in GB, for the cluster's search nodes.
+* `search_node_host_ocpu_count` - (Optional) (Updatable) The number of OCPUs configured for the cluster's search nodes.
+* `search_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's search nodes.
+* `search_node_host_type` - (Optional) The instance type for the cluster's search nodes.
+* `search_node_storage_gb` - (Optional) (Updatable) The amount of storage in GB, to configure per node for the cluster's search nodes.
 * `security_master_user_name` - (Optional) (Updatable) The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - (Optional) (Updatable) The password hash of the master user that are used to manage security config
 * `security_mode` - (Optional) (Updatable) The security mode of the cluster.
@@ -144,6 +162,7 @@ The following attributes are exported:
 * `data_node_host_bare_metal_shape` - The bare metal shape for the cluster's data nodes.
 * `data_node_host_memory_gb` - The amount of memory in GB, for the cluster's data nodes.
 * `data_node_host_ocpu_count` - The number of OCPUs configured for the cluster's data nodes.
+* `data_node_host_shape` - The node shape for the cluster's data nodes.
 * `data_node_host_type` - The instance type for the cluster's data nodes.
 * `data_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's data nodes.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
@@ -154,36 +173,52 @@ The following attributes are exported:
 * `inbound_cluster_ids` - List of inbound clusters for which this cluster is an outbound cluster
 * `lifecycle_details` - Additional information about the current lifecycle state of the cluster.
 * `maintenance_details` - Details for the maintenance activity.
-	* `end_time` - End time of the maintenance activity
-	* `notification_email_ids` - The Email Ids given the by customer to get notified about maintenance activities
-	* `start_time` - Start time of the maintenance activity
-	* `state` - State of the maintenance activity
+    * `end_time` - End time of the maintenance activity
+    * `notification_email_ids` - The Email Ids given the by customer to get notified about maintenance activities
+    * `start_time` - Start time of the maintenance activity
+    * `state` - State of the maintenance activity
 * `master_node_count` - The number of master nodes configured for the cluster.
 * `master_node_host_bare_metal_shape` - The bare metal shape for the cluster's master nodes.
 * `master_node_host_memory_gb` - The amount of memory in GB, for the cluster's master nodes.
 * `master_node_host_ocpu_count` - The number of OCPUs configured for cluster's master nodes.
+* `master_node_host_shape` - The node shape for the cluster's master nodes.
 * `master_node_host_type` - The instance type for the cluster's master nodes.
 * `opendashboard_fqdn` - The fully qualified domain name (FQDN) for the cluster's OpenSearch Dashboard API endpoint.
 * `opendashboard_node_count` - The number of OpenSearch Dashboard nodes configured for the cluster.
 * `opendashboard_node_host_memory_gb` - The amount of memory in GB, for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_node_host_ocpu_count` - The amount of memory in GB, for the cluster's OpenSearch Dashboard nodes.
+* `opendashboard_node_host_shape` - The node shape for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_private_ip` - The private IP address for the cluster's OpenSearch Dashboard.
 * `opensearch_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.
 * `opensearch_private_ip` - The cluster's private IP address.
 * `outbound_cluster_config` - This configuration is used for passing request details to connect outbound cluster(s) to the inbound cluster (coordinating cluster) 
-	* `is_enabled` - Flag to indicate whether outbound cluster configuration is enabled
-	* `outbound_clusters` - List of outbound clusters to be connected to the inbound cluster
-		* `display_name` - Name of the Outbound cluster. Avoid entering confidential information.
-		* `is_skip_unavailable` - Flag to indicate whether to skip the Outbound cluster during cross cluster search, if it is unavailable
-		* `mode` - Mode for the cross cluster connection
-		* `ping_schedule` - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
-		* `seed_cluster_id` - OCID of the Outbound cluster
+    * `is_enabled` - Flag to indicate whether outbound cluster configuration is enabled
+    * `outbound_clusters` - List of outbound clusters to be connected to the inbound cluster
+        * `display_name` - Name of the Outbound cluster. Avoid entering confidential information.
+        * `is_skip_unavailable` - Flag to indicate whether to skip the Outbound cluster during cross cluster search, if it is unavailable
+        * `mode` - Mode for the cross cluster connection
+        * `ping_schedule` - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
+        * `seed_cluster_id` - OCID of the Outbound cluster
 * `reverse_connection_endpoint_customer_ips` - The customer IP addresses of the endpoint in customer VCN
 * `reverse_connection_endpoints` - The list of reverse connection endpoints.
-	* `customer_ip` - The IP addresses of the endpoint in customer VCN
-	* `nat_ip` - The NAT IP addresses of the endpoint in service VCN
+    * `customer_ip` - The IP addresses of the endpoint in customer VCN
+    * `nat_ip` - The NAT IP addresses of the endpoint in service VCN
+* `search_node_count` - The number of search nodes configured for the cluster.
+* `search_node_host_memory_gb` - The amount of memory in GB, for the cluster's search nodes.
+* `search_node_host_ocpu_count` - The number of OCPUs configured for the cluster's search nodes.
+* `search_node_host_shape` - The node shape for the cluster's search nodes.
+* `search_node_host_type` - The instance type for the cluster's search nodes.
+* `search_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's search nodes.
 * `security_master_user_name` - The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
+* `security_saml_config` - SAML policy is optionally used for Opensearch cluster to config SAML authentication
+    * `is_enabled` - A flag determine whether SAML is enabled
+    * `idp_metadata_content` - The content of identity provider metadata
+    * `idp_entity_id` - The unique name for a identity provider entity
+    * `opendashboard_url` - The endpoint of opendashboard
+    * `admin_backend_role` - The backend role of admins who have all permissions like local master user
+    * `subject_key` - The subject key is used to get username from SAML assertion. By default, it is NameID
+    * `roles_key` - The roles key is sued to get backend roles from SAML assertion
 * `security_mode` - The security mode of the cluster.
 * `software_version` - The software version the cluster is running.
 * `state` - The current state of the cluster.

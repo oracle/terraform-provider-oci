@@ -79,6 +79,11 @@ func OpensearchOpensearchClusterPipelineResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"node_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"nsg_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -277,6 +282,11 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Create() error {
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 		tmp := nodeCount.(int)
 		request.NodeCount = &tmp
+	}
+
+	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
+		tmp := nodeShape.(string)
+		request.NodeShape = &tmp
 	}
 
 	if nsgId, ok := s.D.GetOkExists("nsg_id"); ok {
@@ -531,6 +541,11 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Update() error {
 		request.NodeCount = &tmp
 	}
 
+	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
+		tmp := nodeShape.(string)
+		request.NodeShape = &tmp
+	}
+
 	if nsgId, ok := s.D.GetOkExists("nsg_id"); ok {
 		tmp := nsgId.(string)
 		request.NsgId = &tmp
@@ -649,6 +664,10 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) SetData() error {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
+	if s.Res.NodeShape != nil {
+		s.D.Set("node_shape", *s.Res.NodeShape)
+	}
+
 	if s.Res.NsgId != nil {
 		s.D.Set("nsg_id", *s.Res.NsgId)
 	}
@@ -741,6 +760,10 @@ func OpensearchClusterPipelineSummaryToMap(obj oci_opensearch.OpensearchClusterP
 
 	if obj.NodeCount != nil {
 		result["node_count"] = int(*obj.NodeCount)
+	}
+
+	if obj.NodeShape != nil {
+		result["node_shape"] = string(*obj.NodeShape)
 	}
 
 	if obj.OcpuCount != nil {

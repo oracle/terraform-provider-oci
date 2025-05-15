@@ -308,6 +308,10 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 								},
 							},
 						},
+						"can_enable_all_current_pdbs": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"cluster_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -799,6 +803,10 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 						},
 						"instance_name": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_auto_enable_pluggable_database": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"is_cluster": {
@@ -2168,6 +2176,10 @@ func DiscoveredExternalDbSystemComponentToMap(obj oci_database_management.Discov
 	case oci_database_management.DiscoveredExternalDatabase:
 		result["component_type"] = "DATABASE"
 
+		if v.CanEnableAllCurrentPdbs != nil {
+			result["can_enable_all_current_pdbs"] = bool(*v.CanEnableAllCurrentPdbs)
+		}
+
 		if v.CompartmentId != nil {
 			result["compartment_id"] = string(*v.CompartmentId)
 		}
@@ -2202,6 +2214,10 @@ func DiscoveredExternalDbSystemComponentToMap(obj oci_database_management.Discov
 
 		if v.DbVersion != nil {
 			result["db_version"] = string(*v.DbVersion)
+		}
+
+		if v.IsAutoEnablePluggableDatabase != nil {
+			result["is_auto_enable_pluggable_database"] = bool(*v.IsAutoEnablePluggableDatabase)
 		}
 
 		if v.IsCluster != nil {

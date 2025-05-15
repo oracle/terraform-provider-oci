@@ -17,49 +17,52 @@ import (
 )
 
 var (
-	DatabaseManagementDatabaseDbmFeaturesManagementRepresentation = map[string]interface{}{
-		"database_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_database_id}`},
-		"feature_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsRepresentation},
+	DatabaseManagementDatabaseDbmFeaturesManagementBulkPDBRepresentation = map[string]interface{}{
+		"database_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_database_id}`},
+		"feature_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsBulkPDBRepresentation},
+		"feature":              acctest.Representation{RepType: acctest.Optional, Update: `DIAGNOSTICS_AND_MANAGEMENT`},
+		"can_disable_all_pdbs": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		//Uncomment "Update : 'false'"" to run disable API or comment to run Modify API"
-		"enable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"enable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
 
-	DatabaseManagementDatabaseDbmFeaturesManagementModifyRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseDbmFeaturesManagementCdbOnlyRepresentation = map[string]interface{}{
 		"database_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_database_id}`},
 		"feature_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsRepresentation},
-		"enable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Update: `true`},
-		"modify_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Update: `true`},
-	}
-
-	DatabaseManagementDatabaseDbmFeaturesManagementDisableRepresentation = map[string]interface{}{
-		"database_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_database_id}`},
-		"feature_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsRepresentation},
-		"enable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Update: `flase`},
+		"feature":                     acctest.Representation{RepType: acctest.Optional, Update: `DIAGNOSTICS_AND_MANAGEMENT`},
+		"enable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+		"modify_database_dbm_feature": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 	}
 
 	DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsRepresentation = map[string]interface{}{
 		"connector_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
 		"database_connection_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsRepresentation},
 		"feature":                           acctest.Representation{RepType: acctest.Required, Create: `DIAGNOSTICS_AND_MANAGEMENT`},
-		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"management_type":                   acctest.Representation{RepType: acctest.Required, Create: `ADVANCED`},
 	}
+
+	DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsBulkPDBRepresentation = map[string]interface{}{
+		"connector_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
+		"database_connection_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsRepresentation},
+		"feature":                           acctest.Representation{RepType: acctest.Required, Create: `DIAGNOSTICS_AND_MANAGEMENT`},
+		"can_enable_all_current_pdbs":       acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"management_type":                   acctest.Representation{RepType: acctest.Required, Create: `ADVANCED`},
+	}
+
 	DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation = map[string]interface{}{
-		"connector_type":        acctest.Representation{RepType: acctest.Required, Create: `PE`},
-		"database_connector_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_database_connector.test_database_connector.id}`},
-		"management_agent_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_management_agent_management_agent.test_management_agent.id}`},
-		"private_end_point_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.private_end_point_id}`},
+		"connector_type":       acctest.Representation{RepType: acctest.Required, Create: `PE`},
+		"private_end_point_id": acctest.Representation{RepType: acctest.Required, Create: `${var.private_end_point_id}`},
 	}
 	DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsRepresentation = map[string]interface{}{
 		"connection_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionCredentialsRepresentation},
 		"connection_string":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionStringRepresentation},
 	}
 	DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionCredentialsRepresentation = map[string]interface{}{
-		"credential_name":    acctest.Representation{RepType: acctest.Optional, Create: `credentialName`},
 		"credential_type":    acctest.Representation{RepType: acctest.Required, Create: `DETAILS`},
 		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`, Update: `${var.modified_password_secret_id}`},
 		"role":               acctest.Representation{RepType: acctest.Required, Create: `${var.dbmgmt_db_user_role}`},
-		"ssl_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
 		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `${var.dbmgmt_db_user}`},
 	}
 	DatabaseManagementDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionStringRepresentation = map[string]interface{}{
@@ -122,13 +125,13 @@ func TestDatabaseManagementDatabaseDbmFeaturesManagementResource_basic(t *testin
 	resourceName := "oci_database_management_database_dbm_features_management.test_database_dbm_features_management"
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent(config+variableStr+DatabaseDbmFeaturesManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Required, acctest.Create, DatabaseManagementDatabaseDbmFeaturesManagementRepresentation), "databasemanagement", "databaseDbmFeaturesManagement", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Required, acctest.Create, DatabaseManagementDatabaseDbmFeaturesManagementCdbOnlyRepresentation), "databasemanagement", "databaseDbmFeaturesManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// create with enable
+		// CDB Single Enable DBM
 		{
 			Config: config + variableStr + DatabaseDbmFeaturesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Required, acctest.Create, DatabaseManagementDatabaseDbmFeaturesManagementRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Required, acctest.Create, DatabaseManagementDatabaseDbmFeaturesManagementCdbOnlyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.#", "1"),
@@ -148,10 +151,16 @@ func TestDatabaseManagementDatabaseDbmFeaturesManagementResource_basic(t *testin
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.management_type", "ADVANCED"),
 			),
 		},
-		// update to Modify
+		// CDB Single Disable DBM
 		{
 			Config: config + variableStr + DatabaseDbmFeaturesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementDatabaseDbmFeaturesManagementModifyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Optional, acctest.Update, DatabaseManagementDatabaseDbmFeaturesManagementCdbOnlyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(),
+		},
+		// Bulk Enable DBM
+		{
+			Config: config + variableStr + DatabaseDbmFeaturesManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Required, acctest.Create, DatabaseManagementDatabaseDbmFeaturesManagementBulkPDBRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.#", "1"),
@@ -170,6 +179,12 @@ func TestDatabaseManagementDatabaseDbmFeaturesManagementResource_basic(t *testin
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.management_type", "ADVANCED"),
 			),
+		},
+		// Bulk Disable DBM
+		{
+			Config: config + variableStr + DatabaseDbmFeaturesManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_database_dbm_features_management", "test_database_dbm_features_management", acctest.Optional, acctest.Update, DatabaseManagementDatabaseDbmFeaturesManagementBulkPDBRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(),
 		},
 	})
 }
