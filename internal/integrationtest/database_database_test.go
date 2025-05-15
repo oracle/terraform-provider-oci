@@ -501,7 +501,7 @@ var (
 	}
 
 	DatabaseDatabaseDatabaseDbBackupConfigDbrsBackupDestinationDetailsRepresentation = map[string]interface{}{
-		"type": acctest.Representation{RepType: acctest.Optional, Create: `AWS`, Update: `OBJECT_STORE`},
+		"type": acctest.Representation{RepType: acctest.Optional, Create: `AWS_S3`, Update: `OBJECT_STORE`},
 	}
 
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
@@ -870,7 +870,7 @@ func TestDatabaseDatabaseResource_update(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "false"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_IMMEDIATELY"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "AWS"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "AWS_S3"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),

@@ -86,6 +86,36 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
   is_unified_auditing_enabled = "true"
 }
 
+resource "oci_database_db_home" "test_aws_s3_db_home_vm_cluster" {
+  vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+
+  database {
+    admin_password      = "BEstrO0ng_#11"
+    db_name             = "dbVMAWS"
+    character_set       = "AL32UTF8"
+    ncharacter_set      = "AL16UTF16"
+    db_workload         = "OLTP"
+    pdb_name            = "pdbName"
+    db_backup_config {
+      auto_backup_enabled    = "true"
+      auto_backup_window     = "SLOT_TWO"
+      backup_deletion_policy = "DELETE_IMMEDIATELY"
+      backup_destination_details {
+        type           = "AWS_S3"
+      }
+    }
+    freeform_tags = {
+      "Department" = "Finance"
+    }
+  }
+
+  # VM_CLUSTER_BACKUP can also be specified as a source for cloud VM clusters.
+  source       = "VM_CLUSTER_NEW"
+  db_version   = "19.0.0.0"
+  display_name = "createdDbHomeAWS"
+  is_unified_auditing_enabled = "true"
+}
+
 resource "oci_database_db_home" "test_dbrs_db_home_vm_cluster" {
   vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
 
