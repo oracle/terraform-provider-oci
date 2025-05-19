@@ -71,6 +71,9 @@ type DbSystem struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Network Security Group OCIDs used for the VNIC attachment.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 
@@ -202,6 +205,7 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                *string                           `json:"description"`
+		NsgIds                     []string                          `json:"nsgIds"`
 		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
 		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
 		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
@@ -251,6 +255,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Description = model.Description
 
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
 	m.IsHighlyAvailable = model.IsHighlyAvailable
 
 	m.CurrentPlacement = model.CurrentPlacement

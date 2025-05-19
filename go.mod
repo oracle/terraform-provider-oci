@@ -74,7 +74,7 @@ require (
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
+replace github.com/oracle/oci-go-sdk/v65 v65.91.0 => ./vendor/github.com/oracle/oci-go-sdk
 go 1.23.0
 
 toolchain go1.23.9

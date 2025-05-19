@@ -38,6 +38,9 @@ type AutonomousDbVersionSummary struct {
 	// True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.
 	IsFreeTierEnabled *bool `mandatory:"false" json:"isFreeTierEnabled"`
 
+	// True if this Oracle Database software version can be used for Autonomous Databases for Developers.
+	IsDevTierEnabled *bool `mandatory:"false" json:"isDevTierEnabled"`
+
 	// True if this version of the Oracle Database software has payments enabled.
 	IsPaidEnabled *bool `mandatory:"false" json:"isPaidEnabled"`
 

@@ -63,6 +63,9 @@ type ReplicaSummary struct {
 	// The name of the Fault Domain the read replica is located in.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	// Network Security Group OCIDs used for the VNIC attachment.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
