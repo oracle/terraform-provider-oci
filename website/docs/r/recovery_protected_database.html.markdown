@@ -68,7 +68,6 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `backup_cloud_location` - Indicates the cloud service environment where the protected database is provisioned. For example, Oracle Cloud or Microsoft Azure.
 * `compartment_id` - The OCID of the compartment that contains the protected database.
 * `database_id` - The OCID of the protected database.
 * `database_size` - The size of the protected database. XS - Less than 5GB, S - 5GB to 50GB, M - 50GB to 500GB, L - 500GB to 1TB, XL - 1TB to 5TB, XXL - Greater than 5TB.

@@ -1234,7 +1234,6 @@ recovery
 * oci\_recovery\_recovery\_service\_subnet
 * oci\_recovery\_protected\_database
 * oci\_recovery\_protection\_policy
-* oci\_recovery\_long\_term\_backup
 
 redis
     
