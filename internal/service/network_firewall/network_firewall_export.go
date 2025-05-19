@@ -20,6 +20,7 @@ func init() {
 	exportNetworkFirewallNetworkFirewallPolicyServiceHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyServiceId
 	exportNetworkFirewallNetworkFirewallPolicyDecryptionProfileHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyDecryptionProfileId
 	exportNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleId
+	exportNetworkFirewallNetworkFirewallPolicyNatRuleHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyNatRuleId
 	tf_export.RegisterCompartmentGraphs("network_firewall", networkFirewallResourceGraph)
 }
 
@@ -133,6 +134,16 @@ func getNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleId(resource *tf_
 		return "", fmt.Errorf("[ERROR] unable to find tunnelInspectionRuleName for NetworkFirewall NetworkFirewallPolicyTunnelInspectionRule")
 	}
 	return GetNetworkFirewallPolicyTunnelInspectionRuleCompositeId(networkFirewallPolicyId, tunnelInspectionRuleName), nil
+}
+
+func getNetworkFirewallNetworkFirewallPolicyNatRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	natRuleName, ok := resource.SourceAttributes["nat_rule_name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find natRuleName for NetworkFirewall NetworkFirewallPolicyNatRule")
+	}
+	networkFirewallPolicyId := resource.Parent.Id
+	return GetNetworkFirewallPolicyNatRuleCompositeId(natRuleName, networkFirewallPolicyId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -261,6 +272,15 @@ var exportNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleHints = &tf_ex
 	RequireResourceRefresh: true,
 }
 
+var exportNetworkFirewallNetworkFirewallPolicyNatRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_network_firewall_network_firewall_policy_nat_rule",
+	DatasourceClass:        "oci_network_firewall_network_firewall_policy_nat_rules",
+	DatasourceItemsAttr:    "nat_rule_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "network_firewall_policy_nat_rule",
+	RequireResourceRefresh: true,
+}
+
 var networkFirewallResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportNetworkFirewallNetworkFirewallPolicyHints},
@@ -299,6 +319,12 @@ var networkFirewallResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportNetworkFirewallNetworkFirewallPolicyMappedSecretHints,
+			DatasourceQueryParams: map[string]string{
+				"network_firewall_policy_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportNetworkFirewallNetworkFirewallPolicyNatRuleHints,
 			DatasourceQueryParams: map[string]string{
 				"network_firewall_policy_id": "id",
 			},

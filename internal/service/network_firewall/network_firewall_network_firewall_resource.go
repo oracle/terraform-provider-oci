@@ -88,6 +88,33 @@ func NetworkFirewallNetworkFirewallResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"nat_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"must_enable_private_nat": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+						"nat_ip_address_list": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
+			},
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -233,6 +260,17 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) Create() error {
 	if ipv6Address, ok := s.D.GetOkExists("ipv6address"); ok {
 		tmp := ipv6Address.(string)
 		request.Ipv6Address = &tmp
+	}
+
+	if natConfiguration, ok := s.D.GetOkExists("nat_configuration"); ok {
+		if tmpList := natConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "nat_configuration", 0)
+			tmp, err := s.mapToNatConfigurationRequest(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NatConfiguration = &tmp
+		}
 	}
 
 	if networkFirewallPolicyId, ok := s.D.GetOkExists("network_firewall_policy_id"); ok {
@@ -451,6 +489,17 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if natConfiguration, ok := s.D.GetOkExists("nat_configuration"); ok {
+		if tmpList := natConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "nat_configuration", 0)
+			tmp, err := s.mapToNatConfigurationRequest(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NatConfiguration = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.NetworkFirewallId = &tmp
 
@@ -535,6 +584,12 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.NatConfiguration != nil {
+		s.D.Set("nat_configuration", []interface{}{NatConfigurationResponseToMap(s.Res.NatConfiguration)})
+	} else {
+		s.D.Set("nat_configuration", nil)
+	}
+
 	if s.Res.NetworkFirewallPolicyId != nil {
 		s.D.Set("network_firewall_policy_id", *s.Res.NetworkFirewallPolicyId)
 	}
@@ -564,6 +619,29 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *NetworkFirewallNetworkFirewallResourceCrud) mapToNatConfigurationRequest(fieldKeyFormat string) (oci_network_firewall.NatConfigurationRequest, error) {
+	result := oci_network_firewall.NatConfigurationRequest{}
+
+	if mustEnablePrivateNat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "must_enable_private_nat")); ok {
+		tmp := mustEnablePrivateNat.(bool)
+		result.MustEnablePrivateNat = &tmp
+	}
+
+	return result, nil
+}
+
+func NatConfigurationResponseToMap(obj *oci_network_firewall.NatConfigurationResponse) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MustEnablePrivateNat != nil {
+		result["must_enable_private_nat"] = bool(*obj.MustEnablePrivateNat)
+	}
+
+	result["nat_ip_address_list"] = obj.NatIpAddressList
+
+	return result
 }
 
 func NetworkFirewallSummaryToMap(obj oci_network_firewall.NetworkFirewallSummary) map[string]interface{} {
@@ -601,6 +679,10 @@ func NetworkFirewallSummaryToMap(obj oci_network_firewall.NetworkFirewallSummary
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.NatConfiguration != nil {
+		result["nat_configuration"] = []interface{}{NatConfigurationResponseToMap(obj.NatConfiguration)}
 	}
 
 	if obj.NetworkFirewallPolicyId != nil {

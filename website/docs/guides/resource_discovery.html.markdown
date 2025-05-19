@@ -188,7 +188,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `log_analytics` - Discovers log_analytics resources within the specified compartment
     * `logging` - Discovers logging resources within the specified compartment
-    * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
@@ -553,6 +552,7 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
+* oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
 * oci\_core\_byoasn
 * oci\_core\_compute\_gpu\_memory\_cluster
@@ -704,18 +704,6 @@ datascience
 * oci\_datascience\_schedule
 * oci\_datascience\_model\_defined\_metadata\_artifact
 * oci\_datascience\_model\_custom\_metadata\_artifact
-* oci\_datascience\_ml\_application\_implementation
-* oci\_datascience\_ml\_application\_instance
-* oci\_datascience\_ml\_application
-
-dblm
-    
-* oci\_dblm\_vulnerability\_scan
-
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
 
 dblm
     
@@ -784,6 +772,9 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
 
 em_warehouse
 
@@ -1028,10 +1019,6 @@ logging
 * oci\_logging\_log\_saved\_search
 * oci\_logging\_unified\_agent\_configuration
 
-lustre_file_storage
-    
-* oci\_lustre\_file\_storage\_lustre\_file\_system
-
 management_agent
     
 * oci\_management\_agent\_management\_agent
@@ -1090,6 +1077,7 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_service
 * oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
 * oci\_network\_firewall\_network\_firewall\_policy\_tunnel\_inspection\_rule
+* oci\_network\_firewall\_network\_firewall\_policy\_nat\_rule
 
 network_load_balancer
     

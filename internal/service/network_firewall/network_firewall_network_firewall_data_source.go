@@ -96,6 +96,12 @@ func (s *NetworkFirewallNetworkFirewallDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.NatConfiguration != nil {
+		s.D.Set("nat_configuration", []interface{}{NatConfigurationResponseToMap(s.Res.NatConfiguration)})
+	} else {
+		s.D.Set("nat_configuration", nil)
+	}
+
 	if s.Res.NetworkFirewallPolicyId != nil {
 		s.D.Set("network_firewall_policy_id", *s.Res.NetworkFirewallPolicyId)
 	}
