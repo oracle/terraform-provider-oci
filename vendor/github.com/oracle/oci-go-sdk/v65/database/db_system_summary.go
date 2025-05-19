@@ -70,7 +70,8 @@ type DbSystemSummary struct {
 	// The number of CPU cores enabled on the DB system.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
-	// The Oracle Database edition that applies to all the databases on the DB system.
+	// The Oracle Database Edition that applies to all the databases on the DB system.
+	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition DbSystemSummaryDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
 
 	// The current state of the DB system.

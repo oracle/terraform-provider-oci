@@ -39,6 +39,10 @@ type FailOverAutonomousDatabaseRequest struct {
 	// The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 	PeerDbId *string `mandatory:"false" contributesTo:"query" name:"peerDbId"`
 
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not actually
+	// creating or updating a resource and is used only to perform validation on the submitted data.
+	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
