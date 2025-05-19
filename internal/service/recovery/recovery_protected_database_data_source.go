@@ -66,8 +66,6 @@ func (s *RecoveryProtectedDatabaseDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	s.D.Set("backup_cloud_location", s.Res.BackupCloudLocation)
-
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
