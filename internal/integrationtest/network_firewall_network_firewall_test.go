@@ -57,6 +57,12 @@ var (
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MyFirewall`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ipv4address":                acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
+		"ipv6address":                acctest.Representation{RepType: acctest.Optional, Create: `ipv6Address`},
+		"nat_configuration":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkFirewallNetworkFirewallNatConfigurationRepresentation},
+		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`networkSecurityGroupIds2`}},
+	}
+	NetworkFirewallNetworkFirewallNatConfigurationRepresentation = map[string]interface{}{
+		"must_enable_private_nat": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
 
 	NetworkFirewallResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -88,7 +94,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Optional, acctest.Create, networkFirewallRepresentation), "networkfirewall", "networkFirewall", t)
 
 	acctest.ResourceTest(t, testAccCheckNetworkFirewallNetworkFirewallDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create Step 0
 		{
 			Config: config + compartmentIdVariableStr + NetworkFirewallResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
@@ -104,12 +110,14 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address", "ipv6Address"),
+				resource.TestCheckResourceAttr(resourceName, "nat_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "nat_configuration.0.must_enable_private_nat", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
@@ -122,7 +130,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step) Step 1
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NetworkFirewallResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Optional, acctest.Create,
@@ -136,6 +144,9 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address", "ipv6Address"),
+				resource.TestCheckResourceAttr(resourceName, "nat_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "nat_configuration.0.must_enable_private_nat", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -152,7 +163,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		// verify updates to updatable parameters Step 3
 		{
 			Config: config + compartmentIdVariableStr + NetworkFirewallResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Optional, acctest.Update, networkFirewallRepresentation),
@@ -163,6 +174,9 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address", "ipv6Address"),
+				resource.TestCheckResourceAttr(resourceName, "nat_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "nat_configuration.0.must_enable_private_nat", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -178,7 +192,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		// verify datasource step 4
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap(
@@ -194,7 +208,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "network_firewall_collection.0.items.#", "1"),
 			),
 		},
-		// verify singular datasource
+		// verify singular datasource Step 5
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Required, acctest.Create, networkFirewallSingularDataSourceRepresentation) +
@@ -208,12 +222,16 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ipv4address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6address", "ipv6Address"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nat_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nat_configuration.0.must_enable_private_nat", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nat_configuration.0.nat_ip_address_list.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// verify resource import
+		// verify resource import Step 6
 		{
 			Config:                  config + NetworkFirewallRequiredOnlyResource,
 			ImportState:             true,

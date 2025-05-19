@@ -60,6 +60,9 @@ The following attributes are exported:
 * `ipv4address` - IPv4 address for the Network Firewall.
 * `ipv6address` - IPv6 address for the Network Firewall.
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in 'FAILED' state.
+* `nat_configuration` - Nat Configuration response.
+	* `must_enable_private_nat` - To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall.
+	* `nat_ip_address_list` - An array of NAT IP addresses that are associated with the Network Firewall. These IPs are reserved for NAT and shouldn't be used for any other purpose in the subnet.
 * `network_firewall_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall Policy.
 * `network_security_group_ids` - An array of network security groups [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the Network Firewall.
 * `state` - The current state of the Network Firewall.
