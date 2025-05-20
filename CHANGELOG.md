@@ -1,4 +1,4 @@
-## 7.2.0 (Unreleased)
+## 7.2.0 (May 20, 2025)
 
 ### Added
 - Support for Autonomous Recovery Service - Long Term Archive Feature
@@ -14,7 +14,7 @@
 - Format
 - fix infinite loop for OSMH resource discovery
 
-## 7.2.0 (Unreleased)
+## 7.2.0 (May 20, 2025)
 
 ### Added
 - Support for Autonomous Recovery Service - Long Term Archive Feature
