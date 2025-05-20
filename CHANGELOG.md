@@ -14,22 +14,6 @@
 - Format
 - fix infinite loop for OSMH resource discovery
 
-## 7.2.0 (Unreleased)
-
-### Added
-- Support for Autonomous Recovery Service - Long Term Archive Feature
-- MySQL HeatWave Service: Network Security Group (NSG)
-- README.md of service examples with magic button
-- README.md of service examples with magic button
-- Release for v7.1.0
-- Support for OpenSearch OBO metering for external customers
-- Support for bulk PDB enablement and monitoring in Database Management Service
-### Bug Fix
-- fixed oci_adm_knowledge_bases data source docs to reflect the implementation
-- Remove computed parameter from target_ids UA/SA unset Baseline APIs in Data Safe
-- Format
-- fix infinite loop for OSMH resource discovery
-
 ## 7.1.0 (May 14, 2025)
 
 ### Added
