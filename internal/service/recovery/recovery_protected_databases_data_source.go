@@ -18,6 +18,10 @@ func RecoveryProtectedDatabasesDataSource() *schema.Resource {
 		Read: readRecoveryProtectedDatabases,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"backup_cloud_location": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -80,6 +84,10 @@ func (s *RecoveryProtectedDatabasesDataSourceCrud) VoidState() {
 
 func (s *RecoveryProtectedDatabasesDataSourceCrud) Get() error {
 	request := oci_recovery.ListProtectedDatabasesRequest{}
+
+	if backupCloudLocation, ok := s.D.GetOkExists("backup_cloud_location"); ok {
+		request.BackupCloudLocation = oci_recovery.ListProtectedDatabasesBackupCloudLocationEnum(backupCloudLocation.(string))
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
