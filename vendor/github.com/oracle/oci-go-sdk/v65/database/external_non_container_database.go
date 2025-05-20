@@ -54,7 +54,8 @@ type ExternalNonContainerDatabase struct {
 	// The Oracle Database version.
 	DatabaseVersion *string `mandatory:"false" json:"databaseVersion"`
 
-	// The Oracle Database edition.
+	// The Oracle Database Edition that applies to all the databases on the DB system.
+	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition ExternalNonContainerDatabaseDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The time zone of the external database.

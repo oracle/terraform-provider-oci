@@ -44,6 +44,9 @@ type DbSystemSnapshot struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Network Security Group OCIDs used for the VNIC attachment.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The Availability Domain where the primary DB System should be located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 

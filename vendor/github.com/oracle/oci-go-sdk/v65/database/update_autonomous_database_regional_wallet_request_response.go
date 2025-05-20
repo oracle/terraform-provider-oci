@@ -24,6 +24,10 @@ type UpdateAutonomousDatabaseRegionalWalletRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not actually
+	// creating or updating a resource and is used only to perform validation on the submitted data.
+	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
