@@ -6,6 +6,14 @@
 - fixed oci_adm_knowledge_bases data source docs to reflect the implementation
 - Remove computed parameter from target_ids UA/SA unset Baseline APIs in Data Safe
 
+## 7.2.0 (Unreleased)
+
+### Added
+- MySQL HeatWave Service: Network Security Group (NSG)
+### Bug Fix
+- fixed oci_adm_knowledge_bases data source docs to reflect the implementation
+- Remove computed parameter from target_ids UA/SA unset Baseline APIs in Data Safe
+
 ## 7.1.0 (Unreleased)
 
 
