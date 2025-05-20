@@ -49,10 +49,23 @@ var exportRecoveryProtectionPolicyHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportRecoveryLongTermBackupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_recovery_long_term_backup",
+	DatasourceClass:        "oci_recovery_long_term_backups",
+	DatasourceItemsAttr:    "long_term_backup_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "long_term_backup",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_recovery.LongTermBackupLifecycleStateActive),
+	},
+}
+
 var recoveryResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportRecoveryRecoveryServiceSubnetHints},
 		{TerraformResourceHints: exportRecoveryProtectedDatabaseHints},
 		{TerraformResourceHints: exportRecoveryProtectionPolicyHints},
+		{TerraformResourceHints: exportRecoveryLongTermBackupHints},
 	},
 }
