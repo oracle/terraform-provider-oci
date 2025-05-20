@@ -194,6 +194,7 @@ const (
 	SummarizeHostInsightResourceUsagePlatformTypeWindows SummarizeHostInsightResourceUsagePlatformTypeEnum = "WINDOWS"
 	SummarizeHostInsightResourceUsagePlatformTypeAix     SummarizeHostInsightResourceUsagePlatformTypeEnum = "AIX"
 	SummarizeHostInsightResourceUsagePlatformTypeHpUx    SummarizeHostInsightResourceUsagePlatformTypeEnum = "HP_UX"
+	SummarizeHostInsightResourceUsagePlatformTypeUnknown SummarizeHostInsightResourceUsagePlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingSummarizeHostInsightResourceUsagePlatformTypeEnum = map[string]SummarizeHostInsightResourceUsagePlatformTypeEnum{
@@ -204,6 +205,7 @@ var mappingSummarizeHostInsightResourceUsagePlatformTypeEnum = map[string]Summar
 	"WINDOWS": SummarizeHostInsightResourceUsagePlatformTypeWindows,
 	"AIX":     SummarizeHostInsightResourceUsagePlatformTypeAix,
 	"HP_UX":   SummarizeHostInsightResourceUsagePlatformTypeHpUx,
+	"UNKNOWN": SummarizeHostInsightResourceUsagePlatformTypeUnknown,
 }
 
 var mappingSummarizeHostInsightResourceUsagePlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceUsagePlatformTypeEnum{
@@ -214,6 +216,7 @@ var mappingSummarizeHostInsightResourceUsagePlatformTypeEnumLowerCase = map[stri
 	"windows": SummarizeHostInsightResourceUsagePlatformTypeWindows,
 	"aix":     SummarizeHostInsightResourceUsagePlatformTypeAix,
 	"hp_ux":   SummarizeHostInsightResourceUsagePlatformTypeHpUx,
+	"unknown": SummarizeHostInsightResourceUsagePlatformTypeUnknown,
 }
 
 // GetSummarizeHostInsightResourceUsagePlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsagePlatformTypeEnum
@@ -235,6 +238,7 @@ func GetSummarizeHostInsightResourceUsagePlatformTypeEnumStringValues() []string
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

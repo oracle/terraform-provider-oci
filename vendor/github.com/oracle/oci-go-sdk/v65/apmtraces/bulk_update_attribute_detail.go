@@ -119,16 +119,19 @@ type BulkUpdateAttributeDetailAttributeNameSpaceEnum string
 const (
 	BulkUpdateAttributeDetailAttributeNameSpaceTraces    BulkUpdateAttributeDetailAttributeNameSpaceEnum = "TRACES"
 	BulkUpdateAttributeDetailAttributeNameSpaceSynthetic BulkUpdateAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+	BulkUpdateAttributeDetailAttributeNameSpaceLogs      BulkUpdateAttributeDetailAttributeNameSpaceEnum = "LOGS"
 )
 
 var mappingBulkUpdateAttributeDetailAttributeNameSpaceEnum = map[string]BulkUpdateAttributeDetailAttributeNameSpaceEnum{
 	"TRACES":    BulkUpdateAttributeDetailAttributeNameSpaceTraces,
 	"SYNTHETIC": BulkUpdateAttributeDetailAttributeNameSpaceSynthetic,
+	"LOGS":      BulkUpdateAttributeDetailAttributeNameSpaceLogs,
 }
 
 var mappingBulkUpdateAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkUpdateAttributeDetailAttributeNameSpaceEnum{
 	"traces":    BulkUpdateAttributeDetailAttributeNameSpaceTraces,
 	"synthetic": BulkUpdateAttributeDetailAttributeNameSpaceSynthetic,
+	"logs":      BulkUpdateAttributeDetailAttributeNameSpaceLogs,
 }
 
 // GetBulkUpdateAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkUpdateAttributeDetailAttributeNameSpaceEnum
@@ -145,6 +148,7 @@ func GetBulkUpdateAttributeDetailAttributeNameSpaceEnumStringValues() []string {
 	return []string{
 		"TRACES",
 		"SYNTHETIC",
+		"LOGS",
 	}
 }
 

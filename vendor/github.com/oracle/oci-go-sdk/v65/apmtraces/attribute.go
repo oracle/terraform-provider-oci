@@ -15,30 +15,24 @@ import (
 	"strings"
 )
 
-// MonitoringService Definition of the Monitoring Service.
-type MonitoringService struct {
+// Attribute Definition of an attribute which is a key-value pair.
+type Attribute struct {
 
-	// Namespace in monitoring service.
-	NameSpace *string `mandatory:"false" json:"nameSpace"`
+	// Key that specifies the attribute name.
+	AttributeName *string `mandatory:"true" json:"attributeName"`
 
-	// Name in monitoring service.
-	Name *string `mandatory:"false" json:"name"`
-
-	// Dimensions in the monitoring service.
-	Dimensions *string `mandatory:"false" json:"dimensions"`
-
-	// Datapoints in the monitoring service.
-	Datapoints *string `mandatory:"false" json:"datapoints"`
+	// Value associated with the attribute key.
+	AttributeValue *string `mandatory:"true" json:"attributeValue"`
 }
 
-func (m MonitoringService) String() string {
+func (m Attribute) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MonitoringService) ValidateEnumValue() (bool, error) {
+func (m Attribute) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

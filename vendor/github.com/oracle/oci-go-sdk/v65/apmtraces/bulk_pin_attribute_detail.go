@@ -52,16 +52,19 @@ type BulkPinAttributeDetailAttributeNameSpaceEnum string
 const (
 	BulkPinAttributeDetailAttributeNameSpaceTraces    BulkPinAttributeDetailAttributeNameSpaceEnum = "TRACES"
 	BulkPinAttributeDetailAttributeNameSpaceSynthetic BulkPinAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+	BulkPinAttributeDetailAttributeNameSpaceLogs      BulkPinAttributeDetailAttributeNameSpaceEnum = "LOGS"
 )
 
 var mappingBulkPinAttributeDetailAttributeNameSpaceEnum = map[string]BulkPinAttributeDetailAttributeNameSpaceEnum{
 	"TRACES":    BulkPinAttributeDetailAttributeNameSpaceTraces,
 	"SYNTHETIC": BulkPinAttributeDetailAttributeNameSpaceSynthetic,
+	"LOGS":      BulkPinAttributeDetailAttributeNameSpaceLogs,
 }
 
 var mappingBulkPinAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkPinAttributeDetailAttributeNameSpaceEnum{
 	"traces":    BulkPinAttributeDetailAttributeNameSpaceTraces,
 	"synthetic": BulkPinAttributeDetailAttributeNameSpaceSynthetic,
+	"logs":      BulkPinAttributeDetailAttributeNameSpaceLogs,
 }
 
 // GetBulkPinAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkPinAttributeDetailAttributeNameSpaceEnum
@@ -78,6 +81,7 @@ func GetBulkPinAttributeDetailAttributeNameSpaceEnumStringValues() []string {
 	return []string{
 		"TRACES",
 		"SYNTHETIC",
+		"LOGS",
 	}
 }
 

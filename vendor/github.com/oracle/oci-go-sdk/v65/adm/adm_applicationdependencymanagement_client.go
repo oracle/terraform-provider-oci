@@ -1651,7 +1651,7 @@ func (client ApplicationDependencyManagementClient) listStages(ctx context.Conte
 	return response, err
 }
 
-// ListVulnerabilities Returns a list of vulnerability metadata for an audit.
+// ListVulnerabilities Returns a list of vulnerability details for an audit.
 // A default retry strategy applies to this operation ListVulnerabilities()
 func (client ApplicationDependencyManagementClient) ListVulnerabilities(ctx context.Context, request ListVulnerabilitiesRequest) (response ListVulnerabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse

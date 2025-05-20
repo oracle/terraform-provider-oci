@@ -92,6 +92,7 @@ const (
 	HostImportableAgentEntitySummaryPlatformTypeWindows HostImportableAgentEntitySummaryPlatformTypeEnum = "WINDOWS"
 	HostImportableAgentEntitySummaryPlatformTypeAix     HostImportableAgentEntitySummaryPlatformTypeEnum = "AIX"
 	HostImportableAgentEntitySummaryPlatformTypeHpUx    HostImportableAgentEntitySummaryPlatformTypeEnum = "HP_UX"
+	HostImportableAgentEntitySummaryPlatformTypeUnknown HostImportableAgentEntitySummaryPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
@@ -102,6 +103,7 @@ var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImp
 	"WINDOWS": HostImportableAgentEntitySummaryPlatformTypeWindows,
 	"AIX":     HostImportableAgentEntitySummaryPlatformTypeAix,
 	"HP_UX":   HostImportableAgentEntitySummaryPlatformTypeHpUx,
+	"UNKNOWN": HostImportableAgentEntitySummaryPlatformTypeUnknown,
 }
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
@@ -112,6 +114,7 @@ var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[strin
 	"windows": HostImportableAgentEntitySummaryPlatformTypeWindows,
 	"aix":     HostImportableAgentEntitySummaryPlatformTypeAix,
 	"hp_ux":   HostImportableAgentEntitySummaryPlatformTypeHpUx,
+	"unknown": HostImportableAgentEntitySummaryPlatformTypeUnknown,
 }
 
 // GetHostImportableAgentEntitySummaryPlatformTypeEnumValues Enumerates the set of values for HostImportableAgentEntitySummaryPlatformTypeEnum
@@ -133,6 +136,7 @@ func GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues() []string 
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

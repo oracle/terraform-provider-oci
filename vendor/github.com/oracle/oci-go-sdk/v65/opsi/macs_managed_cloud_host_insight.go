@@ -72,6 +72,9 @@ type MacsManagedCloudHostInsight struct {
 	// Platform version.
 	PlatformVersion *string `mandatory:"false" json:"platformVersion"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the K8s cluster.
+	KubeClusterInsightId *string `mandatory:"false" json:"kubeClusterInsightId"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
@@ -206,6 +209,7 @@ const (
 	MacsManagedCloudHostInsightPlatformTypeWindows MacsManagedCloudHostInsightPlatformTypeEnum = "WINDOWS"
 	MacsManagedCloudHostInsightPlatformTypeAix     MacsManagedCloudHostInsightPlatformTypeEnum = "AIX"
 	MacsManagedCloudHostInsightPlatformTypeHpUx    MacsManagedCloudHostInsightPlatformTypeEnum = "HP_UX"
+	MacsManagedCloudHostInsightPlatformTypeUnknown MacsManagedCloudHostInsightPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingMacsManagedCloudHostInsightPlatformTypeEnum = map[string]MacsManagedCloudHostInsightPlatformTypeEnum{
@@ -216,6 +220,7 @@ var mappingMacsManagedCloudHostInsightPlatformTypeEnum = map[string]MacsManagedC
 	"WINDOWS": MacsManagedCloudHostInsightPlatformTypeWindows,
 	"AIX":     MacsManagedCloudHostInsightPlatformTypeAix,
 	"HP_UX":   MacsManagedCloudHostInsightPlatformTypeHpUx,
+	"UNKNOWN": MacsManagedCloudHostInsightPlatformTypeUnknown,
 }
 
 var mappingMacsManagedCloudHostInsightPlatformTypeEnumLowerCase = map[string]MacsManagedCloudHostInsightPlatformTypeEnum{
@@ -226,6 +231,7 @@ var mappingMacsManagedCloudHostInsightPlatformTypeEnumLowerCase = map[string]Mac
 	"windows": MacsManagedCloudHostInsightPlatformTypeWindows,
 	"aix":     MacsManagedCloudHostInsightPlatformTypeAix,
 	"hp_ux":   MacsManagedCloudHostInsightPlatformTypeHpUx,
+	"unknown": MacsManagedCloudHostInsightPlatformTypeUnknown,
 }
 
 // GetMacsManagedCloudHostInsightPlatformTypeEnumValues Enumerates the set of values for MacsManagedCloudHostInsightPlatformTypeEnum
@@ -247,6 +253,7 @@ func GetMacsManagedCloudHostInsightPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

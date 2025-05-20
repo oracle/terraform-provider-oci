@@ -180,6 +180,7 @@ const (
 	ListHostedEntitiesPlatformTypeWindows ListHostedEntitiesPlatformTypeEnum = "WINDOWS"
 	ListHostedEntitiesPlatformTypeAix     ListHostedEntitiesPlatformTypeEnum = "AIX"
 	ListHostedEntitiesPlatformTypeHpUx    ListHostedEntitiesPlatformTypeEnum = "HP_UX"
+	ListHostedEntitiesPlatformTypeUnknown ListHostedEntitiesPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPlatformTypeEnum{
@@ -190,6 +191,7 @@ var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPla
 	"WINDOWS": ListHostedEntitiesPlatformTypeWindows,
 	"AIX":     ListHostedEntitiesPlatformTypeAix,
 	"HP_UX":   ListHostedEntitiesPlatformTypeHpUx,
+	"UNKNOWN": ListHostedEntitiesPlatformTypeUnknown,
 }
 
 var mappingListHostedEntitiesPlatformTypeEnumLowerCase = map[string]ListHostedEntitiesPlatformTypeEnum{
@@ -200,6 +202,7 @@ var mappingListHostedEntitiesPlatformTypeEnumLowerCase = map[string]ListHostedEn
 	"windows": ListHostedEntitiesPlatformTypeWindows,
 	"aix":     ListHostedEntitiesPlatformTypeAix,
 	"hp_ux":   ListHostedEntitiesPlatformTypeHpUx,
+	"unknown": ListHostedEntitiesPlatformTypeUnknown,
 }
 
 // GetListHostedEntitiesPlatformTypeEnumValues Enumerates the set of values for ListHostedEntitiesPlatformTypeEnum
@@ -221,6 +224,7 @@ func GetListHostedEntitiesPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

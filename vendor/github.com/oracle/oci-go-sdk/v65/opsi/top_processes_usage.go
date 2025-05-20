@@ -44,6 +44,21 @@ type TopProcessesUsage struct {
 	// Maximum number of processes running at time of collection.
 	MaxProcessCount *int `mandatory:"true" json:"maxProcessCount"`
 
+	// MBs Read.
+	BytesReadInMBs *float64 `mandatory:"true" json:"bytesReadInMBs"`
+
+	// MBs Written.
+	BytesWrittenInMBs *float64 `mandatory:"true" json:"bytesWrittenInMBs"`
+
+	// Read IO operations per second.
+	IopsRead *float64 `mandatory:"true" json:"iopsRead"`
+
+	// Write IO operations per second.
+	IopsWritten *float64 `mandatory:"true" json:"iopsWritten"`
+
+	// IO operations per second.
+	Iops *float64 `mandatory:"true" json:"iops"`
+
 	// Host Process Alias
 	ProcessAlias *string `mandatory:"false" json:"processAlias"`
 

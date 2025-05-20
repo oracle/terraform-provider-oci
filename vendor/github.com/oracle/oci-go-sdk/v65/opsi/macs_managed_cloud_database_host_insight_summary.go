@@ -211,6 +211,7 @@ const (
 	MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeWindows MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum = "WINDOWS"
 	MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeAix     MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum = "AIX"
 	MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeHpUx    MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum = "HP_UX"
+	MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeUnknown MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingMacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum = map[string]MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum{
@@ -221,6 +222,7 @@ var mappingMacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum = map[stri
 	"WINDOWS": MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeWindows,
 	"AIX":     MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeAix,
 	"HP_UX":   MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeHpUx,
+	"UNKNOWN": MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeUnknown,
 }
 
 var mappingMacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnumLowerCase = map[string]MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum{
@@ -231,6 +233,7 @@ var mappingMacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnumLowerCase =
 	"windows": MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeWindows,
 	"aix":     MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeAix,
 	"hp_ux":   MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeHpUx,
+	"unknown": MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeUnknown,
 }
 
 // GetMacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for MacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnum
@@ -252,6 +255,7 @@ func GetMacsManagedCloudDatabaseHostInsightSummaryPlatformTypeEnumStringValues()
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

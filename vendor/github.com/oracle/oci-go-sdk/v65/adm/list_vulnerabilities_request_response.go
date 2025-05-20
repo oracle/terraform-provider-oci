@@ -17,8 +17,8 @@ type ListVulnerabilitiesRequest struct {
 	// Unique Vulnerability Audit identifier path parameter.
 	VulnerabilityAuditId *string `mandatory:"true" contributesTo:"path" name:"vulnerabilityAuditId"`
 
-	// A filter to return only vulnerability metadata which are affecting any artifact in an audit directly.
-	IsDirect *bool `mandatory:"false" contributesTo:"query" name:"isDirect"`
+	// A filter when set returns only vulnerabilities that are immediately(directly) affecting any artifact, when unset all vulnerabilities are returned.
+	IsDirectVulnerability *bool `mandatory:"false" contributesTo:"query" name:"isDirectVulnerability"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -77,8 +77,8 @@ type ListVulnerabilitiesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of VulnerabilityCollection instances
-	VulnerabilityCollection `presentIn:"body"`
+	// A list of VulnerabilityDetailsCollection instances
+	VulnerabilityDetailsCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

@@ -40,6 +40,8 @@ type CopyBackupDetails struct {
 	// Number of days to retain the copied DB system backup.
 	// **Note:** The maximum value for an automatic backup is 35, and the maximum value for a manual backup is 365.
 	BackupCopyRetentionInDays *int `mandatory:"false" json:"backupCopyRetentionInDays"`
+
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
 }
 
 func (m CopyBackupDetails) String() string {

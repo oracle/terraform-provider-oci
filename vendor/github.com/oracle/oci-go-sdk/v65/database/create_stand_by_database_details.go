@@ -19,10 +19,11 @@ import (
 // CreateStandByDatabaseDetails Details for creating a new standby database.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateStandByDatabaseDetails struct {
-	Database *CreateStandbyDetails `mandatory:"true" json:"database"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
-	DbHomeId *string `mandatory:"false" json:"dbHomeId"`
+	DbHomeId *string `mandatory:"true" json:"dbHomeId"`
+
+	Database *CreateStandbyDetails `mandatory:"true" json:"database"`
 
 	// A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.

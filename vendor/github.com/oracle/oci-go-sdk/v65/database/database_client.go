@@ -1255,6 +1255,64 @@ func (client DatabaseClient) changeCloudAutonomousVmClusterCompartment(ctx conte
 	return response, err
 }
 
+// ChangeCloudAutonomousVmClusterSubscription Associate a Cloud Autonomous VM cluster with a different subscription.
+func (client DatabaseClient) ChangeCloudAutonomousVmClusterSubscription(ctx context.Context, request ChangeCloudAutonomousVmClusterSubscriptionRequest) (response ChangeCloudAutonomousVmClusterSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCloudAutonomousVmClusterSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCloudAutonomousVmClusterSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCloudAutonomousVmClusterSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCloudAutonomousVmClusterSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCloudAutonomousVmClusterSubscriptionResponse")
+	}
+	return
+}
+
+// changeCloudAutonomousVmClusterSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeCloudAutonomousVmClusterSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCloudAutonomousVmClusterSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/ChangeCloudAutonomousVmClusterSubscription"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCloudAutonomousVmClusterSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeCloudDbSystemSubscription Associate a cloud DB system with a different subscription.
 func (client DatabaseClient) ChangeCloudDbSystemSubscription(ctx context.Context, request ChangeCloudDbSystemSubscriptionRequest) (response ChangeCloudDbSystemSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse

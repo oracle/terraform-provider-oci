@@ -41,6 +41,21 @@ type TopProcessesUsageTrend struct {
 	// Maximum number of processes running at time of collection
 	MaxProcessCount *int `mandatory:"true" json:"maxProcessCount"`
 
+	// MBs Read
+	BytesReadInMBs *float64 `mandatory:"true" json:"bytesReadInMBs"`
+
+	// MBs Written
+	BytesWrittenInMBs *float64 `mandatory:"true" json:"bytesWrittenInMBs"`
+
+	// Read IO operations per second
+	IopsRead *float64 `mandatory:"true" json:"iopsRead"`
+
+	// Write IO operations per second
+	IopsWritten *float64 `mandatory:"true" json:"iopsWritten"`
+
+	// IO operations per second
+	Iops *float64 `mandatory:"true" json:"iops"`
+
 	// Container id if this process corresponds to a running container in the host.
 	ContainerId *string `mandatory:"false" json:"containerId"`
 }

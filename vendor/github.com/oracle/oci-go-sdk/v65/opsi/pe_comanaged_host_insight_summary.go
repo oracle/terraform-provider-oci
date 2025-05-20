@@ -208,6 +208,7 @@ const (
 	PeComanagedHostInsightSummaryPlatformTypeWindows PeComanagedHostInsightSummaryPlatformTypeEnum = "WINDOWS"
 	PeComanagedHostInsightSummaryPlatformTypeAix     PeComanagedHostInsightSummaryPlatformTypeEnum = "AIX"
 	PeComanagedHostInsightSummaryPlatformTypeHpUx    PeComanagedHostInsightSummaryPlatformTypeEnum = "HP_UX"
+	PeComanagedHostInsightSummaryPlatformTypeUnknown PeComanagedHostInsightSummaryPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingPeComanagedHostInsightSummaryPlatformTypeEnum = map[string]PeComanagedHostInsightSummaryPlatformTypeEnum{
@@ -218,6 +219,7 @@ var mappingPeComanagedHostInsightSummaryPlatformTypeEnum = map[string]PeComanage
 	"WINDOWS": PeComanagedHostInsightSummaryPlatformTypeWindows,
 	"AIX":     PeComanagedHostInsightSummaryPlatformTypeAix,
 	"HP_UX":   PeComanagedHostInsightSummaryPlatformTypeHpUx,
+	"UNKNOWN": PeComanagedHostInsightSummaryPlatformTypeUnknown,
 }
 
 var mappingPeComanagedHostInsightSummaryPlatformTypeEnumLowerCase = map[string]PeComanagedHostInsightSummaryPlatformTypeEnum{
@@ -228,6 +230,7 @@ var mappingPeComanagedHostInsightSummaryPlatformTypeEnumLowerCase = map[string]P
 	"windows": PeComanagedHostInsightSummaryPlatformTypeWindows,
 	"aix":     PeComanagedHostInsightSummaryPlatformTypeAix,
 	"hp_ux":   PeComanagedHostInsightSummaryPlatformTypeHpUx,
+	"unknown": PeComanagedHostInsightSummaryPlatformTypeUnknown,
 }
 
 // GetPeComanagedHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for PeComanagedHostInsightSummaryPlatformTypeEnum
@@ -249,6 +252,7 @@ func GetPeComanagedHostInsightSummaryPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

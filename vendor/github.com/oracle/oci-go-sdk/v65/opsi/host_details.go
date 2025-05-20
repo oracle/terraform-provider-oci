@@ -73,6 +73,7 @@ const (
 	HostDetailsPlatformTypeWindows HostDetailsPlatformTypeEnum = "WINDOWS"
 	HostDetailsPlatformTypeAix     HostDetailsPlatformTypeEnum = "AIX"
 	HostDetailsPlatformTypeHpUx    HostDetailsPlatformTypeEnum = "HP_UX"
+	HostDetailsPlatformTypeUnknown HostDetailsPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingHostDetailsPlatformTypeEnum = map[string]HostDetailsPlatformTypeEnum{
@@ -83,6 +84,7 @@ var mappingHostDetailsPlatformTypeEnum = map[string]HostDetailsPlatformTypeEnum{
 	"WINDOWS": HostDetailsPlatformTypeWindows,
 	"AIX":     HostDetailsPlatformTypeAix,
 	"HP_UX":   HostDetailsPlatformTypeHpUx,
+	"UNKNOWN": HostDetailsPlatformTypeUnknown,
 }
 
 var mappingHostDetailsPlatformTypeEnumLowerCase = map[string]HostDetailsPlatformTypeEnum{
@@ -93,6 +95,7 @@ var mappingHostDetailsPlatformTypeEnumLowerCase = map[string]HostDetailsPlatform
 	"windows": HostDetailsPlatformTypeWindows,
 	"aix":     HostDetailsPlatformTypeAix,
 	"hp_ux":   HostDetailsPlatformTypeHpUx,
+	"unknown": HostDetailsPlatformTypeUnknown,
 }
 
 // GetHostDetailsPlatformTypeEnumValues Enumerates the set of values for HostDetailsPlatformTypeEnum
@@ -114,6 +117,7 @@ func GetHostDetailsPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

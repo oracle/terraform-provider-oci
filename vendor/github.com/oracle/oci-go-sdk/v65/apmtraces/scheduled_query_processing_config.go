@@ -21,7 +21,7 @@ type ScheduledQueryProcessingConfig struct {
 
 	ObjectStorage *ObjectStorage `mandatory:"false" json:"objectStorage"`
 
-	MonitoringService *MonitoringService `mandatory:"false" json:"monitoringService"`
+	CustomMetric *CustomMetric `mandatory:"false" json:"customMetric"`
 }
 
 func (m ScheduledQueryProcessingConfig) String() string {

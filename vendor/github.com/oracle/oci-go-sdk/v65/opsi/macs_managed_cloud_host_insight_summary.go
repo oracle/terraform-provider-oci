@@ -69,6 +69,9 @@ type MacsManagedCloudHostInsightSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the K8s cluster.
+	KubeClusterInsightId *string `mandatory:"false" json:"kubeClusterInsightId"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
@@ -208,6 +211,7 @@ const (
 	MacsManagedCloudHostInsightSummaryPlatformTypeWindows MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "WINDOWS"
 	MacsManagedCloudHostInsightSummaryPlatformTypeAix     MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "AIX"
 	MacsManagedCloudHostInsightSummaryPlatformTypeHpUx    MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "HP_UX"
+	MacsManagedCloudHostInsightSummaryPlatformTypeUnknown MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnum = map[string]MacsManagedCloudHostInsightSummaryPlatformTypeEnum{
@@ -218,6 +222,7 @@ var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnum = map[string]MacsM
 	"WINDOWS": MacsManagedCloudHostInsightSummaryPlatformTypeWindows,
 	"AIX":     MacsManagedCloudHostInsightSummaryPlatformTypeAix,
 	"HP_UX":   MacsManagedCloudHostInsightSummaryPlatformTypeHpUx,
+	"UNKNOWN": MacsManagedCloudHostInsightSummaryPlatformTypeUnknown,
 }
 
 var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnumLowerCase = map[string]MacsManagedCloudHostInsightSummaryPlatformTypeEnum{
@@ -228,6 +233,7 @@ var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnumLowerCase = map[str
 	"windows": MacsManagedCloudHostInsightSummaryPlatformTypeWindows,
 	"aix":     MacsManagedCloudHostInsightSummaryPlatformTypeAix,
 	"hp_ux":   MacsManagedCloudHostInsightSummaryPlatformTypeHpUx,
+	"unknown": MacsManagedCloudHostInsightSummaryPlatformTypeUnknown,
 }
 
 // GetMacsManagedCloudHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for MacsManagedCloudHostInsightSummaryPlatformTypeEnum
@@ -249,6 +255,7 @@ func GetMacsManagedCloudHostInsightSummaryPlatformTypeEnumStringValues() []strin
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

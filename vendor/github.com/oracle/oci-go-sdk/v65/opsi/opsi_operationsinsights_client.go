@@ -560,6 +560,65 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 	return response, err
 }
 
+// ChangeKubeClusterInsightCompartment Moves a Kubernetes cluster insight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeKubeClusterInsightCompartment()
+func (client OperationsInsightsClient) ChangeKubeClusterInsightCompartment(ctx context.Context, request ChangeKubeClusterInsightCompartmentRequest) (response ChangeKubeClusterInsightCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeKubeClusterInsightCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeKubeClusterInsightCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeKubeClusterInsightCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeKubeClusterInsightCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeKubeClusterInsightCompartmentResponse")
+	}
+	return
+}
+
+// changeKubeClusterInsightCompartment implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeKubeClusterInsightCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/kubeClusterInsights/{kubeClusterInsightId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeKubeClusterInsightCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/ChangeKubeClusterInsightCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeKubeClusterInsightCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeMacsManagedAutonomousDatabaseInsightConnection Change the connection details of a MACS-managed autonomous database insight. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeMacsManagedAutonomousDatabaseInsightConnection()
 func (client OperationsInsightsClient) ChangeMacsManagedAutonomousDatabaseInsightConnection(ctx context.Context, request ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest) (response ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse, err error) {
@@ -1328,6 +1387,65 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 	return response, err
 }
 
+// CreateKubeClusterInsight Create a Kubernetes cluster insight resource for a Kubernetes Cluster in Ops Insights. The Kubernetes cluster will be enabled in Ops Insights. Kubernetes cluster-related metric collection and analysis will be started.
+// A default retry strategy applies to this operation CreateKubeClusterInsight()
+func (client OperationsInsightsClient) CreateKubeClusterInsight(ctx context.Context, request CreateKubeClusterInsightRequest) (response CreateKubeClusterInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createKubeClusterInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateKubeClusterInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateKubeClusterInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateKubeClusterInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateKubeClusterInsightResponse")
+	}
+	return
+}
+
+// createKubeClusterInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) createKubeClusterInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/kubeClusterInsights", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateKubeClusterInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/CreateKubeClusterInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateKubeClusterInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &kubeclusterinsight{})
+	return response, err
+}
+
 // CreateNewsReport Create a news report in Ops Insights. The report will be enabled in Ops Insights. Insights will be emailed as per selected frequency.
 // A default retry strategy applies to this operation CreateNewsReport()
 func (client OperationsInsightsClient) CreateNewsReport(ctx context.Context, request CreateNewsReportRequest) (response CreateNewsReportResponse, err error) {
@@ -2005,6 +2123,60 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 	return response, err
 }
 
+// DeleteKubeClusterInsight Deletes a Kubernetes cluster insight. The Kubernetes cluster insight will be deleted and cannot be enabled again.
+// A default retry strategy applies to this operation DeleteKubeClusterInsight()
+func (client OperationsInsightsClient) DeleteKubeClusterInsight(ctx context.Context, request DeleteKubeClusterInsightRequest) (response DeleteKubeClusterInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteKubeClusterInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteKubeClusterInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteKubeClusterInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteKubeClusterInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteKubeClusterInsightResponse")
+	}
+	return
+}
+
+// deleteKubeClusterInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) deleteKubeClusterInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/kubeClusterInsights/{kubeClusterInsightId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteKubeClusterInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/DeleteKubeClusterInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteKubeClusterInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteNewsReport Deletes a news report. The news report will be deleted and cannot be enabled again.
 // A default retry strategy applies to this operation DeleteNewsReport()
 func (client OperationsInsightsClient) DeleteNewsReport(ctx context.Context, request DeleteNewsReportRequest) (response DeleteNewsReportResponse, err error) {
@@ -2573,6 +2745,65 @@ func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, r
 	return response, err
 }
 
+// DisableKubeClusterInsight Disables a Kubernetes cluster in Ops Insights. Kubernetes cluster-related metric collection and analysis will be stopped.
+// A default retry strategy applies to this operation DisableKubeClusterInsight()
+func (client OperationsInsightsClient) DisableKubeClusterInsight(ctx context.Context, request DisableKubeClusterInsightRequest) (response DisableKubeClusterInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableKubeClusterInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableKubeClusterInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableKubeClusterInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableKubeClusterInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableKubeClusterInsightResponse")
+	}
+	return
+}
+
+// disableKubeClusterInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) disableKubeClusterInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/kubeClusterInsights/{kubeClusterInsightId}/actions/disable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableKubeClusterInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/DisableKubeClusterInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisableKubeClusterInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DownloadOperationsInsightsWarehouseWallet Download the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
 // A default retry strategy applies to this operation DownloadOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) DownloadOperationsInsightsWarehouseWallet(ctx context.Context, request DownloadOperationsInsightsWarehouseWalletRequest) (response DownloadOperationsInsightsWarehouseWalletResponse, err error) {
@@ -2919,6 +3150,65 @@ func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/EnableHostInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableHostInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableKubeClusterInsight Enables a Kubernetes cluster in Ops Insights. Kubernetes cluster-related metric collection and analysis will be started.
+// A default retry strategy applies to this operation EnableKubeClusterInsight()
+func (client OperationsInsightsClient) EnableKubeClusterInsight(ctx context.Context, request EnableKubeClusterInsightRequest) (response EnableKubeClusterInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableKubeClusterInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableKubeClusterInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableKubeClusterInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableKubeClusterInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableKubeClusterInsightResponse")
+	}
+	return
+}
+
+// enableKubeClusterInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) enableKubeClusterInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/kubeClusterInsights/{kubeClusterInsightId}/actions/enable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableKubeClusterInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/EnableKubeClusterInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableKubeClusterInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -3463,6 +3753,60 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &hostinsight{})
+	return response, err
+}
+
+// GetKubeClusterInsight Gets details of a Kubernetes cluster insight.
+// A default retry strategy applies to this operation GetKubeClusterInsight()
+func (client OperationsInsightsClient) GetKubeClusterInsight(ctx context.Context, request GetKubeClusterInsightRequest) (response GetKubeClusterInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getKubeClusterInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetKubeClusterInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetKubeClusterInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetKubeClusterInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetKubeClusterInsightResponse")
+	}
+	return
+}
+
+// getKubeClusterInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getKubeClusterInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/kubeClusterInsights/{kubeClusterInsightId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetKubeClusterInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/GetKubeClusterInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetKubeClusterInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &kubeclusterinsight{})
 	return response, err
 }
 
@@ -5754,6 +6098,61 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/ListImportableEnterpriseManagerEntities"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListImportableEnterpriseManagerEntities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListKubeClusterInsights Gets a list of Kubernetes cluster insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
+// When both compartmentId and compartmentIdInSubtree are specified, a list of Kubernetes cluster insights in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListKubeClusterInsights()
+func (client OperationsInsightsClient) ListKubeClusterInsights(ctx context.Context, request ListKubeClusterInsightsRequest) (response ListKubeClusterInsightsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listKubeClusterInsights, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListKubeClusterInsightsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListKubeClusterInsightsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListKubeClusterInsightsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListKubeClusterInsightsResponse")
+	}
+	return
+}
+
+// listKubeClusterInsights implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listKubeClusterInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/kubeClusterInsights", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListKubeClusterInsightsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/ListKubeClusterInsights"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListKubeClusterInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -10142,6 +10541,60 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/UpdateHostInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateHostInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateKubeClusterInsight Updates configuration of a Kubernetes cluster insight.
+// A default retry strategy applies to this operation UpdateKubeClusterInsight()
+func (client OperationsInsightsClient) UpdateKubeClusterInsight(ctx context.Context, request UpdateKubeClusterInsightRequest) (response UpdateKubeClusterInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateKubeClusterInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateKubeClusterInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateKubeClusterInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateKubeClusterInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateKubeClusterInsightResponse")
+	}
+	return
+}
+
+// updateKubeClusterInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) updateKubeClusterInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/kubeClusterInsights/{kubeClusterInsightId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateKubeClusterInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/KubeClusterInsights/UpdateKubeClusterInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateKubeClusterInsight", apiReferenceLink)
 		return response, err
 	}
 

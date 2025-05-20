@@ -200,6 +200,7 @@ const (
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeWindows SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "WINDOWS"
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeAix     SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "AIX"
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeHpUx    SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "HP_UX"
+	SummarizeHostInsightResourceUtilizationInsightPlatformTypeUnknown SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = map[string]SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum{
@@ -210,6 +211,7 @@ var mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = map[
 	"WINDOWS": SummarizeHostInsightResourceUtilizationInsightPlatformTypeWindows,
 	"AIX":     SummarizeHostInsightResourceUtilizationInsightPlatformTypeAix,
 	"HP_UX":   SummarizeHostInsightResourceUtilizationInsightPlatformTypeHpUx,
+	"UNKNOWN": SummarizeHostInsightResourceUtilizationInsightPlatformTypeUnknown,
 }
 
 var mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum{
@@ -220,6 +222,7 @@ var mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumLowerCa
 	"windows": SummarizeHostInsightResourceUtilizationInsightPlatformTypeWindows,
 	"aix":     SummarizeHostInsightResourceUtilizationInsightPlatformTypeAix,
 	"hp_ux":   SummarizeHostInsightResourceUtilizationInsightPlatformTypeHpUx,
+	"unknown": SummarizeHostInsightResourceUtilizationInsightPlatformTypeUnknown,
 }
 
 // GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum
@@ -241,6 +244,7 @@ func GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValu
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

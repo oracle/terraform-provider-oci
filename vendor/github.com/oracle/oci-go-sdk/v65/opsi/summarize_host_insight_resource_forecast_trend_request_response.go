@@ -144,6 +144,9 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// Resource Status
 	Status []ResourceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 
+	// Unique identifier for a process.
+	ProcessHash *string `mandatory:"false" contributesTo:"query" name:"processHash"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -242,6 +245,7 @@ const (
 	SummarizeHostInsightResourceForecastTrendPlatformTypeWindows SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "WINDOWS"
 	SummarizeHostInsightResourceForecastTrendPlatformTypeAix     SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "AIX"
 	SummarizeHostInsightResourceForecastTrendPlatformTypeHpUx    SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "HP_UX"
+	SummarizeHostInsightResourceForecastTrendPlatformTypeUnknown SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum{
@@ -252,6 +256,7 @@ var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum = map[strin
 	"WINDOWS": SummarizeHostInsightResourceForecastTrendPlatformTypeWindows,
 	"AIX":     SummarizeHostInsightResourceForecastTrendPlatformTypeAix,
 	"HP_UX":   SummarizeHostInsightResourceForecastTrendPlatformTypeHpUx,
+	"UNKNOWN": SummarizeHostInsightResourceForecastTrendPlatformTypeUnknown,
 }
 
 var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum{
@@ -262,6 +267,7 @@ var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnumLowerCase = 
 	"windows": SummarizeHostInsightResourceForecastTrendPlatformTypeWindows,
 	"aix":     SummarizeHostInsightResourceForecastTrendPlatformTypeAix,
 	"hp_ux":   SummarizeHostInsightResourceForecastTrendPlatformTypeHpUx,
+	"unknown": SummarizeHostInsightResourceForecastTrendPlatformTypeUnknown,
 }
 
 // GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendPlatformTypeEnum
@@ -283,6 +289,7 @@ func GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumStringValues() 
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

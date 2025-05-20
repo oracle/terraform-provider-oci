@@ -224,6 +224,7 @@ const (
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "WINDOWS"
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeAix     SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "AIX"
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeHpUx    SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "HP_UX"
+	SummarizeHostInsightResourceCapacityTrendPlatformTypeUnknown SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum{
@@ -234,6 +235,7 @@ var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = map[strin
 	"WINDOWS": SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows,
 	"AIX":     SummarizeHostInsightResourceCapacityTrendPlatformTypeAix,
 	"HP_UX":   SummarizeHostInsightResourceCapacityTrendPlatformTypeHpUx,
+	"UNKNOWN": SummarizeHostInsightResourceCapacityTrendPlatformTypeUnknown,
 }
 
 var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum{
@@ -244,6 +246,7 @@ var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumLowerCase = 
 	"windows": SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows,
 	"aix":     SummarizeHostInsightResourceCapacityTrendPlatformTypeAix,
 	"hp_ux":   SummarizeHostInsightResourceCapacityTrendPlatformTypeHpUx,
+	"unknown": SummarizeHostInsightResourceCapacityTrendPlatformTypeUnknown,
 }
 
 // GetSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum
@@ -265,6 +268,7 @@ func GetSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumStringValues() 
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

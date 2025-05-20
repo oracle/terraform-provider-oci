@@ -100,6 +100,7 @@ const (
 	CloudImportableComputeEntitySummaryPlatformTypeWindows CloudImportableComputeEntitySummaryPlatformTypeEnum = "WINDOWS"
 	CloudImportableComputeEntitySummaryPlatformTypeAix     CloudImportableComputeEntitySummaryPlatformTypeEnum = "AIX"
 	CloudImportableComputeEntitySummaryPlatformTypeHpUx    CloudImportableComputeEntitySummaryPlatformTypeEnum = "HP_UX"
+	CloudImportableComputeEntitySummaryPlatformTypeUnknown CloudImportableComputeEntitySummaryPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingCloudImportableComputeEntitySummaryPlatformTypeEnum = map[string]CloudImportableComputeEntitySummaryPlatformTypeEnum{
@@ -110,6 +111,7 @@ var mappingCloudImportableComputeEntitySummaryPlatformTypeEnum = map[string]Clou
 	"WINDOWS": CloudImportableComputeEntitySummaryPlatformTypeWindows,
 	"AIX":     CloudImportableComputeEntitySummaryPlatformTypeAix,
 	"HP_UX":   CloudImportableComputeEntitySummaryPlatformTypeHpUx,
+	"UNKNOWN": CloudImportableComputeEntitySummaryPlatformTypeUnknown,
 }
 
 var mappingCloudImportableComputeEntitySummaryPlatformTypeEnumLowerCase = map[string]CloudImportableComputeEntitySummaryPlatformTypeEnum{
@@ -120,6 +122,7 @@ var mappingCloudImportableComputeEntitySummaryPlatformTypeEnumLowerCase = map[st
 	"windows": CloudImportableComputeEntitySummaryPlatformTypeWindows,
 	"aix":     CloudImportableComputeEntitySummaryPlatformTypeAix,
 	"hp_ux":   CloudImportableComputeEntitySummaryPlatformTypeHpUx,
+	"unknown": CloudImportableComputeEntitySummaryPlatformTypeUnknown,
 }
 
 // GetCloudImportableComputeEntitySummaryPlatformTypeEnumValues Enumerates the set of values for CloudImportableComputeEntitySummaryPlatformTypeEnum
@@ -141,6 +144,7 @@ func GetCloudImportableComputeEntitySummaryPlatformTypeEnumStringValues() []stri
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

@@ -18,24 +18,24 @@ type ScheduledQueryProcessingSubTypeEnum string
 
 // Set of constants representing the allowable values for ScheduledQueryProcessingSubTypeEnum
 const (
-	ScheduledQueryProcessingSubTypeObjectStorage     ScheduledQueryProcessingSubTypeEnum = "OBJECT_STORAGE"
-	ScheduledQueryProcessingSubTypeStreaming         ScheduledQueryProcessingSubTypeEnum = "STREAMING"
-	ScheduledQueryProcessingSubTypeMonitoringService ScheduledQueryProcessingSubTypeEnum = "MONITORING_SERVICE"
-	ScheduledQueryProcessingSubTypeNone              ScheduledQueryProcessingSubTypeEnum = "NONE"
+	ScheduledQueryProcessingSubTypeObjectStorage ScheduledQueryProcessingSubTypeEnum = "OBJECT_STORAGE"
+	ScheduledQueryProcessingSubTypeStreaming     ScheduledQueryProcessingSubTypeEnum = "STREAMING"
+	ScheduledQueryProcessingSubTypeCustomMetric  ScheduledQueryProcessingSubTypeEnum = "CUSTOM_METRIC"
+	ScheduledQueryProcessingSubTypeNone          ScheduledQueryProcessingSubTypeEnum = "NONE"
 )
 
 var mappingScheduledQueryProcessingSubTypeEnum = map[string]ScheduledQueryProcessingSubTypeEnum{
-	"OBJECT_STORAGE":     ScheduledQueryProcessingSubTypeObjectStorage,
-	"STREAMING":          ScheduledQueryProcessingSubTypeStreaming,
-	"MONITORING_SERVICE": ScheduledQueryProcessingSubTypeMonitoringService,
-	"NONE":               ScheduledQueryProcessingSubTypeNone,
+	"OBJECT_STORAGE": ScheduledQueryProcessingSubTypeObjectStorage,
+	"STREAMING":      ScheduledQueryProcessingSubTypeStreaming,
+	"CUSTOM_METRIC":  ScheduledQueryProcessingSubTypeCustomMetric,
+	"NONE":           ScheduledQueryProcessingSubTypeNone,
 }
 
 var mappingScheduledQueryProcessingSubTypeEnumLowerCase = map[string]ScheduledQueryProcessingSubTypeEnum{
-	"object_storage":     ScheduledQueryProcessingSubTypeObjectStorage,
-	"streaming":          ScheduledQueryProcessingSubTypeStreaming,
-	"monitoring_service": ScheduledQueryProcessingSubTypeMonitoringService,
-	"none":               ScheduledQueryProcessingSubTypeNone,
+	"object_storage": ScheduledQueryProcessingSubTypeObjectStorage,
+	"streaming":      ScheduledQueryProcessingSubTypeStreaming,
+	"custom_metric":  ScheduledQueryProcessingSubTypeCustomMetric,
+	"none":           ScheduledQueryProcessingSubTypeNone,
 }
 
 // GetScheduledQueryProcessingSubTypeEnumValues Enumerates the set of values for ScheduledQueryProcessingSubTypeEnum
@@ -52,7 +52,7 @@ func GetScheduledQueryProcessingSubTypeEnumStringValues() []string {
 	return []string{
 		"OBJECT_STORAGE",
 		"STREAMING",
-		"MONITORING_SERVICE",
+		"CUSTOM_METRIC",
 		"NONE",
 	}
 }

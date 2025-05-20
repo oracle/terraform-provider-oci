@@ -203,6 +203,7 @@ const (
 	MacsManagedExternalHostInsightPlatformTypeWindows MacsManagedExternalHostInsightPlatformTypeEnum = "WINDOWS"
 	MacsManagedExternalHostInsightPlatformTypeAix     MacsManagedExternalHostInsightPlatformTypeEnum = "AIX"
 	MacsManagedExternalHostInsightPlatformTypeHpUx    MacsManagedExternalHostInsightPlatformTypeEnum = "HP_UX"
+	MacsManagedExternalHostInsightPlatformTypeUnknown MacsManagedExternalHostInsightPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingMacsManagedExternalHostInsightPlatformTypeEnum = map[string]MacsManagedExternalHostInsightPlatformTypeEnum{
@@ -213,6 +214,7 @@ var mappingMacsManagedExternalHostInsightPlatformTypeEnum = map[string]MacsManag
 	"WINDOWS": MacsManagedExternalHostInsightPlatformTypeWindows,
 	"AIX":     MacsManagedExternalHostInsightPlatformTypeAix,
 	"HP_UX":   MacsManagedExternalHostInsightPlatformTypeHpUx,
+	"UNKNOWN": MacsManagedExternalHostInsightPlatformTypeUnknown,
 }
 
 var mappingMacsManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]MacsManagedExternalHostInsightPlatformTypeEnum{
@@ -223,6 +225,7 @@ var mappingMacsManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]
 	"windows": MacsManagedExternalHostInsightPlatformTypeWindows,
 	"aix":     MacsManagedExternalHostInsightPlatformTypeAix,
 	"hp_ux":   MacsManagedExternalHostInsightPlatformTypeHpUx,
+	"unknown": MacsManagedExternalHostInsightPlatformTypeUnknown,
 }
 
 // GetMacsManagedExternalHostInsightPlatformTypeEnumValues Enumerates the set of values for MacsManagedExternalHostInsightPlatformTypeEnum
@@ -244,6 +247,7 @@ func GetMacsManagedExternalHostInsightPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

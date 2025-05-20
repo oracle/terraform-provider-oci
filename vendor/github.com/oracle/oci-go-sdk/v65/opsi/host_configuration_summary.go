@@ -334,6 +334,7 @@ const (
 	HostConfigurationSummaryPlatformTypeWindows HostConfigurationSummaryPlatformTypeEnum = "WINDOWS"
 	HostConfigurationSummaryPlatformTypeAix     HostConfigurationSummaryPlatformTypeEnum = "AIX"
 	HostConfigurationSummaryPlatformTypeHpUx    HostConfigurationSummaryPlatformTypeEnum = "HP_UX"
+	HostConfigurationSummaryPlatformTypeUnknown HostConfigurationSummaryPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingHostConfigurationSummaryPlatformTypeEnum = map[string]HostConfigurationSummaryPlatformTypeEnum{
@@ -344,6 +345,7 @@ var mappingHostConfigurationSummaryPlatformTypeEnum = map[string]HostConfigurati
 	"WINDOWS": HostConfigurationSummaryPlatformTypeWindows,
 	"AIX":     HostConfigurationSummaryPlatformTypeAix,
 	"HP_UX":   HostConfigurationSummaryPlatformTypeHpUx,
+	"UNKNOWN": HostConfigurationSummaryPlatformTypeUnknown,
 }
 
 var mappingHostConfigurationSummaryPlatformTypeEnumLowerCase = map[string]HostConfigurationSummaryPlatformTypeEnum{
@@ -354,6 +356,7 @@ var mappingHostConfigurationSummaryPlatformTypeEnumLowerCase = map[string]HostCo
 	"windows": HostConfigurationSummaryPlatformTypeWindows,
 	"aix":     HostConfigurationSummaryPlatformTypeAix,
 	"hp_ux":   HostConfigurationSummaryPlatformTypeHpUx,
+	"unknown": HostConfigurationSummaryPlatformTypeUnknown,
 }
 
 // GetHostConfigurationSummaryPlatformTypeEnumValues Enumerates the set of values for HostConfigurationSummaryPlatformTypeEnum
@@ -375,6 +378,7 @@ func GetHostConfigurationSummaryPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

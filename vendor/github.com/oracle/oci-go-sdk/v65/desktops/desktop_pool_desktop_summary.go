@@ -46,6 +46,8 @@ type DesktopPoolDesktopSummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	Connection *DesktopConnection `mandatory:"false" json:"connection"`
 }
 
 func (m DesktopPoolDesktopSummary) String() string {

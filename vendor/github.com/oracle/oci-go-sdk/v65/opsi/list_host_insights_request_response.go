@@ -60,6 +60,9 @@ type ListHostInsightsRequest struct {
 	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
 	ExadataInsightId *string `mandatory:"false" contributesTo:"query" name:"exadataInsightId"`
 
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of K8s cluster insight resource.
+	KubeClusterInsightId *string `mandatory:"false" contributesTo:"query" name:"kubeClusterInsightId"`
+
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
@@ -176,6 +179,7 @@ const (
 	ListHostInsightsPlatformTypeWindows ListHostInsightsPlatformTypeEnum = "WINDOWS"
 	ListHostInsightsPlatformTypeAix     ListHostInsightsPlatformTypeEnum = "AIX"
 	ListHostInsightsPlatformTypeHpUx    ListHostInsightsPlatformTypeEnum = "HP_UX"
+	ListHostInsightsPlatformTypeUnknown ListHostInsightsPlatformTypeEnum = "UNKNOWN"
 )
 
 var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatformTypeEnum{
@@ -186,6 +190,7 @@ var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatfor
 	"WINDOWS": ListHostInsightsPlatformTypeWindows,
 	"AIX":     ListHostInsightsPlatformTypeAix,
 	"HP_UX":   ListHostInsightsPlatformTypeHpUx,
+	"UNKNOWN": ListHostInsightsPlatformTypeUnknown,
 }
 
 var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsightsPlatformTypeEnum{
@@ -196,6 +201,7 @@ var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsigh
 	"windows": ListHostInsightsPlatformTypeWindows,
 	"aix":     ListHostInsightsPlatformTypeAix,
 	"hp_ux":   ListHostInsightsPlatformTypeHpUx,
+	"unknown": ListHostInsightsPlatformTypeUnknown,
 }
 
 // GetListHostInsightsPlatformTypeEnumValues Enumerates the set of values for ListHostInsightsPlatformTypeEnum
@@ -217,6 +223,7 @@ func GetListHostInsightsPlatformTypeEnumStringValues() []string {
 		"WINDOWS",
 		"AIX",
 		"HP_UX",
+		"UNKNOWN",
 	}
 }
 

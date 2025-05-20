@@ -164,6 +164,8 @@ type DbSystem struct {
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
+
 	// The list of customer email addresses that receive information from Oracle about the specified OCI DB System resource.
 	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
 	// Up to 10 email addresses can be added to the customer contacts for a DB System.
@@ -233,6 +235,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
 		DatabaseManagement         DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		SecureConnections          *SecureConnectionDetails          `json:"secureConnections"`
+		EncryptData                *EncryptDataDetails               `json:"encryptData"`
 		CustomerContacts           []CustomerContact                 `json:"customerContacts"`
 		ReadEndpoint               *ReadEndpointDetails              `json:"readEndpoint"`
 		Id                         *string                           `json:"id"`
@@ -317,6 +320,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.DatabaseManagement = model.DatabaseManagement
 
 	m.SecureConnections = model.SecureConnections
+
+	m.EncryptData = model.EncryptData
 
 	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
 	copy(m.CustomerContacts, model.CustomerContacts)

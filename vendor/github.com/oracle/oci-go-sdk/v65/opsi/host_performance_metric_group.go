@@ -58,16 +58,8 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 
 	var err error
 	switch m.MetricName {
-	case "HOST_MEMORY_USAGE":
-		mm := HostMemoryUsage{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "HOST_TOP_PROCESSES":
 		mm := HostTopProcesses{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HOST_CPU_USAGE":
-		mm := HostCpuUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HOST_GPU_USAGE":
@@ -78,12 +70,44 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := HostGpuProcesses{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_K8S_SERVICE":
+		mm := HostK8sService{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_K8S_CONTAINER":
+		mm := HostK8sContainer{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_MEMORY_USAGE":
+		mm := HostMemoryUsage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_SENSOR_STATUS":
+		mm := HostSensor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_CPU_USAGE":
+		mm := HostCpuUsage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_K8S_WORKLOAD":
+		mm := HostK8sWorkload{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_FILESYSTEM_USAGE":
 		mm := HostFilesystemUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HOST_IO_USAGE":
 		mm := HostIoUsage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_K8S_WORKLOAD_STATUS":
+		mm := HostK8sWorkloadStatus{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_K8S_POD_STATUS":
+		mm := HostK8sPodStatus{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HOST_NETWORK_ACTIVITY_SUMMARY":
@@ -130,6 +154,12 @@ const (
 	HostPerformanceMetricGroupMetricNameGpuUsage               HostPerformanceMetricGroupMetricNameEnum = "HOST_GPU_USAGE"
 	HostPerformanceMetricGroupMetricNameGpuProcesses           HostPerformanceMetricGroupMetricNameEnum = "HOST_GPU_PROCESSES"
 	HostPerformanceMetricGroupMetricNameIoUsage                HostPerformanceMetricGroupMetricNameEnum = "HOST_IO_USAGE"
+	HostPerformanceMetricGroupMetricNameK8sWorkload            HostPerformanceMetricGroupMetricNameEnum = "HOST_K8S_WORKLOAD"
+	HostPerformanceMetricGroupMetricNameK8sContainer           HostPerformanceMetricGroupMetricNameEnum = "HOST_K8S_CONTAINER"
+	HostPerformanceMetricGroupMetricNameK8sService             HostPerformanceMetricGroupMetricNameEnum = "HOST_K8S_SERVICE"
+	HostPerformanceMetricGroupMetricNameK8sPodStatus           HostPerformanceMetricGroupMetricNameEnum = "HOST_K8S_POD_STATUS"
+	HostPerformanceMetricGroupMetricNameK8sWorkloadStatus      HostPerformanceMetricGroupMetricNameEnum = "HOST_K8S_WORKLOAD_STATUS"
+	HostPerformanceMetricGroupMetricNameSensorStatus           HostPerformanceMetricGroupMetricNameEnum = "HOST_SENSOR_STATUS"
 )
 
 var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -141,6 +171,12 @@ var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformance
 	"HOST_GPU_USAGE":                HostPerformanceMetricGroupMetricNameGpuUsage,
 	"HOST_GPU_PROCESSES":            HostPerformanceMetricGroupMetricNameGpuProcesses,
 	"HOST_IO_USAGE":                 HostPerformanceMetricGroupMetricNameIoUsage,
+	"HOST_K8S_WORKLOAD":             HostPerformanceMetricGroupMetricNameK8sWorkload,
+	"HOST_K8S_CONTAINER":            HostPerformanceMetricGroupMetricNameK8sContainer,
+	"HOST_K8S_SERVICE":              HostPerformanceMetricGroupMetricNameK8sService,
+	"HOST_K8S_POD_STATUS":           HostPerformanceMetricGroupMetricNameK8sPodStatus,
+	"HOST_K8S_WORKLOAD_STATUS":      HostPerformanceMetricGroupMetricNameK8sWorkloadStatus,
+	"HOST_SENSOR_STATUS":            HostPerformanceMetricGroupMetricNameSensorStatus,
 }
 
 var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -152,6 +188,12 @@ var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPe
 	"host_gpu_usage":                HostPerformanceMetricGroupMetricNameGpuUsage,
 	"host_gpu_processes":            HostPerformanceMetricGroupMetricNameGpuProcesses,
 	"host_io_usage":                 HostPerformanceMetricGroupMetricNameIoUsage,
+	"host_k8s_workload":             HostPerformanceMetricGroupMetricNameK8sWorkload,
+	"host_k8s_container":            HostPerformanceMetricGroupMetricNameK8sContainer,
+	"host_k8s_service":              HostPerformanceMetricGroupMetricNameK8sService,
+	"host_k8s_pod_status":           HostPerformanceMetricGroupMetricNameK8sPodStatus,
+	"host_k8s_workload_status":      HostPerformanceMetricGroupMetricNameK8sWorkloadStatus,
+	"host_sensor_status":            HostPerformanceMetricGroupMetricNameSensorStatus,
 }
 
 // GetHostPerformanceMetricGroupMetricNameEnumValues Enumerates the set of values for HostPerformanceMetricGroupMetricNameEnum
@@ -174,6 +216,12 @@ func GetHostPerformanceMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_GPU_USAGE",
 		"HOST_GPU_PROCESSES",
 		"HOST_IO_USAGE",
+		"HOST_K8S_WORKLOAD",
+		"HOST_K8S_CONTAINER",
+		"HOST_K8S_SERVICE",
+		"HOST_K8S_POD_STATUS",
+		"HOST_K8S_WORKLOAD_STATUS",
+		"HOST_SENSOR_STATUS",
 	}
 }
 
