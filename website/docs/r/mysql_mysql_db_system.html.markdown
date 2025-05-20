@@ -81,6 +81,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		#Required
 		window_start_time = var.mysql_db_system_maintenance_window_start_time
 	}
+	nsg_ids = var.mysql_db_system_nsg_ids
 	port = var.mysql_db_system_port
 	port_x = var.mysql_db_system_port_x
 	read_endpoint {
@@ -200,6 +201,7 @@ The following arguments are supported:
 
 		If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 * `mysql_version` - (Optional) The specific MySQL version identifier.
+* `nsg_ids` - (Optional) (Updatable) Network Security Group OCIDs used for the VNIC attachment.
 * `port` - (Optional) The port for primary endpoint of the DB System to listen on.
 * `port_x` - (Optional) The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
 * `read_endpoint` - (Optional) (Updatable) Details required to create a Read Endpoint. 
@@ -386,6 +388,7 @@ The following attributes are exported:
 
 		If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 * `mysql_version` - Name of the MySQL Version in use for the DB System.
+* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
 * `point_in_time_recovery_details` - Point-in-time Recovery details like earliest and latest recovery time point for the DB System. 
 	* `time_earliest_recovery_point` - Earliest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 	* `time_latest_recovery_point` - Latest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

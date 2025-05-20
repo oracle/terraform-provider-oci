@@ -197,6 +197,8 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 			replica["mysql_version"] = *r.MysqlVersion
 		}
 
+		replica["nsg_ids"] = r.NsgIds
+
 		if r.Port != nil {
 			replica["port"] = *r.Port
 		}
@@ -206,7 +208,7 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 		}
 
 		if r.ReplicaOverrides != nil {
-			replica["replica_overrides"] = []interface{}{ReplicaOverridesToMap(r.ReplicaOverrides)}
+			replica["replica_overrides"] = []interface{}{ReplicaOverridesToMap(r.ReplicaOverrides, true)}
 		} else {
 			replica["replica_overrides"] = nil
 		}

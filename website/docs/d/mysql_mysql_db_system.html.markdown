@@ -185,6 +185,7 @@ The following attributes are exported:
 
 		If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 * `mysql_version` - Name of the MySQL Version in use for the DB System.
+* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
 * `point_in_time_recovery_details` - Point-in-time Recovery details like earliest and latest recovery time point for the DB System. 
 	* `time_earliest_recovery_point` - Earliest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 	* `time_latest_recovery_point` - Latest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

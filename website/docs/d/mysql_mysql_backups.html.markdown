@@ -145,6 +145,7 @@ The following attributes are exported:
 
 			If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 	* `mysql_version` - Name of the MySQL Version in use for the DB System.
+	* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
 	* `port` - The port for primary endpoint of the DB System to listen on.
 	* `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
 	* `read_endpoint` - The read endpoint of a DB System. 

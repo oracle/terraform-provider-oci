@@ -27,6 +27,9 @@ type UpdateDbSystemDetails struct {
 	// The OCID of the subnet the DB System is associated with.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Network Security Group OCIDs used for the VNIC attachment.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The database mode indicating the types of statements that will be allowed to run in the DB system.
 	// This mode will apply only to statements run by user connections. Replicated write statements will continue
 	// to be allowed regardless of the DatabaseMode.
