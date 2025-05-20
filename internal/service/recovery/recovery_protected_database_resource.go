@@ -122,10 +122,6 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 			},
 
 			// Computed
-			"backup_cloud_location": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"health": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -613,8 +609,6 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Delete() error {
 }
 
 func (s *RecoveryProtectedDatabaseResourceCrud) SetData() error {
-	s.D.Set("backup_cloud_location", s.Res.BackupCloudLocation)
-
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -782,8 +776,6 @@ func MetricsSummaryToMap(obj *oci_recovery.MetricsSummary) map[string]interface{
 
 func ProtectedDatabaseSummaryToMap(obj oci_recovery.ProtectedDatabaseSummary) map[string]interface{} {
 	result := map[string]interface{}{}
-
-	result["backup_cloud_location"] = string(obj.BackupCloudLocation)
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)

@@ -6,7 +6,6 @@ package recovery
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
-	tfresource.RegisterResource("oci_recovery_long_term_backup", RecoveryLongTermBackupResource())
 	tfresource.RegisterResource("oci_recovery_protected_database", RecoveryProtectedDatabaseResource())
 	tfresource.RegisterResource("oci_recovery_protection_policy", RecoveryProtectionPolicyResource())
 	tfresource.RegisterResource("oci_recovery_recovery_service_subnet", RecoveryRecoveryServiceSubnetResource())
