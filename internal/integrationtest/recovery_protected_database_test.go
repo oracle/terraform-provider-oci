@@ -37,7 +37,6 @@ var (
 
 	RecoveryProtectedDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"backup_cloud_location":      acctest.Representation{RepType: acctest.Optional, Create: `OCI`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_recovery_protected_database.test_protected_database.id}`},
 		"protection_policy_id":       acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_recovery_protection_policy.test_protection_policy.id}`},
@@ -62,12 +61,12 @@ var (
 		"deletion_schedule":        acctest.Representation{RepType: acctest.Optional, Create: `DELETE_AFTER_72_HOURS`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_redo_logs_shipped":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"subscription_id":          acctest.Representation{RepType: acctest.Optional, Create: `ocid1.organizationssubscription.oc1..amaaaaaa6jqx4paaa2rxk42owtrtvwkhauvoqb2equbymlvdrlv5tclvvvta`, Update: `ocid1.organizationssubscription.oc1..amaaaaaa6jqx4paaa2rxk42owtrtvwkhauvoqb2equbymlvdrlv5tclvvita`},
 		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
 	}
 	RecoveryProtectedDatabaseRecoveryServiceSubnetsRepresentation = map[string]interface{}{
 		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
 	}
-
 	RecoveryProtectedDatabaseResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_protection_policy", "test_protection_policy", acctest.Required, acctest.Create, RecoveryProtectionPolicyRepresentation) +
@@ -165,6 +164,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "protection_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "recovery_service_subnets.0.recovery_service_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vpc_user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -200,6 +200,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "protection_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "recovery_service_subnets.0.recovery_service_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vpc_user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -230,6 +231,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "protection_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "recovery_service_subnets.0.recovery_service_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vpc_user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -248,7 +250,6 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				compartmentIdVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Update, RecoveryProtectedDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "backup_cloud_location", "OCI"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -268,7 +269,6 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "protected_database_id"),
 
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_cloud_location"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_size", "S"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_unique_name", "dbUniqueName"),
