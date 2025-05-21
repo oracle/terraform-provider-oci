@@ -119,6 +119,10 @@ func (s *DatabaseKeyStoresDataSourceCrud) SetData() error {
 
 		keyStore["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			keyStore["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			keyStore["time_created"] = r.TimeCreated.String()
 		}

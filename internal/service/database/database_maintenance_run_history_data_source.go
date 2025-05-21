@@ -439,6 +439,11 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"target_db_server_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -665,6 +670,8 @@ func MtnanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[string]
 	if obj.PatchId != nil {
 		result["patch_id"] = string(*obj.PatchId)
 	}
+
+	result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 
 	if obj.PatchingEndTime != nil {
 		result["patching_end_time"] = obj.PatchingEndTime.String()

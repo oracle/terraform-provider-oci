@@ -150,6 +150,10 @@ func (s *DatabaseOneoffPatchesDataSourceCrud) SetData() error {
 
 		oneoffPatch["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			oneoffPatch["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			oneoffPatch["time_created"] = r.TimeCreated.String()
 		}

@@ -1,20 +1,12 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
-}
-
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
   #Required
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.26.0.1.0"
+  db_version                           = var.acd_db_version
   db_name                              = "ACDNAME"
 
   #Optional
@@ -78,7 +70,7 @@ resource "oci_database_autonomous_database_software_image" "autonomous_database_
 resource "random_string" "db_unique_name_adsi_acd" {
   length = 8
   special = false
-  number = false
+  numeric = false
 }
 
 resource "oci_database_autonomous_container_database" "autonomous_container_database_from_adsi" {
@@ -99,9 +91,6 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   service_level_agreement_type = "STANDARD"
   version_preference = "LATEST_RELEASE_UPDATE"
   is_dst_file_update_enabled = false
-}
-variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
-  default = []
 }
 
 resource "random_string" "autonomous_database_admin_password" {
@@ -166,79 +155,12 @@ resource "oci_database_autonomous_database" "test_autonomous_database_developer"
   is_dev_tier                      = "true"
 }
 
-data "oci_database_autonomous_container_databases" "test_autonomous_container_databases" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
-  availability_domain                  = data.oci_identity_availability_domain.ad.name
-  display_name                         = "example-container-database"
-  state                                = "AVAILABLE"
-}
-
-data "oci_database_autonomous_databases" "autonomous_databases" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
-  display_name                     = oci_database_autonomous_database.test_autonomous_database.display_name
-  db_workload                      = "OLTP"
-}
-
-output "autonomous_database_admin_password" {
-  value = random_string.autonomous_database_admin_password.result
-}
-
-output "autonomous_database_high_connection_string" {
-  value = lookup(
-    oci_database_autonomous_database.test_autonomous_database.connection_strings[0].all_connection_strings,
-    "high",
-    "unavailable",
-  )
-}
-
-output "autonomous_databases" {
-  value = data.oci_database_autonomous_databases.autonomous_databases.autonomous_databases
-}
-
-output "autonomous_container_databases" {
-  value = data.oci_database_autonomous_container_databases.test_autonomous_container_databases.autonomous_container_databases
-}
-
-data "oci_database_cloud_exadata_infrastructure_un_allocated_resource" "test_cloud_exadata_infrastructure_un_allocated_resources" {
-  #Required
-  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
-
-  #Optional
-  db_servers = var.cloud_exadata_infrastructure_un_allocated_resource_db_servers
-}
-
-data "oci_database_autonomous_container_database_resource_usage" "test_autonomous_container_database_resource_usages" {
-  #Required
-  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
-}
-
-data "oci_database_cloud_autonomous_vm_cluster_acd_resource_usages" "test_cloud_autonomous_vm_cluster_acd_resource_usages" {
-  #Required
-  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
-
-  #Optional
-  compartment_id = var.compartment_ocid
-}
-
-data "oci_database_cloud_autonomous_vm_cluster_resource_usage" "test_cloud_autonomous_vm_cluster_resource_usages" {
-  #Required
-  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
-}
-
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database_primary" {
   #Required
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_primary.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.26.0.1.0"
+  db_version                           = var.acd_db_version
   db_name                              = "PRIMARY"
 
   #Optional
@@ -304,4 +226,3 @@ resource "oci_database_autonomous_container_database_dataguard_association" "tes
   peer_autonomous_container_database_display_name   = "StandbyACD"
   peer_autonomous_container_database_compartment_id = var.compartment_ocid
 }
-

@@ -178,6 +178,11 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"target_db_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -515,6 +520,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 	s.D.Set("peer_maintenance_run_ids", s.Res.PeerMaintenanceRunIds)
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TargetDbServerVersion != nil {
 		s.D.Set("target_db_server_version", *s.Res.TargetDbServerVersion)

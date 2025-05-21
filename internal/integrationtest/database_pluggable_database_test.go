@@ -360,6 +360,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "container_database_admin_password", "containerDatabaseAdminPassword"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
 
@@ -393,6 +394,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "container_database_admin_password", "containerDatabaseAdminPassword"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
 
@@ -511,6 +513,11 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		//	),
 		//},
 
+		// delete before local clone
+		{
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + DatabasePluggableDatabaseResourceDependencies,
+		},
+
 		// verify datasource
 		{
 			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr +
@@ -526,6 +533,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.connection_strings.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.container_database_id"),
 				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.system_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.open_mode"),
 				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.pdb_name", "SalesPdb"),
@@ -543,6 +551,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "pdb_name", "SalesPdb"),

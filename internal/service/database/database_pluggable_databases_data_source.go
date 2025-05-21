@@ -175,6 +175,10 @@ func (s *DatabasePluggableDatabasesDataSourceCrud) SetData() error {
 
 		pluggableDatabase["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			pluggableDatabase["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			pluggableDatabase["time_created"] = r.TimeCreated.String()
 		}

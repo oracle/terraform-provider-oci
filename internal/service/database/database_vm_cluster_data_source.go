@@ -168,6 +168,10 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	s.D.Set("storage_management_type", s.Res.StorageManagementType)
 
 	if s.Res.SystemVersion != nil {

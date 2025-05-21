@@ -48,11 +48,10 @@ var (
 
 	DatabaseExternalPluggableDatabaseRepresentation = map[string]interface{}{
 		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `myTestExternalCdb`, Update: `displayName2`},
+		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `myTestExternalPdb`, Update: `displayName2`},
 		"external_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
 		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"source_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_source.test_source.id}`},
 	}
 
 	DatabaseExternalPluggableDatabaseResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, DatabaseExternalContainerDatabaseRepresentation) +
@@ -112,6 +111,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -141,6 +141,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -165,6 +166,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -197,6 +199,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.external_container_database_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.operations_insights_config.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.source_id"),
@@ -217,6 +220,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_management_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "operations_insights_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "stack_monitoring_config.#", "1"),

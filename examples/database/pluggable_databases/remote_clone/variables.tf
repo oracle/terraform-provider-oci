@@ -14,16 +14,10 @@ variable "region" {
 variable "compartment_id" {
 }
 
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
 variable defined_tag_namespace_name {
     default = ""
 }
 
 variable "cpu_core_count" {
-    default = "2"
+    default = "1"
 }
