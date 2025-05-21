@@ -92,6 +92,16 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.PlacementConstraintDetails != nil {
+		placementConstraintDetailsArray := []interface{}{}
+		if placementConstraintDetailsMap := PlacementConstraintDetailsToMap(&s.Res.PlacementConstraintDetails); placementConstraintDetailsMap != nil {
+			placementConstraintDetailsArray = append(placementConstraintDetailsArray, placementConstraintDetailsMap)
+		}
+		s.D.Set("placement_constraint_details", placementConstraintDetailsArray)
+	} else {
+		s.D.Set("placement_constraint_details", nil)
+	}
+
 	if s.Res.RemainingMemoryInGBs != nil {
 		s.D.Set("remaining_memory_in_gbs", *s.Res.RemainingMemoryInGBs)
 	}
