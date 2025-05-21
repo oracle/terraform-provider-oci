@@ -1055,6 +1055,7 @@ nosql
 * oci\_nosql\_table
 * oci\_nosql\_index
 * oci\_nosql\_table\_replica
+* oci\_nosql\_configuration
 
 object_storage
     
