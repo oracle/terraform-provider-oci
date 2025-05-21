@@ -165,6 +165,16 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		}
 	}
 
+	if s.Res.PlacementConstraintDetails != nil {
+		placementConstraintDetailsArray := []interface{}{}
+		if placementConstraintDetailsMap := PlacementConstraintDetailsToMap(&s.Res.PlacementConstraintDetails); placementConstraintDetailsMap != nil {
+			placementConstraintDetailsArray = append(placementConstraintDetailsArray, placementConstraintDetailsMap)
+		}
+		s.D.Set("placement_constraint_details", placementConstraintDetailsArray)
+	} else {
+		s.D.Set("placement_constraint_details", nil)
+	}
+
 	if s.Res.PlatformConfig != nil {
 		platformConfigArray := []interface{}{}
 		if platformConfigMap := PlatformConfigToMap(&s.Res.PlatformConfig); platformConfigMap != nil {

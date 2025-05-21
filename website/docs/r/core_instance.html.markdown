@@ -171,6 +171,14 @@ resource "oci_core_instance" "test_instance" {
 		license_type = var.instance_licensing_configs_license_type
 	}
 	metadata = var.instance_metadata
+	placement_constraint_details {
+		#Required
+		type = var.instance_placement_constraint_details_type
+
+		#Optional
+		compute_bare_metal_host_id = oci_core_compute_bare_metal_host.test_compute_bare_metal_host.id
+		compute_host_group_id = oci_identity_group.test_group.id
+	}
 	platform_config {
 		#Required
 		type = var.instance_platform_config_type
@@ -446,10 +454,13 @@ The following arguments are supported:
 
 	You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
 
-	The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes.
-	
-	**Note:** Both the 'user_data' and 'ssh_authorized_keys' fields cannot be changed after an instance has launched. Any request which updates, removes, or adds either of these fields will be rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that already exist on the instance.
-* `platform_config` - (Optional) (Updatable only for VM's) The platform configuration requested for the instance.
+	The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
+* `placement_constraint_details` - (Optional) Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
+	* `compute_bare_metal_host_id` - (Required when type=COMPUTE_BARE_METAL_HOST) The OCID of the compute bare metal host.
+	* `compute_host_group_id` - (Required when type=HOST_GROUP) The OCID of the compute host group.
+	* `type` - (Required) Determines the type of targeted launch.
+* `platform_config` - (Optional) (Updatable) The platform configuration requested for the instance.
+
 
 	If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
@@ -626,7 +637,10 @@ The following attributes are exported:
 	* `os_version` - The Operating System version of the license config.
 	* `type` - Operating System type of the Configuration.
 * `metadata` - Custom metadata that you provide.
-
+* `placement_constraint_details` - Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
+	* `compute_bare_metal_host_id` - The OCID of the compute bare metal host.
+	* `compute_host_group_id` - The OCID of the compute host group.
+	* `type` - Determines the type of targeted launch.
 * `platform_config` - The platform configuration for the instance. 
 	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
 	* `config_map` - Instance Platform Configuration Configuration Map for flexible setting input. 

@@ -201,6 +201,7 @@ var (
 		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchOptionsRepresentation_FlexShape},
 		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}, Update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
+		"placement_constraint_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePlacementConstraintDetailsRepresentation},
 		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
 		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
@@ -337,15 +338,24 @@ var (
 		"type": acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
 	}
 	CoreInstanceSourceDetailsRepresentation = map[string]interface{}{
-		"source_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
-		"source_type":             acctest.Representation{RepType: acctest.Required, Create: `image`},
-		"boot_volume_vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `70`},
+		"source_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]`},
+		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`, Update: `image`},
+		"boot_volume_size_in_gbs":              acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `70`},
+		"boot_volume_vpus_per_gb":              acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"kms_key_id":                           acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"instance_source_image_filter_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsInstanceSourceImageFilterDetailsRepresentation},
 	}
 	CoreInstanceLicensingConfigsRepresentation = map[string]interface{}{
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `WINDOWS`},
 		"license_type": acctest.Representation{RepType: acctest.Optional, Create: `OCI_PROVIDED`, Update: `BRING_YOUR_OWN_LICENSE`},
+	}
+	CoreInstancePlacementConstraintDetailsRepresentation = map[string]interface{}{
+		"type":                       acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_BARE_METAL_HOST`},
+		"compute_bare_metal_host_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compute_bare_metal_host_id}`},
+	}
+	CoreHGPlacementConstraintDetailsRepresentation = map[string]interface{}{
+		"type":                  acctest.Representation{RepType: acctest.Required, Create: `HOST_GROUP`},
+		"compute_host_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compute_host_group_id}`},
 	}
 	CoreInstanceSourceDetailsRepresentationWindows = map[string]interface{}{
 		"source_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.image_id}`},
@@ -512,7 +522,6 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"fault_domain":   acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
 		"shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.AMD.Generic`},
 		"image":          acctest.Representation{RepType: acctest.Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
-		"shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation_ForFungibleShapeConfig},
 		"source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceFlexSourceDetailsRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
@@ -900,6 +909,15 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"create_vnic_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceCreateVnicDetailsRepresentation},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`},
 		"source_details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceSourceDetailsRepresentation},
+	}
+	instanceplacementConstraintDetails = map[string]interface{}{
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `rGsG:US-ASHBURN-AD-1`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                        acctest.Representation{RepType: acctest.Required, Create: `BM.Standard3.64`, Update: `BM.Standard3.64`},
+		"placement_constraint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePlacementConstraintDetailsRepresentation},
+		"create_vnic_details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `displayName`},
+		"source_details":               acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceSourceDetailsRepresentation},
 	}
 	createCapacityReservationForInstanceBeforeUpdate = map[string]interface{}{
 		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -1970,6 +1988,62 @@ func TestCoreInstanceResource_updateShapeAndCapacityReservation(t *testing.T) {
 					}
 					return err
 				},
+			),
+		},
+	})
+}
+
+func TestCoreInstanceResource_placementConstraintDetails(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceResource_placementConstraintDetails")
+	defer httpreplay.SaveScenario()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	config :=
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			})) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			})) +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create,
+				acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/30`}, CoreVlanRepresentation)) +
+			acctest.ProviderTestConfig() +
+			compartmentIdVariableStr
+
+	// Save TF content to Create resource with optional properties.
+	acctest.SaveConfigContent(config, "core", "instance", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
+		// Target launch Customer Baremetal host
+		{
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create,
+					instanceplacementConstraintDetails),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard3.64"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.compute_bare_metal_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_BARE_METAL_HOST"),
+			),
+		},
+		// Targeted Launch Host group
+		{
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(instanceplacementConstraintDetails, map[string]interface{}{
+						"placement_constraint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreHGPlacementConstraintDetailsRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard3.64"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.compute_host_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "HOST_GROUP"),
 			),
 		},
 	})
