@@ -40,6 +40,60 @@ func CoreComputeHostDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compute_host_group_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"configuration_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"check_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"configuration_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"firmware_bundle_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"recycle_level": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"time_last_apply": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"configuration_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -91,11 +145,36 @@ func CoreComputeHostDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"recycle_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"compute_host_group_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"recycle_level": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_configuration_check": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -169,6 +248,18 @@ func (s *CoreComputeHostDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ComputeHostGroupId != nil {
+		s.D.Set("compute_host_group_id", *s.Res.ComputeHostGroupId)
+	}
+
+	if s.Res.ConfigurationData != nil {
+		s.D.Set("configuration_data", []interface{}{ComputeHostConfigurationDataToMap(s.Res.ConfigurationData)})
+	} else {
+		s.D.Set("configuration_data", nil)
+	}
+
+	s.D.Set("configuration_state", s.Res.ConfigurationState)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -209,11 +300,21 @@ func (s *CoreComputeHostDataSourceCrud) SetData() error {
 		s.D.Set("network_block_id", *s.Res.NetworkBlockId)
 	}
 
+	if s.Res.RecycleDetails != nil {
+		s.D.Set("recycle_details", []interface{}{RecycleDetailsToMap(s.Res.RecycleDetails)})
+	} else {
+		s.D.Set("recycle_details", nil)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeConfigurationCheck != nil {
+		s.D.Set("time_configuration_check", s.Res.TimeConfigurationCheck.String())
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

@@ -978,6 +978,30 @@ var exportCoreComputeGpuMemoryFabricHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreComputeHostHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_host",
+	DatasourceClass:        "oci_core_compute_hosts",
+	DatasourceItemsAttr:    "compute_host_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compute_host",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeHostLifecycleStateAvailable),
+	},
+}
+
+var exportCoreComputeHostGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_host_group",
+	DatasourceClass:        "oci_core_compute_host_groups",
+	DatasourceItemsAttr:    "compute_host_group_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compute_host_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeHostGroupLifecycleStateActive),
+	},
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
@@ -1032,6 +1056,8 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreByoasnHints},
 		{TerraformResourceHints: exportCoreComputeGpuMemoryClusterHints},
 		{TerraformResourceHints: exportCoreComputeGpuMemoryFabricHints},
+		{TerraformResourceHints: exportCoreComputeHostHints},
+		{TerraformResourceHints: exportCoreComputeHostGroupHints},
 	},
 	"oci_core_boot_volume": {
 		{
