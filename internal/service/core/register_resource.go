@@ -19,6 +19,8 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_core_compute_cluster", CoreComputeClusterResource())
 	tfresource.RegisterResource("oci_core_compute_gpu_memory_cluster", CoreComputeGpuMemoryClusterResource())
 	tfresource.RegisterResource("oci_core_compute_gpu_memory_fabric", CoreComputeGpuMemoryFabricResource())
+	tfresource.RegisterResource("oci_core_compute_host", CoreComputeHostResource())
+	tfresource.RegisterResource("oci_core_compute_host_group", CoreComputeHostGroupResource())
 	tfresource.RegisterResource("oci_core_compute_image_capability_schema", CoreComputeImageCapabilitySchemaResource())
 	tfresource.RegisterResource("oci_core_console_history", CoreConsoleHistoryResource())
 	tfresource.RegisterResource("oci_core_cpe", CoreCpeResource())

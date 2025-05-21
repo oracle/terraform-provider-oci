@@ -106,6 +106,10 @@ variable "tag_namespace_name" {
   default = "testexamples-tag-namespace"
 }
 
+data "oci_core_instances" "test_instances" {
+  compartment_id             = var.compartment_ocid
+}
+
 resource "oci_core_instance" "test_instance" {
   count                      = var.num_instances
   availability_domain        = data.oci_identity_availability_domain.ad.name
