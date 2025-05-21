@@ -8,11 +8,6 @@ resource "oci_core_vcn" "test_vcn" {
   dns_label      = "examplevcn"
 }
 
-data "oci_identity_availability_domain" "ad" {
-  compartment_id = var.compartment_ocid
-  ad_number      = 1
-}
-
 resource "oci_core_security_list" "exadata_shapes_security_list" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.test_vcn.id
@@ -162,8 +157,4 @@ resource "oci_core_network_security_group" "test_network_security_group" {
   #Required
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.test_vcn.id
-}
-
-data "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
-  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 }

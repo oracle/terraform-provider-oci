@@ -210,6 +210,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 
 		dbNode["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			dbNode["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			dbNode["time_created"] = r.TimeCreated.String()
 		}

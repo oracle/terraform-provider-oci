@@ -278,6 +278,8 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "40"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "2"),
+					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -319,6 +321,9 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "40"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "2"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -354,6 +359,8 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "1"),
+					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -416,6 +423,8 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.provisioned_cpus"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reclaimable_cpus"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reserved_cpus"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.subscription_id", ""),
+					resource.TestCheckResourceAttr(resourceName, "cloud_autonomous_vm_clusters.0.system_tags.%", "0"),
 				),
 			},
 			// verify singular datasource
@@ -458,6 +467,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_cpus"),
 					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
+					resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				),
 			},
 			// verify resource import

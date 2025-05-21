@@ -17,5 +17,9 @@
 
 
 data "oci_identity_availability_domains" "test_availability_domains" {
-  compartment_id = var.tenancy_ocid
+   compartment_id = var.compartment_id
+}
+
+data "oci_database_db_systems" "test_oci_database_db_systems" {
+    compartment_id = var.compartment_id
 }

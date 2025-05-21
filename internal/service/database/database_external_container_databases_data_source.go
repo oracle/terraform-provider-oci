@@ -170,6 +170,10 @@ func (s *DatabaseExternalContainerDatabasesDataSourceCrud) SetData() error {
 
 		externalContainerDatabase["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			externalContainerDatabase["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			externalContainerDatabase["time_created"] = r.TimeCreated.String()
 		}

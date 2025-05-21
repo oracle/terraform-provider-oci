@@ -473,6 +473,11 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"target_db_server_version": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -951,6 +956,8 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 	result["peer_maintenance_run_ids"] = obj.PeerMaintenanceRunIds
 
 	result["state"] = string(obj.LifecycleState)
+
+	result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 
 	if obj.TargetDbServerVersion != nil {
 		result["target_db_server_version"] = string(*obj.TargetDbServerVersion)
