@@ -284,6 +284,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["subnet_id"] = *r.SubnetId
 		}
 
+		if r.SystemTags != nil {
+			dbSystem["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			dbSystem["time_created"] = r.TimeCreated.String()
 		}

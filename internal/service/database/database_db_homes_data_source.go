@@ -195,6 +195,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 
 		dbHome["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			dbHome["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			dbHome["time_created"] = r.TimeCreated.String()
 		}

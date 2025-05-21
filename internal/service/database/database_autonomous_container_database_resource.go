@@ -959,6 +959,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"next_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1018,6 +1022,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -1093,17 +1102,19 @@ func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
-		err := sync.RotateContainerDatabaseEncryptionKey()
-		if err != nil {
-			return err
-		}
-	}
-
-	if _, ok := sync.D.GetOkExists("key_version_id"); ok && sync.D.HasChange("key_version_id") {
-		err := sync.RotateContainerDatabaseEncryptionKey()
-		if err != nil {
-			return err
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.Get("rotate_key_trigger").(bool) {
+		// trigger key rotation when field rotate_key_trigger was set from false to true
+		if sync.D.HasChange("rotate_key_trigger") {
+			err := sync.RotateContainerDatabaseEncryptionKey()
+			if err != nil {
+				return err
+			}
+		} else if _, ok := sync.D.GetOkExists("key_version_id"); ok && sync.D.HasChange("key_version_id") {
+			// trigger key rotation when key_version_id has change and rotate_key_trigger is true
+			err := sync.RotateContainerDatabaseEncryptionKey()
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -1584,6 +1595,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -2610,8 +2625,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) RotateContainerDatabas
 	}
 
 	if keyVersionId, ok := s.D.GetOkExists("key_version_id"); ok {
-		tmp := keyVersionId.(string)
-		request.KeyVersionId = &tmp
+		if keyVersionId != "" {
+			tmp := keyVersionId.(string)
+			request.KeyVersionId = &tmp
+		}
 	}
 
 	tmp := s.D.Id()

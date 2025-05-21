@@ -279,6 +279,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		autonomousVmCluster["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			autonomousVmCluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			autonomousVmCluster["time_created"] = r.TimeCreated.String()
 		}

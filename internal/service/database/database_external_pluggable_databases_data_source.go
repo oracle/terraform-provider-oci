@@ -193,6 +193,10 @@ func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) SetData() error {
 
 		externalPluggableDatabase["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			externalPluggableDatabase["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			externalPluggableDatabase["time_created"] = r.TimeCreated.String()
 		}

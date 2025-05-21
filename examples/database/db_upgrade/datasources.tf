@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 data "oci_identity_availability_domain" "ad" {
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_ocid
   ad_number      = 3
 }
 

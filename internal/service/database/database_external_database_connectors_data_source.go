@@ -169,6 +169,10 @@ func (s *DatabaseExternalDatabaseConnectorsDataSourceCrud) SetData() error {
 
 			result["state"] = string(v.LifecycleState)
 
+			if v.SystemTags != nil {
+				result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+			}
+
 			if v.TimeConnectionStatusLastUpdated != nil {
 				result["time_connection_status_last_updated"] = v.TimeConnectionStatusLastUpdated.String()
 			}

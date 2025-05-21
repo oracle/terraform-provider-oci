@@ -59,6 +59,7 @@ The following attributes are exported:
 * `memory_size_in_gbs` - The allocated memory in GBs on the Db server.
 * `shape` - The shape of the Db server. The shape determines the amount of CPU, storage, and memory resources available. 
 * `state` - The current state of the Db server.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time that the Db Server was created.
 * `vm_cluster_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Clusters associated with the Db server. 
 

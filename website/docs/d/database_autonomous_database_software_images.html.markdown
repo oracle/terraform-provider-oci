@@ -58,5 +58,6 @@ The following attributes are exported:
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `release_update` - The Release Updates.
 * `state` - The current state of the Autonomous Database Software Image.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the Autonomous Database Software Image was created.
 

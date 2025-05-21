@@ -146,6 +146,7 @@ The following attributes are exported:
 	* `peer_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 	* `peer_maintenance_run_ids` - The list of OCIDs for the maintenance runs associated with their Autonomous Data Guard peer container databases.
 	* `state` - The current state of the maintenance run. For Autonomous Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED. 
+	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `target_db_server_version` - The target software version for the database server patching operation.
 	* `target_resource_id` - The ID of the target resource on which the maintenance run occurs.
 	* `target_resource_type` - The type of the target resource on which the maintenance run occurs.

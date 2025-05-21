@@ -279,6 +279,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "2"),
 					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -321,6 +322,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "2"),
 					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -331,7 +333,6 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DatabaseCloudAutonomousVmClusterResourceDependencies +
@@ -358,6 +359,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "1"),
 					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -421,6 +423,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reclaimable_cpus"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reserved_cpus"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.subscription_id", ""),
+					resource.TestCheckResourceAttr(resourceName, "cloud_autonomous_vm_clusters.0.system_tags.%", "0"),
 				),
 			},
 			// verify singular datasource

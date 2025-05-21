@@ -17,20 +17,20 @@
 
 
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
+resource "oci_identity_tag_namespace" "tag-namespace" {
   #Required
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_id
   description = "example tag namespace"
   name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
 
   is_retired = false
 }
 
-resource "oci_identity_tag" "tag1" {
+resource "oci_identity_tag" "tag" {
   #Required
   description = "example tag"
   name = "example-tag"
-  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace.id
 
   is_retired = false
 }
@@ -77,19 +77,22 @@ resource "oci_database_db_system" "test_db_system" {
   data_storage_size_in_gb = "256"
   database_edition = "ENTERPRISE_EDITION"
   db_home {
+    db_version = "23.4.1.24.06"
+    display_name = "tfDbHome1"
     database {
       admin_password = "BEstrO0ng_#11"
       character_set = "AL32UTF8"
       db_name = "tfDb"
       db_workload = "OLTP"
-      kms_key_id = var.kms_key_id
-      kms_key_version_id = var.kms_key_version_id
+    #  kms_key_id = var.kms_key_id
+    #  kms_key_version_id = var.kms_key_version_id
       ncharacter_set = "AL16UTF16"
-      pdb_name = "tfPdb"
-      vault_id = var.vault_id
+      pdb_name = "tfPdb1"
+    #  vault_id = var.vault_id
     }
-    db_version = "19.25.0.0"
-    display_name = "tfDbHome"
+  }
+  db_system_options {
+    storage_management = "LVM"
   }
   disk_redundancy = "NORMAL"
   display_name = "tfDbSystem"
@@ -98,10 +101,6 @@ resource "oci_database_db_system" "test_db_system" {
   hostname = "tfOracleDb"
   license_model = "LICENSE_INCLUDED"
   node_count = "1"
-  security_attributes = {
-    "oracle-zpr.maxegresscount.mode" = "enforce"
-    "oracle-zpr.maxegresscount.value" = "42"
-  }
   shape = "VM.Standard2.2"
   ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
   subnet_id = oci_core_subnet.test_subnet.id

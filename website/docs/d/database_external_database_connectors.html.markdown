@@ -72,6 +72,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [external database connector](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails). 
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current lifecycle state of the external database connector resource.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_connection_status_last_updated` - The date and time the `connectionStatus` of this external connector was last updated.
 * `time_created` - The date and time the external connector was created.
 

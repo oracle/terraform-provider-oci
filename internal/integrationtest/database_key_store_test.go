@@ -99,6 +99,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -126,6 +127,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -215,6 +217,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.type_details.0.secret_id"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.0.type", "ORACLE_KEY_VAULT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.type_details.0.vault_id"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.0.system_tags.%", "0"),
 			),
 		},
 		// verify singular datasource
@@ -235,6 +238,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "type_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type_details.0.admin_username", "adminUsername2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 			),
 		},
 		// verify resource import

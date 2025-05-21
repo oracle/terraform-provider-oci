@@ -330,6 +330,11 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -864,6 +869,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	s.D.Set("storage_management_type", s.Res.StorageManagementType)
 

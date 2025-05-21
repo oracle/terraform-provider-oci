@@ -73,6 +73,7 @@ The following attributes are exported:
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the VM cluster.
 * `state` - The current state of the VM cluster.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `storage_management_type` - Specifies whether the type of storage management for the VM cluster is ASM or Exascale.
 * `system_version` - Operating system version of the image.
 * `time_created` - The date and time that the VM cluster was created.

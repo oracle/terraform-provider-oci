@@ -248,6 +248,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 
 		database["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			database["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			database["time_created"] = r.TimeCreated.String()
 		}

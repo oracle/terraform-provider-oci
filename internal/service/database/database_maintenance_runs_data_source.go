@@ -239,6 +239,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 
 		maintenanceRun["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			maintenanceRun["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TargetDbServerVersion != nil {
 			maintenanceRun["target_db_server_version"] = *r.TargetDbServerVersion
 		}

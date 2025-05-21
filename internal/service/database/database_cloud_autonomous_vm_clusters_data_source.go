@@ -320,6 +320,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["subscription_id"] = *r.SubscriptionId
 		}
 
+		if r.SystemTags != nil {
+			cloudAutonomousVmCluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			cloudAutonomousVmCluster["time_created"] = r.TimeCreated.String()
 		}

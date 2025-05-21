@@ -43,8 +43,8 @@ var (
 	}
 
 	DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"db_system_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_system.test_db_system.id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		//"db_system_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_system.test_db_system.id}`}, // comment out since this field is exa-cc use only
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1`, Update: `displayName2`},
 		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `VM_BM_SHAPE`},
 		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
@@ -60,13 +60,13 @@ var (
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"database_version": acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `image1`, Update: `displayName2`},
-		"patch_set":        acctest.Representation{RepType: acctest.Required, Create: `19.6.0.0`},
-		"database_software_image_one_off_patches": acctest.Representation{RepType: acctest.Optional, Create: []string{"31113249", "27929509"}},
+		"patch_set":        acctest.Representation{RepType: acctest.Required, Create: `19.26.0.0`},
+		"database_software_image_one_off_patches": acctest.Representation{RepType: acctest.Optional, Create: []string{"27929509", "31113249", "34672698", "34697081", "37102264", "37213431", "37260974", "37497089"}},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `VM_BM_SHAPE`},
 		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
-		"ls_inventory":       acctest.Representation{RepType: acctest.Optional, Create: `lsInventory`},
+		//"ls_inventory":       acctest.Representation{RepType: acctest.Optional, Create: `lsInventory`},
 	}
 
 	DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation2 = map[string]interface{}{
@@ -144,14 +144,15 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "8"),
 				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.6.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.26.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -176,14 +177,15 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "8"),
 				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.6.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.26.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -203,14 +205,15 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "8"),
 				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.6.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.26.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -223,17 +226,18 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				},
 			),
 		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies,
+		},
 		// verify datasource
 		{
-			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
-				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", acctest.Optional, acctest.Update, DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
@@ -241,8 +245,8 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "2"),
-				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "8"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_one_off_patches.#", "8"),
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.freeform_tags.%", "1"),
@@ -250,7 +254,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.is_upgrade_supported"),
-				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.6.0.0"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.26.0.0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
 			),
@@ -264,8 +268,8 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "8"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_one_off_patches.#", "8"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -273,7 +277,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "VM_BM_SHAPE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_upgrade_supported"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.6.0.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.26.0.0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
