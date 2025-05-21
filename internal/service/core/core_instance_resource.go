@@ -579,6 +579,43 @@ func CoreInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"placement_constraint_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"COMPUTE_BARE_METAL_HOST",
+								"HOST_GROUP",
+							}, true),
+						},
+
+						// Optional
+						"compute_bare_metal_host_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"compute_host_group_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 			"platform_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1338,6 +1375,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
+	if placementConstraintDetails, ok := s.D.GetOkExists("placement_constraint_details"); ok {
+		if tmpList := placementConstraintDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "placement_constraint_details", 0)
+			tmp, err := s.mapToPlacementConstraintDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PlacementConstraintDetails = tmp
+		}
+	}
+
 	if platformConfig, ok := s.D.GetOkExists("platform_config"); ok {
 		if tmpList := platformConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "platform_config", 0)
@@ -1756,6 +1804,16 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 	s.D.Set("licensing_configs", licensingConfigs)
 
 	s.D.Set("metadata", s.Res.Metadata)
+
+	if s.Res.PlacementConstraintDetails != nil {
+		placementConstraintDetailsArray := []interface{}{}
+		if placementConstraintDetailsMap := PlacementConstraintDetailsToMap(&s.Res.PlacementConstraintDetails); placementConstraintDetailsMap != nil {
+			placementConstraintDetailsArray = append(placementConstraintDetailsArray, placementConstraintDetailsMap)
+		}
+		s.D.Set("placement_constraint_details", placementConstraintDetailsArray)
+	} else {
+		s.D.Set("placement_constraint_details", nil)
+	}
 
 	if s.Res.PlatformConfig != nil {
 		platformConfigArray := []interface{}{}
@@ -3796,6 +3854,37 @@ func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 	}
 
 	return nil, errors.New("Primary VNIC not found.")
+}
+
+func (s *CoreInstanceResourceCrud) mapToPlacementConstraintDetails(fieldKeyFormat string) (oci_core.PlacementConstraintDetails, error) {
+	var baseObject oci_core.PlacementConstraintDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("COMPUTE_BARE_METAL_HOST"):
+		details := oci_core.ComputeBareMetalHostPlacementConstraintDetails{}
+		if computeBareMetalHostId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_bare_metal_host_id")); ok {
+			tmp := computeBareMetalHostId.(string)
+			details.ComputeBareMetalHostId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("HOST_GROUP"):
+		details := oci_core.HostGroupPlacementConstraintDetails{}
+		if computeHostGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_host_group_id")); ok {
+			tmp := computeHostGroupId.(string)
+			details.ComputeHostGroupId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
 }
 
 func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error) {

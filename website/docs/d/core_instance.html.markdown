@@ -139,7 +139,10 @@ The following attributes are exported:
 	* `os_version` - The Operating System version of the license config.
 	* `type` - Operating System type of the Configuration.
 * `metadata` - Custom metadata that you provide.
-
+* `placement_constraint_details` - Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
+	* `compute_bare_metal_host_id` - The OCID of the compute bare metal host.
+	* `compute_host_group_id` - The OCID of the compute host group.
+	* `type` - Determines the type of targeted launch.
 * `platform_config` - The platform configuration for the instance. 
 	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
 	* `config_map` - Instance Platform Configuration Configuration Map for flexible setting input. 

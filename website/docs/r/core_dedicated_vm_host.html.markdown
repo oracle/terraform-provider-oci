@@ -30,6 +30,13 @@ resource "oci_core_dedicated_vm_host" "test_dedicated_vm_host" {
 	display_name = var.dedicated_vm_host_display_name
 	fault_domain = var.dedicated_vm_host_fault_domain
 	freeform_tags = {"Department"= "Finance"}
+	placement_constraint_details {
+		#Required
+		type = var.dedicated_vm_host_placement_constraint_details_type
+
+		#Optional
+		compute_bare_metal_host_id = oci_core_compute_bare_metal_host.test_compute_bare_metal_host.id
+	}
 }
 ```
 
@@ -48,6 +55,9 @@ The following arguments are supported:
 
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `placement_constraint_details` - (Optional) Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
+	* `compute_bare_metal_host_id` - (Required when type=COMPUTE_BARE_METAL_HOST) The OCID of the compute bare metal host.
+	* `type` - (Required) Determines the type of targeted launch.
 
 
 ** IMPORTANT **
@@ -71,6 +81,10 @@ The following attributes are exported:
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated VM host. 
+* `placement_constraint_details` - Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
+	* `compute_bare_metal_host_id` - The OCID of the compute bare metal host.
+	* `compute_host_group_id` - The OCID of the compute host group.
+	* `type` - Determines the type of targeted launch.
 * `remaining_memory_in_gbs` - The current available memory of the dedicated VM host, in GBs. 
 * `remaining_ocpus` - The current available OCPUs of the dedicated VM host. 
 * `state` - The current state of the dedicated VM host. 

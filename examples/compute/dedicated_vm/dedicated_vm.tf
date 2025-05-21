@@ -19,16 +19,15 @@ variable "region" {
 variable "compartment_ocid" {
 }
 
+variable "customer_bare_metal_host_id" {
+}
+
 variable "instance_image_ocid" {
   type = map(string)
 
   default = {
     # See https://docs.us-phoenix-1.oraclecloud.com/images/
     # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
   }
 }
 
@@ -38,6 +37,7 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+#   version          = "7.1.0"
 }
 
 data "oci_identity_availability_domain" "ad" {
@@ -49,7 +49,7 @@ resource "oci_core_dedicated_vm_host" "test_dedicated_vm_host" {
   #Required
   availability_domain     = data.oci_identity_availability_domain.ad.name
   compartment_id          = var.compartment_ocid
-  dedicated_vm_host_shape = "DVH.Standard2.52"
+  dedicated_vm_host_shape = "DVH.DenseIO.E4.128"
 
   #Optional
   #  defined_tags = {
@@ -57,6 +57,15 @@ resource "oci_core_dedicated_vm_host" "test_dedicated_vm_host" {
   #  }
   #freeform_tags = var.dedicated_vm_host_freeform_tags
   display_name = "TestDedicatedVmHost"
+
+  placement_constraint_details {
+     type = "COMPUTE_BARE_METAL_HOST"
+     compute_bare_metal_host_id = var.customer_bare_metal_host_id
+   }
+  timeouts {
+    create = "60m"
+  }
+
 }
 
 # instance using dedicated vm host
@@ -147,6 +156,10 @@ data "oci_core_dedicated_vm_hosts_instances" "test_dedicated_vm_hosts_instances"
   depends_on          = [oci_core_instance.test_instance]
 }
 
+data "oci_core_dedicated_vm_host" "test_oci_core_dedicated_vm_host" {
+  dedicated_vm_host_id = oci_core_dedicated_vm_host.test_dedicated_vm_host.id
+}
+
 #output the dedidcated vm host ids
 output "dedicated_hos_idst" {
   value = [data.oci_core_dedicated_vm_hosts.test_dedicated_vm_hosts.id]
@@ -165,3 +178,10 @@ output "dedicated_vm_host_instance_shapes" {
   value = [data.oci_core_dedicated_vm_host_instance_shapes.test_dedicated_vm_host_instance_shapes.dedicated_vm_host_instance_shapes]
 }
 
+output "dedicated_vm_host" {
+  value = [oci_core_dedicated_vm_host.test_dedicated_vm_host.*]
+}
+
+output "dedicated_vm_host_data" {
+  value = [data.oci_core_dedicated_vm_host.test_oci_core_dedicated_vm_host.*]
+}
