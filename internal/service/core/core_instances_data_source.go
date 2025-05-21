@@ -228,6 +228,16 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["metadata"] = r.Metadata
 		}
 
+		if r.PlacementConstraintDetails != nil {
+			placementConstraintDetailsArray := []interface{}{}
+			if placementConstraintDetailsMap := PlacementConstraintDetailsToMap(&r.PlacementConstraintDetails); placementConstraintDetailsMap != nil {
+				placementConstraintDetailsArray = append(placementConstraintDetailsArray, placementConstraintDetailsMap)
+			}
+			instance["placement_constraint_details"] = placementConstraintDetailsArray
+		} else {
+			instance["placement_constraint_details"] = nil
+		}
+
 		if r.PlatformConfig != nil {
 			platformConfigArray := []interface{}{}
 			if platformConfigMap := PlatformConfigToMap(&r.PlatformConfig); platformConfigMap != nil {
