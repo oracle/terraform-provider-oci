@@ -163,13 +163,13 @@ type AutonomousDatabaseSummary struct {
 	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
 
 	// The earliest(min) date and time the Autonomous Database can be scheduled to upgrade to 23ai.
-	TimeEarliestAvailableDbUpgrade *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableDbUpgrade"`
+	TimeEarliestAvailableDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableDbVersionUpgrade"`
 
 	// The max date and time the Autonomous Database can be scheduled to upgrade to 23ai.
-	TimeLatestAvailableDbUpgrade *common.SDKTime `mandatory:"false" json:"timeLatestAvailableDbUpgrade"`
+	TimeLatestAvailableDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeLatestAvailableDbVersionUpgrade"`
 
 	// The date and time the Autonomous Database scheduled to upgrade to 23ai.
-	TimeScheduledDbUpgrade *common.SDKTime `mandatory:"false" json:"timeScheduledDbUpgrade"`
+	TimeScheduledDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeScheduledDbVersionUpgrade"`
 
 	// The date and time the Autonomous Database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -503,6 +503,12 @@ type AutonomousDatabaseSummary struct {
 
 	// The FDI(FAW) Instance ID that provisioned the ADB
 	FawInstanceId *string `mandatory:"false" json:"fawInstanceId"`
+
+	// The included compute amount (CPUs) available for FAW provisioned database.
+	IncludedCompute *float32 `mandatory:"false" json:"includedCompute"`
+
+	// The included storage value for a FAW provisioned database, in terabytes.
+	IncludedDataStorageInTBs *float64 `mandatory:"false" json:"includedDataStorageInTBs"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -622,9 +628,9 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		AutonomousContainerDatabaseId           *string                                                        `json:"autonomousContainerDatabaseId"`
 		IsBackupRetentionLocked                 *bool                                                          `json:"isBackupRetentionLocked"`
 		TimeUndeleted                           *common.SDKTime                                                `json:"timeUndeleted"`
-		TimeEarliestAvailableDbUpgrade          *common.SDKTime                                                `json:"timeEarliestAvailableDbUpgrade"`
-		TimeLatestAvailableDbUpgrade            *common.SDKTime                                                `json:"timeLatestAvailableDbUpgrade"`
-		TimeScheduledDbUpgrade                  *common.SDKTime                                                `json:"timeScheduledDbUpgrade"`
+		TimeEarliestAvailableDbVersionUpgrade   *common.SDKTime                                                `json:"timeEarliestAvailableDbVersionUpgrade"`
+		TimeLatestAvailableDbVersionUpgrade     *common.SDKTime                                                `json:"timeLatestAvailableDbVersionUpgrade"`
+		TimeScheduledDbVersionUpgrade           *common.SDKTime                                                `json:"timeScheduledDbVersionUpgrade"`
 		TimeCreated                             *common.SDKTime                                                `json:"timeCreated"`
 		DisplayName                             *string                                                        `json:"displayName"`
 		ConnectionStrings                       *AutonomousDatabaseConnectionStrings                           `json:"connectionStrings"`
@@ -714,6 +720,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		CloneType                               AutonomousDatabaseSummaryCloneTypeEnum                         `json:"cloneType"`
 		RemoteDisasterRecoveryPotentialDataLoss *int64                                                         `json:"remoteDisasterRecoveryPotentialDataLoss"`
 		FawInstanceId                           *string                                                        `json:"fawInstanceId"`
+		IncludedCompute                         *float32                                                       `json:"includedCompute"`
+		IncludedDataStorageInTBs                *float64                                                       `json:"includedDataStorageInTBs"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -809,11 +817,11 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeUndeleted = model.TimeUndeleted
 
-	m.TimeEarliestAvailableDbUpgrade = model.TimeEarliestAvailableDbUpgrade
+	m.TimeEarliestAvailableDbVersionUpgrade = model.TimeEarliestAvailableDbVersionUpgrade
 
-	m.TimeLatestAvailableDbUpgrade = model.TimeLatestAvailableDbUpgrade
+	m.TimeLatestAvailableDbVersionUpgrade = model.TimeLatestAvailableDbVersionUpgrade
 
-	m.TimeScheduledDbUpgrade = model.TimeScheduledDbUpgrade
+	m.TimeScheduledDbVersionUpgrade = model.TimeScheduledDbVersionUpgrade
 
 	m.TimeCreated = model.TimeCreated
 
@@ -1002,6 +1010,10 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.RemoteDisasterRecoveryPotentialDataLoss = model.RemoteDisasterRecoveryPotentialDataLoss
 
 	m.FawInstanceId = model.FawInstanceId
+
+	m.IncludedCompute = model.IncludedCompute
+
+	m.IncludedDataStorageInTBs = model.IncludedDataStorageInTBs
 
 	m.Id = model.Id
 

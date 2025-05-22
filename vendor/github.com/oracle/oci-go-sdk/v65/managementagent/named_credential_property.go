@@ -28,7 +28,7 @@ type NamedCredentialProperty struct {
 	// The category of the Named credential property value.
 	// CLEAR_TEXT indicates the value field contains a clear text value.
 	// SECRET_IDENTIFIER indicates the value field contains a vault secret ocid identifier.
-	// ATP_IDENTIFIER indicates the value field contains an ATP database ocid identifier.
+	// ADB_IDENTIFIER indicates the value field contains an Autonomous database ocid identifier.
 	// ALLOWED_VALUE indicates the value should be selected from the options in the allowedValues field.
 	ValueCategory ValueCategoryTypeEnum `mandatory:"true" json:"valueCategory"`
 }

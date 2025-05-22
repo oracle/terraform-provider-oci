@@ -39,7 +39,7 @@ type ListNamedCredentialsRequest struct {
 	Name []string `contributesTo:"query" name:"name" collectionFormat:"multi"`
 
 	// Filter list for these type values.
-	Type []NamedCredentialTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
+	Type []string `contributesTo:"query" name:"type" collectionFormat:"multi"`
 
 	// Filter list for these Named credentials identifiers (ocid) values.
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
@@ -89,12 +89,6 @@ func (request ListNamedCredentialsRequest) ValidateEnumValue() (bool, error) {
 	for _, val := range request.LifecycleState {
 		if _, ok := GetMappingNamedCredentialLifecycleStateEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetNamedCredentialLifecycleStateEnumStringValues(), ",")))
-		}
-	}
-
-	for _, val := range request.Type {
-		if _, ok := GetMappingNamedCredentialTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", val, strings.Join(GetNamedCredentialTypeEnumStringValues(), ",")))
 		}
 	}
 

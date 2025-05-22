@@ -26,7 +26,7 @@ type NamedCredentialSummary struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// Type of the Named Credential
-	Type NamedCredentialTypeEnum `mandatory:"true" json:"type"`
+	Type *string `mandatory:"true" json:"type"`
 
 	// The Management Agent this named credential is associated with. This is the ManagementAgent resource OCID.
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
@@ -68,9 +68,6 @@ func (m NamedCredentialSummary) String() string {
 // Not recommended for calling this function directly
 func (m NamedCredentialSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingNamedCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetNamedCredentialTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingNamedCredentialLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNamedCredentialLifecycleStateEnumStringValues(), ",")))
 	}

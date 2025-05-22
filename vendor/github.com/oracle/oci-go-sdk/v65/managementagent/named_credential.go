@@ -26,7 +26,7 @@ type NamedCredential struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The type of the Named Credential.
-	Type NamedCredentialTypeEnum `mandatory:"true" json:"type"`
+	Type *string `mandatory:"true" json:"type"`
 
 	// The Management Agent parent resource to associated with this named credential. This is the ManagementAgent resource OCID.
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
@@ -68,9 +68,6 @@ func (m NamedCredential) String() string {
 // Not recommended for calling this function directly
 func (m NamedCredential) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingNamedCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetNamedCredentialTypeEnumStringValues(), ",")))
-	}
 
 	if _, ok := GetMappingNamedCredentialLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNamedCredentialLifecycleStateEnumStringValues(), ",")))
@@ -79,52 +76,6 @@ func (m NamedCredential) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// NamedCredentialTypeEnum Enum with underlying type: string
-type NamedCredentialTypeEnum string
-
-// Set of constants representing the allowable values for NamedCredentialTypeEnum
-const (
-	NamedCredentialTypeDbcreds            NamedCredentialTypeEnum = "DBCREDS"
-	NamedCredentialTypeDbtcpscredsatp     NamedCredentialTypeEnum = "DBTCPSCREDSATP"
-	NamedCredentialTypeDbtcpscredsclouddb NamedCredentialTypeEnum = "DBTCPSCREDSCLOUDDB"
-)
-
-var mappingNamedCredentialTypeEnum = map[string]NamedCredentialTypeEnum{
-	"DBCREDS":            NamedCredentialTypeDbcreds,
-	"DBTCPSCREDSATP":     NamedCredentialTypeDbtcpscredsatp,
-	"DBTCPSCREDSCLOUDDB": NamedCredentialTypeDbtcpscredsclouddb,
-}
-
-var mappingNamedCredentialTypeEnumLowerCase = map[string]NamedCredentialTypeEnum{
-	"dbcreds":            NamedCredentialTypeDbcreds,
-	"dbtcpscredsatp":     NamedCredentialTypeDbtcpscredsatp,
-	"dbtcpscredsclouddb": NamedCredentialTypeDbtcpscredsclouddb,
-}
-
-// GetNamedCredentialTypeEnumValues Enumerates the set of values for NamedCredentialTypeEnum
-func GetNamedCredentialTypeEnumValues() []NamedCredentialTypeEnum {
-	values := make([]NamedCredentialTypeEnum, 0)
-	for _, v := range mappingNamedCredentialTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetNamedCredentialTypeEnumStringValues Enumerates the set of values in String for NamedCredentialTypeEnum
-func GetNamedCredentialTypeEnumStringValues() []string {
-	return []string{
-		"DBCREDS",
-		"DBTCPSCREDSATP",
-		"DBTCPSCREDSCLOUDDB",
-	}
-}
-
-// GetMappingNamedCredentialTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingNamedCredentialTypeEnum(val string) (NamedCredentialTypeEnum, bool) {
-	enum, ok := mappingNamedCredentialTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // NamedCredentialLifecycleStateEnum Enum with underlying type: string

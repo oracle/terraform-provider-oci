@@ -22,6 +22,9 @@ import (
 // Expression property is a expression that can be used to parse the log.
 type LogPipelineFunctionRegExp struct {
 
+	// Field of log event.
+	Field *string `mandatory:"true" json:"field"`
+
 	// Expression of the parsing function.
 	Expression *string `mandatory:"true" json:"expression"`
 }

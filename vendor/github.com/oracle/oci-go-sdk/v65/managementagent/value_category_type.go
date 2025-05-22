@@ -21,21 +21,21 @@ type ValueCategoryTypeEnum string
 const (
 	ValueCategoryTypeClearText        ValueCategoryTypeEnum = "CLEAR_TEXT"
 	ValueCategoryTypeSecretIdentifier ValueCategoryTypeEnum = "SECRET_IDENTIFIER"
-	ValueCategoryTypeAtpIdentifier    ValueCategoryTypeEnum = "ATP_IDENTIFIER"
+	ValueCategoryTypeAdbIdentifier    ValueCategoryTypeEnum = "ADB_IDENTIFIER"
 	ValueCategoryTypeAllowedValue     ValueCategoryTypeEnum = "ALLOWED_VALUE"
 )
 
 var mappingValueCategoryTypeEnum = map[string]ValueCategoryTypeEnum{
 	"CLEAR_TEXT":        ValueCategoryTypeClearText,
 	"SECRET_IDENTIFIER": ValueCategoryTypeSecretIdentifier,
-	"ATP_IDENTIFIER":    ValueCategoryTypeAtpIdentifier,
+	"ADB_IDENTIFIER":    ValueCategoryTypeAdbIdentifier,
 	"ALLOWED_VALUE":     ValueCategoryTypeAllowedValue,
 }
 
 var mappingValueCategoryTypeEnumLowerCase = map[string]ValueCategoryTypeEnum{
 	"clear_text":        ValueCategoryTypeClearText,
 	"secret_identifier": ValueCategoryTypeSecretIdentifier,
-	"atp_identifier":    ValueCategoryTypeAtpIdentifier,
+	"adb_identifier":    ValueCategoryTypeAdbIdentifier,
 	"allowed_value":     ValueCategoryTypeAllowedValue,
 }
 
@@ -53,7 +53,7 @@ func GetValueCategoryTypeEnumStringValues() []string {
 	return []string{
 		"CLEAR_TEXT",
 		"SECRET_IDENTIFIER",
-		"ATP_IDENTIFIER",
+		"ADB_IDENTIFIER",
 		"ALLOWED_VALUE",
 	}
 }

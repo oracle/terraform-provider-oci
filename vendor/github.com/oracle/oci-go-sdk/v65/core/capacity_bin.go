@@ -16,45 +16,45 @@
 package core
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// HostGroupPlacementConstraintDetails The details for providing placement constraints using the compute host group OCID.
-type HostGroupPlacementConstraintDetails struct {
+// CapacityBin Total and remaining CPU & memory capacity for each capacity bucket.
+type CapacityBin struct {
 
-	// The OCID of the compute host group. This is only available for dedicated capacity customers.
-	ComputeHostGroupId *string `mandatory:"true" json:"computeHostGroupId"`
+	// Zero-based index for the corresponding capacity bucket.
+	CapacityIndex *int `mandatory:"true" json:"capacityIndex"`
+
+	// The total OCPUs of the capacity bucket.
+	TotalOcpus *float32 `mandatory:"true" json:"totalOcpus"`
+
+	// The available OCPUs of the capacity bucket.
+	RemainingOcpus *float32 `mandatory:"true" json:"remainingOcpus"`
+
+	// The total memory of the capacity bucket, in GBs.
+	TotalMemoryInGBs *float32 `mandatory:"true" json:"totalMemoryInGBs"`
+
+	// The remaining memory of the capacity bucket, in GBs.
+	RemainingMemoryInGBs *float32 `mandatory:"true" json:"remainingMemoryInGBs"`
+
+	// List of VMI shapes supported on each capacity bucket.
+	SupportedShapes []string `mandatory:"true" json:"supportedShapes"`
 }
 
-func (m HostGroupPlacementConstraintDetails) String() string {
+func (m CapacityBin) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m HostGroupPlacementConstraintDetails) ValidateEnumValue() (bool, error) {
+func (m CapacityBin) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m HostGroupPlacementConstraintDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeHostGroupPlacementConstraintDetails HostGroupPlacementConstraintDetails
-	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeHostGroupPlacementConstraintDetails
-	}{
-		"HOST_GROUP",
-		(MarshalTypeHostGroupPlacementConstraintDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }

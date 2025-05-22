@@ -263,10 +263,10 @@ type UpdateAutonomousDatabaseDetails struct {
 	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
 	// The date and time the Autonomous Database scheduled to upgrade to 23ai.
-	TimeScheduledDbUpgrade *common.SDKTime `mandatory:"false" json:"timeScheduledDbUpgrade"`
+	TimeScheduledDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeScheduledDbVersionUpgrade"`
 
 	// True if user wants to disable Autonomous Database scheduled upgrade to 23ai.
-	IsDisableDbUpgradeSchedule *bool `mandatory:"false" json:"isDisableDbUpgradeSchedule"`
+	IsDisableDbVersionUpgradeSchedule *bool `mandatory:"false" json:"isDisableDbVersionUpgradeSchedule"`
 
 	// True if user wants to schedule Autonomous Database upgrade to the earliest available time.
 	IsScheduleDbVersionUpgradeToEarliest *bool `mandatory:"false" json:"isScheduleDbVersionUpgradeToEarliest"`
@@ -399,8 +399,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IsOracleServiceGatewayAllowed        *bool                                                                `json:"isOracleServiceGatewayAllowed"`
 		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
 		IsBackupRetentionLocked              *bool                                                                `json:"isBackupRetentionLocked"`
-		TimeScheduledDbUpgrade               *common.SDKTime                                                      `json:"timeScheduledDbUpgrade"`
-		IsDisableDbUpgradeSchedule           *bool                                                                `json:"isDisableDbUpgradeSchedule"`
+		TimeScheduledDbVersionUpgrade        *common.SDKTime                                                      `json:"timeScheduledDbVersionUpgrade"`
+		IsDisableDbVersionUpgradeSchedule    *bool                                                                `json:"isDisableDbVersionUpgradeSchedule"`
 		IsScheduleDbVersionUpgradeToEarliest *bool                                                                `json:"isScheduleDbVersionUpgradeToEarliest"`
 		ScheduledOperations                  []ScheduledOperationDetails                                          `json:"scheduledOperations"`
 		IsAutoScalingForStorageEnabled       *bool                                                                `json:"isAutoScalingForStorageEnabled"`
@@ -516,9 +516,9 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 
-	m.TimeScheduledDbUpgrade = model.TimeScheduledDbUpgrade
+	m.TimeScheduledDbVersionUpgrade = model.TimeScheduledDbVersionUpgrade
 
-	m.IsDisableDbUpgradeSchedule = model.IsDisableDbUpgradeSchedule
+	m.IsDisableDbVersionUpgradeSchedule = model.IsDisableDbVersionUpgradeSchedule
 
 	m.IsScheduleDbVersionUpgradeToEarliest = model.IsScheduleDbVersionUpgradeToEarliest
 

@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -38,6 +39,8 @@ type ModifyModelGroupDetails struct {
 
 	// An additional description of the lifecycle state of the model group.
 	VersionLabel *string `mandatory:"false" json:"versionLabel"`
+
+	ModelGroupDetails ModelGroupDetails `mandatory:"false" json:"modelGroupDetails"`
 }
 
 func (m ModifyModelGroupDetails) String() string {
@@ -54,4 +57,46 @@ func (m ModifyModelGroupDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ModifyModelGroupDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                *string                           `json:"displayName"`
+		Description                *string                           `json:"description"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		ModelGroupVersionHistoryId *string                           `json:"modelGroupVersionHistoryId"`
+		VersionLabel               *string                           `json:"versionLabel"`
+		ModelGroupDetails          modelgroupdetails                 `json:"modelGroupDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.ModelGroupVersionHistoryId = model.ModelGroupVersionHistoryId
+
+	m.VersionLabel = model.VersionLabel
+
+	nn, e = model.ModelGroupDetails.UnmarshalPolymorphicJSON(model.ModelGroupDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelGroupDetails = nn.(ModelGroupDetails)
+	} else {
+		m.ModelGroupDetails = nil
+	}
+
+	return
 }

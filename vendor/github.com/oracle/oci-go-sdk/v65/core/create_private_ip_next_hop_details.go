@@ -37,6 +37,12 @@ type CreatePrivateIpNextHopDetails struct {
 	// Turns on/off flow stickiness for the private IP's nextHop. The default is 'false'.
 	IsFlowStickinessEnabled *bool `mandatory:"false" json:"isFlowStickinessEnabled"`
 
+	// Hashing config to use while selecting target
+	// DEFAULT_HASHING: The choice of hashing method is determined by the dataplane and may evolve over time based on implementation decisions
+	// MODULAR_HASHING: Uses modular hashing
+	// CONSISTENT_HASHING: Uses consistent hashing
+	TargetSelectionHashConfig CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum `mandatory:"false" json:"targetSelectionHashConfig,omitempty"`
+
 	// Forwarding configuration for a private IP's nextHop. The default is 'DEFAULT'.
 	// DEFAULT: Default behavior where packets are flow hashed to a range of ports.
 	// SKIP_PORT_SHARDING: Packets will skip port sharding.
@@ -55,6 +61,9 @@ func (m CreatePrivateIpNextHopDetails) String() string {
 func (m CreatePrivateIpNextHopDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum(string(m.TargetSelectionHashConfig)); !ok && m.TargetSelectionHashConfig != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetSelectionHashConfig: %s. Supported values are: %s.", m.TargetSelectionHashConfig, strings.Join(GetCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum(string(m.NextHopForwardingConfig)); !ok && m.NextHopForwardingConfig != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextHopForwardingConfig: %s. Supported values are: %s.", m.NextHopForwardingConfig, strings.Join(GetCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumStringValues(), ",")))
 	}
@@ -62,6 +71,52 @@ func (m CreatePrivateIpNextHopDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum Enum with underlying type: string
+type CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum string
+
+// Set of constants representing the allowable values for CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum
+const (
+	CreatePrivateIpNextHopDetailsTargetSelectionHashConfigDefaultHashing    CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum = "DEFAULT_HASHING"
+	CreatePrivateIpNextHopDetailsTargetSelectionHashConfigModularHashing    CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum = "MODULAR_HASHING"
+	CreatePrivateIpNextHopDetailsTargetSelectionHashConfigConsistentHashing CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum = "CONSISTENT_HASHING"
+)
+
+var mappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum = map[string]CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum{
+	"DEFAULT_HASHING":    CreatePrivateIpNextHopDetailsTargetSelectionHashConfigDefaultHashing,
+	"MODULAR_HASHING":    CreatePrivateIpNextHopDetailsTargetSelectionHashConfigModularHashing,
+	"CONSISTENT_HASHING": CreatePrivateIpNextHopDetailsTargetSelectionHashConfigConsistentHashing,
+}
+
+var mappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumLowerCase = map[string]CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum{
+	"default_hashing":    CreatePrivateIpNextHopDetailsTargetSelectionHashConfigDefaultHashing,
+	"modular_hashing":    CreatePrivateIpNextHopDetailsTargetSelectionHashConfigModularHashing,
+	"consistent_hashing": CreatePrivateIpNextHopDetailsTargetSelectionHashConfigConsistentHashing,
+}
+
+// GetCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumValues Enumerates the set of values for CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum
+func GetCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumValues() []CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum {
+	values := make([]CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum, 0)
+	for _, v := range mappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumStringValues Enumerates the set of values in String for CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum
+func GetCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumStringValues() []string {
+	return []string{
+		"DEFAULT_HASHING",
+		"MODULAR_HASHING",
+		"CONSISTENT_HASHING",
+	}
+}
+
+// GetMappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum(val string) (CreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnum, bool) {
+	enum, ok := mappingCreatePrivateIpNextHopDetailsTargetSelectionHashConfigEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum Enum with underlying type: string

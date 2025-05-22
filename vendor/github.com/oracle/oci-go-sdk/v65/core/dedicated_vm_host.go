@@ -82,6 +82,12 @@ type DedicatedVmHost struct {
 
 	// The remaining memory of the dedicated VM host, in GBs.
 	RemainingMemoryInGBs *float32 `mandatory:"false" json:"remainingMemoryInGBs"`
+
+	// A list of total and remaining CPU & memory per capacity bucket.
+	CapacityBins []CapacityBin `mandatory:"false" json:"capacityBins"`
+
+	// The compute bare metal host OCID of the dedicated virtual machine host.
+	ComputeBareMetalHostId *string `mandatory:"false" json:"computeBareMetalHostId"`
 }
 
 func (m DedicatedVmHost) String() string {
@@ -112,6 +118,8 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
 		TotalMemoryInGBs           *float32                          `json:"totalMemoryInGBs"`
 		RemainingMemoryInGBs       *float32                          `json:"remainingMemoryInGBs"`
+		CapacityBins               []CapacityBin                     `json:"capacityBins"`
+		ComputeBareMetalHostId     *string                           `json:"computeBareMetalHostId"`
 		AvailabilityDomain         *string                           `json:"availabilityDomain"`
 		CompartmentId              *string                           `json:"compartmentId"`
 		DedicatedVmHostShape       *string                           `json:"dedicatedVmHostShape"`
@@ -147,6 +155,10 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 	m.TotalMemoryInGBs = model.TotalMemoryInGBs
 
 	m.RemainingMemoryInGBs = model.RemainingMemoryInGBs
+
+	m.CapacityBins = make([]CapacityBin, len(model.CapacityBins))
+	copy(m.CapacityBins, model.CapacityBins)
+	m.ComputeBareMetalHostId = model.ComputeBareMetalHostId
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

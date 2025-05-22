@@ -20,7 +20,7 @@ import (
 type NamedCredentialMetadataDefinition struct {
 
 	// The type of the Named Credential.
-	Type NamedCredentialTypeEnum `mandatory:"true" json:"type"`
+	Type *string `mandatory:"true" json:"type"`
 
 	// Display name for this type of Named Credential
 	DisplayName *string `mandatory:"true" json:"displayName"`
@@ -41,9 +41,6 @@ func (m NamedCredentialMetadataDefinition) String() string {
 // Not recommended for calling this function directly
 func (m NamedCredentialMetadataDefinition) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingNamedCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetNamedCredentialTypeEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

@@ -50,21 +50,6 @@ type LaunchDbSystemFromBackupDetails struct {
 	// the DB system will fail to provision.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
-	// The number of CPU cores to enable for a bare metal or Exadata DB system or AMD VMDB Systems. The valid values depend on the specified shape:
-	// - BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
-	// - BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
-	// - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
-	// - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
-	// - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
-	// - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
-	// - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
-	// - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
-	// - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
-	// - VM.Standard.E4.Flex - Specify any thing from 1 to 64.
-	// This parameter is not used for INTEL virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape.
-	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.oracle.com/iaas/Content/Database/Concepts/overview.htm#virtualmachine)
-	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
-
 	DbHome *CreateDbHomeFromBackupDetails `mandatory:"true" json:"dbHome"`
 
 	// A Fault Domain is a grouping of hardware and infrastructure within an availability domain.
@@ -109,6 +94,21 @@ type LaunchDbSystemFromBackupDetails struct {
 	// Resolver is enabled for the specified subnet, the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
 	Domain *string `mandatory:"false" json:"domain"`
+
+	// The number of CPU cores to enable for a bare metal or Exadata DB system or AMD VMDB Systems. The valid values depend on the specified shape:
+	// - BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
+	// - BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
+	// - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
+	// - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
+	// - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
+	// - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
+	// - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
+	// - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
+	// - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
+	// - VM.Standard.E4.Flex - Specify any thing from 1 to 64.
+	// This parameter is not used for INTEL virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape.
+	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.oracle.com/iaas/Content/Database/Concepts/overview.htm#virtualmachine)
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
 	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
@@ -160,6 +160,9 @@ type LaunchDbSystemFromBackupDetails struct {
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
+	// The number of compute servers for the DB system.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition LaunchDbSystemFromBackupDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
@@ -174,6 +177,9 @@ type LaunchDbSystemFromBackupDetails struct {
 
 	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode LaunchDbSystemBaseStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
+
+	// The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
+	ComputeModel LaunchDbSystemBaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 // GetCompartmentId returns CompartmentId
@@ -331,6 +337,16 @@ func (m LaunchDbSystemFromBackupDetails) GetDataCollectionOptions() *DataCollect
 	return m.DataCollectionOptions
 }
 
+// GetComputeModel returns ComputeModel
+func (m LaunchDbSystemFromBackupDetails) GetComputeModel() LaunchDbSystemBaseComputeModelEnum {
+	return m.ComputeModel
+}
+
+// GetComputeCount returns ComputeCount
+func (m LaunchDbSystemFromBackupDetails) GetComputeCount() *int {
+	return m.ComputeCount
+}
+
 func (m LaunchDbSystemFromBackupDetails) String() string {
 	return common.PointerString(m)
 }
@@ -352,6 +368,9 @@ func (m LaunchDbSystemFromBackupDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLaunchDbSystemBaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetLaunchDbSystemBaseComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

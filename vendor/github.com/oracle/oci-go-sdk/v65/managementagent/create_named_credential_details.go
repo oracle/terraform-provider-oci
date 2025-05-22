@@ -23,7 +23,7 @@ type CreateNamedCredentialDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The type of the Named Credential.
-	Type NamedCredentialTypeEnum `mandatory:"true" json:"type"`
+	Type *string `mandatory:"true" json:"type"`
 
 	// The Management Agent parent resource to associate this named credential with.  This is the ManagementAgent resource OCID.
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
@@ -52,9 +52,6 @@ func (m CreateNamedCredentialDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateNamedCredentialDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingNamedCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetNamedCredentialTypeEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

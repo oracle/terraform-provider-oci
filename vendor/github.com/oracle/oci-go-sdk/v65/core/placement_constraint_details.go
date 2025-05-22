@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-// PlacementConstraintDetails Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
+// PlacementConstraintDetails The details for providing placement constraints.
 type PlacementConstraintDetails interface {
 }
 
