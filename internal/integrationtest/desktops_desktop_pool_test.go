@@ -74,6 +74,32 @@ var (
 		"session_lifecycle_actions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolSessionLifecycleActionsRepresentation},
 	}
 
+	DesktopsDesktopPoolUpdateRepresentation = map[string]interface{}{
+		"are_privileged_users":     acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"availability_domain":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"availability_policy":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolAvailabilityPolicyRepresentation},
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"contact_details":          acctest.Representation{RepType: acctest.Required, Create: `contactDetails`, Update: `contactDetails2`},
+		"device_policy":            acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolDevicePolicyRepresentation},
+		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `testPool1`, Update: `testPool2`},
+		"image":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolImageUpdateRepresentation},
+		"is_storage_enabled":       acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"maximum_size":             acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"network_configuration":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolNetworkConfigurationRepresentation},
+		"shape_name":               acctest.Representation{RepType: acctest.Required, Create: `${var.test_shape_name}`},
+		"standby_size":             acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"storage_backup_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_storage_backup_policy_id}`},
+		"storage_size_in_gbs":      acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"are_volumes_preserved":    acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_nsg_id}`}},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolShapeConfigRepresentation},
+		"use_dedicated_vm_host":    acctest.Representation{RepType: acctest.Optional, Create: `${var.test_use_dedicated_vm_host}`},
+		//	"private_access_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolPrivateAccessDetailsRepresentation},
+		"session_lifecycle_actions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolSessionLifecycleActionsRepresentation},
+	}
+
 	DesktopsDesktopPoolAllSessionLifecycleActionsNoAvailPolicySchedulesRepresentation = map[string]interface{}{
 		"are_privileged_users":      acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"availability_domain":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -117,6 +143,12 @@ var (
 		"image_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.test_image_id}`},
 		"image_name": acctest.Representation{RepType: acctest.Required, Create: `${var.test_image_name}`},
 	}
+
+	DesktopsDesktopPoolImageUpdateRepresentation = map[string]interface{}{
+		"image_id":   acctest.Representation{RepType: acctest.Required, Update: `${var.test_image_update_id}`},
+		"image_name": acctest.Representation{RepType: acctest.Optional, Update: `${var.test_image_update_name}`},
+	}
+
 	DesktopsDesktopPoolNetworkConfigurationRepresentation = map[string]interface{}{
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
 		"vcn_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.test_vcn_id}`},
@@ -178,8 +210,14 @@ var (
 	test_image_id      = utils.GetEnvSettingWithBlankDefault("test_image_id")
 	imageIdVariableStr = fmt.Sprintf("variable \"test_image_id\" { default = \"%s\" }\n", test_image_id)
 
+	test_image_update_id     = utils.GetEnvSettingWithBlankDefault("test_image_update_id")
+	imageUpdateIdVariableStr = fmt.Sprintf("variable \"test_image_update_id\" { default = \"%s\" }\n", test_image_update_id)
+
 	test_image_name      = utils.GetEnvSettingWithBlankDefault("test_image_name")
 	imageNameVariableStr = fmt.Sprintf("variable \"test_image_name\" { default = \"%s\" }\n", test_image_name)
+
+	test_image_update_name     = utils.GetEnvSettingWithBlankDefault("test_image_update_name")
+	imageUpdateNameVariableStr = fmt.Sprintf("variable \"test_image_update_name\" { default = \"%s\" }\n", test_image_update_name)
 
 	test_storage_backup_policy_id    = utils.GetEnvSettingWithBlankDefault("test_storage_backup_policy_id")
 	storageBackupPolicyIdVariableStr = fmt.Sprintf("variable \"test_storage_backup_policy_id\" { default = \"%s\" }\n", test_storage_backup_policy_id)
@@ -254,7 +292,9 @@ var (
 		subnetIdVariableStr +
 		shapeNameVariableStr +
 		imageIdVariableStr +
+		imageUpdateIdVariableStr +
 		imageNameVariableStr +
+		imageUpdateNameVariableStr +
 		storageBackupPolicyIdVariableStr +
 		startScheduleCronExprCreateVariableStr +
 		startScheduleCronExprUpdateVariableStr +
@@ -282,7 +322,7 @@ var (
 )
 
 // issue-routing-tag: desktops/default
-func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
+func TestDesktopsDesktopPoolResource_basics(t *testing.T) {
 	httpreplay.SetScenario("TestDesktopsDesktopPoolResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -459,10 +499,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
-				//				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
-				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
-				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
-				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
+				//			resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				//			resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				//			resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				//			resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "session_lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "session_lifecycle_actions.0.inactivity.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "session_lifecycle_actions.0.inactivity.0.action"),
@@ -488,7 +528,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DesktopsDesktopPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "are_privileged_users", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -552,7 +592,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_desktops_desktop_pools", "test_desktop_pools", acctest.Optional, acctest.Update, DesktopsDesktopPoolDataSourceRepresentation) +
 				compartmentIdVariableStr + DesktopsDesktopPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

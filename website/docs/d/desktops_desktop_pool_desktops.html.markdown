@@ -67,6 +67,10 @@ The following attributes are exported:
 		* `time_disconnected` - The time when the last connection to a desktop ended.
 	* `desktop_id` - The OCID of the desktop.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+	* `image` - Provides information about the desktop image.
+		* `image_id` - The OCID of the desktop image.
+		* `image_name` - The name of the desktop image.
+		* `operating_system` - The operating system of the desktop image, e.g. "Oracle Linux", "Windows".
 	* `instance_id` - The OCID of the compute resource used by this desktop.
 	* `is_assigned` - Indicates whether the desktop is assigned to a user.
 	* `state` - The state of the desktop.

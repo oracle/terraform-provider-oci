@@ -163,7 +163,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 			"image": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -172,12 +171,10 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						"image_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"image_name": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -185,7 +182,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
@@ -941,6 +937,17 @@ func (s *DesktopsDesktopPoolResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if image, ok := s.D.GetOkExists("image"); ok {
+		if tmpList := image.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image", 0)
+			tmp, err := s.mapToUpdateDesktopImage(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Image = &tmp
+		}
+	}
+
 	if maximumSize, ok := s.D.GetOkExists("maximum_size"); ok {
 		tmp := maximumSize.(int)
 		request.MaximumSize = &tmp
@@ -1412,6 +1419,17 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopImage(fieldKeyFormat strin
 	if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
 		tmp := operatingSystem.(string)
 		result.OperatingSystem = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DesktopsDesktopPoolResourceCrud) mapToUpdateDesktopImage(fieldKeyFormat string) (oci_desktops.UpdateDesktopImage, error) {
+	result := oci_desktops.UpdateDesktopImage{}
+
+	if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
+		tmp := imageId.(string)
+		result.ImageId = &tmp
 	}
 
 	return result, nil

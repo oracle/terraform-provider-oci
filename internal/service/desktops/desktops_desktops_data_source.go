@@ -364,6 +364,10 @@ func DesktopSummaryToMap(obj oci_desktops.DesktopSummary) map[string]interface{}
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.Image != nil {
+		result["image"] = []interface{}{DesktopImageToMap(obj.Image)}
+	}
+
 	if obj.PoolId != nil {
 		result["pool_id"] = string(*obj.PoolId)
 	}
