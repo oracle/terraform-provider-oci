@@ -141,8 +141,8 @@ The following arguments are supported:
 	* `is_printing_enabled` - (Required) (Updatable) Indicates whether printing is enabled.
 * `display_name` - (Required) (Updatable) A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `image` - (Required) Provides information about the desktop image.
-	* `image_id` - (Required) The OCID of the desktop image.
+* `image` - (Required) (Updatable) Provides information about the desktop image.
+	* `image_id` - (Required) (Updatable) The OCID of the desktop image.
 	* `image_name` - (Required) The name of the desktop image.
 	* `operating_system` - (Optional) The operating system of the desktop image, e.g. "Oracle Linux", "Windows".
 * `is_storage_enabled` - (Required) Indicates whether storage is enabled for the desktop pool.

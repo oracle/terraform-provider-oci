@@ -151,6 +151,31 @@ func DesktopsDesktopPoolDesktopsDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"image": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"image_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"image_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"operating_system": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"instance_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -345,6 +370,10 @@ func DesktopPoolDesktopSummaryToMap(obj oci_desktops.DesktopPoolDesktopSummary) 
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Image != nil {
+		result["image"] = []interface{}{DesktopImageToMap(obj.Image)}
+	}
 
 	if obj.InstanceId != nil {
 		result["instance_id"] = string(*obj.InstanceId)
