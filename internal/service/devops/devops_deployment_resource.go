@@ -23,7 +23,11 @@ func DevopsDeploymentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &tfresource.TwoHours,
+			Update: &tfresource.TwoHours,
+			Delete: &tfresource.TwoHours,
+		},
 		Create:        createDevopsDeployment,
 		Read:          readDevopsDeployment,
 		Update:        updateDevopsDeployment,
