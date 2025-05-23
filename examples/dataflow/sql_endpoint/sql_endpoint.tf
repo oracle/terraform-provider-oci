@@ -23,6 +23,15 @@ variable "region" {
 variable "metastore_id" {
 }
 
+variable "vcn_id" {
+}
+
+variable "subnet_id" {
+}
+
+variable "nsg_id" {
+}
+
 
 provider "oci" {
   region           = var.region
@@ -50,6 +59,42 @@ resource "oci_dataflow_sql_endpoint" "test_sql_endpoint" {
   min_executor_count    = 1
   network_configuration {
     network_type = "SECURE_ACCESS"
+  }
+  sql_endpoint_version  = "3.2.1"
+  #Optional
+  #state                = "ACTIVE" OR "INACTIVE" You can use ACTIVE in order to start a stopped sql endpoint and INACTIVE in order to stop a active sql endpoint
+  #defined_tags         = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"}
+  #description          = var.description
+  freeform_tags = {
+      "Department" = "Finance"
+  }
+
+  lifecycle {
+    ignore_changes = [ system_tags ]
+  }
+}
+
+resource "oci_dataflow_sql_endpoint" "test_sql_endpoint_vcn" {
+  compartment_id        = var.compartment_id
+  display_name          = "test_sql_endpoint_vcn"
+  driver_shape          = "VM.Standard.E4.Flex"
+  driver_shape_config {
+    memory_in_gbs = 32
+    ocpus = 2
+  }
+  executor_shape        = "VM.Standard.E4.Flex"
+  executor_shape_config {
+    memory_in_gbs = 32
+    ocpus = 2
+  }
+  max_executor_count    = 2
+  metastore_id          = var.metastore_id
+  min_executor_count    = 1
+  network_configuration {
+    network_type = "VCN"
+    vcn_id       = var.vcn_id
+    subnet_id    = var.subnet_id
+    nsg_ids      = [ var.nsg_id ]
   }
   sql_endpoint_version  = "3.2.1"
   #Optional
