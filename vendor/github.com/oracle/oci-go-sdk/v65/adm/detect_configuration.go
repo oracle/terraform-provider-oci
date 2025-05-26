@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DetectConfiguration A configuration to define the constraints when detecting vulnerable dependencies.
+// DetectConfiguration A configuration to define the constraints when detecting vulnerable dependencies and recommending remediations.
 type DetectConfiguration struct {
 
 	// The list of dependencies to be ignored by the recommendation algorithm. The dependency pattern is matched against the 'group:artifact:version' or the purl of a dependency.
@@ -26,13 +26,13 @@ type DetectConfiguration struct {
 	// The `Nearest` upgrade policy upgrades a dependency to the oldest version that meets both of the following criteria: it is newer than the current version and it is not affected by a vulnerability.
 	UpgradePolicy DetectConfigurationUpgradePolicyEnum `mandatory:"false" json:"upgradePolicy,omitempty"`
 
-	// The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. An artifact with a CVSS V2 score below this value is not considered for patching.
+	// The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. A vulnerability with a CVSS V2 score below this value is not considered for remediation.
 	MaxPermissibleCvssV2Score *float32 `mandatory:"false" json:"maxPermissibleCvssV2Score"`
 
-	// The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. An artifact with a CVSS V3 score below this value is not considered for patching.
+	// The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. A vulnerability with a CVSS V3 score below this value is not considered for patching.
 	MaxPermissibleCvssV3Score *float32 `mandatory:"false" json:"maxPermissibleCvssV3Score"`
 
-	// The maximum ADM Severity. An artifact with an ADM Severity below this value is not considered for patching.
+	// The maximum ADM Severity. A vulnerability with an severity below this value is not considered for remediation.
 	MaxPermissibleSeverity ConfigSeverityEnum `mandatory:"false" json:"maxPermissibleSeverity,omitempty"`
 }
 

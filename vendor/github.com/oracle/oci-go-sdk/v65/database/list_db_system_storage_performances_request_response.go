@@ -26,6 +26,9 @@ type ListDbSystemStoragePerformancesRequest struct {
 	// Optional. Filters the performance results by shape type.
 	ShapeType *string `mandatory:"false" contributesTo:"query" name:"shapeType"`
 
+	// The database edition of quota (STANDARD_EDITION/ENTERPRISE_EDITION/ENTERPRISE_EDITION_HIGH_PERFORMANCE/ENTERPRISE_EDITION_EXTREME/ENTERPRISE_EDITION_DEVELOPER)
+	DatabaseEdition ListDbSystemStoragePerformancesDatabaseEditionEnum `mandatory:"false" contributesTo:"query" name:"databaseEdition" omitEmpty:"true"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -68,6 +71,9 @@ func (request ListDbSystemStoragePerformancesRequest) ValidateEnumValue() (bool,
 	if _, ok := GetMappingDbSystemOptionsStorageManagementEnum(string(request.StorageManagement)); !ok && request.StorageManagement != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageManagement: %s. Supported values are: %s.", request.StorageManagement, strings.Join(GetDbSystemOptionsStorageManagementEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListDbSystemStoragePerformancesDatabaseEditionEnum(string(request.DatabaseEdition)); !ok && request.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", request.DatabaseEdition, strings.Join(GetListDbSystemStoragePerformancesDatabaseEditionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -101,4 +107,58 @@ func (response ListDbSystemStoragePerformancesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDbSystemStoragePerformancesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDbSystemStoragePerformancesDatabaseEditionEnum Enum with underlying type: string
+type ListDbSystemStoragePerformancesDatabaseEditionEnum string
+
+// Set of constants representing the allowable values for ListDbSystemStoragePerformancesDatabaseEditionEnum
+const (
+	ListDbSystemStoragePerformancesDatabaseEditionStandardEdition                  ListDbSystemStoragePerformancesDatabaseEditionEnum = "STANDARD_EDITION"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition                ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtreme         ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper       ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
+)
+
+var mappingListDbSystemStoragePerformancesDatabaseEditionEnum = map[string]ListDbSystemStoragePerformancesDatabaseEditionEnum{
+	"STANDARD_EDITION":                    ListDbSystemStoragePerformancesDatabaseEditionStandardEdition,
+	"ENTERPRISE_EDITION":                  ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition,
+	"ENTERPRISE_EDITION_HIGH_PERFORMANCE": ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance,
+	"ENTERPRISE_EDITION_EXTREME":          ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtreme,
+	"ENTERPRISE_EDITION_DEVELOPER":        ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper,
+}
+
+var mappingListDbSystemStoragePerformancesDatabaseEditionEnumLowerCase = map[string]ListDbSystemStoragePerformancesDatabaseEditionEnum{
+	"standard_edition":                    ListDbSystemStoragePerformancesDatabaseEditionStandardEdition,
+	"enterprise_edition":                  ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition,
+	"enterprise_edition_high_performance": ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance,
+	"enterprise_edition_extreme":          ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtreme,
+	"enterprise_edition_developer":        ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper,
+}
+
+// GetListDbSystemStoragePerformancesDatabaseEditionEnumValues Enumerates the set of values for ListDbSystemStoragePerformancesDatabaseEditionEnum
+func GetListDbSystemStoragePerformancesDatabaseEditionEnumValues() []ListDbSystemStoragePerformancesDatabaseEditionEnum {
+	values := make([]ListDbSystemStoragePerformancesDatabaseEditionEnum, 0)
+	for _, v := range mappingListDbSystemStoragePerformancesDatabaseEditionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDbSystemStoragePerformancesDatabaseEditionEnumStringValues Enumerates the set of values in String for ListDbSystemStoragePerformancesDatabaseEditionEnum
+func GetListDbSystemStoragePerformancesDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME",
+		"ENTERPRISE_EDITION_DEVELOPER",
+	}
+}
+
+// GetMappingListDbSystemStoragePerformancesDatabaseEditionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDbSystemStoragePerformancesDatabaseEditionEnum(val string) (ListDbSystemStoragePerformancesDatabaseEditionEnum, bool) {
+	enum, ok := mappingListDbSystemStoragePerformancesDatabaseEditionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

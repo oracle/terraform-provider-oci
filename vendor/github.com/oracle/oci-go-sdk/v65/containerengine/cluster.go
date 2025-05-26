@@ -85,6 +85,9 @@ type Cluster struct {
 
 	// The cluster-specific OpenID Connect Discovery endpoint
 	OpenIdConnectDiscoveryEndpoint *string `mandatory:"false" json:"openIdConnectDiscoveryEndpoint"`
+
+	// The cluster-specific OpenID Connect Discovery Key to derive the DiscoveryEndpoint
+	OpenIdConnectDiscoveryKey *string `mandatory:"false" json:"openIdConnectDiscoveryKey"`
 }
 
 func (m Cluster) String() string {
@@ -132,6 +135,7 @@ func (m *Cluster) UnmarshalJSON(data []byte) (e error) {
 		ClusterPodNetworkOptions       []clusterpodnetworkoptiondetails  `json:"clusterPodNetworkOptions"`
 		Type                           ClusterTypeEnum                   `json:"type"`
 		OpenIdConnectDiscoveryEndpoint *string                           `json:"openIdConnectDiscoveryEndpoint"`
+		OpenIdConnectDiscoveryKey      *string                           `json:"openIdConnectDiscoveryKey"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -188,6 +192,8 @@ func (m *Cluster) UnmarshalJSON(data []byte) (e error) {
 	m.Type = model.Type
 
 	m.OpenIdConnectDiscoveryEndpoint = model.OpenIdConnectDiscoveryEndpoint
+
+	m.OpenIdConnectDiscoveryKey = model.OpenIdConnectDiscoveryKey
 
 	return
 }

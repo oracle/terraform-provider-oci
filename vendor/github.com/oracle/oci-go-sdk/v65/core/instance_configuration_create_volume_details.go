@@ -90,7 +90,8 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	XrcKmsKeyId *string `mandatory:"false" json:"xrcKmsKeyId"`
 
-	// Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
+	// When set to true, enables SCSI Persistent Reservation (SCSI PR) for the volume. For more information, see
+	// Persistent Reservations (https://docs.oracle.com/iaas/Content/Block/Concepts/persistent-reservations.htm).
 	IsReservationsEnabled *bool `mandatory:"false" json:"isReservationsEnabled"`
 }
 

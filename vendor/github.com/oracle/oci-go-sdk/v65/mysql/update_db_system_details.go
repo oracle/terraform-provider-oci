@@ -44,6 +44,8 @@ type UpdateDbSystemDetails struct {
 	//    offline_mode (https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON.
 	AccessMode DbSystemAccessModeEnum `mandatory:"false" json:"accessMode,omitempty"`
 
+	Rest *UpdateRestDetails `mandatory:"false" json:"rest"`
+
 	// Specifies if the DB System is highly available.
 	// Set to true to enable high availability. Two secondary MySQL instances are created and placed in the unused
 	// availability or fault domains, depending on your region and subnet type.

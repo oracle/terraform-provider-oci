@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteEmailRecipientsGroup.go.html to see an example of how to use DeleteEmailRecipientsGroupRequest.
 type DeleteEmailRecipientsGroupRequest struct {
 
-	// The email recipient group OCID.
+	// The email recipients group OCID.
 	EmailRecipientsGroupId *string `mandatory:"true" contributesTo:"path" name:"emailRecipientsGroupId"`
 
-	// The UsageStatement Subscription unique OCID.
+	// The usage statement subscription unique OCID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The compartment ID in which to list resources.

@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by Cost Analysis (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm), Scheduled Reports (https://docs.oracle.com/iaas/Content/Billing/Concepts/scheduledreportoverview.htm), and Carbon Emissions Analysis (https://docs.oracle.com/iaas/Content/General/Concepts/emissions-management.htm) in the Console. Also see Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// UsageCarbonEmissionAggregation The account (tenant) usage carbon emissions.
+// UsageCarbonEmissionAggregation The account (tenant) carbon emissions usage.
 type UsageCarbonEmissionAggregation struct {
 
-	// A list of usage carbon emission items.
+	// A list of carbon emission usage items.
 	Items []UsageCarbonEmissionSummary `mandatory:"true" json:"items"`
 
-	// Aggregate the result by.
+	// Specifies what to aggregate the result by.
 	GroupBy []string `mandatory:"false" json:"groupBy"`
 }
 

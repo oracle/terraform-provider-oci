@@ -105,6 +105,9 @@ type Vcn struct {
 	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `vcn1.oraclevcn.com`
 	VcnDomainName *string `mandatory:"false" json:"vcnDomainName"`
+
+	// Indicates whether Zpr Only Mode is enforced.
+	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 
 func (m Vcn) String() string {

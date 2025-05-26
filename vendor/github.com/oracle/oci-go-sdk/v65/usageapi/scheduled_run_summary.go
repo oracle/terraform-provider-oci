@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by Cost Analysis (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm), Scheduled Reports (https://docs.oracle.com/iaas/Content/Billing/Concepts/scheduledreportoverview.htm), and Carbon Emissions Analysis (https://docs.oracle.com/iaas/Content/General/Concepts/emissions-management.htm) in the Console. Also see Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -18,22 +18,22 @@ import (
 // ScheduledRunSummary The saved history past run.
 type ScheduledRunSummary struct {
 
-	// The ocid representing unique shedule run
+	// The OCID representing a unique shedule run.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid representing unique shedule
+	// The OCID representing a unique shedule.
 	ScheduleId *string `mandatory:"true" json:"scheduleId"`
 
-	// The time when schedule started executing
+	// The time the schedule started executing.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time when schedule finished executing
+	// The time the schedule finished executing.
 	TimeFinished *common.SDKTime `mandatory:"true" json:"timeFinished"`
 
-	// Specifies if the schedule job was run successfully or not.
+	// Specifies whether or not the schedule job was successfully run.
 	LifecycleState ScheduledRunLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Additional details about scheduled run failure
+	// Additional details about the scheduled run.
 	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
 }
 
