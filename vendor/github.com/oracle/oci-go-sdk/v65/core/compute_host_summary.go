@@ -69,6 +69,11 @@ type ComputeHostSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique HPC Island
 	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group
+	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
+
+	RecycleDetails *RecycleDetails `mandatory:"false" json:"recycleDetails"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique Network Block
 	NetworkBlockId *string `mandatory:"false" json:"networkBlockId"`
 

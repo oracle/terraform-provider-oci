@@ -92,6 +92,9 @@ type CreateVcnDetails struct {
 	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `true`
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
+
+	// Indicates whether Zpr Only Mode is enforced.
+	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 
 func (m CreateVcnDetails) String() string {

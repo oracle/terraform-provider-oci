@@ -176,6 +176,7 @@ const (
 	ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEdition                   ExternalContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance    ExternalContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance ExternalContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper          ExternalContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingExternalContainerDatabaseSummaryDatabaseEditionEnum = map[string]ExternalContainerDatabaseSummaryDatabaseEditionEnum{
@@ -183,6 +184,7 @@ var mappingExternalContainerDatabaseSummaryDatabaseEditionEnum = map[string]Exte
 	"ENTERPRISE_EDITION":                     ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingExternalContainerDatabaseSummaryDatabaseEditionEnumLowerCase = map[string]ExternalContainerDatabaseSummaryDatabaseEditionEnum{
@@ -190,6 +192,7 @@ var mappingExternalContainerDatabaseSummaryDatabaseEditionEnumLowerCase = map[st
 	"enterprise_edition":                     ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           ExternalContainerDatabaseSummaryDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetExternalContainerDatabaseSummaryDatabaseEditionEnumValues Enumerates the set of values for ExternalContainerDatabaseSummaryDatabaseEditionEnum
@@ -208,6 +211,7 @@ func GetExternalContainerDatabaseSummaryDatabaseEditionEnumStringValues() []stri
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

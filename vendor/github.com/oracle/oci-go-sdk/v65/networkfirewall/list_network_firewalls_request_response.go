@@ -152,8 +152,6 @@ const (
 	ListNetworkFirewallsLifecycleStateDeleted        ListNetworkFirewallsLifecycleStateEnum = "DELETED"
 	ListNetworkFirewallsLifecycleStateFailed         ListNetworkFirewallsLifecycleStateEnum = "FAILED"
 	ListNetworkFirewallsLifecycleStateNeedsAttention ListNetworkFirewallsLifecycleStateEnum = "NEEDS_ATTENTION"
-	ListNetworkFirewallsLifecycleStateAttaching      ListNetworkFirewallsLifecycleStateEnum = "ATTACHING"
-	ListNetworkFirewallsLifecycleStateDetaching      ListNetworkFirewallsLifecycleStateEnum = "DETACHING"
 )
 
 var mappingListNetworkFirewallsLifecycleStateEnum = map[string]ListNetworkFirewallsLifecycleStateEnum{
@@ -164,8 +162,6 @@ var mappingListNetworkFirewallsLifecycleStateEnum = map[string]ListNetworkFirewa
 	"DELETED":         ListNetworkFirewallsLifecycleStateDeleted,
 	"FAILED":          ListNetworkFirewallsLifecycleStateFailed,
 	"NEEDS_ATTENTION": ListNetworkFirewallsLifecycleStateNeedsAttention,
-	"ATTACHING":       ListNetworkFirewallsLifecycleStateAttaching,
-	"DETACHING":       ListNetworkFirewallsLifecycleStateDetaching,
 }
 
 var mappingListNetworkFirewallsLifecycleStateEnumLowerCase = map[string]ListNetworkFirewallsLifecycleStateEnum{
@@ -176,8 +172,6 @@ var mappingListNetworkFirewallsLifecycleStateEnumLowerCase = map[string]ListNetw
 	"deleted":         ListNetworkFirewallsLifecycleStateDeleted,
 	"failed":          ListNetworkFirewallsLifecycleStateFailed,
 	"needs_attention": ListNetworkFirewallsLifecycleStateNeedsAttention,
-	"attaching":       ListNetworkFirewallsLifecycleStateAttaching,
-	"detaching":       ListNetworkFirewallsLifecycleStateDetaching,
 }
 
 // GetListNetworkFirewallsLifecycleStateEnumValues Enumerates the set of values for ListNetworkFirewallsLifecycleStateEnum
@@ -199,8 +193,6 @@ func GetListNetworkFirewallsLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"FAILED",
 		"NEEDS_ATTENTION",
-		"ATTACHING",
-		"DETACHING",
 	}
 }
 

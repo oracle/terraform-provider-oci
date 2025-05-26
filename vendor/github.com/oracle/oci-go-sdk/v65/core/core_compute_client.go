@@ -276,6 +276,69 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 	return response, err
 }
 
+// AttachComputeHostGroupHost Attaches the Compute BM Host to a Host group
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachComputeHostGroupHost.go.html to see an example of how to use AttachComputeHostGroupHost API.
+// A default retry strategy applies to this operation AttachComputeHostGroupHost()
+func (client ComputeClient) AttachComputeHostGroupHost(ctx context.Context, request AttachComputeHostGroupHostRequest) (response AttachComputeHostGroupHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachComputeHostGroupHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachComputeHostGroupHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachComputeHostGroupHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachComputeHostGroupHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachComputeHostGroupHostResponse")
+	}
+	return
+}
+
+// attachComputeHostGroupHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) attachComputeHostGroupHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHosts/{computeHostId}/actions/attachToHostGroup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachComputeHostGroupHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/AttachComputeHostGroupHost"
+		err = common.PostProcessServiceError(err, "Compute", "AttachComputeHostGroupHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachVnic Creates a secondary VNIC and attaches it to the specified instance.
 // For more information about secondary VNICs, see
 // Virtual Network Interface Cards (VNICs) (https://docs.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
@@ -856,6 +919,70 @@ func (client ComputeClient) changeComputeHostCompartment(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/ChangeComputeHostCompartment"
 		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeHostCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeComputeHostGroupCompartment Moves a compute host group into a different compartment. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeHostGroupCompartment.go.html to see an example of how to use ChangeComputeHostGroupCompartment API.
+// A default retry strategy applies to this operation ChangeComputeHostGroupCompartment()
+func (client ComputeClient) ChangeComputeHostGroupCompartment(ctx context.Context, request ChangeComputeHostGroupCompartmentRequest) (response ChangeComputeHostGroupCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeComputeHostGroupCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeComputeHostGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeComputeHostGroupCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeComputeHostGroupCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeComputeHostGroupCompartmentResponse")
+	}
+	return
+}
+
+// changeComputeHostGroupCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) changeComputeHostGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHostGroups/{computeHostGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeComputeHostGroupCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/ChangeComputeHostGroupCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeHostGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1517,6 +1644,69 @@ func (client ComputeClient) createComputeGpuMemoryCluster(ctx context.Context, r
 	return response, err
 }
 
+// CreateComputeHostGroup Creates a new compute host group in the specified compartment and availability domain.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeHostGroup.go.html to see an example of how to use CreateComputeHostGroup API.
+// A default retry strategy applies to this operation CreateComputeHostGroup()
+func (client ComputeClient) CreateComputeHostGroup(ctx context.Context, request CreateComputeHostGroupRequest) (response CreateComputeHostGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createComputeHostGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateComputeHostGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateComputeHostGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateComputeHostGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateComputeHostGroupResponse")
+	}
+	return
+}
+
+// createComputeHostGroup implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) createComputeHostGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHostGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateComputeHostGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/CreateComputeHostGroup"
+		err = common.PostProcessServiceError(err, "Compute", "CreateComputeHostGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateComputeImageCapabilitySchema Creates compute image capability schema.
 //
 // # See also
@@ -2079,6 +2269,63 @@ func (client ComputeClient) deleteComputeGpuMemoryCluster(ctx context.Context, r
 	return response, err
 }
 
+// DeleteComputeHostGroup Deletes the specified compute host group
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeHostGroup.go.html to see an example of how to use DeleteComputeHostGroup API.
+func (client ComputeClient) DeleteComputeHostGroup(ctx context.Context, request DeleteComputeHostGroupRequest) (response DeleteComputeHostGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteComputeHostGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteComputeHostGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteComputeHostGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteComputeHostGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteComputeHostGroupResponse")
+	}
+	return
+}
+
+// deleteComputeHostGroup implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) deleteComputeHostGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeHostGroups/{computeHostGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteComputeHostGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/DeleteComputeHostGroup"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteComputeHostGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteComputeImageCapabilitySchema Deletes the specified Compute Image Capability Schema
 //
 // # See also
@@ -2418,6 +2665,69 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Compute", "DetachBootVolume", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachComputeHostGroupHost Detaches the specified bare metal host from the compute host group
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachComputeHostGroupHost.go.html to see an example of how to use DetachComputeHostGroupHost API.
+// A default retry strategy applies to this operation DetachComputeHostGroupHost()
+func (client ComputeClient) DetachComputeHostGroupHost(ctx context.Context, request DetachComputeHostGroupHostRequest) (response DetachComputeHostGroupHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachComputeHostGroupHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachComputeHostGroupHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachComputeHostGroupHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachComputeHostGroupHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachComputeHostGroupHostResponse")
+	}
+	return
+}
+
+// detachComputeHostGroupHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) detachComputeHostGroupHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHosts/{computeHostId}/actions/detachFromHostGroup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachComputeHostGroupHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/DetachComputeHostGroupHost"
+		err = common.PostProcessServiceError(err, "Compute", "DetachComputeHostGroupHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -3304,6 +3614,64 @@ func (client ComputeClient) getComputeHost(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/GetComputeHost"
 		err = common.PostProcessServiceError(err, "Compute", "GetComputeHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetComputeHostGroup Gets information about the specified compute host group
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeHostGroup.go.html to see an example of how to use GetComputeHostGroup API.
+// A default retry strategy applies to this operation GetComputeHostGroup()
+func (client ComputeClient) GetComputeHostGroup(ctx context.Context, request GetComputeHostGroupRequest) (response GetComputeHostGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeHostGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeHostGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeHostGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeHostGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeHostGroupResponse")
+	}
+	return
+}
+
+// getComputeHostGroup implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getComputeHostGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeHostGroups/{computeHostGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComputeHostGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/GetComputeHostGroup"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeHostGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -5299,6 +5667,64 @@ func (client ComputeClient) listComputeGpuMemoryFabrics(ctx context.Context, req
 	return response, err
 }
 
+// ListComputeHostGroups Lists the compute host groups that match the specified criteria and compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeHostGroups.go.html to see an example of how to use ListComputeHostGroups API.
+// A default retry strategy applies to this operation ListComputeHostGroups()
+func (client ComputeClient) ListComputeHostGroups(ctx context.Context, request ListComputeHostGroupsRequest) (response ListComputeHostGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeHostGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeHostGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeHostGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeHostGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeHostGroupsResponse")
+	}
+	return
+}
+
+// listComputeHostGroups implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeHostGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeHostGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeHostGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/ListComputeHostGroups"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeHostGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListComputeHosts Generates a list of summary host details
 //
 // # See also
@@ -5942,7 +6368,7 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 	return response, err
 }
 
-// ListInstanceMaintenanceEvents Gets a list of all the maintenance events for the given instance.
+// ListInstanceMaintenanceEvents Gets a list of all the maintenance events for the given compartment.
 //
 // # See also
 //
@@ -6700,6 +7126,11 @@ func (client ComputeClient) UpdateComputeHost(ctx context.Context, request Updat
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateComputeHost, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -6736,6 +7167,69 @@ func (client ComputeClient) updateComputeHost(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/UpdateComputeHost"
 		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateComputeHostGroup Updates the specified compute host group details.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeHostGroup.go.html to see an example of how to use UpdateComputeHostGroup API.
+// A default retry strategy applies to this operation UpdateComputeHostGroup()
+func (client ComputeClient) UpdateComputeHostGroup(ctx context.Context, request UpdateComputeHostGroupRequest) (response UpdateComputeHostGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateComputeHostGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateComputeHostGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateComputeHostGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateComputeHostGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeHostGroupResponse")
+	}
+	return
+}
+
+// updateComputeHostGroup implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateComputeHostGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeHostGroups/{computeHostGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateComputeHostGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/UpdateComputeHostGroup"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeHostGroup", apiReferenceLink)
 		return response, err
 	}
 

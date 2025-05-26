@@ -288,6 +288,7 @@ const (
 	DbSystemDatabaseEditionEnterpriseEdition                   DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	DbSystemDatabaseEditionEnterpriseEditionHighPerformance    DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	DbSystemDatabaseEditionEnterpriseEditionExtremePerformance DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	DbSystemDatabaseEditionEnterpriseEditionDeveloper          DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingDbSystemDatabaseEditionEnum = map[string]DbSystemDatabaseEditionEnum{
@@ -295,6 +296,7 @@ var mappingDbSystemDatabaseEditionEnum = map[string]DbSystemDatabaseEditionEnum{
 	"ENTERPRISE_EDITION":                     DbSystemDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    DbSystemDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": DbSystemDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           DbSystemDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingDbSystemDatabaseEditionEnumLowerCase = map[string]DbSystemDatabaseEditionEnum{
@@ -302,6 +304,7 @@ var mappingDbSystemDatabaseEditionEnumLowerCase = map[string]DbSystemDatabaseEdi
 	"enterprise_edition":                     DbSystemDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    DbSystemDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": DbSystemDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           DbSystemDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetDbSystemDatabaseEditionEnumValues Enumerates the set of values for DbSystemDatabaseEditionEnum
@@ -320,6 +323,7 @@ func GetDbSystemDatabaseEditionEnumStringValues() []string {
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

@@ -57,6 +57,8 @@ type DbSystemSummary struct {
 	// The OCID of the compartment the DB System belongs in.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	Rest *RestDetails `mandatory:"false" json:"rest"`
+
 	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 

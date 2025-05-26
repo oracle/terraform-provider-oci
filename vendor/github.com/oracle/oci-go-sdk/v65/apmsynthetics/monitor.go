@@ -66,6 +66,9 @@ type Monitor struct {
 	// Time interval between two runs in round robin batch mode (SchedulingPolicy - BATCHED_ROUND_ROBIN).
 	BatchIntervalInSeconds *int `mandatory:"true" json:"batchIntervalInSeconds"`
 
+	// Content type of the script.
+	ContentType ContentTypesEnum `mandatory:"false" json:"contentType,omitempty"`
+
 	// Specify the endpoint on which to run the monitor.
 	// For BROWSER, REST, NETWORK, DNS and FTP monitor types, target is mandatory.
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
@@ -129,6 +132,9 @@ func (m Monitor) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SchedulingPolicy: %s. Supported values are: %s.", m.SchedulingPolicy, strings.Join(GetSchedulingPolicyEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingContentTypesEnum(string(m.ContentType)); !ok && m.ContentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContentType: %s. Supported values are: %s.", m.ContentType, strings.Join(GetContentTypesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -138,6 +144,7 @@ func (m Monitor) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ContentType               ContentTypesEnum                  `json:"contentType"`
 		Target                    *string                           `json:"target"`
 		ScriptParameters          []MonitorScriptParameterInfo      `json:"scriptParameters"`
 		Configuration             monitorconfiguration              `json:"configuration"`
@@ -171,6 +178,8 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ContentType = model.ContentType
+
 	m.Target = model.Target
 
 	m.ScriptParameters = make([]MonitorScriptParameterInfo, len(model.ScriptParameters))

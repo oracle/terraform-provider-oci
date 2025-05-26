@@ -648,6 +648,120 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	return response, err
 }
 
+// GetOobManagementDashboard Gets an OOB dashboard and its saved searches by ID.  Deleted or unauthorized saved searches are marked by tile's state property.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetOobManagementDashboard.go.html to see an example of how to use GetOobManagementDashboard API.
+func (client DashxApisClient) GetOobManagementDashboard(ctx context.Context, request GetOobManagementDashboardRequest) (response GetOobManagementDashboardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOobManagementDashboard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOobManagementDashboardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOobManagementDashboardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOobManagementDashboardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOobManagementDashboardResponse")
+	}
+	return
+}
+
+// getOobManagementDashboard implements the OCIOperation interface (enables retrying operations)
+func (client DashxApisClient) getOobManagementDashboard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oobManagementDashboards/{managementDashboardId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOobManagementDashboardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/GetOobManagementDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "GetOobManagementDashboard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOobManagementSavedSearch Gets a saved search by ID.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetOobManagementSavedSearch.go.html to see an example of how to use GetOobManagementSavedSearch API.
+func (client DashxApisClient) GetOobManagementSavedSearch(ctx context.Context, request GetOobManagementSavedSearchRequest) (response GetOobManagementSavedSearchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOobManagementSavedSearch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOobManagementSavedSearchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOobManagementSavedSearchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOobManagementSavedSearchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOobManagementSavedSearchResponse")
+	}
+	return
+}
+
+// getOobManagementSavedSearch implements the OCIOperation interface (enables retrying operations)
+func (client DashxApisClient) getOobManagementSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oobManagementSavedSearches/{managementSavedSearchId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOobManagementSavedSearchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/GetOobManagementSavedSearch"
+		err = common.PostProcessServiceError(err, "DashxApis", "GetOobManagementSavedSearch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ImportDashboard Imports an array of dashboards and their saved searches.
 // Here's an example of how you can use CLI to import a dashboard. For information on the details that must be passed to IMPORT, you can use the EXPORT API to obtain the Import.json file:
 // `oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > Import.json`.
@@ -822,6 +936,120 @@ func (client DashxApisClient) listManagementSavedSearches(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/ListManagementSavedSearches"
 		err = common.PostProcessServiceError(err, "DashxApis", "ListManagementSavedSearches", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOobManagementDashboards Gets the list of OOB dashboards with pagination.  Returned properties are the summary.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ListOobManagementDashboards.go.html to see an example of how to use ListOobManagementDashboards API.
+func (client DashxApisClient) ListOobManagementDashboards(ctx context.Context, request ListOobManagementDashboardsRequest) (response ListOobManagementDashboardsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOobManagementDashboards, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOobManagementDashboardsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOobManagementDashboardsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOobManagementDashboardsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOobManagementDashboardsResponse")
+	}
+	return
+}
+
+// listOobManagementDashboards implements the OCIOperation interface (enables retrying operations)
+func (client DashxApisClient) listOobManagementDashboards(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oobManagementDashboards", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOobManagementDashboardsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/ListOobManagementDashboards"
+		err = common.PostProcessServiceError(err, "DashxApis", "ListOobManagementDashboards", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOobManagementSavedSearches Gets the list of out-of-box saved searches in a compartment with pagination.  Returned properties are the summary.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ListOobManagementSavedSearches.go.html to see an example of how to use ListOobManagementSavedSearches API.
+func (client DashxApisClient) ListOobManagementSavedSearches(ctx context.Context, request ListOobManagementSavedSearchesRequest) (response ListOobManagementSavedSearchesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOobManagementSavedSearches, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOobManagementSavedSearchesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOobManagementSavedSearchesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOobManagementSavedSearchesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOobManagementSavedSearchesResponse")
+	}
+	return
+}
+
+// listOobManagementSavedSearches implements the OCIOperation interface (enables retrying operations)
+func (client DashxApisClient) listOobManagementSavedSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oobManagementSavedSearches", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOobManagementSavedSearchesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/ListOobManagementSavedSearches"
+		err = common.PostProcessServiceError(err, "DashxApis", "ListOobManagementSavedSearches", apiReferenceLink)
 		return response, err
 	}
 

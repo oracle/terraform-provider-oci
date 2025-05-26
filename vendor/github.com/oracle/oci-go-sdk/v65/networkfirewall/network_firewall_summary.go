@@ -61,6 +61,8 @@ type NetworkFirewallSummary struct {
 	// IPv6 address for the Network Firewall.
 	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
 
+	NatConfiguration *NatConfigurationResponse `mandatory:"false" json:"natConfiguration"`
+
 	// The time instant at which the Network Firewall was updated in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`

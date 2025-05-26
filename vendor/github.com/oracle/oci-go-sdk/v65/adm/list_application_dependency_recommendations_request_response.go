@@ -36,7 +36,7 @@ type ListApplicationDependencyRecommendationsRequest struct {
 	// A filter to return only resources that match the entire GAV (Group Artifact Version) identifier given.
 	Gav *string `mandatory:"false" contributesTo:"query" name:"gav"`
 
-	// A filter to return only resources that match the entire PURL given (https://github.com/package-url/purl-spec/).
+	// A filter to return only resources that match the entire purl given.
 	Purl *string `mandatory:"false" contributesTo:"query" name:"purl"`
 
 	// The field to sort by. Only one sort order may be provided.

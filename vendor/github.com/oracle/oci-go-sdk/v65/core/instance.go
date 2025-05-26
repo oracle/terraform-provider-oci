@@ -75,6 +75,8 @@ type Instance struct {
 	// For more information, see Capacity Reservations (https://docs.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
+
 	// The OCID of the cluster placement group of the instance.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
@@ -192,6 +194,9 @@ type Instance struct {
 
 	// List of licensing configurations associated with the instance.
 	LicensingConfigs []LicensingConfig `mandatory:"false" json:"licensingConfigs"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group
+	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
 }
 
 func (m Instance) String() string {
@@ -222,40 +227,42 @@ func (m Instance) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CapacityReservationId     *string                             `json:"capacityReservationId"`
-		ClusterPlacementGroupId   *string                             `json:"clusterPlacementGroupId"`
-		DedicatedVmHostId         *string                             `json:"dedicatedVmHostId"`
-		DefinedTags               map[string]map[string]interface{}   `json:"definedTags"`
-		SecurityAttributes        map[string]map[string]interface{}   `json:"securityAttributes"`
-		SecurityAttributesState   InstanceSecurityAttributesStateEnum `json:"securityAttributesState"`
-		DisplayName               *string                             `json:"displayName"`
-		ExtendedMetadata          map[string]interface{}              `json:"extendedMetadata"`
-		FaultDomain               *string                             `json:"faultDomain"`
-		FreeformTags              map[string]string                   `json:"freeformTags"`
-		ImageId                   *string                             `json:"imageId"`
-		IpxeScript                *string                             `json:"ipxeScript"`
-		LaunchMode                InstanceLaunchModeEnum              `json:"launchMode"`
-		LaunchOptions             *LaunchOptions                      `json:"launchOptions"`
-		InstanceOptions           *InstanceOptions                    `json:"instanceOptions"`
-		AvailabilityConfig        *InstanceAvailabilityConfig         `json:"availabilityConfig"`
-		PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails   `json:"preemptibleInstanceConfig"`
-		Metadata                  map[string]string                   `json:"metadata"`
-		ShapeConfig               *InstanceShapeConfig                `json:"shapeConfig"`
-		IsCrossNumaNode           *bool                               `json:"isCrossNumaNode"`
-		SourceDetails             instancesourcedetails               `json:"sourceDetails"`
-		SystemTags                map[string]map[string]interface{}   `json:"systemTags"`
-		AgentConfig               *InstanceAgentConfig                `json:"agentConfig"`
-		TimeMaintenanceRebootDue  *common.SDKTime                     `json:"timeMaintenanceRebootDue"`
-		PlatformConfig            platformconfig                      `json:"platformConfig"`
-		InstanceConfigurationId   *string                             `json:"instanceConfigurationId"`
-		LicensingConfigs          []LicensingConfig                   `json:"licensingConfigs"`
-		AvailabilityDomain        *string                             `json:"availabilityDomain"`
-		CompartmentId             *string                             `json:"compartmentId"`
-		Id                        *string                             `json:"id"`
-		LifecycleState            InstanceLifecycleStateEnum          `json:"lifecycleState"`
-		Region                    *string                             `json:"region"`
-		Shape                     *string                             `json:"shape"`
-		TimeCreated               *common.SDKTime                     `json:"timeCreated"`
+		CapacityReservationId      *string                             `json:"capacityReservationId"`
+		PlacementConstraintDetails placementconstraintdetails          `json:"placementConstraintDetails"`
+		ClusterPlacementGroupId    *string                             `json:"clusterPlacementGroupId"`
+		DedicatedVmHostId          *string                             `json:"dedicatedVmHostId"`
+		DefinedTags                map[string]map[string]interface{}   `json:"definedTags"`
+		SecurityAttributes         map[string]map[string]interface{}   `json:"securityAttributes"`
+		SecurityAttributesState    InstanceSecurityAttributesStateEnum `json:"securityAttributesState"`
+		DisplayName                *string                             `json:"displayName"`
+		ExtendedMetadata           map[string]interface{}              `json:"extendedMetadata"`
+		FaultDomain                *string                             `json:"faultDomain"`
+		FreeformTags               map[string]string                   `json:"freeformTags"`
+		ImageId                    *string                             `json:"imageId"`
+		IpxeScript                 *string                             `json:"ipxeScript"`
+		LaunchMode                 InstanceLaunchModeEnum              `json:"launchMode"`
+		LaunchOptions              *LaunchOptions                      `json:"launchOptions"`
+		InstanceOptions            *InstanceOptions                    `json:"instanceOptions"`
+		AvailabilityConfig         *InstanceAvailabilityConfig         `json:"availabilityConfig"`
+		PreemptibleInstanceConfig  *PreemptibleInstanceConfigDetails   `json:"preemptibleInstanceConfig"`
+		Metadata                   map[string]string                   `json:"metadata"`
+		ShapeConfig                *InstanceShapeConfig                `json:"shapeConfig"`
+		IsCrossNumaNode            *bool                               `json:"isCrossNumaNode"`
+		SourceDetails              instancesourcedetails               `json:"sourceDetails"`
+		SystemTags                 map[string]map[string]interface{}   `json:"systemTags"`
+		AgentConfig                *InstanceAgentConfig                `json:"agentConfig"`
+		TimeMaintenanceRebootDue   *common.SDKTime                     `json:"timeMaintenanceRebootDue"`
+		PlatformConfig             platformconfig                      `json:"platformConfig"`
+		InstanceConfigurationId    *string                             `json:"instanceConfigurationId"`
+		LicensingConfigs           []LicensingConfig                   `json:"licensingConfigs"`
+		ComputeHostGroupId         *string                             `json:"computeHostGroupId"`
+		AvailabilityDomain         *string                             `json:"availabilityDomain"`
+		CompartmentId              *string                             `json:"compartmentId"`
+		Id                         *string                             `json:"id"`
+		LifecycleState             InstanceLifecycleStateEnum          `json:"lifecycleState"`
+		Region                     *string                             `json:"region"`
+		Shape                      *string                             `json:"shape"`
+		TimeCreated                *common.SDKTime                     `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -264,6 +271,16 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.CapacityReservationId = model.CapacityReservationId
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
@@ -333,6 +350,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 
 	m.LicensingConfigs = make([]LicensingConfig, len(model.LicensingConfigs))
 	copy(m.LicensingConfigs, model.LicensingConfigs)
+	m.ComputeHostGroupId = model.ComputeHostGroupId
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

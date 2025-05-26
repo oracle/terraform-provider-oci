@@ -21,10 +21,10 @@ type UpdateEmailRecipientsGroupRequest struct {
 	// The information to be updated.
 	UpdateEmailRecipientsGroupDetails `contributesTo:"body"`
 
-	// The email recipient group OCID.
+	// The email recipients group OCID.
 	EmailRecipientsGroupId *string `mandatory:"true" contributesTo:"path" name:"emailRecipientsGroupId"`
 
-	// The UsageStatement Subscription unique OCID.
+	// The usage statement subscription unique OCID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The compartment ID in which to list resources.

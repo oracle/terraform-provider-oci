@@ -368,6 +368,7 @@ const (
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEdition                   LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionHighPerformance    LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionExtremePerformance LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionDeveloper          LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingLaunchDbSystemDetailsDatabaseEditionEnum = map[string]LaunchDbSystemDetailsDatabaseEditionEnum{
@@ -375,6 +376,7 @@ var mappingLaunchDbSystemDetailsDatabaseEditionEnum = map[string]LaunchDbSystemD
 	"ENTERPRISE_EDITION":                     LaunchDbSystemDetailsDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingLaunchDbSystemDetailsDatabaseEditionEnumLowerCase = map[string]LaunchDbSystemDetailsDatabaseEditionEnum{
@@ -382,6 +384,7 @@ var mappingLaunchDbSystemDetailsDatabaseEditionEnumLowerCase = map[string]Launch
 	"enterprise_edition":                     LaunchDbSystemDetailsDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetLaunchDbSystemDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemDetailsDatabaseEditionEnum
@@ -400,6 +403,7 @@ func GetLaunchDbSystemDetailsDatabaseEditionEnumStringValues() []string {
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

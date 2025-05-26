@@ -43,6 +43,9 @@ type UpdateVcnDetails struct {
 	// (ZPR) policy to control access to ZPR-supported resources.
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// Indicates whether Zpr Only Mode is enforced.
+	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 
 func (m UpdateVcnDetails) String() string {
