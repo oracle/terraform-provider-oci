@@ -64,6 +64,20 @@ type ComputeHost struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique HPC Island
 	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group associated with the Compute Bare Metal Host.
+	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
+
+	// Configuration state of the Compute Bare Metal Host.
+	ConfigurationState ConfigurationStateEnum `mandatory:"false" json:"configurationState,omitempty"`
+
+	// The date and time that the compute bare metal host configuration check was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeConfigurationCheck *common.SDKTime `mandatory:"false" json:"timeConfigurationCheck"`
+
+	ConfigurationData *ComputeHostConfigurationData `mandatory:"false" json:"configurationData"`
+
+	RecycleDetails *RecycleDetails `mandatory:"false" json:"recycleDetails"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique Network Block
 	NetworkBlockId *string `mandatory:"false" json:"networkBlockId"`
 
@@ -120,6 +134,9 @@ func (m ComputeHost) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetComputeHostLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingConfigurationStateEnum(string(m.ConfigurationState)); !ok && m.ConfigurationState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigurationState: %s. Supported values are: %s.", m.ConfigurationState, strings.Join(GetConfigurationStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

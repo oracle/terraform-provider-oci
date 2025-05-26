@@ -55,6 +55,9 @@ type ManagementDashboardTileDetails struct {
 
 	// Specifies the saved search parameters values
 	ParametersMap *interface{} `mandatory:"false" json:"parametersMap"`
+
+	// Description of the tile.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m ManagementDashboardTileDetails) String() string {

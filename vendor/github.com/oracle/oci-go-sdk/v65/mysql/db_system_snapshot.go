@@ -88,6 +88,8 @@ type DbSystemSnapshot struct {
 	// The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port.
 	PortX *int `mandatory:"false" json:"portX"`
 
+	Rest *RestDetails `mandatory:"false" json:"rest"`
+
 	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 

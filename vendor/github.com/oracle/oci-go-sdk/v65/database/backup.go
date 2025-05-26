@@ -350,6 +350,7 @@ const (
 	BackupDatabaseEditionEnterpriseEdition                   BackupDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	BackupDatabaseEditionEnterpriseEditionHighPerformance    BackupDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	BackupDatabaseEditionEnterpriseEditionExtremePerformance BackupDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	BackupDatabaseEditionEnterpriseEditionDeveloper          BackupDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingBackupDatabaseEditionEnum = map[string]BackupDatabaseEditionEnum{
@@ -357,6 +358,7 @@ var mappingBackupDatabaseEditionEnum = map[string]BackupDatabaseEditionEnum{
 	"ENTERPRISE_EDITION":                     BackupDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    BackupDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": BackupDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           BackupDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingBackupDatabaseEditionEnumLowerCase = map[string]BackupDatabaseEditionEnum{
@@ -364,6 +366,7 @@ var mappingBackupDatabaseEditionEnumLowerCase = map[string]BackupDatabaseEdition
 	"enterprise_edition":                     BackupDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    BackupDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": BackupDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           BackupDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetBackupDatabaseEditionEnumValues Enumerates the set of values for BackupDatabaseEditionEnum
@@ -382,6 +385,7 @@ func GetBackupDatabaseEditionEnumStringValues() []string {
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

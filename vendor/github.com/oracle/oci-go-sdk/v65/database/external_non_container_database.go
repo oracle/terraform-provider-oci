@@ -178,6 +178,7 @@ const (
 	ExternalNonContainerDatabaseDatabaseEditionEnterpriseEdition                   ExternalNonContainerDatabaseDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionHighPerformance    ExternalNonContainerDatabaseDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
 	ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionExtremePerformance ExternalNonContainerDatabaseDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionDeveloper          ExternalNonContainerDatabaseDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingExternalNonContainerDatabaseDatabaseEditionEnum = map[string]ExternalNonContainerDatabaseDatabaseEditionEnum{
@@ -185,6 +186,7 @@ var mappingExternalNonContainerDatabaseDatabaseEditionEnum = map[string]External
 	"ENTERPRISE_EDITION":                     ExternalNonContainerDatabaseDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionHighPerformance,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingExternalNonContainerDatabaseDatabaseEditionEnumLowerCase = map[string]ExternalNonContainerDatabaseDatabaseEditionEnum{
@@ -192,6 +194,7 @@ var mappingExternalNonContainerDatabaseDatabaseEditionEnumLowerCase = map[string
 	"enterprise_edition":                     ExternalNonContainerDatabaseDatabaseEditionEnterpriseEdition,
 	"enterprise_edition_high_performance":    ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionHighPerformance,
 	"enterprise_edition_extreme_performance": ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           ExternalNonContainerDatabaseDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetExternalNonContainerDatabaseDatabaseEditionEnumValues Enumerates the set of values for ExternalNonContainerDatabaseDatabaseEditionEnum
@@ -210,6 +213,7 @@ func GetExternalNonContainerDatabaseDatabaseEditionEnumStringValues() []string {
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
 		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }
 

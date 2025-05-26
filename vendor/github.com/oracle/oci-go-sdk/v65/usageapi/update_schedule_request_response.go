@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateSchedule.go.html to see an example of how to use UpdateScheduleRequest.
 type UpdateScheduleRequest struct {
 
-	// The information to be updated. Currently supports only tags
+	// The information to be updated. Currently supports only tags.
 	UpdateScheduleDetails `contributesTo:"body"`
 
 	// The schedule unique OCID.

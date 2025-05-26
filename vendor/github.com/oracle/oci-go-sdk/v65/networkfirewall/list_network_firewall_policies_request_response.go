@@ -144,8 +144,6 @@ const (
 	ListNetworkFirewallPoliciesLifecycleStateDeleted        ListNetworkFirewallPoliciesLifecycleStateEnum = "DELETED"
 	ListNetworkFirewallPoliciesLifecycleStateFailed         ListNetworkFirewallPoliciesLifecycleStateEnum = "FAILED"
 	ListNetworkFirewallPoliciesLifecycleStateNeedsAttention ListNetworkFirewallPoliciesLifecycleStateEnum = "NEEDS_ATTENTION"
-	ListNetworkFirewallPoliciesLifecycleStateAttaching      ListNetworkFirewallPoliciesLifecycleStateEnum = "ATTACHING"
-	ListNetworkFirewallPoliciesLifecycleStateDetaching      ListNetworkFirewallPoliciesLifecycleStateEnum = "DETACHING"
 )
 
 var mappingListNetworkFirewallPoliciesLifecycleStateEnum = map[string]ListNetworkFirewallPoliciesLifecycleStateEnum{
@@ -156,8 +154,6 @@ var mappingListNetworkFirewallPoliciesLifecycleStateEnum = map[string]ListNetwor
 	"DELETED":         ListNetworkFirewallPoliciesLifecycleStateDeleted,
 	"FAILED":          ListNetworkFirewallPoliciesLifecycleStateFailed,
 	"NEEDS_ATTENTION": ListNetworkFirewallPoliciesLifecycleStateNeedsAttention,
-	"ATTACHING":       ListNetworkFirewallPoliciesLifecycleStateAttaching,
-	"DETACHING":       ListNetworkFirewallPoliciesLifecycleStateDetaching,
 }
 
 var mappingListNetworkFirewallPoliciesLifecycleStateEnumLowerCase = map[string]ListNetworkFirewallPoliciesLifecycleStateEnum{
@@ -168,8 +164,6 @@ var mappingListNetworkFirewallPoliciesLifecycleStateEnumLowerCase = map[string]L
 	"deleted":         ListNetworkFirewallPoliciesLifecycleStateDeleted,
 	"failed":          ListNetworkFirewallPoliciesLifecycleStateFailed,
 	"needs_attention": ListNetworkFirewallPoliciesLifecycleStateNeedsAttention,
-	"attaching":       ListNetworkFirewallPoliciesLifecycleStateAttaching,
-	"detaching":       ListNetworkFirewallPoliciesLifecycleStateDetaching,
 }
 
 // GetListNetworkFirewallPoliciesLifecycleStateEnumValues Enumerates the set of values for ListNetworkFirewallPoliciesLifecycleStateEnum
@@ -191,8 +185,6 @@ func GetListNetworkFirewallPoliciesLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"FAILED",
 		"NEEDS_ATTENTION",
-		"ATTACHING",
-		"DETACHING",
 	}
 }
 

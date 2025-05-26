@@ -3604,8 +3604,8 @@ func (client VirtualNetworkClient) createNetworkSecurityGroup(ctx context.Contex
 	return response, err
 }
 
-// CreatePrivateIp Creates a secondary private IP for the specified VNIC.
-// For more information about secondary private IPs, see
+// CreatePrivateIp Creates a private IP.
+// For more information about private IPs, see
 // IP Addresses (https://docs.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
 //
 // # See also

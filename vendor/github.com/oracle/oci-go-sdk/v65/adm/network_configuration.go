@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// NetworkConfiguration A network configuration defines the required network characteristics for an ADM remediation recipe.
-// A network configuration is required if the build service is one of: GitHub Actions, GitLab Pipeline, or Jenkins Pipeline.
+// NetworkConfiguration A network configuration defines the required network characteristics for the remediation run of the recipe to access the source repository and/or verify build services.
 type NetworkConfiguration struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the subnet.
