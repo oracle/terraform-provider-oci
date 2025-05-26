@@ -408,6 +408,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 		return err
 	}
 	totalDiscoveredResources := 0
+	var ociResources []*tf_export.OCIResource
 	discoveryStart := time.Now()
 	var discoverWg sync.WaitGroup
 	discoverWg.Add(len(steps))
@@ -452,6 +453,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 
 			utils.Debugf("[DEBUG] discover: Completed step %d for compartment %s", i, *ctx.CompartmentId)
 			utils.Debugf("[DEBUG] discovered %d resources for step %d", len(step.getDiscoveredResources()), i)
+			ociResources = append(ociResources, step.getDiscoveredResources()...)
 			totalDiscoveredResources += len(step.getDiscoveredResources())
 		}(i, step)
 
@@ -459,6 +461,13 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 
 	// Wait for all steps to complete discovery
 	discoverWg.Wait()
+	if ctx.IdOnly {
+		err := writeResourcesToCSV(ociResources, *ctx.CompartmentId, *ctx.OutputDir)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
 	totalDiscoveryTime := time.Since(discoveryStart)
 	utils.Debugf("discovering resources for all services took %v for compartment %s", totalDiscoveryTime, *ctx.CompartmentId)
 	utils.Debugf("Total Discovered Resources for compartment %s -  %d\n", *ctx.CompartmentId, totalDiscoveredResources)

@@ -48,6 +48,7 @@ func main() {
 	var parallelism = flag.Int("parallelism", 1, "The number of threads to use for resource discovery. By default the value is 1")
 	var varsResourceLevel = flag.String("variables_resource_level", "", "[export] List of top-level attributes to be export as variable following format resourceType.attribute, if attribute is present in variables_global_level, it will be excluded for this resourceType")
 	var varsGlobalLevel = flag.String("variables_global_level", "", "[export] List of top-level attributes to be export as variable following format attribute1,attribute2, if attribute present in variables_resource_level, it will be excluded for this resourceType")
+	var exportIdOnly = flag.Bool("id_only", false, "export only ids of resources")
 
 	flag.Parse()
 	globalvar.PrintVersion()
@@ -115,6 +116,7 @@ func main() {
 				RetryTimeout:                 retryTimeout,
 				IsExportWithRelatedResources: *includeRelatedResources,
 				Parallelism:                  *parallelism,
+				IdOnly:                       *exportIdOnly,
 			}
 
 			if services != nil && *services != "" {

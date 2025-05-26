@@ -131,6 +131,7 @@ type ExportCommandArgs struct {
 	VarsExportResourceLevel      []string
 	VarExportGlobalLevel         []string
 	Filters                      []ResourceFilter
+	IdOnly                       bool
 }
 type ErrorList struct {
 	Errors []*ResourceDiscoveryError
