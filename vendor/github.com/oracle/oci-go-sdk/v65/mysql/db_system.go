@@ -74,6 +74,8 @@ type DbSystem struct {
 	// Network Security Group OCIDs used for the VNIC attachment.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	Rest *RestDetails `mandatory:"false" json:"rest"`
+
 	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 
@@ -206,6 +208,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                *string                           `json:"description"`
 		NsgIds                     []string                          `json:"nsgIds"`
+		Rest                       *RestDetails                      `json:"rest"`
 		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
 		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
 		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
@@ -257,6 +260,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
+	m.Rest = model.Rest
+
 	m.IsHighlyAvailable = model.IsHighlyAvailable
 
 	m.CurrentPlacement = model.CurrentPlacement

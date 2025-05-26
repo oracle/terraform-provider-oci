@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by Cost Analysis (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm), Scheduled Reports (https://docs.oracle.com/iaas/Content/Billing/Concepts/scheduledreportoverview.htm), and Carbon Emissions Analysis (https://docs.oracle.com/iaas/Content/General/Concepts/emissions-management.htm) in the Console. Also see Using the Usage API (https://docs.oracle.com/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// EmailRecipientsGroupSummary Email recipients group summary for the list recipients groups.
+// EmailRecipientsGroupSummary The email recipients group summary for the recipients group list.
 type EmailRecipientsGroupSummary struct {
 
 	// The usage statement email recipients group OCID.
@@ -24,10 +24,10 @@ type EmailRecipientsGroupSummary struct {
 	// The customer tenancy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The list of recipient will receive the usage statement email.
+	// The list of recipients that will receive usage statement emails.
 	RecipientsList []EmailRecipient `mandatory:"true" json:"recipientsList"`
 
-	// The email recipient group lifecycle state.
+	// The email recipients group lifecycle state.
 	LifecycleState EmailRecipientsGroupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

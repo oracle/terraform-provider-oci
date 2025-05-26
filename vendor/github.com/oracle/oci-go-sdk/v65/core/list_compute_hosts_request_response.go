@@ -68,6 +68,9 @@ type ListComputeHostsRequest struct {
 	// A filter to return only ComputeHostSummary resources that match the given Compute Host health State OCID exactly.
 	ComputeHostHealth *string `mandatory:"false" contributesTo:"query" name:"computeHostHealth"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host group.
+	ComputeHostGroupId *string `mandatory:"false" contributesTo:"query" name:"computeHostGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

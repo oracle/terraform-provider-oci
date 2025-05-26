@@ -87,6 +87,9 @@ type LaunchInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID of the compute host group attached to the host where the bare metal instance will be launched.
+	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 	// compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in.
 	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
@@ -195,6 +198,8 @@ type LaunchInstanceDetails struct {
 
 	PlatformConfig LaunchInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
 
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
+
 	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 
@@ -231,6 +236,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		FaultDomain                    *string                                  `json:"faultDomain"`
 		ClusterPlacementGroupId        *string                                  `json:"clusterPlacementGroupId"`
 		FreeformTags                   map[string]string                        `json:"freeformTags"`
+		ComputeHostGroupId             *string                                  `json:"computeHostGroupId"`
 		ComputeClusterId               *string                                  `json:"computeClusterId"`
 		HostnameLabel                  *string                                  `json:"hostnameLabel"`
 		ImageId                        *string                                  `json:"imageId"`
@@ -248,6 +254,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		LaunchVolumeAttachments        []launchattachvolumedetails              `json:"launchVolumeAttachments"`
 		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
 		PlatformConfig                 launchinstanceplatformconfig             `json:"platformConfig"`
+		PlacementConstraintDetails     placementconstraintdetails               `json:"placementConstraintDetails"`
 		InstanceConfigurationId        *string                                  `json:"instanceConfigurationId"`
 		LicensingConfigs               []launchinstancelicensingconfig          `json:"licensingConfigs"`
 		AvailabilityDomain             *string                                  `json:"availabilityDomain"`
@@ -278,6 +285,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.FreeformTags = model.FreeformTags
+
+	m.ComputeHostGroupId = model.ComputeHostGroupId
 
 	m.ComputeClusterId = model.ComputeClusterId
 
@@ -337,6 +346,16 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		m.PlatformConfig = nn.(LaunchInstancePlatformConfig)
 	} else {
 		m.PlatformConfig = nil
+	}
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
 	}
 
 	m.InstanceConfigurationId = model.InstanceConfigurationId

@@ -29,7 +29,7 @@ type ListSchedulesRequest struct {
 	// This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The maximumimum number of items to return.
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort by. If not specified, the default is timeCreated.
@@ -38,7 +38,7 @@ type ListSchedulesRequest struct {
 	// The sort order to use, whether 'asc' or 'desc'.
 	SortOrder ListSchedulesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// Query parameter for filtering by name
+	// The query parameter for filtering by name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

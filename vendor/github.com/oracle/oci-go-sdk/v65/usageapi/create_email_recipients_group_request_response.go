@@ -21,7 +21,7 @@ type CreateEmailRecipientsGroupRequest struct {
 	// New email recipients group details.
 	CreateEmailRecipientsGroupDetails `contributesTo:"body"`
 
-	// The UsageStatement Subscription unique OCID.
+	// The usage statement subscription unique OCID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

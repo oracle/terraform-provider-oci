@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListScheduledRuns.go.html to see an example of how to use ListScheduledRunsRequest.
 type ListScheduledRunsRequest struct {
 
-	// The unique ID of a schedule.
+	// The schedule unique ID.
 	ScheduleId *string `mandatory:"true" contributesTo:"query" name:"scheduleId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -29,7 +29,7 @@ type ListScheduledRunsRequest struct {
 	// This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The maximumimum number of items to return.
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort by. If not specified, the default is timeCreated.
