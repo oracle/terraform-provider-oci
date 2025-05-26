@@ -1,3 +1,20 @@
+## 7.3.0 (Unreleased)
+
+### Added
+- Increase devops deployment default timeouts to two hours
+- Support for NewDev_BaseDB
+- Support for BDS 3.0.30 Release - Feature Enhancements
+- Support for Carbon Emissions Analysis:Power based Calculation
+removed patch files
+- Support for Predictable OIDC Discovery
+- Targeted Launch support to Launch Instance API
+- Support for HeatWave Service: REST
+- Support for Nat Rules for Network Firewall
+- Support for ADM vulnerability-audit warnings
+- Support for APM - Synthetics - content type Playwright scripts
+### Bug Fix
+- Bootstrap Execution triggering during all updates
+
 ## 7.2.0 (May 20, 2025)
 
 ### Added
