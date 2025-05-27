@@ -51,6 +51,18 @@ var exportFleetAppsManagementFleetHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportFleetAppsManagementOnboardingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_onboarding",
+	DatasourceClass:        "oci_fleet_apps_management_onboardings",
+	DatasourceItemsAttr:    "onboarding_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "onboarding",
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.OnboardingLifecycleStateActive),
+		string(oci_fleet_apps_management.OnboardingLifecycleStateNeedsAttention),
+	},
+}
+
 var exportFleetAppsManagementSchedulerDefinitionHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_fleet_apps_management_scheduler_definition",
 	DatasourceClass:        "oci_fleet_apps_management_scheduler_definitions",
@@ -124,16 +136,57 @@ var exportFleetAppsManagementPatchHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportFleetAppsManagementRunbookVersionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_runbook_version",
+	DatasourceClass:        "oci_fleet_apps_management_runbook_versions",
+	DatasourceItemsAttr:    "runbook_version_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "runbook_version",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.RunbookVersionLifecycleStateActive),
+		string(oci_fleet_apps_management.RunbookVersionLifecycleStateNeedsAttention),
+	},
+}
+
+var exportFleetAppsManagementCatalogItemHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_catalog_item",
+	DatasourceClass:        "oci_fleet_apps_management_catalog_items",
+	DatasourceItemsAttr:    "catalog_item_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "catalog_item",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.CatalogItemLifecycleStateActive),
+	},
+}
+
+var exportFleetAppsManagementProvisionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_provision",
+	DatasourceClass:        "oci_fleet_apps_management_provisions",
+	DatasourceItemsAttr:    "provision_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "provision",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.ProvisionLifecycleStateActive),
+	},
+}
+
 var fleetAppsManagementResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFleetAppsManagementTaskRecordHints},
 		{TerraformResourceHints: exportFleetAppsManagementMaintenanceWindowHints},
 		{TerraformResourceHints: exportFleetAppsManagementFleetHints},
+		{TerraformResourceHints: exportFleetAppsManagementOnboardingHints},
 		{TerraformResourceHints: exportFleetAppsManagementSchedulerDefinitionHints},
 		{TerraformResourceHints: exportFleetAppsManagementPropertyHints},
 		{TerraformResourceHints: exportFleetAppsManagementRunbookHints},
 		{TerraformResourceHints: exportFleetAppsManagementPlatformConfigurationHints},
 		{TerraformResourceHints: exportFleetAppsManagementCompliancePolicyRuleHints},
 		{TerraformResourceHints: exportFleetAppsManagementPatchHints},
+		{TerraformResourceHints: exportFleetAppsManagementRunbookVersionHints},
+		{TerraformResourceHints: exportFleetAppsManagementCatalogItemHints},
+		{TerraformResourceHints: exportFleetAppsManagementProvisionHints},
 	},
 }

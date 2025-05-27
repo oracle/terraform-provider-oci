@@ -21,7 +21,6 @@ data "oci_fleet_apps_management_scheduler_definition_scheduled_fleets" "test_sch
 	scheduler_definition_id = oci_fleet_apps_management_scheduler_definition.test_scheduler_definition.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	display_name = var.scheduler_definition_scheduled_fleet_display_name
 }
 ```
@@ -30,7 +29,6 @@ data "oci_fleet_apps_management_scheduler_definition_scheduled_fleets" "test_sch
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `scheduler_definition_id` - (Required) unique SchedulerDefinition identifier
 
@@ -46,12 +44,11 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of ScheduledFleets.
-	* `action_group_types` - All ActionGroup Types part of the schedule.
-	* `application_types` - All application types part of the schedule.
+	* `compartment_id` - The OCID of the resource.
 	* `count_of_affected_resources` - Count of Resources affected by the Schedule
 	* `count_of_affected_targets` - Count of Targets affected by the Schedule
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `id` - The OCID of the resource.
+	* `products` - All products part of the schedule.
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-	* `tenancy_id` - OCID of the tenancy to which the resource belongs to.
 

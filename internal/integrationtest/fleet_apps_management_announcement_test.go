@@ -18,8 +18,8 @@ import (
 
 var (
 	FleetAppsManagementAnnouncementDataSourceRepresentation = map[string]interface{}{
-		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"summary_contains": acctest.Representation{RepType: acctest.Optional, Create: `summaryContains`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `OSMS EOL`},
 	}
 
 	FleetAppsManagementAnnouncementResourceConfig = ""
@@ -32,7 +32,7 @@ func TestFleetAppsManagementAnnouncementResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_fleet_apps_management_announcements.test_announcements"
@@ -43,9 +43,12 @@ func TestFleetAppsManagementAnnouncementResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_announcements", "test_announcements", acctest.Required, acctest.Create, FleetAppsManagementAnnouncementDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_announcements", "test_announcements", acctest.Optional, acctest.Create, FleetAppsManagementAnnouncementDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetAppsManagementAnnouncementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "OSMS EOL"),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "announcement_collection.#"),
 				resource.TestMatchResourceAttr(datasourceName, "announcement_collection.0.items.#", regexp.MustCompile("[1-9][0-9]*")),
 			),

@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_fleet_apps_management_patches
 This data source provides the list of Patches in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of Patches.
+Returns a list of all the Patches in the specified compartment.
+The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 
 
 ## Example Usage
@@ -37,17 +38,17 @@ data "oci_fleet_apps_management_patches" "test_patches" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
-* `id` - (Optional) unique Patch identifier
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
+* `id` - (Optional) Unique identifier or OCID for listing a single Patch by id. Either compartmentId or id must be provided. 
 * `name` - (Optional) A filter to return only resources that match the entire name given.
 * `patch_type_id` - (Optional) Patch Type platformConfigurationId associated with the Patch.
 * `product_id` - (Optional) Product platformConfigurationId associated with the Patch.
-* `should_compliance_policy_rules_be_applied` - (Optional) Filter patch based on compliance policy rules for the Product
+* `should_compliance_policy_rules_be_applied` - (Optional) Filter patch based on compliance policy rules for the Product.
 * `state` - (Optional) The current state of the Patch.
-* `time_released_greater_than_or_equal_to` - (Optional) Patch Released Date
-* `time_released_less_than` - (Optional) Patch Released Date
+* `time_released_greater_than_or_equal_to` - (Optional) A filter to return patches whose release date is greater than or equal to the given date.
+* `time_released_less_than` - (Optional) A filter to return patches whose release date is less than the given date.
 * `type` - (Optional) DefinedBy type.
-* `version` - (Optional) Product version
+* `version` - (Optional) Product version.
 
 
 ## Attributes Reference

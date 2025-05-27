@@ -25,7 +25,6 @@ data "oci_fleet_apps_management_fleet_resources" "test_fleet_resources" {
 	fleet_resource_type = var.fleet_resource_fleet_resource_type
 	id = var.fleet_resource_id
 	state = var.fleet_resource_state
-	tenancy_id = oci_identity_tenancy.test_tenancy.id
 }
 ```
 
@@ -38,7 +37,6 @@ The following arguments are supported:
 * `fleet_resource_type` - (Optional) A filter to return only resources whose resourceType matches the given resourceType.
 * `id` - (Optional) A filter to return only resources whose identifier matches the given identifier.
 * `state` - (Optional) A filter to return only resources whose lifecycleState matches the given lifecycleState.
-* `tenancy_id` - (Optional) Resource Tenancy Id
 
 
 ## Attributes Reference
@@ -51,7 +49,6 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `application_type` - Application Type associated with the resource when the resource type is fleet. Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.  
 * `compartment` - Resource Compartment name.
 * `compartment_id` - OCID of the compartment to which the resource belongs to.
 * `compliance_state` - Compliance State of the Resource.
@@ -59,6 +56,7 @@ The following attributes are exported:
 * `environment_type` - Environment Type associated with the Fleet when the resource type is fleet. Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet. 
 * `id` - The unique id of the resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `percent_compliant` - The compliance percentage.
 * `product` - Product associated with the resource when the resource type is fleet. Will only be returned for PRODUCT fleets that are part of a GROUP Fleet. 
 * `product_count` - Count of products within the resource.
 * `resource_id` - The OCID of the resource.

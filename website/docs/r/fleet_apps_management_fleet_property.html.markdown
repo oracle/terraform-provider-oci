@@ -18,7 +18,6 @@ Add an existing global property to a fleet in Fleet Application Management.
 ```hcl
 resource "oci_fleet_apps_management_fleet_property" "test_fleet_property" {
 	#Required
-	compartment_id = var.compartment_id
 	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
 	property_id = oci_fleet_apps_management_property.test_property.id
 	value = var.fleet_property_value
@@ -29,7 +28,6 @@ resource "oci_fleet_apps_management_fleet_property" "test_fleet_property" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) Tenancy OCID
 * `fleet_id` - (Required) Unique Fleet identifier.
 * `property_id` - (Required) OCID referring to global level metadata property.
 * `value` - (Required) (Updatable) Value of the Property.
@@ -43,7 +41,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `allowed_values` - Values of the property (must be a single value if selectionType = 'SINGLE_CHOICE').
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `id` - The unique id of the resource.
 * `property_id` - OCID referring to global level metadata property.

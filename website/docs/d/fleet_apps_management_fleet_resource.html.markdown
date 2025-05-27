@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_resource
 This data source provides details about a specific Fleet Resource resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets a Fleet Resource by identifier.
+Gets a fleet resource by identifier.
 
 ## Example Usage
 
@@ -34,7 +34,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `application_type` - Application Type associated with the resource when the resource type is fleet. Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.  
 * `compartment` - Resource Compartment name.
 * `compartment_id` - OCID of the compartment to which the resource belongs to.
 * `compliance_state` - Compliance State of the Resource.
@@ -42,6 +41,7 @@ The following attributes are exported:
 * `environment_type` - Environment Type associated with the Fleet when the resource type is fleet. Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet. 
 * `id` - The unique id of the resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `percent_compliant` - The compliance percentage.
 * `product` - Product associated with the resource when the resource type is fleet. Will only be returned for PRODUCT fleets that are part of a GROUP Fleet. 
 * `product_count` - Count of products within the resource.
 * `resource_id` - The OCID of the resource.

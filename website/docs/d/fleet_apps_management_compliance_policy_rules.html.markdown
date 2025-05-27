@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_compliance_policy_rules
 This data source provides the list of Compliance Policy Rules in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets a list of CompliancePolicyRules.
+Gets a list of Compliance policy rules in a compartment.
 
 
 ## Example Usage
@@ -32,10 +32,10 @@ data "oci_fleet_apps_management_compliance_policy_rules" "test_compliance_policy
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
 * `compliance_policy_id` - (Optional) unique CompliancePolicy identifier.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `id` - (Optional) unique CompliancePolicyRule identifier.
+* `id` - (Optional) Unique identifier or OCID for listing a single Compliance Policy Rule by id. Either compartmentId or id must be provided. 
 * `patch_name` - (Optional) A filter to return only resources that match the patch selection against the given patch name.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state. The state value is case-insensitive. 
 
@@ -63,7 +63,7 @@ The following attributes are exported:
 	* `patch_level` - Patch Name.
 	* `patch_name` - Patch Name.
 	* `selection_type` - Selection type for the Patch. 
-* `patch_type` - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
+* `patch_type_id` - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
 * `product_version` - A specific product version or a specific version and succeeding. Example: 12.1 or 12.1 and above for Oracle WebLogic Application server. The policy applies to the next version only, and not to other versions such as, 12.1.x. 
 	* `is_applicable_for_all_higher_versions` - Is rule applicable to all higher versions also
 	* `version` - Product version the rule is applicable.
