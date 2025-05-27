@@ -36,6 +36,10 @@ variable "cluster_endpoint_config_nsg_ids" {
   default = []
 }
 
+variable "cluster_should_include_oidc_config_file" {
+  default = true
+}
+
 variable "cluster_freeform_tags" {
   default = { "Department" = "Finance" }
 }
@@ -220,6 +224,11 @@ resource "oci_containerengine_cluster" "test_cluster_multi_issuer" {
     }
   }
   type = var.cluster_type
+}
+
+data "oci_containerengine_cluster" "test_cluster_multi_issuer" {
+  cluster_id = oci_containerengine_cluster.test_cluster_multi_issuer.id
+  should_include_oidc_config_file = var.cluster_should_include_oidc_config_file
 }
 
 data "oci_containerengine_clusters" "test_clusters" {
