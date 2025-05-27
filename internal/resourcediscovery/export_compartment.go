@@ -300,7 +300,7 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 	numCPU := runtime.NumCPU()
 	MaxParallelFindResource = numCPU * 4
 	// max parallel chunks for state genation that can be executed in parallel
-	MaxParallelChunks = numCPU
+	MaxParallelChunks = numCPU * 4
 	utils.Debugf("[INFO] Setting MaxParalleFindResources=%d, MaxParallelChunks=%d", MaxParallelFindResource, MaxParallelChunks)
 
 	ctx, err := createResourceDiscoveryContext(clients.(*tf_client.OracleClients), args, tenancyOcid)
