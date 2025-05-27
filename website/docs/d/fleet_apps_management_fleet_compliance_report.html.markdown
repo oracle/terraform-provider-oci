@@ -37,6 +37,7 @@ The following attributes are exported:
 * `compliance_state` - The last known compliance state of the fleet.
 * `fleet_id` - The fleet OCID.
 * `id` - Compliance Report Identifier
+* `percent_compliant` - The compliance percentage.
 * `resources` - Resources associated with the Fleet.
 	* `compartment` - Compartment the resource belongs to.
 	* `compliance_state` - The last known compliance state of the fleet.

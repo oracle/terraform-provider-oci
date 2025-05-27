@@ -37,7 +37,7 @@ var (
 
 	FleetAppsManagementFleetDataSourceRepresentation = map[string]interface{}{
 		"application_type": acctest.Representation{RepType: acctest.Optional, Create: `applicationType`},
-		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_ocid}`},
+		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"environment_type": acctest.Representation{RepType: acctest.Optional, Create: `environmentType`},
 		"fleet_type":       acctest.Representation{RepType: acctest.Optional, Create: `GENERIC`},
@@ -50,38 +50,69 @@ var (
 	}
 
 	FleetAppsManagementFleetRepresentation = map[string]interface{}{
-		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"fleet_type":               acctest.Representation{RepType: acctest.Required, Create: `GENERIC`},
-		"application_type":         acctest.Representation{RepType: acctest.Optional, Create: `applicationType`},
-		"credentials":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetCredentialsRepresentation},
-		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"environment_type":         acctest.Representation{RepType: acctest.Optional, Create: `environmentType`},
-		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"group_type":               acctest.Representation{RepType: acctest.Optional, Create: `ENVIRONMENT`},
-		"is_target_auto_confirm":   acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"resource_selection": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetResourceSelectionRepresentation},
+		//"fleet_type":               acctest.Representation{RepType: acctest.Required, Create: `GENERIC`},
+		//"application_type":         acctest.Representation{RepType: acctest.Optional, Create: `applicationType`},
+		// "credentials":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetCredentialsRepresentation},
+		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"details":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetDetailsRepresentation},
+		"environment_type": acctest.Representation{RepType: acctest.Optional, Create: `environmentType`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
+		//"group_type":               acctest.Representation{RepType: acctest.Optional, Create: `ENVIRONMENT`},
+		"is_target_auto_confirm":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"notification_preferences": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetNotificationPreferencesRepresentation},
-		"products":                 acctest.Representation{RepType: acctest.Optional, Create: []string{"OS(COMPUTE)"}},
-		"resource_selection_type":  acctest.Representation{RepType: acctest.Optional, Create: `MANUAL`},
-		"rule_selection_criteria":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetRuleSelectionCriteriaRepresentation},
+		// "parent_fleet_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_fleet.test_fleet.id}`},
+		// "products":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.compatible_product}`}},
+		// "properties": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetPropertiesRepresentation},
+		// "resources":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetResourcesRepresentation},
+		//"resource_selection_type":  acctest.Representation{RepType: acctest.Optional, Create: `MANUAL`},
+		//"rule_selection_criteria":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetRuleSelectionCriteriaRepresentation},
+	}
+	FleetAppsManagementFleetResourceSelectionRepresentation = map[string]interface{}{
+		"resource_selection_type": acctest.Representation{RepType: acctest.Required, Create: `DYNAMIC`, Update: `DYNAMIC`},
+		"rule_selection_criteria": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetResourceSelectionRuleSelectionCriteriaRepresentation},
 	}
 
 	FleetAppsManagementFleetCredentialsRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`},
+		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `tersi-testing-credential`},
 		"entity_specifics": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetCredentialsEntitySpecificsRepresentation},
 		"password":         acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetCredentialsPasswordRepresentation},
 		"user":             acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetCredentialsUserRepresentation},
+	}
+	FleetAppsManagementFleetDetailsRepresentation = map[string]interface{}{
+		"fleet_type": acctest.Representation{RepType: acctest.Optional, Create: `GENERIC`},
 	}
 	FleetAppsManagementFleetNotificationPreferencesRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"topic_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.oci_ons_notification_topic}`},
 		"preferences":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetNotificationPreferencesPreferencesRepresentation},
 	}
-	FleetAppsManagementFleetRuleSelectionCriteriaRepresentation = map[string]interface{}{
-		"match_condition": acctest.Representation{RepType: acctest.Required, Create: `MATCH_ALL`, Update: `ANY`},
-		"rules":           acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetRuleSelectionCriteriaRulesRepresentation},
+	FleetAppsManagementFleetPropertiesRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"fleet_property_type": acctest.Representation{RepType: acctest.Required, Create: `STRING`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"is_required":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"value":               acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
+	FleetAppsManagementFleetResourcesRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"resource_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.test_instance_id}`},
+		"tenancy_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
+		"fleet_resource_type": acctest.Representation{RepType: acctest.Optional, Create: `Instance`},
+	}
+	FleetAppsManagementFleetResourceSelectionRuleSelectionCriteriaRepresentation = map[string]interface{}{
+		"match_condition": acctest.Representation{RepType: acctest.Required, Create: `ANY`, Update: `MATCH_ALL`},
+		"rules":           acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetResourceSelectionRuleSelectionCriteriaRulesRepresentation},
+	}
+
+	//FleetAppsManagementFleetRuleSelectionCriteriaRepresentation = map[string]interface{}{
+	//	"match_condition": acctest.Representation{RepType: acctest.Required, Create: `MATCH_ALL`, Update: `ANY`},
+	//	"rules":           acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetRuleSelectionCriteriaRulesRepresentation},
+	//}
+
 	FleetAppsManagementFleetCredentialsEntitySpecificsRepresentation = map[string]interface{}{
 		"credential_level": acctest.Representation{RepType: acctest.Required, Create: `FLEET`},
 		"resource_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.test_instance_id}`},
@@ -107,24 +138,34 @@ var (
 		"vault_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
 	}
 	FleetAppsManagementFleetNotificationPreferencesPreferencesRepresentation = map[string]interface{}{
-		"on_job_failure":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"on_topology_modification": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"on_upcoming_schedule":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_job_failure":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_resource_non_compliance": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_runbook_newer_version":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_task_failure":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_task_pause":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_task_success":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"on_topology_modification":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"upcoming_schedule":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementFleetNotificationPreferencesPreferencesUpcomingScheduleRepresentation},
 	}
-	FleetAppsManagementFleetRuleSelectionCriteriaRulesRepresentation = map[string]interface{}{
-		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"conditions":              acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetRuleSelectionCriteriaRulesConditionsRepresentation},
+	FleetAppsManagementFleetResourceSelectionRuleSelectionCriteriaRulesRepresentation = map[string]interface{}{
+		"basis":                   acctest.Representation{RepType: acctest.Required, Create: `inventoryProperties`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"conditions":              acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetResourceSelectionRuleSelectionCriteriaRulesConditionsRepresentation},
 		"resource_compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"basis":                   acctest.Representation{RepType: acctest.Optional, Create: `basis`, Update: `basis2`},
+		//"resource_compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_compartment.test_compartment.id}`},
 	}
 	FleetAppsManagementFleetCredentialsEntitySpecificsVariablesRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
-	FleetAppsManagementFleetRuleSelectionCriteriaRulesConditionsRepresentation = map[string]interface{}{
-		"attr_group": acctest.Representation{RepType: acctest.Required, Create: `attrGroup`, Update: `attrGroup2`},
-		"attr_key":   acctest.Representation{RepType: acctest.Required, Create: `attrKey`, Update: `attrKey2`},
-		"attr_value": acctest.Representation{RepType: acctest.Required, Create: `attrValue`, Update: `attrValue2`},
+	FleetAppsManagementFleetNotificationPreferencesPreferencesUpcomingScheduleRepresentation = map[string]interface{}{
+		"notify_before":        acctest.Representation{RepType: acctest.Optional, Create: `notifyBefore`, Update: `notifyBefore2`},
+		"on_upcoming_schedule": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	FleetAppsManagementFleetResourceSelectionRuleSelectionCriteriaRulesConditionsRepresentation = map[string]interface{}{
+		"attr_group": acctest.Representation{RepType: acctest.Required, Create: `Instance`},
+		"attr_key":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `shape`},
+		"attr_value": acctest.Representation{RepType: acctest.Required, Create: `attrValue1`, Update: `VM.Standard.E4.Flex`},
 	}
 
 	FleetAppsManagementFleetResourceDependencies = ""
@@ -137,15 +178,18 @@ func TestFleetAppsManagementFleetResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-	instanceId := utils.GetEnvSettingWithBlankDefault("test_instance_id")
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	instanceId := utils.GetEnvSettingWithBlankDefault("self_hosted_instance_id")
 	keyId := utils.GetEnvSettingWithBlankDefault("key_id")
 	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
 	onsNotificationTopicId := utils.GetEnvSettingWithBlankDefault("test_ons_topic")
 	kmsVaultId := utils.GetEnvSettingWithBlankDefault("kms_vault_id")
 	famsUserId := utils.GetEnvSettingWithBlankDefault("fams_user_id")
 	famsUserPassword := utils.GetEnvSettingWithBlankDefault("fams_user_password")
+	compatibleProduct := utils.GetEnvSettingWithBlankDefault("compatible_product")
 
+	tenancyIdVariableStr := fmt.Sprintf("variable \"tenancy_id\" { default = \"%s\" }\n", tenancyId)
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	instanceIdVariableStr := fmt.Sprintf("variable \"test_instance_id\" { default = \"%s\" }\n", instanceId)
 	keyIdVariableStr := fmt.Sprintf("variable \"key_id\" { default = \"%s\" }\n", keyId)
@@ -154,6 +198,7 @@ func TestFleetAppsManagementFleetResource_basic(t *testing.T) {
 	kmsVaultIdVariableStr := fmt.Sprintf("variable \"oci_kms_vault\" { default = \"%s\" }\n", kmsVaultId)
 	famsUserIdVariableStr := fmt.Sprintf("variable \"fams_user_id\" { default = \"%s\" }\n", famsUserId)
 	famsUserPasswordVariableStr := fmt.Sprintf("variable \"fams_user_password\" { default = \"%s\" }\n", famsUserPassword)
+	compatibleProductVariableStr := fmt.Sprintf("variable \"compatible_product\" { default = \"%s\" }\n", compatibleProduct)
 
 	resourceName := "oci_fleet_apps_management_fleet.test_fleet"
 	datasourceName := "data.oci_fleet_apps_management_fleets.test_fleets"
@@ -167,83 +212,60 @@ func TestFleetAppsManagementFleetResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckFleetAppsManagementFleetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + instanceIdVariableStr + keyIdVariableStr + vaultIdVariableStr + FleetAppsManagementFleetResourceDependencies +
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + instanceIdVariableStr + keyIdVariableStr + vaultIdVariableStr + FleetAppsManagementFleetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Required, acctest.Create, FleetAppsManagementFleetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "fleet_type", "GENERIC"),
-
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "details.0.fleet_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_target_auto_confirm"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_selection.0.resource_selection_type"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "resource_selection.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_selection.0.rule_selection_criteria.#"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + instanceIdVariableStr + keyIdVariableStr + vaultIdVariableStr + FleetAppsManagementFleetResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + instanceIdVariableStr + keyIdVariableStr + vaultIdVariableStr + onsNotificationTopicIdVariableStr + kmsVaultIdVariableStr + famsUserIdVariableStr + famsUserPasswordVariableStr + FleetAppsManagementFleetResourceDependencies +
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + instanceIdVariableStr + compatibleProductVariableStr + keyIdVariableStr + vaultIdVariableStr + onsNotificationTopicIdVariableStr + kmsVaultIdVariableStr + famsUserIdVariableStr + famsUserPasswordVariableStr + FleetAppsManagementFleetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Optional, acctest.Create, FleetAppsManagementFleetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "application_type", "applicationType"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.credential_level", "FLEET"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.entity_specifics.0.resource_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.target", "target"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.variables.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.variables.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.variables.0.value", "value"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.credential_type", "PLAIN_TEXT"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.password.0.key_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.key_version", "keyVersion"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.password.0.secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.secret_version", "secretVersion"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.password.0.vault_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.credential_type", "PLAIN_TEXT"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.user.0.key_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.key_version", "keyVersion"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.user.0.secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.secret_version", "secretVersion"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.user.0.vault_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "credentials.#"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.fleet_type", "GENERIC"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "environment_type", "environmentType"),
-				resource.TestCheckResourceAttr(resourceName, "fleet_type", "GENERIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "group_type", "ENVIRONMENT"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_target_auto_confirm", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_target_auto_confirm", "false"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_job_failure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_resource_non_compliance", "false"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_runbook_newer_version", "false"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_task_failure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_task_pause", "false"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_task_success", "false"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_topology_modification", "false"),
-				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_upcoming_schedule", "false"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.upcoming_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.upcoming_schedule.0.notify_before", "notifyBefore"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.upcoming_schedule.0.on_upcoming_schedule", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "notification_preferences.0.topic_id"),
-				resource.TestCheckResourceAttr(resourceName, "products.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resource_selection_type", "MANUAL"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.match_condition", "MATCH_ALL"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.basis", "basis"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_group", "attrGroup"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_key", "attrKey"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_value", "attrValue"),
-				resource.TestCheckResourceAttrSet(resourceName, "rule_selection_criteria.0.rules.0.resource_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "products.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "properties.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "resources.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -263,61 +285,35 @@ func TestFleetAppsManagementFleetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + instanceIdVariableStr + keyIdVariableStr + vaultIdVariableStr + onsNotificationTopicIdVariableStr + kmsVaultIdVariableStr + famsUserIdVariableStr + famsUserPasswordVariableStr + FleetAppsManagementFleetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Optional, acctest.Update, FleetAppsManagementFleetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "application_type", "applicationType"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.credential_level", "FLEET"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.entity_specifics.0.resource_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.target", "target"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.variables.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.variables.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.entity_specifics.0.variables.0.value", "value"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.credential_type", "PLAIN_TEXT"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.password.0.key_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.key_version", "keyVersion"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.password.0.secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.secret_version", "secretVersion"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.password.0.vault_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.credential_type", "PLAIN_TEXT"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.user.0.key_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.key_version", "keyVersion"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.user.0.secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.secret_version", "secretVersion"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.user.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "credentials.0.user.0.vault_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "credentials.#"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.fleet_type", "GENERIC"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "environment_type", "environmentType"),
-				resource.TestCheckResourceAttr(resourceName, "fleet_type", "GENERIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "group_type", "ENVIRONMENT"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_target_auto_confirm", "true"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_job_failure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_resource_non_compliance", "true"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_runbook_newer_version", "true"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_task_failure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_task_pause", "true"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_task_success", "true"),
 				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_topology_modification", "true"),
-				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.on_upcoming_schedule", "true"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.upcoming_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.upcoming_schedule.0.notify_before", "notifyBefore2"),
+				resource.TestCheckResourceAttr(resourceName, "notification_preferences.0.preferences.0.upcoming_schedule.0.on_upcoming_schedule", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "notification_preferences.0.topic_id"),
-				resource.TestCheckResourceAttr(resourceName, "products.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resource_selection_type", "MANUAL"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.match_condition", "ANY"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.basis", "basis2"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_group", "attrGroup2"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_key", "attrKey2"),
-				resource.TestCheckResourceAttr(resourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_value", "attrValue2"),
-				resource.TestCheckResourceAttrSet(resourceName, "rule_selection_criteria.0.rules.0.resource_compartment_id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "parent_fleet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "products.#"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "properties.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "resources.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -342,10 +338,10 @@ func TestFleetAppsManagementFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "environment_type", "environmentType"),
 				resource.TestCheckResourceAttr(datasourceName, "fleet_type", "GENERIC"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "NEEDS_ATTENTION"),
-
 				resource.TestCheckResourceAttr(datasourceName, "fleet_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "fleet_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fleet_collection.0.items.#"),
 			),
 		},
 		// verify singular datasource
@@ -354,37 +350,43 @@ func TestFleetAppsManagementFleetResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Required, acctest.Create, FleetAppsManagementFleetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + instanceIdVariableStr + keyIdVariableStr + vaultIdVariableStr + onsNotificationTopicIdVariableStr + kmsVaultIdVariableStr + famsUserIdVariableStr + famsUserPasswordVariableStr + FleetAppsManagementFleetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// printResourceStateToFile(singularDatasourceName, "/tmp/debug/debug_singular_data.json"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "application_type", "applicationType"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.fleet_type", "GENERIC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "environment_type", "environmentType"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fleet_type", "GENERIC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "group_type", "ENVIRONMENT"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_target_auto_confirm", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_job_failure", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_resource_non_compliance", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_runbook_newer_version", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_task_failure", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_task_pause", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_task_success", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_topology_modification", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.on_upcoming_schedule", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "products.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.upcoming_schedule.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.upcoming_schedule.0.notify_before", "notifyBefore2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notification_preferences.0.preferences.0.upcoming_schedule.0.on_upcoming_schedule", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "products.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_region"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection_type", "MANUAL"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.match_condition", "ANY"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.0.basis", "basis2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.0.conditions.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_group", "attrGroup2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_key", "attrKey2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rule_selection_criteria.0.rules.0.conditions.0.attr_value", "attrValue2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.resource_selection_type", "DYNAMIC"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.match_condition", "MATCH_ALL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.0.basis", "inventoryProperties"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.0.conditions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.0.conditions.0.attr_group", "Instance"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.0.conditions.0.attr_key", "shape"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_selection.0.rule_selection_criteria.0.rules.0.conditions.0.attr_value", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resources.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

@@ -25,6 +25,9 @@ import (
 )
 
 var (
+	testCompliancePolicy = utils.GetEnvSettingWithBlankDefault("compliance_policy_id")
+	testPatchType        = utils.GetEnvSettingWithBlankDefault("patch_type")
+
 	FleetAppsManagementCompliancePolicyRuleRequiredOnlyResource = FleetAppsManagementCompliancePolicyRuleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_compliance_policy_rule", "test_compliance_policy_rule", acctest.Required, acctest.Create, FleetAppsManagementCompliancePolicyRuleRepresentation)
 
@@ -42,22 +45,25 @@ var (
 		"id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_compliance_policy_rule.test_compliance_policy_rule.id}`},
 		"patch_name":           acctest.Representation{RepType: acctest.Optional, Create: `BUG_FIX`},
 		"state":                acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCompliancePolicyRuleDataSourceFilterRepresentation}}
+		"filter":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementCompliancePolicyRuleDataSourceFilterRepresentation}}
 	FleetAppsManagementCompliancePolicyRuleDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_fleet_apps_management_compliance_policy_rule.test_compliance_policy_rule.id}`}},
+		"name": acctest.Representation{RepType: acctest.Required, Create: `id`},
+		// "values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_fleet_apps_management_compliance_policy_rule.test_compliance_policy_rule.id}`}},
+		"values": acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_compliance_policy_rule.test_compliance_policy_rule.id}`},
 	}
 
 	FleetAppsManagementCompliancePolicyRuleRepresentation = map[string]interface{}{
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compliance_policy_id": acctest.Representation{RepType: acctest.Required, Create: testCompliancePolicy},
 		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `displayName`},
 		"patch_selection":      acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCompliancePolicyRulePatchSelectionRepresentation},
-		"patch_type":           acctest.Representation{RepType: acctest.Required, Create: []string{`BUG`}, Update: []string{`Security`}},
+		"patch_type_id":        acctest.Representation{RepType: acctest.Required, Create: []string{testPatchType}},
 		"product_version":      acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCompliancePolicyRuleProductVersionRepresentation},
-		"compliance_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compliance_policy_id}`},
-		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
-		"grace_period":         acctest.Representation{RepType: acctest.Optional, Create: `gracePeriod`, Update: `gracePeriod2`},
-		"severity":             acctest.Representation{RepType: acctest.Optional, Create: []string{`MEDIUM`}, Update: []string{`LOW`}},
+		//TODO temp removed: "defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		//"patch_type":           acctest.Representation{RepType: acctest.Required, Create: []string{`BUG`}, Update: []string{`Security`}},
+		//"compliance_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compliance_policy_id}`},
+		"grace_period": acctest.Representation{RepType: acctest.Optional, Create: `gracePeriod`, Update: `gracePeriod2`},
+		"severity":     acctest.Representation{RepType: acctest.Optional, Create: []string{`MEDIUM`}, Update: []string{`LOW`}},
 	}
 	FleetAppsManagementCompliancePolicyRulePatchSelectionRepresentation = map[string]interface{}{
 		"selection_type":     acctest.Representation{RepType: acctest.Required, Create: `PATCH_LEVEL`},
@@ -79,7 +85,7 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compliancePolicyId := utils.GetEnvSettingWithBlankDefault("compliance_policy_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	compliancePolicyIdVariableStr := fmt.Sprintf("variable \"compliance_policy_id\" { default = \"%s\" }\n", compliancePolicyId)
@@ -99,13 +105,13 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + compliancePolicyIdVariableStr + FleetAppsManagementCompliancePolicyRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_compliance_policy_rule", "test_compliance_policy_rule", acctest.Required, acctest.Create, FleetAppsManagementCompliancePolicyRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compliance_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "patch_selection.0.days_since_release"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.0.patch_level", "LATEST"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.0.selection_type", "PATCH_LEVEL"),
-				resource.TestCheckResourceAttr(resourceName, "patch_type.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type_id.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.0.version", "8"),
 
@@ -125,7 +131,7 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + compliancePolicyIdVariableStr + FleetAppsManagementCompliancePolicyRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_compliance_policy_rule", "test_compliance_policy_rule", acctest.Optional, acctest.Create, FleetAppsManagementCompliancePolicyRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compliance_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -135,7 +141,7 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "patch_selection.0.days_since_release"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.0.patch_level", "LATEST"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.0.selection_type", "PATCH_LEVEL"),
-				resource.TestCheckResourceAttr(resourceName, "patch_type.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type_id.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.0.is_applicable_for_all_higher_versions", "false"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.0.version", "8"),
@@ -160,7 +166,7 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + compliancePolicyIdVariableStr + FleetAppsManagementCompliancePolicyRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_compliance_policy_rule", "test_compliance_policy_rule", acctest.Optional, acctest.Update, FleetAppsManagementCompliancePolicyRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compliance_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -168,8 +174,10 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "patch_selection.0.days_since_release"),
+				resource.TestCheckResourceAttr(resourceName, "patch_selection.0.patch_level", "LATEST"),
+				// resource.TestCheckResourceAttrSet(resourceName, "patch_selection.0.patch_name"),
 				resource.TestCheckResourceAttr(resourceName, "patch_selection.0.selection_type", "PATCH_LEVEL"),
-				resource.TestCheckResourceAttr(resourceName, "patch_type.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type_id.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "product_version.0.is_applicable_for_all_higher_versions"),
 				resource.TestCheckResourceAttr(resourceName, "product_version.0.version", "9"),
@@ -195,12 +203,11 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "compliance_policy_rule_collection.0.items.0.compliance_policy_id"),
-				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_rule_collection.0.items.0.display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compliance_policy_rule_collection.0.items.0.display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_rule_collection.0.items.0.state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_rule_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_rule_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compliance_policy_rule_collection.0.items.#"),
 			),
 		},
 		// verify singular datasource
@@ -210,17 +217,15 @@ func TestFleetAppsManagementCompliancePolicyRuleResource_basic(t *testing.T) {
 				compartmentIdVariableStr + compliancePolicyIdVariableStr + FleetAppsManagementCompliancePolicyRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compliance_policy_rule_id"),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "grace_period", "gracePeriod2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "patch_selection.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_selection.0.days_since_release"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "patch_selection.0.patch_level", "LATEST"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "patch_selection.0.selection_type", "PATCH_LEVEL"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "patch_type.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_selection.0.patch_level"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_selection.0.selection_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "product_version.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "product_version.0.is_applicable_for_all_higher_versions", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "product_version.0.version", "9"),

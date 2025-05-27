@@ -36,9 +36,10 @@ var (
 	}
 
 	FleetAppsManagementPropertyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `TAXONOMY`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `USER_DEFINED`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementPropertyDataSourceFilterRepresentation}}
 	FleetAppsManagementPropertyDataSourceFilterRepresentation = map[string]interface{}{
@@ -47,10 +48,10 @@ var (
 	}
 
 	FleetAppsManagementPropertyRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"selection":      acctest.Representation{RepType: acctest.Required, Create: `SINGLE_CHOICE`, Update: `MULTI_CHOICE`},
 		"value_type":     acctest.Representation{RepType: acctest.Required, Create: `STRING`, Update: `NUMERIC`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"values":         acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
 
@@ -64,8 +65,11 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_fleet_apps_management_property.test_property"
 	datasourceName := "data.oci_fleet_apps_management_properties.test_properties"
@@ -83,6 +87,7 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_property", "test_property", acctest.Required, acctest.Create, FleetAppsManagementPropertyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "selection", "SINGLE_CHOICE"),
 				resource.TestCheckResourceAttr(resourceName, "value_type", "STRING"),
 
@@ -124,6 +129,34 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FleetAppsManagementPropertyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_property", "test_property", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(FleetAppsManagementPropertyRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
+				resource.TestCheckResourceAttr(resourceName, "selection", "SINGLE_CHOICE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "value_type", "STRING"),
+				resource.TestCheckResourceAttr(resourceName, "values.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + FleetAppsManagementPropertyResourceDependencies +
@@ -158,6 +191,7 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "scope", "TAXONOMY"),
+				resource.TestCheckResourceAttr(datasourceName, "type", "USER_DEFINED"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "property_collection.#", "1"),

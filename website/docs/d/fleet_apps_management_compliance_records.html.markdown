@@ -17,9 +17,11 @@ Gets a list of complianceDetails.
 
 ```hcl
 data "oci_fleet_apps_management_compliance_records" "test_compliance_records" {
+	#Required
+	compartment_id = var.compartment_id
 
 	#Optional
-	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.compliance_record_compartment_id_in_subtree
 	compliance_state = var.compliance_record_compliance_state
 	entity_id = oci_fleet_apps_management_entity.test_entity.id
 	product_name = var.compliance_record_product_name
@@ -33,7 +35,8 @@ data "oci_fleet_apps_management_compliance_records" "test_compliance_records" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `compartment_id` - (Required) The ID of the compartment in which to list resources.
+* `compartment_id_in_subtree` - (Optional) If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel. 
 * `compliance_state` - (Optional) Target Compliance State.
 * `entity_id` - (Optional) Entity identifier.Ex:FleetId
 * `product_name` - (Optional) Product Name.
@@ -55,15 +58,17 @@ The following attributes are exported:
 * `items` - List of compliancePolicys.
 	* `compartment_id` - The OCID of the compartment.
 	* `compliance_state` - Last known compliance state of target.
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `entity_display_name` - The displayName of the entity for which the compliance is calculated.Ex.DisplayName for the Fleet
 	* `entity_id` - The OCID of the entity for which the compliance is calculated.Ex.FleetId
+	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 	* `id` - The OCID of the ComplianceRecord.
-	* `patch` - Details of the Patch
+	* `patch` - Details of the Patch.
 		* `patch_description` - Patch Description.
 		* `patch_id` - patch OCID.
 		* `patch_name` - patch Name.
 		* `patch_type` - Type of patch.
-		* `product` - Details of the Product
+		* `product` - Details of the Product.
 			* `product_name` - Product Name.
 			* `product_stack` - Product Stack.
 			* `product_version` - Product Version.
@@ -82,12 +87,13 @@ The following attributes are exported:
 			* `selection_type` - Selection type for the Patch. 
 	* `resource` - Details of the Resource
 		* `compartment` - Compartment the resource belongs to.
-		* `compartment_id` - TenancyId of the resource.
+		* `compartment_id` - Compartment OCID of the resource.
 		* `resource_id` - The OCID to identify the resource.
 		* `resource_name` - Name of the resource.
 		* `resource_region` - Region the resource belongs to.
 	* `state` - The current state of the ComplianceRecord.
-	* `target` - Details of the Target
+	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+	* `target` - Details of the Target.
 		* `target_id` - Target Identifier.
 		* `target_name` - Target Name.
 		* `version` - Current version.

@@ -32,7 +32,7 @@ data "oci_fleet_apps_management_fleet_products" "test_fleet_products" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `fleet_id` - (Required) Unique Fleet identifier.
 * `resource_display_name` - (Optional) Resource Display Name.

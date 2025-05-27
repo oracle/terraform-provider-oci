@@ -3,217 +3,512 @@
 
 package fleet_apps_management
 
-//import (
-//	"context"
-//	"fmt"
-//
-//	//"log"
-//	"strings"
-//	"time"
-//
-//	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-//	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-//
-//	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-//	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
-//
-//	"github.com/oracle/terraform-provider-oci/internal/client"
-//	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-//)
-//
-//func FleetAppsManagementOnboardingResource() *schema.Resource {
-//	return &schema.Resource{
-//		Timeouts: tfresource.DefaultTimeout,
-//		Create:   createFleetAppsManagementOnboarding,
-//		Read:     readFleetAppsManagementOnboarding,
-//		Delete:   deleteFleetAppsManagementOnboarding,
-//		Schema: map[string]*schema.Schema{
-//			// Required
-//			"compartment_id": {
-//				Type:     schema.TypeString,
-//				Required: true,
-//				ForceNew: true,
-//			},
-//
-//			// Optional
-//			"is_cost_tracking_tag_enabled": {
-//				Type:     schema.TypeBool,
-//				Optional: true,
-//				Computed: true,
-//				ForceNew: true,
-//			},
-//			"is_fams_tag_enabled": {
-//				Type:     schema.TypeBool,
-//				Optional: true,
-//				Computed: true,
-//				ForceNew: true,
-//			},
-//
-//			// Computed
-//			"applied_policies": {
-//				Type:     schema.TypeList,
-//				Computed: true,
-//				Elem: &schema.Resource{
-//					Schema: map[string]*schema.Schema{
-//						// Required
-//
-//						// Optional
-//
-//						// Computed
-//						"id": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"statements": {
-//							Type:     schema.TypeList,
-//							Computed: true,
-//							Elem: &schema.Schema{
-//								Type: schema.TypeString,
-//							},
-//						},
-//						"system_tags": {
-//							Type:     schema.TypeMap,
-//							Computed: true,
-//							Elem:     schema.TypeString,
-//						},
-//						"time_created": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"time_updated": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//					},
-//				},
-//			},
-//			"discovery_frequency": {
-//				Type:     schema.TypeString,
-//				Computed: true,
-//			},
-//			"items": {
-//				Type:     schema.TypeList,
-//				Computed: true,
-//				Elem: &schema.Resource{
-//					Schema: map[string]*schema.Schema{
-//						// Required
-//
-//						// Optional
-//
-//						// Computed
-//						"applied_policies": {
-//							Type:     schema.TypeList,
-//							Computed: true,
-//							Elem: &schema.Resource{
-//								Schema: map[string]*schema.Schema{
-//									// Required
-//
-//									// Optional
-//
-//									// Computed
-//									"id": {
-//										Type:     schema.TypeString,
-//										Computed: true,
-//									},
-//									"statements": {
-//										Type:     schema.TypeList,
-//										Computed: true,
-//										Elem: &schema.Schema{
-//											Type: schema.TypeString,
-//										},
-//									},
-//									"system_tags": {
-//										Type:     schema.TypeMap,
-//										Computed: true,
-//										Elem:     schema.TypeString,
-//									},
-//									"time_created": {
-//										Type:     schema.TypeString,
-//										Computed: true,
-//									},
-//									"time_updated": {
-//										Type:     schema.TypeString,
-//										Computed: true,
-//									},
-//								},
-//							},
-//						},
-//						"compartment_id": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"discovery_frequency": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"id": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"is_cost_tracking_tag_enabled": {
-//							Type:     schema.TypeBool,
-//							Computed: true,
-//						},
-//						"is_fams_tag_enabled": {
-//							Type:     schema.TypeBool,
-//							Computed: true,
-//						},
-//						"resource_region": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"state": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"system_tags": {
-//							Type:     schema.TypeMap,
-//							Computed: true,
-//							Elem:     schema.TypeString,
-//						},
-//						"time_created": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"time_updated": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//						"version": {
-//							Type:     schema.TypeString,
-//							Computed: true,
-//						},
-//					},
-//				},
-//			},
-//			"resource_region": {
-//				Type:     schema.TypeString,
-//				Computed: true,
-//			},
-//			"state": {
-//				Type:     schema.TypeString,
-//				Computed: true,
-//			},
-//			"system_tags": {
-//				Type:     schema.TypeMap,
-//				Computed: true,
-//				Elem:     schema.TypeString,
-//			},
-//			"time_created": {
-//				Type:     schema.TypeString,
-//				Computed: true,
-//			},
-//			"time_updated": {
-//				Type:     schema.TypeString,
-//				Computed: true,
-//			},
-//			"version": {
-//				Type:     schema.TypeString,
-//				Computed: true,
-//			},
-//		},
-//	}
-//}
+import (
+	"context"
+	"fmt"
+	"strings"
+	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+)
+
+func FleetAppsManagementOnboardingResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createFleetAppsManagementOnboarding,
+		Read:     readFleetAppsManagementOnboarding,
+		Delete:   deleteFleetAppsManagementOnboarding,
+		Schema: map[string]*schema.Schema{
+			// Required
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"is_cost_tracking_tag_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_fams_tag_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+
+			// Computed
+			"applied_policies": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"statements": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"discovery_frequency": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"resource_region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
+func createFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+	sync := &FleetAppsManagementOnboardingResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
+
+	return tfresource.CreateResource(d, sync)
+}
+
+func readFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+	sync := &FleetAppsManagementOnboardingResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
+
+	return tfresource.ReadResource(sync)
+}
+
+func deleteFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+	sync := &FleetAppsManagementOnboardingResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
+
+	return tfresource.DeleteResource(d, sync)
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) Delete() error {
+	request := oci_fleet_apps_management.DeleteOnboardingRequest{}
+
+	tmp := s.D.Id()
+	request.OnboardingId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
+
+	response, err := s.Client.DeleteOnboarding(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait til it finishes
+	_, delWorkRequestErr := onboardingWaitForWorkRequest(workId, "famsonboarding", oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
+	return delWorkRequestErr
+}
+
+type FleetAppsManagementOnboardingResourceCrud struct {
+	tfresource.BaseCrud
+	Client                 *oci_fleet_apps_management.FleetAppsManagementAdminClient
+	Res                    *oci_fleet_apps_management.Onboarding
+	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) ID() string {
+	return *s.Res.Id
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_fleet_apps_management.OnboardingLifecycleStateCreating),
+	}
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_fleet_apps_management.OnboardingLifecycleStateActive),
+		string(oci_fleet_apps_management.OnboardingLifecycleStateNeedsAttention),
+	}
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_fleet_apps_management.OnboardingLifecycleStateDeleting),
+	}
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_fleet_apps_management.OnboardingLifecycleStateDeleted),
+	}
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) Create() error {
+	request := oci_fleet_apps_management.CreateOnboardingRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if isCostTrackingTagEnabled, ok := s.D.GetOkExists("is_cost_tracking_tag_enabled"); ok {
+		tmp := isCostTrackingTagEnabled.(bool)
+		request.IsCostTrackingTagEnabled = &tmp
+	}
+
+	if isFamsTagEnabled, ok := s.D.GetOkExists("is_fams_tag_enabled"); ok {
+		tmp := isFamsTagEnabled.(bool)
+		request.IsFamsTagEnabled = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
+
+	response, err := s.Client.CreateOnboarding(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_fleet_apps_management.GetWorkRequestResponse{}
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+		oci_fleet_apps_management.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "famsonboarding") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
+	return s.getOnboardingFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) getOnboardingFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	onboardingId, err := onboardingWaitForWorkRequest(workId, "famsonboarding",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*onboardingId)
+
+	return s.Get()
+}
+
+func onboardingWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if tfresource.ShouldRetry(response, false, "fleet_apps_management", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_fleet_apps_management.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func onboardingWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
+	retryPolicy.ShouldRetryOperation = onboardingWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_fleet_apps_management.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_fleet_apps_management.OperationStatusInProgress),
+			string(oci_fleet_apps_management.OperationStatusAccepted),
+			string(oci_fleet_apps_management.OperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_fleet_apps_management.OperationStatusSucceeded),
+			string(oci_fleet_apps_management.OperationStatusFailed),
+			string(oci_fleet_apps_management.OperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_fleet_apps_management.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			if wr.Status == oci_fleet_apps_management.OperationStatusSucceeded {
+				for _, res := range response.Resources {
+					if res.ActionType == oci_fleet_apps_management.ActionTypeInProgress {
+						return wr, string(oci_fleet_apps_management.OperationStatusInProgress), err
+					}
+				}
+			}
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
+		return nil, getErrorFromFleetAppsManagementOnboardingWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromFleetAppsManagementOnboardingWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) Get() error {
+	request := oci_fleet_apps_management.GetOnboardingRequest{}
+
+	tmp := s.D.Id()
+	request.OnboardingId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
+
+	response, err := s.Client.GetOnboarding(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	s.Res = &response.Onboarding
+	return nil
+}
+
+func (s *FleetAppsManagementOnboardingResourceCrud) SetData() error {
+	if s.Res.AppliedPolicies != nil {
+		s.D.Set("applied_policies", []interface{}{OnboardingPolicySummaryToMap(s.Res.AppliedPolicies)})
+	} else {
+		s.D.Set("applied_policies", nil)
+	}
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.DiscoveryFrequency != nil {
+		s.D.Set("discovery_frequency", *s.Res.DiscoveryFrequency)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsCostTrackingTagEnabled != nil {
+		s.D.Set("is_cost_tracking_tag_enabled", *s.Res.IsCostTrackingTagEnabled)
+	}
+
+	if s.Res.IsFamsTagEnabled != nil {
+		s.D.Set("is_fams_tag_enabled", *s.Res.IsFamsTagEnabled)
+	}
+
+	if s.Res.ResourceRegion != nil {
+		s.D.Set("resource_region", *s.Res.ResourceRegion)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.Version != nil {
+		s.D.Set("version", *s.Res.Version)
+	}
+
+	return nil
+}
+
+func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AppliedPolicies != nil {
+		result["applied_policies"] = []interface{}{OnboardingPolicySummaryToMap(obj.AppliedPolicies)}
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DiscoveryFrequency != nil {
+		result["discovery_frequency"] = string(*obj.DiscoveryFrequency)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsCostTrackingTagEnabled != nil {
+		result["is_cost_tracking_tag_enabled"] = bool(*obj.IsCostTrackingTagEnabled)
+	}
+
+	if obj.IsFamsTagEnabled != nil {
+		result["is_fams_tag_enabled"] = bool(*obj.IsFamsTagEnabled)
+	}
+
+	if obj.ResourceRegion != nil {
+		result["resource_region"] = string(*obj.ResourceRegion)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
+//=======
 //
 //func createFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
 //	sync := &FleetAppsManagementOnboardingResourceCrud{}
@@ -577,3 +872,4 @@ package fleet_apps_management
 //
 //	return result
 //}
+//>>>>>>> theirs

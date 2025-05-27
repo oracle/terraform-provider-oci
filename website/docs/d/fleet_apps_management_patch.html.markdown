@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_patch
 This data source provides details about a specific Patch resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets a Patch by identifier
+Gets a Patch by identifier.
 
 ## Example Usage
 
@@ -25,7 +25,7 @@ data "oci_fleet_apps_management_patch" "test_patch" {
 
 The following arguments are supported:
 
-* `patch_id` - (Required) unique Patch identifier
+* `patch_id` - (Required) Unique Patch identifier.
 
 
 ## Attributes Reference

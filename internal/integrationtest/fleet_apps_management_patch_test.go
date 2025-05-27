@@ -73,6 +73,7 @@ var (
 		"platform_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${var.patch_type_platform_configuration_id}`},
 	}
 	FleetAppsManagementPatchProductRepresentation = map[string]interface{}{
+		//"platform_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_platform_configuration.test_platform_configuration.id}`},
 		"platform_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${var.product_platform_configuration_id}`},
 		"version":                   acctest.Representation{RepType: acctest.Required, Create: `1.0`, Update: `1.1`},
 	}
@@ -112,11 +113,17 @@ func TestFleetAppsManagementPatchResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	patchTypePlatformConfigurationId := utils.GetEnvSettingWithBlankDefault("test_patch_type_platform_configuration_id")
+	patchTypePlatformConfigurationIdVariableStr := fmt.Sprintf("variable \"patch_type_platform_configuration_id\" { default = \"%s\" }\n", patchTypePlatformConfigurationId)
+
 	productPlatformConfigurationId := utils.GetEnvSettingWithBlankDefault("test_product_platform_configuration_id")
+	productPlatformConfigurationIdVariableStr := fmt.Sprintf("variable \"product_platform_configuration_id\" { default = \"%s\" }\n", productPlatformConfigurationId)
 
 	platformConfigurationsStr := fmt.Sprintf(
 		"variable \"patch_type_platform_configuration_id\" { default = \"%s\" }\n"+
@@ -153,6 +160,7 @@ func TestFleetAppsManagementPatchResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "patch_type.0.platform_configuration_id"),
 				resource.TestCheckResourceAttr(resourceName, "product.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "product.0.platform_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "product.0.version", "1.0"),
 				resource.TestCheckResourceAttr(resourceName, "severity", "HIGH"),
 				resource.TestCheckResourceAttr(resourceName, "time_released", "2024-01-01T00:00:00.111Z"),
 
@@ -205,6 +213,52 @@ func TestFleetAppsManagementPatchResource_basic(t *testing.T) {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + patchTypePlatformConfigurationIdVariableStr + productPlatformConfigurationIdVariableStr + FleetAppsManagementPatchResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_patch", "test_patch", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(FleetAppsManagementPatchRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.0.content.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.0.content.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.0.content.0.checksum", "checksum"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.0.content.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.0.content.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.artifact.0.content.0.source_type", "OBJECT_STORAGE_BUCKET"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_details.0.artifacts.#"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_details.0.category", "GENERIC"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "dependent_patches.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dependent_patches.0.id", "id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TerraformProviderTestPatch10"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "patch_type.0.platform_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "product.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "product.0.platform_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "product.0.version", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "severity", "HIGH"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_released"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_compliance_policy_rule
 This data source provides details about a specific Compliance Policy Rule resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets information about a CompliancePolicyRule.
+Gets information about a compliance policy rule.
 
 ## Example Usage
 
@@ -45,7 +45,7 @@ The following attributes are exported:
 	* `patch_level` - Patch Name.
 	* `patch_name` - Patch Name.
 	* `selection_type` - Selection type for the Patch. 
-* `patch_type` - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
+* `patch_type_id` - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
 * `product_version` - A specific product version or a specific version and succeeding. Example: 12.1 or 12.1 and above for Oracle WebLogic Application server. The policy applies to the next version only, and not to other versions such as, 12.1.x. 
 	* `is_applicable_for_all_higher_versions` - Is rule applicable to all higher versions also
 	* `version` - Product version the rule is applicable.

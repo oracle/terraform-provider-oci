@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_credentials
 This data source provides the list of Fleet Credentials in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-List credentials in Fleet Application Management.
+List credentials associated with a fleet.
 
 
 ## Example Usage
@@ -21,7 +21,6 @@ data "oci_fleet_apps_management_fleet_credentials" "test_fleet_credentials" {
 	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	credential_level = var.fleet_credential_credential_level
 	display_name = var.fleet_credential_display_name
 	id = var.fleet_credential_id
@@ -35,7 +34,6 @@ data "oci_fleet_apps_management_fleet_credentials" "test_fleet_credentials" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `credential_level` - (Optional) A filter to return only resources whose credentialLevel matches the given credentialLevel.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `fleet_id` - (Required) Unique Fleet identifier.
@@ -55,7 +53,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `entity_specifics` - Credential specific Details.
 	* `credential_level` - At what level the credential is provided?

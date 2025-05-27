@@ -37,6 +37,8 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
 			display_name = var.platform_configuration_config_category_details_credentials_display_name
 			id = var.platform_configuration_config_category_details_credentials_id
 		}
+		instance_id = oci_core_instance.test_instance.id
+		instance_name = oci_core_instance.test_instance.name
 		patch_types {
 
 			#Optional
@@ -71,10 +73,10 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
 		}
 		versions = var.platform_configuration_config_category_details_versions
 	}
+	display_name = var.platform_configuration_display_name
 
 	#Optional
 	description = var.platform_configuration_description
-	display_name = var.platform_configuration_display_name
 }
 ```
 
@@ -82,7 +84,7 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) Tenancy OCID
+* `compartment_id` - (Required) (Updatable) Compartment OCID
 * `config_category_details` - (Required) (Updatable) Config Category Details.
 	* `compatible_products` - (Applicable when config_category=PRODUCT) (Updatable) Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one 
 		* `display_name` - (Applicable when config_category=PRODUCT) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -92,6 +94,8 @@ The following arguments are supported:
 	* `credentials` - (Applicable when config_category=PRODUCT) (Updatable) OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. 
 		* `display_name` - (Applicable when config_category=PRODUCT) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - (Required when config_category=PRODUCT) (Updatable) The OCID of the resource.
+	* `instance_id` - (Required when config_category=SELF_HOSTED_INSTANCE) (Updatable) The OCID of the resource.
+	* `instance_name` - (Applicable when config_category=SELF_HOSTED_INSTANCE) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `patch_types` - (Applicable when config_category=PRODUCT) (Updatable) Patch Types associated with this Product. 
 		* `display_name` - (Applicable when config_category=PRODUCT) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - (Required when config_category=PRODUCT) (Updatable) The OCID of the resource.
@@ -110,7 +114,7 @@ The following arguments are supported:
 		* `versions` - (Required when sub_category=PRODUCT_STACK_AS_PRODUCT) (Updatable) Versions associated with the PRODUCT .  
 	* `versions` - (Required when config_category=PRODUCT) (Updatable) Versions associated with the PRODUCT .  
 * `description` - (Optional) (Updatable) A user-friendly description. To provide some insight about the resource. Avoid entering confidential information. 
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+* `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 
 
 ** IMPORTANT **
@@ -120,7 +124,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `config_category_details` - Config Category Details.
 	* `compatible_products` - Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -130,6 +134,8 @@ The following attributes are exported:
 	* `credentials` - OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
+	* `instance_id` - The OCID of the resource.
+	* `instance_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `patch_types` - Patch Types associated with this Product. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.

@@ -10,7 +10,7 @@ description: |-
 # oci_fleet_apps_management_compliance_policy_rule
 This resource provides the Compliance Policy Rule resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Creates a CompliancePolicyRule.
+Creates a compliance policy rule.
 
 
 ## Example Usage
@@ -18,7 +18,7 @@ Creates a CompliancePolicyRule.
 ```hcl
 resource "oci_fleet_apps_management_compliance_policy_rule" "test_compliance_policy_rule" {
 	#Required
-	compartment_id = var.compartment_id
+	compliance_policy_id = oci_fleet_apps_management_compliance_policy.test_compliance_policy.id
 	display_name = var.compliance_policy_rule_display_name
 	patch_selection {
 		#Required
@@ -29,7 +29,7 @@ resource "oci_fleet_apps_management_compliance_policy_rule" "test_compliance_pol
 		patch_level = var.compliance_policy_rule_patch_selection_patch_level
 		patch_name = oci_fleet_apps_management_patch.test_patch.name
 	}
-	patch_type = var.compliance_policy_rule_patch_type
+	patch_type_id = oci_fleet_apps_management_patch_type.test_patch_type.id
 	product_version {
 		#Required
 		version = var.compliance_policy_rule_product_version_version
@@ -39,7 +39,6 @@ resource "oci_fleet_apps_management_compliance_policy_rule" "test_compliance_pol
 	}
 
 	#Optional
-	compliance_policy_id = oci_fleet_apps_management_compliance_policy.test_compliance_policy.id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	grace_period = var.compliance_policy_rule_grace_period
@@ -51,8 +50,7 @@ resource "oci_fleet_apps_management_compliance_policy_rule" "test_compliance_pol
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment the CompliancePolicyRule belongs to.
-* `compliance_policy_id` - (Optional) Unique OCID of the CompliancePolicy this CompliancePolicyRule belongs to.
+* `compliance_policy_id` - (Required) Unique OCID of the CompliancePolicy this CompliancePolicyRule belongs to.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -62,7 +60,7 @@ The following arguments are supported:
 	* `patch_level` - (Required when selection_type=PATCH_LEVEL) (Updatable) Patch Name.
 	* `patch_name` - (Required when selection_type=PATCH_NAME) (Updatable) Patch Name.
 	* `selection_type` - (Required) (Updatable) Selection type for the Patch. 
-* `patch_type` - (Required) (Updatable) PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
+* `patch_type_id` - (Required) (Updatable) PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
 * `product_version` - (Required) (Updatable) A specific product version or a specific version and succeeding. Example: 12.1 or 12.1 and above for Oracle WebLogic Application server. The policy applies to the next version only, and not to other versions such as, 12.1.x. 
 	* `is_applicable_for_all_higher_versions` - (Optional) (Updatable) Is rule applicable to all higher versions also
 	* `version` - (Required) (Updatable) Product version the rule is applicable.
@@ -89,7 +87,7 @@ The following attributes are exported:
 	* `patch_level` - Patch Name.
 	* `patch_name` - Patch Name.
 	* `selection_type` - Selection type for the Patch. 
-* `patch_type` - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
+* `patch_type_id` - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.
 * `product_version` - A specific product version or a specific version and succeeding. Example: 12.1 or 12.1 and above for Oracle WebLogic Application server. The policy applies to the next version only, and not to other versions such as, 12.1.x. 
 	* `is_applicable_for_all_higher_versions` - Is rule applicable to all higher versions also
 	* `version` - Product version the rule is applicable.
