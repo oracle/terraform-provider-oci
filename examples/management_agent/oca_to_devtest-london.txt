@@ -1,0 +1,62 @@
+Content-Type: multipart/mixed; boundary=MIMEBOUNDARY
+MIME-Version: 1.0
+
+--MIMEBOUNDARY
+Content-Transfer-Encoding: 7bit
+Content-Type: text/cloud-config
+Mime-Version: 1.0
+
+#cloud-config
+
+output: {all: '| tee -a /var/log/cloud-init-output.log'}
+
+logcfg: |
+  [formatters]
+  format=%(levelname)s %(asctime)s::: %(message)s
+
+
+--MIMEBOUNDARY
+Content-Transfer-Encoding: 7bit
+Content-Type: text/x-shellscript
+Mime-Version: 1.0
+
+#!/bin/bash
+set -e
+set -o pipefail
+
+echo "MACS OCA update sleep"
+
+sleep 120
+echo "MACS OCA update begins"
+
+sudo systemctl stop oracle-cloud-agent
+# clean up the old management agent
+cd /var/log/oracle-cloud-agent/plugins/
+rm -rf oci-managementagent/*
+cd /var/lib/oracle-cloud-agent/plugins/
+rm -rf oci-managementagent/*
+
+# Define the file path
+FILE="/etc/oracle-cloud-agent/agent.yml"
+FILE2="/etc/oracle-cloud-agent/plugins/oci-managementagent/config.yml"
+
+awk '
+/^\s*oci-managementagent:/ { in_block = 1 }4
+in_block && /^\s*args:\s*\[\]/ {
+    sub(/\[\]/, "[ \"-staging\" ]")
+    in_block = 0
+}
+/^$/ { in_block = 0 }
+{ print }
+' "$FILE" > temp_file && mv temp_file "$FILE"
+
+cat > "$FILE2" <<EOF
+logDir: /var/log/oracle-cloud-agent/plugins/oci-managementagent
+macsEnvOverrideHost: https://management-agent-devtest.uk-london-1.oci.oraclecloud.com
+objStoreOverrideHost: https://objectstorage.uk-london-1.oraclecloud.com
+EOF
+
+echo "restarting"
+sudo systemctl start oracle-cloud-agent
+
+--MIMEBOUNDARY--

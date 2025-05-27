@@ -15,7 +15,10 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_images", ManagementAgentManagementAgentImagesDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_install_key", ManagementAgentManagementAgentInstallKeyDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_install_keys", ManagementAgentManagementAgentInstallKeysDataSource())
+	tfresource.RegisterDatasource("oci_management_agent_management_agent_named_credentials_metadata", ManagementAgentManagementAgentNamedCredentialsMetadataDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_plugin_count", ManagementAgentManagementAgentPluginCountDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_plugins", ManagementAgentManagementAgentPluginsDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agents", ManagementAgentManagementAgentsDataSource())
+	tfresource.RegisterDatasource("oci_management_agent_named_credential", ManagementAgentNamedCredentialDataSource())
+	tfresource.RegisterDatasource("oci_management_agent_named_credentials", ManagementAgentNamedCredentialsDataSource())
 }

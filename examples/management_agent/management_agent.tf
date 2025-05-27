@@ -1,5 +1,23 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
+
+
+
+///
+///
+//  If running tests against devtest-ashburn,  set is_production_test = false
+///
+locals {
+  is_production_test = false
+
+  oca_devtest_ashburn = base64encode(file("${path.module}/oca_to_devtest-ashburn.txt"))
+  oca_devtest_london = base64encode(file("${path.module}/oca_to_devtest-london.txt"))
+
+  cloud_init_script = local.is_production_test ? null : local.oca_devtest_london
+  plugin_name = local.is_production_test ? "Logging Analytics" : "Test Plugin Ric"
+}
+
+
 
 variable "tenancy_ocid" {}
 variable "region" {}
@@ -17,40 +35,50 @@ provider "oci" {
   auth = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region           = var.region
+  # version = "7.2.0"
 }
 
-
+//  Agent simulator must be running against the compartment, see https://confluence.oraclecorp.com/confluence/display/MGMTAGENT/How+to+complete+TERSI+tickets
+//  Otherwise this will fail with
+# Error: Invalid index
+#
+# on management_agent.tf line 114, in data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins":
+# 114:   agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
+# |----------------
+# | data.oci_management_agent_management_agents.find_agent.management_agents is empty list of object
 data "oci_management_agent_management_agents" "find_agent" {
-  #Required
   compartment_id = var.compartment_ocid
-
-  #Optional
   availability_status = "ACTIVE"
   display_name = "terraformTest"
   state = "ACTIVE"
 }
 
-resource "oci_management_agent_management_agent" "test_management_agent" {
-  #Required
-  managed_agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
 
-  #Optional
-  deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.1.id]
-  freeform_tags = {"tagKey":"tagValue"}
+// Find a plugin in the MACS environment
+data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins" {
+  compartment_id = var.compartment_ocid
+  display_name = local.plugin_name
+  agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
 
 }
 
+// Using one of the simulator agents,  add it to terraform and deploy plugin to it
+// also modify the freeform tags
+resource "oci_management_agent_management_agent" "test_management_agent" {
+  managed_agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
+  deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id]
+  freeform_tags = {"tagKey":"tagValue"}
+}
 
+// Test data load of all agents with subtree
 data "oci_management_agent_management_agents" "test_management_agents_subtree" {
-  #Required
   compartment_id = var.root_compartment_ocid
-
-  #Optional
   access_level = "ACCESSIBLE"
   availability_status = "ACTIVE"
   compartment_id_in_subtree = true
 }
 
+// Test data load for specific agent
 data "oci_management_agent_management_agents" "test_management_agents" {
   #Required
   compartment_id = var.compartment_ocid
@@ -69,65 +97,53 @@ data "oci_management_agent_management_agents" "test_management_agents" {
   version = ["210101.0101"]
 }
 
+// Create an install key
+//  NOTE this can fail if the time_expires is older than today.. you may have to change this value
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
-  #Required
   compartment_id = var.compartment_ocid
-
-  #Optional
   allowed_key_install_count = "200"
   display_name              = "terraformTest"
-  time_expires              = "2026-02-23T17:27:44.398Z"
+  time_expires              = "2026-02-19T17:27:44.398Z"
 }
 
+// Create unlimited install key
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key_unlimited" {
-  #Required
   compartment_id = var.compartment_ocid
-
-  #Optional
   display_name              = "terraformTest"
   is_unlimited              = true
 }
 
+// Test data load for install keys
 data "oci_management_agent_management_agent_install_keys" "test_management_agent_install_keys" {
-  #Required
   compartment_id = var.compartment_ocid
 }
 
+// Test data load for specific install key
 data "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
-  #Required
   management_agent_install_key_id = oci_management_agent_management_agent_install_key.test_management_agent_install_key.id
 }
 
-data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
-
-}
-
+// Test data load for agent images
 data "oci_management_agent_management_agent_images" "test_management_agent_images" {
-  #Required
   compartment_id = var.compartment_ocid
 }
 
+// Load history agent
 data "oci_management_agent_management_agent_available_histories" "test_management_agent_available_histories" {
-  #Required
   management_agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
-
-  #Optional
   time_availability_status_ended_greater_than      = "2020-01-15T01:01:01.000Z"
   time_availability_status_started_less_than       = "2029-09-28T01:01:01.000Z"
 
 }
 
+// load auto upgrade config for tenancy
 data "oci_management_agent_management_agent_get_auto_upgradable_config" "test_management_agent_get_auto_upgradable_config" {
-  #Required
   compartment_id = var.tenancy_ocid
 }
 
 
+// Create a compute instance, with OCA plugin enabled for management agent
+// If in devtest-ashburn, add cloud-init script to change endpoint of OCA
 resource "oci_core_instance" "instance" {
 
   agent_config {
@@ -139,7 +155,11 @@ resource "oci_core_instance" "instance" {
     }
 
   }
+  metadata = {
+    user_data = local.cloud_init_script
+    #ssh_authorized_keys = file("/Users/rambridg/.oci/macs_test_host1.pub")
 
+  }
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   shape               = var.shape
@@ -157,7 +177,6 @@ resource "oci_core_instance" "instance" {
     subnet_id              = var.subnet
     display_name           = "example_vnic"
     assign_public_ip       = false
-    skip_source_dest_check = false
   }
 
   display_name = "Terraform example Agent host"
@@ -174,6 +193,7 @@ data "oci_core_images" "compute_images" {
 }
 
 
+// Find the management agent created by the compute instance, it will wait for 10 minutes for the agent to appear
 data "oci_management_agent_management_agents" "find_compute_agent" {
   compartment_id   = var.compartment_ocid
   host_id          = oci_core_instance.instance.id
@@ -181,7 +201,7 @@ data "oci_management_agent_management_agents" "find_compute_agent" {
 }
 
 
-
+// Update the OCA management agent, deploy plugin and update freeform tags
 resource "oci_management_agent_management_agent" "test_compute_management_agent" {
   freeform_tags     = { "TestingTag" : "TestingValue" }
   managed_agent_id  = data.oci_management_agent_management_agents.find_compute_agent.management_agents[0].id

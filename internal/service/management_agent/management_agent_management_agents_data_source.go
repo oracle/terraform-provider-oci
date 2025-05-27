@@ -333,6 +333,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 			managementAgent["is_customer_deployed"] = *r.IsCustomerDeployed
 		}
 
+		if r.LatestSupportedVersion != nil {
+			managementAgent["latest_supported_version"] = *r.LatestSupportedVersion
+		}
+
 		if r.LifecycleDetails != nil {
 			managementAgent["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -358,6 +362,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 		}
 
 		managementAgent["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			managementAgent["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			managementAgent["time_created"] = r.TimeCreated.String()

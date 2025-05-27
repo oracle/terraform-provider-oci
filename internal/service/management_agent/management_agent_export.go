@@ -68,6 +68,18 @@ var exportManagementAgentManagementAgentDataSourceHints = &tf_export.TerraformRe
 	},
 }
 
+var exportManagementAgentNamedCredentialHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_management_agent_named_credential",
+	DatasourceClass:        "oci_management_agent_named_credentials",
+	DatasourceItemsAttr:    "named_credential_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "named_credential",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_management_agent.NamedCredentialLifecycleStateActive),
+	},
+}
+
 var managementAgentResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportManagementAgentManagementAgentHints},
@@ -76,6 +88,12 @@ var managementAgentResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_management_agent_management_agent": {
 		{
 			TerraformResourceHints: exportManagementAgentManagementAgentDataSourceHints,
+			DatasourceQueryParams: map[string]string{
+				"management_agent_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportManagementAgentNamedCredentialHints,
 			DatasourceQueryParams: map[string]string{
 				"management_agent_id": "id",
 			},
