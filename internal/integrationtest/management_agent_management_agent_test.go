@@ -174,7 +174,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		t.Errorf("Failed to get agents in compartment %s", err)
 	}
 	if len(managementAgentIds) == 0 {
-		t.Errorf("Failed to find any active agents in compartment %s", compartmentId)
+		t.Errorf("UPDATE Failed to find any active agents in compartment %s", compartmentId)
 	}
 	managementAgentId := managementAgentIds[0]
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)
