@@ -66,10 +66,6 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	//if s.Res.ApplicationType != nil {
-	//	s.D.Set("application_type", *s.Res.ApplicationType)
-	//}
-
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	} else {
@@ -84,6 +80,16 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.Details != nil {
+		detailsArray := []interface{}{}
+		if detailsMap := FleetDetailsToMap(&s.Res.Details); detailsMap != nil {
+			detailsArray = append(detailsArray, detailsMap)
+		}
+		s.D.Set("details", detailsArray)
+	} else {
+		s.D.Set("details", nil)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -92,12 +98,7 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("environment_type", *s.Res.EnvironmentType)
 	}
 
-	//s.D.Set("fleet_type", s.Res.FleetType)
-
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	//s.D.Set("group_type", s.Res.GroupType)
-
 	if s.Res.IsTargetAutoConfirm != nil {
 		s.D.Set("is_target_auto_confirm", *s.Res.IsTargetAutoConfirm)
 	}
@@ -106,11 +107,15 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	//if s.Res.NotificationPreferences != nil {
-	//	s.D.Set("notification_preferences", []interface{}{NotificationPreferencesToMap(s.Res.NotificationPreferences)})
-	//} else {
-	//	s.D.Set("notification_preferences", nil)
-	//}
+	notificationPreferences := []interface{}{}
+	for _, item := range s.Res.NotificationPreferences {
+		notificationPreferences = append(notificationPreferences, NotificationPreferenceToMap(item))
+	}
+	s.D.Set("notification_preferences", notificationPreferences)
+
+	if s.Res.ParentFleetId != nil {
+		s.D.Set("parent_fleet_id", *s.Res.ParentFleetId)
+	}
 
 	s.D.Set("products", s.Res.Products)
 
@@ -118,13 +123,21 @@ func (s *FleetAppsManagementFleetDataSourceCrud) SetData() error {
 		s.D.Set("resource_region", *s.Res.ResourceRegion)
 	}
 
-	//s.D.Set("resource_selection_type", s.Res.ResourceSelectionType)
-	//
-	//if s.Res.RuleSelectionCriteria != nil {
-	//	s.D.Set("rule_selection_criteria", []interface{}{SelectionCriteriaToMap(s.Res.RuleSelectionCriteria)})
-	//} else {
-	//	s.D.Set("rule_selection_criteria", nil)
-	//}
+	if s.Res.ResourceSelection != nil {
+		resourceSelectionArray := []interface{}{}
+		if resourceSelectionMap := ResourceSelectionToMap(&s.Res.ResourceSelection); resourceSelectionMap != nil {
+			resourceSelectionArray = append(resourceSelectionArray, resourceSelectionMap)
+		}
+		s.D.Set("resource_selection", resourceSelectionArray)
+	} else {
+		s.D.Set("resource_selection", nil)
+	}
+
+	resources := []interface{}{}
+	for _, item := range s.Res.Resources {
+		resources = append(resources, AssociatedFleetResourceDetailsToMap(item))
+	}
+	s.D.Set("resources", resources)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

@@ -67,15 +67,15 @@ func (s *FleetAppsManagementPatchDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	//if s.Res.ArtifactDetails != nil {
-	//	artifactDetailsArray := []interface{}{}
-	//	if artifactDetailsMap := ArtifactDetailsToMap(&s.Res.ArtifactDetails); artifactDetailsMap != nil {
-	//		artifactDetailsArray = append(artifactDetailsArray, artifactDetailsMap)
-	//	}
-	//	s.D.Set("artifact_details", artifactDetailsArray)
-	//} else {
-	//	s.D.Set("artifact_details", nil)
-	//}
+	if s.Res.ArtifactDetails != nil {
+		artifactDetailsArray := []interface{}{}
+		if artifactDetailsMap := ArtifactDetailsToMap(&s.Res.ArtifactDetails); artifactDetailsMap != nil {
+			artifactDetailsArray = append(artifactDetailsArray, artifactDetailsMap)
+		}
+		s.D.Set("artifact_details", artifactDetailsArray)
+	} else {
+		s.D.Set("artifact_details", nil)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -85,11 +85,11 @@ func (s *FleetAppsManagementPatchDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
-	//dependentPatches := []interface{}{}
-	//for _, item := range s.Res.DependentPatches {
-	//	dependentPatches = append(dependentPatches, DependentPatchDetailsToMap(item))
-	//}
-	//s.D.Set("dependent_patches", dependentPatches)
+	dependentPatches := []interface{}{}
+	for _, item := range s.Res.DependentPatches {
+		dependentPatches = append(dependentPatches, DependentPatchDetailsToMap(item))
+	}
+	s.D.Set("dependent_patches", dependentPatches)
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
@@ -105,17 +105,17 @@ func (s *FleetAppsManagementPatchDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	//if s.Res.PatchType != nil {
-	//	s.D.Set("patch_type", []interface{}{PatchTypeToMap(s.Res.PatchType)})
-	//} else {
-	//	s.D.Set("patch_type", nil)
-	//}
-	//
-	//if s.Res.Product != nil {
-	//	s.D.Set("product", []interface{}{PatchProductToMap(s.Res.Product)})
-	//} else {
-	//	s.D.Set("product", nil)
-	//}
+	if s.Res.PatchType != nil {
+		s.D.Set("patch_type", []interface{}{PatchTypeToMap(s.Res.PatchType)})
+	} else {
+		s.D.Set("patch_type", nil)
+	}
+
+	if s.Res.Product != nil {
+		s.D.Set("product", []interface{}{PatchProductToMap(s.Res.Product)})
+	} else {
+		s.D.Set("product", nil)
+	}
 
 	if s.Res.ResourceRegion != nil {
 		s.D.Set("resource_region", *s.Res.ResourceRegion)

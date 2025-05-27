@@ -20,6 +20,10 @@ func FleetAppsManagementComplianceRecordsDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
+				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"compliance_state": {
@@ -74,6 +78,11 @@ func FleetAppsManagementComplianceRecordsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"entity_display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -81,6 +90,11 @@ func FleetAppsManagementComplianceRecordsDataSource() *schema.Resource {
 									"entity_id": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
 									},
 									"id": {
 										Type:     schema.TypeString,
@@ -247,6 +261,11 @@ func FleetAppsManagementComplianceRecordsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"target": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -314,6 +333,11 @@ func (s *FleetAppsManagementComplianceRecordsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if complianceState, ok := s.D.GetOkExists("compliance_state"); ok {
@@ -534,6 +558,10 @@ func ComplianceRecordSummaryToMap(obj oci_fleet_apps_management.ComplianceRecord
 
 	result["compliance_state"] = string(obj.ComplianceState)
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.EntityDisplayName != nil {
 		result["entity_display_name"] = string(*obj.EntityDisplayName)
 	}
@@ -541,6 +569,8 @@ func ComplianceRecordSummaryToMap(obj oci_fleet_apps_management.ComplianceRecord
 	if obj.EntityId != nil {
 		result["entity_id"] = string(*obj.EntityId)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -559,6 +589,10 @@ func ComplianceRecordSummaryToMap(obj oci_fleet_apps_management.ComplianceRecord
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.Target != nil {
 		result["target"] = []interface{}{ComplianceDetailTargetToMap(obj.Target)}

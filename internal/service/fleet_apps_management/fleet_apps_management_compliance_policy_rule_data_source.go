@@ -92,23 +92,23 @@ func (s *FleetAppsManagementCompliancePolicyRuleDataSourceCrud) SetData() error 
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	//if s.Res.PatchSelection != nil {
-	//	patchSelectionArray := []interface{}{}
-	//	if patchSelectionMap := PatchSelectionDetailsToMap(&s.Res.PatchSelection); patchSelectionMap != nil {
-	//		patchSelectionArray = append(patchSelectionArray, patchSelectionMap)
-	//	}
-	//	s.D.Set("patch_selection", patchSelectionArray)
-	//} else {
-	//	s.D.Set("patch_selection", nil)
-	//}
+	if s.Res.PatchSelection != nil {
+		patchSelectionArray := []interface{}{}
+		if patchSelectionMap := PatchSelectionDetailsToMap(&s.Res.PatchSelection); patchSelectionMap != nil {
+			patchSelectionArray = append(patchSelectionArray, patchSelectionMap)
+		}
+		s.D.Set("patch_selection", patchSelectionArray)
+	} else {
+		s.D.Set("patch_selection", nil)
+	}
 
-	//s.D.Set("patch_type", s.Res.PatchType)
+	s.D.Set("patch_type_id", s.Res.PatchTypeId)
 
-	//if s.Res.ProductVersion != nil {
-	//	s.D.Set("product_version", []interface{}{ProductVersionDetailsToMap(s.Res.ProductVersion)})
-	//} else {
-	//	s.D.Set("product_version", nil)
-	//}
+	if s.Res.ProductVersion != nil {
+		s.D.Set("product_version", []interface{}{ProductVersionDetailsToMap(s.Res.ProductVersion)})
+	} else {
+		s.D.Set("product_version", nil)
+	}
 
 	s.D.Set("severity", s.Res.Severity)
 

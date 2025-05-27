@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_compliance_policy
 This data source provides details about a specific Compliance Policy resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets information about a CompliancePolicy.
+Gets information about a compliance policy.
 
 ## Example Usage
 
@@ -43,4 +43,5 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the CompliancePolicy was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the CompliancePolicy was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `type` - The type of the Compliance Policy.
 

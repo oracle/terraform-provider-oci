@@ -143,10 +143,10 @@ func (s *FleetAppsManagementCompliancePolicyRulesDataSourceCrud) SetData() error
 	compliancePolicyRule := map[string]interface{}{}
 
 	items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, CompliancePolicyRuleSummaryToMap(item))
-	//}
-	//compliancePolicyRule["items"] = items
+	for _, item := range s.Res.Items {
+		items = append(items, CompliancePolicyRuleSummaryToMap(item))
+	}
+	compliancePolicyRule["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementCompliancePolicyRulesDataSource().Schema["compliance_policy_rule_collection"].Elem.(*schema.Resource).Schema)

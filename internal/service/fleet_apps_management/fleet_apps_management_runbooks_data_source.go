@@ -38,10 +38,6 @@ func FleetAppsManagementRunbooksDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"runbook_relevance": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -114,10 +110,6 @@ func (s *FleetAppsManagementRunbooksDataSourceCrud) Get() error {
 		request.Platform = &tmp
 	}
 
-	//if runbookRelevance, ok := s.D.GetOkExists("runbook_relevance"); ok {
-	//	request.RunbookRelevance = oci_fleet_apps_management.RunbookRunbookRelevanceEnum(runbookRelevance.(string))
-	//}
-
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_fleet_apps_management.RunbookLifecycleStateEnum(state.(string))
 	}
@@ -158,16 +150,16 @@ func (s *FleetAppsManagementRunbooksDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 	runbook := map[string]interface{}{}
 
-	//items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, RunbookSummaryToMap(item))
-	//}
-	//runbook["items"] = items
+	items := []interface{}{}
+	for _, item := range s.Res.Items {
+		items = append(items, RunbookSummaryToMap(item))
+	}
+	runbook["items"] = items
 
-	//if f, fOk := s.D.GetOkExists("filter"); fOk {
-	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementRunbooksDataSource().Schema["runbook_collection"].Elem.(*schema.Resource).Schema)
-	//	runbook["items"] = items
-	//}
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementRunbooksDataSource().Schema["runbook_collection"].Elem.(*schema.Resource).Schema)
+		runbook["items"] = items
+	}
 
 	resources = append(resources, runbook)
 	if err := s.D.Set("runbook_collection", resources); err != nil {

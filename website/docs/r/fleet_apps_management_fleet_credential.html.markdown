@@ -18,7 +18,6 @@ Add credentials to a fleet in Fleet Application Management.
 ```hcl
 resource "oci_fleet_apps_management_fleet_credential" "test_fleet_credential" {
 	#Required
-	compartment_id = var.compartment_id
 	display_name = var.fleet_credential_display_name
 	entity_specifics {
 		#Required
@@ -66,7 +65,6 @@ resource "oci_fleet_apps_management_fleet_credential" "test_fleet_credential" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) Tenancy OCID
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `entity_specifics` - (Required) (Updatable) Credential specific Details.
 	* `credential_level` - (Required) (Updatable) At what level the credential is provided?
@@ -101,7 +99,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `entity_specifics` - Credential specific Details.
 	* `credential_level` - At what level the credential is provided?

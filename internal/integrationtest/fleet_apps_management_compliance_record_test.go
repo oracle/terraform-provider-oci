@@ -18,11 +18,12 @@ import (
 
 var (
 	FleetAppsManagementComplianceRecordDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"compliance_state": acctest.Representation{RepType: acctest.Optional, Create: `NON_COMPLIANT`},
-		"entity_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.test_active_fleet}`},
-		"product_name":     acctest.Representation{RepType: acctest.Optional, Create: `Oracle Linux`},
-		"product_stack":    acctest.Representation{RepType: acctest.Optional, Create: `Oracle Linux`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"compliance_state":          acctest.Representation{RepType: acctest.Optional, Create: `NON_COMPLIANT`},
+		"entity_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.test_active_fleet}`},
+		"product_name":              acctest.Representation{RepType: acctest.Optional, Create: `Oracle Linux`},
+		"product_stack":             acctest.Representation{RepType: acctest.Optional, Create: `Oracle Linux`},
 	}
 
 	FleetAppsManagementComplianceRecordResourceConfig = ""
@@ -35,7 +36,7 @@ func TestFleetAppsManagementComplianceRecordResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	// Fleet in ACTIVE state. Fleets require a confirmation action call not supported by Terraform to go active.
@@ -55,6 +56,7 @@ func TestFleetAppsManagementComplianceRecordResource_basic(t *testing.T) {
 				activeFleetStr + compartmentIdVariableStr + FleetAppsManagementComplianceRecordResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "compliance_state", "NON_COMPLIANT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
 				resource.TestCheckResourceAttr(datasourceName, "product_name", "Oracle Linux"),

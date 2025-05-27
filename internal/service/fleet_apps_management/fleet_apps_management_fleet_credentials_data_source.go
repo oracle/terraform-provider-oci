@@ -89,10 +89,10 @@ func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) VoidState() {
 func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) Get() error {
 	request := oci_fleet_apps_management.ListFleetCredentialsRequest{}
 
-	//if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-	//	tmp := compartmentId.(string)
-	//	request.CompartmentId = &tmp
-	//}
+	// if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	// 	tmp := compartmentId.(string)
+	// 	request.CompartmentId = &tmp
+	// }
 
 	if credentialLevel, ok := s.D.GetOkExists("credential_level"); ok {
 		request.CredentialLevel = oci_fleet_apps_management.CredentialEntitySpecificDetailsCredentialLevelEnum(credentialLevel.(string))
@@ -160,10 +160,10 @@ func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) SetData() error {
 	fleetCredential := map[string]interface{}{}
 
 	items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, FleetCredentialSummaryToMap(item))
-	//}
-	//fleetCredential["items"] = items
+	for _, item := range s.Res.Items {
+		items = append(items, FleetCredentialSummaryToMap(item))
+	}
+	fleetCredential["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementFleetCredentialsDataSource().Schema["fleet_credential_collection"].Elem.(*schema.Resource).Schema)

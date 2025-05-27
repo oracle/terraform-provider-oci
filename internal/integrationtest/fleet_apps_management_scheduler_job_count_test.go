@@ -18,7 +18,8 @@ import (
 
 var (
 	FleetAppsManagementSchedulerJobCountDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	FleetAppsManagementSchedulerJobCountResourceConfig = ""
@@ -42,10 +43,11 @@ func TestFleetAppsManagementSchedulerJobCountResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_scheduler_job_counts", "test_scheduler_job_counts", acctest.Required, acctest.Create, FleetAppsManagementSchedulerJobCountDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_scheduler_job_counts", "test_scheduler_job_counts", acctest.Optional, acctest.Create, FleetAppsManagementSchedulerJobCountDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetAppsManagementSchedulerJobCountResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "scheduler_job_aggregation_collection.#"),
 				resource.TestMatchResourceAttr(datasourceName, "scheduler_job_aggregation_collection.0.items.#",

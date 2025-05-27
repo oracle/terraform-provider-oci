@@ -30,6 +30,10 @@ func FleetAppsManagementTaskRecordsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"operation": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"platform": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -96,6 +100,11 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
+	if operation, ok := s.D.GetOkExists("operation"); ok {
+		tmp := operation.(string)
+		request.Operation = &tmp
+	}
+
 	if platform, ok := s.D.GetOkExists("platform"); ok {
 		tmp := platform.(string)
 		request.Platform = &tmp
@@ -132,30 +141,98 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 	return nil
 }
 
+// func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
+// 	request := oci_fleet_apps_management.ListTaskRecordsRequest{}
+
+// 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+// 		tmp := compartmentId.(string)
+// 		request.CompartmentId = &tmp
+// 	}
+
+// 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+// 		tmp := displayName.(string)
+// 		request.DisplayName = &tmp
+// 	}
+
+// 	if id, ok := s.D.GetOkExists("id"); ok {
+// 		tmp := id.(string)
+// 		request.Id = &tmp
+// 	}
+
+// 	if operation, ok := s.D.GetOkExists("operation"); ok {
+// 		tmp := operation.(string)
+// 		request.Operation = &tmp
+// 	}
+
+// 	if platform, ok := s.D.GetOkExists("platform"); ok {
+// 		tmp := platform.(string)
+// 		request.Platform = &tmp
+// 	}
+
+// 	if state, ok := s.D.GetOkExists("state"); ok {
+// 		request.LifecycleState = oci_fleet_apps_management.TaskRecordLifecycleStateEnum(state.(string))
+// 	}
+
+// 	if type_, ok := s.D.GetOkExists("type"); ok {
+// 		request.Type = oci_fleet_apps_management.TaskRecordTypeEnum(type_.(string))
+// 	}
+
+// 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
+
+// 	allItems := []oci_fleet_apps_management.TaskRecordSummary{}
+// 	response, err := s.Client.ListTaskRecords(context.Background(), request)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	if response.Items != nil {
+// 		allItems = append(allItems, response.Items...)
+// 	}
+// 	request.Page = s.Res.OpcNextPage
+
+// 	for request.Page != nil && *request.Page != "" {
+// 		listResponse, err := s.Client.ListTaskRecords(context.Background(), request)
+// 		if err != nil {
+// 			return err
+// 		}
+
+// 		if listResponse.Items != nil {
+// 			allItems = append(allItems, listResponse.Items...)
+// 		}
+
+// 		request.Page = listResponse.OpcNextPage
+// 	}
+
+// 	s.Res = &response
+// 	s.Res.Items = allItems
+
+// 	return nil
+// }
+
 func (s *FleetAppsManagementTaskRecordsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	//s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementTaskRecordsDataSource-", FleetAppsManagementTaskRecordsDataSource(), s.D))
-	//resources := []map[string]interface{}{}
-	//taskRecord := map[string]interface{}{}
+	s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementTaskRecordsDataSource-", FleetAppsManagementTaskRecordsDataSource(), s.D))
+	resources := []map[string]interface{}{}
+	taskRecord := map[string]interface{}{}
 
-	//items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, TaskRecordSummaryToMap(item))
-	//}
-	//taskRecord["items"] = items
+	items := []interface{}{}
+	for _, item := range s.Res.Items {
+		items = append(items, TaskRecordSummaryToMap(item))
+	}
+	taskRecord["items"] = items
 
-	//if f, fOk := s.D.GetOkExists("filter"); fOk {
-	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementTaskRecordsDataSource().Schema["task_record_collection"].Elem.(*schema.Resource).Schema)
-	//	taskRecord["items"] = items
-	//}
-	//
-	//resources = append(resources, taskRecord)
-	//if err := s.D.Set("task_record_collection", resources); err != nil {
-	//	return err
-	//}
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementTaskRecordsDataSource().Schema["task_record_collection"].Elem.(*schema.Resource).Schema)
+		taskRecord["items"] = items
+	}
+
+	resources = append(resources, taskRecord)
+	if err := s.D.Set("task_record_collection", resources); err != nil {
+		return err
+	}
 
 	return nil
 }

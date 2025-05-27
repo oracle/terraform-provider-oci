@@ -18,6 +18,10 @@ func FleetAppsManagementAnnouncementsDataSource() *schema.Resource {
 		Read: readFleetAppsManagementAnnouncements,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -147,6 +151,11 @@ func (s *FleetAppsManagementAnnouncementsDataSourceCrud) VoidState() {
 
 func (s *FleetAppsManagementAnnouncementsDataSourceCrud) Get() error {
 	request := oci_fleet_apps_management.ListAnnouncementsRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)

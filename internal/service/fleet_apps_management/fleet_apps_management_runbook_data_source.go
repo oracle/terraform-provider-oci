@@ -66,12 +66,6 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	//if s.Res.Associations != nil {
-	//	s.D.Set("associations", []interface{}{AssociationsToMap(s.Res.Associations)})
-	//} else {
-	//	s.D.Set("associations", nil)
-	//}
-
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	} else {
@@ -96,8 +90,20 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HasDraftVersion != nil {
+		s.D.Set("has_draft_version", *s.Res.HasDraftVersion)
+	}
+
 	if s.Res.IsDefault != nil {
 		s.D.Set("is_default", *s.Res.IsDefault)
+	}
+
+	if s.Res.IsSudoAccessNeeded != nil {
+		s.D.Set("is_sudo_access_needed", *s.Res.IsSudoAccessNeeded)
+	}
+
+	if s.Res.LatestVersion != nil {
+		s.D.Set("latest_version", *s.Res.LatestVersion)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -118,7 +124,11 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) SetData() error {
 		s.D.Set("resource_region", *s.Res.ResourceRegion)
 	}
 
-	//s.D.Set("runbook_relevance", s.Res.RunbookRelevance)
+	if s.Res.RunbookVersion != nil {
+		s.D.Set("runbook_version", []interface{}{VersionToMap(s.Res.RunbookVersion)})
+	} else {
+		s.D.Set("runbook_version", nil)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

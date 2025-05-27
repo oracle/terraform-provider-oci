@@ -5,8 +5,10 @@ package fleet_apps_management
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -46,7 +48,19 @@ func FleetAppsManagementSchedulerDefinitionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"runbook_version_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_scheduled_greater_than_or_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_scheduled_less_than": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -124,8 +138,29 @@ func (s *FleetAppsManagementSchedulerDefinitionsDataSourceCrud) Get() error {
 		request.RunbookId = &tmp
 	}
 
+	if runbookVersionName, ok := s.D.GetOkExists("runbook_version_name"); ok {
+		tmp := runbookVersionName.(string)
+		request.RunbookVersionName = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_fleet_apps_management.SchedulerDefinitionLifecycleStateEnum(state.(string))
+	}
+
+	if timeScheduledGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_scheduled_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeScheduledGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeScheduledGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeScheduledLessThan, ok := s.D.GetOkExists("time_scheduled_less_than"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeScheduledLessThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeScheduledLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
@@ -156,25 +191,25 @@ func (s *FleetAppsManagementSchedulerDefinitionsDataSourceCrud) SetData() error 
 		return nil
 	}
 
-	//s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementSchedulerDefinitionsDataSource-", FleetAppsManagementSchedulerDefinitionsDataSource(), s.D))
-	//resources := []map[string]interface{}{}
-	//schedulerDefinition := map[string]interface{}{}
+	s.D.SetId(tfresource.GenerateDataSourceHashID("FleetAppsManagementSchedulerDefinitionsDataSource-", FleetAppsManagementSchedulerDefinitionsDataSource(), s.D))
+	resources := []map[string]interface{}{}
+	schedulerDefinition := map[string]interface{}{}
 
-	//items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, SchedulerDefinitionSummaryToMap(item))
-	//}
-	//schedulerDefinition["items"] = items
+	items := []interface{}{}
+	for _, item := range s.Res.Items {
+		items = append(items, SchedulerDefinitionSummaryToMap(item))
+	}
+	schedulerDefinition["items"] = items
 
-	//if f, fOk := s.D.GetOkExists("filter"); fOk {
-	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementSchedulerDefinitionsDataSource().Schema["scheduler_definition_collection"].Elem.(*schema.Resource).Schema)
-	//	schedulerDefinition["items"] = items
-	//}
-	//
-	//resources = append(resources, schedulerDefinition)
-	//if err := s.D.Set("scheduler_definition_collection", resources); err != nil {
-	//	return err
-	//}
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementSchedulerDefinitionsDataSource().Schema["scheduler_definition_collection"].Elem.(*schema.Resource).Schema)
+		schedulerDefinition["items"] = items
+	}
+
+	resources = append(resources, schedulerDefinition)
+	if err := s.D.Set("scheduler_definition_collection", resources); err != nil {
+		return err
+	}
 
 	return nil
 }

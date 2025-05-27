@@ -80,11 +80,11 @@ func (s *FleetAppsManagementTaskRecordDataSourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
-	//if s.Res.Details != nil {
-	//	s.D.Set("details", []interface{}{DetailsToMap(s.Res.Details)})
-	//} else {
-	//	s.D.Set("details", nil)
-	//}
+	if s.Res.Details != nil {
+		s.D.Set("details", []interface{}{DetailsToMap(s.Res.Details)})
+	} else {
+		s.D.Set("details", nil)
+	}
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)

@@ -32,7 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `config_category_details` - Config Category Details.
 	* `compatible_products` - Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -42,6 +42,8 @@ The following attributes are exported:
 	* `credentials` - OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
+	* `instance_id` - The OCID of the resource.
+	* `instance_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `patch_types` - Patch Types associated with this Product. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.

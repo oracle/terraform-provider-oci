@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_credential
 This data source provides details about a specific Fleet Credential resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets a FleetCredential by identifier.
+Gets a fleet credential by identifier.
 
 ## Example Usage
 
@@ -34,7 +34,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `entity_specifics` - Credential specific Details.
 	* `credential_level` - At what level the credential is provided?

@@ -18,10 +18,6 @@ func FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSource() *schema.R
 		Read: readFleetAppsManagementSchedulerDefinitionScheduledFleets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -50,19 +46,9 @@ func FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSource() *schema.R
 									// Optional
 
 									// Computed
-									"action_group_types": {
-										Type:     schema.TypeList,
+									"compartment_id": {
+										Type:     schema.TypeString,
 										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
-									"application_types": {
-										Type:     schema.TypeList,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
 									},
 									"count_of_affected_resources": {
 										Type:     schema.TypeInt,
@@ -80,14 +66,17 @@ func FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSource() *schema.R
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"products": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"system_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
 										Elem:     schema.TypeString,
-									},
-									"tenancy_id": {
-										Type:     schema.TypeString,
-										Computed: true,
 									},
 								},
 							},
@@ -119,11 +108,6 @@ func (s *FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSourceCrud) Vo
 
 func (s *FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSourceCrud) Get() error {
 	request := oci_fleet_apps_management.ListScheduledFleetsRequest{}
-	//
-	//if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-	//	tmp := compartmentId.(string)
-	//	request.CompartmentId = &tmp
-	//}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
@@ -189,9 +173,9 @@ func (s *FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSourceCrud) Se
 func ScheduledFleetSummaryToMap(obj oci_fleet_apps_management.ScheduledFleetSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	//result["action_group_types"] = obj.ActionGroupTypes
-	//
-	//result["application_types"] = obj.ApplicationTypes
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
 
 	if obj.CountOfAffectedResources != nil {
 		result["count_of_affected_resources"] = int(*obj.CountOfAffectedResources)
@@ -209,13 +193,11 @@ func ScheduledFleetSummaryToMap(obj oci_fleet_apps_management.ScheduledFleetSumm
 		result["id"] = string(*obj.Id)
 	}
 
+	result["products"] = obj.Products
+
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
-
-	//if obj.TenancyId != nil {
-	//	result["tenancy_id"] = string(*obj.TenancyId)
-	//}
 
 	return result
 }

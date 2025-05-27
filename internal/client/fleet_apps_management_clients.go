@@ -12,8 +12,11 @@ import (
 func init() {
 	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementClient})
 	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementAdminClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementAdminClient})
+	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementCatalogClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementCatalogClient})
+	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementWorkRequestClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementWorkRequestClient})
 	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementMaintenanceWindowClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementMaintenanceWindowClient})
 	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementOperationsClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementOperationsClient})
+	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementProvisionClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementProvisionClient})
 	RegisterOracleClient("oci_fleet_apps_management.FleetAppsManagementRunbooksClient", &OracleClient{InitClientFn: initFleetappsmanagementFleetAppsManagementRunbooksClient})
 }
 
@@ -57,6 +60,46 @@ func (m *OracleClients) FleetAppsManagementAdminClient() *oci_fleet_apps_managem
 	return m.GetClient("oci_fleet_apps_management.FleetAppsManagementAdminClient").(*oci_fleet_apps_management.FleetAppsManagementAdminClient)
 }
 
+func initFleetappsmanagementFleetAppsManagementCatalogClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_fleet_apps_management.NewFleetAppsManagementCatalogClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) FleetAppsManagementCatalogClient() *oci_fleet_apps_management.FleetAppsManagementCatalogClient {
+	return m.GetClient("oci_fleet_apps_management.FleetAppsManagementCatalogClient").(*oci_fleet_apps_management.FleetAppsManagementCatalogClient)
+}
+
+func initFleetappsmanagementFleetAppsManagementWorkRequestClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_fleet_apps_management.NewFleetAppsManagementWorkRequestClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) FleetAppsManagementFleetAppsManagementWorkRequestClient() *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient {
+	return m.GetClient("oci_fleet_apps_management.FleetAppsManagementWorkRequestClient").(*oci_fleet_apps_management.FleetAppsManagementWorkRequestClient)
+}
+
 func initFleetappsmanagementFleetAppsManagementMaintenanceWindowClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_fleet_apps_management.NewFleetAppsManagementMaintenanceWindowClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -95,6 +138,26 @@ func initFleetappsmanagementFleetAppsManagementOperationsClient(configProvider o
 
 func (m *OracleClients) FleetAppsManagementOperationsClient() *oci_fleet_apps_management.FleetAppsManagementOperationsClient {
 	return m.GetClient("oci_fleet_apps_management.FleetAppsManagementOperationsClient").(*oci_fleet_apps_management.FleetAppsManagementOperationsClient)
+}
+
+func initFleetappsmanagementFleetAppsManagementProvisionClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_fleet_apps_management.NewFleetAppsManagementProvisionClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) FleetAppsManagementProvisionClient() *oci_fleet_apps_management.FleetAppsManagementProvisionClient {
+	return m.GetClient("oci_fleet_apps_management.FleetAppsManagementProvisionClient").(*oci_fleet_apps_management.FleetAppsManagementProvisionClient)
 }
 
 func initFleetappsmanagementFleetAppsManagementRunbooksClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

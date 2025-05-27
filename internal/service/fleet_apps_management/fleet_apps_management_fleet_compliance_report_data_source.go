@@ -30,6 +30,10 @@ func FleetAppsManagementFleetComplianceReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"percent_compliant": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"resources": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -241,6 +245,10 @@ func (s *FleetAppsManagementFleetComplianceReportDataSourceCrud) SetData() error
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("compliance_state", s.Res.ComplianceState)
+
+	if s.Res.PercentCompliant != nil {
+		s.D.Set("percent_compliant", *s.Res.PercentCompliant)
+	}
 
 	resources := []interface{}{}
 	for _, item := range s.Res.Resources {

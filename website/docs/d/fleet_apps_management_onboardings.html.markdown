@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_fleet_apps_management_onboardings
 This data source provides the list of Onboardings in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of onboarding information for the Tenancy.
+Returns a list of all the onboardings in the specified root compartment (tenancy).
+The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 
 
 ## Example Usage
@@ -29,8 +30,8 @@ data "oci_fleet_apps_management_onboardings" "test_onboardings" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
-* `id` - (Optional) unique onboarding identifier
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
+* `id` - (Optional) Unique identifier or OCID for listing a single onboarding by id. Either compartmentId or id must be provided. 
 * `state` - (Optional) A filter to return only resources whose lifecycleState matches the given lifecycleState.
 
 
@@ -52,7 +53,9 @@ The following attributes are exported:
 		* `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 		* `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 	* `compartment_id` - Tenancy OCID
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `discovery_frequency` - Provide discovery frequency.
+	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 	* `id` - The unique id of the resource.
 	* `is_cost_tracking_tag_enabled` - A value determining if the cost tracking tag is enabled or not. Allow Fleet Application Management to tag resources with cost tracking tag using "Oracle$FAMS-Tags.FAMSManaged" tag. 
 	* `is_fams_tag_enabled` - A value determining if the Fleet Application Management tagging is enabled or not. Allow Fleet Application Management to tag resources with fleet name using "Oracle$FAMS-Tags.FleetName" tag. 

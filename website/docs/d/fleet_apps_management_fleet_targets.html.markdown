@@ -50,7 +50,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of fleetTargets.
-	* `compartment_id` - Tenancy OCID
+	* `compartment_id` - compartment OCID
 	* `compliance_state` - The last known compliance state of the target.
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `id` - The OCID of the resource.

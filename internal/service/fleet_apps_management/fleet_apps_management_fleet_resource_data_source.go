@@ -75,10 +75,6 @@ func (s *FleetAppsManagementFleetResourceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	//if s.Res.ApplicationType != nil {
-	//	s.D.Set("application_type", *s.Res.ApplicationType)
-	//}
-
 	if s.Res.Compartment != nil {
 		s.D.Set("compartment", *s.Res.Compartment)
 	}
@@ -99,6 +95,10 @@ func (s *FleetAppsManagementFleetResourceDataSourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.PercentCompliant != nil {
+		s.D.Set("percent_compliant", *s.Res.PercentCompliant)
 	}
 
 	if s.Res.Product != nil {

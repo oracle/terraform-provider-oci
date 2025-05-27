@@ -65,6 +65,10 @@ func FleetAppsManagementCompliancePolicyDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -148,6 +152,8 @@ func (s *FleetAppsManagementCompliancePolicyDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	s.D.Set("type", s.Res.Type)
 
 	return nil
 }

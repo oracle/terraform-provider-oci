@@ -109,9 +109,9 @@ func (s *FleetAppsManagementFleetsDataSourceCrud) Get() error {
 		request.EnvironmentType = &tmp
 	}
 
-	//if fleetType, ok := s.D.GetOkExists("fleet_type"); ok {
-	//	request.FleetType = oci_fleet_apps_management.FleetFleetTypeEnum(fleetType.(string))
-	//}
+	if fleetType, ok := s.D.GetOkExists("fleet_type"); ok {
+		request.FleetType = oci_fleet_apps_management.FleetDetailsFleetTypeEnum(fleetType.(string))
+	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
 		tmp := id.(string)
@@ -160,10 +160,10 @@ func (s *FleetAppsManagementFleetsDataSourceCrud) SetData() error {
 	fleet := map[string]interface{}{}
 
 	items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, FleetSummaryToMap(item))
-	//}
-	//fleet["items"] = items
+	for _, item := range s.Res.Items {
+		items = append(items, FleetSummaryToMap(item))
+	}
+	fleet["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementFleetsDataSource().Schema["fleet_collection"].Elem.(*schema.Resource).Schema)

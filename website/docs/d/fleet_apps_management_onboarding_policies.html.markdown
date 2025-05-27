@@ -17,6 +17,8 @@ Returns a list of onboarding policy information for Fleet Application Management
 
 ```hcl
 data "oci_fleet_apps_management_onboarding_policies" "test_onboarding_policies" {
+	#Required
+	compartment_id = var.compartment_id
 }
 ```
 
@@ -24,6 +26,7 @@ data "oci_fleet_apps_management_onboarding_policies" "test_onboarding_policies" 
 
 The following arguments are supported:
 
+* `compartment_id` - (Required) The ID of the compartment in which to list resources.
 
 
 ## Attributes Reference

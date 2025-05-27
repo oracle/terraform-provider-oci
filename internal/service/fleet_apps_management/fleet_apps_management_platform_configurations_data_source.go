@@ -22,6 +22,10 @@ func FleetAppsManagementPlatformConfigurationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"config_category": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -35,6 +39,10 @@ func FleetAppsManagementPlatformConfigurationsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -82,6 +90,11 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
+	}
+
 	if configCategory, ok := s.D.GetOkExists("config_category"); ok {
 		request.ConfigCategory = oci_fleet_apps_management.ConfigCategoryDetailsConfigCategoryEnum(configCategory.(string))
 	}
@@ -98,6 +111,10 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_fleet_apps_management.PlatformConfigurationLifecycleStateEnum(state.(string))
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_fleet_apps_management.PlatformConfigurationTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
@@ -132,16 +149,18 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) SetData() erro
 	resources := []map[string]interface{}{}
 	platformConfiguration := map[string]interface{}{}
 
-	//items := []interface{}{}
-	//for _, item := range s.Res.Items {
-	//	items = append(items, PlatformConfigurationSummaryToMap(item))
-	//}
-	//platformConfiguration["items"] = items
+	items := []interface{}{}
+	for _, item := range s.Res.Items {
+		flattened := PlatformConfigurationSummaryToMap(item)
+		// items = append(items, PlatformConfigurationSummaryToMap(item))
+		items = append(items, flattened)
+	}
+	platformConfiguration["items"] = items
 
-	//if f, fOk := s.D.GetOkExists("filter"); fOk {
-	//	items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementPlatformConfigurationsDataSource().Schema["platform_configuration_collection"].Elem.(*schema.Resource).Schema)
-	//	platformConfiguration["items"] = items
-	//}
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, FleetAppsManagementPlatformConfigurationsDataSource().Schema["platform_configuration_collection"].Elem.(*schema.Resource).Schema)
+		platformConfiguration["items"] = items
+	}
 
 	resources = append(resources, platformConfiguration)
 	if err := s.D.Set("platform_configuration_collection", resources); err != nil {

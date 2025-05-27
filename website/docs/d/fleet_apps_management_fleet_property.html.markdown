@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_property
 This data source provides details about a specific Fleet Property resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets a Fleet Property by identifier.
+Gets a fleet property by identifier.
 
 ## Example Usage
 
@@ -27,7 +27,7 @@ data "oci_fleet_apps_management_fleet_property" "test_fleet_property" {
 The following arguments are supported:
 
 * `fleet_id` - (Required) Unique Fleet identifier.
-* `fleet_property_id` - (Required) unique FleetProperty identifier.
+* `fleet_property_id` - (Required) Unique fleetProperty identifier.
 
 
 ## Attributes Reference
@@ -35,7 +35,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `allowed_values` - Values of the property (must be a single value if selectionType = 'SINGLE_CHOICE').
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `id` - The unique id of the resource.
 * `property_id` - OCID referring to global level metadata property.

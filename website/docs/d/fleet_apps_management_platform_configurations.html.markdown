@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_fleet_apps_management_platform_configurations
 This data source provides the list of Platform Configurations in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of PlatformConfiguration for Tenancy.
+Returns a list of all the Platform Configurations in the specified compartment.
+The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 
 
 ## Example Usage
@@ -20,10 +21,12 @@ data "oci_fleet_apps_management_platform_configurations" "test_platform_configur
 
 	#Optional
 	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.platform_configuration_compartment_id_in_subtree
 	config_category = var.platform_configuration_config_category
 	display_name = var.platform_configuration_display_name
 	id = var.platform_configuration_id
 	state = var.platform_configuration_state
+	type = var.platform_configuration_type
 }
 ```
 
@@ -31,11 +34,13 @@ data "oci_fleet_apps_management_platform_configurations" "test_platform_configur
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
+* `compartment_id_in_subtree` - (Optional) If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel. 
 * `config_category` - (Optional) Config Category
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `id` - (Optional) unique PlatformConfiguration identifier
+* `id` - (Optional) Unique identifier or OCID for listing a single Platform Configuration by id. Either compartmentId or id must be provided. 
 * `state` - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.
+* `type` - (Optional) A filter to return Platform Configurations whose type matches the given type.
 
 
 ## Attributes Reference
@@ -48,7 +53,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `config_category_details` - Config Category Details.
 	* `compatible_products` - Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -58,6 +63,8 @@ The following attributes are exported:
 	* `credentials` - OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
+	* `instance_id` - The OCID of the resource.
+	* `instance_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `patch_types` - Patch Types associated with this Product. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
