@@ -155,7 +155,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ID() string {
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_network_firewall.LifecycleStateCreating),
-		string(oci_network_firewall.LifecycleStateAttaching),
+		//string(oci_network_firewall.LifecycleStateAttaching),
 	}
 }
 
@@ -169,7 +169,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CreatedTarget() []str
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_network_firewall.LifecycleStateDeleting),
-		string(oci_network_firewall.LifecycleStateDetaching),
+		//string(oci_network_firewall.LifecycleStateDetaching),
 	}
 }
 
