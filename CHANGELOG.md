@@ -1,4 +1,4 @@
-## 7.3.0 (Unreleased)
+## 7.3.0 (May 28, 2025)
 
 ### Added
 - Increase devops deployment default timeouts to two hours
