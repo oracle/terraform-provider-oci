@@ -44,7 +44,7 @@ The following attributes are exported:
 	* `renewal_interval` - A property specifying how often, in days, a certificate should be renewed. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `rule_type` - The type of rule.
 * `compartment_id` - The OCID of the compartment where you want to create the certificate.
-* `config_type` - The origin of the certificate.
+* `config_type` - The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA or ISSUED_BY_INTERNAL_CA.
 * `current_version` - The details of the certificate version. This object does not contain the certificate contents.
 	* `certificate_id` - The OCID of the certificate.
 	* `issuer_ca_version_number` - The version number of the issuing certificate authority (CA).

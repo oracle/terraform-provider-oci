@@ -40,6 +40,7 @@ The following attributes are exported:
 
 * `items` - A list of certificate authority version summary objects.
 	* `certificate_authority_id` - The OCID of the CA.
+    * `csr_pem` - The certificate signing request (in PEM format).
 	* `issuer_ca_version_number` - The version number of the issuing CA.
 	* `revocation_status` - The current revocation status of the entity.
 		* `revocation_reason` - The reason the certificate or certificate authority (CA) was revoked.

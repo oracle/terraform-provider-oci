@@ -23,6 +23,11 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
 	certificate_authority_config {
 		#Required
 		config_type = var.certificate_authority_certificate_authority_config_config_type
+
+		#Optional
+		certificate_pem = var.certificate_authority_certificate_authority_config_certificate_pem
+		issuer_certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
+		signing_algorithm = var.certificate_authority_certificate_authority_config_signing_algorithm
 		subject {
 
 			#Optional
@@ -42,12 +47,8 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
 			street = var.certificate_authority_certificate_authority_config_subject_street
 			surname = var.certificate_authority_certificate_authority_config_subject_surname
 			title = var.certificate_authority_certificate_authority_config_subject_title
-			user_id = oci_identity_user.test_user.id
+			user_id = var.certificate_authority_certificate_authority_config_subject_user_id
 		}
-
-		#Optional
-		issuer_certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
-		signing_algorithm = var.certificate_authority_certificate_authority_config_signing_algorithm
 		validity {
 
 			#Optional
@@ -57,7 +58,6 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
 		version_name = var.certificate_authority_certificate_authority_config_version_name
 	}
 	compartment_id = var.compartment_id
-	kms_key_id = oci_kms_key.test_key.id
 	name = var.certificate_authority_name
 
 	#Optional
@@ -68,6 +68,23 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
 		#Optional
 		certificate_authority_max_validity_duration = var.certificate_authority_certificate_authority_rules_certificate_authority_max_validity_duration
 		leaf_certificate_max_validity_duration = var.certificate_authority_certificate_authority_rules_leaf_certificate_max_validity_duration
+		name_constraint {
+
+			#Optional
+			excluded_subtree {
+
+				#Optional
+				type = var.certificate_authority_certificate_authority_rules_name_constraint_excluded_subtree_type
+				value = var.certificate_authority_certificate_authority_rules_name_constraint_excluded_subtree_value
+			}
+			permitted_subtree {
+
+				#Optional
+				type = var.certificate_authority_certificate_authority_rules_name_constraint_permitted_subtree_type
+				value = var.certificate_authority_certificate_authority_rules_name_constraint_permitted_subtree_value
+			}
+		}
+		path_length_constraint = var.certificate_authority_certificate_authority_rules_path_length_constraint
 	}
 	certificate_revocation_list_details {
 		#Required
@@ -85,7 +102,9 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
 	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.certificate_authority_description
+	external_key_description = var.certificate_authority_external_key_description
 	freeform_tags = {"bar-key"= "value"}
+	kms_key_id = oci_kms_key.test_key.id
 }
 ```
 
@@ -94,35 +113,44 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
 The following arguments are supported:
 
 * `certificate_authority_config` - (Required) (Updatable) The configuration details for creating a certificate authority (CA).
+	* `certificate_pem` - (Required when config_type=ROOT_CA_MANAGED_EXTERNALLY) (Updatable) The externally signed certificate (in PEM format) for the imported root CA.
 	* `config_type` - (Required) (Updatable) The origin of the CA.
-	* `issuer_certificate_authority_id` - (Required when config_type=SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) The OCID of the private CA.
-	* `signing_algorithm` - (Optional) The algorithm used to sign public key certificates that the CA issues.
-	* `subject` - (Required) The subject of the certificate, which is a distinguished name that identifies the entity that owns the public key in the certificate. 
-		* `common_name` - (Required when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Common name or fully-qualified domain name (RDN CN).
-		* `country` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Country name (RDN C).
-		* `distinguished_name_qualifier` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Distinguished name qualifier(RDN DNQ).
-		* `domain_component` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Domain component (RDN DC).
-		* `generation_qualifier` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Personal generational qualifier (for example, Sr., Jr. 3rd, or IV).
-		* `given_name` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Personal given name (RDN G or GN).
-		* `initials` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Personal initials.
-		* `locality_name` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Locality (RDN L).
-		* `organization` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Organization (RDN O).
-		* `organizational_unit` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Organizational unit (RDN OU).
-		* `pseudonym` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Subject pseudonym.
-		* `serial_number` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Unique subject identifier, which is not the same as the certificate serial number (RDN SERIALNUMBER).
-		* `state_or_province_name` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) State or province name (RDN ST or S).
-		* `street` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Street address (RDN STREET).
-		* `surname` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Personal surname (RDN SN).
-		* `title` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) Title (RDN T or TITLE).
-		* `user_id` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) User ID (RDN UID).
-	* `validity` - (Optional) (Updatable) An object that describes a period of time during which an entity is valid. If this is not provided when you create a certificate, the validity of the issuing CA is used. 
+	* `issuer_certificate_authority_id` - (Required when config_type=SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) The OCID of the private, external issuer CA.
+	* `signing_algorithm` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) The algorithm used to sign public key certificates that the CA issues.
+	* `subject` - (Required when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) The subject of the certificate, which is a distinguished name that identifies the entity that owns the public key in the certificate. 
+		* `common_name` - (Required when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Common name or fully-qualified domain name (RDN CN).
+		* `country` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Country name (RDN C).
+		* `distinguished_name_qualifier` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Distinguished name qualifier(RDN DNQ).
+		* `domain_component` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Domain component (RDN DC).
+		* `generation_qualifier` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Personal generational qualifier (for example, Sr., Jr. 3rd, or IV).
+		* `given_name` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Personal given name (RDN G or GN).
+		* `initials` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Personal initials.
+		* `locality_name` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Locality (RDN L).
+		* `organization` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Organization (RDN O).
+		* `organizational_unit` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Organizational unit (RDN OU).
+		* `pseudonym` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Subject pseudonym.
+		* `serial_number` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Unique subject identifier, which is not the same as the certificate serial number (RDN SERIALNUMBER).
+		* `state_or_province_name` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) State or province name (RDN ST or S).
+		* `street` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Street address (RDN STREET).
+		* `surname` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Personal surname (RDN SN).
+		* `title` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) Title (RDN T or TITLE).
+		* `user_id` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA | SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA) User ID (RDN UID).
+	* `validity` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) (Updatable) An object that describes a period of time during which an entity is valid. If this is not provided when you create a certificate, the validity of the issuing CA is used. 
 		* `time_of_validity_not_after` - (Required when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) (Updatable) The date on which the certificate validity period ends, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 		* `time_of_validity_not_before` - (Applicable when config_type=ROOT_CA_GENERATED_INTERNALLY | SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA) (Updatable) The date on which the certificate validity period begins, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 	* `version_name` - (Optional) (Updatable) The name of the CA version. When the value is not null, a name is unique across versions of a given CA. 
 * `certificate_authority_rules` - (Optional) (Updatable) A list of rules that control how the CA is used and managed.
-	* `certificate_authority_max_validity_duration` - (Optional) (Updatable) A property indicating the maximum validity duration, in days, of subordinate CA's issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
-	* `leaf_certificate_max_validity_duration` - (Optional) (Updatable) A property indicating the maximum validity duration, in days, of leaf certificates issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
-	* `rule_type` - (Required) (Updatable) The type of rule, whether a renewal rule regarding when to renew the CA or an issuance expiry rule that governs how long the certificates and CAs issued by the CA are valid. (For internal use only) An internal issuance rule defines the number and type of certificates that the CA can issue. 
+	* `certificate_authority_max_validity_duration` - (Applicable when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE) (Updatable) A property indicating the maximum validity duration, in days, of subordinate CA's issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
+	* `leaf_certificate_max_validity_duration` - (Applicable when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE) (Updatable) A property indicating the maximum validity duration, in days, of leaf certificates issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
+	* `name_constraint` - (Applicable when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) A constraint that specifies permitted and excluded namespaces for the hierarchical name forms in certificates that any CA in the certificate chain issues. You can define name constraints on a directory name, DNS address, or IP address. If you have a name constraint, you must define at least one permitted namespace or one excluded namespace. Name constraints cannot be updated.
+		* `excluded_subtree` - (Applicable when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) A list that contains excluded (or prohibited) namespaces. If you have a name constraint with no permitted namespaces, you must specify at least one excluded namespace. 
+			* `type` - (Required when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE)  The type of name constraint.
+			* `value` - (Required when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) Name restrictions for the corresponding type of name constraint. 
+		* `permitted_subtree` - (Applicable when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) A list that contains permitted namespaces. If you have a name constraint with no excluded namespaces, you must specify at least one permitted namespace. 
+			* `type` - (Required when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) The type of name constraint.
+			* `value` - (Required when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) Name restrictions for the corresponding type of name constraint. 
+	* `path_length_constraint` - (Applicable when rule_type=CERTIFICATE_AUTHORITY_ISSUANCE_RULE) The number of levels of descendants that this certificate authority (CA) can issue. When set to zero, the CA can issue only leaf certificates. There is no limit if the constraint isn't specified. Path length constraints cannot be updated.
+	* `rule_type` - (Required) (Updatable) The type of rule, whether an issuance rule that defines the constraints which restricts the hierarchical name forms in certificates or number of levels of descendants that any CA in the certificate chain issues or an issuance expiry rule that governs how long the certificates and CAs issued by the CA are valid.
 * `certificate_revocation_list_details` - (Optional) (Updatable) The details of the certificate revocation list (CRL).
 	* `custom_formatted_urls` - (Optional) (Updatable) Optional CRL access points, expressed using a format where the version number of the issuing CA is inserted wherever you include a pair of curly braces. This versioning scheme helps avoid collisions when new CA versions are created. For example, myCrlFileIssuedFromCAVersion{}.crl becomes myCrlFileIssuedFromCAVersion2.crl for CA version 2. 
 	* `object_storage_config` - (Required) (Updatable) The details of the Object Storage bucket configured to store the certificate revocation list (CRL).
@@ -132,8 +160,9 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The compartment in which you want to create the CA.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A brief description of the CA.
+* `external_key_description` - (Optional) (Updatable) For externally managed CAs, a description of the externally managed private key. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `kms_key_id` - (Required) The OCID of the Oracle Cloud Infrastructure Vault key used to encrypt the CA.
+* `kms_key_id` - (Optional) The OCID of the Oracle Cloud Infrastructure Vault key used to encrypt the CA.
 * `name` - (Required) A user-friendly name for the CA. Names are unique within a compartment. Avoid entering confidential information. Valid characters include uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 
 
@@ -147,7 +176,15 @@ The following attributes are exported:
 * `certificate_authority_rules` - An optional list of rules that control how the CA is used and managed.
 	* `certificate_authority_max_validity_duration` - A property indicating the maximum validity duration, in days, of subordinate CA's issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `leaf_certificate_max_validity_duration` - A property indicating the maximum validity duration, in days, of leaf certificates issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
-	* `rule_type` - The type of rule, whether a renewal rule regarding when to renew the CA or an issuance expiry rule that governs how long the certificates and CAs issued by the CA are valid. (For internal use only) An internal issuance rule defines the number and type of certificates that the CA can issue. 
+	* `name_constraint` - A constraint that specifies permitted and excluded namespaces for the hierarchical name forms in certificates that any CA in the certificate chain issues. You can define name constraints on a directory name, DNS address, or IP address. If you have a name constraint, you must define at least one permitted namespace or one excluded namespace. Name constraints cannot be updated.
+		* `excluded_subtree` - A list that contains excluded (or prohibited) namespaces. If you have a name constraint with no permitted namespaces, you must specify at least one excluded namespace.
+			* `type` - The type of name constraint.
+			* `value` - Name restrictions for the corresponding type of name constraint.
+		* `permitted_subtree` - A list that contains permitted namespaces. If you have a name constraint with no excluded namespaces, you must specify at least one permitted namespace.
+			* `type` - The type of name constraint.
+			* `value` - Name restrictions for the corresponding type of name constraint.
+	* `path_length_constraint` - The number of levels of descendants that this certificate authority (CA) can issue. When set to zero, the CA can issue only leaf certificates. There is no limit if the constraint isn't specified.  Path length constraints cannot be updated.
+	* `rule_type` - The type of rule, whether a renewal rule regarding when to renew the CA or an issuance expiry rule that governs how long the certificates and CAs issued by the CA are valid. An issuance rule defines the constraints that restricts the hierarchical name forms in certificates or number of levels of descendants that any CA in the certificate chain issues.
 * `certificate_revocation_list_details` - The details of the certificate revocation list (CRL).
 	* `custom_formatted_urls` - Optional CRL access points, expressed using a format where the version number of the issuing CA is inserted wherever you include a pair of curly braces. This versioning scheme helps avoid collisions when new CA versions are created. For example, myCrlFileIssuedFromCAVersion{}.crl becomes myCrlFileIssuedFromCAVersion2.crl for CA version 2. 
 	* `object_storage_config` - The details of the Object Storage bucket configured to store the certificate revocation list (CRL).
@@ -173,6 +210,7 @@ The following attributes are exported:
 	* `version_number` - The version number of the CA.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A brief description of the CA.
+* `external_key_description` - For externally managed CAs, a description of the externally managed key. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the CA.
 * `issuer_certificate_authority_id` - The OCID of the parent CA that issued this CA. If this is the root CA, then this value is null. 

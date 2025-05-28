@@ -28,6 +28,10 @@ func CertificatesManagementCertificateAuthorityVersionDataSource() *schema.Resou
 				Required: true,
 			},
 			// Computed
+			"csr_pem": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"issuer_ca_version_number": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -178,6 +182,10 @@ func (s *CertificatesManagementCertificateAuthorityVersionDataSourceCrud) SetDat
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("CertificatesManagementCertificateAuthorityVersionDataSource-", CertificatesManagementCertificateAuthorityVersionDataSource(), s.D))
+
+	if s.Res.CsrPem != nil {
+		s.D.Set("csr_pem", *s.Res.CsrPem)
+	}
 
 	if s.Res.CertificateAuthorityId != nil {
 		s.D.Set("certificate_authority_id", s.Res.CertificateAuthorityId)
