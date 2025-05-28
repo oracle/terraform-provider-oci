@@ -7,6 +7,8 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
+variable "kms_key_id" {}
+variable "root_certificate_pem" {}
 
 variable "certificate_authority_certificate_authority_config_config_type" {
   default = "ROOT_CA_GENERATED_INTERNALLY"
@@ -84,14 +86,6 @@ variable "certificate_authority_certificate_authority_config_subject_user_id" {
   default = "user_id"
 }
 
-variable "certificate_authority_certificate_authority_config_validity_time_of_validity_not_after" {
-  default = "2031-07-05T21:10:29.999Z"
-}
-
-variable "certificate_authority_certificate_authority_config_validity_time_of_validity_not_before" {
-  default = "2021-07-05T21:10:29.999Z"
-}
-
 variable "certificate_authority_certificate_authority_config_version_name" {
   default = "versionName"
 }
@@ -141,7 +135,6 @@ variable "certificate_authority_state" {
 }
 
 
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -174,23 +167,16 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
       street                       = var.certificate_authority_certificate_authority_config_subject_street
       surname                      = var.certificate_authority_certificate_authority_config_subject_surname
       title                        = var.certificate_authority_certificate_authority_config_subject_title
-      user_id                      = oci_identity_user.test_user.id
+      user_id                      = var.certificate_authority_certificate_authority_config_subject_user_id
     }
 
     #Optional
-    issuer_certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
     signing_algorithm               = var.certificate_authority_certificate_authority_config_signing_algorithm
-    validity {
-
-      #Optional
-      time_of_validity_not_after  = var.certificate_authority_certificate_authority_config_validity_time_of_validity_not_after
-      time_of_validity_not_before = var.certificate_authority_certificate_authority_config_validity_time_of_validity_not_before
-    }
     version_name = var.certificate_authority_certificate_authority_config_version_name
   }
 
   compartment_id = var.compartment_id
-  kms_key_id     = oci_kms_key.test_key.id
+  kms_key_id     = var.kms_key_id
   name           = var.certificate_authority_name
 
   #Optional
@@ -221,13 +207,99 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
   freeform_tags = var.certificate_authority_freeform_tags
 }
 
+
+resource "oci_certificates_management_certificate_authority" "externally_managed_root_ca" {
+  certificate_authority_config {
+    certificate_pem = "${var.root_certificate_pem}"
+    config_type = "ROOT_CA_MANAGED_EXTERNALLY"
+  }
+  compartment_id = "${var.compartment_id}"
+  description = "description"
+  external_key_description = "externally managed root's key description"
+  freeform_tags = {
+    "bar-key" = "value"
+  }
+  certificate_authority_rules {
+    certificate_authority_max_validity_duration = "P100D"
+    leaf_certificate_max_validity_duration = "P50D"
+    rule_type = "CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE"
+  }
+  name = "externally-managed-root"
+}
+
+resource "oci_certificates_management_certificate_authority" "subordinate_managed_internally_issued_by_external_ca" {
+  certificate_authority_config {
+    config_type = "SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA"
+    issuer_certificate_authority_id = "${oci_certificates_management_certificate_authority.externally_managed_root_ca.id}"
+    signing_algorithm = "SHA256_WITH_RSA"
+    subject {
+      common_name = "www.example.com"
+      country = "US"
+      distinguished_name_qualifier = "distinguishedNameQualifier"
+      domain_component = "domainComponent"
+      generation_qualifier = "JR"
+      given_name = "Sir"
+      initials = "HAM"
+      locality_name = "Seattle"
+      organization = "WarehouseOrg"
+      organizational_unit = "Products"
+      pseudonym = "pseudonym"
+      serial_number = "serialNumber"
+      state_or_province_name = "Washington"
+      street = "123 Main Street"
+      surname = "Last"
+      title = "Sr"
+      user_id = "Neytiri"
+    }
+    version_name = "versionName"
+  }
+
+  certificate_authority_rules {
+    certificate_authority_max_validity_duration = "P1000D"
+    leaf_certificate_max_validity_duration = "P500D"
+    rule_type = "CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE"
+  }
+
+  certificate_authority_rules {
+    rule_type = "CERTIFICATE_AUTHORITY_ISSUANCE_RULE"
+    path_length_constraint = 3
+    name_constraint {
+      excluded_subtree {
+        type  = "DNS"
+        value = "bad.com"
+      }
+
+      permitted_subtree {
+        type  = "DNS"
+        value = "good.example.com"
+      }
+    }
+  }
+  compartment_id = "${var.compartment_id}"
+  description = "description"
+  freeform_tags = {
+    "bar-key" = "value"
+  }
+  kms_key_id = var.kms_key_id
+  name = "SubCAManagedInternallyIssuedByExternalCA"
+}
+
+
 data "oci_certificates_management_certificate_authorities" "test_certificate_authorities" {
 
   #Optional
   certificate_authority_id        = oci_certificates_management_certificate_authority.test_certificate_authority.id
-  compartment_id                  = var.compartment_id
-  issuer_certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
-  name                            = var.certificate_authority_name
   state                           = var.certificate_authority_state
+}
+
+data "oci_certificates_management_certificate_authority" "certificate_authority_data_source" {
+  certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
+}
+
+
+data "oci_certificates_management_certificate_authority_version" "test_certificate_authority_version" {
+
+  certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
+  certificate_authority_version_number = 1
 }
 

@@ -52,7 +52,15 @@ The following attributes are exported:
 * `certificate_authority_rules` - An optional list of rules that control how the CA is used and managed.
 	* `certificate_authority_max_validity_duration` - A property indicating the maximum validity duration, in days, of subordinate CA's issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `leaf_certificate_max_validity_duration` - A property indicating the maximum validity duration, in days, of leaf certificates issued by this CA. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
-	* `rule_type` - The type of rule, whether a renewal rule regarding when to renew the CA or an issuance expiry rule that governs how long the certificates and CAs issued by the CA are valid. (For internal use only) An internal issuance rule defines the number and type of certificates that the CA can issue. 
+	* `name_constraint` - A constraint that specifies permitted and excluded namespaces for the hierarchical name forms in certificates that any CA in the certificate chain issues. You can define name constraints on a directory name, DNS address, or IP address. If you have a name constraint, you must define at least one permitted namespace or one excluded namespace. Name constraints cannot be updated.
+		* `excluded_subtree` - A list that contains excluded (or prohibited) namespaces. If you have a name constraint with no permitted namespaces, you must specify at least one excluded namespace. 
+			* `type` - The type of name constraint.
+			* `value` - Name restrictions for the corresponding type of name constraint. 
+		* `permitted_subtree` - A list that contains permitted namespaces. If you have a name constraint with no excluded namespaces, you must specify at least one permitted namespace. 
+			* `type` - The type of name constraint.
+			* `value` - Name restrictions for the corresponding type of name constraint. 
+	* `path_length_constraint` - The number of levels of descendants that this certificate authority (CA) can issue. When set to zero, the CA can issue only leaf certificates. There is no limit if the constraint isn't specified.  Path length constraints cannot be updated.
+	* `rule_type` - The type of rule, whether an issuance rule that defines the constraints which restricts the hierarchical name forms in certificates or number of levels of descendants that any CA in the certificate chain issues or an issuance expiry rule that governs how long the certificates and CAs issued by the CA are valid.
 * `certificate_revocation_list_details` - The details of the certificate revocation list (CRL).
 	* `custom_formatted_urls` - Optional CRL access points, expressed using a format where the version number of the issuing CA is inserted wherever you include a pair of curly braces. This versioning scheme helps avoid collisions when new CA versions are created. For example, myCrlFileIssuedFromCAVersion{}.crl becomes myCrlFileIssuedFromCAVersion2.crl for CA version 2. 
 	* `object_storage_config` - The details of the Object Storage bucket configured to store the certificate revocation list (CRL).
@@ -78,6 +86,7 @@ The following attributes are exported:
 	* `version_number` - The version number of the CA.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A brief description of the CA.
+* `external_key_description` - For externally managed CAs, a description of the externally managed key. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the CA.
 * `issuer_certificate_authority_id` - The OCID of the parent CA that issued this CA. If this is the root CA, then this value is null. 
