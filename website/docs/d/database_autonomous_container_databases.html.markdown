@@ -91,6 +91,8 @@ The following attributes are exported:
 	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
 * `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - The OCID of the compartment.
+* `customer_contacts` - Customer Contacts. Setting this to an empty list removes all customer contacts.
+    * `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `compute_model` - The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details. 
 * `dataguard` - The properties that define Autonomous Container Databases Dataguard. 
 	* `apply_lag` - The lag time between updates to the primary Autonomous Container Database and application of the redo data on the standby Autonomous Container Database, as computed by the reporting database. Example: `9 seconds` 

@@ -163,6 +163,25 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"customer_contacts": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"email": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1330,6 +1349,23 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok && s.D.HasChange("customer_contacts") {
+		interfaces := customerContacts.([]interface{})
+		tmp := make([]oci_database.CustomerContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+			converted, err := s.mapToCustomerContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+			request.CustomerContacts = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -1471,6 +1507,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		dataguardGroupMembers = append(dataguardGroupMembers, AutonomousContainerDatabaseDataguardToMap(&item))
 	}
 	s.D.Set("dataguard_group_members", dataguardGroupMembers)
+
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, ACDCustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
 
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
@@ -2046,6 +2088,27 @@ func AutonomousContainerDatabaseBackupDestinationDetailsToMap(obj oci_database.B
 	return result
 }
 
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToCustomerContact(fieldKeyFormat string) (oci_database.CustomerContact, error) {
+	result := oci_database.CustomerContact{}
+
+	if email, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "email")); ok {
+		tmp := email.(string)
+		result.Email = &tmp
+	}
+
+	return result, nil
+}
+
+func ACDCustomerContactToMap(obj oci_database.CustomerContact) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Email != nil {
+		result["email"] = string(*obj.Email)
+	}
+
+	return result
+}
+
 func BackupDestinationPropertiesToMap(obj oci_database.BackupDestinationProperties) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2300,6 +2363,22 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 				details.BackupConfig = &tmp
 			}
 		}
+		if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok && s.D.HasChange("customer_contacts") {
+			interfaces := customerContacts.([]interface{})
+			tmp := make([]oci_database.CustomerContact, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+				converted, err := s.mapToCustomerContact(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+				details.CustomerContacts = tmp
+			}
+		}
 		if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
 			tmp := cloudAutonomousVmClusterId.(string)
 			details.CloudAutonomousVmClusterId = &tmp
@@ -2454,6 +2533,22 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
 			tmp := autonomousVmClusterId.(string)
 			details.AutonomousVmClusterId = &tmp
+		}
+		if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok && s.D.HasChange("customer_contacts") {
+			interfaces := customerContacts.([]interface{})
+			tmp := make([]oci_database.CustomerContact, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+				converted, err := s.mapToCustomerContact(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+				details.CustomerContacts = tmp
+			}
 		}
 		if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
 			if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {

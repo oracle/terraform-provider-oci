@@ -43,6 +43,13 @@ resource "oci_database_key_store" "test_key_store" {
     type           = "ORACLE_KEY_VAULT"
     vault_id       = var.kms_vault_ocid
   }
+  customer_contacts {
+    email = "contact1@example.com"
+  }
+
+  customer_contacts {
+    email = "contact2@example.com"
+  }
 }
 
 data "oci_database_autonomous_container_database_resource_usage" "test_autonomous_container_database_resource_usages" {

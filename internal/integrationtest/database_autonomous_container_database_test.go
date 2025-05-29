@@ -55,6 +55,7 @@ var (
 	DatabaseAutonomousContainerDatabaseRepresentation = map[string]interface{}{
 		//"autonomous_container_database_backup_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_container_database_backup.test_autonomous_container_database_backup.id}`},
 		"source":                         acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"customer_contacts":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseCustomerContactsRepresentation},
 		"db_split_threshold":             acctest.Representation{RepType: acctest.Optional, Create: `12`},
 		"distribution_affinity":          acctest.Representation{RepType: acctest.Optional, Create: `MINIMUM_DISTRIBUTION`},
 		"net_services_architecture":      acctest.Representation{RepType: acctest.Optional, Create: `DEDICATED`},
@@ -62,7 +63,7 @@ var (
 		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
 		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.24.0.1.0")},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.26.0.1.0")},
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -117,6 +118,11 @@ var (
 	DatabaseAutonomousContainerDatabaseBackupConfigWithRARepresentation = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRARepresentation},
 	}
+
+	DatabaseAutonomousContainerDatabaseCustomerContactsRepresentation = map[string]interface{}{
+		"email": acctest.Representation{RepType: acctest.Optional, Create: `test1@oracle.com`, Update: `test2@oracle.com`},
+	}
+
 	DatabaseAddStandbyAutonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `7`, Update: `7`},
@@ -547,7 +553,6 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		acctest.GetUpdatedRepresentationCopy("months",
 			[]acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
 			DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation), []string{"lead_time_in_weeks"})
-
 	AutonomousContainerDatabaseDedicatedRepresentation := acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation}, DatabaseAutonomousContainerDatabaseRepresentation)
 
 	var resId, resId2 string
@@ -591,6 +596,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test1@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
@@ -663,6 +670,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test1@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
@@ -726,6 +735,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
@@ -844,7 +855,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.compute_model"),
-
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.dataguard.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.dataguard_group_members.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.db_split_threshold", "12"),
@@ -908,6 +920,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_model"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dataguard.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dataguard_group_members.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_split_threshold", "12"),
@@ -984,7 +998,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseRequiredOnlyResource,
+			Config:            config + DatabaseAutonomousContainerDatabaseRequiredOnlyResource + compartmentIdVariableStr,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
