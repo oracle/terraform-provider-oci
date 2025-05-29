@@ -44,6 +44,11 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
 	}
 	compartment_id = var.compartment_id
+	customer_contacts {
+
+		#Optional
+		email = var.autonomous_container_database_customer_contacts_email
+	}
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	db_name = var.autonomous_container_database_db_name
 	db_split_threshold = var.autonomous_container_database_db_split_threshold
@@ -137,6 +142,8 @@ The following arguments are supported:
 	* `recovery_window_in_days` - (Optional) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. If the number of specified days is 0 then there will be no backups. 
 * `cloud_autonomous_vm_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Autonomous Container Database.
+* `customer_contacts` - (Optional) (Updatable) Customer Contacts. Setting this to an empty list removes all customer contacts. 
+	* `email` - (Optional) (Updatable) The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `database_software_image_id` - (Optional) The Autonomous Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_name` - (Optional) The Database name for the Autonomous Container Database. The name must be unique within the Cloud Autonomous VM Cluster, starting with an alphabetic character, followed by 1 to 7 alphanumeric characters.
 * `db_split_threshold` - (Optional) The CPU value beyond which an Autonomous Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
@@ -248,6 +255,8 @@ The following attributes are exported:
 	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
 * `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - The OCID of the compartment.
+* `customer_contacts` - Customer Contacts. Setting this to an empty list removes all customer contacts.
+    * `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `compute_model` - The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details. 
 * `dataguard` - The properties that define Autonomous Container Databases Dataguard. 
 	* `apply_lag` - The lag time between updates to the primary Autonomous Container Database and application of the redo data on the standby Autonomous Container Database, as computed by the reporting database. Example: `9 seconds` 

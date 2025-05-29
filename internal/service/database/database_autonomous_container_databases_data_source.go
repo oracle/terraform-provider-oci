@@ -203,6 +203,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["compute_model"] = r.ComputeModel
 
+		customerContacts := []interface{}{}
+		for _, item := range r.CustomerContacts {
+			customerContacts = append(customerContacts, ACDCustomerContactToMap(item))
+		}
+		autonomousContainerDatabase["customer_contacts"] = customerContacts
+
 		if r.Dataguard != nil {
 			autonomousContainerDatabase["dataguard"] = []interface{}{AutonomousContainerDatabaseDataguardToMap(r.Dataguard)}
 		} else {
