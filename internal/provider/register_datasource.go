@@ -80,6 +80,7 @@ import (
 	tf_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/load_balancer"
 	tf_log_analytics "github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
 	tf_logging "github.com/oracle/terraform-provider-oci/internal/service/logging"
+	tf_managed_kafka "github.com/oracle/terraform-provider-oci/internal/service/managed_kafka"
 	tf_lustre_file_storage "github.com/oracle/terraform-provider-oci/internal/service/lustre_file_storage"
 	tf_managed_kafka "github.com/oracle/terraform-provider-oci/internal/service/managed_kafka"
 	tf_management_agent "github.com/oracle/terraform-provider-oci/internal/service/management_agent"
