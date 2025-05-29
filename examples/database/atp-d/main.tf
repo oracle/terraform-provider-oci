@@ -59,6 +59,13 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   // OKV related
   key_store_id = oci_database_key_store.test_key_store.id
   okv_end_point_group_name = "DUMMY_OKV_EPG_GROUP"
+  customer_contacts {
+    email = "contact1@example.com"
+  }
+
+  customer_contacts {
+    email = "contact2@example.com"
+  }
 }
 
 resource "oci_database_autonomous_database_software_image" "autonomous_database_software_image" {
