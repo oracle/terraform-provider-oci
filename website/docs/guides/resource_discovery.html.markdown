@@ -191,6 +191,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `log_analytics` - Discovers log_analytics resources within the specified compartment
     * `logging` - Discovers logging resources within the specified compartment
     * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
+    * `managed_kafka` - Discovers managed_kafka resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
