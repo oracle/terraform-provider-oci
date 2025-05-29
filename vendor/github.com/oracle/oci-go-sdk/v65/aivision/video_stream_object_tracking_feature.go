@@ -20,7 +20,7 @@ import (
 type VideoStreamObjectTrackingFeature struct {
 
 	// List of details of what to track.
-	TrackingTypes []TrackingType `mandatory:"false" json:"trackingTypes"`
+	TrackingTypes []TrackingType `mandatory:"true" json:"trackingTypes"`
 }
 
 func (m VideoStreamObjectTrackingFeature) String() string {

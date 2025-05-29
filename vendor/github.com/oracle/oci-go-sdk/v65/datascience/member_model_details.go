@@ -18,11 +18,11 @@ import (
 // MemberModelDetails Model details which needs to be part of Model Group.
 type MemberModelDetails struct {
 
-	// SaaS friendly name of the model.
-	InferenceKey *string `mandatory:"true" json:"inferenceKey"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" json:"modelId"`
+
+	// SaaS friendly name of the model.
+	InferenceKey *string `mandatory:"false" json:"inferenceKey"`
 }
 
 func (m MemberModelDetails) String() string {

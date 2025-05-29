@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// MySqlApplyError Error from apply operation of a MySQL server replication channel.
+// MySqlApplyError Error from the apply operation of a MySQL server replication channel.
 type MySqlApplyError struct {
 
-	// The error number of the most recent error that caused the SQL/coordinator thread to stop.
+	// The error number of the most recent error that caused the SQL or coordinator thread to stop.
 	LastErrorNumber *int `mandatory:"false" json:"lastErrorNumber"`
 
-	// The error message of the most recent error that caused the SQL/coordinator thread to stop.
+	// The error message of the most recent error that caused the SQL or coordinator thread to stop.
 	LastErrorMessage *string `mandatory:"false" json:"lastErrorMessage"`
 
-	// The timestamp when the most recent SQL/coordinator error occurred.
+	// The timestamp when the most recent SQL or coordinator error occurred.
 	TimeLastError *common.SDKTime `mandatory:"false" json:"timeLastError"`
 
 	// A list of MySqlApplyErrorWorker records.

@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// CreateStreamJobDetails Details about the stream analysis.
+// CreateStreamJobDetails The information needed to create new Streamjob
 type CreateStreamJobDetails struct {
 
-	// ocid of device
-	DeviceId *string `mandatory:"true" json:"deviceId"`
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of streamSource.
+	StreamSourceId *string `mandatory:"true" json:"streamSourceId"`
 
 	// a list of stream analysis features.
 	Features []VideoStreamFeature `mandatory:"true" json:"features"`
 
-	OutputLocation *OutputLocation `mandatory:"true" json:"outputLocation"`
+	StreamOutputLocation StreamOutputLocation `mandatory:"true" json:"streamOutputLocation"`
 
-	// Compartment identifier from the requester.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Stream job display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -61,13 +61,13 @@ func (m CreateStreamJobDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateStreamJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CompartmentId  *string                           `json:"compartmentId"`
-		DisplayName    *string                           `json:"displayName"`
-		FreeformTags   map[string]string                 `json:"freeformTags"`
-		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
-		DeviceId       *string                           `json:"deviceId"`
-		Features       []videostreamfeature              `json:"features"`
-		OutputLocation *OutputLocation                   `json:"outputLocation"`
+		DisplayName          *string                           `json:"displayName"`
+		FreeformTags         map[string]string                 `json:"freeformTags"`
+		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		StreamSourceId       *string                           `json:"streamSourceId"`
+		Features             []videostreamfeature              `json:"features"`
+		StreamOutputLocation streamoutputlocation              `json:"streamOutputLocation"`
+		CompartmentId        *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -75,15 +75,13 @@ func (m *CreateStreamJobDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.CompartmentId = model.CompartmentId
-
 	m.DisplayName = model.DisplayName
 
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
 
-	m.DeviceId = model.DeviceId
+	m.StreamSourceId = model.StreamSourceId
 
 	m.Features = make([]VideoStreamFeature, len(model.Features))
 	for i, n := range model.Features {
@@ -97,7 +95,17 @@ func (m *CreateStreamJobDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Features[i] = nil
 		}
 	}
-	m.OutputLocation = model.OutputLocation
+	nn, e = model.StreamOutputLocation.UnmarshalPolymorphicJSON(model.StreamOutputLocation.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StreamOutputLocation = nn.(StreamOutputLocation)
+	} else {
+		m.StreamOutputLocation = nil
+	}
+
+	m.CompartmentId = model.CompartmentId
 
 	return
 }

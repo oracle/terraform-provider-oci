@@ -29,6 +29,9 @@ type VideoStreamObject struct {
 	// Unique identifier for the object.
 	ObjectId *int `mandatory:"false" json:"objectId"`
 
+	// Unique global identifier for the object within the StreamGroup.
+	GlobalId *string `mandatory:"false" json:"globalId"`
+
 	Properties *ObjectProperties `mandatory:"false" json:"properties"`
 }
 

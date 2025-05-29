@@ -47,7 +47,7 @@ type ManagedMySqlDatabaseInboundReplicationSummary struct {
 	// The server ID value from the source server.
 	SourceServerId *int64 `mandatory:"false" json:"sourceServerId"`
 
-	// Whether the channel assigns global transaction identifiers (GTIDs) to anonymous replicated transactions. OFF means no GTIDs are assigned. LOCAL means a GTID is assigned that includes this replica's own universally unique identifier (UUID). A UUID as value indicates that a GTID is assigned which includes that manually set UUID value.
+	// Indicates whether the channel assigns global transaction identifiers (GTIDs) to anonymous replicated transactions. OFF means no GTIDs are assigned. LOCAL means a GTID is assigned that includes this replica's own universally unique identifier (UUID). A UUID as value indicates that a GTID is assigned, which includes that manually set UUID value.
 	GtidAssignment *string `mandatory:"false" json:"gtidAssignment"`
 
 	// A list of MySqlReplicationApplierFilter records.
@@ -65,7 +65,7 @@ type ManagedMySqlDatabaseInboundReplicationSummary struct {
 	// The number of transactions received by this replica from the source server.
 	TransactionsReceived *int64 `mandatory:"false" json:"transactionsReceived"`
 
-	// Time in seconds it took for the transaction that is currently being applied between being committed on the source and applied on the replica.
+	// The time in seconds that the current transaction took between being committed on the source and being applied on the replica.
 	ApplyDelay *float64 `mandatory:"false" json:"applyDelay"`
 
 	// The number of workers currently busy applying transactions from the source server.

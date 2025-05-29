@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// VideoStreamMetadata Video stream information.
+// VideoStreamMetadata Video information.
 type VideoStreamMetadata struct {
 
-	// Video stream framerate.
+	// Video framerate.
 	FrameRate *float32 `mandatory:"true" json:"frameRate"`
 
 	// Width of each frame.

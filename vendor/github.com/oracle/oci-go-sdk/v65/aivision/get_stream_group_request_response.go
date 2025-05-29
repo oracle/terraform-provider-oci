@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// DeleteDevicesRequest wrapper for the DeleteDevices operation
-type DeleteDevicesRequest struct {
+// GetStreamGroupRequest wrapper for the GetStreamGroup operation
+type GetStreamGroupRequest struct {
 
-	// Device Id.
-	DeviceId *string `mandatory:"true" contributesTo:"path" name:"deviceId"`
+	// StreamGroup Id.
+	StreamGroupId *string `mandatory:"true" contributesTo:"path" name:"streamGroupId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -25,12 +25,12 @@ type DeleteDevicesRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request DeleteDevicesRequest) String() string {
+func (request GetStreamGroupRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DeleteDevicesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetStreamGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -40,21 +40,21 @@ func (request DeleteDevicesRequest) HTTPRequest(method, path string, binaryReque
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request DeleteDevicesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetStreamGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteDevicesRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetStreamGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request DeleteDevicesRequest) ValidateEnumValue() (bool, error) {
+func (request GetStreamGroupRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -62,22 +62,28 @@ func (request DeleteDevicesRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// DeleteDevicesResponse wrapper for the DeleteDevices operation
-type DeleteDevicesResponse struct {
+// GetStreamGroupResponse wrapper for the GetStreamGroup operation
+type GetStreamGroupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
+
+	// The StreamGroup instance
+	StreamGroup `presentIn:"body"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 
 	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response DeleteDevicesResponse) String() string {
+func (response GetStreamGroupResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response DeleteDevicesResponse) HTTPResponse() *http.Response {
+func (response GetStreamGroupResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

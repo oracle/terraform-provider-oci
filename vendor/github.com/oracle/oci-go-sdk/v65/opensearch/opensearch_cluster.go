@@ -185,6 +185,8 @@ type OpensearchCluster struct {
 	InboundClusterIds []string `mandatory:"false" json:"inboundClusterIds"`
 
 	MaintenanceDetails *MaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
+
+	LoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"loadBalancerConfig"`
 }
 
 func (m OpensearchCluster) String() string {

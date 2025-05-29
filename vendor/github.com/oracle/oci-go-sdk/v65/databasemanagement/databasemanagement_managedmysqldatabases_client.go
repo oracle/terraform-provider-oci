@@ -153,7 +153,7 @@ func (client ManagedMySqlDatabasesClient) changeMysqlDatabaseManagementType(ctx 
 	return response, err
 }
 
-// GetBinaryLogInformation Retrieves information pertaining to binary log of a specific MySQL server.
+// GetBinaryLogInformation Retrieves information pertaining to the binary log of a specific MySQL server.
 // A default retry strategy applies to this operation GetBinaryLogInformation()
 func (client ManagedMySqlDatabasesClient) GetBinaryLogInformation(ctx context.Context, request GetBinaryLogInformationRequest) (response GetBinaryLogInformationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -207,7 +207,7 @@ func (client ManagedMySqlDatabasesClient) getBinaryLogInformation(ctx context.Co
 	return response, err
 }
 
-// GetGeneralReplicationInformation Retrieves general information regarding replication of a specific MySQL server.
+// GetGeneralReplicationInformation Retrieves general information regarding the replication of a specific MySQL server.
 // A default retry strategy applies to this operation GetGeneralReplicationInformation()
 func (client ManagedMySqlDatabasesClient) GetGeneralReplicationInformation(ctx context.Context, request GetGeneralReplicationInformationRequest) (response GetGeneralReplicationInformationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -474,7 +474,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlQueryDetails(ctx context.Conte
 	return response, err
 }
 
-// ListHighAvailabilityMembers Information about high availability members of a specific MySQL server's replication group.
+// ListHighAvailabilityMembers Retrieves information about the high availability members of a specific MySQL server's replication group.
 // A default retry strategy applies to this operation ListHighAvailabilityMembers()
 func (client ManagedMySqlDatabasesClient) ListHighAvailabilityMembers(ctx context.Context, request ListHighAvailabilityMembersRequest) (response ListHighAvailabilityMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -797,7 +797,7 @@ func (client ManagedMySqlDatabasesClient) listMySqlDigestErrors(ctx context.Cont
 	return response, err
 }
 
-// ListOutboundReplications Retrieves information pertaining to outbound replications of a specific MySQL server.
+// ListOutboundReplications Retrieves information pertaining to the outbound replications of a specific MySQL server.
 // A default retry strategy applies to this operation ListOutboundReplications()
 func (client ManagedMySqlDatabasesClient) ListOutboundReplications(ctx context.Context, request ListOutboundReplicationsRequest) (response ListOutboundReplicationsResponse, err error) {
 	var ociResponse common.OCIResponse

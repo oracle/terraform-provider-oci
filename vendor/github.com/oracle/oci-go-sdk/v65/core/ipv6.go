@@ -65,6 +65,16 @@ type Ipv6 struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// An optional field for IPv6 cidr range of your choice. The CIDR range must be within
+	// the subnet's CIDR and the CIDR range should not collide with any existing IPv6 address
+	// allocation.
+	// The VNIC ID specified in the request object should not already been assigned of more
+	// than max IPv6 addresses
+	// If you don't specify a value, this option will be ignored.
+	// If `cidrRange` is specified, `ipAddress` will not be accepted or allocated.
+	// Example: `2001:0db8:0123:1111:CF3C::/80`
+	CidrRange *string `mandatory:"false" json:"cidrRange"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
 	// The VNIC and IPv6 must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`

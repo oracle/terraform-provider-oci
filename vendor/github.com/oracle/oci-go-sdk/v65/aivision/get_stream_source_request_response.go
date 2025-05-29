@@ -11,18 +11,11 @@ import (
 	"strings"
 )
 
-// AddDevicesRequest wrapper for the AddDevices operation
-type AddDevicesRequest struct {
+// GetStreamSourceRequest wrapper for the GetStreamSource operation
+type GetStreamSourceRequest struct {
 
-	// Details about the Device
-	DeviceDetails `contributesTo:"body"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without the risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// might be rejected.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+	// StreamSource Id.
+	StreamSourceId *string `mandatory:"true" contributesTo:"path" name:"streamSourceId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -32,12 +25,12 @@ type AddDevicesRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request AddDevicesRequest) String() string {
+func (request GetStreamSourceRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request AddDevicesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetStreamSourceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -47,21 +40,21 @@ func (request AddDevicesRequest) HTTPRequest(method, path string, binaryRequestB
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request AddDevicesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetStreamSourceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddDevicesRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetStreamSourceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request AddDevicesRequest) ValidateEnumValue() (bool, error) {
+func (request GetStreamSourceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -69,14 +62,14 @@ func (request AddDevicesRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// AddDevicesResponse wrapper for the AddDevices operation
-type AddDevicesResponse struct {
+// GetStreamSourceResponse wrapper for the GetStreamSource operation
+type GetStreamSourceResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DeviceResult instance
-	DeviceResult `presentIn:"body"`
+	// The StreamSource instance
+	StreamSource `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -86,11 +79,11 @@ type AddDevicesResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response AddDevicesResponse) String() string {
+func (response GetStreamSourceResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response AddDevicesResponse) HTTPResponse() *http.Response {
+func (response GetStreamSourceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

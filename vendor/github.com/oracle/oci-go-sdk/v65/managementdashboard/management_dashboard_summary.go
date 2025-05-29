@@ -83,6 +83,10 @@ type ManagementDashboardSummary struct {
 
 	// Contains configuration for enabling features.
 	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ManagementDashboardSummary) String() string {

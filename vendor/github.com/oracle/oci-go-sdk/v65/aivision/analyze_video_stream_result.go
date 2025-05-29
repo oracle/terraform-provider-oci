@@ -17,11 +17,24 @@ import (
 
 // AnalyzeVideoStreamResult Video stream analysis results.
 type AnalyzeVideoStreamResult struct {
-
-	// Time offset(Milliseconds) of the frame.
-	TimeOffsetMs *int `mandatory:"true" json:"timeOffsetMs"`
-
 	VideoStreamMetadata *VideoStreamMetadata `mandatory:"true" json:"videoStreamMetadata"`
+
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of streamJob.
+	StreamJobId *string `mandatory:"true" json:"streamJobId"`
+
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of StreamSource.
+	StreamSourceId *string `mandatory:"true" json:"streamSourceId"`
+
+	// time stamp of frame in utc.
+	Timestamp *string `mandatory:"true" json:"timestamp"`
+
+	OntologyClasses *OntologyClass `mandatory:"false" json:"ontologyClasses"`
+
+	// Base 64 encoded frame
+	ImageData *string `mandatory:"false" json:"imageData"`
+
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of streamGroup.
+	StreamGroupId *string `mandatory:"false" json:"streamGroupId"`
 
 	// Tracked objects in a video stream.
 	VideoStreamObjects []VideoStreamObject `mandatory:"false" json:"videoStreamObjects"`

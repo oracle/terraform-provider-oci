@@ -15,33 +15,22 @@ import (
 	"strings"
 )
 
-// DeviceMetadata Meta data of the camera
-type DeviceMetadata struct {
+// ChangeStreamSourceCompartmentDetails Which compartment the streamSource should be moved to.
+type ChangeStreamSourceCompartmentDetails struct {
 
-	// bitRate
-	BitRate *string `mandatory:"false" json:"bitRate"`
-
-	// codec
-	Codec *string `mandatory:"false" json:"codec"`
-
-	// frameRate
-	FrameRate *string `mandatory:"false" json:"frameRate"`
-
-	// govLength
-	GovLength *string `mandatory:"false" json:"govLength"`
-
-	// resolution
-	Resolution *string `mandatory:"false" json:"resolution"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// into which the streamSource should be moved.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
-func (m DeviceMetadata) String() string {
+func (m ChangeStreamSourceCompartmentDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DeviceMetadata) ValidateEnumValue() (bool, error) {
+func (m ChangeStreamSourceCompartmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -612,7 +612,7 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	return response, err
 }
 
-// GetOobManagementDashboard Gets an OOB dashboard and its saved searches by ID.  Deleted or unauthorized saved searches are marked by tile's state property.
+// GetOobManagementDashboard Gets an out-of-the-box dashboard and its saved searches by ID.  Deleted or unauthorized saved searches are marked by tile's state property.
 func (client DashxApisClient) GetOobManagementDashboard(ctx context.Context, request GetOobManagementDashboardRequest) (response GetOobManagementDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -665,7 +665,7 @@ func (client DashxApisClient) getOobManagementDashboard(ctx context.Context, req
 	return response, err
 }
 
-// GetOobManagementSavedSearch Gets a saved search by ID.
+// GetOobManagementSavedSearch Gets an out-of-the-box saved search by ID.
 func (client DashxApisClient) GetOobManagementSavedSearch(ctx context.Context, request GetOobManagementSavedSearchRequest) (response GetOobManagementSavedSearchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -887,7 +887,7 @@ func (client DashxApisClient) listManagementSavedSearches(ctx context.Context, r
 	return response, err
 }
 
-// ListOobManagementDashboards Gets the list of OOB dashboards with pagination.  Returned properties are the summary.
+// ListOobManagementDashboards Gets the list of out-of-the-box dashboards with pagination. Returned properties are the summary.
 func (client DashxApisClient) ListOobManagementDashboards(ctx context.Context, request ListOobManagementDashboardsRequest) (response ListOobManagementDashboardsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -940,7 +940,7 @@ func (client DashxApisClient) listOobManagementDashboards(ctx context.Context, r
 	return response, err
 }
 
-// ListOobManagementSavedSearches Gets the list of out-of-box saved searches in a compartment with pagination.  Returned properties are the summary.
+// ListOobManagementSavedSearches Gets the list of out-of-the-box saved searches in a compartment with pagination.  Returned properties are the summary.
 func (client DashxApisClient) ListOobManagementSavedSearches(ctx context.Context, request ListOobManagementSavedSearchesRequest) (response ListOobManagementSavedSearchesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

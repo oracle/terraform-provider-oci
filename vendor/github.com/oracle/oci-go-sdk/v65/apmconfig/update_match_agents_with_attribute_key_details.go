@@ -2,12 +2,13 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vision API
+// Application Performance Monitoring Configuration API
 //
-// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
-package aivision
+package apmconfig
 
 import (
 	"fmt"
@@ -15,21 +16,21 @@ import (
 	"strings"
 )
 
-// DeviceResult Video stream analysis results.
-type DeviceResult struct {
+// UpdateMatchAgentsWithAttributeKeyDetails The object representing the agent matching attribute keys.
+type UpdateMatchAgentsWithAttributeKeyDetails struct {
 
-	// ocid of device
-	DeviceId *string `mandatory:"true" json:"deviceId"`
+	// The list of agent matching attribute keys to be updated.
+	Items []string `mandatory:"false" json:"items"`
 }
 
-func (m DeviceResult) String() string {
+func (m UpdateMatchAgentsWithAttributeKeyDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DeviceResult) ValidateEnumValue() (bool, error) {
+func (m UpdateMatchAgentsWithAttributeKeyDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -19,24 +19,30 @@ type ConfigTypesEnum string
 
 // Set of constants representing the allowable values for ConfigTypesEnum
 const (
-	ConfigTypesSpanFilter  ConfigTypesEnum = "SPAN_FILTER"
-	ConfigTypesMetricGroup ConfigTypesEnum = "METRIC_GROUP"
-	ConfigTypesApdex       ConfigTypesEnum = "APDEX"
-	ConfigTypesOptions     ConfigTypesEnum = "OPTIONS"
+	ConfigTypesSpanFilter       ConfigTypesEnum = "SPAN_FILTER"
+	ConfigTypesMetricGroup      ConfigTypesEnum = "METRIC_GROUP"
+	ConfigTypesApdex            ConfigTypesEnum = "APDEX"
+	ConfigTypesOptions          ConfigTypesEnum = "OPTIONS"
+	ConfigTypesAgent            ConfigTypesEnum = "AGENT"
+	ConfigTypesMacsApmExtension ConfigTypesEnum = "MACS_APM_EXTENSION"
 )
 
 var mappingConfigTypesEnum = map[string]ConfigTypesEnum{
-	"SPAN_FILTER":  ConfigTypesSpanFilter,
-	"METRIC_GROUP": ConfigTypesMetricGroup,
-	"APDEX":        ConfigTypesApdex,
-	"OPTIONS":      ConfigTypesOptions,
+	"SPAN_FILTER":        ConfigTypesSpanFilter,
+	"METRIC_GROUP":       ConfigTypesMetricGroup,
+	"APDEX":              ConfigTypesApdex,
+	"OPTIONS":            ConfigTypesOptions,
+	"AGENT":              ConfigTypesAgent,
+	"MACS_APM_EXTENSION": ConfigTypesMacsApmExtension,
 }
 
 var mappingConfigTypesEnumLowerCase = map[string]ConfigTypesEnum{
-	"span_filter":  ConfigTypesSpanFilter,
-	"metric_group": ConfigTypesMetricGroup,
-	"apdex":        ConfigTypesApdex,
-	"options":      ConfigTypesOptions,
+	"span_filter":        ConfigTypesSpanFilter,
+	"metric_group":       ConfigTypesMetricGroup,
+	"apdex":              ConfigTypesApdex,
+	"options":            ConfigTypesOptions,
+	"agent":              ConfigTypesAgent,
+	"macs_apm_extension": ConfigTypesMacsApmExtension,
 }
 
 // GetConfigTypesEnumValues Enumerates the set of values for ConfigTypesEnum
@@ -55,6 +61,8 @@ func GetConfigTypesEnumStringValues() []string {
 		"METRIC_GROUP",
 		"APDEX",
 		"OPTIONS",
+		"AGENT",
+		"MACS_APM_EXTENSION",
 	}
 }
 

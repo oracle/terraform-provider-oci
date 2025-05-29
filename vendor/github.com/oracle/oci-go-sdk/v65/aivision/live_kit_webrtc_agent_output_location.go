@@ -10,41 +10,57 @@
 package aivision
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// DeviceDetails Details about the device
-type DeviceDetails struct {
+// LiveKitWebrtcAgentOutputLocation The Livekit agent where we will publish results
+type LiveKitWebrtcAgentOutputLocation struct {
 
-	// url of camera
-	CameraUrl *string `mandatory:"true" json:"cameraUrl"`
+	// Url for room
+	RoomUrl *string `mandatory:"true" json:"roomUrl"`
 
-	// username for accessing camera
-	Username *string `mandatory:"true" json:"username"`
+	// name of the room
+	RoomName *string `mandatory:"true" json:"roomName"`
 
-	// password for accessing camera
-	Password *string `mandatory:"true" json:"password"`
+	// participant id for the agent where results need to be sent back
+	AgentPeerId *string `mandatory:"true" json:"agentPeerId"`
 
-	DeviceMetadata *DeviceMetadata `mandatory:"false" json:"deviceMetadata"`
+	// User generated auth token to access the stream
+	Token *string `mandatory:"false" json:"token"`
 
-	// string
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	// Object storage output location
+	OboToken *string `mandatory:"false" json:"oboToken"`
 }
 
-func (m DeviceDetails) String() string {
+func (m LiveKitWebrtcAgentOutputLocation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DeviceDetails) ValidateEnumValue() (bool, error) {
+func (m LiveKitWebrtcAgentOutputLocation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m LiveKitWebrtcAgentOutputLocation) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeLiveKitWebrtcAgentOutputLocation LiveKitWebrtcAgentOutputLocation
+	s := struct {
+		DiscriminatorParam string `json:"outputLocationType"`
+		MarshalTypeLiveKitWebrtcAgentOutputLocation
+	}{
+		"LIVEKIT_WEBRTC_AGENT",
+		(MarshalTypeLiveKitWebrtcAgentOutputLocation)(m),
+	}
+
+	return json.Marshal(&s)
 }
