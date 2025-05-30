@@ -159,6 +159,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dblm` - Discovers dblm resources within the specified compartment
+    * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
     * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
@@ -716,6 +717,24 @@ dblm
 
 delegate_access_control
 
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
+
+dblm
+    
+* oci\_dblm\_vulnerability\_scan
+
+dbmulticloud
+    
+* oci\_dbmulticloud\_oracle\_db\_azure\_blob\_mount
+* oci\_dbmulticloud\_oracle\_db\_azure\_connector
+* oci\_dbmulticloud\_oracle\_db\_azure\_vault
+* oci\_dbmulticloud\_oracle\_db\_azure\_vault\_association
+* oci\_dbmulticloud\_multi\_cloud\_resource\_discovery
+* oci\_dbmulticloud\_oracle\_db\_azure\_blob\_container
+
+delegate_access_control
+    
 * oci\_delegate\_access\_control\_delegation\_subscription
 * oci\_delegate\_access\_control\_delegation\_control
 
