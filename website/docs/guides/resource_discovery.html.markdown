@@ -128,6 +128,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `ai_vision` - Discovers ai_vision resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
     * `announcements_service` - Discovers announcements_service resources within the specified compartment
+    * `apiaccesscontrol` - Discovers apiaccesscontrol resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
     * `apm_config` - Discovers apm_config resources within the specified compartment
@@ -368,6 +369,11 @@ announcements_service
 * oci\_announcements\_service\_announcement\_subscription
 * oci\_announcements\_service\_announcement\_subscriptions\_actions\_change\_compartment
 * oci\_announcements\_service\_announcement\_subscriptions\_filter\_group
+
+apiaccesscontrol
+    
+* oci\_apiaccesscontrol\_privileged\_api\_control
+* oci\_apiaccesscontrol\_privileged\_api\_request
 
 apigateway
     
