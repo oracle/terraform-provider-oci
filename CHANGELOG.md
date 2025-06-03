@@ -1,3 +1,17 @@
+## 7.4.0 (Unreleased)
+
+### Added
+- Support for Standby: DMS online migration using snapshot standby
+- Support for Release 7 Connections
+- Support for Terraform integration for HeatWave Service: Soft delete backup HeatWave Service: Soft delete backup
+- Support for HostGroups - Compute Control Plane
+- Support for Fleet Application Management Service 2.0
+- Support for Cross Region Backup Copy Support | ADB-D and ADB-C@C
+Support for MySQL MEM APIs
+- Increasing parallel writes for Resource Discovery
+### Bug Fix
+Updatable addon list
+
 ## 7.3.0 (Unreleased)
 
 ### Added
