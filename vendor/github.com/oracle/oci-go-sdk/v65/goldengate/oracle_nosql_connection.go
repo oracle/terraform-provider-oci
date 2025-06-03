@@ -37,11 +37,6 @@ type OracleNosqlConnection struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI user who will access the Oracle NoSQL database.
-	// The user must have write access to the table they want to connect to.
-	// If the user is not provided, backend will default to the user who is calling the API endpoint.
-	UserId *string `mandatory:"true" json:"userId"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -96,6 +91,11 @@ type OracleNosqlConnection struct {
 	// If the region is not provided, backend will default to the default region.
 	Region *string `mandatory:"false" json:"region"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI user who will access the Oracle NoSQL database.
+	// The user must have write access to the table they want to connect to.
+	// If the user is not provided, backend will default to the user who is calling the API endpoint.
+	UserId *string `mandatory:"false" json:"userId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint.
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
 	// Note: When provided, 'privateKeyFile' field must not be provided.
@@ -104,6 +104,10 @@ type OracleNosqlConnection struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the passphrase of the private key.
 	// Note: When provided, 'privateKeyPassphrase' field must not be provided.
 	PrivateKeyPassphraseSecretId *string `mandatory:"false" json:"privateKeyPassphraseSecretId"`
+
+	// The fingerprint of the API Key of the user specified by the userId.
+	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	PublicKeyFingerprint *string `mandatory:"false" json:"publicKeyFingerprint"`
 
 	// Indicates that the user intents to connect to the instance through resource principal.
 	ShouldUseResourcePrincipal *bool `mandatory:"false" json:"shouldUseResourcePrincipal"`

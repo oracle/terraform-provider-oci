@@ -102,6 +102,10 @@ type ElasticsearchConnection struct {
 	// Note: When provided, 'password' field must not be provided.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
+	// Fingerprint required by TLS security protocol.
+	// Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c'
+	Fingerprint *string `mandatory:"false" json:"fingerprint"`
+
 	// The Elasticsearch technology type.
 	TechnologyType ElasticsearchConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 

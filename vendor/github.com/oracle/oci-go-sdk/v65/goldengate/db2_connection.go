@@ -116,6 +116,10 @@ type Db2Connection struct {
 	// Note: When provided, 'sslClientKeystash' field must not be provided.
 	SslClientKeystashSecretId *string `mandatory:"false" json:"sslClientKeystashSecretId"`
 
+	// The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate.
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	SslServerCertificate *string `mandatory:"false" json:"sslServerCertificate"`
+
 	// The DB2 technology type.
 	TechnologyType Db2ConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -274,15 +278,18 @@ type Db2ConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for Db2ConnectionTechnologyTypeEnum
 const (
-	Db2ConnectionTechnologyTypeDb2Zos Db2ConnectionTechnologyTypeEnum = "DB2_ZOS"
+	Db2ConnectionTechnologyTypeI   Db2ConnectionTechnologyTypeEnum = "DB2_I"
+	Db2ConnectionTechnologyTypeZos Db2ConnectionTechnologyTypeEnum = "DB2_ZOS"
 )
 
 var mappingDb2ConnectionTechnologyTypeEnum = map[string]Db2ConnectionTechnologyTypeEnum{
-	"DB2_ZOS": Db2ConnectionTechnologyTypeDb2Zos,
+	"DB2_I":   Db2ConnectionTechnologyTypeI,
+	"DB2_ZOS": Db2ConnectionTechnologyTypeZos,
 }
 
 var mappingDb2ConnectionTechnologyTypeEnumLowerCase = map[string]Db2ConnectionTechnologyTypeEnum{
-	"db2_zos": Db2ConnectionTechnologyTypeDb2Zos,
+	"db2_i":   Db2ConnectionTechnologyTypeI,
+	"db2_zos": Db2ConnectionTechnologyTypeZos,
 }
 
 // GetDb2ConnectionTechnologyTypeEnumValues Enumerates the set of values for Db2ConnectionTechnologyTypeEnum
@@ -297,6 +304,7 @@ func GetDb2ConnectionTechnologyTypeEnumValues() []Db2ConnectionTechnologyTypeEnu
 // GetDb2ConnectionTechnologyTypeEnumStringValues Enumerates the set of values in String for Db2ConnectionTechnologyTypeEnum
 func GetDb2ConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
+		"DB2_I",
 		"DB2_ZOS",
 	}
 }

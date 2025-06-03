@@ -93,6 +93,186 @@ func (client *ManagedMySqlDatabasesClient) ConfigurationProvider() *common.Confi
 	return client.config
 }
 
+// ChangeMysqlDatabaseManagementType Changes the management type for a HeatWave MySQL instance, from BASIC to FULL and vice versa.
+// It can also be used to enable or disable database management.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeMysqlDatabaseManagementType.go.html to see an example of how to use ChangeMysqlDatabaseManagementType API.
+// A default retry strategy applies to this operation ChangeMysqlDatabaseManagementType()
+func (client ManagedMySqlDatabasesClient) ChangeMysqlDatabaseManagementType(ctx context.Context, request ChangeMysqlDatabaseManagementTypeRequest) (response ChangeMysqlDatabaseManagementTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMysqlDatabaseManagementType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMysqlDatabaseManagementTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMysqlDatabaseManagementTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMysqlDatabaseManagementTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMysqlDatabaseManagementTypeResponse")
+	}
+	return
+}
+
+// changeMysqlDatabaseManagementType implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) changeMysqlDatabaseManagementType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedMySqlDatabases/{managedMySqlDatabaseId}/actions/changeManagementType", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMysqlDatabaseManagementTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/ChangeMysqlDatabaseManagementType"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "ChangeMysqlDatabaseManagementType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBinaryLogInformation Retrieves information pertaining to binary log of a specific MySQL server.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetBinaryLogInformation.go.html to see an example of how to use GetBinaryLogInformation API.
+// A default retry strategy applies to this operation GetBinaryLogInformation()
+func (client ManagedMySqlDatabasesClient) GetBinaryLogInformation(ctx context.Context, request GetBinaryLogInformationRequest) (response GetBinaryLogInformationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBinaryLogInformation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBinaryLogInformationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBinaryLogInformationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBinaryLogInformationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBinaryLogInformationResponse")
+	}
+	return
+}
+
+// getBinaryLogInformation implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) getBinaryLogInformation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/binaryLogInformation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBinaryLogInformationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/GetBinaryLogInformation"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "GetBinaryLogInformation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetGeneralReplicationInformation Retrieves general information regarding replication of a specific MySQL server.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetGeneralReplicationInformation.go.html to see an example of how to use GetGeneralReplicationInformation API.
+// A default retry strategy applies to this operation GetGeneralReplicationInformation()
+func (client ManagedMySqlDatabasesClient) GetGeneralReplicationInformation(ctx context.Context, request GetGeneralReplicationInformationRequest) (response GetGeneralReplicationInformationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getGeneralReplicationInformation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGeneralReplicationInformationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGeneralReplicationInformationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGeneralReplicationInformationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGeneralReplicationInformationResponse")
+	}
+	return
+}
+
+// getGeneralReplicationInformation implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) getGeneralReplicationInformation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/generalReplicationInformation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGeneralReplicationInformationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/GetGeneralReplicationInformation"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "GetGeneralReplicationInformation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetHeatWaveFleetMetric Gets the health metrics for a fleet of HeatWave clusters in a compartment.
 //
 // # See also
@@ -257,6 +437,180 @@ func (client ManagedMySqlDatabasesClient) getMySqlFleetMetric(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/MySqlFleetMetrics/GetMySqlFleetMetric"
 		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "GetMySqlFleetMetric", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMySqlQueryDetails Retrieves query sample details, explain plan and potential warnings for a given digest.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetMySqlQueryDetails.go.html to see an example of how to use GetMySqlQueryDetails API.
+// A default retry strategy applies to this operation GetMySqlQueryDetails()
+func (client ManagedMySqlDatabasesClient) GetMySqlQueryDetails(ctx context.Context, request GetMySqlQueryDetailsRequest) (response GetMySqlQueryDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMySqlQueryDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMySqlQueryDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMySqlQueryDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMySqlQueryDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMySqlQueryDetailsResponse")
+	}
+	return
+}
+
+// getMySqlQueryDetails implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) getMySqlQueryDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/queryDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMySqlQueryDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/GetMySqlQueryDetails"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "GetMySqlQueryDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListHighAvailabilityMembers Information about high availability members of a specific MySQL server's replication group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListHighAvailabilityMembers.go.html to see an example of how to use ListHighAvailabilityMembers API.
+// A default retry strategy applies to this operation ListHighAvailabilityMembers()
+func (client ManagedMySqlDatabasesClient) ListHighAvailabilityMembers(ctx context.Context, request ListHighAvailabilityMembersRequest) (response ListHighAvailabilityMembersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listHighAvailabilityMembers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListHighAvailabilityMembersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListHighAvailabilityMembersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListHighAvailabilityMembersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListHighAvailabilityMembersResponse")
+	}
+	return
+}
+
+// listHighAvailabilityMembers implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) listHighAvailabilityMembers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/highAvailabilityMembers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListHighAvailabilityMembersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/ListHighAvailabilityMembers"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "ListHighAvailabilityMembers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInboundReplications Retrieves information about the inbound replications of a specific MySQL server.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListInboundReplications.go.html to see an example of how to use ListInboundReplications API.
+// A default retry strategy applies to this operation ListInboundReplications()
+func (client ManagedMySqlDatabasesClient) ListInboundReplications(ctx context.Context, request ListInboundReplicationsRequest) (response ListInboundReplicationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInboundReplications, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInboundReplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInboundReplicationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInboundReplicationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInboundReplicationsResponse")
+	}
+	return
+}
+
+// listInboundReplications implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) listInboundReplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/inboundReplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInboundReplicationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/ListInboundReplications"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "ListInboundReplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -430,6 +784,122 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabases(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabaseCollection/ListManagedMySqlDatabases"
 		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "ListManagedMySqlDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMySqlDigestErrors Retrieves any potential errors for a given digest.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListMySqlDigestErrors.go.html to see an example of how to use ListMySqlDigestErrors API.
+// A default retry strategy applies to this operation ListMySqlDigestErrors()
+func (client ManagedMySqlDatabasesClient) ListMySqlDigestErrors(ctx context.Context, request ListMySqlDigestErrorsRequest) (response ListMySqlDigestErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMySqlDigestErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMySqlDigestErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMySqlDigestErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMySqlDigestErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMySqlDigestErrorsResponse")
+	}
+	return
+}
+
+// listMySqlDigestErrors implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) listMySqlDigestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/digestErrors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMySqlDigestErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/ListMySqlDigestErrors"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "ListMySqlDigestErrors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOutboundReplications Retrieves information pertaining to outbound replications of a specific MySQL server.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOutboundReplications.go.html to see an example of how to use ListOutboundReplications API.
+// A default retry strategy applies to this operation ListOutboundReplications()
+func (client ManagedMySqlDatabasesClient) ListOutboundReplications(ctx context.Context, request ListOutboundReplicationsRequest) (response ListOutboundReplicationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOutboundReplications, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOutboundReplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOutboundReplicationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOutboundReplicationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOutboundReplicationsResponse")
+	}
+	return
+}
+
+// listOutboundReplications implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) listOutboundReplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedMySqlDatabases/{managedMySqlDatabaseId}/outboundReplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOutboundReplicationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedMySqlDatabase/ListOutboundReplications"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "ListOutboundReplications", apiReferenceLink)
 		return response, err
 	}
 

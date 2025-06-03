@@ -47,6 +47,9 @@ type ManagedMySqlDatabaseSummary struct {
 
 	// Indicates lifecycle  state of the resource.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The customer's selected type for HeatWave management.
+	HeatWaveManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"false" json:"heatWaveManagementType,omitempty"`
 }
 
 func (m ManagedMySqlDatabaseSummary) String() string {
@@ -67,6 +70,9 @@ func (m ManagedMySqlDatabaseSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagedMySqlDatabaseHeatWaveManagementTypeEnum(string(m.HeatWaveManagementType)); !ok && m.HeatWaveManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HeatWaveManagementType: %s. Supported values are: %s.", m.HeatWaveManagementType, strings.Join(GetManagedMySqlDatabaseHeatWaveManagementTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

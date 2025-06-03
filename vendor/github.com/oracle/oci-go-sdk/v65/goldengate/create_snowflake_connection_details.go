@@ -29,6 +29,10 @@ type CreateSnowflakeConnectionDetails struct {
 	// e.g.: 'jdbc:snowflake://<account_name>.snowflakecomputing.com/?warehouse=<warehouse-name>&db=<db-name>'
 	ConnectionUrl *string `mandatory:"true" json:"connectionUrl"`
 
+	// The username Oracle GoldenGate uses to connect to Snowflake.
+	// This username must already exist and be available by Snowflake platform to be connected to.
+	Username *string `mandatory:"true" json:"username"`
+
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -61,10 +65,6 @@ type CreateSnowflakeConnectionDetails struct {
 
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
-
-	// The username Oracle GoldenGate uses to connect to Snowflake.
-	// This username must already exist and be available by Snowflake platform to be connected to.
-	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect to Snowflake platform.
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.

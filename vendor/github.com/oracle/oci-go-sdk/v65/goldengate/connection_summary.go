@@ -242,6 +242,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := GoogleBigQueryConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ICEBERG":
+		mm := IcebergConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "POSTGRESQL":
 		mm := PostgresqlConnectionSummary{}
 		err = json.Unmarshal(data, &mm)

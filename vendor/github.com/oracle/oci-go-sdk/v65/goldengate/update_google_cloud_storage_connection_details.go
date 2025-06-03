@@ -58,7 +58,7 @@ type UpdateGoogleCloudStorageConnectionDetails struct {
 	ServiceAccountKeyFile *string `mandatory:"false" json:"serviceAccountKeyFile"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
-	// which containing the credentials required to use Google Cloud Storage.
+	// which contains the credentials required to use Google Cloud Storage.
 	// Note: When provided, 'serviceAccountKeyFile' field must not be provided.
 	ServiceAccountKeyFileSecretId *string `mandatory:"false" json:"serviceAccountKeyFileSecretId"`
 

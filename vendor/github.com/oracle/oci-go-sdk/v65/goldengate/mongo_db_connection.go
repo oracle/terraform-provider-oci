@@ -108,6 +108,10 @@ type MongoDbConnection struct {
 	// Note: When provided, 'tlsCertificateKeyFilePassword' field must not be provided.
 	TlsCertificateKeyFilePasswordSecretId *string `mandatory:"false" json:"tlsCertificateKeyFilePasswordSecretId"`
 
+	// Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	TlsCaFile *string `mandatory:"false" json:"tlsCaFile"`
+
 	// The MongoDB technology type.
 	TechnologyType MongoDbConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -271,6 +275,7 @@ const (
 	MongoDbConnectionTechnologyTypeAzureCosmosDbForMongodb   MongoDbConnectionTechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_MONGODB"
 	MongoDbConnectionTechnologyTypeAmazonDocumentDb          MongoDbConnectionTechnologyTypeEnum = "AMAZON_DOCUMENT_DB"
 	MongoDbConnectionTechnologyTypeOracleJsonCollection      MongoDbConnectionTechnologyTypeEnum = "ORACLE_JSON_COLLECTION"
+	MongoDbConnectionTechnologyTypeOracleRestDataServices    MongoDbConnectionTechnologyTypeEnum = "ORACLE_REST_DATA_SERVICES"
 )
 
 var mappingMongoDbConnectionTechnologyTypeEnum = map[string]MongoDbConnectionTechnologyTypeEnum{
@@ -279,6 +284,7 @@ var mappingMongoDbConnectionTechnologyTypeEnum = map[string]MongoDbConnectionTec
 	"AZURE_COSMOS_DB_FOR_MONGODB":  MongoDbConnectionTechnologyTypeAzureCosmosDbForMongodb,
 	"AMAZON_DOCUMENT_DB":           MongoDbConnectionTechnologyTypeAmazonDocumentDb,
 	"ORACLE_JSON_COLLECTION":       MongoDbConnectionTechnologyTypeOracleJsonCollection,
+	"ORACLE_REST_DATA_SERVICES":    MongoDbConnectionTechnologyTypeOracleRestDataServices,
 }
 
 var mappingMongoDbConnectionTechnologyTypeEnumLowerCase = map[string]MongoDbConnectionTechnologyTypeEnum{
@@ -287,6 +293,7 @@ var mappingMongoDbConnectionTechnologyTypeEnumLowerCase = map[string]MongoDbConn
 	"azure_cosmos_db_for_mongodb":  MongoDbConnectionTechnologyTypeAzureCosmosDbForMongodb,
 	"amazon_document_db":           MongoDbConnectionTechnologyTypeAmazonDocumentDb,
 	"oracle_json_collection":       MongoDbConnectionTechnologyTypeOracleJsonCollection,
+	"oracle_rest_data_services":    MongoDbConnectionTechnologyTypeOracleRestDataServices,
 }
 
 // GetMongoDbConnectionTechnologyTypeEnumValues Enumerates the set of values for MongoDbConnectionTechnologyTypeEnum
@@ -306,6 +313,7 @@ func GetMongoDbConnectionTechnologyTypeEnumStringValues() []string {
 		"AZURE_COSMOS_DB_FOR_MONGODB",
 		"AMAZON_DOCUMENT_DB",
 		"ORACLE_JSON_COLLECTION",
+		"ORACLE_REST_DATA_SERVICES",
 	}
 }
 
