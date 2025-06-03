@@ -24,6 +24,10 @@ type UpdateBackupDetails struct {
 	// A user-supplied description for the backup.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED
+	// state for 7 days before permanently deleting it.
+	SoftDelete SoftDeleteEnum `mandatory:"false" json:"softDelete,omitempty"`
+
 	// The number of days backups are retained.
 	RetentionInDays *int `mandatory:"false" json:"retentionInDays"`
 
@@ -46,6 +50,9 @@ func (m UpdateBackupDetails) String() string {
 func (m UpdateBackupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSoftDeleteEnum(string(m.SoftDelete)); !ok && m.SoftDelete != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftDelete: %s. Supported values are: %s.", m.SoftDelete, strings.Join(GetSoftDeleteEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

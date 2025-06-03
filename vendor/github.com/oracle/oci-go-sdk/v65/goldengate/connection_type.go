@@ -45,6 +45,7 @@ const (
 	ConnectionTypeDatabricks            ConnectionTypeEnum = "DATABRICKS"
 	ConnectionTypeGooglePubsub          ConnectionTypeEnum = "GOOGLE_PUBSUB"
 	ConnectionTypeMicrosoftFabric       ConnectionTypeEnum = "MICROSOFT_FABRIC"
+	ConnectionTypeIceberg               ConnectionTypeEnum = "ICEBERG"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
@@ -75,6 +76,7 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"DATABRICKS":              ConnectionTypeDatabricks,
 	"GOOGLE_PUBSUB":           ConnectionTypeGooglePubsub,
 	"MICROSOFT_FABRIC":        ConnectionTypeMicrosoftFabric,
+	"ICEBERG":                 ConnectionTypeIceberg,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
@@ -105,6 +107,7 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"databricks":              ConnectionTypeDatabricks,
 	"google_pubsub":           ConnectionTypeGooglePubsub,
 	"microsoft_fabric":        ConnectionTypeMicrosoftFabric,
+	"iceberg":                 ConnectionTypeIceberg,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -146,6 +149,7 @@ func GetConnectionTypeEnumStringValues() []string {
 		"DATABRICKS",
 		"GOOGLE_PUBSUB",
 		"MICROSOFT_FABRIC",
+		"ICEBERG",
 	}
 }
 

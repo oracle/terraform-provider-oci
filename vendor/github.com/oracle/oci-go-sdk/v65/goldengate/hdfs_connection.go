@@ -84,6 +84,10 @@ type HdfsConnection struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	CoreSiteXml *string `mandatory:"false" json:"coreSiteXml"`
+
 	// The Hadoop Distributed File System technology type.
 	TechnologyType HdfsConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 

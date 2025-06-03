@@ -202,6 +202,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MicrosoftSqlserverConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ICEBERG":
+		mm := IcebergConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC":
 		mm := GenericConnection{}
 		err = json.Unmarshal(data, &mm)

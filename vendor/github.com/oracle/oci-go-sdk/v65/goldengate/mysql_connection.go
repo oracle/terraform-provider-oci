@@ -98,6 +98,21 @@ type MysqlConnection struct {
 	// The name of the database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 
+	// Database Certificate - The base64 encoded content of a .pem or .crt file
+	// containing the server public key (for 1 and 2-way SSL).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	SslCa *string `mandatory:"false" json:"sslCa"`
+
+	// The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
+	// Note: This is an optional property and only applicable if TLS/MTLS option is selected.
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	SslCrl *string `mandatory:"false" json:"sslCrl"`
+
+	// Client Certificate - The base64 encoded content of a .pem or .crt file
+	// containing the client public key (for 2-way SSL).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
+	SslCert *string `mandatory:"false" json:"sslCert"`
+
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a

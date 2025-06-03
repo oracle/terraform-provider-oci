@@ -19,7 +19,7 @@ import (
 type CreateAutonomousContainerDatabaseRequest struct {
 
 	// Request to create an Autonomous Container Database in a specified Autonomous Exadata Infrastructure or in Autonomous VM Cluster.
-	CreateAutonomousContainerDatabaseDetails `contributesTo:"body"`
+	CreateAutonomousContainerDatabaseDetails CreateAutonomousContainerDatabaseBase `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

@@ -141,6 +141,7 @@ const (
 	ListDeploymentTypesDeploymentTypeDatabaseMysql              ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListDeploymentTypesDeploymentTypeDatabasePostgresql         ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 	ListDeploymentTypesDeploymentTypeDatabaseDb2zos             ListDeploymentTypesDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListDeploymentTypesDeploymentTypeDatabaseDb2i               ListDeploymentTypesDeploymentTypeEnum = "DATABASE_DB2I"
 	ListDeploymentTypesDeploymentTypeGgsa                       ListDeploymentTypesDeploymentTypeEnum = "GGSA"
 	ListDeploymentTypesDeploymentTypeDataTransforms             ListDeploymentTypesDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
@@ -153,6 +154,7 @@ var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentType
 	"DATABASE_MYSQL":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
 	"DATABASE_DB2ZOS":              ListDeploymentTypesDeploymentTypeDatabaseDb2zos,
+	"DATABASE_DB2I":                ListDeploymentTypesDeploymentTypeDatabaseDb2i,
 	"GGSA":                         ListDeploymentTypesDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListDeploymentTypesDeploymentTypeDataTransforms,
 }
@@ -165,6 +167,7 @@ var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeplo
 	"database_mysql":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
 	"database_db2zos":              ListDeploymentTypesDeploymentTypeDatabaseDb2zos,
+	"database_db2i":                ListDeploymentTypesDeploymentTypeDatabaseDb2i,
 	"ggsa":                         ListDeploymentTypesDeploymentTypeGgsa,
 	"data_transforms":              ListDeploymentTypesDeploymentTypeDataTransforms,
 }
@@ -188,6 +191,7 @@ func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"DATABASE_DB2ZOS",
+		"DATABASE_DB2I",
 		"GGSA",
 		"DATA_TRANSFORMS",
 	}

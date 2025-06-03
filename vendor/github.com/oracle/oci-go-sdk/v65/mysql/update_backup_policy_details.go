@@ -21,6 +21,10 @@ type UpdateBackupPolicyDetails struct {
 	// Specifies if automatic backups are enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED
+	// state for 7 days before permanently deleting it.
+	SoftDelete SoftDeleteEnum `mandatory:"false" json:"softDelete,omitempty"`
+
 	// List of policies of a DB system to schedule cross-region DB system backup copy.
 	// The policy includes the name of the destination region to which the DB system backup will be copied, and
 	// an optional parameter which specifies the retention period of the copied DB system backup in days.
@@ -58,6 +62,9 @@ func (m UpdateBackupPolicyDetails) String() string {
 func (m UpdateBackupPolicyDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSoftDeleteEnum(string(m.SoftDelete)); !ok && m.SoftDelete != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftDelete: %s. Supported values are: %s.", m.SoftDelete, strings.Join(GetSoftDeleteEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

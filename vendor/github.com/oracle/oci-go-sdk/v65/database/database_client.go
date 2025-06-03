@@ -14243,6 +14243,63 @@ func (client DatabaseClient) listApplicationVips(ctx context.Context, request co
 	return response, err
 }
 
+// ListAutonomousContainerDatabaseBackups Gets a list of Autonomous Container Database backups by using either the 'autonomousDatabaseId' or 'compartmentId' as your query parameter.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousContainerDatabaseBackups.go.html to see an example of how to use ListAutonomousContainerDatabaseBackups API.
+func (client DatabaseClient) ListAutonomousContainerDatabaseBackups(ctx context.Context, request ListAutonomousContainerDatabaseBackupsRequest) (response ListAutonomousContainerDatabaseBackupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousContainerDatabaseBackups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousContainerDatabaseBackupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousContainerDatabaseBackupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousContainerDatabaseBackupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousContainerDatabaseBackupsResponse")
+	}
+	return
+}
+
+// listAutonomousContainerDatabaseBackups implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousContainerDatabaseBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabaseBackups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousContainerDatabaseBackupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseBackup/ListAutonomousContainerDatabaseBackups"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousContainerDatabaseBackups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAutonomousContainerDatabaseDataguardAssociations **Deprecated.** Use the ListAutonomousContainerDatabases operation to get a list of the Autonomous Container Databases (ACDs)with Autonomous Data Guard-enabled associated with the specified ACD.
 //
 // # See also

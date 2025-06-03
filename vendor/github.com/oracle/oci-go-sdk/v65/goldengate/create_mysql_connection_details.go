@@ -84,16 +84,19 @@ type CreateMysqlConnectionDetails struct {
 	// The port of an endpoint usually specified for a connection.
 	Port *int `mandatory:"false" json:"port"`
 
-	// Database Certificate - The base64 encoded content of a .pem or .crt file.
+	// Database Certificate - The base64 encoded content of a .pem or .crt file
 	// containing the server public key (for 1 and 2-way SSL).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslCa *string `mandatory:"false" json:"sslCa"`
 
 	// The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
 	// Note: This is an optional property and only applicable if TLS/MTLS option is selected.
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslCrl *string `mandatory:"false" json:"sslCrl"`
 
-	// Client Certificate - The base64 encoded content of a .pem or .crt file.
+	// Client Certificate - The base64 encoded content of a .pem or .crt file
 	// containing the client public key (for 2-way SSL).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
 	// Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL).

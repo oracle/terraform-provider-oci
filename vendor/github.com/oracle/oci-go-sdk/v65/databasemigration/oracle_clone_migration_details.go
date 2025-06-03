@@ -42,6 +42,9 @@ type OracleCloneMigrationDetails struct {
 
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
+
+	// The OCID of the resource being referenced.
+	SourceStandbyDatabaseConnectionId *string `mandatory:"false" json:"sourceStandbyDatabaseConnectionId"`
 }
 
 // GetDisplayName returns DisplayName

@@ -38,6 +38,9 @@ type ListBackupsRequest struct {
 	// A filter to return only the resource matching the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// Backup Soft Delete
+	SoftDelete ListBackupsSoftDeleteEnum `mandatory:"false" contributesTo:"query" name:"softDelete" omitEmpty:"true"`
+
 	// Backup creationType
 	CreationType BackupCreationTypeEnum `mandatory:"false" contributesTo:"query" name:"creationType" omitEmpty:"true"`
 
@@ -95,6 +98,9 @@ func (request ListBackupsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingBackupLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBackupLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListBackupsSoftDeleteEnum(string(request.SoftDelete)); !ok && request.SoftDelete != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftDelete: %s. Supported values are: %s.", request.SoftDelete, strings.Join(GetListBackupsSoftDeleteEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingBackupCreationTypeEnum(string(request.CreationType)); !ok && request.CreationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationType: %s. Supported values are: %s.", request.CreationType, strings.Join(GetBackupCreationTypeEnumStringValues(), ",")))
 	}
@@ -136,6 +142,48 @@ func (response ListBackupsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListBackupsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListBackupsSoftDeleteEnum Enum with underlying type: string
+type ListBackupsSoftDeleteEnum string
+
+// Set of constants representing the allowable values for ListBackupsSoftDeleteEnum
+const (
+	ListBackupsSoftDeleteEnabled  ListBackupsSoftDeleteEnum = "ENABLED"
+	ListBackupsSoftDeleteDisabled ListBackupsSoftDeleteEnum = "DISABLED"
+)
+
+var mappingListBackupsSoftDeleteEnum = map[string]ListBackupsSoftDeleteEnum{
+	"ENABLED":  ListBackupsSoftDeleteEnabled,
+	"DISABLED": ListBackupsSoftDeleteDisabled,
+}
+
+var mappingListBackupsSoftDeleteEnumLowerCase = map[string]ListBackupsSoftDeleteEnum{
+	"enabled":  ListBackupsSoftDeleteEnabled,
+	"disabled": ListBackupsSoftDeleteDisabled,
+}
+
+// GetListBackupsSoftDeleteEnumValues Enumerates the set of values for ListBackupsSoftDeleteEnum
+func GetListBackupsSoftDeleteEnumValues() []ListBackupsSoftDeleteEnum {
+	values := make([]ListBackupsSoftDeleteEnum, 0)
+	for _, v := range mappingListBackupsSoftDeleteEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListBackupsSoftDeleteEnumStringValues Enumerates the set of values in String for ListBackupsSoftDeleteEnum
+func GetListBackupsSoftDeleteEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingListBackupsSoftDeleteEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListBackupsSoftDeleteEnum(val string) (ListBackupsSoftDeleteEnum, bool) {
+	enum, ok := mappingListBackupsSoftDeleteEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListBackupsSortByEnum Enum with underlying type: string
