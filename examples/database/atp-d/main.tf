@@ -14,7 +14,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.23.0.1.0"
+  db_version                           = "19.26.0.1.0"
   db_name                              = "ACDNAME"
 
   #Optional
@@ -238,7 +238,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_primary.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.22.0.1.0"
+  db_version                           = "19.26.0.1.0"
   db_name                              = "PRIMARY"
 
   #Optional

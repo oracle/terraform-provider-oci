@@ -32,19 +32,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `action_group_types` - All ActionGroup Types that are part of the schedule.
 * `action_groups` - Action Groups associated with the Schedule.
-	* `application_type` - Application Type associated. Only applicable if type is ENVIRONMENT. 
-	* `lifecycle_operation` - LifeCycle Operation
-	* `product` - Product associated. Only applicable if type is PRODUCT. 
-	* `resource_id` - Provide the ID of the resource. Example fleet ID.
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+	* `fleet_id` - ID of the fleet
+	* `kind` - Action Group kind
 	* `runbook_id` - ID of the runbook
-	* `subjects` - Provide subjects that need to be considered for the schedule.
-	* `target_id` - Provide the target if schedule is created against the target
-	* `type` - ActionGroup Type associated.
-* `activity_initiation_cut_off` - Activity Initiation Cut Off.
-* `application_types` - All application types that are part of the schedule for ENVIRONMENT ActionGroup Type. 
-* `compartment_id` - Tenancy OCID
+	* `runbook_version_name` - Name of the runbook version
+	* `sequence` - Sequence of the Action Group. Action groups will be executed in a seuential order. All Action Groups having the same sequence will be executed parallely. If no value is provided a default value of 1 will be given. 
+* `compartment_id` - Compartment OCID
 * `count_of_affected_action_groups` - Count of Action Groups affected by the Schedule.
 * `count_of_affected_resources` - Count of Resources affected by the Schedule.
 * `count_of_affected_targets` - Count of Targets affected by the Schedule.
@@ -58,17 +53,25 @@ The following attributes are exported:
 * `products` - All products that are part of the schedule for PRODUCT ActionGroup Type.
 * `resource_region` - Associated region
 * `run_books` - Runbooks.
-	* `id` - The ID of the Runbook
 	* `input_parameters` - Input Parameters for the Task
 		* `arguments` - Arguments for the Task
-			* `name` - Name of the output variable
-			* `value` - The task output
+			* `content` - Content Source details.
+				* `bucket` - Bucket Name.
+				* `checksum` - md5 checksum of the artifact.
+				* `namespace` - Namespace.
+				* `object` - Object Name.
+				* `source_type` - Content Source type details. 
+			* `kind` - Task argument kind
+			* `name` - Name of the input variable
+			* `value` - The task input
 		* `step_name` - stepName for which the input parameters are provided
+	* `runbook_id` - The ID of the Runbook
+	* `runbook_version_name` - The runbook version name
 * `schedule` - Schedule Information.
-	* `duration` - Duration if schedule type is Custom
+	* `duration` - Duration of the schedule.
 	* `execution_startdate` - Start Date for the schedule. An RFC3339 formatted datetime string
-	* `maintenance_window_id` - Provide MaintenanceWindowId if Schedule Type is Maintenance Window
-	* `recurrences` - Recurrence rule specification if Schedule Type is Custom and Recurring
+	* `maintenance_window_id` - Provide MaintenanceWindowId
+	* `recurrences` - Recurrence rule specification if recurring
 	* `type` - Schedule Type
 * `state` - The current state of the SchedulerDefinition.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

@@ -51,13 +51,13 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of Execution steps.
-	* `description` - Description of the step Execution
+	* `description` - Description of the step Execution.
 	* `is_rollback_task` - Is this a rollback task?
-	* `sequence` - The sequence of the step
-	* `status` - Status of the Task
-	* `step_name` - Name of the Step
+	* `sequence` - The sequence of the step.
+	* `status` - Status of the Task.
+	* `step_name` - Name of the Step.
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-	* `task_record_id` - The OCID of taskRecord assocaited with the step
+	* `task_record_id` - The OCID of taskRecord assocaited with the step.
 	* `time_ended` - The time the task ended. An RFC3339 formatted datetime string
 	* `time_started` - The time the task started. An RFC3339 formatted datetime string
 

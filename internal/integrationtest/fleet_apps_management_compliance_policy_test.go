@@ -23,8 +23,9 @@ var (
 	FleetAppsManagementCompliancePolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.compliance_policy_id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compliance_policy_id}`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `USER_DEFINED`},
 	}
 
 	FleetAppsManagementCompliancePolicyResourceConfig = ""
@@ -55,12 +56,17 @@ func TestFleetAppsManagementCompliancePolicyResource_basic(t *testing.T) {
 				compartmentIdVariableStr + compliancePolicyIdVariableStr + FleetAppsManagementCompliancePolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
+				//resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				//resource.TestCheckResourceAttr(datasourceName, "type", "USER_DEFINED"),
+
 				// Below criteria checks collection is returned
 				resource.TestCheckResourceAttrSet(datasourceName, "compliance_policy_collection.#"),
 				// Considering at least one compliance rule exists in entire tenancy, below criteria checks collection is non-empty
 				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_collection.0.%", "1"),
-				// Verify each entity has total 11 attributes
-				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_collection.0.items.0.%", "11"),
+				// Verify each entity has total 12 attributes
+				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_collection.0.items.0.%", "12"),
 
 				//Check for some values
 				resource.TestCheckResourceAttr(datasourceName, "compliance_policy_collection.0.items.0.compartment_id", compartmentId),
@@ -84,6 +90,7 @@ func TestFleetAppsManagementCompliancePolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 			),
 		},
 	})

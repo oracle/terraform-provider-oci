@@ -207,6 +207,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateAzureSynapseConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ICEBERG":
+		mm := CreateIcebergConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL":
 		mm := CreateMysqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

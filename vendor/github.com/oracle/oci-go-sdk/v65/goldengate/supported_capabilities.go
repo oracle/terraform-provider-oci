@@ -18,32 +18,32 @@ type SupportedCapabilitiesEnum string
 
 // Set of constants representing the allowable values for SupportedCapabilitiesEnum
 const (
-	SupportedCapabilitiesPlacement            SupportedCapabilitiesEnum = "PLACEMENT"
-	SupportedCapabilitiesDisasterRecovery     SupportedCapabilitiesEnum = "DISASTER_RECOVERY"
 	SupportedCapabilitiesGroupToRole          SupportedCapabilitiesEnum = "GROUP_TO_ROLE"
 	SupportedCapabilitiesBackupRestore        SupportedCapabilitiesEnum = "BACKUP_RESTORE"
 	SupportedCapabilitiesCopyBackup           SupportedCapabilitiesEnum = "COPY_BACKUP"
 	SupportedCapabilitiesManualBackup         SupportedCapabilitiesEnum = "MANUAL_BACKUP"
+	SupportedCapabilitiesPlacement            SupportedCapabilitiesEnum = "PLACEMENT"
+	SupportedCapabilitiesDisasterRecovery     SupportedCapabilitiesEnum = "DISASTER_RECOVERY"
 	SupportedCapabilitiesScheduleManualBackup SupportedCapabilitiesEnum = "SCHEDULE_MANUAL_BACKUP"
 )
 
 var mappingSupportedCapabilitiesEnum = map[string]SupportedCapabilitiesEnum{
-	"PLACEMENT":              SupportedCapabilitiesPlacement,
-	"DISASTER_RECOVERY":      SupportedCapabilitiesDisasterRecovery,
 	"GROUP_TO_ROLE":          SupportedCapabilitiesGroupToRole,
 	"BACKUP_RESTORE":         SupportedCapabilitiesBackupRestore,
 	"COPY_BACKUP":            SupportedCapabilitiesCopyBackup,
 	"MANUAL_BACKUP":          SupportedCapabilitiesManualBackup,
+	"PLACEMENT":              SupportedCapabilitiesPlacement,
+	"DISASTER_RECOVERY":      SupportedCapabilitiesDisasterRecovery,
 	"SCHEDULE_MANUAL_BACKUP": SupportedCapabilitiesScheduleManualBackup,
 }
 
 var mappingSupportedCapabilitiesEnumLowerCase = map[string]SupportedCapabilitiesEnum{
-	"placement":              SupportedCapabilitiesPlacement,
-	"disaster_recovery":      SupportedCapabilitiesDisasterRecovery,
 	"group_to_role":          SupportedCapabilitiesGroupToRole,
 	"backup_restore":         SupportedCapabilitiesBackupRestore,
 	"copy_backup":            SupportedCapabilitiesCopyBackup,
 	"manual_backup":          SupportedCapabilitiesManualBackup,
+	"placement":              SupportedCapabilitiesPlacement,
+	"disaster_recovery":      SupportedCapabilitiesDisasterRecovery,
 	"schedule_manual_backup": SupportedCapabilitiesScheduleManualBackup,
 }
 
@@ -59,12 +59,12 @@ func GetSupportedCapabilitiesEnumValues() []SupportedCapabilitiesEnum {
 // GetSupportedCapabilitiesEnumStringValues Enumerates the set of values in String for SupportedCapabilitiesEnum
 func GetSupportedCapabilitiesEnumStringValues() []string {
 	return []string{
-		"PLACEMENT",
-		"DISASTER_RECOVERY",
 		"GROUP_TO_ROLE",
 		"BACKUP_RESTORE",
 		"COPY_BACKUP",
 		"MANUAL_BACKUP",
+		"PLACEMENT",
+		"DISASTER_RECOVERY",
 		"SCHEDULE_MANUAL_BACKUP",
 	}
 }

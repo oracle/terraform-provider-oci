@@ -69,6 +69,7 @@ The following attributes are exported:
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under. When this field contains an empty string or is null, the instance is not currently in a capacity reservation. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - The OCID of the compartment that contains the instance.
+* `compute_host_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group 
 * `dedicated_vm_host_id` - The OCID of the dedicated virtual machine host that the instance is placed on. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

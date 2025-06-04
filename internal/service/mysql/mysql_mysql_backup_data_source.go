@@ -130,6 +130,8 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
 
+	s.D.Set("soft_delete", s.Res.SoftDelete)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

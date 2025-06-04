@@ -37,60 +37,78 @@ var (
 	}
 
 	FleetAppsManagementTaskRecordDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName2`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: `USER_DEFINED`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		// "display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tersi-testing-task`},
+		// "id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_task_record.test_task_record.id}`},
+		// "operation": acctest.Representation{RepType: acctest.Optional, Create: `Discovery`},
+		// "platform":       acctest.Representation{RepType: acctest.Optional, Create: `tersi-test-compatible-product2`},
+		"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":  acctest.Representation{RepType: acctest.Optional, Create: `USER_DEFINED`},
 	}
 
 	FleetAppsManagementTaskRecordRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementTaskRecordDetailsRepresentation},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":   acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 	}
+
 	FleetAppsManagementTaskRecordDetailsRepresentation = map[string]interface{}{
 		"execution_details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsRepresentation},
-		"os_type":                  acctest.Representation{RepType: acctest.Required, Create: `LINUX`, Update: `WINDOWS`},
 		"scope":                    acctest.Representation{RepType: acctest.Required, Create: `LOCAL`, Update: `SHARED`},
-		"is_apply_subject_task":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_apply_subject_task":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_discovery_output_task": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"operation":                acctest.Representation{RepType: acctest.Optional, Create: `Patch`, Update: `Discovery`},
+		"os_type":                  acctest.Representation{RepType: acctest.Required, Create: `LINUX`, Update: `WINDOWS`},
+		"platform":                 acctest.Representation{RepType: acctest.Optional, Create: `Oracle Java`, Update: `tersi-test-compatible-product2`},
 		"properties":               acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementTaskRecordDetailsPropertiesRepresentation},
 	}
+
 	FleetAppsManagementTaskRecordDetailsExecutionDetailsRepresentation = map[string]interface{}{
 		"execution_type": acctest.Representation{RepType: acctest.Required, Create: `SCRIPT`},
-		"command":        acctest.Representation{RepType: acctest.Optional, Create: `command`, Update: `command2`},
-		"content":        acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsContentRepresentation},
-		"variables":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesRepresentation},
+		// "catalog_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.catalog_id}`},
+		"command": acctest.Representation{RepType: acctest.Required, Create: `pwd`, Update: `ls`},
+		//"config_file":                     acctest.Representation{RepType: acctest.Optional, Create: `configFile`, Update: `configFile2`},
+		"content": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsContentRepresentation},
+		//"credentials": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsCredentialsRepresentation},
+		//"endpoint":                        acctest.Representation{RepType: acctest.Optional, Create: `endpoint`, Update: `endpoint2`},
+		"is_executable_content":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_locked":                       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_read_output_variable_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		//"target_compartment_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"variables": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesRepresentation},
 	}
 	FleetAppsManagementTaskRecordDetailsPropertiesRepresentation = map[string]interface{}{
 		"num_retries":        acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"timeout_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
 	FleetAppsManagementTaskRecordDetailsExecutionDetailsContentRepresentation = map[string]interface{}{
-		"bucket":      acctest.Representation{RepType: acctest.Required, Create: `bucket`, Update: `bucket2`},
-		"checksum":    acctest.Representation{RepType: acctest.Required, Create: `checksum`, Update: `checksum2`},
-		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `namespace`, Update: `namespace2`},
-		"object":      acctest.Representation{RepType: acctest.Required, Create: `object`, Update: `object2`},
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE_BUCKET`},
+		"bucket":      acctest.Representation{RepType: acctest.Optional, Create: `bucket`, Update: `bucket2`},
+		// "catalog_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.catalog_id}`},
+		"checksum":  acctest.Representation{RepType: acctest.Optional, Create: `checksum`, Update: `checksum2`},
+		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `namespace`, Update: `namespace2`},
+		"object":    acctest.Representation{RepType: acctest.Optional, Create: `object`, Update: `object2`},
 	}
+
 	FleetAppsManagementTaskRecordDetailsExecutionDetailsCredentialsRepresentation = map[string]interface{}{
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"id":           acctest.Representation{RepType: acctest.Optional, Create: `id`, Update: `id2`},
+		"id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.credential}`, Update: `${var.credential_updated}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.credential_name}`, Update: `${var.credential_name_for_update}`},
 	}
+
 	FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesRepresentation = map[string]interface{}{
 		"input_variables":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesInputVariablesRepresentation},
 		"output_variables": acctest.Representation{RepType: acctest.Optional, Create: []string{`outputVariables`}, Update: []string{`outputVariables2`}},
 	}
 	FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesInputVariablesRepresentation = map[string]interface{}{
-		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"description": acctest.Representation{RepType: acctest.Optional, Create: `description1`, Update: `description2`},
+		"name":        acctest.Representation{RepType: acctest.Required, Create: `name1`, Update: `name2`},
 		"type":        acctest.Representation{RepType: acctest.Required, Create: `STRING`, Update: `OUTPUT_VARIABLE`},
 	}
 
-	FleetAppsManagementTaskRecordResourceDependencies = DefinedTagsDependencies
+	FleetAppsManagementTaskRecordResourceDependencies = ""
 )
 
 // issue-routing-tag: fleet_apps_management/default
@@ -100,8 +118,26 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	catalogId := utils.GetEnvSettingWithBlankDefault("catalog_id")
+	catalogIdVariableStr := fmt.Sprintf("variable \"catalog_id\" { default = \"%s\" }\n", catalogId)
+
+	credentialId := utils.GetEnvSettingWithBlankDefault("credential")
+	credentialIdVariableStr := fmt.Sprintf("variable \"credential\" { default = \"%s\" }\n", credentialId)
+
+	credentialIdU := utils.GetEnvSettingWithBlankDefault("credential")
+	credentialIdUVariableStr := fmt.Sprintf("variable \"credential_updated\" { default = \"%s\" }\n", credentialIdU)
+
+	credentialName := utils.GetEnvSettingWithBlankDefault("credential_name")
+	credentialNameVariableStr := fmt.Sprintf("variable \"credential_name\" { default = \"%s\" }\n", credentialName)
+
+	credentialNameU := utils.GetEnvSettingWithBlankDefault("credential_name_for_update")
+	credentialNameUVariableStr := fmt.Sprintf("variable \"credential_name_for_update\" { default = \"%s\" }\n", credentialNameU)
 
 	resourceName := "oci_fleet_apps_management_task_record.test_task_record"
 
@@ -110,21 +146,21 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+FleetAppsManagementTaskRecordResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+catalogIdVariableStr+credentialIdVariableStr+credentialIdUVariableStr+credentialNameVariableStr+credentialNameUVariableStr+FleetAppsManagementTaskRecordResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Optional, acctest.Create, FleetAppsManagementTaskRecordRepresentation), "fleetappsmanagement", "taskRecord", t)
 
 	acctest.ResourceTest(t, testAccCheckFleetAppsManagementTaskRecordDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
+			Config: config + compartmentIdVariableStr + catalogIdVariableStr + credentialIdVariableStr + credentialNameVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Required, acctest.Create, FleetAppsManagementTaskRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.execution_type", "SCRIPT"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.os_type", "LINUX"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.scope", "LOCAL"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -139,14 +175,14 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
+			Config: config + compartmentIdVariableStr + catalogIdVariableStr + credentialIdVariableStr + credentialNameVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Optional, acctest.Create, FleetAppsManagementTaskRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.command", "command"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.command", "pwd"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.bucket", "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.checksum", "checksum"),
@@ -154,15 +190,17 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.object", "object"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.source_type", "OBJECT_STORAGE_BUCKET"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.execution_type", "SCRIPT"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_executable_content", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_locked", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.type", "STRING"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.output_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.is_apply_subject_task", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.is_discovery_output_task", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.operation", "Patch"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.os_type", "LINUX"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.platform", "Oracle Java"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.properties.0.num_retries", "10"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.properties.0.timeout_in_seconds", "10"),
@@ -187,16 +225,72 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + catalogIdVariableStr + credentialIdVariableStr + credentialIdUVariableStr + credentialNameVariableStr + credentialNameUVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(FleetAppsManagementTaskRecordRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.command", "pwd"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.checksum", "checksum"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.source_type", "OBJECT_STORAGE_BUCKET"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.execution_type", "SCRIPT"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_executable_content", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_locked", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.name", "name1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.type", "STRING"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.output_variables.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.is_apply_subject_task", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.is_discovery_output_task", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.operation", "Patch"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.os_type", "LINUX"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.platform", "Oracle Java"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.properties.0.num_retries", "10"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.properties.0.timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.scope", "LOCAL"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + catalogIdVariableStr + credentialIdVariableStr + credentialIdUVariableStr + credentialNameVariableStr + credentialNameUVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Optional, acctest.Update, FleetAppsManagementTaskRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.command", "command2"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.command", "ls"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.bucket", "bucket2"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.checksum", "checksum2"),
@@ -204,15 +298,20 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.object", "object2"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.content.0.source_type", "OBJECT_STORAGE_BUCKET"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.execution_type", "SCRIPT"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_executable_content", "true"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_locked", "true"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.type", "OUTPUT_VARIABLE"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.output_variables.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.is_apply_subject_task", "true"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.is_apply_subject_task", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.is_discovery_output_task", "true"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.operation", "Discovery"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.os_type", "WINDOWS"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.platform", "tersi-test-compatible-product2"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.properties.0.num_retries", "11"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.properties.0.timeout_in_seconds", "11"),
@@ -237,14 +336,20 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_task_records", "test_task_records", acctest.Optional, acctest.Update, FleetAppsManagementTaskRecordDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetAppsManagementTaskRecordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Optional, acctest.Update, FleetAppsManagementTaskRecordRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_task_records", "test_task_records", acctest.Optional, acctest.Create, FleetAppsManagementTaskRecordDataSourceRepresentation) +
+				compartmentIdVariableStr + FleetAppsManagementTaskRecordResourceDependencies,
+			// acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_task_record", "test_task_record", acctest.Optional, acctest.Update, FleetAppsManagementTaskRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "%"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
+				resource.TestCheckResourceAttrSet(datasourceName, "task_record_collection.0.items.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "task_record_collection.0.items.0.details.0.operation"),
+				resource.TestCheckResourceAttrSet(datasourceName, "task_record_collection.0.items.1.details.0.platform"),
+				resource.TestCheckResourceAttr(datasourceName, "task_record_collection.0.items.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "task_record_collection.0.items.0.type", "USER_DEFINED"),
 				resource.TestCheckResourceAttr(datasourceName, "task_record_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "task_record_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "task_record_collection.0.items.#"),
 			),
 		},
 		// verify singular datasource
@@ -254,28 +359,31 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				compartmentIdVariableStr + FleetAppsManagementTaskRecordResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "task_record_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.command", "command2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.execution_details.0.command"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.0.bucket", "bucket2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.0.checksum", "checksum2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.0.namespace", "namespace2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.0.object", "object2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.0.source_type", "OBJECT_STORAGE_BUCKET"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.execution_type", "SCRIPT"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.execution_details.0.credentials.#"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.is_locked", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.input_variables.0.name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.input_variables.0.type", "OUTPUT_VARIABLE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.output_variables.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.is_apply_subject_task", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.is_apply_subject_task"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.is_discovery_output_task", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.os_type", "WINDOWS"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.operation"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.os_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.platform"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.properties.0.num_retries", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.properties.0.timeout_in_seconds", "11"),

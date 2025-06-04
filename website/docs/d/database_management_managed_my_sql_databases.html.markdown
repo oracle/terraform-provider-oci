@@ -50,6 +50,7 @@ The following attributes are exported:
 * `name` - The name of the Managed MySQL Database.
 * `time_created` - The date and time the Managed Database was created.
 * `heat_wave_cluster_display_name` - The name of the HeatWave cluster.
+* `heat_wave_management_type` - The customer's selected type for HeatWave management.
 * `heat_wave_memory_size` - The total memory belonging to the HeatWave cluster in GBs.
 * `heat_wave_node_shape` - Shape of the nodes in the HeatWave cluster.
 * `heat_wave_nodes` - The information about an individual HeatWave nodes in the cluster.

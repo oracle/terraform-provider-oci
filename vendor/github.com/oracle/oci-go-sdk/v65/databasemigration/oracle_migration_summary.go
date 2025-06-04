@@ -62,6 +62,9 @@ type OracleMigrationSummary struct {
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
+	// The OCID of the resource being referenced.
+	SourceStandbyDatabaseConnectionId *string `mandatory:"false" json:"sourceStandbyDatabaseConnectionId"`
+
 	// The type of the migration to be performed.
 	// Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
 	Type MigrationTypesEnum `mandatory:"true" json:"type"`

@@ -138,6 +138,7 @@ const (
 	ListDeploymentVersionsDeploymentTypeDatabaseMysql              ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListDeploymentVersionsDeploymentTypeDatabasePostgresql         ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 	ListDeploymentVersionsDeploymentTypeDatabaseDb2zos             ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListDeploymentVersionsDeploymentTypeDatabaseDb2i               ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_DB2I"
 	ListDeploymentVersionsDeploymentTypeGgsa                       ListDeploymentVersionsDeploymentTypeEnum = "GGSA"
 	ListDeploymentVersionsDeploymentTypeDataTransforms             ListDeploymentVersionsDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
@@ -150,6 +151,7 @@ var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentV
 	"DATABASE_MYSQL":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
 	"DATABASE_DB2ZOS":              ListDeploymentVersionsDeploymentTypeDatabaseDb2zos,
+	"DATABASE_DB2I":                ListDeploymentVersionsDeploymentTypeDatabaseDb2i,
 	"GGSA":                         ListDeploymentVersionsDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListDeploymentVersionsDeploymentTypeDataTransforms,
 }
@@ -162,6 +164,7 @@ var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDe
 	"database_mysql":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
 	"database_db2zos":              ListDeploymentVersionsDeploymentTypeDatabaseDb2zos,
+	"database_db2i":                ListDeploymentVersionsDeploymentTypeDatabaseDb2i,
 	"ggsa":                         ListDeploymentVersionsDeploymentTypeGgsa,
 	"data_transforms":              ListDeploymentVersionsDeploymentTypeDataTransforms,
 }
@@ -185,6 +188,7 @@ func GetListDeploymentVersionsDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"DATABASE_DB2ZOS",
+		"DATABASE_DB2I",
 		"GGSA",
 		"DATA_TRANSFORMS",
 	}

@@ -209,6 +209,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateDb2ConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ICEBERG":
+		mm := UpdateIcebergConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC":
 		mm := UpdateGenericConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

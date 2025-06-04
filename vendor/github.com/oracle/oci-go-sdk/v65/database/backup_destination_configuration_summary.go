@@ -36,6 +36,14 @@ type BackupDestinationConfigurationSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 	DbrsPolicyId *string `mandatory:"false" json:"dbrsPolicyId"`
 
+	// Indicates whether the backup destination is cross-region or local region.
+	IsRemote *bool `mandatory:"false" json:"isRemote"`
+
+	// The name of the remote region where the remote automatic incremental backups will be stored.
+	// For information about valid region names, see
+	// Regions and Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
+	RemoteRegion *string `mandatory:"false" json:"remoteRegion"`
+
 	// The timestamps at which this backup destination is used as the preferred destination to host the Autonomous Container Database backups.
 	BackupDestinationAttachHistory []common.SDKTime `mandatory:"false" json:"backupDestinationAttachHistory"`
 

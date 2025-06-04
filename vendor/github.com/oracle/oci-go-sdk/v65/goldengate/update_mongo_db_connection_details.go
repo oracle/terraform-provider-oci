@@ -72,6 +72,7 @@ type UpdateMongoDbConnectionDetails struct {
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
 	// Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	TlsCaFile *string `mandatory:"false" json:"tlsCaFile"`
 
 	// Client Certificate - The base64 encoded content of a .pem file, containing the client public key (for 2-way SSL).

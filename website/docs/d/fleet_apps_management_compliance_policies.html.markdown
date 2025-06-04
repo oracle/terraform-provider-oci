@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_fleet_apps_management_compliance_policies
 This data source provides the list of Compliance Policies in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Gets a list of compliancePolicies.
+Returns a list of all the Compliance Policies in the specified compartment.
+The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 
 
 ## Example Usage
@@ -23,6 +24,7 @@ data "oci_fleet_apps_management_compliance_policies" "test_compliance_policies" 
 	display_name = var.compliance_policy_display_name
 	id = var.compliance_policy_id
 	state = var.compliance_policy_state
+	type = var.compliance_policy_type
 }
 ```
 
@@ -30,10 +32,11 @@ data "oci_fleet_apps_management_compliance_policies" "test_compliance_policies" 
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `id` - (Optional) unique CompliancePolicy identifier.
+* `id` - (Optional) Unique identifier or OCID for listing a single Compliance Policy by id. Either compartmentId or id must be provided. 
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state. The state value is case-insensitive. 
+* `type` - (Optional) A filter to return Platform Configurations whose type matches the given type.
 
 
 ## Attributes Reference
@@ -57,4 +60,5 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the CompliancePolicy was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the CompliancePolicy was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `type` - The type of the Compliance Policy.
 

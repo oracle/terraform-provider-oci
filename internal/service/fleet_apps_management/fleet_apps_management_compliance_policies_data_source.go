@@ -34,6 +34,10 @@ func FleetAppsManagementCompliancePoliciesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compliance_policy_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -96,6 +100,10 @@ func FleetAppsManagementCompliancePoliciesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -144,6 +152,10 @@ func (s *FleetAppsManagementCompliancePoliciesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_fleet_apps_management.CompliancePolicyLifecycleStateEnum(state.(string))
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_fleet_apps_management.CompliancePolicyTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
@@ -239,6 +251,8 @@ func CompliancePolicySummaryToMap(obj oci_fleet_apps_management.CompliancePolicy
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	result["type"] = string(obj.Type)
 
 	return result
 }

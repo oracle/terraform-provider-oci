@@ -90,12 +90,15 @@ type CreatePostgresqlConnectionDetails struct {
 
 	// The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.
 	// The supported file formats are .pem and .crt.
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslCa *string `mandatory:"false" json:"sslCa"`
 
 	// The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslCrl *string `mandatory:"false" json:"sslCrl"`
 
 	// The base64 encoded certificate of the PostgreSQL server. The supported file formats are .pem and .crt.
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
 	// The base64 encoded private key of the PostgreSQL server. The supported file formats are .pem and .crt.
