@@ -1,4 +1,4 @@
-## 7.4.0 (Unreleased)
+## 7.4.0 (June 04, 2025)
 
 ### Added
 - Support for Release 7 Connections
