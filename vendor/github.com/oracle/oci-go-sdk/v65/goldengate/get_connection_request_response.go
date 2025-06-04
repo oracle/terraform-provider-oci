@@ -24,6 +24,9 @@ type GetConnectionRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Selects the connection fields returned in connection details.
+	View GetConnectionViewEnum `mandatory:"false" contributesTo:"query" name:"view" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -60,6 +63,9 @@ func (request GetConnectionRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetConnectionRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetConnectionViewEnum(string(request.View)); !ok && request.View != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for View: %s. Supported values are: %s.", request.View, strings.Join(GetGetConnectionViewEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -90,4 +96,46 @@ func (response GetConnectionResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetConnectionResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetConnectionViewEnum Enum with underlying type: string
+type GetConnectionViewEnum string
+
+// Set of constants representing the allowable values for GetConnectionViewEnum
+const (
+	GetConnectionViewFull    GetConnectionViewEnum = "FULL"
+	GetConnectionViewCompact GetConnectionViewEnum = "COMPACT"
+)
+
+var mappingGetConnectionViewEnum = map[string]GetConnectionViewEnum{
+	"FULL":    GetConnectionViewFull,
+	"COMPACT": GetConnectionViewCompact,
+}
+
+var mappingGetConnectionViewEnumLowerCase = map[string]GetConnectionViewEnum{
+	"full":    GetConnectionViewFull,
+	"compact": GetConnectionViewCompact,
+}
+
+// GetGetConnectionViewEnumValues Enumerates the set of values for GetConnectionViewEnum
+func GetGetConnectionViewEnumValues() []GetConnectionViewEnum {
+	values := make([]GetConnectionViewEnum, 0)
+	for _, v := range mappingGetConnectionViewEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetConnectionViewEnumStringValues Enumerates the set of values in String for GetConnectionViewEnum
+func GetGetConnectionViewEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"COMPACT",
+	}
+}
+
+// GetMappingGetConnectionViewEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetConnectionViewEnum(val string) (GetConnectionViewEnum, bool) {
+	enum, ok := mappingGetConnectionViewEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

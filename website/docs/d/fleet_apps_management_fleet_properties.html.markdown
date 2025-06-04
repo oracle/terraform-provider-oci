@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_properties
 This data source provides the list of Fleet Properties in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-List fleet properties in Fleet Application Management.
+List properties associated with a fleet.
 
 
 ## Example Usage
@@ -21,7 +21,6 @@ data "oci_fleet_apps_management_fleet_properties" "test_fleet_properties" {
 	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	display_name = var.fleet_property_display_name
 	id = var.fleet_property_id
 	state = var.fleet_property_state
@@ -32,7 +31,6 @@ data "oci_fleet_apps_management_fleet_properties" "test_fleet_properties" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `fleet_id` - (Required) Unique Fleet identifier.
 * `id` - (Optional) A filter to return only resources whose fleetProperty identifier matches the given identifier.
@@ -50,7 +48,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `allowed_values` - Values of the property (must be a single value if selectionType = 'SINGLE_CHOICE').
-* `compartment_id` - Tenancy OCID
+* `compartment_id` - Compartment OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `id` - The unique id of the resource.
 * `property_id` - OCID referring to global level metadata property.

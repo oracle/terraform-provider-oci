@@ -246,6 +246,14 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("access_key_id", *v.AccessKeyId)
 		}
 
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
+
+		if v.Region != nil {
+			s.D.Set("region", *v.Region)
+		}
+
 		if v.SecretAccessKeySecretId != nil {
 			s.D.Set("secret_access_key_secret_id", *v.SecretAccessKeySecretId)
 		}
@@ -652,6 +660,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("ssl_client_keystoredb_secret_id", *v.SslClientKeystoredbSecretId)
 		}
 
+		if v.SslServerCertificate != nil {
+			s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.Username != nil {
@@ -733,6 +745,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("connection_type", "ELASTICSEARCH")
 
 		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.Fingerprint != nil {
+			s.D.Set("fingerprint", *v.Fingerprint)
+		}
 
 		if v.PasswordSecretId != nil {
 			s.D.Set("password_secret_id", *v.PasswordSecretId)
@@ -1245,6 +1261,106 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 	case oci_golden_gate.HdfsConnection:
 		s.D.Set("connection_type", "HDFS")
+
+		if v.CoreSiteXml != nil {
+			s.D.Set("core_site_xml", *v.CoreSiteXml)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.IcebergConnection:
+		s.D.Set("connection_type", "ICEBERG")
+
+		if v.Catalog != nil {
+			catalogArray := []interface{}{}
+			if catalogMap := IcebergCatalogToMap(&v.Catalog); catalogMap != nil {
+				catalogArray = append(catalogArray, catalogMap)
+			}
+			s.D.Set("catalog", catalogArray)
+		} else {
+			s.D.Set("catalog", nil)
+		}
+
+		if v.Storage != nil {
+			storageArray := []interface{}{}
+			if storageMap := IcebergStorageToMap(&v.Storage); storageMap != nil {
+				storageArray = append(storageArray, storageMap)
+			}
+			s.D.Set("storage", storageArray)
+		} else {
+			s.D.Set("storage", nil)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -1928,6 +2044,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.TlsCaFile != nil {
+			s.D.Set("tls_ca_file", *v.TlsCaFile)
+		}
+
 		if v.TlsCertificateKeyFilePasswordSecretId != nil {
 			s.D.Set("tls_certificate_key_file_password_secret_id", *v.TlsCertificateKeyFilePasswordSecretId)
 		}
@@ -2045,6 +2165,18 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		if v.SslCert != nil {
+			s.D.Set("ssl_cert", *v.SslCert)
+		}
+
+		if v.SslCrl != nil {
+			s.D.Set("ssl_crl", *v.SslCrl)
+		}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -2344,6 +2476,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
 		}
 
+		if v.PublicKeyFingerprint != nil {
+			s.D.Set("public_key_fingerprint", *v.PublicKeyFingerprint)
+		}
+
 		if v.Region != nil {
 			s.D.Set("region", *v.Region)
 		}
@@ -2422,6 +2558,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
+		s.D.Set("technology_type", v.TechnologyType)
+
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -2467,6 +2605,18 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		if v.SslCert != nil {
+			s.D.Set("ssl_cert", *v.SslCert)
+		}
+
+		if v.SslCrl != nil {
+			s.D.Set("ssl_crl", *v.SslCrl)
+		}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -2736,7 +2886,7 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", nsgIds)
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 		s.D.Set("routing_method", v.RoutingMethod)
 

@@ -59,8 +59,6 @@ resource "oci_fleet_apps_management_patch" "test_patch" {
 	product {
 		#Required
 		platform_configuration_id = oci_fleet_apps_management_platform_configuration.test_platform_configuration.id
-
-		#Optional
 		version = var.patch_product_version
 	}
 	severity = var.patch_severity
@@ -110,7 +108,7 @@ The following arguments are supported:
 	* `platform_configuration_id` - (Required) (Updatable) PlatformConfiguration Id corresponding to the Patch Type
 * `product` - (Required) (Updatable) Product
 	* `platform_configuration_id` - (Required) (Updatable) PlatformConfiguration Id corresponding to the Product
-	* `version` - (Optional) (Updatable) product version.
+	* `version` - (Required) (Updatable) product version.
 * `severity` - (Required) (Updatable) Patch Severity.
 * `time_released` - (Required) (Updatable) Date when the patch was released.
 

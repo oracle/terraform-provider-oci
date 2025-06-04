@@ -18,7 +18,8 @@ import (
 
 var (
 	FleetAppsManagementComplianceRecordCountDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	FleetAppsManagementComplianceRecordCountResourceConfig = ""

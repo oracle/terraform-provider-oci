@@ -92,6 +92,13 @@ type AmazonS3Connection struct {
 	// Note: When provided, 'secretAccessKey' field must not be provided.
 	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
 
+	// The Amazon Endpoint for S3.
+	// e.g.: 'https://my-bucket.s3.us-east-1.amazonaws.com'
+	Endpoint *string `mandatory:"false" json:"endpoint"`
+
+	// The name of the region where the bucket is created.
+	Region *string `mandatory:"false" json:"region"`
+
 	// The Amazon S3 technology type.
 	TechnologyType AmazonS3ConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 

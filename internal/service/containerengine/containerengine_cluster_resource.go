@@ -184,7 +184,6 @@ func ContainerengineClusterResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -196,13 +195,11 @@ func ContainerengineClusterResource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"is_tiller_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed

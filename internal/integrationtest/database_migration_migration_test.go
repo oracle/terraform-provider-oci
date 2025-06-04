@@ -44,7 +44,7 @@ var (
 		"database_combination":                    acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
 		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_oracle_id}`},
 		"target_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_oracle_id}`},
-		"type":                                    acctest.Representation{RepType: acctest.Required, Create: `ONLINE`, Update: `OFFLINE`},
+		"type":                                    acctest.Representation{RepType: acctest.Required, Create: `OFFLINE`, Update: `ONLINE`},
 		"advanced_parameters":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationAdvancedParametersRepresentation},
 		"advisor_settings":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationAdvisorSettingsRepresentation},
 		"data_transfer_medium_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDataTransferMediumDetailsRepresentation},
@@ -52,7 +52,8 @@ var (
 		"display_name":                            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"include_objects":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationIncludeObjectsRepresentation},
 		"initial_load_settings":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentation},
-		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_container_oracle_id}`},
+		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.source_connection_container_oracle_id}`},
+		"source_standby_database_connection_id":   acctest.Representation{RepType: acctest.Optional, Update: `${var.source_connection_standby_oracle_id}`},
 	}
 
 	DatabaseMigrationMigrationRepresentationMySQL = map[string]interface{}{
@@ -82,7 +83,7 @@ var (
 		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"include_objects":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationIncludeObjectsRepresentation},
-		"initial_load_settings":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentation},
+		"initial_load_settings":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentationRDS},
 	}
 	DatabaseMigrationMigrationAdvancedParametersRepresentation = map[string]interface{}{
 		"data_type": acctest.Representation{RepType: acctest.Required, Create: `STRING`, Update: `INTEGER`},
@@ -141,13 +142,18 @@ var (
 		"is_ignore_existing_objects": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_tz_utc":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentation = map[string]interface{}{
+	DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentationRDS = map[string]interface{}{
 		"job_mode":                acctest.Representation{RepType: acctest.Required, Create: `SCHEMA`, Update: `SCHEMA`},
 		"data_pump_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsDataPumpParametersRepresentation},
 		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsExportDirectoryObjectAWS3Representation},
 	}
+	DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentation = map[string]interface{}{
+		"job_mode":                acctest.Representation{RepType: acctest.Required, Create: `SCHEMA`, Update: `SCHEMA`},
+		"data_pump_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsDataPumpParametersRepresentation},
+		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsExportDirectoryObjectRepresentation},
+	}
 	DatabaseMigrationMigrationDataTransferMediumDetailsObjectStorageBucketRepresentation = map[string]interface{}{
-		"bucket":    acctest.Representation{RepType: acctest.Optional, Create: `${var.bucket_mysql_id}`, Update: `${var.bucket_mysql_id}`},
+		"bucket":    acctest.Representation{RepType: acctest.Optional, Create: `bucket1`, Update: `bucket2`},
 		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `namespace`, Update: `namespace2`},
 	}
 	DatabaseMigrationMigrationDataTransferMediumDetailsSourceRepresentation = map[string]interface{}{
@@ -225,11 +231,11 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	kmsVaultId := utils.GetEnvSettingWithBlankDefault("kms_vault_id")
 	kmsVaultIdVariableStr := fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
 
-	sourceConnectionId := utils.GetEnvSettingWithBlankDefault("source_connection_mysql_id")
-	sourceConnectionIdVariableStr := fmt.Sprintf("variable \"source_connection_mysql_id\" { default = \"%s\" }\n", sourceConnectionId)
+	sourceConnectionMySqlId := utils.GetEnvSettingWithBlankDefault("source_connection_mysql_id")
+	sourceConnectionIdMySqlVariableStr := fmt.Sprintf("variable \"source_connection_mysql_id\" { default = \"%s\" }\n", sourceConnectionMySqlId)
 
-	targetConnectionId := utils.GetEnvSettingWithBlankDefault("target_connection_mysql_id")
-	targetConnectionIdVariableStr := fmt.Sprintf("variable \"target_connection_mysql_id\" { default = \"%s\" }\n", targetConnectionId)
+	targetConnectionMySqlId := utils.GetEnvSettingWithBlankDefault("target_connection_mysql_id")
+	targetConnectionMySqlIdVariableStr := fmt.Sprintf("variable \"target_connection_mysql_id\" { default = \"%s\" }\n", targetConnectionMySqlId)
 
 	sourceConnectionOracleId := utils.GetEnvSettingWithBlankDefault("source_connection_oracle_id")
 	sourceConnectionOracleIdVariableStr := fmt.Sprintf("variable \"source_connection_oracle_id\" { default = \"%s\" }\n", sourceConnectionOracleId)
@@ -240,34 +246,50 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	sourceConnectionContainerOracleId := utils.GetEnvSettingWithBlankDefault("source_connection_container_oracle_id")
 	sourceConnectionContainerOracleIdVariableStr := fmt.Sprintf("variable \"source_connection_container_oracle_id\" { default = \"%s\" }\n", sourceConnectionContainerOracleId)
 
+	sourceConnectionStandbyOracleId := utils.GetEnvSettingWithBlankDefault("source_connection_standby_oracle_id")
+	sourceConnectionStandbyOracleIdVariableStr := fmt.Sprintf("variable \"source_connection_standby_oracle_id\" { default = \"%s\" }\n", sourceConnectionStandbyOracleId)
+
 	targetConnectionOracleId := utils.GetEnvSettingWithBlankDefault("target_connection_oracle_id")
 	targetConnectionOracleIdVariableStr := fmt.Sprintf("variable \"target_connection_oracle_id\" { default = \"%s\" }\n", targetConnectionOracleId)
 
-	bucketId := utils.GetEnvSettingWithBlankDefault("bucket_mysql_id")
-	bucketIdVariableStr := fmt.Sprintf("variable \"bucket_mysql_id\" { default = \"%s\" }\n", bucketId)
-
 	resourceName := "oci_database_migration_migration.test_migration"
+	resourceNameNonRds := "oci_database_migration_migration.test_migration_nonrds"
 	datasourceName := "data.oci_database_migration_migrations.test_migrations"
 	singularDatasourceName := "data.oci_database_migration_migration.test_migration"
 
-	var resId, resId2 string
+	var resId, resId2, resId_2, resId2_2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+kmsVaultIdVariableStr+sourceConnectionIdVariableStr+targetConnectionIdVariableStr+bucketIdVariableStr+sourceConnectionOracleIdVariableStr+sourceConnectionContainerOracleIdVariableStr+targetConnectionOracleIdVariableStr+sourceConnectionRDSIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentationRDS), "databasemigration", "migration", t)
+	acctest.SaveConfigContent(config+
+		compartmentIdVariableStr+
+		kmsKeyIdVariableStr+kmsVaultIdVariableStr+
+		sourceConnectionIdMySqlVariableStr+targetConnectionMySqlIdVariableStr+
+		sourceConnectionOracleIdVariableStr+sourceConnectionContainerOracleIdVariableStr+targetConnectionOracleIdVariableStr+
+		sourceConnectionRDSIdVariableStr+sourceConnectionStandbyOracleIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentationRDS)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration_nonrds", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentation), "databasemigration", "migration", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationMigrationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationRepresentationRDS),
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdMySqlVariableStr + targetConnectionMySqlIdVariableStr + sourceConnectionOracleIdVariableStr +
+				sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + sourceConnectionStandbyOracleIdVariableStr +
+				DatabaseMigrationMigrationRequiredOnlyResource +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration_nonrds", acctest.Required, acctest.Create, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
+
+				resource.TestCheckResourceAttr(resourceNameNonRds, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "database_combination", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "target_database_connection_id"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "type", "OFFLINE"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceNameNonRds, "id")
 					return err
 				},
 			),
@@ -279,8 +301,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentationRDS),
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdMySqlVariableStr + targetConnectionMySqlIdVariableStr + sourceConnectionOracleIdVariableStr +
+				sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + sourceConnectionStandbyOracleIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentationRDS) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration_nonrds", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.data_type", "STRING"),
@@ -303,9 +327,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.export_directory_object.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.export_directory_object.0.path", ""),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.is_omit_excluded_table_from_replication", "false"),
@@ -319,8 +342,29 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
 
+				resource.TestCheckResourceAttr(resourceNameNonRds, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "time_created"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "database_combination", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "target_database_connection_id"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "type", "OFFLINE"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.data_pump_parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.export_directory_object.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.job_mode", "SCHEMA"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.oci_home", "ociHome"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.wallet_location", "walletLocation"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceNameNonRds, "id")
 					time.Sleep(1 * time.Minute)
 					return err
 				},
@@ -329,9 +373,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdMySqlVariableStr + targetConnectionMySqlIdVariableStr +
+				sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + sourceConnectionStandbyOracleIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationMigrationRepresentationRDS, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration_nonrds", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationMigrationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -363,9 +412,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.#", "1"),
 
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.export_directory_object.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.export_directory_object.0.path", ""),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -373,9 +421,33 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
 
+				resource.TestCheckResourceAttr(resourceNameNonRds, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "time_created"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "database_combination", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "target_database_connection_id"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "type", "OFFLINE"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.data_pump_parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.export_directory_object.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.job_mode", "SCHEMA"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.oci_home", "ociHome"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.wallet_location", "walletLocation"),
+
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
+					resId_2, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId2_2, err = acctest.FromInstanceState(s, resourceNameNonRds, "id")
+					if resId != resId_2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					if resId2 != resId2_2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
@@ -385,8 +457,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentationRDS),
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdMySqlVariableStr + targetConnectionMySqlIdVariableStr +
+				sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + sourceConnectionStandbyOracleIdVariableStr +
+				DatabaseMigrationMigrationResourceConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration_nonrds", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.data_type", "INTEGER"),
@@ -416,9 +490,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.schema", "schema"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.export_directory_object.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.export_directory_object.0.path", ""),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -426,10 +499,35 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "OFFLINE"),
 
+				resource.TestCheckResourceAttr(resourceNameNonRds, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "time_created"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "database_combination", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "target_database_connection_id"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "type", "ONLINE"),
+				resource.TestCheckResourceAttrSet(resourceNameNonRds, "source_standby_database_connection_id"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.data_pump_parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.export_directory_object.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "initial_load_settings.0.job_mode", "SCHEMA"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.oci_home", "ociHome2"),
+				resource.TestCheckResourceAttr(resourceNameNonRds, "data_transfer_medium_details.0.source.0.wallet_location", "walletLocation2"),
+
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					resId_2, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId2_2, err = acctest.FromInstanceState(s, resourceNameNonRds, "id")
+					if resId != resId_2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					if resId2 != resId2_2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -437,10 +535,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdMySqlVariableStr + targetConnectionMySqlIdVariableStr +
+				sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + sourceConnectionStandbyOracleIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", acctest.Optional, acctest.Update, DatabaseMigrationMigrationDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentationRDS),
+				DatabaseMigrationMigrationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -448,9 +546,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + kmsVaultIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + DatabaseMigrationMigrationResourceConfig,
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdMySqlVariableStr + targetConnectionMySqlIdVariableStr +
+				sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + sourceConnectionRDSIdVariableStr + sourceConnectionStandbyOracleIdVariableStr +
+				DatabaseMigrationMigrationResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
 
@@ -474,9 +573,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_consistent", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_tz_utc", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

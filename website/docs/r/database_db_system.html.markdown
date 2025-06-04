@@ -56,6 +56,8 @@ resource "oci_database_db_system" "test_db_system" {
 					#Optional
 					dbrs_policy_id = oci_identity_policy.test_policy.id
 					id = var.db_system_db_home_database_db_backup_config_backup_destination_details_id
+					is_remote = var.db_system_db_home_database_db_backup_config_backup_destination_details_is_remote
+					remote_region = var.db_system_db_home_database_db_backup_config_backup_destination_details_remote_region
 					type = var.db_system_db_home_database_db_backup_config_backup_destination_details_type
 				}
 				recovery_window_in_days = var.db_system_db_home_database_db_backup_config_recovery_window_in_days
@@ -220,6 +222,10 @@ The following arguments are supported:
 			* `backup_destination_details` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup destination details.
 				* `dbrs_policy_id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 				* `id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+				* `is_remote` - (Applicable when source=DB_SYSTEM | NONE) Indicates whether the backup destination is cross-region or local region.
+				* `remote_region` - (Applicable when source=DB_SYSTEM | NONE) The name of the remote region where the remote automatic incremental backups will be stored.
+
+					For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 				* `type` - (Required when source=DB_SYSTEM | NONE) Type of the database backup destination.
 			* `recovery_window_in_days` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 			* `run_immediate_full_backup` - (Applicable when source=DB_SYSTEM | NONE) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.

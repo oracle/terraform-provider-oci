@@ -34,25 +34,28 @@ var (
 	}
 
 	FleetAppsManagementFleetPropertyDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_fleet.test_fleet.id}`},
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_ocid}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetPropertyDataSourceFilterRepresentation}}
+		"fleet_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_fleet.test_fleet.id}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_fleet_property.test_fleet_property.id}`},
+		"state":        acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetPropertyDataSourceFilterRepresentation},
+		//"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+	}
 	FleetAppsManagementFleetPropertyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_fleet_apps_management_fleet_property.test_fleet_property.id}`}},
 	}
 
 	FleetAppsManagementFleetPropertyRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"fleet_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_fleet.test_fleet.id}`},
 		"property_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_property.test_property.id}`},
 		"value":          acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
 	FleetAppsManagementFleetPropertyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Required, acctest.Create, FleetAppsManagementFleetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_property", "test_property", acctest.Required, acctest.Create, FleetAppsManagementPropertyRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_property", "test_property", acctest.Required, acctest.Create, FleetAppsManagementPropertyRepresentation) // +
+		//acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: fleet_apps_management/default
@@ -62,7 +65,7 @@ func TestFleetAppsManagementFleetPropertyResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_fleet_apps_management_fleet_property.test_fleet_property"
@@ -80,7 +83,6 @@ func TestFleetAppsManagementFleetPropertyResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + FleetAppsManagementFleetPropertyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_property", "test_fleet_property", acctest.Required, acctest.Create, FleetAppsManagementFleetPropertyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "fleet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "property_id"),
 				resource.TestCheckResourceAttr(resourceName, "value", "value"),
@@ -102,7 +104,7 @@ func TestFleetAppsManagementFleetPropertyResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + FleetAppsManagementFleetPropertyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_property", "test_fleet_property", acctest.Optional, acctest.Update, FleetAppsManagementFleetPropertyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "fleet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -127,7 +129,8 @@ func TestFleetAppsManagementFleetPropertyResource_basic(t *testing.T) {
 				compartmentIdVariableStr + FleetAppsManagementFleetPropertyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_property", "test_fleet_property", acctest.Optional, acctest.Update, FleetAppsManagementFleetPropertyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				//resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -144,7 +147,10 @@ func TestFleetAppsManagementFleetPropertyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_property_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "allowed_values.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

@@ -42,6 +42,10 @@ func DatabaseManagementManagedMySqlDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"heat_wave_management_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"heat_wave_memory_size": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -178,6 +182,8 @@ func (s *DatabaseManagementManagedMySqlDatabaseDataSourceCrud) SetData() error {
 	if s.Res.HeatWaveClusterDisplayName != nil {
 		s.D.Set("heat_wave_cluster_display_name", *s.Res.HeatWaveClusterDisplayName)
 	}
+
+	s.D.Set("heat_wave_management_type", s.Res.HeatWaveManagementType)
 
 	if s.Res.HeatWaveMemorySize != nil {
 		s.D.Set("heat_wave_memory_size", *s.Res.HeatWaveMemorySize)

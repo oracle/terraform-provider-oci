@@ -48,6 +48,9 @@ type MySqlDatabaseUsageMetrics struct {
 	// A list of the database health metrics like CPU, Storage, and Memory.
 	Metrics []MySqlFleetMetricDefinition `mandatory:"true" json:"metrics"`
 
+	// The customer's selected type for HeatWave management.
+	HeatWaveManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"false" json:"heatWaveManagementType,omitempty"`
+
 	// Indicates whether HeatWave is enabled for the MySQL Database System or not.
 	IsHeatWaveEnabled *bool `mandatory:"false" json:"isHeatWaveEnabled"`
 
@@ -71,6 +74,9 @@ func (m MySqlDatabaseUsageMetrics) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseStatus: %s. Supported values are: %s.", m.DatabaseStatus, strings.Join(GetMySqlDatabaseStatusEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagedMySqlDatabaseHeatWaveManagementTypeEnum(string(m.HeatWaveManagementType)); !ok && m.HeatWaveManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HeatWaveManagementType: %s. Supported values are: %s.", m.HeatWaveManagementType, strings.Join(GetManagedMySqlDatabaseHeatWaveManagementTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -188,7 +188,7 @@ var (
 			"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure_2.id}`},
 		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase3, map[string]interface{}{
-			"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.21.0.0`},
+			"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.24.0.0`},
 			"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
 			"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone2`},
 		}))
@@ -361,7 +361,7 @@ var (
 		//"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseMultipleStandbyDb1Representation},
 		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
 		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
-		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.21.0.0`},
+		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.24.0.0`},
 		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
 
@@ -369,7 +369,7 @@ var (
 		//"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseMultipleStandbyDb2Representation},
 		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_2.id}`},
 		"source":     acctest.Representation{RepType: acctest.Required, Create: `DATAGUARD`},
-		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.21.0.0`},
+		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.24.0.0`},
 		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
 
@@ -377,7 +377,7 @@ var (
 		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myTestDb`},
 		"character_set":  acctest.Representation{RepType: acctest.Required, Create: `AL32UTF8`},
-		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_46`},
+		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `iDbTest_77`},
 		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
 		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
 	}
@@ -691,7 +691,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_day", "SUNDAY"),
-				//resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_window", "SLOT_ONE"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "false"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
@@ -827,6 +826,8 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				"kms_key_version_id",
 				"key_store_id",
 				"source",
+				"last_backup_duration_in_seconds",
+				"last_backup_timestamp",
 			},
 			ResourceName: resourceName,
 		},

@@ -24,6 +24,10 @@ variable "region" {
 variable "compartment_ocid" {
 }
 
+data "oci_identity_availability_domains" "test_availability_domains" {
+  compartment_id = var.tenancy_ocid
+}
+
 data "oci_core_compute_hosts" "test_compute_hosts" {
   compartment_id = "${var.compartment_ocid}"
 }
@@ -41,6 +45,18 @@ data "oci_core_compute_host" "test_compute_host" {
   compute_host_id = each.key
 }
 
+resource "oci_core_compute_host_group" "best_compute_host_group" {
+  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
+  compartment_id = var.compartment_ocid
+  display_name = "BestComputeHostGroup"
+  is_targeted_placement_required = false
+}
+
+resource "oci_core_compute_host" "best_compute_host" {
+  compute_host_id = keys(data.oci_core_compute_host.test_compute_host)[0]
+  compute_host_group_id = oci_core_compute_host_group.best_compute_host_group.id
+}
+
 output "compute_host_values" {
   value = {
     for key, value in data.oci_core_compute_host.test_compute_host :
@@ -49,4 +65,8 @@ output "compute_host_values" {
       fd = value.fault_domain
     }
   }
+}
+
+output "compute_host_resource" {
+  value = oci_core_compute_host.best_compute_host
 }

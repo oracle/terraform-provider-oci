@@ -17,7 +17,8 @@ import (
 
 var (
 	FleetAppsManagementManagedEntityCountDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	FleetAppsManagementManagedEntityCountResourceConfig = ""
@@ -41,11 +42,11 @@ func TestFleetAppsManagementManagedEntityCountResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_managed_entity_counts", "test_managed_entity_counts", acctest.Required, acctest.Create, FleetAppsManagementManagedEntityCountDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_managed_entity_counts", "test_managed_entity_counts", acctest.Optional, acctest.Create, FleetAppsManagementManagedEntityCountDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetAppsManagementManagedEntityCountResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_entity_aggregation_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_entity_aggregation_collection.0.items.#"),
 			),

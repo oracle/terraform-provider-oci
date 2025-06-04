@@ -61,6 +61,10 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"heat_wave_management_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"heat_wave_memory_size": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -258,6 +262,8 @@ func ManagedMySqlDatabaseSummaryToMap(obj oci_database_management.ManagedMySqlDa
 	if obj.DbVersion != nil {
 		result["db_version"] = string(*obj.DbVersion)
 	}
+
+	result["heat_wave_management_type"] = string(obj.HeatWaveManagementType)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

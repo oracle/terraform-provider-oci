@@ -16,7 +16,9 @@ import (
 )
 
 var (
-	FleetAppsManagementOnboardingPolicyDataSourceRepresentation = map[string]interface{}{}
+	FleetAppsManagementOnboardingPolicyDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
 
 	FleetAppsManagementOnboardingPolicyResourceConfig = ""
 )
@@ -42,6 +44,7 @@ func TestFleetAppsManagementOnboardingPolicyResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_onboarding_policies", "test_onboarding_policies", acctest.Required, acctest.Create, FleetAppsManagementOnboardingPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetAppsManagementOnboardingPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "onboarding_policy_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "onboarding_policy_collection.0.items.#", "1"),

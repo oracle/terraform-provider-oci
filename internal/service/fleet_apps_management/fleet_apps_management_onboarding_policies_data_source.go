@@ -18,6 +18,10 @@ func FleetAppsManagementOnboardingPoliciesDataSource() *schema.Resource {
 		Read: readFleetAppsManagementOnboardingPolicies,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"onboarding_policy_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -92,6 +96,11 @@ func (s *FleetAppsManagementOnboardingPoliciesDataSourceCrud) VoidState() {
 
 func (s *FleetAppsManagementOnboardingPoliciesDataSourceCrud) Get() error {
 	request := oci_fleet_apps_management.ListOnboardingPoliciesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 

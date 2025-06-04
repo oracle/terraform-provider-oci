@@ -20,16 +20,14 @@ resource "oci_fleet_apps_management_scheduler_definition" "test_scheduler_defini
 	#Required
 	action_groups {
 		#Required
-		resource_id = oci_cloud_guard_resource.test_resource.id
+		fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
+		kind = var.scheduler_definition_action_groups_kind
 		runbook_id = oci_fleet_apps_management_runbook.test_runbook.id
+		runbook_version_name = oci_fleet_apps_management_runbook_version.test_runbook_version.name
 
 		#Optional
-		application_type = var.scheduler_definition_action_groups_application_type
-		lifecycle_operation = var.scheduler_definition_action_groups_lifecycle_operation
-		product = var.scheduler_definition_action_groups_product
-		subjects = var.scheduler_definition_action_groups_subjects
-		target_id = oci_cloud_guard_target.test_target.id
-		type = var.scheduler_definition_action_groups_type
+		display_name = var.scheduler_definition_action_groups_display_name
+		sequence = var.scheduler_definition_action_groups_sequence
 	}
 	compartment_id = var.compartment_id
 	schedule {
@@ -44,14 +42,14 @@ resource "oci_fleet_apps_management_scheduler_definition" "test_scheduler_defini
 	}
 
 	#Optional
-	activity_initiation_cut_off = var.scheduler_definition_activity_initiation_cut_off
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.scheduler_definition_description
 	display_name = var.scheduler_definition_display_name
 	freeform_tags = {"bar-key"= "value"}
 	run_books {
 		#Required
-		id = var.scheduler_definition_run_books_id
+		runbook_id = oci_fleet_apps_management_runbook.test_runbook.id
+		runbook_version_name = oci_fleet_apps_management_runbook_version.test_runbook_version.name
 
 		#Optional
 		input_parameters {
@@ -61,9 +59,18 @@ resource "oci_fleet_apps_management_scheduler_definition" "test_scheduler_defini
 			#Optional
 			arguments {
 				#Required
+				kind = var.scheduler_definition_run_books_input_parameters_arguments_kind
 				name = var.scheduler_definition_run_books_input_parameters_arguments_name
 
 				#Optional
+				content {
+					#Required
+					bucket = var.scheduler_definition_run_books_input_parameters_arguments_content_bucket
+					checksum = var.scheduler_definition_run_books_input_parameters_arguments_content_checksum
+					namespace = var.scheduler_definition_run_books_input_parameters_arguments_content_namespace
+					object = var.scheduler_definition_run_books_input_parameters_arguments_content_object
+					source_type = var.scheduler_definition_run_books_input_parameters_arguments_content_source_type
+				}
 				value = var.scheduler_definition_run_books_input_parameters_arguments_value
 			}
 		}
@@ -76,32 +83,37 @@ resource "oci_fleet_apps_management_scheduler_definition" "test_scheduler_defini
 The following arguments are supported:
 
 * `action_groups` - (Required) (Updatable) Action Groups associated with the Schedule.
-	* `application_type` - (Optional) (Updatable) Application Type associated. Only applicable if type is ENVIRONMENT. 
-	* `lifecycle_operation` - (Optional) (Updatable) LifeCycle Operation
-	* `product` - (Optional) (Updatable) Product associated. Only applicable if type is PRODUCT. 
-	* `resource_id` - (Required) (Updatable) Provide the ID of the resource. Example fleet ID.
+	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+	* `fleet_id` - (Required) (Updatable) ID of the fleet
+	* `kind` - (Required) (Updatable) Action Group kind
 	* `runbook_id` - (Required) (Updatable) ID of the runbook
-	* `subjects` - (Optional) (Updatable) Provide subjects that need to be considered for the schedule.
-	* `target_id` - (Optional) (Updatable) Provide the target if schedule is created against the target
-	* `type` - (Optional) (Updatable) ActionGroup Type associated.
-* `activity_initiation_cut_off` - (Optional) (Updatable) Activity Initiation Cut Off
-* `compartment_id` - (Required) Tenancy OCID
+	* `runbook_version_name` - (Required) (Updatable) Name of the runbook version
+	* `sequence` - (Optional) (Updatable) Sequence of the Action Group. Action groups will be executed in a seuential order. All Action Groups having the same sequence will be executed parallely. If no value is provided a default value of 1 will be given. 
+* `compartment_id` - (Required) Compartment OCID
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A user-friendly description. To provide some insight about the resource. Avoid entering confidential information. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `run_books` - (Optional) (Updatable) Runbooks.
-	* `id` - (Required) (Updatable) The ID of the Runbook
 	* `input_parameters` - (Optional) (Updatable) Input Parameters for the Task
 		* `arguments` - (Optional) (Updatable) Arguments for the Task
-			* `name` - (Required) (Updatable) Name of the output variable
-			* `value` - (Optional) (Updatable) The task output
+			* `content` - (Applicable when kind=FILE) (Updatable) Content Source details.
+				* `bucket` - (Required) (Updatable) Bucket Name.
+				* `checksum` - (Required) (Updatable) md5 checksum of the artifact.
+				* `namespace` - (Required) (Updatable) Namespace.
+				* `object` - (Required) (Updatable) Object Name.
+				* `source_type` - (Required) (Updatable) Content Source type details. 
+			* `kind` - (Required) (Updatable) Task argument kind
+			* `name` - (Required) (Updatable) Name of the input variable
+			* `value` - (Applicable when kind=STRING) (Updatable) The task input
 		* `step_name` - (Required) (Updatable) stepName for which the input parameters are provided
+	* `runbook_id` - (Required) (Updatable) The ID of the Runbook
+	* `runbook_version_name` - (Required) (Updatable) The runbook version name
 * `schedule` - (Required) (Updatable) Schedule Information.
-	* `duration` - (Optional) (Updatable) Duration if schedule type is Custom
+	* `duration` - (Required when type=CUSTOM) (Updatable) Duration of the schedule.
 	* `execution_startdate` - (Required) (Updatable) Start Date for the schedule. An RFC3339 formatted datetime string
-	* `maintenance_window_id` - (Optional) (Updatable) Provide MaintenanceWindowId if Schedule Type is Maintenance Window
-	* `recurrences` - (Optional) (Updatable) Recurrence rule specification if Schedule Type is Custom and Recurring
+	* `maintenance_window_id` - (Required when type=MAINTENANCE_WINDOW) (Updatable) Provide MaintenanceWindowId
+	* `recurrences` - (Applicable when type=CUSTOM) (Updatable) Recurrence rule specification if recurring
 	* `type` - (Required) (Updatable) Schedule Type
 
 
@@ -112,19 +124,14 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `action_group_types` - All ActionGroup Types that are part of the schedule.
 * `action_groups` - Action Groups associated with the Schedule.
-	* `application_type` - Application Type associated. Only applicable if type is ENVIRONMENT. 
-	* `lifecycle_operation` - LifeCycle Operation
-	* `product` - Product associated. Only applicable if type is PRODUCT. 
-	* `resource_id` - Provide the ID of the resource. Example fleet ID.
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+	* `fleet_id` - ID of the fleet
+	* `kind` - Action Group kind
 	* `runbook_id` - ID of the runbook
-	* `subjects` - Provide subjects that need to be considered for the schedule.
-	* `target_id` - Provide the target if schedule is created against the target
-	* `type` - ActionGroup Type associated.
-* `activity_initiation_cut_off` - Activity Initiation Cut Off.
-* `application_types` - All application types that are part of the schedule for ENVIRONMENT ActionGroup Type. 
-* `compartment_id` - Tenancy OCID
+	* `runbook_version_name` - Name of the runbook version
+	* `sequence` - Sequence of the Action Group. Action groups will be executed in a seuential order. All Action Groups having the same sequence will be executed parallely. If no value is provided a default value of 1 will be given. 
+* `compartment_id` - Compartment OCID
 * `count_of_affected_action_groups` - Count of Action Groups affected by the Schedule.
 * `count_of_affected_resources` - Count of Resources affected by the Schedule.
 * `count_of_affected_targets` - Count of Targets affected by the Schedule.
@@ -138,17 +145,25 @@ The following attributes are exported:
 * `products` - All products that are part of the schedule for PRODUCT ActionGroup Type.
 * `resource_region` - Associated region
 * `run_books` - Runbooks.
-	* `id` - The ID of the Runbook
 	* `input_parameters` - Input Parameters for the Task
 		* `arguments` - Arguments for the Task
-			* `name` - Name of the output variable
-			* `value` - The task output
+			* `content` - Content Source details.
+				* `bucket` - Bucket Name.
+				* `checksum` - md5 checksum of the artifact.
+				* `namespace` - Namespace.
+				* `object` - Object Name.
+				* `source_type` - Content Source type details. 
+			* `kind` - Task argument kind
+			* `name` - Name of the input variable
+			* `value` - The task input
 		* `step_name` - stepName for which the input parameters are provided
+	* `runbook_id` - The ID of the Runbook
+	* `runbook_version_name` - The runbook version name
 * `schedule` - Schedule Information.
-	* `duration` - Duration if schedule type is Custom
+	* `duration` - Duration of the schedule.
 	* `execution_startdate` - Start Date for the schedule. An RFC3339 formatted datetime string
-	* `maintenance_window_id` - Provide MaintenanceWindowId if Schedule Type is Maintenance Window
-	* `recurrences` - Recurrence rule specification if Schedule Type is Custom and Recurring
+	* `maintenance_window_id` - Provide MaintenanceWindowId
+	* `recurrences` - Recurrence rule specification if recurring
 	* `type` - Schedule Type
 * `state` - The current state of the SchedulerDefinition.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

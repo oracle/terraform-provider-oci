@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_fleet_apps_management_scheduler_definitions
 This data source provides the list of Scheduler Definitions in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-List all lifecycle management schedules in Fleet Application Management.
+Returns a list of all the Schedule Definitions in the specified compartment.
+The query parameter `compartmentId` is required unless the query parameter `id` is specified.
 
 
 ## Example Usage
@@ -26,7 +27,10 @@ data "oci_fleet_apps_management_scheduler_definitions" "test_scheduler_definitio
 	maintenance_window_id = oci_fleet_apps_management_maintenance_window.test_maintenance_window.id
 	product = var.scheduler_definition_product
 	runbook_id = oci_fleet_apps_management_runbook.test_runbook.id
+	runbook_version_name = oci_fleet_apps_management_runbook_version.test_runbook_version.name
 	state = var.scheduler_definition_state
+	time_scheduled_greater_than_or_equal_to = var.scheduler_definition_time_scheduled_greater_than_or_equal_to
+	time_scheduled_less_than = var.scheduler_definition_time_scheduled_less_than
 }
 ```
 
@@ -34,14 +38,17 @@ data "oci_fleet_apps_management_scheduler_definitions" "test_scheduler_definitio
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `fleet_id` - (Optional) unique Fleet identifier
-* `id` - (Optional) A filter to return only schedule definitions whose identifier matches the given identifier.
+* `id` - (Optional) Unique identifier or OCID for listing a single Schedule Definition by id. Either compartmentId or id must be provided. 
 * `maintenance_window_id` - (Optional) A filter to return only schedule definitions whose associated maintenanceWindowId matches the given maintenanceWindowId.
 * `product` - (Optional) A filter to return only dchedule definitions whose assocaited product matches the given product
 * `runbook_id` - (Optional) A filter to return only schedule definitions whose associated runbookId matches the given runbookId.
+* `runbook_version_name` - (Optional) RunbookVersion Name filter
 * `state` - (Optional) A filter to return only scheduleDefinitions whose lifecycleState matches the given lifecycleState.
+* `time_scheduled_greater_than_or_equal_to` - (Optional) Scheduled Time
+* `time_scheduled_less_than` - (Optional) Scheduled Time
 
 
 ## Attributes Reference
@@ -54,19 +61,14 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `action_group_types` - All ActionGroup Types that are part of the schedule.
 * `action_groups` - Action Groups associated with the Schedule.
-	* `application_type` - Application Type associated. Only applicable if type is ENVIRONMENT. 
-	* `lifecycle_operation` - LifeCycle Operation
-	* `product` - Product associated. Only applicable if type is PRODUCT. 
-	* `resource_id` - Provide the ID of the resource. Example fleet ID.
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+	* `fleet_id` - ID of the fleet
+	* `kind` - Action Group kind
 	* `runbook_id` - ID of the runbook
-	* `subjects` - Provide subjects that need to be considered for the schedule.
-	* `target_id` - Provide the target if schedule is created against the target
-	* `type` - ActionGroup Type associated.
-* `activity_initiation_cut_off` - Activity Initiation Cut Off.
-* `application_types` - All application types that are part of the schedule for ENVIRONMENT ActionGroup Type. 
-* `compartment_id` - Tenancy OCID
+	* `runbook_version_name` - Name of the runbook version
+	* `sequence` - Sequence of the Action Group. Action groups will be executed in a seuential order. All Action Groups having the same sequence will be executed parallely. If no value is provided a default value of 1 will be given. 
+* `compartment_id` - Compartment OCID
 * `count_of_affected_action_groups` - Count of Action Groups affected by the Schedule.
 * `count_of_affected_resources` - Count of Resources affected by the Schedule.
 * `count_of_affected_targets` - Count of Targets affected by the Schedule.
@@ -80,17 +82,25 @@ The following attributes are exported:
 * `products` - All products that are part of the schedule for PRODUCT ActionGroup Type.
 * `resource_region` - Associated region
 * `run_books` - Runbooks.
-	* `id` - The ID of the Runbook
 	* `input_parameters` - Input Parameters for the Task
 		* `arguments` - Arguments for the Task
-			* `name` - Name of the output variable
-			* `value` - The task output
+			* `content` - Content Source details.
+				* `bucket` - Bucket Name.
+				* `checksum` - md5 checksum of the artifact.
+				* `namespace` - Namespace.
+				* `object` - Object Name.
+				* `source_type` - Content Source type details. 
+			* `kind` - Task argument kind
+			* `name` - Name of the input variable
+			* `value` - The task input
 		* `step_name` - stepName for which the input parameters are provided
+	* `runbook_id` - The ID of the Runbook
+	* `runbook_version_name` - The runbook version name
 * `schedule` - Schedule Information.
-	* `duration` - Duration if schedule type is Custom
+	* `duration` - Duration of the schedule.
 	* `execution_startdate` - Start Date for the schedule. An RFC3339 formatted datetime string
-	* `maintenance_window_id` - Provide MaintenanceWindowId if Schedule Type is Maintenance Window
-	* `recurrences` - Recurrence rule specification if Schedule Type is Custom and Recurring
+	* `maintenance_window_id` - Provide MaintenanceWindowId
+	* `recurrences` - Recurrence rule specification if recurring
 	* `type` - Schedule Type
 * `state` - The current state of the SchedulerDefinition.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
