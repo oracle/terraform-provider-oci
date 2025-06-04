@@ -104,6 +104,50 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 			},
 
 			// Computed
+			"capacity_bins": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"capacity_index": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"remaining_memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"remaining_ocpus": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"supported_shapes": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"total_memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"total_ocpus": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"compute_bare_metal_host_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"remaining_memory_in_gbs": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -374,8 +418,18 @@ func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	capacityBins := []interface{}{}
+	for _, item := range s.Res.CapacityBins {
+		capacityBins = append(capacityBins, CapacityBinToMap(item))
+	}
+	s.D.Set("capacity_bins", capacityBins)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ComputeBareMetalHostId != nil {
+		s.D.Set("compute_bare_metal_host_id", *s.Res.ComputeBareMetalHostId)
 	}
 
 	if s.Res.DedicatedVmHostShape != nil {
@@ -480,6 +534,34 @@ func PlacementConstraintDetailsToMap(obj *oci_core.PlacementConstraintDetails) m
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func CapacityBinToMap(obj oci_core.CapacityBin) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CapacityIndex != nil {
+		result["capacity_index"] = int(*obj.CapacityIndex)
+	}
+
+	if obj.RemainingMemoryInGBs != nil {
+		result["remaining_memory_in_gbs"] = float32(*obj.RemainingMemoryInGBs)
+	}
+
+	if obj.RemainingOcpus != nil {
+		result["remaining_ocpus"] = float32(*obj.RemainingOcpus)
+	}
+
+	result["supported_shapes"] = obj.SupportedShapes
+
+	if obj.TotalMemoryInGBs != nil {
+		result["total_memory_in_gbs"] = float32(*obj.TotalMemoryInGBs)
+	}
+
+	if obj.TotalOcpus != nil {
+		result["total_ocpus"] = float32(*obj.TotalOcpus)
 	}
 
 	return result

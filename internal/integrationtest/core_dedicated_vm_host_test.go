@@ -26,6 +26,12 @@ import (
 )
 
 var (
+	displayNameForCreate        = `tf-test-display-name-create`
+	displayNameForUpdate        = `tf-test-display-name-update`
+	dvhShape                    = "DVH.DenseIO.E4.128"
+	capacityBinsSizeForDvhShape = "4"
+	vmShape                     = `VM.DenseIO.E4.Flex`
+
 	CoreDedicatedVmHostRequiredOnlyResource = CoreDedicatedVmHostResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreDedicatedVmHostRepresentation)
 
@@ -36,13 +42,13 @@ var (
 		"dedicated_vm_host_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 	}
 
-	CoreCoreDedicatedVmHostDataSourceRepresentation = map[string]interface{}{
+	CoreDedicatedVmHostDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"instance_shape_name": acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
-		"remaining_memory_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `15.0`},
-		"remaining_ocpus_greater_than_or_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: displayNameForCreate, Update: displayNameForUpdate},
+		"instance_shape_name": acctest.Representation{RepType: acctest.Optional, Create: vmShape},
+		"remaining_memory_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `512.0`},
+		"remaining_ocpus_greater_than_or_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: `32.0`},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDedicatedVmHostDataSourceFilterRepresentation}}
 	CoreDedicatedVmHostDataSourceFilterRepresentation = map[string]interface{}{
@@ -51,28 +57,23 @@ var (
 	}
 
 	CoreDedicatedVmHostRepresentation = map[string]interface{}{
-		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `UgLr:MX-QUERETARO-1-AD-1`},
-		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"dedicated_vm_host_shape": acctest.Representation{RepType: acctest.Required, Create: `DVH.DenseIO.E4.128`},
-		//"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"fault_domain":                 acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
-		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"placement_constraint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDedicatedVmHostPlacementConstraintDetailsRepresentation},
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `UgLr:MX-QUERETARO-1-AD-1`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"dedicated_vm_host_shape":      acctest.Representation{RepType: acctest.Required, Create: dvhShape},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: displayNameForCreate, Update: displayNameForUpdate},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"FreeFormState": "Created"}, Update: map[string]string{"FreeFormState": "Updated"}},
+		"placement_constraint_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreDedicatedVmHostPlacementConstraintDetailsRepresentation},
 	}
 	CoreDedicatedVmHostPlacementConstraintDetailsRepresentation = map[string]interface{}{
-		"type":                       acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_BARE_METAL_HOST`},
+		"type": acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_BARE_METAL_HOST`},
+		// For this variable to work, make sure to assign a valid compute_bare_metal_host_id value from the region you
+		// are testing in, to the TF_var_compute_bare_metal_host_id in your ~/.zshrc (or the likes). For example:
+		// export TF_VAR_compute_bare_metal_host_id=valid_compute_bare_metal_host_id
+		// Refer
 		"compute_bare_metal_host_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compute_bare_metal_host_id}`},
 	}
 
-	CoreDedicatedVmHostPlacementConstraintDetailsRepresentation2 = map[string]interface{}{
-		"type":                       acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_BARE_METAL_HOST`},
-		"compute_bare_metal_host_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compute_bare_metal_host_id2}`},
-	}
-
-	CoreDedicatedVmHostResourceDependencies = AvailabilityDomainConfig //+
-	//DefinedTagsDependencies +
-	//acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation)
+	CoreDedicatedVmHostResourceDependencies = AvailabilityDomainConfig
 )
 
 // issue-routing-tag: core/default
@@ -95,20 +96,29 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDedicatedVmHostResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, CoreDedicatedVmHostRepresentation), "core", "dedicatedVmHost", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create,
+			CoreDedicatedVmHostRepresentation), "core", "dedicatedVmHost", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDedicatedVmHostDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(CoreDedicatedVmHostRepresentation, map[string]interface{}{
-						"placement_constraint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDedicatedVmHostPlacementConstraintDetailsRepresentation2},
-					})),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host",
+					acctest.Required, acctest.Create, CoreDedicatedVmHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO.E4.128"),
+				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", dvhShape),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "capacity_bins.#", capacityBinsSizeForDvhShape),
+
+				// This property will only be set if the testing tenancy mimics a dedicated capacity customer
+				// Meaning that this tenancy has a dedicated pool for its DVH needs. Update the value of
+				// this property accordingly based on your test requirements & inputs.
+				resource.TestCheckResourceAttrSet(resourceName, "compute_bare_metal_host_id"),
+
+				// This property will only have a non-zero value during create if the user passes it in the input
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -124,23 +134,31 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, CoreDedicatedVmHostRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host",
+					acctest.Optional, acctest.Create, CoreDedicatedVmHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO.E4.128"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				//resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
-				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
+				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", dvhShape),
+				resource.TestCheckResourceAttr(resourceName, "display_name", displayNameForCreate),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "remaining_ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "capacity_bins.#", capacityBinsSizeForDvhShape),
+
+				// This property will only be set if the testing tenancy mimics a dedicated capacity customer
+				// Meaning that this tenancy has a dedicated pool for its DVH needs. Update the value of
+				// this property accordingly based on your test requirements & inputs.
+				resource.TestCheckResourceAttrSet(resourceName, "compute_bare_metal_host_id"),
+
+				// This property will only have a non-zero value during create if the user passes it in the input
+				// Since we're passing this for Optional tests, this field should be populated
 				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.compute_bare_metal_host_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_BARE_METAL_HOST"),
-				resource.TestCheckResourceAttrSet(resourceName, "remaining_ocpus"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -164,19 +182,26 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO.E4.128"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				//resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
-				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
+				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", dvhShape),
+				resource.TestCheckResourceAttr(resourceName, "display_name", displayNameForCreate),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "remaining_ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "capacity_bins.#", capacityBinsSizeForDvhShape),
+
+				// This property will only be set if the testing tenancy mimics a dedicated capacity customer
+				// Meaning that this tenancy has a dedicated pool for its DVH needs. Update the value of
+				// this property accordingly based on your test requirements & inputs.
+				resource.TestCheckResourceAttrSet(resourceName, "compute_bare_metal_host_id"),
+
+				// This property will only have a non-zero value during create if the user passes it in the input
+				// Since we're passing this for Optional tests, this field should be populated
 				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.compute_bare_metal_host_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_BARE_METAL_HOST"),
-				resource.TestCheckResourceAttrSet(resourceName, "remaining_ocpus"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -191,20 +216,31 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, CoreDedicatedVmHostRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update,
+					CoreDedicatedVmHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO.E4.128"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				//resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
-				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
+				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", dvhShape),
+				resource.TestCheckResourceAttr(resourceName, "display_name", displayNameForUpdate),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "remaining_ocpus"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "capacity_bins.#", capacityBinsSizeForDvhShape),
+
+				// This property will only be set if the testing tenancy mimics a dedicated capacity customer
+				// Meaning that this tenancy has a dedicated pool for its DVH needs. Update the value of
+				// this property accordingly based on your test requirements & inputs.
+				resource.TestCheckResourceAttrSet(resourceName, "compute_bare_metal_host_id"),
+
+				// This property will only have a non-zero value during create if the user passes it in the input
+				// Since we're passing this for Optional tests, this field should be populated
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.compute_bare_metal_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_BARE_METAL_HOST"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -215,49 +251,38 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		// verify datasource (list DVH call)
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", acctest.Optional, acctest.Update, CoreCoreDedicatedVmHostDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, CoreDedicatedVmHostRepresentation),
+			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts",
+				acctest.Optional, acctest.Update, CoreDedicatedVmHostDataSourceRepresentation) + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update,
+					CoreDedicatedVmHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "instance_shape_name", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(datasourceName, "remaining_memory_in_gbs_greater_than_or_equal_to", "15"),
-				resource.TestCheckResourceAttr(datasourceName, "remaining_ocpus_greater_than_or_equal_to", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				//resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.#", "1"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.availability_domain"),
-				//resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.dedicated_vm_host_shape", "DVH.DenseIO.E4.128"),
-				//resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.display_name", "displayName2"),
-				//resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.fault_domain", "FAULT-DOMAIN-3"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.id"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_memory_in_gbs"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_ocpus"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.state"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.time_created"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_memory_in_gbs"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_ocpus"),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.dedicated_vm_host_shape", dvhShape),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.display_name", displayNameForUpdate),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_ocpus"),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_ocpus"),
 			),
 		},
-		// verify singular datasource
+		// verify singular datasource (get DVH call)
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreCoreDedicatedVmHostSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreDedicatedVmHostResourceConfig,
+			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create,
+				CoreCoreDedicatedVmHostSingularDataSourceRepresentation) + compartmentIdVariableStr + CoreDedicatedVmHostResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capacity_bins.#", capacityBinsSizeForDvhShape),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "dedicated_vm_host_shape", "DVH.DenseIO.E4.128"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-3"),
-				resource.TestCheckResourceAttrSet(resourceName, "fault_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dedicated_vm_host_shape", dvhShape),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", displayNameForUpdate),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "remaining_memory_in_gbs"),
@@ -266,6 +291,17 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpus"),
+
+				// This property will only be set if the testing tenancy mimics a dedicated capacity customer
+				// Meaning that this tenancy has a dedicated pool for its DVH needs. Update the value of
+				// this property accordingly based on your test requirements & inputs.
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_bare_metal_host_id"),
+
+				// This property will only have a non-zero value during create if the user passes it in the input
+				// Since we're passing this for Optional tests, this field should be populated
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.compute_bare_metal_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_BARE_METAL_HOST"),
 			),
 		},
 		// verify resource import
