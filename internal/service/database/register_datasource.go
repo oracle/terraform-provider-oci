@@ -25,6 +25,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_autonomous_database_peers", DatabaseAutonomousDatabasePeersDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_database_refreshable_clones", DatabaseAutonomousDatabaseRefreshableClonesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_database_regional_wallet_management", DatabaseAutonomousDatabaseRegionalWalletManagementDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_database_resource_pool_members", DatabaseAutonomousDatabaseResourcePoolMembersDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_database_software_image", DatabaseAutonomousDatabaseSoftwareImageDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_database_software_images", DatabaseAutonomousDatabaseSoftwareImagesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_database_wallet", DatabaseAutonomousDatabaseWalletDataSource())
