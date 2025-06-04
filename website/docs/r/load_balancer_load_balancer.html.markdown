@@ -54,6 +54,7 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	ip_mode = var.load_balancer_ip_mode
+	ipv6subnet_cidr = var.load_balancer_ipv6subnet_cidr
 	is_delete_protection_enabled = var.load_balancer_is_delete_protection_enabled
 	is_private = var.load_balancer_is_private
 	is_request_id_enabled = var.load_balancer_is_request_id_enabled
@@ -88,6 +89,11 @@ The following arguments are supported:
 	If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
 
 	Example: "ipMode":"IPV6" 
+* `ipv6subnet_cidr` - (Optional) Applies to IPV6 LB creation only. 
+
+	Used to disambiguate which subnet prefix should be used to create an IPv6 LB. 
+
+	Example: "2002::1234:abcd:ffff:c0a8:101/64" 
 * `is_delete_protection_enabled` - (Optional) (Updatable) Whether or not the load balancer has delete protection enabled.
 
 	If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
@@ -142,7 +148,9 @@ The following arguments are supported:
 
 		Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
-		Example: "ocid1.publicip.oc1.phx.unique_ID" Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
+		Example: "ocid1.publicip.oc1.phx.unique_ID"
+
+		IPV6 example: "ocid1.ipv6.oc1.phx.unique_ID" Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
 * `security_attributes` - (Optional) (Updatable) Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}` 
 * `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `flexible` NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be `Flexible` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-Micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-Micro`.
 * `shape_details` - (Optional) (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is `Flexible`. 
@@ -237,13 +245,15 @@ The following attributes are exported:
 
             Example: "ocid1.publicip.oc1.phx.unique_ID" 
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead
+* 
 * `is_delete_protection_enabled` - Whether or not the load balancer has delete protection enabled.
 
 	If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
 
 	If "false", the loadbalancer will not be protected against deletion.
 
-	Delete protection is not be enabled unless this field is set to "true". Example: `true` 
+	Delete protection is not be enabled unless this field is set to "true". Example: `true`
+
 * `is_private` - Whether the load balancer has a VCN-local (private) IP address.
 
 	If "true", the service assigns a private IP address to the load balancer.
