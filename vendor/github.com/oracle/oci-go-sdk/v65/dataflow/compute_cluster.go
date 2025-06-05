@@ -57,12 +57,6 @@ type ComputeCluster struct {
 	// The username of the user who created the cluster.
 	CreatedByName *string `mandatory:"false" json:"createdByName"`
 
-	// The ocid of the user who stopped the cluster.
-	StoppedBy *string `mandatory:"false" json:"stoppedBy"`
-
-	// The username of the user who stopped the cluster.
-	StoppedByName *string `mandatory:"false" json:"stoppedByName"`
-
 	// Cluster node type encodes the node shape and associated resources.
 	NodeType *string `mandatory:"false" json:"nodeType"`
 

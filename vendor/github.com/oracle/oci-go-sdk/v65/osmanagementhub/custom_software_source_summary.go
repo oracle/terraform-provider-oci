@@ -67,6 +67,9 @@ type CustomSoftwareSourceSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.
+	IsAutomaticallyUpdated *bool `mandatory:"false" json:"isAutomaticallyUpdated"`
+
 	// The current state of the software source.
 	LifecycleState SoftwareSourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

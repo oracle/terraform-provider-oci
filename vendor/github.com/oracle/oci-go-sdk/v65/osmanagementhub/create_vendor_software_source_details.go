@@ -23,9 +23,6 @@ type CreateVendorSoftwareSourceDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
-	OriginSoftwareSourceId *string `mandatory:"true" json:"originSoftwareSourceId"`
-
 	// User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -41,6 +38,12 @@ type CreateVendorSoftwareSourceDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
+	OriginSoftwareSourceId *string `mandatory:"false" json:"originSoftwareSourceId"`
+
+	// The display name of the software source to be replicated
+	OriginDisplayName *string `mandatory:"false" json:"originDisplayName"`
 }
 
 // GetCompartmentId returns CompartmentId

@@ -71,6 +71,9 @@ type ManagementStationEvent struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// The severity of the event
+	EventSeverity EventSeverityEnum `mandatory:"false" json:"eventSeverity,omitempty"`
+
 	// The current state of the event.
 	LifecycleState EventLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
@@ -88,6 +91,11 @@ func (m ManagementStationEvent) GetEventSummary() *string {
 // GetCompartmentId returns CompartmentId
 func (m ManagementStationEvent) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+// GetEventSeverity returns EventSeverity
+func (m ManagementStationEvent) GetEventSeverity() EventSeverityEnum {
+	return m.EventSeverity
 }
 
 // GetEventDetails returns EventDetails
@@ -160,6 +168,9 @@ func (m ManagementStationEvent) String() string {
 func (m ManagementStationEvent) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingEventSeverityEnum(string(m.EventSeverity)); !ok && m.EventSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventSeverity: %s. Supported values are: %s.", m.EventSeverity, strings.Join(GetEventSeverityEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingEventLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEventLifecycleStateEnumStringValues(), ",")))
 	}

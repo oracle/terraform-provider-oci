@@ -163,6 +163,7 @@ type ListErrataOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListErrataOsFamilyEnum
 const (
+	ListErrataOsFamilyOracleLinux10     ListErrataOsFamilyEnum = "ORACLE_LINUX_10"
 	ListErrataOsFamilyOracleLinux9      ListErrataOsFamilyEnum = "ORACLE_LINUX_9"
 	ListErrataOsFamilyOracleLinux8      ListErrataOsFamilyEnum = "ORACLE_LINUX_8"
 	ListErrataOsFamilyOracleLinux7      ListErrataOsFamilyEnum = "ORACLE_LINUX_7"
@@ -171,9 +172,13 @@ const (
 	ListErrataOsFamilyWindowsServer2019 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListErrataOsFamilyWindowsServer2022 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2022"
 	ListErrataOsFamilyAll               ListErrataOsFamilyEnum = "ALL"
+	ListErrataOsFamilyUbuntu2004        ListErrataOsFamilyEnum = "UBUNTU_20_04"
+	ListErrataOsFamilyUbuntu2204        ListErrataOsFamilyEnum = "UBUNTU_22_04"
+	ListErrataOsFamilyUbuntu2404        ListErrataOsFamilyEnum = "UBUNTU_24_04"
 )
 
 var mappingListErrataOsFamilyEnum = map[string]ListErrataOsFamilyEnum{
+	"ORACLE_LINUX_10":     ListErrataOsFamilyOracleLinux10,
 	"ORACLE_LINUX_9":      ListErrataOsFamilyOracleLinux9,
 	"ORACLE_LINUX_8":      ListErrataOsFamilyOracleLinux8,
 	"ORACLE_LINUX_7":      ListErrataOsFamilyOracleLinux7,
@@ -182,9 +187,13 @@ var mappingListErrataOsFamilyEnum = map[string]ListErrataOsFamilyEnum{
 	"WINDOWS_SERVER_2019": ListErrataOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListErrataOsFamilyWindowsServer2022,
 	"ALL":                 ListErrataOsFamilyAll,
+	"UBUNTU_20_04":        ListErrataOsFamilyUbuntu2004,
+	"UBUNTU_22_04":        ListErrataOsFamilyUbuntu2204,
+	"UBUNTU_24_04":        ListErrataOsFamilyUbuntu2404,
 }
 
 var mappingListErrataOsFamilyEnumLowerCase = map[string]ListErrataOsFamilyEnum{
+	"oracle_linux_10":     ListErrataOsFamilyOracleLinux10,
 	"oracle_linux_9":      ListErrataOsFamilyOracleLinux9,
 	"oracle_linux_8":      ListErrataOsFamilyOracleLinux8,
 	"oracle_linux_7":      ListErrataOsFamilyOracleLinux7,
@@ -193,6 +202,9 @@ var mappingListErrataOsFamilyEnumLowerCase = map[string]ListErrataOsFamilyEnum{
 	"windows_server_2019": ListErrataOsFamilyWindowsServer2019,
 	"windows_server_2022": ListErrataOsFamilyWindowsServer2022,
 	"all":                 ListErrataOsFamilyAll,
+	"ubuntu_20_04":        ListErrataOsFamilyUbuntu2004,
+	"ubuntu_22_04":        ListErrataOsFamilyUbuntu2204,
+	"ubuntu_24_04":        ListErrataOsFamilyUbuntu2404,
 }
 
 // GetListErrataOsFamilyEnumValues Enumerates the set of values for ListErrataOsFamilyEnum
@@ -207,6 +219,7 @@ func GetListErrataOsFamilyEnumValues() []ListErrataOsFamilyEnum {
 // GetListErrataOsFamilyEnumStringValues Enumerates the set of values in String for ListErrataOsFamilyEnum
 func GetListErrataOsFamilyEnumStringValues() []string {
 	return []string{
+		"ORACLE_LINUX_10",
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
@@ -215,6 +228,9 @@ func GetListErrataOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
 		"ALL",
+		"UBUNTU_20_04",
+		"UBUNTU_22_04",
+		"UBUNTU_24_04",
 	}
 }
 

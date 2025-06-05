@@ -57,6 +57,19 @@ const (
 	WorkRequestOperationTypeRemoveContent                    WorkRequestOperationTypeEnum = "REMOVE_CONTENT"
 	WorkRequestOperationTypeUnregisterManagedInstance        WorkRequestOperationTypeEnum = "UNREGISTER_MANAGED_INSTANCE"
 	WorkRequestOperationTypeReboot                           WorkRequestOperationTypeEnum = "REBOOT"
+	WorkRequestOperationTypeCollectMetadata                  WorkRequestOperationTypeEnum = "COLLECT_METADATA"
+	WorkRequestOperationTypeSyncMetadata                     WorkRequestOperationTypeEnum = "SYNC_METADATA"
+	WorkRequestOperationTypeValidateSoftwareSource           WorkRequestOperationTypeEnum = "VALIDATE_SOFTWARE_SOURCE"
+	WorkRequestOperationTypeCreateReportContent              WorkRequestOperationTypeEnum = "CREATE_REPORT_CONTENT"
+	WorkRequestOperationTypeUpdateReportContent              WorkRequestOperationTypeEnum = "UPDATE_REPORT_CONTENT"
+	WorkRequestOperationTypeUpdateVulnerability              WorkRequestOperationTypeEnum = "UPDATE_VULNERABILITY"
+	WorkRequestOperationTypeRegisterManagedInstance          WorkRequestOperationTypeEnum = "REGISTER_MANAGED_INSTANCE"
+	WorkRequestOperationTypeSysadmin                         WorkRequestOperationTypeEnum = "SYSADMIN"
+	WorkRequestOperationTypeListSnaps                        WorkRequestOperationTypeEnum = "LIST_SNAPS"
+	WorkRequestOperationTypeInstallSnaps                     WorkRequestOperationTypeEnum = "INSTALL_SNAPS"
+	WorkRequestOperationTypeRemoveSnaps                      WorkRequestOperationTypeEnum = "REMOVE_SNAPS"
+	WorkRequestOperationTypeSwitchSnapChannel                WorkRequestOperationTypeEnum = "SWITCH_SNAP_CHANNEL"
+	WorkRequestOperationTypeStageUpdate                      WorkRequestOperationTypeEnum = "STAGE_UPDATE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -98,6 +111,19 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"REMOVE_CONTENT":                      WorkRequestOperationTypeRemoveContent,
 	"UNREGISTER_MANAGED_INSTANCE":         WorkRequestOperationTypeUnregisterManagedInstance,
 	"REBOOT":                              WorkRequestOperationTypeReboot,
+	"COLLECT_METADATA":                    WorkRequestOperationTypeCollectMetadata,
+	"SYNC_METADATA":                       WorkRequestOperationTypeSyncMetadata,
+	"VALIDATE_SOFTWARE_SOURCE":            WorkRequestOperationTypeValidateSoftwareSource,
+	"CREATE_REPORT_CONTENT":               WorkRequestOperationTypeCreateReportContent,
+	"UPDATE_REPORT_CONTENT":               WorkRequestOperationTypeUpdateReportContent,
+	"UPDATE_VULNERABILITY":                WorkRequestOperationTypeUpdateVulnerability,
+	"REGISTER_MANAGED_INSTANCE":           WorkRequestOperationTypeRegisterManagedInstance,
+	"SYSADMIN":                            WorkRequestOperationTypeSysadmin,
+	"LIST_SNAPS":                          WorkRequestOperationTypeListSnaps,
+	"INSTALL_SNAPS":                       WorkRequestOperationTypeInstallSnaps,
+	"REMOVE_SNAPS":                        WorkRequestOperationTypeRemoveSnaps,
+	"SWITCH_SNAP_CHANNEL":                 WorkRequestOperationTypeSwitchSnapChannel,
+	"STAGE_UPDATE":                        WorkRequestOperationTypeStageUpdate,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -139,6 +165,19 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"remove_content":                      WorkRequestOperationTypeRemoveContent,
 	"unregister_managed_instance":         WorkRequestOperationTypeUnregisterManagedInstance,
 	"reboot":                              WorkRequestOperationTypeReboot,
+	"collect_metadata":                    WorkRequestOperationTypeCollectMetadata,
+	"sync_metadata":                       WorkRequestOperationTypeSyncMetadata,
+	"validate_software_source":            WorkRequestOperationTypeValidateSoftwareSource,
+	"create_report_content":               WorkRequestOperationTypeCreateReportContent,
+	"update_report_content":               WorkRequestOperationTypeUpdateReportContent,
+	"update_vulnerability":                WorkRequestOperationTypeUpdateVulnerability,
+	"register_managed_instance":           WorkRequestOperationTypeRegisterManagedInstance,
+	"sysadmin":                            WorkRequestOperationTypeSysadmin,
+	"list_snaps":                          WorkRequestOperationTypeListSnaps,
+	"install_snaps":                       WorkRequestOperationTypeInstallSnaps,
+	"remove_snaps":                        WorkRequestOperationTypeRemoveSnaps,
+	"switch_snap_channel":                 WorkRequestOperationTypeSwitchSnapChannel,
+	"stage_update":                        WorkRequestOperationTypeStageUpdate,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -191,6 +230,19 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"REMOVE_CONTENT",
 		"UNREGISTER_MANAGED_INSTANCE",
 		"REBOOT",
+		"COLLECT_METADATA",
+		"SYNC_METADATA",
+		"VALIDATE_SOFTWARE_SOURCE",
+		"CREATE_REPORT_CONTENT",
+		"UPDATE_REPORT_CONTENT",
+		"UPDATE_VULNERABILITY",
+		"REGISTER_MANAGED_INSTANCE",
+		"SYSADMIN",
+		"LIST_SNAPS",
+		"INSTALL_SNAPS",
+		"REMOVE_SNAPS",
+		"SWITCH_SNAP_CHANNEL",
+		"STAGE_UPDATE",
 	}
 }
 

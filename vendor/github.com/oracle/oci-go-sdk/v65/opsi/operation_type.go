@@ -87,6 +87,12 @@ const (
 	OperationTypeChangeMacsManagedAdbConnectionDetails                  OperationTypeEnum = "CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS"
 	OperationTypeTestMacsManagedAdbConnectionDetails                    OperationTypeEnum = "TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS"
 	OperationTypeSynchronizeAutonomousDatabaseToExadata                 OperationTypeEnum = "SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA"
+	OperationTypeCreateKubeClusterInsight                               OperationTypeEnum = "CREATE_KUBE_CLUSTER_INSIGHT"
+	OperationTypeEnableKubeClusterInsight                               OperationTypeEnum = "ENABLE_KUBE_CLUSTER_INSIGHT"
+	OperationTypeDisableKubeClusterInsight                              OperationTypeEnum = "DISABLE_KUBE_CLUSTER_INSIGHT"
+	OperationTypeUpdateKubeClusterInsight                               OperationTypeEnum = "UPDATE_KUBE_CLUSTER_INSIGHT"
+	OperationTypeMoveKubeClusterInsight                                 OperationTypeEnum = "MOVE_KUBE_CLUSTER_INSIGHT"
+	OperationTypeDeleteKubeClusterInsight                               OperationTypeEnum = "DELETE_KUBE_CLUSTER_INSIGHT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -157,6 +163,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS":                    OperationTypeChangeMacsManagedAdbConnectionDetails,
 	"TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS":                      OperationTypeTestMacsManagedAdbConnectionDetails,
 	"SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA":                    OperationTypeSynchronizeAutonomousDatabaseToExadata,
+	"CREATE_KUBE_CLUSTER_INSIGHT":                                   OperationTypeCreateKubeClusterInsight,
+	"ENABLE_KUBE_CLUSTER_INSIGHT":                                   OperationTypeEnableKubeClusterInsight,
+	"DISABLE_KUBE_CLUSTER_INSIGHT":                                  OperationTypeDisableKubeClusterInsight,
+	"UPDATE_KUBE_CLUSTER_INSIGHT":                                   OperationTypeUpdateKubeClusterInsight,
+	"MOVE_KUBE_CLUSTER_INSIGHT":                                     OperationTypeMoveKubeClusterInsight,
+	"DELETE_KUBE_CLUSTER_INSIGHT":                                   OperationTypeDeleteKubeClusterInsight,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -227,6 +239,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"change_macs_managed_adb_connection_details":                    OperationTypeChangeMacsManagedAdbConnectionDetails,
 	"test_macs_managed_adb_connection_details":                      OperationTypeTestMacsManagedAdbConnectionDetails,
 	"synchronize_autonomous_database_to_exadata":                    OperationTypeSynchronizeAutonomousDatabaseToExadata,
+	"create_kube_cluster_insight":                                   OperationTypeCreateKubeClusterInsight,
+	"enable_kube_cluster_insight":                                   OperationTypeEnableKubeClusterInsight,
+	"disable_kube_cluster_insight":                                  OperationTypeDisableKubeClusterInsight,
+	"update_kube_cluster_insight":                                   OperationTypeUpdateKubeClusterInsight,
+	"move_kube_cluster_insight":                                     OperationTypeMoveKubeClusterInsight,
+	"delete_kube_cluster_insight":                                   OperationTypeDeleteKubeClusterInsight,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -308,6 +326,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS",
 		"TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS",
 		"SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA",
+		"CREATE_KUBE_CLUSTER_INSIGHT",
+		"ENABLE_KUBE_CLUSTER_INSIGHT",
+		"DISABLE_KUBE_CLUSTER_INSIGHT",
+		"UPDATE_KUBE_CLUSTER_INSIGHT",
+		"MOVE_KUBE_CLUSTER_INSIGHT",
+		"DELETE_KUBE_CLUSTER_INSIGHT",
 	}
 }
 

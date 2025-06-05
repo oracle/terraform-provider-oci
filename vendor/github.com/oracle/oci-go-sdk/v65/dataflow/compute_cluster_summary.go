@@ -42,12 +42,6 @@ type ComputeClusterSummary struct {
 	// The username of the user who created the cluster.
 	CreatedByName *string `mandatory:"false" json:"createdByName"`
 
-	// The ocid of the user who stopped the cluster.
-	StoppedBy *string `mandatory:"false" json:"stoppedBy"`
-
-	// The username of the user who stopped the cluster.
-	StoppedByName *string `mandatory:"false" json:"stoppedByName"`
-
 	// The time the Compute Cluster was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

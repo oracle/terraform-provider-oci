@@ -500,6 +500,65 @@ func (client OnboardingClient) deleteProfile(ctx context.Context, request common
 	return response, err
 }
 
+// DetachManagementStationFromProfile Detaches the specified management station from a profile.
+// A default retry strategy applies to this operation DetachManagementStationFromProfile()
+func (client OnboardingClient) DetachManagementStationFromProfile(ctx context.Context, request DetachManagementStationFromProfileRequest) (response DetachManagementStationFromProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachManagementStationFromProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachManagementStationFromProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachManagementStationFromProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachManagementStationFromProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachManagementStationFromProfileResponse")
+	}
+	return
+}
+
+// detachManagementStationFromProfile implements the OCIOperation interface (enables retrying operations)
+func (client OnboardingClient) detachManagementStationFromProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/profiles/{profileId}/actions/detachManagementStation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachManagementStationFromProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/DetachManagementStationFromProfile"
+		err = common.PostProcessServiceError(err, "Onboarding", "DetachManagementStationFromProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DetachSoftwareSourcesFromProfile Detaches the specified software sources from a profile.
 // A default retry strategy applies to this operation DetachSoftwareSourcesFromProfile()
 func (client OnboardingClient) DetachSoftwareSourcesFromProfile(ctx context.Context, request DetachSoftwareSourcesFromProfileRequest) (response DetachSoftwareSourcesFromProfileResponse, err error) {

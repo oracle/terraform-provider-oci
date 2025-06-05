@@ -67,6 +67,21 @@ type ThirdPartySoftwareSourceSummary struct {
 	// Whether this software source can be synced to a management station
 	IsMirrorSyncAllowed *bool `mandatory:"false" json:"isMirrorSyncAllowed"`
 
+	// Indicates if the service can collect the metadata for this software source
+	IsMetadataCollectionAllowed *bool `mandatory:"false" json:"isMetadataCollectionAllowed"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job that runs to collect metadata for this software source
+	MetadataCollectionJobId *string `mandatory:"false" json:"metadataCollectionJobId"`
+
+	// Indicates if the software source is associated with a metadata collection scheduled job.
+	HasMetadataCollectionJob *bool `mandatory:"false" json:"hasMetadataCollectionJob"`
+
+	// The date and time the metadata for this software source was last collected (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeMetadataLastCollected *common.SDKTime `mandatory:"false" json:"timeMetadataLastCollected"`
+
+	// Indicates if the software source's metadata has been collected by the service.
+	HasMetadata *bool `mandatory:"false" json:"hasMetadata"`
+
 	// The current state of the software source.
 	LifecycleState SoftwareSourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

@@ -586,5 +586,23 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-kulai-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "pgc",
+        "realmKey": "oc42",
+        "regionIdentifier": "us-newark-1",
+        "realmDomainComponent": "oraclecloud42.com"
+    },
+    {
+        "regionKey": "drz",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-shawnee-1",
+        "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "onm",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-delhi-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

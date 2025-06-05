@@ -26,6 +26,9 @@ type ListSoftwarePackagesRequest struct {
 	// Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
 	IsLatest *bool `mandatory:"false" contributesTo:"query" name:"isLatest"`
 
+	// Type of a package in Custom Software source.
+	PackageType ListSoftwarePackagesPackageTypeEnum `mandatory:"false" contributesTo:"query" name:"packageType" omitEmpty:"true"`
+
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
@@ -81,6 +84,9 @@ func (request ListSoftwarePackagesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListSoftwarePackagesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListSoftwarePackagesPackageTypeEnum(string(request.PackageType)); !ok && request.PackageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", request.PackageType, strings.Join(GetListSoftwarePackagesPackageTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListSoftwarePackagesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSoftwarePackagesSortOrderEnumStringValues(), ",")))
 	}
@@ -117,6 +123,52 @@ func (response ListSoftwarePackagesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListSoftwarePackagesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListSoftwarePackagesPackageTypeEnum Enum with underlying type: string
+type ListSoftwarePackagesPackageTypeEnum string
+
+// Set of constants representing the allowable values for ListSoftwarePackagesPackageTypeEnum
+const (
+	ListSoftwarePackagesPackageTypeFound      ListSoftwarePackagesPackageTypeEnum = "PACKAGE_FOUND"
+	ListSoftwarePackagesPackageTypeMissing    ListSoftwarePackagesPackageTypeEnum = "PACKAGE_MISSING"
+	ListSoftwarePackagesPackageTypeDependency ListSoftwarePackagesPackageTypeEnum = "PACKAGE_DEPENDENCY"
+)
+
+var mappingListSoftwarePackagesPackageTypeEnum = map[string]ListSoftwarePackagesPackageTypeEnum{
+	"PACKAGE_FOUND":      ListSoftwarePackagesPackageTypeFound,
+	"PACKAGE_MISSING":    ListSoftwarePackagesPackageTypeMissing,
+	"PACKAGE_DEPENDENCY": ListSoftwarePackagesPackageTypeDependency,
+}
+
+var mappingListSoftwarePackagesPackageTypeEnumLowerCase = map[string]ListSoftwarePackagesPackageTypeEnum{
+	"package_found":      ListSoftwarePackagesPackageTypeFound,
+	"package_missing":    ListSoftwarePackagesPackageTypeMissing,
+	"package_dependency": ListSoftwarePackagesPackageTypeDependency,
+}
+
+// GetListSoftwarePackagesPackageTypeEnumValues Enumerates the set of values for ListSoftwarePackagesPackageTypeEnum
+func GetListSoftwarePackagesPackageTypeEnumValues() []ListSoftwarePackagesPackageTypeEnum {
+	values := make([]ListSoftwarePackagesPackageTypeEnum, 0)
+	for _, v := range mappingListSoftwarePackagesPackageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListSoftwarePackagesPackageTypeEnumStringValues Enumerates the set of values in String for ListSoftwarePackagesPackageTypeEnum
+func GetListSoftwarePackagesPackageTypeEnumStringValues() []string {
+	return []string{
+		"PACKAGE_FOUND",
+		"PACKAGE_MISSING",
+		"PACKAGE_DEPENDENCY",
+	}
+}
+
+// GetMappingListSoftwarePackagesPackageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListSoftwarePackagesPackageTypeEnum(val string) (ListSoftwarePackagesPackageTypeEnum, bool) {
+	enum, ok := mappingListSoftwarePackagesPackageTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListSoftwarePackagesSortOrderEnum Enum with underlying type: string

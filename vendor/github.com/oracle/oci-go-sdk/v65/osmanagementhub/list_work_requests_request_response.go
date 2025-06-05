@@ -76,6 +76,10 @@ type ListWorkRequestsRequest struct {
 	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
+	// A multi filter to return resources that only contains the given vulnerability Ids (Errata, CVE, etc).
+	// Example: `ELSA-2020-5804` or `CVE-2025-22868`
+	VulnerabilityIds []string `contributesTo:"query" name:"vulnerabilityIds" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

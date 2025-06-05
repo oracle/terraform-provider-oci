@@ -1,0 +1,200 @@
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// OS Management Hub API
+//
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
+//
+
+package osmanagementhub
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// ErrataReportSummary An object that defines an Errata report Summary.
+type ErrataReportSummary struct {
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Osmh Report.
+	Id *string `mandatory:"true" json:"id"`
+
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The report version.
+	ReportVersion *string `mandatory:"true" json:"reportVersion"`
+
+	// The date and time the Osmh Report was created, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The date and time the Osmh Report was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
+	// The start issue date to filter by
+	TimeStartIssueDate *common.SDKTime `mandatory:"true" json:"timeStartIssueDate"`
+
+	// The end issue date to filter by
+	TimeEndIssueDate *common.SDKTime `mandatory:"true" json:"timeEndIssueDate"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
+	TenancyId *string `mandatory:"false" json:"tenancyId"`
+
+	// User-specified description for the Osmh Report.
+	Description *string `mandatory:"false" json:"description"`
+
+	// A message that describes the current state of the Osmh Report in more detail. For example,
+	// can be used to provide actionable information for a resource in the Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The current state of the Osmh Report.
+	LifecycleState ReportLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// List of operating system vendors.
+	Vendors []VendorNameEnum `mandatory:"false" json:"vendors,omitempty"`
+
+	// List of errata types.
+	ClassificationTypes []ClassificationTypesEnum `mandatory:"false" json:"classificationTypes,omitempty"`
+
+	// List of errata severities.
+	AdvisorySeverities []AdvisorySeverityEnum `mandatory:"false" json:"advisorySeverities,omitempty"`
+}
+
+// GetId returns Id
+func (m ErrataReportSummary) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m ErrataReportSummary) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m ErrataReportSummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetTenancyId returns TenancyId
+func (m ErrataReportSummary) GetTenancyId() *string {
+	return m.TenancyId
+}
+
+// GetReportVersion returns ReportVersion
+func (m ErrataReportSummary) GetReportVersion() *string {
+	return m.ReportVersion
+}
+
+// GetDescription returns Description
+func (m ErrataReportSummary) GetDescription() *string {
+	return m.Description
+}
+
+// GetTimeCreated returns TimeCreated
+func (m ErrataReportSummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m ErrataReportSummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m ErrataReportSummary) GetLifecycleState() ReportLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetLifecycleDetails returns LifecycleDetails
+func (m ErrataReportSummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
+// GetFreeformTags returns FreeformTags
+func (m ErrataReportSummary) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m ErrataReportSummary) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m ErrataReportSummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
+func (m ErrataReportSummary) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ErrataReportSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range m.Vendors {
+		if _, ok := GetMappingVendorNameEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Vendors: %s. Supported values are: %s.", val, strings.Join(GetVendorNameEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range m.ClassificationTypes {
+		if _, ok := GetMappingClassificationTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClassificationTypes: %s. Supported values are: %s.", val, strings.Join(GetClassificationTypesEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range m.AdvisorySeverities {
+		if _, ok := GetMappingAdvisorySeverityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisorySeverities: %s. Supported values are: %s.", val, strings.Join(GetAdvisorySeverityEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m ErrataReportSummary) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeErrataReportSummary ErrataReportSummary
+	s := struct {
+		DiscriminatorParam string `json:"reportType"`
+		MarshalTypeErrataReportSummary
+	}{
+		"ERRATA",
+		(MarshalTypeErrataReportSummary)(m),
+	}
+
+	return json.Marshal(&s)
+}

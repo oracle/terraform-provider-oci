@@ -15,32 +15,22 @@ import (
 	"strings"
 )
 
-// CreateIdentityTokenDetails Generate an Identity token for Redis cluster
-type CreateIdentityTokenDetails struct {
+// ChangeOciCacheConfigSetCompartmentDetails The information for the move operation.
+type ChangeOciCacheConfigSetCompartmentDetails struct {
 
-	// User public key pair
-	PublicKey *string `mandatory:"true" json:"publicKey"`
-
-	// Redis User generating identity token.
-	RedisUser *string `mandatory:"true" json:"redisUser"`
-
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// into which the resource should be moved.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
-func (m CreateIdentityTokenDetails) String() string {
+func (m ChangeOciCacheConfigSetCompartmentDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateIdentityTokenDetails) ValidateEnumValue() (bool, error) {
+func (m ChangeOciCacheConfigSetCompartmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

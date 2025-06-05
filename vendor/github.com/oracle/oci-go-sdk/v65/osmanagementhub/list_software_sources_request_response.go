@@ -47,6 +47,26 @@ type ListSoftwareSourcesRequest struct {
 	// A filter to return software sources which can be synced to a management station.
 	IsMirrorSyncAllowed *bool `mandatory:"false" contributesTo:"query" name:"isMirrorSyncAllowed"`
 
+	// A filter to return private or third-party software sources which allow metadata collection.
+	IsMetadataCollectionAllowed *bool `mandatory:"false" contributesTo:"query" name:"isMetadataCollectionAllowed"`
+
+	// The time and date after which to list all private or third-party software sources that have had their metadata collected by the service, in ISO 8601 format
+	// Example: 2024-07-14T02:40:00.000Z
+	TimeMetadataLastCollectedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeMetadataLastCollectedGreaterThanOrEqualTo"`
+
+	// The time and date before which to list all private or third-party software sources that have had their metadata collected by the service, in ISO 8601 format
+	// Example: 2024-07-14T02:40:00.000Z
+	TimeMetadataLastCollectedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeMetadataLastCollectedLessThan"`
+
+	// A filter to return private or third-party software sources which has metadata collected.
+	HasMetadata *bool `mandatory:"false" contributesTo:"query" name:"hasMetadata"`
+
+	// A filter to return private or third-party software sources which have metadata collection job.
+	HasMetadataCollectionJob *bool `mandatory:"false" contributesTo:"query" name:"hasMetadataCollectionJob"`
+
+	// A filter to return the custom software sources that the service automatically updates to use the latest package versions available.
+	IsAutomaticallyUpdated *bool `mandatory:"false" contributesTo:"query" name:"isAutomaticallyUpdated"`
+
 	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -204,16 +224,19 @@ type ListSoftwareSourcesVendorNameEnum string
 const (
 	ListSoftwareSourcesVendorNameOracle    ListSoftwareSourcesVendorNameEnum = "ORACLE"
 	ListSoftwareSourcesVendorNameMicrosoft ListSoftwareSourcesVendorNameEnum = "MICROSOFT"
+	ListSoftwareSourcesVendorNameCanonical ListSoftwareSourcesVendorNameEnum = "CANONICAL"
 )
 
 var mappingListSoftwareSourcesVendorNameEnum = map[string]ListSoftwareSourcesVendorNameEnum{
 	"ORACLE":    ListSoftwareSourcesVendorNameOracle,
 	"MICROSOFT": ListSoftwareSourcesVendorNameMicrosoft,
+	"CANONICAL": ListSoftwareSourcesVendorNameCanonical,
 }
 
 var mappingListSoftwareSourcesVendorNameEnumLowerCase = map[string]ListSoftwareSourcesVendorNameEnum{
 	"oracle":    ListSoftwareSourcesVendorNameOracle,
 	"microsoft": ListSoftwareSourcesVendorNameMicrosoft,
+	"canonical": ListSoftwareSourcesVendorNameCanonical,
 }
 
 // GetListSoftwareSourcesVendorNameEnumValues Enumerates the set of values for ListSoftwareSourcesVendorNameEnum
@@ -230,6 +253,7 @@ func GetListSoftwareSourcesVendorNameEnumStringValues() []string {
 	return []string{
 		"ORACLE",
 		"MICROSOFT",
+		"CANONICAL",
 	}
 }
 

@@ -858,6 +858,65 @@ func (client ManagedInstanceClient) installPackagesOnManagedInstance(ctx context
 	return response, err
 }
 
+// InstallSnapsOnManagedInstance Installs specified snaps on a managed instance.
+// A default retry strategy applies to this operation InstallSnapsOnManagedInstance()
+func (client ManagedInstanceClient) InstallSnapsOnManagedInstance(ctx context.Context, request InstallSnapsOnManagedInstanceRequest) (response InstallSnapsOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installSnapsOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallSnapsOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallSnapsOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallSnapsOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallSnapsOnManagedInstanceResponse")
+	}
+	return
+}
+
+// installSnapsOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) installSnapsOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/installSnaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallSnapsOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallSnapsOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallSnapsOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // InstallWindowsUpdatesOnManagedInstance Installs Windows updates on the specified managed instance.
 // A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstance()
 func (client ManagedInstanceClient) InstallWindowsUpdatesOnManagedInstance(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceRequest) (response InstallWindowsUpdatesOnManagedInstanceResponse, err error) {
@@ -1288,6 +1347,60 @@ func (client ManagedInstanceClient) listManagedInstanceModules(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceModules"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceModules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceSnaps Retrieves a list of snaps for a managed instance. Filters may be applied to select a subset of snaps based on the filter criteria.
+// A default retry strategy applies to this operation ListManagedInstanceSnaps()
+func (client ManagedInstanceClient) ListManagedInstanceSnaps(ctx context.Context, request ListManagedInstanceSnapsRequest) (response ListManagedInstanceSnapsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceSnaps, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceSnapsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceSnapsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceSnapsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceSnapsResponse")
+	}
+	return
+}
+
+// listManagedInstanceSnaps implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listManagedInstanceSnaps(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/snaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceSnapsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceSnaps"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceSnaps", apiReferenceLink)
 		return response, err
 	}
 
@@ -1758,6 +1871,65 @@ func (client ManagedInstanceClient) removePackagesFromManagedInstance(ctx contex
 	return response, err
 }
 
+// RemoveSnapsFromManagedInstance Removes specified snaps from a managed instance.
+// A default retry strategy applies to this operation RemoveSnapsFromManagedInstance()
+func (client ManagedInstanceClient) RemoveSnapsFromManagedInstance(ctx context.Context, request RemoveSnapsFromManagedInstanceRequest) (response RemoveSnapsFromManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeSnapsFromManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveSnapsFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveSnapsFromManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveSnapsFromManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveSnapsFromManagedInstanceResponse")
+	}
+	return
+}
+
+// removeSnapsFromManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) removeSnapsFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/removeSnaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveSnapsFromManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/RemoveSnapsFromManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "RemoveSnapsFromManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SwitchModuleStreamOnManagedInstance Enables a new stream for a module that already has a stream enabled.
 // If any profiles or packages from the original module are installed,
 // switching to a new stream will remove the existing packages and
@@ -1813,6 +1985,65 @@ func (client ManagedInstanceClient) switchModuleStreamOnManagedInstance(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/SwitchModuleStreamOnManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "SwitchModuleStreamOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchSnapChannelOnManagedInstance Switches the snap channel on a managed instance.
+// A default retry strategy applies to this operation SwitchSnapChannelOnManagedInstance()
+func (client ManagedInstanceClient) SwitchSnapChannelOnManagedInstance(ctx context.Context, request SwitchSnapChannelOnManagedInstanceRequest) (response SwitchSnapChannelOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchSnapChannelOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchSnapChannelOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchSnapChannelOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchSnapChannelOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchSnapChannelOnManagedInstanceResponse")
+	}
+	return
+}
+
+// switchSnapChannelOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) switchSnapChannelOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/switchSnapChannel", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchSnapChannelOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/SwitchSnapChannelOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "SwitchSnapChannelOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 

@@ -53,6 +53,7 @@ const (
 	RebootEventDataRebootStatusSucceeded             RebootEventDataRebootStatusEnum = "REBOOT_SUCCEEDED"
 	RebootEventDataRebootStatusFailed                RebootEventDataRebootStatusEnum = "REBOOT_FAILED"
 	RebootEventDataRebootStatusSucceededAfterTimeout RebootEventDataRebootStatusEnum = "REBOOT_SUCCEEDED_AFTER_TIMEOUT"
+	RebootEventDataRebootStatusRequired              RebootEventDataRebootStatusEnum = "REBOOT_REQUIRED"
 )
 
 var mappingRebootEventDataRebootStatusEnum = map[string]RebootEventDataRebootStatusEnum{
@@ -60,6 +61,7 @@ var mappingRebootEventDataRebootStatusEnum = map[string]RebootEventDataRebootSta
 	"REBOOT_SUCCEEDED":               RebootEventDataRebootStatusSucceeded,
 	"REBOOT_FAILED":                  RebootEventDataRebootStatusFailed,
 	"REBOOT_SUCCEEDED_AFTER_TIMEOUT": RebootEventDataRebootStatusSucceededAfterTimeout,
+	"REBOOT_REQUIRED":                RebootEventDataRebootStatusRequired,
 }
 
 var mappingRebootEventDataRebootStatusEnumLowerCase = map[string]RebootEventDataRebootStatusEnum{
@@ -67,6 +69,7 @@ var mappingRebootEventDataRebootStatusEnumLowerCase = map[string]RebootEventData
 	"reboot_succeeded":               RebootEventDataRebootStatusSucceeded,
 	"reboot_failed":                  RebootEventDataRebootStatusFailed,
 	"reboot_succeeded_after_timeout": RebootEventDataRebootStatusSucceededAfterTimeout,
+	"reboot_required":                RebootEventDataRebootStatusRequired,
 }
 
 // GetRebootEventDataRebootStatusEnumValues Enumerates the set of values for RebootEventDataRebootStatusEnum
@@ -85,6 +88,7 @@ func GetRebootEventDataRebootStatusEnumStringValues() []string {
 		"REBOOT_SUCCEEDED",
 		"REBOOT_FAILED",
 		"REBOOT_SUCCEEDED_AFTER_TIMEOUT",
+		"REBOOT_REQUIRED",
 	}
 }
 

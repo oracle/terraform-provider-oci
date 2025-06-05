@@ -22,6 +22,10 @@ type ShapeConfig struct {
 	// See here (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details.
 	Ocpus *float32 `mandatory:"false" json:"ocpus"`
 
+	// The total number of GPUs used for the driver or executors.
+	// See here (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details.
+	Gpus *int `mandatory:"false" json:"gpus"`
+
 	// The amount of memory used for the driver or executors.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 }

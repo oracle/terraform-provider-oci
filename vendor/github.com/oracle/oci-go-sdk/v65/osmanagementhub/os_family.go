@@ -19,6 +19,7 @@ type OsFamilyEnum string
 
 // Set of constants representing the allowable values for OsFamilyEnum
 const (
+	OsFamilyOracleLinux10     OsFamilyEnum = "ORACLE_LINUX_10"
 	OsFamilyOracleLinux9      OsFamilyEnum = "ORACLE_LINUX_9"
 	OsFamilyOracleLinux8      OsFamilyEnum = "ORACLE_LINUX_8"
 	OsFamilyOracleLinux7      OsFamilyEnum = "ORACLE_LINUX_7"
@@ -27,9 +28,13 @@ const (
 	OsFamilyWindowsServer2019 OsFamilyEnum = "WINDOWS_SERVER_2019"
 	OsFamilyWindowsServer2022 OsFamilyEnum = "WINDOWS_SERVER_2022"
 	OsFamilyAll               OsFamilyEnum = "ALL"
+	OsFamilyUbuntu2004        OsFamilyEnum = "UBUNTU_20_04"
+	OsFamilyUbuntu2204        OsFamilyEnum = "UBUNTU_22_04"
+	OsFamilyUbuntu2404        OsFamilyEnum = "UBUNTU_24_04"
 )
 
 var mappingOsFamilyEnum = map[string]OsFamilyEnum{
+	"ORACLE_LINUX_10":     OsFamilyOracleLinux10,
 	"ORACLE_LINUX_9":      OsFamilyOracleLinux9,
 	"ORACLE_LINUX_8":      OsFamilyOracleLinux8,
 	"ORACLE_LINUX_7":      OsFamilyOracleLinux7,
@@ -38,9 +43,13 @@ var mappingOsFamilyEnum = map[string]OsFamilyEnum{
 	"WINDOWS_SERVER_2019": OsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": OsFamilyWindowsServer2022,
 	"ALL":                 OsFamilyAll,
+	"UBUNTU_20_04":        OsFamilyUbuntu2004,
+	"UBUNTU_22_04":        OsFamilyUbuntu2204,
+	"UBUNTU_24_04":        OsFamilyUbuntu2404,
 }
 
 var mappingOsFamilyEnumLowerCase = map[string]OsFamilyEnum{
+	"oracle_linux_10":     OsFamilyOracleLinux10,
 	"oracle_linux_9":      OsFamilyOracleLinux9,
 	"oracle_linux_8":      OsFamilyOracleLinux8,
 	"oracle_linux_7":      OsFamilyOracleLinux7,
@@ -49,6 +58,9 @@ var mappingOsFamilyEnumLowerCase = map[string]OsFamilyEnum{
 	"windows_server_2019": OsFamilyWindowsServer2019,
 	"windows_server_2022": OsFamilyWindowsServer2022,
 	"all":                 OsFamilyAll,
+	"ubuntu_20_04":        OsFamilyUbuntu2004,
+	"ubuntu_22_04":        OsFamilyUbuntu2204,
+	"ubuntu_24_04":        OsFamilyUbuntu2404,
 }
 
 // GetOsFamilyEnumValues Enumerates the set of values for OsFamilyEnum
@@ -63,6 +75,7 @@ func GetOsFamilyEnumValues() []OsFamilyEnum {
 // GetOsFamilyEnumStringValues Enumerates the set of values in String for OsFamilyEnum
 func GetOsFamilyEnumStringValues() []string {
 	return []string{
+		"ORACLE_LINUX_10",
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
@@ -71,6 +84,9 @@ func GetOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
 		"ALL",
+		"UBUNTU_20_04",
+		"UBUNTU_22_04",
+		"UBUNTU_24_04",
 	}
 }
 

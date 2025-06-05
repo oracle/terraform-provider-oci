@@ -18,6 +18,9 @@ import (
 // UpdateRedisClusterDetails The configuration to update for an existing cluster.
 type UpdateRedisClusterDetails struct {
 
+	// The ID of the corresponding OCI Cache Config Set for the cluster.
+	OciCacheConfigSetId *string `mandatory:"false" json:"ociCacheConfigSetId"`
+
 	// The number of shards in sharded cluster. Only applicable when clusterMode is SHARDED.
 	ShardCount *int `mandatory:"false" json:"shardCount"`
 

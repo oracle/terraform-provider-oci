@@ -59,6 +59,9 @@ type CustomSoftwareSource struct {
 	// The size of the software source in bytes (B).
 	Size *float64 `mandatory:"false" json:"size"`
 
+	// The size of the software source metadata in bytes (B).
+	MetadataSize *int64 `mandatory:"false" json:"metadataSize"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -208,6 +211,11 @@ func (m CustomSoftwareSource) GetGpgKeyFingerprint() *string {
 // GetSize returns Size
 func (m CustomSoftwareSource) GetSize() *float64 {
 	return m.Size
+}
+
+// GetMetadataSize returns MetadataSize
+func (m CustomSoftwareSource) GetMetadataSize() *int64 {
+	return m.MetadataSize
 }
 
 // GetFreeformTags returns FreeformTags

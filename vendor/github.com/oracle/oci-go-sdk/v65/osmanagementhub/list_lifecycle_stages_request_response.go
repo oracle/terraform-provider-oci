@@ -170,6 +170,9 @@ const (
 	ListLifecycleStagesArchTypeNoarch  ListLifecycleStagesArchTypeEnum = "NOARCH"
 	ListLifecycleStagesArchTypeSrc     ListLifecycleStagesArchTypeEnum = "SRC"
 	ListLifecycleStagesArchTypeI386    ListLifecycleStagesArchTypeEnum = "I386"
+	ListLifecycleStagesArchTypeAmd64   ListLifecycleStagesArchTypeEnum = "AMD64"
+	ListLifecycleStagesArchTypeArm64   ListLifecycleStagesArchTypeEnum = "ARM64"
+	ListLifecycleStagesArchTypeAll     ListLifecycleStagesArchTypeEnum = "ALL"
 )
 
 var mappingListLifecycleStagesArchTypeEnum = map[string]ListLifecycleStagesArchTypeEnum{
@@ -179,6 +182,9 @@ var mappingListLifecycleStagesArchTypeEnum = map[string]ListLifecycleStagesArchT
 	"NOARCH":  ListLifecycleStagesArchTypeNoarch,
 	"SRC":     ListLifecycleStagesArchTypeSrc,
 	"I386":    ListLifecycleStagesArchTypeI386,
+	"AMD64":   ListLifecycleStagesArchTypeAmd64,
+	"ARM64":   ListLifecycleStagesArchTypeArm64,
+	"ALL":     ListLifecycleStagesArchTypeAll,
 }
 
 var mappingListLifecycleStagesArchTypeEnumLowerCase = map[string]ListLifecycleStagesArchTypeEnum{
@@ -188,6 +194,9 @@ var mappingListLifecycleStagesArchTypeEnumLowerCase = map[string]ListLifecycleSt
 	"noarch":  ListLifecycleStagesArchTypeNoarch,
 	"src":     ListLifecycleStagesArchTypeSrc,
 	"i386":    ListLifecycleStagesArchTypeI386,
+	"amd64":   ListLifecycleStagesArchTypeAmd64,
+	"arm64":   ListLifecycleStagesArchTypeArm64,
+	"all":     ListLifecycleStagesArchTypeAll,
 }
 
 // GetListLifecycleStagesArchTypeEnumValues Enumerates the set of values for ListLifecycleStagesArchTypeEnum
@@ -208,6 +217,9 @@ func GetListLifecycleStagesArchTypeEnumStringValues() []string {
 		"NOARCH",
 		"SRC",
 		"I386",
+		"AMD64",
+		"ARM64",
+		"ALL",
 	}
 }
 
@@ -222,6 +234,7 @@ type ListLifecycleStagesOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListLifecycleStagesOsFamilyEnum
 const (
+	ListLifecycleStagesOsFamilyOracleLinux10     ListLifecycleStagesOsFamilyEnum = "ORACLE_LINUX_10"
 	ListLifecycleStagesOsFamilyOracleLinux9      ListLifecycleStagesOsFamilyEnum = "ORACLE_LINUX_9"
 	ListLifecycleStagesOsFamilyOracleLinux8      ListLifecycleStagesOsFamilyEnum = "ORACLE_LINUX_8"
 	ListLifecycleStagesOsFamilyOracleLinux7      ListLifecycleStagesOsFamilyEnum = "ORACLE_LINUX_7"
@@ -230,9 +243,13 @@ const (
 	ListLifecycleStagesOsFamilyWindowsServer2019 ListLifecycleStagesOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListLifecycleStagesOsFamilyWindowsServer2022 ListLifecycleStagesOsFamilyEnum = "WINDOWS_SERVER_2022"
 	ListLifecycleStagesOsFamilyAll               ListLifecycleStagesOsFamilyEnum = "ALL"
+	ListLifecycleStagesOsFamilyUbuntu2004        ListLifecycleStagesOsFamilyEnum = "UBUNTU_20_04"
+	ListLifecycleStagesOsFamilyUbuntu2204        ListLifecycleStagesOsFamilyEnum = "UBUNTU_22_04"
+	ListLifecycleStagesOsFamilyUbuntu2404        ListLifecycleStagesOsFamilyEnum = "UBUNTU_24_04"
 )
 
 var mappingListLifecycleStagesOsFamilyEnum = map[string]ListLifecycleStagesOsFamilyEnum{
+	"ORACLE_LINUX_10":     ListLifecycleStagesOsFamilyOracleLinux10,
 	"ORACLE_LINUX_9":      ListLifecycleStagesOsFamilyOracleLinux9,
 	"ORACLE_LINUX_8":      ListLifecycleStagesOsFamilyOracleLinux8,
 	"ORACLE_LINUX_7":      ListLifecycleStagesOsFamilyOracleLinux7,
@@ -241,9 +258,13 @@ var mappingListLifecycleStagesOsFamilyEnum = map[string]ListLifecycleStagesOsFam
 	"WINDOWS_SERVER_2019": ListLifecycleStagesOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListLifecycleStagesOsFamilyWindowsServer2022,
 	"ALL":                 ListLifecycleStagesOsFamilyAll,
+	"UBUNTU_20_04":        ListLifecycleStagesOsFamilyUbuntu2004,
+	"UBUNTU_22_04":        ListLifecycleStagesOsFamilyUbuntu2204,
+	"UBUNTU_24_04":        ListLifecycleStagesOsFamilyUbuntu2404,
 }
 
 var mappingListLifecycleStagesOsFamilyEnumLowerCase = map[string]ListLifecycleStagesOsFamilyEnum{
+	"oracle_linux_10":     ListLifecycleStagesOsFamilyOracleLinux10,
 	"oracle_linux_9":      ListLifecycleStagesOsFamilyOracleLinux9,
 	"oracle_linux_8":      ListLifecycleStagesOsFamilyOracleLinux8,
 	"oracle_linux_7":      ListLifecycleStagesOsFamilyOracleLinux7,
@@ -252,6 +273,9 @@ var mappingListLifecycleStagesOsFamilyEnumLowerCase = map[string]ListLifecycleSt
 	"windows_server_2019": ListLifecycleStagesOsFamilyWindowsServer2019,
 	"windows_server_2022": ListLifecycleStagesOsFamilyWindowsServer2022,
 	"all":                 ListLifecycleStagesOsFamilyAll,
+	"ubuntu_20_04":        ListLifecycleStagesOsFamilyUbuntu2004,
+	"ubuntu_22_04":        ListLifecycleStagesOsFamilyUbuntu2204,
+	"ubuntu_24_04":        ListLifecycleStagesOsFamilyUbuntu2404,
 }
 
 // GetListLifecycleStagesOsFamilyEnumValues Enumerates the set of values for ListLifecycleStagesOsFamilyEnum
@@ -266,6 +290,7 @@ func GetListLifecycleStagesOsFamilyEnumValues() []ListLifecycleStagesOsFamilyEnu
 // GetListLifecycleStagesOsFamilyEnumStringValues Enumerates the set of values in String for ListLifecycleStagesOsFamilyEnum
 func GetListLifecycleStagesOsFamilyEnumStringValues() []string {
 	return []string{
+		"ORACLE_LINUX_10",
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
@@ -274,6 +299,9 @@ func GetListLifecycleStagesOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
 		"ALL",
+		"UBUNTU_20_04",
+		"UBUNTU_22_04",
+		"UBUNTU_24_04",
 	}
 }
 

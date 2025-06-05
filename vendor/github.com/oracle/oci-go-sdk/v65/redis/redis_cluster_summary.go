@@ -63,6 +63,9 @@ type RedisClusterSummary struct {
 	// The date and time the cluster was updated. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The ID of the corresponding OCI Cache Config Set for the cluster.
+	OciCacheConfigSetId *string `mandatory:"false" json:"ociCacheConfigSetId"`
+
 	// Specifies whether the cluster is sharded or non-sharded.
 	ClusterMode RedisClusterClusterModeEnum `mandatory:"false" json:"clusterMode,omitempty"`
 

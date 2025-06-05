@@ -48,6 +48,9 @@ type Event interface {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// The severity of the event
+	GetEventSeverity() EventSeverityEnum
+
 	// Details of an event.
 	GetEventDetails() *string
 
@@ -77,6 +80,7 @@ type Event interface {
 
 type event struct {
 	JsonData                   []byte
+	EventSeverity              EventSeverityEnum                 `mandatory:"false" json:"eventSeverity,omitempty"`
 	EventDetails               *string                           `mandatory:"false" json:"eventDetails"`
 	ResourceId                 *string                           `mandatory:"false" json:"resourceId"`
 	SystemDetails              *SystemDetails                    `mandatory:"false" json:"systemDetails"`
@@ -113,6 +117,7 @@ func (m *event) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.EventSeverity = s.Model.EventSeverity
 	m.EventDetails = s.Model.EventDetails
 	m.ResourceId = s.Model.ResourceId
 	m.SystemDetails = s.Model.SystemDetails
@@ -139,24 +144,16 @@ func (m *event) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := SoftwareUpdateEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "KERNEL_OOPS":
-		mm := KernelOopsEvent{}
+	case "REGISTRATION":
+		mm := RegistrationEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MANAGEMENT_STATION":
 		mm := ManagementStationEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "SOFTWARE_SOURCE":
-		mm := SoftwareSourceEvent{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "KERNEL_CRASH":
 		mm := KernelCrashEvent{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "SYSADMIN":
-		mm := SysadminEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REBOOT":
@@ -167,8 +164,36 @@ func (m *event) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := ExploitAttemptEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REPORT":
+		mm := ReportEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KERNEL_OOPS":
+		mm := KernelOopsEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SCHEDULED_JOB":
+		mm := ScheduledJobEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SOFTWARE_SOURCE":
+		mm := SoftwareSourceEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SYSADMIN":
+		mm := SysadminEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNAP_UPDATE":
+		mm := SnapUpdateEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AGENT":
 		mm := AgentEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "WINDOWS_UPDATE":
+		mm := WindowsUpdateEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KSPLICE_UPDATE":
@@ -179,6 +204,11 @@ func (m *event) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		common.Logf("Received unsupported enum value for Event: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetEventSeverity returns EventSeverity
+func (m event) GetEventSeverity() EventSeverityEnum {
+	return m.EventSeverity
 }
 
 // GetEventDetails returns EventDetails
@@ -269,6 +299,9 @@ func (m event) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEventLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEventSeverityEnum(string(m.EventSeverity)); !ok && m.EventSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventSeverity: %s. Supported values are: %s.", m.EventSeverity, strings.Join(GetEventSeverityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

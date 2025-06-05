@@ -15,24 +15,21 @@ import (
 	"strings"
 )
 
-// IdentityTokenDetailsResponse Response an Identity token generated for Redis cluster
-type IdentityTokenDetailsResponse struct {
+// DefaultConfigurationDetails List of OCI Cache Default Config Set Values.
+type DefaultConfigurationDetails struct {
 
-	// Generated Identity token
-	IdentityToken *string `mandatory:"true" json:"identityToken"`
-
-	// Redis user for the newly created identity token
-	RedisUser *string `mandatory:"true" json:"redisUser"`
+	// List of DefaultConfigurationInfo objects.
+	Items []DefaultConfigurationInfo `mandatory:"true" json:"items"`
 }
 
-func (m IdentityTokenDetailsResponse) String() string {
+func (m DefaultConfigurationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m IdentityTokenDetailsResponse) ValidateEnumValue() (bool, error) {
+func (m DefaultConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

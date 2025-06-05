@@ -76,6 +76,8 @@ type UpdateNodePoolDetails struct {
 	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
 
 	NodePoolCyclingDetails *NodePoolCyclingDetails `mandatory:"false" json:"nodePoolCyclingDetails"`
+
+	NodeConfigurationSourceDetails NodeConfigurationSourceDetails `mandatory:"false" json:"nodeConfigurationSourceDetails"`
 }
 
 func (m UpdateNodePoolDetails) String() string {
@@ -97,21 +99,22 @@ func (m UpdateNodePoolDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Name                         *string                           `json:"name"`
-		KubernetesVersion            *string                           `json:"kubernetesVersion"`
-		InitialNodeLabels            []KeyValue                        `json:"initialNodeLabels"`
-		QuantityPerSubnet            *int                              `json:"quantityPerSubnet"`
-		SubnetIds                    []string                          `json:"subnetIds"`
-		NodeConfigDetails            *UpdateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
-		NodeMetadata                 map[string]string                 `json:"nodeMetadata"`
-		NodeSourceDetails            nodesourcedetails                 `json:"nodeSourceDetails"`
-		SshPublicKey                 *string                           `json:"sshPublicKey"`
-		NodeShape                    *string                           `json:"nodeShape"`
-		NodeShapeConfig              *UpdateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
-		FreeformTags                 map[string]string                 `json:"freeformTags"`
-		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
-		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
-		NodePoolCyclingDetails       *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
+		Name                           *string                           `json:"name"`
+		KubernetesVersion              *string                           `json:"kubernetesVersion"`
+		InitialNodeLabels              []KeyValue                        `json:"initialNodeLabels"`
+		QuantityPerSubnet              *int                              `json:"quantityPerSubnet"`
+		SubnetIds                      []string                          `json:"subnetIds"`
+		NodeConfigDetails              *UpdateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
+		NodeMetadata                   map[string]string                 `json:"nodeMetadata"`
+		NodeSourceDetails              nodesourcedetails                 `json:"nodeSourceDetails"`
+		SshPublicKey                   *string                           `json:"sshPublicKey"`
+		NodeShape                      *string                           `json:"nodeShape"`
+		NodeShapeConfig                *UpdateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
+		FreeformTags                   map[string]string                 `json:"freeformTags"`
+		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
+		NodeEvictionNodePoolSettings   *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
+		NodePoolCyclingDetails         *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
+		NodeConfigurationSourceDetails nodeconfigurationsourcedetails    `json:"nodeConfigurationSourceDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -156,6 +159,16 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
 
 	m.NodePoolCyclingDetails = model.NodePoolCyclingDetails
+
+	nn, e = model.NodeConfigurationSourceDetails.UnmarshalPolymorphicJSON(model.NodeConfigurationSourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NodeConfigurationSourceDetails = nn.(NodeConfigurationSourceDetails)
+	} else {
+		m.NodeConfigurationSourceDetails = nil
+	}
 
 	return
 }

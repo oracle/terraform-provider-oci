@@ -74,6 +74,9 @@ type SoftwareSource interface {
 	// The size of the software source in bytes (B).
 	GetSize() *float64
 
+	// The size of the software source metadata in bytes (B).
+	GetMetadataSize() *int64
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -99,6 +102,7 @@ type softwaresource struct {
 	GpgKeyId           *string                           `mandatory:"false" json:"gpgKeyId"`
 	GpgKeyFingerprint  *string                           `mandatory:"false" json:"gpgKeyFingerprint"`
 	Size               *float64                          `mandatory:"false" json:"size"`
+	MetadataSize       *int64                            `mandatory:"false" json:"metadataSize"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -144,6 +148,7 @@ func (m *softwaresource) UnmarshalJSON(data []byte) error {
 	m.GpgKeyId = s.Model.GpgKeyId
 	m.GpgKeyFingerprint = s.Model.GpgKeyFingerprint
 	m.Size = s.Model.Size
+	m.MetadataSize = s.Model.MetadataSize
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -225,6 +230,11 @@ func (m softwaresource) GetGpgKeyFingerprint() *string {
 // GetSize returns Size
 func (m softwaresource) GetSize() *float64 {
 	return m.Size
+}
+
+// GetMetadataSize returns MetadataSize
+func (m softwaresource) GetMetadataSize() *int64 {
+	return m.MetadataSize
 }
 
 // GetFreeformTags returns FreeformTags

@@ -24,6 +24,8 @@ const (
 	ProfileTypeLifecycle         ProfileTypeEnum = "LIFECYCLE"
 	ProfileTypeStation           ProfileTypeEnum = "STATION"
 	ProfileTypeWindowsStandalone ProfileTypeEnum = "WINDOWS_STANDALONE"
+	ProfileTypeUbuntuStandalone  ProfileTypeEnum = "UBUNTU_STANDALONE"
+	ProfileTypeDynamic           ProfileTypeEnum = "DYNAMIC"
 )
 
 var mappingProfileTypeEnum = map[string]ProfileTypeEnum{
@@ -32,6 +34,8 @@ var mappingProfileTypeEnum = map[string]ProfileTypeEnum{
 	"LIFECYCLE":          ProfileTypeLifecycle,
 	"STATION":            ProfileTypeStation,
 	"WINDOWS_STANDALONE": ProfileTypeWindowsStandalone,
+	"UBUNTU_STANDALONE":  ProfileTypeUbuntuStandalone,
+	"DYNAMIC":            ProfileTypeDynamic,
 }
 
 var mappingProfileTypeEnumLowerCase = map[string]ProfileTypeEnum{
@@ -40,6 +44,8 @@ var mappingProfileTypeEnumLowerCase = map[string]ProfileTypeEnum{
 	"lifecycle":          ProfileTypeLifecycle,
 	"station":            ProfileTypeStation,
 	"windows_standalone": ProfileTypeWindowsStandalone,
+	"ubuntu_standalone":  ProfileTypeUbuntuStandalone,
+	"dynamic":            ProfileTypeDynamic,
 }
 
 // GetProfileTypeEnumValues Enumerates the set of values for ProfileTypeEnum
@@ -59,6 +65,8 @@ func GetProfileTypeEnumStringValues() []string {
 		"LIFECYCLE",
 		"STATION",
 		"WINDOWS_STANDALONE",
+		"UBUNTU_STANDALONE",
+		"DYNAMIC",
 	}
 }
 

@@ -11,6 +11,7 @@
 package osmanagementhub
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,6 +22,9 @@ type ScheduledJobOperation struct {
 
 	// The type of operation this scheduled job performs.
 	OperationType OperationTypesEnum `mandatory:"true" json:"operationType"`
+
+	// The types of update operations to stage updates for.
+	StageUpdateTypes []StageUpdateTypesEnum `mandatory:"false" json:"stageUpdateTypes,omitempty"`
 
 	// The names of the target packages. This parameter only applies when the scheduled job is for installing, updating, or removing packages.
 	PackageNames []string `mandatory:"false" json:"packageNames"`
@@ -35,12 +39,20 @@ type ScheduledJobOperation struct {
 	SwitchModuleStreamsDetails *ModuleStreamDetails `mandatory:"false" json:"switchModuleStreamsDetails"`
 
 	// The software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	// This parameter only applies when the scheduled job is for attaching or detaching software sources.
+	// This parameter only applies when the scheduled job is for attaching/detaching or updating software sources.
 	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
 
 	// The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the
 	// timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
+
+	VulnerabilityDetails VulnerabilityDetails `mandatory:"false" json:"vulnerabilityDetails"`
+
+	InstallSnapDetails *InstallSnapDetails `mandatory:"false" json:"installSnapDetails"`
+
+	RemoveSnapDetails *RemoveSnapDetails `mandatory:"false" json:"removeSnapDetails"`
+
+	SwitchSnapChannelDetails *SwitchSnapChannelDetails `mandatory:"false" json:"switchSnapChannelDetails"`
 }
 
 func (m ScheduledJobOperation) String() string {
@@ -56,8 +68,71 @@ func (m ScheduledJobOperation) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetOperationTypesEnumStringValues(), ",")))
 	}
 
+	for _, val := range m.StageUpdateTypes {
+		if _, ok := GetMappingStageUpdateTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StageUpdateTypes: %s. Supported values are: %s.", val, strings.Join(GetStageUpdateTypesEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ScheduledJobOperation) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		StageUpdateTypes           []StageUpdateTypesEnum                    `json:"stageUpdateTypes"`
+		PackageNames               []string                                  `json:"packageNames"`
+		WindowsUpdateNames         []string                                  `json:"windowsUpdateNames"`
+		ManageModuleStreamsDetails *ManageModuleStreamsInScheduledJobDetails `json:"manageModuleStreamsDetails"`
+		SwitchModuleStreamsDetails *ModuleStreamDetails                      `json:"switchModuleStreamsDetails"`
+		SoftwareSourceIds          []string                                  `json:"softwareSourceIds"`
+		RebootTimeoutInMins        *int                                      `json:"rebootTimeoutInMins"`
+		VulnerabilityDetails       vulnerabilitydetails                      `json:"vulnerabilityDetails"`
+		InstallSnapDetails         *InstallSnapDetails                       `json:"installSnapDetails"`
+		RemoveSnapDetails          *RemoveSnapDetails                        `json:"removeSnapDetails"`
+		SwitchSnapChannelDetails   *SwitchSnapChannelDetails                 `json:"switchSnapChannelDetails"`
+		OperationType              OperationTypesEnum                        `json:"operationType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.StageUpdateTypes = make([]StageUpdateTypesEnum, len(model.StageUpdateTypes))
+	copy(m.StageUpdateTypes, model.StageUpdateTypes)
+	m.PackageNames = make([]string, len(model.PackageNames))
+	copy(m.PackageNames, model.PackageNames)
+	m.WindowsUpdateNames = make([]string, len(model.WindowsUpdateNames))
+	copy(m.WindowsUpdateNames, model.WindowsUpdateNames)
+	m.ManageModuleStreamsDetails = model.ManageModuleStreamsDetails
+
+	m.SwitchModuleStreamsDetails = model.SwitchModuleStreamsDetails
+
+	m.SoftwareSourceIds = make([]string, len(model.SoftwareSourceIds))
+	copy(m.SoftwareSourceIds, model.SoftwareSourceIds)
+	m.RebootTimeoutInMins = model.RebootTimeoutInMins
+
+	nn, e = model.VulnerabilityDetails.UnmarshalPolymorphicJSON(model.VulnerabilityDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.VulnerabilityDetails = nn.(VulnerabilityDetails)
+	} else {
+		m.VulnerabilityDetails = nil
+	}
+
+	m.InstallSnapDetails = model.InstallSnapDetails
+
+	m.RemoveSnapDetails = model.RemoveSnapDetails
+
+	m.SwitchSnapChannelDetails = model.SwitchSnapChannelDetails
+
+	m.OperationType = model.OperationType
+
+	return
 }

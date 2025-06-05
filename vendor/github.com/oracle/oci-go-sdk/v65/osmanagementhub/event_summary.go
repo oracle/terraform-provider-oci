@@ -64,6 +64,9 @@ type EventSummary struct {
 	// state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The severity of the event
+	EventSeverity EventSeverityEnum `mandatory:"false" json:"eventSeverity,omitempty"`
+
 	// Indicates whether the event occurred on a resource that is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
@@ -88,6 +91,9 @@ func (m EventSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEventLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEventSeverityEnum(string(m.EventSeverity)); !ok && m.EventSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventSeverity: %s. Supported values are: %s.", m.EventSeverity, strings.Join(GetEventSeverityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

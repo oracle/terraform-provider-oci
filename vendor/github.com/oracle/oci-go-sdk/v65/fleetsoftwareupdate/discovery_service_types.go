@@ -19,18 +19,21 @@ type DiscoveryServiceTypesEnum string
 
 // Set of constants representing the allowable values for DiscoveryServiceTypesEnum
 const (
-	DiscoveryServiceTypesExacs DiscoveryServiceTypesEnum = "EXACS"
-	DiscoveryServiceTypesExacc DiscoveryServiceTypesEnum = "EXACC"
+	DiscoveryServiceTypesExacs   DiscoveryServiceTypesEnum = "EXACS"
+	DiscoveryServiceTypesExacc   DiscoveryServiceTypesEnum = "EXACC"
+	DiscoveryServiceTypesExadbxs DiscoveryServiceTypesEnum = "EXADBXS"
 )
 
 var mappingDiscoveryServiceTypesEnum = map[string]DiscoveryServiceTypesEnum{
-	"EXACS": DiscoveryServiceTypesExacs,
-	"EXACC": DiscoveryServiceTypesExacc,
+	"EXACS":   DiscoveryServiceTypesExacs,
+	"EXACC":   DiscoveryServiceTypesExacc,
+	"EXADBXS": DiscoveryServiceTypesExadbxs,
 }
 
 var mappingDiscoveryServiceTypesEnumLowerCase = map[string]DiscoveryServiceTypesEnum{
-	"exacs": DiscoveryServiceTypesExacs,
-	"exacc": DiscoveryServiceTypesExacc,
+	"exacs":   DiscoveryServiceTypesExacs,
+	"exacc":   DiscoveryServiceTypesExacc,
+	"exadbxs": DiscoveryServiceTypesExadbxs,
 }
 
 // GetDiscoveryServiceTypesEnumValues Enumerates the set of values for DiscoveryServiceTypesEnum
@@ -47,6 +50,7 @@ func GetDiscoveryServiceTypesEnumStringValues() []string {
 	return []string{
 		"EXACS",
 		"EXACC",
+		"EXADBXS",
 	}
 }
 

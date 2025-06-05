@@ -19,18 +19,21 @@ type CollectionServiceTypesEnum string
 
 // Set of constants representing the allowable values for CollectionServiceTypesEnum
 const (
-	CollectionServiceTypesExacs CollectionServiceTypesEnum = "EXACS"
-	CollectionServiceTypesExacc CollectionServiceTypesEnum = "EXACC"
+	CollectionServiceTypesExacs   CollectionServiceTypesEnum = "EXACS"
+	CollectionServiceTypesExacc   CollectionServiceTypesEnum = "EXACC"
+	CollectionServiceTypesExadbxs CollectionServiceTypesEnum = "EXADBXS"
 )
 
 var mappingCollectionServiceTypesEnum = map[string]CollectionServiceTypesEnum{
-	"EXACS": CollectionServiceTypesExacs,
-	"EXACC": CollectionServiceTypesExacc,
+	"EXACS":   CollectionServiceTypesExacs,
+	"EXACC":   CollectionServiceTypesExacc,
+	"EXADBXS": CollectionServiceTypesExadbxs,
 }
 
 var mappingCollectionServiceTypesEnumLowerCase = map[string]CollectionServiceTypesEnum{
-	"exacs": CollectionServiceTypesExacs,
-	"exacc": CollectionServiceTypesExacc,
+	"exacs":   CollectionServiceTypesExacs,
+	"exacc":   CollectionServiceTypesExacc,
+	"exadbxs": CollectionServiceTypesExadbxs,
 }
 
 // GetCollectionServiceTypesEnumValues Enumerates the set of values for CollectionServiceTypesEnum
@@ -47,6 +50,7 @@ func GetCollectionServiceTypesEnumStringValues() []string {
 	return []string{
 		"EXACS",
 		"EXACC",
+		"EXADBXS",
 	}
 }
 

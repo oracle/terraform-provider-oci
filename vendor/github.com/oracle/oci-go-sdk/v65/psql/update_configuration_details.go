@@ -32,6 +32,9 @@ type UpdateConfigurationDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates the collection of compatible shapes for this configuration.
+	CompatibleShapes []string `mandatory:"false" json:"compatibleShapes"`
 }
 
 func (m UpdateConfigurationDetails) String() string {

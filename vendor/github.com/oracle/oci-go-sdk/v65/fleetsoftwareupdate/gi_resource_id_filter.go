@@ -89,6 +89,8 @@ const (
 	GiResourceIdFilterEntityTypeCloudexadatainfrastructure GiResourceIdFilterEntityTypeEnum = "CLOUDEXADATAINFRASTRUCTURE"
 	GiResourceIdFilterEntityTypeVmcluster                  GiResourceIdFilterEntityTypeEnum = "VMCLUSTER"
 	GiResourceIdFilterEntityTypeCloudvmcluster             GiResourceIdFilterEntityTypeEnum = "CLOUDVMCLUSTER"
+	GiResourceIdFilterEntityTypeExadbvmcluster             GiResourceIdFilterEntityTypeEnum = "EXADBVMCLUSTER"
+	GiResourceIdFilterEntityTypeExascaledbstoragevault     GiResourceIdFilterEntityTypeEnum = "EXASCALEDBSTORAGEVAULT"
 	GiResourceIdFilterEntityTypeFsucollection              GiResourceIdFilterEntityTypeEnum = "FSUCOLLECTION"
 )
 
@@ -98,6 +100,8 @@ var mappingGiResourceIdFilterEntityTypeEnum = map[string]GiResourceIdFilterEntit
 	"CLOUDEXADATAINFRASTRUCTURE": GiResourceIdFilterEntityTypeCloudexadatainfrastructure,
 	"VMCLUSTER":                  GiResourceIdFilterEntityTypeVmcluster,
 	"CLOUDVMCLUSTER":             GiResourceIdFilterEntityTypeCloudvmcluster,
+	"EXADBVMCLUSTER":             GiResourceIdFilterEntityTypeExadbvmcluster,
+	"EXASCALEDBSTORAGEVAULT":     GiResourceIdFilterEntityTypeExascaledbstoragevault,
 	"FSUCOLLECTION":              GiResourceIdFilterEntityTypeFsucollection,
 }
 
@@ -107,6 +111,8 @@ var mappingGiResourceIdFilterEntityTypeEnumLowerCase = map[string]GiResourceIdFi
 	"cloudexadatainfrastructure": GiResourceIdFilterEntityTypeCloudexadatainfrastructure,
 	"vmcluster":                  GiResourceIdFilterEntityTypeVmcluster,
 	"cloudvmcluster":             GiResourceIdFilterEntityTypeCloudvmcluster,
+	"exadbvmcluster":             GiResourceIdFilterEntityTypeExadbvmcluster,
+	"exascaledbstoragevault":     GiResourceIdFilterEntityTypeExascaledbstoragevault,
 	"fsucollection":              GiResourceIdFilterEntityTypeFsucollection,
 }
 
@@ -127,6 +133,8 @@ func GetGiResourceIdFilterEntityTypeEnumStringValues() []string {
 		"CLOUDEXADATAINFRASTRUCTURE",
 		"VMCLUSTER",
 		"CLOUDVMCLUSTER",
+		"EXADBVMCLUSTER",
+		"EXASCALEDBSTORAGEVAULT",
 		"FSUCOLLECTION",
 	}
 }
