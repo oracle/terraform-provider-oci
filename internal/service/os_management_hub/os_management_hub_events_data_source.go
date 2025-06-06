@@ -136,10 +136,10 @@ func (s *OsManagementHubEventsDataSourceCrud) Get() error {
 		request.IsManagedByAutonomousLinux = &tmp
 	}
 
-	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
-		tmp := resourceId.(string)
-		request.ResourceId = &tmp
-	}
+	//if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
+	//	tmp := resourceId.(string)
+	//	request.ResourceId = &tmp
+	//}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_os_management_hub.EventLifecycleStateEnum(state.(string))
