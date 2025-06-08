@@ -27,6 +27,81 @@ func DesktopsDesktopDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"desktop_connection": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"client_platform": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"client_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"client_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"last_action": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_applied": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"next_action": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_applied": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"time_connected": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_disconnected": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"device_policy": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -185,6 +260,12 @@ func (s *DesktopsDesktopDataSourceCrud) SetData() error {
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.Connection != nil {
+		s.D.Set("desktop_connection", []interface{}{DesktopConnectionToMap(s.Res.Connection)})
+	} else {
+		s.D.Set("desktop_connection", nil)
 	}
 
 	if s.Res.DevicePolicy != nil {

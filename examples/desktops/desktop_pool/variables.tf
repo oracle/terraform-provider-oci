@@ -45,12 +45,12 @@ variable "desktop_pool_device_policy_is_display_enabled" {
 
 variable "desktop_pool_device_policy_is_keyboard_enabled" {
   description = ""
-  default = false
+  default = true
 }
 
 variable "desktop_pool_device_policy_is_pointer_enabled" {
   description = ""
-  default = false
+  default = true
 }
 
 variable "desktop_pool_device_policy_is_printing_enabled" {
