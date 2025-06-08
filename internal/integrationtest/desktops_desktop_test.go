@@ -61,6 +61,13 @@ var (
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
+	DesktopsDesktopPoolDesktopFromPoolIdDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"desktop_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${var.pool_id}`},
+		//"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		//"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+	}
+
 	DesktopsDesktopResourceDependencies = DesktopsDesktopPoolResourceDependencies
 )
 
@@ -116,6 +123,7 @@ func TestDesktopsDesktopResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "desktop_id"),
 
+				//resource.TestCheckResourceAttr(singularDatasourceName, "desktop_connection.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.#", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hosting_options.#", "1"),
@@ -124,6 +132,49 @@ func TestDesktopsDesktopResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "user_name", ""),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: desktops/default
+func TestDesktopsDesktopResource_connection_history(t *testing.T) {
+
+	httpreplay.SetScenario("TestDesktopsDesktopResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	poolId := utils.GetEnvSettingWithBlankDefault("pool_id")
+	poolIdVariableStr := fmt.Sprintf("variable \"pool_id\" { default = \"%s\" }\n", poolId)
+
+	singularDatasourceName := "data.oci_desktops_desktop.test_desktop"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+
+		// verify singular datasource
+		{
+			Config: config + compartmentIdVariableStr + poolIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_desktops_desktop_pool_desktops", "test_desktop_pool_desktops", acctest.Optional, acctest.Create, DesktopsDesktopPoolDesktopFromPoolIdDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_desktops_desktop", "test_desktop", acctest.Required, acctest.Create, DesktopsDesktopSingularDataSourceRepresentation),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "desktop_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "desktop_connection.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.#", "1"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "hosting_options.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "pool_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "user_name", ""),
 			),
 		},
 	})
