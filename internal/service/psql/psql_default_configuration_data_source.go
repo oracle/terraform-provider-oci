@@ -22,6 +22,15 @@ func PsqlDefaultConfigurationDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"compatible_shapes": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				ConflictsWith: []string{"shape"},
+			},
 			"configuration_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -105,8 +114,10 @@ func PsqlDefaultConfigurationDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"shape": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"compatible_shapes"},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -163,6 +174,8 @@ func (s *PsqlDefaultConfigurationDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("compatible_shapes", s.Res.CompatibleShapes)
 
 	if s.Res.ConfigurationDetails != nil {
 		s.D.Set("configuration_details", []interface{}{DefaultConfigurationDetailsToMap(s.Res.ConfigurationDetails)})
