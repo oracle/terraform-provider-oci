@@ -1,3 +1,10 @@
+## 7.5.0 (Unreleased)
+
+### Bug Fix
+- Updating the Type of should_include_oidc_config_file to Bool
+, Check if the IP address in Nil before dereferencing it to avoid Nil pointer causing terraform to crash
+- Fixing broken Integration & Example tests for DbSystem Patch Resource
+
 ## 7.4.0 (June 04, 2025)
 
 ### Added
