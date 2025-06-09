@@ -193,6 +193,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_configuration", "test_configuration", acctest.Optional, acctest.Create, PsqlConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compatible_shapes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.#", "1"),
@@ -232,6 +233,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compatible_shapes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.#", "1"),
@@ -266,6 +268,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_configuration", "test_configuration", acctest.Optional, acctest.Update, PsqlConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compatible_shapes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.#", "1"),
@@ -362,6 +365,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compatible_shapes.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "14"),
@@ -491,6 +495,8 @@ func getPsqlConfigurationIds(compartment string) ([]string, error) {
 		id := *configuration.Id
 		resourceIds = append(resourceIds, id)
 		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "ConfigurationId", id)
+		acctest.SweeperDefaultResourceId[*configuration.DefaultConfigId] = true
+
 	}
 	return resourceIds, nil
 }

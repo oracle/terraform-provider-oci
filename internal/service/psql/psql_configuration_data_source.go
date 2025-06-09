@@ -70,6 +70,8 @@ func (s *PsqlConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compatible_shapes", s.Res.CompatibleShapes)
+
 	s.D.Set("config_type", s.Res.ConfigType)
 
 	if s.Res.ConfigurationDetails != nil {
@@ -80,6 +82,10 @@ func (s *PsqlConfigurationDataSourceCrud) SetData() error {
 
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
+	}
+
+	if s.Res.DefaultConfigId != nil {
+		s.D.Set("default_config_id", *s.Res.DefaultConfigId)
 	}
 
 	if s.Res.DefinedTags != nil {
