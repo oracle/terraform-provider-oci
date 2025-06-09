@@ -38,9 +38,18 @@ func PsqlConfigurationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"instance_memory_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"instance_ocpu_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -107,6 +116,16 @@ func (s *PsqlConfigurationsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if instanceMemorySizeInGBs, ok := s.D.GetOkExists("instance_memory_size_in_gbs"); ok {
+		tmp := instanceMemorySizeInGBs.(int)
+		request.InstanceMemorySizeInGBs = &tmp
+	}
+
+	if instanceOcpuCount, ok := s.D.GetOkExists("instance_ocpu_count"); ok {
+		tmp := instanceOcpuCount.(int)
+		request.InstanceOcpuCount = &tmp
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {

@@ -30,9 +30,18 @@ func PsqlDefaultConfigurationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"instance_memory_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"instance_ocpu_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -53,6 +62,14 @@ func PsqlDefaultConfigurationsDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"compatible_shapes": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"configuration_details": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -197,6 +214,16 @@ func (s *PsqlDefaultConfigurationsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if instanceMemorySizeInGBs, ok := s.D.GetOkExists("instance_memory_size_in_gbs"); ok {
+		tmp := instanceMemorySizeInGBs.(int)
+		request.InstanceMemorySizeInGBs = &tmp
+	}
+
+	if instanceOcpuCount, ok := s.D.GetOkExists("instance_ocpu_count"); ok {
+		tmp := instanceOcpuCount.(int)
+		request.InstanceOcpuCount = &tmp
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -305,6 +332,8 @@ func DefaultConfigurationDetailsToMap(obj *oci_psql.DefaultConfigurationDetails)
 
 func DefaultConfigurationSummaryToMap(obj oci_psql.DefaultConfigurationSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["compatible_shapes"] = obj.CompatibleShapes
 
 	if obj.DbVersion != nil {
 		result["db_version"] = string(*obj.DbVersion)

@@ -76,7 +76,7 @@ The following attributes are exported:
 	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
 * `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex` 
-* `source` - The source used to restore the database system.
+* `source` - The source of the database system.
 	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - Deprecated. Don't use.
 	* `source_type` - The source descriminator. 

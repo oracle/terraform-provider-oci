@@ -135,8 +135,8 @@ resource "oci_psql_db_system" "test_flexdb_system" {
   }
 }
 
-# Creating a dbSystem configuration
-resource "oci_psql_configuration" "test_configuration" {
+# Creating a dbSystem flex configuration
+resource "oci_psql_configuration" "test_fixed_configuration" {
   #Required
   compartment_id = var.compartment_ocid
   shape = "VM.Standard.E4.Flex"
@@ -147,15 +147,14 @@ resource "oci_psql_configuration" "test_configuration" {
     }
   }
   db_version = "14"
-	display_name = "terraform test configuration"
-
-	#Optional
+  display_name = "terraform test configuration"
   instance_memory_size_in_gbs = "64"
   instance_ocpu_count = "4"
-  description = "test configuration created by terraform"
+  is_flexible=false
+  description = "test fixed configuration created by terraform"
 }
 
-# Creating a dbSystem configuration
+# Creating a dbSystem flex configuration
 resource "oci_psql_configuration" "test_flexible_configuration" {
   #Required
   compartment_id = var.compartment_ocid
@@ -168,11 +167,33 @@ resource "oci_psql_configuration" "test_flexible_configuration" {
   }
   db_version = "14"
   display_name = "terraform test flex configuration"
+
   #Optional
   instance_memory_size_in_gbs = "0"
   instance_ocpu_count = "0"
   is_flexible = true
-  description = "test configuration created by terraform"
+  description = "test flexible configuration created by terraform"
+}
+
+# Creating a dbSystem flex configuration with multiple compatible shapes
+resource "oci_psql_configuration" "test_flexible_multiple_comp_configuration" {
+  #Required
+  compartment_id = var.compartment_ocid
+  compatible_shapes = ["VM.Standard.E5.Flex", "VM.Standard.E4.Flex"]
+  db_configuration_overrides {
+    items {
+      config_key = "effective_io_concurrency"
+      overriden_config_value = "1"
+    }
+  }
+  db_version = "15"
+  display_name = "terraform test fixed configuration"
+
+  #Optional
+  instance_memory_size_in_gbs = "0"
+  instance_ocpu_count = "0"
+  is_flexible = true
+  description = "test flexible configuration with multiple compatible shapes created by terraform"
 }
 
 data "oci_psql_configurations" "test_configurations" {
