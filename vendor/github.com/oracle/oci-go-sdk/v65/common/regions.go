@@ -108,6 +108,8 @@ const (
     RegionUSDesmoines1 Region = "us-desmoines-1"
     //RegionAPKulai1 region Kulai
     RegionAPKulai1 Region = "ap-kulai-1"
+    //RegionMEIbri1 region Ibri
+    RegionMEIbri1 Region = "me-ibri-1"
     //RegionUSShawnee1 region Shawnee
     RegionUSShawnee1 Region = "us-shawnee-1"
     //RegionAPDelhi1 region Delhi
@@ -310,6 +312,7 @@ var shortNameRegion = map[string]Region{
     "den": RegionUKLondon2,
     "kal": RegionUKLondon3,
     "jsk": RegionEUBudapest1,
+    "ibr": RegionMEIbri1,
 }
 
 var realm = map[string]string{
@@ -413,6 +416,7 @@ var regionRealm = map[Region]string{
     RegionAPIbaraki1: "oc8",
 
     RegionMEDccMuscat1: "oc9",
+    RegionMEIbri1:      "oc9",
 
     RegionAPDccCanberra1: "oc10",
 

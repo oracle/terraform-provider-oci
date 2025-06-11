@@ -588,6 +588,12 @@
         "realmDomainComponent": "oraclecloud.com"
     },
     {
+        "regionKey": "ibr",
+        "realmKey": "oc9",
+        "regionIdentifier": "me-ibri-1",
+        "realmDomainComponent": "oraclecloud9.com"
+    },
+    {
         "regionKey": "pgc",
         "realmKey": "oc42",
         "regionIdentifier": "us-newark-1",
