@@ -346,10 +346,10 @@ data "oci_database_vm_clusters" "test_vm_clusters" {
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }
 
-resource "local_file" "test_vm_cluster_network_downloaded_config_file" {
-  content  = data.oci_database_vm_cluster_network_download_config_file.test_vm_cluster_network_download_config_file.content
-  filename = "${path.module}/vm_cluster_config.txt"
-}
+# resource "local_file" "test_vm_cluster_network_downloaded_config_file" {
+#   content  = data.oci_database_vm_cluster_network_download_config_file.test_vm_cluster_network_download_config_file.content
+#   filename = "${path.module}/vm_cluster_config.txt"
+# }
 
 
 resource "oci_database_exadata_infrastructure_configure_exascale_management" "test_exadata_infrastructure_configure_exascale_management" {

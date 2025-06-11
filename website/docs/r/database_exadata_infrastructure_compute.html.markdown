@@ -7,19 +7,15 @@ description: |-
   Provides details about a specific Exadata Infrastructure compute managed resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_exadata_infrastructure
-This data source provides details about a specific Exadata Infrastructure compute managed resource in Oracle Cloud Infrastructure Database service.
-
-Gets information about the specified Exadata infrastructure. Applies to Exadata Cloud@Customer instances only.
-To get information on an Exadata Cloud Service infrastructure resource, use the  [GetCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/GetCloudExadataInfrastructure) operation.
-
-
 ## Example Usage
 
 ```hcl
 data "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	#Required
 	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	#Optional
+	additional_compute_count_compute_managed_resource = var.exadata_infrastructure_additional_compute_count
+	additional_compute_system_model_compute_managed_resource = var.exadata_infrastructure_additional_compute_system_model
 }
 ```
 
@@ -28,7 +24,9 @@ data "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 The following arguments are supported:
 
 * `exadata_infrastructure_id` - (Required) The Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-
+* `additional_compute_count_compute_managed_resource`  - The requested number of additional compute servers for the Exadata infrastructure.
+* `additional_compute_system_model_compute_managed_resource` - The requested Oracle Exadata System Model specification for the additional compute servers. The system model determines the amount of compute or storage server resources available for use. For more information, please see [System and Shape Configuration Options] (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B)
+* `activation_file` - (Optional) (Updatable) The activation zip file. If provided in config, exadata infrastructure will be activated after creation. Updates are not allowed on activated exadata infrastructure.
 
 ## Attributes Reference
 
@@ -37,8 +35,8 @@ The following attributes are exported:
 * `activated_storage_count` - The requested number of additional storage servers activated for the Exadata infrastructure.
 * `additional_compute_count` - The number of additional compute servers for the Exadata infrastructure.
 * `additional_compute_system_model` - Oracle Exadata System Model specification. The system model determines the amount of compute or storage server resources available for use. For more information, please see [System and Shape Configuration Options] (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B) 
-* `additional_compute_count_compute_resource` - The requested number of additional compute servers for the Exadata infrastructure.
-* `additional_compute_system_model_compute_resource` - The requested Oracle Exadata System Model specification for the additional compute servers. The system model determines the amount of compute or storage server resources available for use. For more information, please see [System and Shape Configuration Options] (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B) 
+* `additional_compute_count_compute_managed_resource` - The requested number of additional compute servers for the Exadata infrastructure.
+* `additional_compute_system_model_compute_managed_resource` - The requested Oracle Exadata System Model specification for the additional compute servers. The system model determines the amount of compute or storage server resources available for use. For more information, please see [System and Shape Configuration Options] (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B) 
 * `additional_storage_count` - The requested number of additional storage servers for the Exadata infrastructure.
 * `admin_network_cidr` - The CIDR block for the Exadata administration network.
 * `cloud_control_plane_server1` - The IP address for the first control plane server.
