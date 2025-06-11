@@ -1,4 +1,4 @@
-## 7.5.0 (Unreleased)
+## 7.5.0 (June 11, 2025)
 
 ### Bug Fix
 - Updating the Type of should_include_oidc_config_file to Bool
