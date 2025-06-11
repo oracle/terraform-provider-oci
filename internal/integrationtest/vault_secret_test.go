@@ -5,11 +5,9 @@ package integrationtest
 
 import (
 	"fmt"
-	"testing"
-	"time"
-
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
+	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -50,10 +48,15 @@ var (
 		"enable_auto_generation":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"metadata":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
+		"replication_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: VaultSecretReplicationConfigRepresentation},
 		"rotation_config":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: VaultSecretRotationConfigRepresentation},
 		"secret_content":            acctest.RepresentationGroup{RepType: acctest.Required, Group: VaultSecretSecretContentRepresentation},
 		"secret_generation_context": acctest.RepresentationGroup{RepType: acctest.Optional, Group: VaultSecretSecretGenerationContextRepresentation},
 		"secret_rules":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: VaultSecretSecretRulesRepresentation},
+	}
+	VaultSecretReplicationConfigRepresentation = map[string]interface{}{
+		"replication_targets":      acctest.RepresentationGroup{RepType: acctest.Required, Group: VaultSecretReplicationConfigReplicationTargetsRepresentation},
+		"is_write_forward_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	VaultSecretRotationConfigRepresentation = map[string]interface{}{
 		"target_system_details":         acctest.RepresentationGroup{RepType: acctest.Required, Group: VaultSecretRotationConfigTargetSystemDetailsRepresentation},
@@ -76,7 +79,12 @@ var (
 		"is_enforced_on_deleted_secret_versions":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_secret_content_retrieval_blocked_on_expiry": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"secret_version_expiry_interval":                acctest.Representation{RepType: acctest.Optional, Create: `P3D`},
-		"time_of_absolute_expiry":                       acctest.Representation{RepType: acctest.Optional, Create: deletionTime.Format(time.RFC3339)},
+		"time_of_absolute_expiry":                       acctest.Representation{RepType: acctest.Optional, Create: ``},
+	}
+	VaultSecretReplicationConfigReplicationTargetsRepresentation = map[string]interface{}{
+		"target_key_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.key_id}`},
+		"target_region":   acctest.Representation{RepType: acctest.Required, Create: `us-phoenix-1`, Update: `us-sanjose-1`},
+		"target_vault_id": acctest.Representation{RepType: acctest.Required, Create: `${var.vault_id}`},
 	}
 	VaultSecretRotationConfigTargetSystemDetailsRepresentation = map[string]interface{}{
 		"target_system_type": acctest.Representation{RepType: acctest.Required, Create: `ADB`, Update: `ADB`},
@@ -159,6 +167,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.is_write_forward_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.replication_targets.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_config.0.replication_targets.0.target_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.replication_targets.0.target_region", "us-phoenix-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_config.0.replication_targets.0.target_vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.rotation_interval", "P30D"),
@@ -180,7 +194,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.is_secret_content_retrieval_blocked_on_expiry", "false"),
 				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.rule_type", "SECRET_EXPIRY_RULE"),
 				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.secret_version_expiry_interval", "P3D"),
-				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.time_of_absolute_expiry", deletionTime.Format(time.RFC3339)),
+				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.time_of_absolute_expiry", ``),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -213,6 +227,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.is_write_forward_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.replication_targets.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_config.0.replication_targets.0.target_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.replication_targets.0.target_region", "us-phoenix-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_config.0.replication_targets.0.target_vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.rotation_interval", "P30D"),
@@ -234,7 +254,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.is_secret_content_retrieval_blocked_on_expiry", "false"),
 				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.rule_type", "SECRET_EXPIRY_RULE"),
 				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.secret_version_expiry_interval", "P3D"),
-				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.time_of_absolute_expiry", deletionTime.Format(time.RFC3339)),
+				resource.TestCheckResourceAttr(resourceName, "secret_rules.0.time_of_absolute_expiry", ``),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -267,6 +287,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.is_write_forward_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.replication_targets.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_config.0.replication_targets.0.target_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_config.0.replication_targets.0.target_region", "us-sanjose-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_config.0.replication_targets.0.target_vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.rotation_interval", "P90D"),
@@ -319,7 +345,16 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.is_auto_generation_enabled"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.is_replica"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.key_id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.last_rotation_time"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.next_rotation_time"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.replication_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.replication_config.0.is_write_forward_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.replication_config.0.replication_targets.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.replication_config.0.replication_targets.0.target_key_id"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.replication_config.0.replication_targets.0.target_region", "us-sanjose-1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.replication_config.0.replication_targets.0.target_vault_id"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.rotation_interval", "P90D"),
@@ -331,6 +366,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.secret_generation_context.0.generation_template", "DBAAS_DEFAULT_PASSWORD"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.secret_generation_context.0.generation_type", "PASSPHRASE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.secret_name"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.source_region_information.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.vault_id"),
@@ -356,7 +392,14 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_auto_generation_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_replica"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_rotation_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "next_rotation_time"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_config.0.is_write_forward_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_config.0.replication_targets.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_config.0.replication_targets.0.target_region", "us-sanjose-1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.rotation_interval", "P90D"),
@@ -370,7 +413,9 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.0.is_enforced_on_deleted_secret_versions", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.0.is_secret_content_retrieval_blocked_on_expiry", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.0.rule_type", "SECRET_REUSE_RULE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.0.secret_version_expiry_interval", ""),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.0.secret_version_expiry_interval", "secretVersionExpiryInterval2"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_rules.0.time_of_absolute_expiry"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source_region_information.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),

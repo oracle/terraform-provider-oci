@@ -29,6 +29,21 @@ resource "oci_vault_secret" "test_secret" {
 	enable_auto_generation = var.secret_enable_auto_generation
 	freeform_tags = {"Department"= "Finance"}
 	metadata = var.secret_metadata
+	replication_config {
+		#Required
+		replication_targets {
+			#Required
+			target_key_id = oci_kms_key.test_key.id
+			target_region = var.secret_replication_config_replication_targets_target_region
+			target_vault_id = oci_kms_vault.test_vault.id
+		}
+
+		#Optional
+		## Note: Replica Secrets can be created with  is_write_forward_enabled= true/false via Terraform.
+		## Note: Update/Delete operations on Replica Secrets is not allowed via Terraform. Please
+		## use SDK/CLI/Console to perform Write Operations on replica secrets 
+		is_write_forward_enabled = var.secret_replication_config_is_write_forward_enabled
+	}
 	rotation_config {
 		#Required
 		target_system_details {
@@ -84,8 +99,14 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) A brief description of the secret. Avoid entering confidential information.
 * `enable_auto_generation` - (Optional) (Updatable) The value of this flag determines whether or not secret content will be generated automatically. If not set, it defaults to false. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
-* `key_id` - (Required) The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
-* `metadata` - (Optional) (Updatable) Additional metadata that you can use to provide context about how to use the secret during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs.
+* `key_id` - (Required) The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
+* `metadata` - (Optional) (Updatable) Additional metadata that you can use to provide context about how to use the secret during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs. 
+* `replication_config` - (Optional) (Updatable) Defines the configuration that enables cross-region secret replication.
+	* `is_write_forward_enabled` - (Optional) (Updatable) (Optional) A Boolean value to enable forwarding of write requests from replicated secrets to the source secrets. The default value of false disables this option.
+	* `replication_targets` - (Required) (Updatable) List of the secret replication targets. By default, a maximum of 3 targets is allowed. To configure more than 3 targets, an override is required.
+		* `target_key_id` - (Required) (Updatable) The OCID of the target region KMS key.
+		* `target_region` - (Required) (Updatable) The name of the target's region.
+		* `target_vault_id` - (Required) (Updatable) The OCID of the target region's Vault.
 * `rotation_config` - (Optional) (Updatable) Defines the frequency of the rotation and the information about the target system
 	* `is_scheduled_rotation_enabled` - (Optional) (Updatable) Enables auto rotation, when set to true rotationInterval must be set. 
 	* `rotation_interval` - (Optional) (Updatable) The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format. The minimum value is 1 day and maximum value is 360 days. For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as "P30D." 
@@ -127,11 +148,18 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the secret.
 * `is_auto_generation_enabled` - The value of this flag determines whether or not secret content will be generated automatically. 
+* `is_replica` - A Boolean value that indicates whether the secret is a source or replica secret.
 * `key_id` - The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
 * `last_rotation_time` - A property indicating when the secret was last rotated successfully, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `lifecycle_details` - Additional information about the current lifecycle state of the secret.
 * `metadata` - Additional metadata that you can use to provide context about how to use the secret or during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs. 
 * `next_rotation_time` - A property indicating when the secret is scheduled to be rotated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
+* `replication_config` - Defines the configuration that enables cross-region secret replication.
+	* `is_write_forward_enabled` - (Optional) A Boolean value to enable forwarding of write requests from replicated secrets to the source secrets. The default value of false disables this option.
+	* `replication_targets` - List of the secret replication targets. By default, a maximum of 3 targets is allowed. To configure more than 3 targets, an override is required.
+		* `target_key_id` - The OCID of the target region KMS key.
+		* `target_region` - The name of the target's region.
+		* `target_vault_id` - The OCID of the target region's Vault.
 * `rotation_config` - Defines the frequency of the rotation and the information about the target system
 	* `is_scheduled_rotation_enabled` - Enables auto rotation, when set to true rotationInterval must be set. 
 	* `rotation_interval` - The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format. The minimum value is 1 day and maximum value is 360 days. For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as "P30D." 
@@ -152,6 +180,10 @@ The following attributes are exported:
 	* `rule_type` - The type of rule, which either controls when the secret contents expire or whether they can be reused.
 	* `secret_version_expiry_interval` - A property indicating how long the secret contents will be considered valid, expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. The secret needs to be updated when the secret content expires. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass `P3D` to have the secret version expire every 3 days. 
 	* `time_of_absolute_expiry` - An optional property indicating the absolute time when this secret will expire, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. The minimum number of days from current time is 1 day and the maximum number of days from current time is 365 days. Example: `2019-04-03T21:10:29.600Z` 
+* `source_region_information` - Details for the source that the source secret has.
+	* `source_key_id` - The OCID of the source region KMS key.
+	* `source_region` - The name of the source's region.
+	* `source_vault_id` - The OCID of the source region's Vault.
 * `state` - The current lifecycle state of the secret.
 * `time_created` - A property indicating when the secret was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `time_of_current_version_expiry` - An optional property indicating when the current secret version will expire, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
