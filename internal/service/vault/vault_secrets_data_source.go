@@ -137,6 +137,10 @@ func (s *VaultSecretsDataSourceCrud) SetData() error {
 			secret["is_auto_generation_enabled"] = *r.IsAutoGenerationEnabled
 		}
 
+		if r.IsReplica != nil {
+			secret["is_replica"] = *r.IsReplica
+		}
+
 		if r.KeyId != nil {
 			secret["key_id"] = *r.KeyId
 		}
@@ -151,6 +155,12 @@ func (s *VaultSecretsDataSourceCrud) SetData() error {
 
 		if r.NextRotationTime != nil {
 			secret["next_rotation_time"] = r.NextRotationTime.String()
+		}
+
+		if r.ReplicationConfig != nil {
+			secret["replication_config"] = []interface{}{ReplicationConfigToMap(r.ReplicationConfig)}
+		} else {
+			secret["replication_config"] = nil
 		}
 
 		if r.RotationConfig != nil {
@@ -173,6 +183,12 @@ func (s *VaultSecretsDataSourceCrud) SetData() error {
 
 		if r.SecretName != nil {
 			secret["secret_name"] = *r.SecretName
+		}
+
+		if r.SourceRegionInformation != nil {
+			secret["source_region_information"] = []interface{}{SourceRegionInformationToMap(r.SourceRegionInformation)}
+		} else {
+			secret["source_region_information"] = nil
 		}
 
 		secret["state"] = r.LifecycleState
