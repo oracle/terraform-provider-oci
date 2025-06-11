@@ -622,10 +622,10 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 	for _, ad := range s.Res.IpAddresses {
 		if ad.IpAddress != nil {
 			ipAddresses = append(ipAddresses, *ad.IpAddress)
-		}
-		tmp := *ad.IpAddress
-		if !isIPV4(tmp) {
-			ipMode = "IPV6"
+			tmp := *ad.IpAddress
+			if !isIPV4(tmp) {
+				ipMode = "IPV6"
+			}
 		}
 	}
 	s.D.Set("ip_mode", ipMode)

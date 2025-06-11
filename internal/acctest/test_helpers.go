@@ -724,6 +724,47 @@ func CommonTestVariables() string {
 	`
 }
 
+func BaseDBCommonTestVariables() string {
+	return `
+	variable "tenancy_ocid" {
+		default = "` + getEnvSettingWithBlankDefaultVar("tenancy_ocid") + `"
+	}
+
+	variable "ssh_public_key" {
+		default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
+	}
+
+	variable "region" {
+		default = "` + getEnvSettingWithBlankDefaultVar("region") + `"
+	}
+	
+	variable "compartment_ocid" {
+		default = "` + getEnvSettingWithBlankDefaultVar("compartment_ocid") + `"
+	}
+
+	variable "compartment_id" {
+		default = "` + getEnvSettingWithBlankDefaultVar("compartment_ocid") + `"
+	}
+
+	variable "kms_key_id" {
+		default = "` + getEnvSettingWithBlankDefaultVar("kms_key_id") + `"
+	}
+	
+	variable "kms_key_version_id" {
+		default = "` + getEnvSettingWithBlankDefaultVar("kms_key_version_id") + `"
+	}
+
+	variable "vault_id" {
+		default = "` + getEnvSettingWithBlankDefaultVar("vault_id") + `"
+	}
+
+	`
+}
+
+func BaseDBProviderTestConfig() string {
+	return BaseDBCommonTestVariables()
+}
+
 func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 	r := &schema.Resource{
 		Schema: tf_provider.SchemaMap(),

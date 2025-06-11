@@ -145,7 +145,7 @@ func (client ApmSyntheticClient) aggregateNetworkData(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/AggregatedNetworkDataResult/AggregateNetworkData"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "AggregateNetworkData", apiReferenceLink)
 		return response, err
 	}
@@ -208,7 +208,7 @@ func (client ApmSyntheticClient) createDedicatedVantagePoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/CreateDedicatedVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateDedicatedVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -271,7 +271,7 @@ func (client ApmSyntheticClient) createMonitor(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Monitor/CreateMonitor"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -334,7 +334,7 @@ func (client ApmSyntheticClient) createOnPremiseVantagePoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/CreateOnPremiseVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateOnPremiseVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -397,7 +397,7 @@ func (client ApmSyntheticClient) createScript(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/CreateScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateScript", apiReferenceLink)
 		return response, err
 	}
@@ -460,7 +460,7 @@ func (client ApmSyntheticClient) createWorker(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/CreateWorker"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateWorker", apiReferenceLink)
 		return response, err
 	}
@@ -518,7 +518,7 @@ func (client ApmSyntheticClient) deleteDedicatedVantagePoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/DeleteDedicatedVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteDedicatedVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -576,7 +576,7 @@ func (client ApmSyntheticClient) deleteMonitor(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Monitor/DeleteMonitor"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -634,7 +634,7 @@ func (client ApmSyntheticClient) deleteOnPremiseVantagePoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/DeleteOnPremiseVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteOnPremiseVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -692,7 +692,7 @@ func (client ApmSyntheticClient) deleteScript(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/DeleteScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteScript", apiReferenceLink)
 		return response, err
 	}
@@ -750,7 +750,7 @@ func (client ApmSyntheticClient) deleteWorker(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/DeleteWorker"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteWorker", apiReferenceLink)
 		return response, err
 	}
@@ -808,7 +808,7 @@ func (client ApmSyntheticClient) getDedicatedVantagePoint(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/GetDedicatedVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetDedicatedVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -866,7 +866,7 @@ func (client ApmSyntheticClient) getMonitor(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Monitor/GetMonitor"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -924,7 +924,7 @@ func (client ApmSyntheticClient) getMonitorResult(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/MonitorResult/GetMonitorResult"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetMonitorResult", apiReferenceLink)
 		return response, err
 	}
@@ -982,7 +982,7 @@ func (client ApmSyntheticClient) getOnPremiseVantagePoint(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/GetOnPremiseVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetOnPremiseVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -1040,7 +1040,7 @@ func (client ApmSyntheticClient) getScript(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/GetScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetScript", apiReferenceLink)
 		return response, err
 	}
@@ -1098,7 +1098,7 @@ func (client ApmSyntheticClient) getWorker(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/GetWorker"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetWorker", apiReferenceLink)
 		return response, err
 	}
@@ -1156,7 +1156,7 @@ func (client ApmSyntheticClient) listDedicatedVantagePoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePointCollection/ListDedicatedVantagePoints"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListDedicatedVantagePoints", apiReferenceLink)
 		return response, err
 	}
@@ -1214,7 +1214,7 @@ func (client ApmSyntheticClient) listMonitors(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/MonitorCollection/ListMonitors"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListMonitors", apiReferenceLink)
 		return response, err
 	}
@@ -1272,7 +1272,7 @@ func (client ApmSyntheticClient) listOnPremiseVantagePoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePointCollection/ListOnPremiseVantagePoints"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListOnPremiseVantagePoints", apiReferenceLink)
 		return response, err
 	}
@@ -1330,7 +1330,7 @@ func (client ApmSyntheticClient) listPublicVantagePoints(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/PublicVantagePointCollection/ListPublicVantagePoints"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListPublicVantagePoints", apiReferenceLink)
 		return response, err
 	}
@@ -1388,7 +1388,7 @@ func (client ApmSyntheticClient) listScripts(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/ScriptCollection/ListScripts"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListScripts", apiReferenceLink)
 		return response, err
 	}
@@ -1446,7 +1446,7 @@ func (client ApmSyntheticClient) listWorkers(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/WorkerCollection/ListWorkers"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListWorkers", apiReferenceLink)
 		return response, err
 	}
@@ -1504,7 +1504,7 @@ func (client ApmSyntheticClient) updateDedicatedVantagePoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/UpdateDedicatedVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateDedicatedVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -1562,7 +1562,7 @@ func (client ApmSyntheticClient) updateMonitor(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Monitor/UpdateMonitor"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -1620,7 +1620,7 @@ func (client ApmSyntheticClient) updateOnPremiseVantagePoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/UpdateOnPremiseVantagePoint"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateOnPremiseVantagePoint", apiReferenceLink)
 		return response, err
 	}
@@ -1678,7 +1678,7 @@ func (client ApmSyntheticClient) updateScript(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/UpdateScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateScript", apiReferenceLink)
 		return response, err
 	}
@@ -1736,7 +1736,7 @@ func (client ApmSyntheticClient) updateWorker(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/UpdateWorker"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateWorker", apiReferenceLink)
 		return response, err
 	}
