@@ -443,6 +443,10 @@ capacity_management
 * oci\_capacity\_management\_occ\_availability\_catalog
 * oci\_capacity\_management\_occ\_capacity\_request
 * oci\_capacity\_management\_occ\_customer\_group\_occ\_customer
+* oci\_capacity\_management\_internal\_occm\_demand\_signal\_delivery
+* oci\_capacity\_management\_internal\_occm\_demand\_signal
+* oci\_capacity\_management\_occm\_demand\_signal\_item
+* oci\_capacity\_management\_occm\_demand\_signal
 
 certificates_management
     
