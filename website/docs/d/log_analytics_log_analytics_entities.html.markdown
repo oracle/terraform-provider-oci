@@ -21,13 +21,9 @@ data "oci_log_analytics_log_analytics_entities" "test_log_analytics_entities" {
 	namespace = var.log_analytics_entity_namespace
 
 	#Optional
-<<<<<<< ours
-	cloud_resource_id = oci_cloud_guard_resource.test_resource.id
+	cloud_resource_id = var.log_analytics_entity_cloud_resource_id
 	defined_tag_equals = var.log_analytics_entity_defined_tag_equals
 	defined_tag_exists = var.log_analytics_entity_defined_tag_exists
-=======
-	cloud_resource_id = oci_log_analytics_cloud_resource.test_cloud_resource.id
->>>>>>> theirs
 	entity_type_name = var.log_analytics_entity_entity_type_name
 	freeform_tag_equals = var.log_analytics_entity_freeform_tag_equals
 	freeform_tag_exists = var.log_analytics_entity_freeform_tag_exists

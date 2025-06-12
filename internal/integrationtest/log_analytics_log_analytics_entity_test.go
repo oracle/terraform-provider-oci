@@ -10,12 +10,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -23,6 +17,11 @@ import (
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -32,21 +31,21 @@ var (
 	LogAnalyticsLogAnalyticsEntityResourceConfig = LogAnalyticsLogAnalyticsEntityResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsEntityRepresentation)
 
-	LogAnalyticsLogAnalyticsLogAnalyticsEntitySingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsEntitySingularDataSourceRepresentation = map[string]interface{}{
 		"log_analytics_entity_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
 		"namespace":                        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"is_show_associated_sources_count": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	LogAnalyticsLogAnalyticsLogAnalyticsEntityDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsEntityDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"cloud_resource_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		//"defined_tag_equals":               acctest.Representation{RepType: acctest.Optional, Create: []string{`definedTagEquals`}},
-		//"defined_tag_exists":               acctest.Representation{RepType: acctest.Optional, Create: []string{`definedTagExists`}},
+		// "defined_tag_equals":               acctest.Representation{RepType: acctest.Optional, Create: []string{`definedTagEquals`}},
+		// "defined_tag_exists":               acctest.Representation{RepType: acctest.Optional, Create: []string{`definedTagExists`}},
 		"entity_type_name": acctest.Representation{RepType: acctest.Optional, Create: []string{`Host (Linux)`}},
-		//"freeform_tag_equals":              acctest.Representation{RepType: acctest.Optional, Create: []string{`freeformTagEquals`}},
-		//"freeform_tag_exists":              acctest.Representation{RepType: acctest.Optional, Create: []string{`freeformTagExists`}},
+		// "freeform_tag_equals":              acctest.Representation{RepType: acctest.Optional, Create: []string{`freeformTagEquals`}},
+		// "freeform_tag_exists":              acctest.Representation{RepType: acctest.Optional, Create: []string{`freeformTagExists`}},
 		"hostname":                         acctest.Representation{RepType: acctest.Optional, Create: `hostname`, Update: `hostname2`},
 		"hostname_contains":                acctest.Representation{RepType: acctest.Optional, Create: `hostname`},
 		"is_management_agent_id_null":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -58,21 +57,21 @@ var (
 		"source_id":                        acctest.Representation{RepType: acctest.Optional, Create: `source1`},
 		"state":                            acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsLogAnalyticsEntityDataSourceFilterRepresentation}}
+
 	LogAnalyticsLogAnalyticsEntityDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`}},
 	}
 
 	LogAnalyticsLogAnalyticsEntityRepresentation = map[string]interface{}{
-		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"entity_type_name":  acctest.Representation{RepType: acctest.Required, Create: `Host (Linux)`},
-		"name":              acctest.Representation{RepType: acctest.Required, Create: `TF_LA_ENTITY`},
-		"namespace":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"cloud_resource_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"hostname":          acctest.Representation{RepType: acctest.Optional, Create: `hostname`, Update: `hostname2`},
-
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"entity_type_name":     acctest.Representation{RepType: acctest.Required, Create: `Host (Linux)`},
+		"name":                 acctest.Representation{RepType: acctest.Required, Create: `TF_LA_ENTITY`},
+		"namespace":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"cloud_resource_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname":             acctest.Representation{RepType: acctest.Optional, Create: `hostname`, Update: `hostname2`},
 		"management_agent_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.managed_agent_id}`},
 		"metadata":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: LogAnalyticsLogAnalyticsEntityMetadataRepresentation},
 		"properties":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"properties": "properties"}, Update: map[string]string{"properties2": "properties2"}},
@@ -89,7 +88,6 @@ var (
 		"type":  acctest.Representation{RepType: acctest.Optional, Create: `metadataType`, Update: `metadataType`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `metadataValue`, Update: `metadataValue1`},
 	}
-
 	LogAnalyticsLogAnalyticsEntityResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
@@ -111,6 +109,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	if managementAgentId == "" {
 		t.Skip("Manual install agent and set managed_agent_id to run this test")
 	}
+
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)
 
 	resourceName := "oci_log_analytics_log_analytics_entity.test_log_analytics_entity"
@@ -118,7 +117,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_entity.test_log_analytics_entity"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsLogAnalyticsEntityResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsEntityRepresentation), "loganalytics", "logAnalyticsEntity", t)
 
@@ -146,8 +145,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
-				LogAnalyticsLogAnalyticsEntityResourceDependencies +
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsEntityResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsEntityRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
@@ -203,9 +201,6 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
 				resource.TestCheckResourceAttr(resourceName, "metadata.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.items.#", "1"),
-				// resource.TestCheckResourceAttr(resourceName, "metadata.0.items.0.name", "metadataName"),
-				// resource.TestCheckResourceAttr(resourceName, "metadata.0.items.0.type", "metadataType"),
-				// resource.TestCheckResourceAttr(resourceName, "metadata.0.items.0.value", "metadataValue"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
@@ -267,7 +262,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities", "test_log_analytics_entities", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsLogAnalyticsEntityDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities", "test_log_analytics_entities", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsEntityDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr +
 				LogAnalyticsLogAnalyticsEntityResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsEntityRepresentation),
@@ -298,7 +293,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsEntitySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsEntitySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr +
 				LogAnalyticsLogAnalyticsEntityResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
