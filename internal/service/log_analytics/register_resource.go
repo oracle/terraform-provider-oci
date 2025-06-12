@@ -7,6 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	tfresource.RegisterResource("oci_log_analytics_log_analytics_entity", LogAnalyticsLogAnalyticsEntityResource())
+	tfresource.RegisterResource("oci_log_analytics_log_analytics_entity_type", LogAnalyticsLogAnalyticsEntityTypeResource())
 	tfresource.RegisterResource("oci_log_analytics_log_analytics_import_custom_content", LogAnalyticsLogAnalyticsImportCustomContentResource())
 	tfresource.RegisterResource("oci_log_analytics_log_analytics_log_group", LogAnalyticsLogAnalyticsLogGroupResource())
 	tfresource.RegisterResource("oci_log_analytics_log_analytics_object_collection_rule", LogAnalyticsLogAnalyticsObjectCollectionRuleResource())
