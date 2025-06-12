@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
