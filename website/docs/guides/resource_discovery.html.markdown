@@ -1191,6 +1191,7 @@ recovery
 redis
     
 * oci\_redis\_redis\_cluster
+* oci\_redis\_oci\_cache\_user
 
 resource_scheduler
     

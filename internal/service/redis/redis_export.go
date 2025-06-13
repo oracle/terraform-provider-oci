@@ -25,8 +25,21 @@ var exportRedisRedisClusterHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportRedisOciCacheUserHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_redis_oci_cache_user",
+	DatasourceClass:        "oci_redis_oci_cache_users",
+	DatasourceItemsAttr:    "oci_cache_user_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "oci_cache_user",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_redis.OciCacheUserLifecycleStateActive),
+	},
+}
+
 var redisResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportRedisRedisClusterHints},
+		{TerraformResourceHints: exportRedisOciCacheUserHints},
 	},
 }

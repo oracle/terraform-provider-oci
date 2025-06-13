@@ -10,7 +10,28 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_redis.OciCacheUserClient", &OracleClient{InitClientFn: initRedisOciCacheUserClient})
 	RegisterOracleClient("oci_redis.RedisClusterClient", &OracleClient{InitClientFn: initRedisRedisClusterClient})
+}
+
+func initRedisOciCacheUserClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_redis.NewOciCacheUserClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) OciCacheUserClient() *oci_redis.OciCacheUserClient {
+	return m.GetClient("oci_redis.OciCacheUserClient").(*oci_redis.OciCacheUserClient)
 }
 
 func initRedisRedisClusterClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
