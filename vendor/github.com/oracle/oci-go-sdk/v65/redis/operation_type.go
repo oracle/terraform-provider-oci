@@ -27,6 +27,12 @@ const (
 	OperationTypeUpdateRedisConfigSet OperationTypeEnum = "UPDATE_REDIS_CONFIG_SET"
 	OperationTypeDeleteRedisConfigSet OperationTypeEnum = "DELETE_REDIS_CONFIG_SET"
 	OperationTypeMoveRedisConfigSet   OperationTypeEnum = "MOVE_REDIS_CONFIG_SET"
+	OperationTypeMigrateCluster       OperationTypeEnum = "MIGRATE_CLUSTER"
+	OperationTypeClusterRollback      OperationTypeEnum = "CLUSTER_ROLLBACK"
+	OperationTypeAttachOciCacheUsers  OperationTypeEnum = "ATTACH_OCI_CACHE_USERS"
+	OperationTypeDetachOciCacheUsers  OperationTypeEnum = "DETACH_OCI_CACHE_USERS"
+	OperationTypeCreateOciCacheUser   OperationTypeEnum = "CREATE_OCI_CACHE_USER"
+	OperationTypeUpdateOciCacheUser   OperationTypeEnum = "UPDATE_OCI_CACHE_USER"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -39,6 +45,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_REDIS_CONFIG_SET": OperationTypeUpdateRedisConfigSet,
 	"DELETE_REDIS_CONFIG_SET": OperationTypeDeleteRedisConfigSet,
 	"MOVE_REDIS_CONFIG_SET":   OperationTypeMoveRedisConfigSet,
+	"MIGRATE_CLUSTER":         OperationTypeMigrateCluster,
+	"CLUSTER_ROLLBACK":        OperationTypeClusterRollback,
+	"ATTACH_OCI_CACHE_USERS":  OperationTypeAttachOciCacheUsers,
+	"DETACH_OCI_CACHE_USERS":  OperationTypeDetachOciCacheUsers,
+	"CREATE_OCI_CACHE_USER":   OperationTypeCreateOciCacheUser,
+	"UPDATE_OCI_CACHE_USER":   OperationTypeUpdateOciCacheUser,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -51,6 +63,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_redis_config_set": OperationTypeUpdateRedisConfigSet,
 	"delete_redis_config_set": OperationTypeDeleteRedisConfigSet,
 	"move_redis_config_set":   OperationTypeMoveRedisConfigSet,
+	"migrate_cluster":         OperationTypeMigrateCluster,
+	"cluster_rollback":        OperationTypeClusterRollback,
+	"attach_oci_cache_users":  OperationTypeAttachOciCacheUsers,
+	"detach_oci_cache_users":  OperationTypeDetachOciCacheUsers,
+	"create_oci_cache_user":   OperationTypeCreateOciCacheUser,
+	"update_oci_cache_user":   OperationTypeUpdateOciCacheUser,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -74,6 +92,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_REDIS_CONFIG_SET",
 		"DELETE_REDIS_CONFIG_SET",
 		"MOVE_REDIS_CONFIG_SET",
+		"MIGRATE_CLUSTER",
+		"CLUSTER_ROLLBACK",
+		"ATTACH_OCI_CACHE_USERS",
+		"DETACH_OCI_CACHE_USERS",
+		"CREATE_OCI_CACHE_USER",
+		"UPDATE_OCI_CACHE_USER",
 	}
 }
 
