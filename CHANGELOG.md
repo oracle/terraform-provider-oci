@@ -1,3 +1,11 @@
+## 7.6.0 (Unreleased)
+
+### Added
+- Support for OCI Cache - RBAC/ACL Support
+- capacityBins & computeBareMetalHostId fields in GET DVH API response
+- Support for Privileged API Access Control for Oracle Database Services
+- Support for WebLogic Management Service
+
 ## 7.5.0 (June 11, 2025)
 
 ### Bug Fix
