@@ -33,9 +33,6 @@ type AnalyzeVideoStreamResult struct {
 	// Base 64 encoded frame
 	ImageData *string `mandatory:"false" json:"imageData"`
 
-	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of streamGroup.
-	StreamGroupId *string `mandatory:"false" json:"streamGroupId"`
-
 	// Tracked objects in a video stream.
 	VideoStreamObjects []VideoStreamObject `mandatory:"false" json:"videoStreamObjects"`
 

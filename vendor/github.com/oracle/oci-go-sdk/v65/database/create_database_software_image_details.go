@@ -87,6 +87,7 @@ const (
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXADATA_SHAPE"
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape   CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXACC_SHAPE"
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadbxsShape CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXADBXS_SHAPE"
+	CreateDatabaseSoftwareImageDetailsImageShapeFamilyBdbccShape   CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "BDBCC_SHAPE"
 )
 
 var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
@@ -94,6 +95,7 @@ var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = map[string]C
 	"EXADATA_SHAPE": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape,
 	"EXACC_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape,
 	"EXADBXS_SHAPE": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadbxsShape,
+	"BDBCC_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyBdbccShape,
 }
 
 var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumLowerCase = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
@@ -101,6 +103,7 @@ var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumLowerCase = map
 	"exadata_shape": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape,
 	"exacc_shape":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape,
 	"exadbxs_shape": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadbxsShape,
+	"bdbcc_shape":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyBdbccShape,
 }
 
 // GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumValues Enumerates the set of values for CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum
@@ -119,6 +122,7 @@ func GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumStringValues() []s
 		"EXADATA_SHAPE",
 		"EXACC_SHAPE",
 		"EXADBXS_SHAPE",
+		"BDBCC_SHAPE",
 	}
 }
 

@@ -32,6 +32,9 @@ type ListVulnerabilitiesRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for vulnerableResources is descending. Default order for cveId is descending.
 	SortBy ListVulnerabilitiesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// Deployment type to use in lists.
+	DeploymentType ListVulnerabilitiesDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
@@ -99,6 +102,9 @@ func (request ListVulnerabilitiesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListVulnerabilitiesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVulnerabilitiesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListVulnerabilitiesDeploymentTypeEnum(string(request.DeploymentType)); !ok && request.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", request.DeploymentType, strings.Join(GetListVulnerabilitiesDeploymentTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDblmVulnerabilityLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDblmVulnerabilityLifecycleStateEnumStringValues(), ",")))
@@ -224,5 +230,47 @@ func GetListVulnerabilitiesSortByEnumStringValues() []string {
 // GetMappingListVulnerabilitiesSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListVulnerabilitiesSortByEnum(val string) (ListVulnerabilitiesSortByEnum, bool) {
 	enum, ok := mappingListVulnerabilitiesSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListVulnerabilitiesDeploymentTypeEnum Enum with underlying type: string
+type ListVulnerabilitiesDeploymentTypeEnum string
+
+// Set of constants representing the allowable values for ListVulnerabilitiesDeploymentTypeEnum
+const (
+	ListVulnerabilitiesDeploymentTypeExternal ListVulnerabilitiesDeploymentTypeEnum = "EXTERNAL"
+	ListVulnerabilitiesDeploymentTypeVm       ListVulnerabilitiesDeploymentTypeEnum = "VM"
+)
+
+var mappingListVulnerabilitiesDeploymentTypeEnum = map[string]ListVulnerabilitiesDeploymentTypeEnum{
+	"EXTERNAL": ListVulnerabilitiesDeploymentTypeExternal,
+	"VM":       ListVulnerabilitiesDeploymentTypeVm,
+}
+
+var mappingListVulnerabilitiesDeploymentTypeEnumLowerCase = map[string]ListVulnerabilitiesDeploymentTypeEnum{
+	"external": ListVulnerabilitiesDeploymentTypeExternal,
+	"vm":       ListVulnerabilitiesDeploymentTypeVm,
+}
+
+// GetListVulnerabilitiesDeploymentTypeEnumValues Enumerates the set of values for ListVulnerabilitiesDeploymentTypeEnum
+func GetListVulnerabilitiesDeploymentTypeEnumValues() []ListVulnerabilitiesDeploymentTypeEnum {
+	values := make([]ListVulnerabilitiesDeploymentTypeEnum, 0)
+	for _, v := range mappingListVulnerabilitiesDeploymentTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListVulnerabilitiesDeploymentTypeEnumStringValues Enumerates the set of values in String for ListVulnerabilitiesDeploymentTypeEnum
+func GetListVulnerabilitiesDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL",
+		"VM",
+	}
+}
+
+// GetMappingListVulnerabilitiesDeploymentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListVulnerabilitiesDeploymentTypeEnum(val string) (ListVulnerabilitiesDeploymentTypeEnum, bool) {
+	enum, ok := mappingListVulnerabilitiesDeploymentTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

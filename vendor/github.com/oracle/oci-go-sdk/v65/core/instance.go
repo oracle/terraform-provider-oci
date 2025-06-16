@@ -206,9 +206,6 @@ type Instance struct {
 
 	// List of licensing configurations associated with the instance.
 	LicensingConfigs []LicensingConfig `mandatory:"false" json:"licensingConfigs"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group
-	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
 }
 
 func (m Instance) String() string {
@@ -272,7 +269,6 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		PlatformConfig             platformconfig                         `json:"platformConfig"`
 		InstanceConfigurationId    *string                                `json:"instanceConfigurationId"`
 		LicensingConfigs           []LicensingConfig                      `json:"licensingConfigs"`
-		ComputeHostGroupId         *string                                `json:"computeHostGroupId"`
 		AvailabilityDomain         *string                                `json:"availabilityDomain"`
 		CompartmentId              *string                                `json:"compartmentId"`
 		Id                         *string                                `json:"id"`
@@ -371,8 +367,6 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 
 	m.LicensingConfigs = make([]LicensingConfig, len(model.LicensingConfigs))
 	copy(m.LicensingConfigs, model.LicensingConfigs)
-	m.ComputeHostGroupId = model.ComputeHostGroupId
-
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

@@ -51,6 +51,10 @@ func (m *sourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 
 	var err error
 	switch m.SourceType {
+	case "DB_SYSTEM":
+		mm := DbSystemSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BACKUP":
 		mm := BackupSourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -86,18 +90,21 @@ type SourceDetailsSourceTypeEnum string
 
 // Set of constants representing the allowable values for SourceDetailsSourceTypeEnum
 const (
-	SourceDetailsSourceTypeBackup SourceDetailsSourceTypeEnum = "BACKUP"
-	SourceDetailsSourceTypeNone   SourceDetailsSourceTypeEnum = "NONE"
+	SourceDetailsSourceTypeBackup   SourceDetailsSourceTypeEnum = "BACKUP"
+	SourceDetailsSourceTypeNone     SourceDetailsSourceTypeEnum = "NONE"
+	SourceDetailsSourceTypeDbSystem SourceDetailsSourceTypeEnum = "DB_SYSTEM"
 )
 
 var mappingSourceDetailsSourceTypeEnum = map[string]SourceDetailsSourceTypeEnum{
-	"BACKUP": SourceDetailsSourceTypeBackup,
-	"NONE":   SourceDetailsSourceTypeNone,
+	"BACKUP":    SourceDetailsSourceTypeBackup,
+	"NONE":      SourceDetailsSourceTypeNone,
+	"DB_SYSTEM": SourceDetailsSourceTypeDbSystem,
 }
 
 var mappingSourceDetailsSourceTypeEnumLowerCase = map[string]SourceDetailsSourceTypeEnum{
-	"backup": SourceDetailsSourceTypeBackup,
-	"none":   SourceDetailsSourceTypeNone,
+	"backup":    SourceDetailsSourceTypeBackup,
+	"none":      SourceDetailsSourceTypeNone,
+	"db_system": SourceDetailsSourceTypeDbSystem,
 }
 
 // GetSourceDetailsSourceTypeEnumValues Enumerates the set of values for SourceDetailsSourceTypeEnum
@@ -114,6 +121,7 @@ func GetSourceDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"BACKUP",
 		"NONE",
+		"DB_SYSTEM",
 	}
 }
 

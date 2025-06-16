@@ -34,9 +34,6 @@ const (
 	OperationTypeUpdateStreamJob    OperationTypeEnum = "UPDATE_STREAM_JOB"
 	OperationTypeStartStreamJob     OperationTypeEnum = "START_STREAM_JOB"
 	OperationTypeStopStreamJob      OperationTypeEnum = "STOP_STREAM_JOB"
-	OperationTypeAddStreamGroup     OperationTypeEnum = "ADD_STREAM_GROUP"
-	OperationTypeUpdateStreamGroup  OperationTypeEnum = "UPDATE_STREAM_GROUP"
-	OperationTypeDeleteStreamGroup  OperationTypeEnum = "DELETE_STREAM_GROUP"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -56,9 +53,6 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_STREAM_JOB":    OperationTypeUpdateStreamJob,
 	"START_STREAM_JOB":     OperationTypeStartStreamJob,
 	"STOP_STREAM_JOB":      OperationTypeStopStreamJob,
-	"ADD_STREAM_GROUP":     OperationTypeAddStreamGroup,
-	"UPDATE_STREAM_GROUP":  OperationTypeUpdateStreamGroup,
-	"DELETE_STREAM_GROUP":  OperationTypeDeleteStreamGroup,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -78,9 +72,6 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_stream_job":    OperationTypeUpdateStreamJob,
 	"start_stream_job":     OperationTypeStartStreamJob,
 	"stop_stream_job":      OperationTypeStopStreamJob,
-	"add_stream_group":     OperationTypeAddStreamGroup,
-	"update_stream_group":  OperationTypeUpdateStreamGroup,
-	"delete_stream_group":  OperationTypeDeleteStreamGroup,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -111,9 +102,6 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_STREAM_JOB",
 		"START_STREAM_JOB",
 		"STOP_STREAM_JOB",
-		"ADD_STREAM_GROUP",
-		"UPDATE_STREAM_GROUP",
-		"DELETE_STREAM_GROUP",
 	}
 }
 

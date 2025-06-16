@@ -41,6 +41,9 @@ type DatabasesSummary struct {
 	// Database type.
 	DatabaseType DatabasesSummaryDatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
 
+	// The deployment type of the resource.
+	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
+
 	// Database release.
 	Release *string `mandatory:"false" json:"release"`
 
@@ -88,6 +91,9 @@ func (m DatabasesSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDatabasesSummaryDatabaseTypeEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabasesSummaryDatabaseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDeploymentTypeEnum(string(m.DeploymentType)); !ok && m.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDatabasesSummaryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabasesSummaryLifecycleStateEnumStringValues(), ",")))

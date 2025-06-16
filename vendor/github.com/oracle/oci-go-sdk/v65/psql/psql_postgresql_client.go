@@ -328,6 +328,124 @@ func (client PostgresqlClient) changeDbSystemCompartment(ctx context.Context, re
 	return response, err
 }
 
+// ChangeRoleToReplica Changes a standalone database system's role to warm-standby replica, converting it into a replica database system that replicates data from the specified primary database system.
+// A default retry strategy applies to this operation ChangeRoleToReplica()
+func (client PostgresqlClient) ChangeRoleToReplica(ctx context.Context, request ChangeRoleToReplicaRequest) (response ChangeRoleToReplicaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRoleToReplica, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRoleToReplicaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRoleToReplicaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRoleToReplicaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRoleToReplicaResponse")
+	}
+	return
+}
+
+// changeRoleToReplica implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) changeRoleToReplica(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/changeRoleToReplica", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRoleToReplicaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/ChangeRoleToReplica"
+		err = common.PostProcessServiceError(err, "Postgresql", "ChangeRoleToReplica", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeRoleToStandalone Convert a replica database system into a standalone database system.
+// A default retry strategy applies to this operation ChangeRoleToStandalone()
+func (client PostgresqlClient) ChangeRoleToStandalone(ctx context.Context, request ChangeRoleToStandaloneRequest) (response ChangeRoleToStandaloneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRoleToStandalone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRoleToStandaloneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRoleToStandaloneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRoleToStandaloneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRoleToStandaloneResponse")
+	}
+	return
+}
+
+// changeRoleToStandalone implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) changeRoleToStandalone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/changeRoleToStandalone", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRoleToStandaloneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/ChangeRoleToStandalone"
+		err = common.PostProcessServiceError(err, "Postgresql", "ChangeRoleToStandalone", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBackup Creates a new backup.
 // A default retry strategy applies to this operation CreateBackup()
 func (client PostgresqlClient) CreateBackup(ctx context.Context, request CreateBackupRequest) (response CreateBackupResponse, err error) {
@@ -1212,6 +1330,60 @@ func (client PostgresqlClient) listConfigurations(ctx context.Context, request c
 	return response, err
 }
 
+// ListDbSystemReplicas Returns a list of replica database systems.
+// A default retry strategy applies to this operation ListDbSystemReplicas()
+func (client PostgresqlClient) ListDbSystemReplicas(ctx context.Context, request ListDbSystemReplicasRequest) (response ListDbSystemReplicasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbSystemReplicas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbSystemReplicasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbSystemReplicasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbSystemReplicasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbSystemReplicasResponse")
+	}
+	return
+}
+
+// listDbSystemReplicas implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) listDbSystemReplicas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/replicas", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbSystemReplicasResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystemReplicaCollection/ListDbSystemReplicas"
+		err = common.PostProcessServiceError(err, "Postgresql", "ListDbSystemReplicas", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDbSystems Returns a list of database systems.
 // A default retry strategy applies to this operation ListDbSystems()
 func (client PostgresqlClient) ListDbSystems(ctx context.Context, request ListDbSystemsRequest) (response ListDbSystemsResponse, err error) {
@@ -1760,6 +1932,65 @@ func (client PostgresqlClient) restoreDbSystem(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/RestoreDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "RestoreDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchOver Switchover the roles between a primary database system and its replica, making the replica the new primary and the original primary become its replica.
+// A default retry strategy applies to this operation SwitchOver()
+func (client PostgresqlClient) SwitchOver(ctx context.Context, request SwitchOverRequest) (response SwitchOverResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchOver, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchOverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchOverResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchOverResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchOverResponse")
+	}
+	return
+}
+
+// switchOver implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) switchOver(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/switchover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchOverResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/SwitchOver"
+		err = common.PostProcessServiceError(err, "Postgresql", "SwitchOver", apiReferenceLink)
 		return response, err
 	}
 

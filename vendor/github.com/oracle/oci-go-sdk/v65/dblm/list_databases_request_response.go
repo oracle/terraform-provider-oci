@@ -24,7 +24,7 @@ type ListDatabasesRequest struct {
 	DatabaseRelease *string `mandatory:"false" contributesTo:"query" name:"databaseRelease"`
 
 	// Filter by database type.
-	// Possible values Single Instance or RAC.
+	// Possible values SI or RAC.
 	DatabaseType ListDatabasesDatabaseTypeEnum `mandatory:"false" contributesTo:"query" name:"databaseType" omitEmpty:"true"`
 
 	// The maximum number of items to return.
@@ -57,6 +57,9 @@ type ListDatabasesRequest struct {
 	// Filter by one or more severity types.
 	// Possible values are critical, high, medium, low, info and none.
 	SeverityType []ResourcesSeveritiesEnum `contributesTo:"query" name:"severityType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Deployment type to use in lists.
+	DeploymentType ListDatabasesDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -115,6 +118,9 @@ func (request ListDatabasesRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	if _, ok := GetMappingListDatabasesDeploymentTypeEnum(string(request.DeploymentType)); !ok && request.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", request.DeploymentType, strings.Join(GetListDatabasesDeploymentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -298,18 +304,24 @@ type ListDatabasesImageComplianceEnum string
 const (
 	ListDatabasesImageComplianceNotSubscribed          ListDatabasesImageComplianceEnum = "NOT_SUBSCRIBED"
 	ListDatabasesImageComplianceNotCompliantWithImages ListDatabasesImageComplianceEnum = "NOT_COMPLIANT_WITH_IMAGES"
+	ListDatabasesImageComplianceUpToDate               ListDatabasesImageComplianceEnum = "UP_TO_DATE"
+	ListDatabasesImageComplianceNotRegistered          ListDatabasesImageComplianceEnum = "NOT_REGISTERED"
 	ListDatabasesImageComplianceAllDatabases           ListDatabasesImageComplianceEnum = "ALL_DATABASES"
 )
 
 var mappingListDatabasesImageComplianceEnum = map[string]ListDatabasesImageComplianceEnum{
 	"NOT_SUBSCRIBED":            ListDatabasesImageComplianceNotSubscribed,
 	"NOT_COMPLIANT_WITH_IMAGES": ListDatabasesImageComplianceNotCompliantWithImages,
+	"UP_TO_DATE":                ListDatabasesImageComplianceUpToDate,
+	"NOT_REGISTERED":            ListDatabasesImageComplianceNotRegistered,
 	"ALL_DATABASES":             ListDatabasesImageComplianceAllDatabases,
 }
 
 var mappingListDatabasesImageComplianceEnumLowerCase = map[string]ListDatabasesImageComplianceEnum{
 	"not_subscribed":            ListDatabasesImageComplianceNotSubscribed,
 	"not_compliant_with_images": ListDatabasesImageComplianceNotCompliantWithImages,
+	"up_to_date":                ListDatabasesImageComplianceUpToDate,
+	"not_registered":            ListDatabasesImageComplianceNotRegistered,
 	"all_databases":             ListDatabasesImageComplianceAllDatabases,
 }
 
@@ -327,6 +339,8 @@ func GetListDatabasesImageComplianceEnumStringValues() []string {
 	return []string{
 		"NOT_SUBSCRIBED",
 		"NOT_COMPLIANT_WITH_IMAGES",
+		"UP_TO_DATE",
+		"NOT_REGISTERED",
 		"ALL_DATABASES",
 	}
 }
@@ -334,5 +348,47 @@ func GetListDatabasesImageComplianceEnumStringValues() []string {
 // GetMappingListDatabasesImageComplianceEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDatabasesImageComplianceEnum(val string) (ListDatabasesImageComplianceEnum, bool) {
 	enum, ok := mappingListDatabasesImageComplianceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDatabasesDeploymentTypeEnum Enum with underlying type: string
+type ListDatabasesDeploymentTypeEnum string
+
+// Set of constants representing the allowable values for ListDatabasesDeploymentTypeEnum
+const (
+	ListDatabasesDeploymentTypeExternal ListDatabasesDeploymentTypeEnum = "EXTERNAL"
+	ListDatabasesDeploymentTypeVm       ListDatabasesDeploymentTypeEnum = "VM"
+)
+
+var mappingListDatabasesDeploymentTypeEnum = map[string]ListDatabasesDeploymentTypeEnum{
+	"EXTERNAL": ListDatabasesDeploymentTypeExternal,
+	"VM":       ListDatabasesDeploymentTypeVm,
+}
+
+var mappingListDatabasesDeploymentTypeEnumLowerCase = map[string]ListDatabasesDeploymentTypeEnum{
+	"external": ListDatabasesDeploymentTypeExternal,
+	"vm":       ListDatabasesDeploymentTypeVm,
+}
+
+// GetListDatabasesDeploymentTypeEnumValues Enumerates the set of values for ListDatabasesDeploymentTypeEnum
+func GetListDatabasesDeploymentTypeEnumValues() []ListDatabasesDeploymentTypeEnum {
+	values := make([]ListDatabasesDeploymentTypeEnum, 0)
+	for _, v := range mappingListDatabasesDeploymentTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDatabasesDeploymentTypeEnumStringValues Enumerates the set of values in String for ListDatabasesDeploymentTypeEnum
+func GetListDatabasesDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL",
+		"VM",
+	}
+}
+
+// GetMappingListDatabasesDeploymentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDatabasesDeploymentTypeEnum(val string) (ListDatabasesDeploymentTypeEnum, bool) {
+	enum, ok := mappingListDatabasesDeploymentTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

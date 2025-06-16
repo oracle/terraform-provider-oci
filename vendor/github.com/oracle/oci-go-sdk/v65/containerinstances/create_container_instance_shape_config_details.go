@@ -23,6 +23,9 @@ type CreateContainerInstanceShapeConfigDetails struct {
 
 	// The total amount of memory available to the container instance (GB).
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+
+	// The baseline OCPU utilization for a subcore burstable VM instance.
+	BaselineOcpuUtilization *float32 `mandatory:"false" json:"baselineOcpuUtilization"`
 }
 
 func (m CreateContainerInstanceShapeConfigDetails) String() string {

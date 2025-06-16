@@ -26,6 +26,9 @@ type GetPatchManagementRequest struct {
 	// A filter to return only resources their lifecycleState matches the given lifecycleState.
 	LifecycleState DblmVulnerabilityLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// Deployment type to use in lists.
+	DeploymentType GetPatchManagementDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
+
 	// A filter to return only resources whose timeStarted is greater than or equal to the given date-time.
 	TimeStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartedGreaterThanOrEqualTo"`
 
@@ -71,6 +74,9 @@ func (request GetPatchManagementRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDblmVulnerabilityLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDblmVulnerabilityLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingGetPatchManagementDeploymentTypeEnum(string(request.DeploymentType)); !ok && request.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", request.DeploymentType, strings.Join(GetGetPatchManagementDeploymentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -101,4 +107,46 @@ func (response GetPatchManagementResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetPatchManagementResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetPatchManagementDeploymentTypeEnum Enum with underlying type: string
+type GetPatchManagementDeploymentTypeEnum string
+
+// Set of constants representing the allowable values for GetPatchManagementDeploymentTypeEnum
+const (
+	GetPatchManagementDeploymentTypeExternal GetPatchManagementDeploymentTypeEnum = "EXTERNAL"
+	GetPatchManagementDeploymentTypeVm       GetPatchManagementDeploymentTypeEnum = "VM"
+)
+
+var mappingGetPatchManagementDeploymentTypeEnum = map[string]GetPatchManagementDeploymentTypeEnum{
+	"EXTERNAL": GetPatchManagementDeploymentTypeExternal,
+	"VM":       GetPatchManagementDeploymentTypeVm,
+}
+
+var mappingGetPatchManagementDeploymentTypeEnumLowerCase = map[string]GetPatchManagementDeploymentTypeEnum{
+	"external": GetPatchManagementDeploymentTypeExternal,
+	"vm":       GetPatchManagementDeploymentTypeVm,
+}
+
+// GetGetPatchManagementDeploymentTypeEnumValues Enumerates the set of values for GetPatchManagementDeploymentTypeEnum
+func GetGetPatchManagementDeploymentTypeEnumValues() []GetPatchManagementDeploymentTypeEnum {
+	values := make([]GetPatchManagementDeploymentTypeEnum, 0)
+	for _, v := range mappingGetPatchManagementDeploymentTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetPatchManagementDeploymentTypeEnumStringValues Enumerates the set of values in String for GetPatchManagementDeploymentTypeEnum
+func GetGetPatchManagementDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL",
+		"VM",
+	}
+}
+
+// GetMappingGetPatchManagementDeploymentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetPatchManagementDeploymentTypeEnum(val string) (GetPatchManagementDeploymentTypeEnum, bool) {
+	enum, ok := mappingGetPatchManagementDeploymentTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

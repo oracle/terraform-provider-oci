@@ -62,21 +62,6 @@ func (request UpdateInternalPrivateIpRequest) BinaryRequestBody() (*common.OCIRe
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request UpdateInternalPrivateIpRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["internalPrivateIpId"] != nil {
-		templateParam := mandatoryParamMap["internalPrivateIpId"]
-		for _, template := range templateParam {
-			replacementParam := *request.InternalPrivateIpId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateInternalPrivateIpRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

@@ -2273,64 +2273,6 @@ func (client DbManagementClient) createNamedCredential(ctx context.Context, requ
 	return response, err
 }
 
-// CreateRequestQueue Creates a Request Queue Entry.
-func (client DbManagementClient) CreateRequestQueue(ctx context.Context, request CreateRequestQueueRequest) (response CreateRequestQueueResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createRequestQueue, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateRequestQueueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateRequestQueueResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateRequestQueueResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateRequestQueueResponse")
-	}
-	return
-}
-
-// createRequestQueue implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) createRequestQueue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/requestQueue", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateRequestQueueResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/InternalRequestQueue/CreateRequestQueue"
-		err = common.PostProcessServiceError(err, "DbManagement", "CreateRequestQueue", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateTablespace Creates a tablespace within the Managed Database specified by managedDatabaseId.
 func (client DbManagementClient) CreateTablespace(ctx context.Context, request CreateTablespaceRequest) (response CreateTablespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3284,59 +3226,6 @@ func (client DbManagementClient) deletePreferredCredential(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/DeletePreferredCredential"
 		err = common.PostProcessServiceError(err, "DbManagement", "DeletePreferredCredential", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteRequestQueue Deletes the request queue entry.
-func (client DbManagementClient) DeleteRequestQueue(ctx context.Context, request DeleteRequestQueueRequest) (response DeleteRequestQueueResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteRequestQueue, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteRequestQueueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteRequestQueueResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteRequestQueueResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteRequestQueueResponse")
-	}
-	return
-}
-
-// deleteRequestQueue implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) deleteRequestQueue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/requestQueue/{requestQueueId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteRequestQueueResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/InternalRequestQueue/DeleteRequestQueue"
-		err = common.PostProcessServiceError(err, "DbManagement", "DeleteRequestQueue", apiReferenceLink)
 		return response, err
 	}
 
@@ -8923,59 +8812,6 @@ func (client DbManagementClient) getPreferredCredential(ctx context.Context, req
 	return response, err
 }
 
-// GetRequestQueue Gets the details for the request queue specified by requestQueueId.
-func (client DbManagementClient) GetRequestQueue(ctx context.Context, request GetRequestQueueRequest) (response GetRequestQueueResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getRequestQueue, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetRequestQueueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetRequestQueueResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetRequestQueueResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetRequestQueueResponse")
-	}
-	return
-}
-
-// getRequestQueue implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getRequestQueue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/requestQueue/{requestQueueId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetRequestQueueResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/InternalRequestQueue/GetRequestQueue"
-		err = common.PostProcessServiceError(err, "DbManagement", "GetRequestQueue", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetSqlPlanBaseline Gets the SQL plan baseline details for the specified planName.
 // A default retry strategy applies to this operation GetSqlPlanBaseline()
 func (client DbManagementClient) GetSqlPlanBaseline(ctx context.Context, request GetSqlPlanBaselineRequest) (response GetSqlPlanBaselineResponse, err error) {
@@ -12497,60 +12333,6 @@ func (client DbManagementClient) listProxyUsers(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListProxyUsers"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListProxyUsers", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListRequestQueues Gets all the Request Queue Entry in a specific compartment.
-// A default retry strategy applies to this operation ListRequestQueues()
-func (client DbManagementClient) ListRequestQueues(ctx context.Context, request ListRequestQueuesRequest) (response ListRequestQueuesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listRequestQueues, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListRequestQueuesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListRequestQueuesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListRequestQueuesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListRequestQueuesResponse")
-	}
-	return
-}
-
-// listRequestQueues implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listRequestQueues(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/requestQueue", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListRequestQueuesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/InternalRequestQueue/ListRequestQueues"
-		err = common.PostProcessServiceError(err, "DbManagement", "ListRequestQueues", apiReferenceLink)
 		return response, err
 	}
 
@@ -17152,59 +16934,6 @@ func (client DbManagementClient) updatePreferredCredential(ctx context.Context, 
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &preferredcredential{})
-	return response, err
-}
-
-// UpdateRequestQueue Updates the request queue specified by requestQueueId.
-func (client DbManagementClient) UpdateRequestQueue(ctx context.Context, request UpdateRequestQueueRequest) (response UpdateRequestQueueResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateRequestQueue, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateRequestQueueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateRequestQueueResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateRequestQueueResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateRequestQueueResponse")
-	}
-	return
-}
-
-// updateRequestQueue implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) updateRequestQueue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/requestQueue/{requestQueueId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateRequestQueueResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/InternalRequestQueue/UpdateRequestQueue"
-		err = common.PostProcessServiceError(err, "DbManagement", "UpdateRequestQueue", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

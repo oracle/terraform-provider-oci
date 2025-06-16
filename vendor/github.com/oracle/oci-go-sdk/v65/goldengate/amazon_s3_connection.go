@@ -100,6 +100,7 @@ type AmazonS3Connection struct {
 	Endpoint *string `mandatory:"false" json:"endpoint"`
 
 	// The name of the region where the bucket is created.
+	// Note: this property will become mandatory after May 20, 2026.
 	Region *string `mandatory:"false" json:"region"`
 
 	// The Amazon S3 technology type.

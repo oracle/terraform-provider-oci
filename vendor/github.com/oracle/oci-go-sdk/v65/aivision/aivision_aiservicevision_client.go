@@ -517,65 +517,6 @@ func (client AIServiceVisionClient) changeProjectCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeStreamGroupCompartment Move a streamGroup from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
-// A default retry strategy applies to this operation ChangeStreamGroupCompartment()
-func (client AIServiceVisionClient) ChangeStreamGroupCompartment(ctx context.Context, request ChangeStreamGroupCompartmentRequest) (response ChangeStreamGroupCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeStreamGroupCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeStreamGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeStreamGroupCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeStreamGroupCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeStreamGroupCompartmentResponse")
-	}
-	return
-}
-
-// changeStreamGroupCompartment implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) changeStreamGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamGroups/{streamGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeStreamGroupCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamGroup/ChangeStreamGroupCompartment"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "ChangeStreamGroupCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeStreamJobCompartment Move a streamJob from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 // A default retry strategy applies to this operation ChangeStreamJobCompartment()
 func (client AIServiceVisionClient) ChangeStreamJobCompartment(ctx context.Context, request ChangeStreamJobCompartmentRequest) (response ChangeStreamJobCompartmentResponse, err error) {
@@ -926,65 +867,6 @@ func (client AIServiceVisionClient) createProject(ctx context.Context, request c
 	return response, err
 }
 
-// CreateStreamGroup Registration of new streamGroup
-// A default retry strategy applies to this operation CreateStreamGroup()
-func (client AIServiceVisionClient) CreateStreamGroup(ctx context.Context, request CreateStreamGroupRequest) (response CreateStreamGroupResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createStreamGroup, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateStreamGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateStreamGroupResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateStreamGroupResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateStreamGroupResponse")
-	}
-	return
-}
-
-// createStreamGroup implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) createStreamGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamGroups", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateStreamGroupResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamGroup/CreateStreamGroup"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "CreateStreamGroup", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateStreamJob Create a stream analysis job with given inputs and features.
 // A default retry strategy applies to this operation CreateStreamJob()
 func (client AIServiceVisionClient) CreateStreamJob(ctx context.Context, request CreateStreamJobRequest) (response CreateStreamJobResponse, err error) {
@@ -1260,59 +1142,6 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/DeleteProject"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteProject", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteStreamGroup Delete a  streamGroup
-func (client AIServiceVisionClient) DeleteStreamGroup(ctx context.Context, request DeleteStreamGroupRequest) (response DeleteStreamGroupResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteStreamGroup, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteStreamGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteStreamGroupResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteStreamGroupResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteStreamGroupResponse")
-	}
-	return
-}
-
-// deleteStreamGroup implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) deleteStreamGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streamGroups/{streamGroupId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteStreamGroupResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamGroup/DeleteStreamGroup"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteStreamGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1638,60 +1467,6 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 	return response, err
 }
 
-// GetStreamGroup Get a  streamGroup
-// A default retry strategy applies to this operation GetStreamGroup()
-func (client AIServiceVisionClient) GetStreamGroup(ctx context.Context, request GetStreamGroupRequest) (response GetStreamGroupResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getStreamGroup, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetStreamGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetStreamGroupResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetStreamGroupResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetStreamGroupResponse")
-	}
-	return
-}
-
-// getStreamGroup implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) getStreamGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streamGroups/{streamGroupId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetStreamGroupResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamGroup/GetStreamGroup"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "GetStreamGroup", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetStreamJob Get details of a stream analysis job.
 // A default retry strategy applies to this operation GetStreamJob()
 func (client AIServiceVisionClient) GetStreamJob(ctx context.Context, request GetStreamJobRequest) (response GetStreamJobResponse, err error) {
@@ -2005,60 +1780,6 @@ func (client AIServiceVisionClient) listProjects(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/ProjectCollection/ListProjects"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListProjects", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListStreamGroups Gets a list of the streamGroups in the specified compartment.
-// A default retry strategy applies to this operation ListStreamGroups()
-func (client AIServiceVisionClient) ListStreamGroups(ctx context.Context, request ListStreamGroupsRequest) (response ListStreamGroupsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listStreamGroups, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListStreamGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListStreamGroupsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListStreamGroupsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListStreamGroupsResponse")
-	}
-	return
-}
-
-// listStreamGroups implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) listStreamGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streamGroups", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListStreamGroupsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamGroupCollection/ListStreamGroups"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "ListStreamGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -2550,59 +2271,6 @@ func (client AIServiceVisionClient) updateProject(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/UpdateProject"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "UpdateProject", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateStreamGroup Update a streamGroup
-func (client AIServiceVisionClient) UpdateStreamGroup(ctx context.Context, request UpdateStreamGroupRequest) (response UpdateStreamGroupResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateStreamGroup, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateStreamGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateStreamGroupResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateStreamGroupResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateStreamGroupResponse")
-	}
-	return
-}
-
-// updateStreamGroup implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) updateStreamGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streamGroups/{streamGroupId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateStreamGroupResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamGroup/UpdateStreamGroup"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "UpdateStreamGroup", apiReferenceLink)
 		return response, err
 	}
 

@@ -61,6 +61,13 @@ type SecretSummary struct {
 	// Additional information about the secret's current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	ReplicationConfig *ReplicationConfig `mandatory:"false" json:"replicationConfig"`
+
+	// A Boolean value that indicates whether the secret is a source or replica secret.
+	IsReplica *bool `mandatory:"false" json:"isReplica"`
+
+	SourceRegionInformation *SourceRegionInformation `mandatory:"false" json:"sourceRegionInformation"`
+
 	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
 
 	// Additional information about the status of the secret rotation
@@ -119,6 +126,9 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 		SystemTags                 map[string]map[string]interface{} `json:"systemTags"`
 		KeyId                      *string                           `json:"keyId"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
+		ReplicationConfig          *ReplicationConfig                `json:"replicationConfig"`
+		IsReplica                  *bool                             `json:"isReplica"`
+		SourceRegionInformation    *SourceRegionInformation          `json:"sourceRegionInformation"`
 		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
 		RotationStatus             SecretRotationStatusEnum          `json:"rotationStatus"`
 		LastRotationTime           *common.SDKTime                   `json:"lastRotationTime"`
@@ -151,6 +161,12 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 	m.KeyId = model.KeyId
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.ReplicationConfig = model.ReplicationConfig
+
+	m.IsReplica = model.IsReplica
+
+	m.SourceRegionInformation = model.SourceRegionInformation
 
 	m.RotationConfig = model.RotationConfig
 

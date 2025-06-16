@@ -36,6 +36,15 @@ type CreateContainerInstanceRequest struct {
 	// The fleet id for targeted launch.
 	OpcFleetId *string `mandatory:"false" contributesTo:"header" name:"opc-fleet-id"`
 
+	// The key of the taint on the hypervisor to which the toleration applies. It can be found in spec.taints field of the hypervisor object. The TolerationEffect and tolerationKey must be both provided to tolerate the taint.
+	OpcTolerationKey *string `mandatory:"false" contributesTo:"header" name:"opc-toleration-key"`
+
+	// The value of the taint on the hypervisor to which the toleration matches to. It can be found in spec.taints field of the hypervisor object.
+	OpcTolerationValue *string `mandatory:"false" contributesTo:"header" name:"opc-toleration-value"`
+
+	// The effect of the taint on the hypervisor to which the toleration matches to. It can be found in spec.taints field of the hypervisor object. The TolerationEffect and tolerationKey must be both provided to tolerate the taint.
+	OpcTolerationEffect *string `mandatory:"false" contributesTo:"header" name:"opc-toleration-effect"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

@@ -41,6 +41,8 @@ type UpdateDbSystemDetails struct {
 
 	StorageDetails *UpdateStorageDetailsParams `mandatory:"false" json:"storageDetails"`
 
+	ReplicationConfig *UpdateReplicationConfigDetails `mandatory:"false" json:"replicationConfig"`
+
 	NetworkDetails *UpdateNetworkDetails `mandatory:"false" json:"networkDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

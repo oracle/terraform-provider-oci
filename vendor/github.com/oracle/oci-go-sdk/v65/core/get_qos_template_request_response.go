@@ -47,21 +47,6 @@ func (request GetQosTemplateRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request GetQosTemplateRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["qosTemplateId"] != nil {
-		templateParam := mandatoryParamMap["qosTemplateId"]
-		for _, template := range templateParam {
-			replacementParam := *request.QosTemplateId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetQosTemplateRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

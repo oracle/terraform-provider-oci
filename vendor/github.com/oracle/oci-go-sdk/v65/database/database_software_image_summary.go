@@ -222,6 +222,7 @@ const (
 	DatabaseSoftwareImageSummaryImageShapeFamilyExadataShape DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "EXADATA_SHAPE"
 	DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape   DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "EXACC_SHAPE"
 	DatabaseSoftwareImageSummaryImageShapeFamilyExadbxsShape DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "EXADBXS_SHAPE"
+	DatabaseSoftwareImageSummaryImageShapeFamilyBdbccShape   DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "BDBCC_SHAPE"
 )
 
 var mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnum = map[string]DatabaseSoftwareImageSummaryImageShapeFamilyEnum{
@@ -229,6 +230,7 @@ var mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnum = map[string]Databas
 	"EXADATA_SHAPE": DatabaseSoftwareImageSummaryImageShapeFamilyExadataShape,
 	"EXACC_SHAPE":   DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape,
 	"EXADBXS_SHAPE": DatabaseSoftwareImageSummaryImageShapeFamilyExadbxsShape,
+	"BDBCC_SHAPE":   DatabaseSoftwareImageSummaryImageShapeFamilyBdbccShape,
 }
 
 var mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnumLowerCase = map[string]DatabaseSoftwareImageSummaryImageShapeFamilyEnum{
@@ -236,6 +238,7 @@ var mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnumLowerCase = map[strin
 	"exadata_shape": DatabaseSoftwareImageSummaryImageShapeFamilyExadataShape,
 	"exacc_shape":   DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape,
 	"exadbxs_shape": DatabaseSoftwareImageSummaryImageShapeFamilyExadbxsShape,
+	"bdbcc_shape":   DatabaseSoftwareImageSummaryImageShapeFamilyBdbccShape,
 }
 
 // GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumValues Enumerates the set of values for DatabaseSoftwareImageSummaryImageShapeFamilyEnum
@@ -254,6 +257,7 @@ func GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumStringValues() []string 
 		"EXADATA_SHAPE",
 		"EXACC_SHAPE",
 		"EXADBXS_SHAPE",
+		"BDBCC_SHAPE",
 	}
 }
 
