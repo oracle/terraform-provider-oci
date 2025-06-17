@@ -8,12 +8,14 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -365,6 +367,17 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 
+			"tde_key_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"OCI",
+					"AZURE",
+					"NONE",
+				}, true),
+			},
+
 			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
@@ -439,6 +452,27 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			"listener_port": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"multi_cloud_identity_connector_configs": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cloud_provider": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"node_count": {
 				Type:     schema.TypeInt,
@@ -606,6 +640,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) UpdatedTarget() []string {
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
+
+	if _, ok := s.D.GetOkExists("tde_key_store_type"); ok {
+		return fmt.Errorf("[ERROR] Unable to specify tde_key_store_type during create")
+	}
+
 	request := oci_database.CreateCloudVmClusterRequest{}
 
 	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
@@ -1077,6 +1116,33 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	}
 
 	s.Res = &response.CloudVmCluster
+
+	if tdeKeyStoreTypeRaw, ok := s.D.GetOkExists("tde_key_store_type"); ok && s.D.HasChange("tde_key_store_type") {
+		tdeKeyStoreType := tdeKeyStoreTypeRaw.(string)
+		oldRaw, newRaw := s.D.GetChange("tde_key_store_type")
+		switch strings.ToLower(tdeKeyStoreType) {
+		case strings.ToLower("NONE"):
+			if oldRaw != "" {
+				err := s.UnregisterCloudVmClusterPkcs(oldRaw.(string))
+				if err != nil {
+					return err
+				}
+			}
+		case strings.ToLower("AZURE"):
+			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			if err != nil {
+				return err
+			}
+		case strings.ToLower("OCI"):
+			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			if err != nil {
+				return err
+			}
+		default:
+			return fmt.Errorf("[ERROR] Unknown tde_key_store_type '%v' was specified", tdeKeyStoreType)
+		}
+
+	}
 	return nil
 }
 
@@ -1216,6 +1282,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	multiCloudIdentityConnectorConfigs := []interface{}{}
+	for _, item := range s.Res.MultiCloudIdentityConnectorConfigs {
+		multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, IdentityConnectorDetailsToMap(item))
+	}
+	s.D.Set("multi_cloud_identity_connector_configs", multiCloudIdentityConnectorConfigs)
+
 	if s.Res.NodeCount != nil {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
@@ -1276,6 +1348,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
 
+	if s.Res.TdeKeyStoreType != "" {
+		s.D.Set("tde_key_store_type", s.Res.TdeKeyStoreType)
+	} else {
+		s.D.Set("tde_key_store_type", "NONE")
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -1294,6 +1372,66 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("zone_id", *s.Res.ZoneId)
 	}
 
+	return nil
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) RegisterCloudVmClusterPkcs(tdeKeyStoreType string) error {
+	request := oci_database.RegisterCloudVmClusterPkcsRequest{}
+
+	idTmp := s.D.Id()
+	request.CloudVmClusterId = &idTmp
+
+	request.TdeKeyStoreType = oci_database.RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum(tdeKeyStoreType)
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.RegisterCloudVmClusterPkcs(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = s.Get()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) UnregisterCloudVmClusterPkcs(tdeKeyStoreType string) error {
+	request := oci_database.UnregisterCloudVmClusterPkcsRequest{}
+
+	idTmp := s.D.Id()
+	request.CloudVmClusterId = &idTmp
+
+	request.TdeKeyStoreType = oci_database.UnregisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum(tdeKeyStoreType)
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UnregisterCloudVmClusterPkcs(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = s.Get()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -1370,7 +1508,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 			result.ApplyUpdateTimePreference = &tmp
 		}
 	}
-	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "freeze_period")) {
+
+	if freezePeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeze_period")); ok {
 		if tmpList := freezePeriod.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "freeze_period"), 0)
 			tmp, err := s.mapToCloudAutomationFreezePeriod(fieldKeyFormatNextLevel)
@@ -1386,7 +1525,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 		result.IsEarlyAdoptionEnabled = &tmp
 	}
 
-	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")) {
+	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok {
 		tmp := isFreezePeriodEnabled.(bool)
 		result.IsFreezePeriodEnabled = &tmp
 	}
@@ -1485,6 +1624,18 @@ func FileSystemConfigurationDetailToMap(obj oci_database.FileSystemConfiguration
 
 	if obj.MountPoint != nil {
 		result["mount_point"] = string(*obj.MountPoint)
+	}
+
+	return result
+}
+
+func IdentityConnectorDetailsToMap(obj oci_database.IdentityConnectorDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["cloud_provider"] = string(obj.CloudProvider)
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	return result
