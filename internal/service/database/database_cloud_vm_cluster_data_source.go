@@ -183,6 +183,12 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	multiCloudIdentityConnectorConfigs := []interface{}{}
+	for _, item := range s.Res.MultiCloudIdentityConnectorConfigs {
+		multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, IdentityConnectorDetailsToMap(item))
+	}
+	s.D.Set("multi_cloud_identity_connector_configs", multiCloudIdentityConnectorConfigs)
+
 	if s.Res.NodeCount != nil {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
@@ -241,6 +247,12 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
+	}
+
+	if s.Res.TdeKeyStoreType != "" {
+		s.D.Set("tde_key_store_type", s.Res.TdeKeyStoreType)
+	} else {
+		s.D.Set("tde_key_store_type", "NONE")
 	}
 
 	if s.Res.TimeCreated != nil {
