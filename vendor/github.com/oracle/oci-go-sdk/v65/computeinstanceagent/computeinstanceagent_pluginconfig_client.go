@@ -92,7 +92,7 @@ func (client *PluginconfigClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ListInstanceagentAvailablePlugins The API to get the list of plugins that are available.
+// ListInstanceagentAvailablePlugins Lists the Oracle Cloud Agent plugins that are available for compute instances.
 //
 // # See also
 //

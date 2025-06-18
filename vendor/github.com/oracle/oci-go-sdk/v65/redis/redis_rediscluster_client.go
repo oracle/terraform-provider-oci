@@ -91,6 +91,69 @@ func (client *RedisClusterClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
+// AttachOciCacheUsers Attach existing OCI cache users to a redis cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/AttachOciCacheUsers.go.html to see an example of how to use AttachOciCacheUsers API.
+// A default retry strategy applies to this operation AttachOciCacheUsers()
+func (client RedisClusterClient) AttachOciCacheUsers(ctx context.Context, request AttachOciCacheUsersRequest) (response AttachOciCacheUsersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachOciCacheUsers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachOciCacheUsersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachOciCacheUsersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachOciCacheUsersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachOciCacheUsersResponse")
+	}
+	return
+}
+
+// attachOciCacheUsers implements the OCIOperation interface (enables retrying operations)
+func (client RedisClusterClient) attachOciCacheUsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/redisClusters/{redisClusterId}/actions/attachOciCacheUsers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachOciCacheUsersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/AttachOciCacheUsers"
+		err = common.PostProcessServiceError(err, "RedisCluster", "AttachOciCacheUsers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelWorkRequest Cancels the specified work request.
 //
 // # See also
@@ -333,6 +396,69 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 	return response, err
 }
 
+// DetachOciCacheUsers Detach existing OCI cache users to a redis cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/DetachOciCacheUsers.go.html to see an example of how to use DetachOciCacheUsers API.
+// A default retry strategy applies to this operation DetachOciCacheUsers()
+func (client RedisClusterClient) DetachOciCacheUsers(ctx context.Context, request DetachOciCacheUsersRequest) (response DetachOciCacheUsersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachOciCacheUsers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachOciCacheUsersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachOciCacheUsersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachOciCacheUsersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachOciCacheUsersResponse")
+	}
+	return
+}
+
+// detachOciCacheUsers implements the OCIOperation interface (enables retrying operations)
+func (client RedisClusterClient) detachOciCacheUsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/redisClusters/{redisClusterId}/actions/detachOciCacheUsers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachOciCacheUsersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/DetachOciCacheUsers"
+		err = common.PostProcessServiceError(err, "RedisCluster", "DetachOciCacheUsers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRedisCluster Retrieves the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
@@ -442,6 +568,64 @@ func (client RedisClusterClient) getWorkRequest(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAttachedOciCacheUsers Gets a list of associated OCI cache users for a redis cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListAttachedOciCacheUsers.go.html to see an example of how to use ListAttachedOciCacheUsers API.
+// A default retry strategy applies to this operation ListAttachedOciCacheUsers()
+func (client RedisClusterClient) ListAttachedOciCacheUsers(ctx context.Context, request ListAttachedOciCacheUsersRequest) (response ListAttachedOciCacheUsersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAttachedOciCacheUsers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAttachedOciCacheUsersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAttachedOciCacheUsersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAttachedOciCacheUsersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAttachedOciCacheUsersResponse")
+	}
+	return
+}
+
+// listAttachedOciCacheUsers implements the OCIOperation interface (enables retrying operations)
+func (client RedisClusterClient) listAttachedOciCacheUsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/redisClusters/{redisClusterId}/actions/getOciCacheUsers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAttachedOciCacheUsersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/AttachedOciCacheUser/ListAttachedOciCacheUsers"
+		err = common.PostProcessServiceError(err, "RedisCluster", "ListAttachedOciCacheUsers", apiReferenceLink)
 		return response, err
 	}
 

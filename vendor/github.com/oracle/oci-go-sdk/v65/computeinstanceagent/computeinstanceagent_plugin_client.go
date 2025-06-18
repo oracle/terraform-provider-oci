@@ -92,7 +92,7 @@ func (client *PluginClient) ConfigurationProvider() *common.ConfigurationProvide
 	return client.config
 }
 
-// GetInstanceAgentPlugin The API to get information for a plugin.
+// GetInstanceAgentPlugin Gets information about a specific Oracle Cloud Agent plugin on a compute instance.
 //
 // # See also
 //
@@ -149,7 +149,8 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 	return response, err
 }
 
-// ListInstanceAgentPlugins The API to get one or more plugin information.
+// ListInstanceAgentPlugins Gets information about the Oracle Cloud Agent plugins that are available on a specific
+// compute instance.
 //
 // # See also
 //
