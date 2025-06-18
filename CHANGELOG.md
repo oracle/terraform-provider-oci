@@ -1,4 +1,4 @@
-## 7.6.0 (Unreleased)
+## 7.6.0 (June 18, 2025)
 
 ### Added
 - Support for OCI Cache - RBAC/ACL Support
