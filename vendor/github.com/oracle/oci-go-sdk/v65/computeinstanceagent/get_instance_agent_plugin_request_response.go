@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentPlugin.go.html to see an example of how to use GetInstanceAgentPluginRequest.
 type GetInstanceAgentPluginRequest struct {
 
-	// The OCID of the instance.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceagentId *string `mandatory:"true" contributesTo:"path" name:"instanceagentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

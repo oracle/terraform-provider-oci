@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// AvailablePluginSummary Describes where the plugin is supported
+// AvailablePluginSummary Information about where a plugin is supported.
 type AvailablePluginSummary struct {
 
-	// The plugin name
+	// The plugin name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Is the plugin supported or not
+	// Whether the plugin is supported.
 	IsSupported *bool `mandatory:"true" json:"isSupported"`
 
-	// Is the plugin enabled or disabled by default
+	// Whether the plugin is enabled or disabled by default.
 	IsEnabledByDefault *bool `mandatory:"true" json:"isEnabledByDefault"`
 
-	// A brief description of the plugin functionality
+	// A brief description of the plugin's functionality.
 	Summary *string `mandatory:"false" json:"summary"`
 }
 

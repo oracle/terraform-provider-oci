@@ -16,16 +16,26 @@ import (
 	"strings"
 )
 
-// InstanceAgentPluginSummary The agent plugin information
+// InstanceAgentPluginSummary An Oracle Cloud Agent plugin.
 type InstanceAgentPluginSummary struct {
 
-	// The plugin name
+	// The plugin name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The plugin status Specified the plugin state on the instance * `RUNNING` - The plugin is in running state * `STOPPED` - The plugin is in stopped state * `NOT_SUPPORTED` - The plugin is not supported on this platform * `INVALID` - The plugin state is not recognizable by the service
+	// The plugin status.
+	// These are the available statuses:
+	// * `RUNNING` - The plugin is running.
+	// * `STOPPED` - The plugin is stopped.
+	// * `NOT_SUPPORTED` - The plugin is not supported on this platform.
+	// * `INVALID` - The plugin status is not recognizable by the service.
+	// To determine whether the plugin is enabled, use the
+	// GetInstance operation in the Core
+	// Services API. To enable or disable the plugin, use the
+	// UpdateInstance operation
+	// in the Core Services API.
 	Status InstanceAgentPluginSummaryStatusEnum `mandatory:"true" json:"status"`
 
-	// The last update time of the plugin in UTC
+	// The last updated time of the plugin, in UTC.
 	TimeLastUpdatedUtc *common.SDKTime `mandatory:"true" json:"timeLastUpdatedUtc"`
 }
 
