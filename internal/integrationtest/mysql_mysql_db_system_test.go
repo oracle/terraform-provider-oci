@@ -79,6 +79,7 @@ var (
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 		"rest":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemRestRepresentation},
 		"secure_connections":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemSecureConnectionsRepresentation},
+		"encrypt_data":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemEncryptDataRepresentation},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepBasic},
 		"read_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemReadEndpointRepresentation},
 	}
@@ -138,6 +139,10 @@ var (
 
 	MysqlMysqlDbSystemSecureConnectionsRepresentation = map[string]interface{}{
 		"certificate_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`},
+	}
+
+	MysqlMysqlDbSystemEncryptDataRepresentation = map[string]interface{}{
+		"key_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`},
 	}
 
 	MysqlMysqlDbSystemResourceDependencies = MysqlMysqlConfigurationResourceConfig +
@@ -239,6 +244,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rest.0.configuration", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.0.key_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -303,6 +310,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rest.0.configuration", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.0.key_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -427,6 +436,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "encrypt_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "encrypt_data.0.key_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.source_type", "NONE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

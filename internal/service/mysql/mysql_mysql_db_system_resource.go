@@ -292,6 +292,31 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"encrypt_data": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"key_generation_type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"fault_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1141,6 +1166,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if encryptData, ok := s.D.GetOkExists("encrypt_data"); ok {
+		if tmpList := encryptData.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encrypt_data", 0)
+			tmp, err := s.mapToEncryptDataDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.EncryptData = &tmp
+		}
+	}
+
 	if faultDomain, ok := s.D.GetOkExists("fault_domain"); ok {
 		tmp := faultDomain.(string)
 		request.FaultDomain = &tmp
@@ -1391,6 +1427,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if encryptData, ok := s.D.GetOkExists("encrypt_data"); ok && s.D.HasChange("encrypt_data") {
+		if tmpList := encryptData.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encrypt_data", 0)
+			tmp, err := s.mapToEncryptDataDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.EncryptData = &tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -1561,6 +1608,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EncryptData != nil {
+		s.D.Set("encrypt_data", []interface{}{EncryptDataDetailsToMap(s.Res.EncryptData)})
+	} else {
+		s.D.Set("encrypt_data", nil)
 	}
 
 	endpoints := []interface{}{}
@@ -2414,6 +2467,33 @@ func DbSystemPlacementToMap(obj *oci_mysql.DbSystemPlacement) map[string]interfa
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToEncryptDataDetails(fieldKeyFormat string) (oci_mysql.EncryptDataDetails, error) {
+	result := oci_mysql.EncryptDataDetails{}
+
+	if keyGenerationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_generation_type")); ok {
+		result.KeyGenerationType = oci_mysql.KeyGenerationTypeEnum(keyGenerationType.(string))
+	}
+
+	if keyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_id")); ok {
+		tmp := keyId.(string)
+		result.KeyId = &tmp
+	}
+
+	return result, nil
+}
+
+func EncryptDataDetailsToMap(obj *oci_mysql.EncryptDataDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["key_generation_type"] = string(obj.KeyGenerationType)
+
+	if obj.KeyId != nil {
+		result["key_id"] = string(*obj.KeyId)
 	}
 
 	return result
