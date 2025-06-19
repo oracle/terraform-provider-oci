@@ -138,6 +138,9 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   secure_connections {
     certificate_generation_type = "SYSTEM"
   }
+  encrypt_data {
+    key_generation_type = "SYSTEM"
+  }
 
   #Optional
   deletion_policy {

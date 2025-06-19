@@ -28,6 +28,19 @@ var (
 	}
 
 	MysqlMysqlBackupCopySourceDetailsRepresentation = map[string]interface{}{}
+
+	MysqlMysqlBackupCopyWithEncryptDataRepresentation = map[string]interface{}{
+		"source_details":    acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupCopySourceDetailsRepresentation},
+		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `5`},
+		"encrypt_data":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlBackupCopyEncryptDataRepresentation},
+	}
+
+	MysqlMysqlBackupCopyEncryptDataRepresentation = map[string]interface{}{
+		"key_generation_type": acctest.Representation{RepType: acctest.Required, Create: `BYOK`},
+		"key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.key_id}`},
+	}
 )
 
 // issue-routing-tag: mysql/default
@@ -178,6 +191,59 @@ func TestMysqlMysqlBackupResource_crossRegionCopy(t *testing.T) {
 				"time_copy_created",
 			},
 			ResourceName: resourceNameCopy,
+		},
+	})
+}
+
+func TestMysqlMysqlBackupResource_crossRegionCopyEncryptData(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlBackupResource_crossRegionCopyEncryptData")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	keyId := utils.GetEnvSettingWithBlankDefault("key_ocid")
+	keyIdVariableStr := fmt.Sprintf("variable \"key_id\" { default = \"%s\" }\n", keyId)
+
+	resourceNameCopy := "oci_mysql_mysql_backup.test_mysql_backup_copy"
+
+	if utils.GetEnvSettingWithBlankDefault("source_region") == "" {
+		t.Skip("Skipping TestMysqlMysqlBackupResource_copy test because there is no source region specified")
+	}
+
+	err := createSourceBackupToCopy()
+	if err != nil {
+		t.Fatalf("Unable to Create source DB System and Backup to copy. Error: %v", err)
+	}
+
+	MysqlMysqlBackupCopySourceDetailsRepresentation = map[string]interface{}{
+		"region":         acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("source_region")},
+		"backup_id":      acctest.Representation{RepType: acctest.Required, Create: mysqlBackupId},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: compartmentId},
+	}
+
+	MysqlMysqlBackupCopyWithEncryptDataRepresentation = acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupCopySourceDetailsRepresentation}, MysqlMysqlBackupCopyWithEncryptDataRepresentation)
+
+	var resId string
+
+	acctest.ResourceTest(t, testAccCheckMysqlMysqlBackupDestroy, []resource.TestStep{
+		// verify backup copy with BYOK
+		{
+			Config: config + compartmentIdVariableStr + keyIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup_copy", acctest.Optional, acctest.Create, MysqlMysqlBackupCopyWithEncryptDataRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceNameCopy, "encrypt_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameCopy, "encrypt_data.0.key_generation_type", "BYOK"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "encrypt_data.0.key_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceNameCopy, "id")
+					log.Printf("[ERROR] failed to copy backup with the error %v. Resource ID %v", err, resId)
+					return err
+				},
+			),
 		},
 	})
 }

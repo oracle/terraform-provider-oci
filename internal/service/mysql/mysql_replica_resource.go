@@ -120,6 +120,27 @@ func MysqlReplicaResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"encrypt_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"key_generation_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"fault_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -443,6 +464,12 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EncryptData != nil {
+		s.D.Set("encrypt_data", []interface{}{EncryptDataDetailsToMap(s.Res.EncryptData)})
+	} else {
+		s.D.Set("encrypt_data", nil)
 	}
 
 	if s.Res.FaultDomain != nil {

@@ -178,6 +178,12 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 			mysqlBackup["display_name"] = *r.DisplayName
 		}
 
+		if r.EncryptData != nil {
+			mysqlBackup["encrypt_data"] = []interface{}{EncryptDataDetailsToMap(r.EncryptData)}
+		} else {
+			mysqlBackup["encrypt_data"] = nil
+		}
+
 		mysqlBackup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

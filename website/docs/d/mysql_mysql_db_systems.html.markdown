@@ -170,6 +170,9 @@ The following attributes are exported:
 	* `is_delete_protected` - Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow. 
 * `description` - User-provided data about the DB System.
 * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
+* `encrypt_data` - Encrypt data details. 
+	* `key_generation_type` - Select whether to use Oracle-managed key (SYSTEM) or your own key (BYOK).
+	* `key_id` - The OCID of the key to use.
 * `endpoints` - The network endpoints available for this DB System. 
 	* `hostname` - The network address of the DB System.
 	* `ip_address` - The IP address the DB System is configured to listen on.

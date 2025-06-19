@@ -138,6 +138,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.EncryptData != nil {
+		s.D.Set("encrypt_data", []interface{}{EncryptDataDetailsToMap(s.Res.EncryptData)})
+	} else {
+		s.D.Set("encrypt_data", nil)
+	}
+
 	endpoints := []interface{}{}
 	for _, item := range s.Res.Endpoints {
 		endpoints = append(endpoints, DbSystemEndpointToMap(item))

@@ -308,6 +308,27 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"encrypt_data": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"key_generation_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"key_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"endpoints": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -506,6 +527,29 @@ func MysqlMysqlBackupResource() *schema.Resource {
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"encrypt_data": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"key_generation_type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 					},
@@ -779,6 +823,17 @@ func (s *MysqlMysqlBackupResourceCrud) createMysqlBackupCopy() error {
 		}
 	}
 
+	if encryptData, ok := s.D.GetOkExists("encrypt_data"); ok {
+		if tmpList := encryptData.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encrypt_data", 0)
+			tmp, err := s.mapToEncryptDataDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			copyMysqlBackupRequest.EncryptData = &tmp
+		}
+	}
+
 	err := s.createDbBackupClientInRegion(currentRegion)
 	if err != nil {
 		return err
@@ -930,6 +985,12 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EncryptData != nil {
+		s.D.Set("encrypt_data", []interface{}{EncryptDataDetailsToMap(s.Res.EncryptData)})
+	} else {
+		s.D.Set("encrypt_data", nil)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -1118,6 +1179,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
+	if obj.EncryptData != nil {
+		result["encrypt_data"] = []interface{}{EncryptDataDetailsToMap(obj.EncryptData)}
+	}
+
 	endpoints := []interface{}{}
 	for _, item := range obj.Endpoints {
 		endpoints = append(endpoints, DbSystemEndpointToMap(item))
@@ -1225,6 +1290,21 @@ func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]inter
 	}
 
 	return result
+}
+
+func (s *MysqlMysqlBackupResourceCrud) mapToEncryptDataDetails(fieldKeyFormat string) (oci_mysql.EncryptDataDetails, error) {
+	result := oci_mysql.EncryptDataDetails{}
+
+	if keyGenerationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_generation_type")); ok {
+		result.KeyGenerationType = oci_mysql.KeyGenerationTypeEnum(keyGenerationType.(string))
+	}
+
+	if keyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_id")); ok {
+		tmp := keyId.(string)
+		result.KeyId = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *MysqlMysqlBackupResourceCrud) updateCompartment(compartment interface{}) error {
