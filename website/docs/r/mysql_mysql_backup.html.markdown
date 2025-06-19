@@ -124,6 +124,9 @@ The following attributes are exported:
 		* `is_delete_protected` - Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow. 
 	* `description` - User-provided data about the DB System.
 	* `display_name` - The user-friendly name for the DB System. It does not have to be unique.
+	* `encrypt_data` - Encrypt data details. 
+		* `key_generation_type` - Select whether to use Oracle-managed key (SYSTEM) or your own key (BYOK).
+		* `key_id` - The OCID of the key to use.
 	* `endpoints` - The network endpoints available for this DB System. 
 		* `hostname` - The network address of the DB System.
 		* `ip_address` - The IP address the DB System is configured to listen on.
@@ -175,6 +178,9 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A user-supplied description for the backup.
 * `display_name` - A user-supplied display name for the backup.
+* `encrypt_data` - Encrypt data details. 
+	* `key_generation_type` - Select whether to use Oracle-managed key (SYSTEM) or your own key (BYOK).
+	* `key_id` - The OCID of the key to use.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - OCID of the backup itself
 * `immediate_source_backup_id` - The OCID of the immediate source DB system backup from which this DB system backup was copied. 
