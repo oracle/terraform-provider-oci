@@ -2931,7 +2931,7 @@ func (client JavaManagementServiceClient) ListLibraryManagedInstanceUsage(ctx co
 // listLibraryManagedInstanceUsage implements the OCIOperation interface (enables retrying operations)
 func (client JavaManagementServiceClient) listLibraryManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/libraries/{libraryKey}/managedinstances", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/libraries/{libraryKey}/managedInstances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

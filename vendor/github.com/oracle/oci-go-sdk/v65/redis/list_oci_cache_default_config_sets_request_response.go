@@ -14,8 +14,8 @@ import (
 // ListOciCacheDefaultConfigSetsRequest wrapper for the ListOciCacheDefaultConfigSets operation
 type ListOciCacheDefaultConfigSetsRequest struct {
 
-	// The ID of the compartment in which to list resources.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	// The unique identifier for the compartment.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Unique OCI Cache Default Config Set identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`

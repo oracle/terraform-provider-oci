@@ -29,7 +29,7 @@ type ListAutonomousContainerDatabaseBackupsRequest struct {
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState AutonomousContainerDatabaseBackupSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIMECREATED is descending.  Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
 	// **Note:** If you do not include the availability domain filter, the resources are grouped by availability domain, then sorted.
 	SortBy ListAutonomousContainerDatabaseBackupsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

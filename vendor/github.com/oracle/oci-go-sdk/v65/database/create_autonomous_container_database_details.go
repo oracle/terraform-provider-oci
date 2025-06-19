@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateAutonomousContainerDatabaseDetails Details to create an Oracle Autonomous Container Database.
+// CreateAutonomousContainerDatabaseDetails Details to create an Autonomous Container Database (ACD).
 type CreateAutonomousContainerDatabaseDetails struct {
 
 	// The display name for the Autonomous Container Database.

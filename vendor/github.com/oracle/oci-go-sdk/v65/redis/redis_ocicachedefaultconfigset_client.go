@@ -17,15 +17,15 @@ import (
 	"net/http"
 )
 
-// OciCacheDefaultConfigSetsClient a client for OciCacheDefaultConfigSets
-type OciCacheDefaultConfigSetsClient struct {
+// OciCacheDefaultConfigSetClient a client for OciCacheDefaultConfigSet
+type OciCacheDefaultConfigSetClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
 }
 
-// NewOciCacheDefaultConfigSetsClientWithConfigurationProvider Creates a new default OciCacheDefaultConfigSets client with the given configuration provider.
+// NewOciCacheDefaultConfigSetClientWithConfigurationProvider Creates a new default OciCacheDefaultConfigSet client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
-func NewOciCacheDefaultConfigSetsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client OciCacheDefaultConfigSetsClient, err error) {
+func NewOciCacheDefaultConfigSetClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client OciCacheDefaultConfigSetClient, err error) {
 	if enabled := common.CheckForEnabledServices("redis"); !enabled {
 		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
@@ -37,41 +37,41 @@ func NewOciCacheDefaultConfigSetsClientWithConfigurationProvider(configProvider 
 	if e != nil {
 		return client, e
 	}
-	return newOciCacheDefaultConfigSetsClientFromBaseClient(baseClient, provider)
+	return newOciCacheDefaultConfigSetClientFromBaseClient(baseClient, provider)
 }
 
-// NewOciCacheDefaultConfigSetsClientWithOboToken Creates a new default OciCacheDefaultConfigSets client with the given configuration provider.
+// NewOciCacheDefaultConfigSetClientWithOboToken Creates a new default OciCacheDefaultConfigSet client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
 //
 //	as well as reading the region
-func NewOciCacheDefaultConfigSetsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OciCacheDefaultConfigSetsClient, err error) {
+func NewOciCacheDefaultConfigSetClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OciCacheDefaultConfigSetClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
 		return client, err
 	}
 
-	return newOciCacheDefaultConfigSetsClientFromBaseClient(baseClient, configProvider)
+	return newOciCacheDefaultConfigSetClientFromBaseClient(baseClient, configProvider)
 }
 
-func newOciCacheDefaultConfigSetsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OciCacheDefaultConfigSetsClient, err error) {
-	// OciCacheDefaultConfigSets service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("OciCacheDefaultConfigSets"))
+func newOciCacheDefaultConfigSetClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OciCacheDefaultConfigSetClient, err error) {
+	// OciCacheDefaultConfigSet service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("OciCacheDefaultConfigSet"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
-	client = OciCacheDefaultConfigSetsClient{BaseClient: baseClient}
+	client = OciCacheDefaultConfigSetClient{BaseClient: baseClient}
 	client.BasePath = "20220315"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
 
 // SetRegion overrides the region of this client.
-func (client *OciCacheDefaultConfigSetsClient) SetRegion(region string) {
+func (client *OciCacheDefaultConfigSetClient) SetRegion(region string) {
 	client.Host = common.StringToRegion(region).EndpointForTemplate("redis", "https://redis.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
-func (client *OciCacheDefaultConfigSetsClient) setConfigurationProvider(configProvider common.ConfigurationProvider) error {
+func (client *OciCacheDefaultConfigSetClient) setConfigurationProvider(configProvider common.ConfigurationProvider) error {
 	if ok, err := common.IsConfigurationProviderValid(configProvider); !ok {
 		return err
 	}
@@ -87,13 +87,13 @@ func (client *OciCacheDefaultConfigSetsClient) setConfigurationProvider(configPr
 }
 
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
-func (client *OciCacheDefaultConfigSetsClient) ConfigurationProvider() *common.ConfigurationProvider {
+func (client *OciCacheDefaultConfigSetClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
 }
 
 // GetOciCacheDefaultConfigSet Retrieves the specified OCI Cache Default Config Set.
 // A default retry strategy applies to this operation GetOciCacheDefaultConfigSet()
-func (client OciCacheDefaultConfigSetsClient) GetOciCacheDefaultConfigSet(ctx context.Context, request GetOciCacheDefaultConfigSetRequest) (response GetOciCacheDefaultConfigSetResponse, err error) {
+func (client OciCacheDefaultConfigSetClient) GetOciCacheDefaultConfigSet(ctx context.Context, request GetOciCacheDefaultConfigSetRequest) (response GetOciCacheDefaultConfigSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -123,7 +123,7 @@ func (client OciCacheDefaultConfigSetsClient) GetOciCacheDefaultConfigSet(ctx co
 }
 
 // getOciCacheDefaultConfigSet implements the OCIOperation interface (enables retrying operations)
-func (client OciCacheDefaultConfigSetsClient) getOciCacheDefaultConfigSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client OciCacheDefaultConfigSetClient) getOciCacheDefaultConfigSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ociCacheDefaultConfigSets/{ociCacheDefaultConfigSetId}", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -137,7 +137,7 @@ func (client OciCacheDefaultConfigSetsClient) getOciCacheDefaultConfigSet(ctx co
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheDefaultConfigSet/GetOciCacheDefaultConfigSet"
-		err = common.PostProcessServiceError(err, "OciCacheDefaultConfigSets", "GetOciCacheDefaultConfigSet", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "OciCacheDefaultConfigSet", "GetOciCacheDefaultConfigSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -147,7 +147,7 @@ func (client OciCacheDefaultConfigSetsClient) getOciCacheDefaultConfigSet(ctx co
 
 // ListOciCacheDefaultConfigSets Lists the OCI Cache Default Config Sets in the specified compartment.
 // A default retry strategy applies to this operation ListOciCacheDefaultConfigSets()
-func (client OciCacheDefaultConfigSetsClient) ListOciCacheDefaultConfigSets(ctx context.Context, request ListOciCacheDefaultConfigSetsRequest) (response ListOciCacheDefaultConfigSetsResponse, err error) {
+func (client OciCacheDefaultConfigSetClient) ListOciCacheDefaultConfigSets(ctx context.Context, request ListOciCacheDefaultConfigSetsRequest) (response ListOciCacheDefaultConfigSetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -177,7 +177,7 @@ func (client OciCacheDefaultConfigSetsClient) ListOciCacheDefaultConfigSets(ctx 
 }
 
 // listOciCacheDefaultConfigSets implements the OCIOperation interface (enables retrying operations)
-func (client OciCacheDefaultConfigSetsClient) listOciCacheDefaultConfigSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client OciCacheDefaultConfigSetClient) listOciCacheDefaultConfigSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ociCacheDefaultConfigSets", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -191,7 +191,7 @@ func (client OciCacheDefaultConfigSetsClient) listOciCacheDefaultConfigSets(ctx 
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheDefaultConfigSetSummary/ListOciCacheDefaultConfigSets"
-		err = common.PostProcessServiceError(err, "OciCacheDefaultConfigSets", "ListOciCacheDefaultConfigSets", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "OciCacheDefaultConfigSet", "ListOciCacheDefaultConfigSets", apiReferenceLink)
 		return response, err
 	}
 

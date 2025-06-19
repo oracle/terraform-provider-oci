@@ -34,6 +34,9 @@ type ListDbVersionsRequest struct {
 	// * LVM specifies logical volume manager, sometimes called logical disk manager.
 	StorageManagement DbSystemOptionsStorageManagementEnum `mandatory:"false" contributesTo:"query" name:"storageManagement" omitEmpty:"true"`
 
+	// If provided and applicable, return DB System shape parameters based on the shapeAttribute provided
+	ShapeAttribute *string `mandatory:"false" contributesTo:"query" name:"shapeAttribute"`
+
 	// If provided, filters the results to the set of database versions which are supported for Upgrade.
 	IsUpgradeSupported *bool `mandatory:"false" contributesTo:"query" name:"isUpgradeSupported"`
 

@@ -50,7 +50,7 @@ type BackupDestinationDetailsSummary struct {
 	// Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'.
 	BackupRetentionPolicyOnTerminate BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum `mandatory:"false" json:"backupRetentionPolicyOnTerminate,omitempty"`
 
-	// Indicates whether the backup destination is cross-region or local region.
+	// Indicates whether the backup destination is cross-region or local.
 	IsRemote *bool `mandatory:"false" json:"isRemote"`
 
 	// The name of the remote region where the remote automatic incremental backups will be stored.

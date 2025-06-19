@@ -258,6 +258,65 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 	return response, err
 }
 
+// ChangeArtifactVersionAuditCompartment Moves an Artifact Version Audit from one compartment to another.
+// A default retry strategy applies to this operation ChangeArtifactVersionAuditCompartment()
+func (client ApplicationDependencyManagementClient) ChangeArtifactVersionAuditCompartment(ctx context.Context, request ChangeArtifactVersionAuditCompartmentRequest) (response ChangeArtifactVersionAuditCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeArtifactVersionAuditCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeArtifactVersionAuditCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeArtifactVersionAuditCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeArtifactVersionAuditCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeArtifactVersionAuditCompartmentResponse")
+	}
+	return
+}
+
+// changeArtifactVersionAuditCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) changeArtifactVersionAuditCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/artifactVersionAudits/{artifactVersionAuditId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeArtifactVersionAuditCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ChangeArtifactVersionAuditCompartment"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ChangeArtifactVersionAuditCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeKnowledgeBaseCompartment Moves a Knowledge Base from one compartment to another.
 // A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
 func (client ApplicationDependencyManagementClient) ChangeKnowledgeBaseCompartment(ctx context.Context, request ChangeKnowledgeBaseCompartmentRequest) (response ChangeKnowledgeBaseCompartmentResponse, err error) {
@@ -487,6 +546,65 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ChangeVulnerabilityAuditCompartment"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ChangeVulnerabilityAuditCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateArtifactVersionAudit Creates a new Artifact Version Audit by providing a list of artifact versions.
+// A default retry strategy applies to this operation CreateArtifactVersionAudit()
+func (client ApplicationDependencyManagementClient) CreateArtifactVersionAudit(ctx context.Context, request CreateArtifactVersionAuditRequest) (response CreateArtifactVersionAuditResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createArtifactVersionAudit, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateArtifactVersionAuditResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateArtifactVersionAuditResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateArtifactVersionAuditResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateArtifactVersionAuditResponse")
+	}
+	return
+}
+
+// createArtifactVersionAudit implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) createArtifactVersionAudit(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/artifactVersionAudits", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateArtifactVersionAuditResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/CreateArtifactVersionAudit"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CreateArtifactVersionAudit", apiReferenceLink)
 		return response, err
 	}
 
@@ -784,6 +902,60 @@ func (client ApplicationDependencyManagementClient) deactivateRemediationRecipe(
 	return response, err
 }
 
+// DeleteArtifactVersionAudit Deletes the specified Artifact Version Audit.
+// A default retry strategy applies to this operation DeleteArtifactVersionAudit()
+func (client ApplicationDependencyManagementClient) DeleteArtifactVersionAudit(ctx context.Context, request DeleteArtifactVersionAuditRequest) (response DeleteArtifactVersionAuditResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteArtifactVersionAudit, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteArtifactVersionAuditResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteArtifactVersionAuditResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteArtifactVersionAuditResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteArtifactVersionAuditResponse")
+	}
+	return
+}
+
+// deleteArtifactVersionAudit implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) deleteArtifactVersionAudit(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/artifactVersionAudits/{artifactVersionAuditId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteArtifactVersionAuditResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/DeleteArtifactVersionAudit"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "DeleteArtifactVersionAudit", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteKnowledgeBase Deletes the specified Knowledge Base.
 // A default retry strategy applies to this operation DeleteKnowledgeBase()
 func (client ApplicationDependencyManagementClient) DeleteKnowledgeBase(ctx context.Context, request DeleteKnowledgeBaseRequest) (response DeleteKnowledgeBaseResponse, err error) {
@@ -993,6 +1165,60 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/DeleteVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "DeleteVulnerabilityAudit", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetArtifactVersionAudit Returns the basic details of the specified Artifact Version Audit.
+// A default retry strategy applies to this operation GetArtifactVersionAudit()
+func (client ApplicationDependencyManagementClient) GetArtifactVersionAudit(ctx context.Context, request GetArtifactVersionAuditRequest) (response GetArtifactVersionAuditResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getArtifactVersionAudit, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetArtifactVersionAuditResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetArtifactVersionAuditResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetArtifactVersionAuditResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetArtifactVersionAuditResponse")
+	}
+	return
+}
+
+// getArtifactVersionAudit implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) getArtifactVersionAudit(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetArtifactVersionAuditResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/GetArtifactVersionAudit"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetArtifactVersionAudit", apiReferenceLink)
 		return response, err
 	}
 
@@ -1425,6 +1651,223 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ListApplicationDependencyVulnerabilities"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListApplicationDependencyVulnerabilities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListArtifactVersionAudits Returns a list of Artifact Version Audits based on the specified query parameters.
+// At least one of id, compartmentId query parameter must be provided.
+// A default retry strategy applies to this operation ListArtifactVersionAudits()
+func (client ApplicationDependencyManagementClient) ListArtifactVersionAudits(ctx context.Context, request ListArtifactVersionAuditsRequest) (response ListArtifactVersionAuditsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listArtifactVersionAudits, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListArtifactVersionAuditsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListArtifactVersionAuditsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListArtifactVersionAuditsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListArtifactVersionAuditsResponse")
+	}
+	return
+}
+
+// listArtifactVersionAudits implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listArtifactVersionAudits(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListArtifactVersionAuditsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListArtifactVersionAudits"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListArtifactVersionAudits", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAuditArtifactVersions Returns a list of artifact versions with their associated details.
+// A default retry strategy applies to this operation ListAuditArtifactVersions()
+func (client ApplicationDependencyManagementClient) ListAuditArtifactVersions(ctx context.Context, request ListAuditArtifactVersionsRequest) (response ListAuditArtifactVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAuditArtifactVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAuditArtifactVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAuditArtifactVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAuditArtifactVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAuditArtifactVersionsResponse")
+	}
+	return
+}
+
+// listAuditArtifactVersions implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listAuditArtifactVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/artifactVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAuditArtifactVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAuditArtifactVersions"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAuditArtifactVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAuditCopyrights Returns a list of copyright statements for all artifact versions in the audit.
+// A default retry strategy applies to this operation ListAuditCopyrights()
+func (client ApplicationDependencyManagementClient) ListAuditCopyrights(ctx context.Context, request ListAuditCopyrightsRequest) (response ListAuditCopyrightsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAuditCopyrights, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAuditCopyrightsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAuditCopyrightsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAuditCopyrightsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAuditCopyrightsResponse")
+	}
+	return
+}
+
+// listAuditCopyrights implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listAuditCopyrights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/copyrights", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAuditCopyrightsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAuditCopyrights"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAuditCopyrights", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAuditNotices Returns a list of notice files for all artifact versions in the audit.
+// A default retry strategy applies to this operation ListAuditNotices()
+func (client ApplicationDependencyManagementClient) ListAuditNotices(ctx context.Context, request ListAuditNoticesRequest) (response ListAuditNoticesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAuditNotices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAuditNoticesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAuditNoticesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAuditNoticesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAuditNoticesResponse")
+	}
+	return
+}
+
+// listAuditNotices implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listAuditNotices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/notices", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAuditNoticesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAuditNotices"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAuditNotices", apiReferenceLink)
 		return response, err
 	}
 
@@ -1915,6 +2358,60 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateArtifactVersionAudit Updates one or more attributes of the specified Artifact Version Audit.
+// A default retry strategy applies to this operation UpdateArtifactVersionAudit()
+func (client ApplicationDependencyManagementClient) UpdateArtifactVersionAudit(ctx context.Context, request UpdateArtifactVersionAuditRequest) (response UpdateArtifactVersionAuditResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateArtifactVersionAudit, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateArtifactVersionAuditResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateArtifactVersionAuditResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateArtifactVersionAuditResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateArtifactVersionAuditResponse")
+	}
+	return
+}
+
+// updateArtifactVersionAudit implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) updateArtifactVersionAudit(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/artifactVersionAudits/{artifactVersionAuditId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateArtifactVersionAuditResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/UpdateArtifactVersionAudit"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "UpdateArtifactVersionAudit", apiReferenceLink)
 		return response, err
 	}
 

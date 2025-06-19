@@ -43,6 +43,12 @@ type CreateNotebookSessionDetails struct {
 
 	NotebookSessionRuntimeConfigDetails *NotebookSessionRuntimeConfigDetails `mandatory:"false" json:"notebookSessionRuntimeConfigDetails"`
 
+	NotebookSessionEnvironmentConfigDetails NotebookSessionEnvironmentConfigDetails `mandatory:"false" json:"notebookSessionEnvironmentConfigDetails"`
+
+	NotebookSessionIngressConfigDetails *NotebookSessionIngressConfigDetails `mandatory:"false" json:"notebookSessionIngressConfigDetails"`
+
+	NotebookSessionLogConfigDetails *NotebookSessionLogConfigDetails `mandatory:"false" json:"notebookSessionLogConfigDetails"`
+
 	// Collection of NotebookSessionStorageMountConfigurationDetails.
 	NotebookSessionStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"notebookSessionStorageMountConfigurationDetailsList"`
 }
@@ -66,15 +72,18 @@ func (m CreateNotebookSessionDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                                         *string                              `json:"displayName"`
-		NotebookSessionConfigurationDetails                 *NotebookSessionConfigurationDetails `json:"notebookSessionConfigurationDetails"`
-		NotebookSessionConfigDetails                        *NotebookSessionConfigDetails        `json:"notebookSessionConfigDetails"`
-		FreeformTags                                        map[string]string                    `json:"freeformTags"`
-		DefinedTags                                         map[string]map[string]interface{}    `json:"definedTags"`
-		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails `json:"notebookSessionRuntimeConfigDetails"`
-		NotebookSessionStorageMountConfigurationDetailsList []storagemountconfigurationdetails   `json:"notebookSessionStorageMountConfigurationDetailsList"`
-		ProjectId                                           *string                              `json:"projectId"`
-		CompartmentId                                       *string                              `json:"compartmentId"`
+		DisplayName                                         *string                                 `json:"displayName"`
+		NotebookSessionConfigurationDetails                 *NotebookSessionConfigurationDetails    `json:"notebookSessionConfigurationDetails"`
+		NotebookSessionConfigDetails                        *NotebookSessionConfigDetails           `json:"notebookSessionConfigDetails"`
+		FreeformTags                                        map[string]string                       `json:"freeformTags"`
+		DefinedTags                                         map[string]map[string]interface{}       `json:"definedTags"`
+		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails    `json:"notebookSessionRuntimeConfigDetails"`
+		NotebookSessionEnvironmentConfigDetails             notebooksessionenvironmentconfigdetails `json:"notebookSessionEnvironmentConfigDetails"`
+		NotebookSessionIngressConfigDetails                 *NotebookSessionIngressConfigDetails    `json:"notebookSessionIngressConfigDetails"`
+		NotebookSessionLogConfigDetails                     *NotebookSessionLogConfigDetails        `json:"notebookSessionLogConfigDetails"`
+		NotebookSessionStorageMountConfigurationDetailsList []storagemountconfigurationdetails      `json:"notebookSessionStorageMountConfigurationDetailsList"`
+		ProjectId                                           *string                                 `json:"projectId"`
+		CompartmentId                                       *string                                 `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -93,6 +102,20 @@ func (m *CreateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.NotebookSessionRuntimeConfigDetails = model.NotebookSessionRuntimeConfigDetails
+
+	nn, e = model.NotebookSessionEnvironmentConfigDetails.UnmarshalPolymorphicJSON(model.NotebookSessionEnvironmentConfigDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NotebookSessionEnvironmentConfigDetails = nn.(NotebookSessionEnvironmentConfigDetails)
+	} else {
+		m.NotebookSessionEnvironmentConfigDetails = nil
+	}
+
+	m.NotebookSessionIngressConfigDetails = model.NotebookSessionIngressConfigDetails
+
+	m.NotebookSessionLogConfigDetails = model.NotebookSessionLogConfigDetails
 
 	m.NotebookSessionStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.NotebookSessionStorageMountConfigurationDetailsList))
 	for i, n := range model.NotebookSessionStorageMountConfigurationDetailsList {

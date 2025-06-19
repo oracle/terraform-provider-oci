@@ -70,6 +70,11 @@ type CreateDbSystemDetails struct {
 	// Network Security Group OCIDs used for the VNIC attachment.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see ZPR Artifacts (https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The username for the administrative user.
 	AdminUsername *string `mandatory:"false" json:"adminUsername"`
 
@@ -194,6 +199,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		ConfigurationId      *string                           `json:"configurationId"`
 		MysqlVersion         *string                           `json:"mysqlVersion"`
 		NsgIds               []string                          `json:"nsgIds"`
+		SecurityAttributes   map[string]map[string]interface{} `json:"securityAttributes"`
 		AdminUsername        *string                           `json:"adminUsername"`
 		AdminPassword        *string                           `json:"adminPassword"`
 		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
@@ -244,6 +250,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
+	m.SecurityAttributes = model.SecurityAttributes
+
 	m.AdminUsername = model.AdminUsername
 
 	m.AdminPassword = model.AdminPassword

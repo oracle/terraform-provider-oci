@@ -46,7 +46,10 @@ type LimitDefinitionSummary struct {
 	// The limit for this resource has a dynamic value that is based on consumption across all OCI services.
 	IsDynamic *bool `mandatory:"false" json:"isDynamic"`
 
-	// An array of subscription types supported by the limit. e,g The type of subscription, such as 'SAAS', 'ERP', 'CRM'.
+	// An array of subscription types that support ExternalLocations.
+	ExternalLocationSupportedSubscriptions []string `mandatory:"false" json:"externalLocationSupportedSubscriptions"`
+
+	// An array of subscription types supported by the limit. For example, the type of subscription, such as SAAS, ERP, or CRM.
 	SupportedSubscriptions []string `mandatory:"false" json:"supportedSubscriptions"`
 
 	// Supported quota family names for creation of quota policy.

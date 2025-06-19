@@ -74,6 +74,11 @@ type DbSystem struct {
 	// Network Security Group OCIDs used for the VNIC attachment.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see ZPR Artifacts (https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	Rest *RestDetails `mandatory:"false" json:"rest"`
 
 	// Specifies if the DB System is highly available.
@@ -210,6 +215,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                *string                           `json:"description"`
 		NsgIds                     []string                          `json:"nsgIds"`
+		SecurityAttributes         map[string]map[string]interface{} `json:"securityAttributes"`
 		Rest                       *RestDetails                      `json:"rest"`
 		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
 		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
@@ -263,6 +269,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
+	m.SecurityAttributes = model.SecurityAttributes
+
 	m.Rest = model.Rest
 
 	m.IsHighlyAvailable = model.IsHighlyAvailable

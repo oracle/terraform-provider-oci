@@ -14,11 +14,11 @@ import (
 // GetOciCacheDefaultConfigSetRequest wrapper for the GetOciCacheDefaultConfigSet operation
 type GetOciCacheDefaultConfigSetRequest struct {
 
+	// The unique identifier for the compartment.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Unique OCI Cache Default Config Set identifier.
 	OciCacheDefaultConfigSetId *string `mandatory:"true" contributesTo:"path" name:"ociCacheDefaultConfigSetId"`
-
-	// The ID of the compartment in which to list resources.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
