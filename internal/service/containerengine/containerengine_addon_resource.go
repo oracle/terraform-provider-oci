@@ -83,7 +83,6 @@ func ContainerengineAddonResource() *schema.Resource {
 			"version": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 			},
 
 			// Computed
@@ -234,7 +233,9 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 
 	if version, ok := s.D.GetOkExists("version"); ok {
 		tmp := version.(string)
-		request.Version = &tmp
+		if len(tmp) > 0 {
+			request.Version = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -469,7 +470,9 @@ func (s *ContainerengineAddonResourceCrud) Update() error {
 
 	if version, ok := s.D.GetOkExists("version"); ok {
 		tmp := version.(string)
-		request.Version = &tmp
+		if len(tmp) > 0 {
+			request.Version = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
