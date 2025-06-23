@@ -1,4 +1,3 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2
 
 package integrationtest
@@ -48,32 +47,34 @@ var (
 	}
 
 	RedisRedisClusterRepresentation = map[string]interface{}{
-		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `displayNameNonSharded`, Update: `displayNameNonSharded2`},
-		"node_count":         acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
-		"node_memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"software_version":   acctest.Representation{RepType: acctest.Required, Create: `REDIS_7_0`, Update: `VALKEY_7_2`},
-		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"cluster_mode":       acctest.Representation{RepType: acctest.Optional, Create: `NONSHARDED`},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayNameNonSharded`, Update: `displayNameNonSharded2`},
+		"node_count":              acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
+		"node_memory_in_gbs":      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"software_version":        acctest.Representation{RepType: acctest.Required, Create: `REDIS_7_0`, Update: `VALKEY_7_2`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"cluster_mode":            acctest.Representation{RepType: acctest.Optional, Create: `NONSHARDED`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"oci_cache_config_set_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_redis_oci_cache_config_set.test_oci_cache_config_set.id}`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
 	}
 
 	RedisRedisShardedClusterRepresentation = map[string]interface{}{
-		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `displayNameSharded`, Update: `displayNameSharded2`},
-		"node_count":         acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"node_memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"shard_count":        acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
-		"software_version":   acctest.Representation{RepType: acctest.Required, Create: `V7_0_5`},
-		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"cluster_mode":       acctest.Representation{RepType: acctest.Required, Create: `SHARDED`},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayNameSharded`, Update: `displayNameSharded2`},
+		"node_count":              acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"node_memory_in_gbs":      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"shard_count":             acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
+		"software_version":        acctest.Representation{RepType: acctest.Required, Create: `REDIS_7_0`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"cluster_mode":            acctest.Representation{RepType: acctest.Required, Create: `SHARDED`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"oci_cache_config_set_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_redis_oci_cache_config_set.test_oci_cache_config_set.id}`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
 	}
 
 	ignoreRedisTagsChangesRepresentation = map[string]interface{}{
@@ -82,6 +83,7 @@ var (
 
 	RedisRedisClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_redis_oci_cache_config_set", "test_oci_cache_config_set", acctest.Required, acctest.Create, RedisOciCacheConfigSetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "redis_security_list", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(CoreSecurityListRepresentation, map[string]interface{}{
 				"display_name": acctest.Representation{RepType: acctest.Required, Create: `redis-security-list`},
@@ -253,7 +255,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(shardedResourceName, "node_memory_in_gbs", "2"),
 				resource.TestCheckResourceAttr(shardedResourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(shardedResourceName, "shard_count", "3"),
-				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(shardedResourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -286,7 +288,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(shardedResourceName, "node_memory_in_gbs", "2"),
 				resource.TestCheckResourceAttr(shardedResourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(shardedResourceName, "shard_count", "3"),
-				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(shardedResourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -314,7 +316,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(shardedResourceName, "node_memory_in_gbs", "3"),
 				resource.TestCheckResourceAttr(shardedResourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(shardedResourceName, "shard_count", "5"),
-				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(shardedResourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(shardedResourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
