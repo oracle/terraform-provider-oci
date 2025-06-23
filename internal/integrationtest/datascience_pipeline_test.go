@@ -56,7 +56,7 @@ var (
 		"description":                              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                             acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineInfrastructureConfigurationDetailsRepresentation},
+		"infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatasciencePipelineInfrastructureConfigurationDetailsRepresentation},
 		"log_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineLogConfigurationDetailsRepresentation},
 		"step_artifact":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineStepArtifactRepresentation},
 		"storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStorageMountConfigurationDetailsListRepresentation},
@@ -111,7 +111,7 @@ var (
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"step_storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStorageMountConfigurationDetailsListRepresentation},
 		"step_configuration_details":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepConfigurationDetailsRepresentation},
-		"step_infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation},
+		"step_infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation},
 	}
 
 	pipelineStepDetailsRepresentationContainer = map[string]interface{}{
@@ -125,8 +125,9 @@ var (
 	}
 
 	pipelineStepDetailsRepresentationDataflow = map[string]interface{}{
-		"step_name":                           acctest.Representation{RepType: acctest.Required, Create: `stepNameDataflow`},
-		"step_type":                           acctest.Representation{RepType: acctest.Required, Create: `DATAFLOW`},
+		"step_name": acctest.Representation{RepType: acctest.Required, Create: `stepNameDataflow`},
+		"step_type": acctest.Representation{RepType: acctest.Required, Create: `DATAFLOW`},
+		// replace {application_id} with a real dataflow application id created in the test tenancy and compartment when running test
 		"application_id":                      acctest.Representation{RepType: acctest.Required, Create: `{application_id}`},
 		"depends_on":                          acctest.Representation{RepType: acctest.Optional, Create: []string{}},
 		"description":                         acctest.Representation{RepType: acctest.Optional, Create: `descriptionDataflow`},
@@ -145,16 +146,10 @@ var (
 	}
 	DatasciencePipelineInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `60`},
-		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
-		//"shape_config_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation},
+		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape_config_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatasciencePipelineInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation},
 		// "subnet_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
-	}
-
-	pipelineInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
-		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`},
-		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
 	}
 
 	pipelineLogConfigurationDetailsRepresentation = map[string]interface{}{
@@ -209,9 +204,9 @@ var (
 	DatasciencePipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
 		//Applicable when step_type=CUSTOM_SCRIPT Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
-		//"shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation},
-		"shape_name": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":  acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
+		"shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStepDetailsStepInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation},
+		"shape_name":           acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"subnet_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	DatasciencePipelineStepDetailsStepStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
 		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `destinationDirectoryName`, Update: `destinationDirectoryName2`},
@@ -224,20 +219,22 @@ var (
 		"prefix":                     acctest.Representation{RepType: acctest.Optional, Create: `prefix`, Update: `prefix2`},
 	}
 	DatasciencePipelineInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"cpu_baseline":  acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`, Update: `BASELINE_1_2`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `14.0`, Update: `28.0`},
 	}
 	DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsDriverShapeConfigDetailsRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`, Update: `16.0`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `14.0`, Update: `28.0`},
 	}
 	DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsExecutorShapeConfigDetailsRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`, Update: `16.0`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `14.0`, Update: `28.0`},
 	}
 	DatasciencePipelineStepDetailsStepInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"cpu_baseline":  acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`, Update: `BASELINE_1_2`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `14.0`, Update: `28.0`},
 	}
 
 	// shape_configuration_details supported and tested but currently not supported by ml_jobs
@@ -344,6 +341,10 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "14"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.ocpus", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "log_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_configuration_details.0.enable_auto_log_creation", "false"),
@@ -362,6 +363,10 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_configuration_details.0.maximum_runtime_in_minutes", "10"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "14"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.ocpus", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.destination_directory_name", "oss"),
@@ -406,6 +411,10 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "14"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.ocpus", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "log_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_configuration_details.0.enable_auto_log_creation", "false"),
@@ -424,7 +433,10 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_configuration_details.0.maximum_runtime_in_minutes", "10"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "14"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.ocpus", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepName"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "CUSTOM_SCRIPT"),
@@ -457,7 +469,11 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.block_storage_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_2"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "28"),
+				resource.TestCheckResourceAttr(resourceName, "infrastructure_configuration_details.0.shape_config_details.0.ocpus", "4"),
 				resource.TestCheckResourceAttrSet(resourceName, "infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "log_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_configuration_details.0.enable_auto_log_creation", "false"),
@@ -476,8 +492,20 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_configuration_details.0.maximum_runtime_in_minutes", "10"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_2"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "28"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.ocpus", "4"),
+				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepName"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.0.bucket", "storage-mount-test"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.0.destination_directory_name", "oss1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.0.destination_path", "/mnt"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.0.namespace", "idtlxnfdweil"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.0.prefix", "prod"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_storage_mount_configuration_details_list.0.storage_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "CUSTOM_SCRIPT"),
 				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.destination_directory_name", "oss1"),
@@ -539,7 +567,11 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.0.block_storage_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "28"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "infrastructure_configuration_details.0.shape_config_details.0.ocpus", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_configuration_details.0.enable_auto_log_creation", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_configuration_details.0.enable_logging", "true"),
@@ -554,8 +586,18 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_configuration_details.0.maximum_runtime_in_minutes", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.cpu_baseline", "BASELINE_1_2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "28"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.ocpus", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_name", "stepName"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.0.bucket", "storage-mount-test"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.0.destination_directory_name", "oss1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.0.destination_path", "/mnt"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.0.namespace", "idtlxnfdweil"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.0.prefix", "prod"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_storage_mount_configuration_details_list.0.storage_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_type", "CUSTOM_SCRIPT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_mount_configuration_details_list.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_mount_configuration_details_list.0.storage_type", "OBJECT_STORAGE"),
@@ -596,10 +638,10 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_container_configuration_details.0.image_signature_id", ""),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "1"),
 				// For flex shape only
-				//resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "1.0"),
-				//resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.ocpus", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.memory_in_gbs", "14"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.0.ocpus", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepNameContainer"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "CONTAINER"),

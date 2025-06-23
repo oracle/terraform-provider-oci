@@ -58,6 +58,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			driver_shape_config_details {
 
 				#Optional
+				cpu_baseline = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_cpu_baseline
 				memory_in_gbs = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_memory_in_gbs
 				ocpus = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_ocpus
 			}
@@ -65,6 +66,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			executor_shape_config_details {
 
 				#Optional
+				cpu_baseline = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_cpu_baseline
 				memory_in_gbs = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_memory_in_gbs
 				ocpus = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_ocpus
 			}
@@ -79,6 +81,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			shape_config_details {
 
 				#Optional
+				cpu_baseline = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_cpu_baseline
 				memory_in_gbs = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_memory_in_gbs
 				ocpus = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_ocpus
 			}
@@ -123,6 +126,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 		shape_config_details {
 
 			#Optional
+			cpu_baseline = var.pipeline_infrastructure_configuration_details_shape_config_details_cpu_baseline
 			memory_in_gbs = var.pipeline_infrastructure_configuration_details_shape_config_details_memory_in_gbs
 			ocpus = var.pipeline_infrastructure_configuration_details_shape_config_details_ocpus
 		}
@@ -169,6 +173,7 @@ The following arguments are supported:
 * `infrastructure_configuration_details` - (Optional) (Updatable) The infrastructure configuration details of a pipeline or a step.
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance. 
 	* `shape_config_details` - (Optional) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - (Optional) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 		* `ocpus` - (Optional) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape_name` - (Required) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
@@ -201,10 +206,12 @@ The following arguments are supported:
 		* `configuration` - (Applicable when step_type=DATAFLOW) (Updatable) The Spark configuration passed to the running process.
 		* `driver_shape` - (Applicable when step_type=DATAFLOW) (Updatable) The VM shape for the driver.
 		* `driver_shape_config_details` - (Applicable when step_type=DATAFLOW) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `cpu_baseline` - (Applicable when step_type=DATAFLOW) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `executor_shape` - (Applicable when step_type=DATAFLOW) (Updatable) The VM shape for the executors.
 		* `executor_shape_config_details` - (Applicable when step_type=DATAFLOW) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `cpu_baseline` - (Applicable when step_type=DATAFLOW) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `logs_bucket_uri` - (Applicable when step_type=DATAFLOW) (Updatable) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
@@ -213,6 +220,7 @@ The following arguments are supported:
 	* `step_infrastructure_configuration_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The size of the block storage volume to attach to the instance. 
 		* `shape_config_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `cpu_baseline` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `shape_name` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
@@ -261,6 +269,7 @@ The following attributes are exported:
 * `infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
 	* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 		* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
@@ -294,10 +303,12 @@ The following attributes are exported:
 		* `configuration` - The Spark configuration passed to the running process.
 		* `driver_shape` - The VM shape for the driver.
 		* `driver_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `executor_shape` - The VM shape for the executors.
 		* `executor_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
@@ -306,6 +317,7 @@ The following attributes are exported:
 	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
 		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.

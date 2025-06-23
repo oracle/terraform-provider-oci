@@ -55,6 +55,7 @@ The following attributes are exported:
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The shape used to launch the job run instances.

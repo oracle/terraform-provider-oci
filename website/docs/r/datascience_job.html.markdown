@@ -37,6 +37,7 @@ resource "oci_datascience_job" "test_job" {
 		job_shape_config_details {
 
 			#Optional
+			cpu_baseline = var.job_job_infrastructure_configuration_details_job_shape_config_details_cpu_baseline
 			memory_in_gbs = var.job_job_infrastructure_configuration_details_job_shape_config_details_memory_in_gbs
 			ocpus = var.job_job_infrastructure_configuration_details_job_shape_config_details_ocpus
 		}
@@ -110,6 +111,7 @@ The following arguments are supported:
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - (Required) (Updatable) The infrastructure type used for job run.
 	* `job_shape_config_details` - (Optional) (Updatable) Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The total number of OCPUs available to the job run instance. 
 	* `shape_name` - (Required) (Updatable) The shape used to launch the job run instances.
@@ -164,6 +166,7 @@ The following attributes are exported:
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The shape used to launch the job run instances.
