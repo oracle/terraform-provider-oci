@@ -176,6 +176,9 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     configuration = "DISABLED"
     port = "443"
   }
+
+  #Optional
+  security_attributes = {"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {

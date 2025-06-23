@@ -114,6 +114,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		#Optional
 		certificate_id = oci_apigateway_certificate.test_certificate.id
 	}
+	security_attributes = var.mysql_db_system_security_attributes
 	source {
 		#Required
 		source_type = var.mysql_db_system_source_source_type
@@ -238,6 +239,7 @@ The following arguments are supported:
 * `secure_connections` - (Optional) (Updatable) Secure connection configuration details. 
 	* `certificate_generation_type` - (Required) (Updatable) Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - (Optional) (Updatable) The OCID of the certificate to use.
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape_name` - (Required) (Updatable) The name of the shape. The shape determines the resources allocated
 	* CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `source` - (Optional) Parameters detailing how to provision the initial data of the system. 
@@ -435,6 +437,7 @@ The following attributes are exported:
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - The OCID of the certificate to use.
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape_name` - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes) operation. 
 * `source` - Parameters detailing how to provision the initial data of the DB System. 
 	* `backup_id` - The OCID of the backup to be used as the source for the new DB System. 

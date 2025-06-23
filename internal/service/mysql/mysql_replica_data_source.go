@@ -145,6 +145,8 @@ func (s *MysqlReplicaDataSourceCrud) SetData() error {
 		s.D.Set("secure_connections", nil)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
