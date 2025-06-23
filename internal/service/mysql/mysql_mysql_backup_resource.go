@@ -597,6 +597,11 @@ func MysqlMysqlBackupResource() *schema.Resource {
 								},
 							},
 						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"shape_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1413,6 +1418,8 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map
 	if obj.SecureConnections != nil {
 		result["secure_connections"] = []interface{}{SecureConnectionDetailsToMap(obj.SecureConnections)}
 	}
+
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.ShapeName != nil {
 		result["shape_name"] = string(*obj.ShapeName)

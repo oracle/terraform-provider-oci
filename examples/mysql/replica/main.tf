@@ -117,6 +117,9 @@ resource "oci_mysql_replica" "test_replica" {
     #mysql_version      = "8.1.0"
     nsg_ids            = [oci_core_network_security_group.test_network_security_group.id]
     shape_name         = "MySQL.VM.Standard.E3.4.64GB"
+
+    # Optional
+    security_attributes = {"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}
   }
 }
 
