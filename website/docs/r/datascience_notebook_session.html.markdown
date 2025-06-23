@@ -33,6 +33,7 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 		notebook_session_shape_config_details {
 
 			#Optional
+			cpu_baseline = var.notebook_session_notebook_session_config_details_notebook_session_shape_config_details_cpu_baseline
 			memory_in_gbs = var.notebook_session_notebook_session_config_details_notebook_session_shape_config_details_memory_in_gbs
 			ocpus = var.notebook_session_notebook_session_config_details_notebook_session_shape_config_details_ocpus
 		}
@@ -49,6 +50,7 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 		notebook_session_shape_config_details {
 
 			#Optional
+			cpu_baseline = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_cpu_baseline
 			memory_in_gbs = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_memory_in_gbs
 			ocpus = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_ocpus
 		}
@@ -94,6 +96,7 @@ The following arguments are supported:
 * `notebook_session_config_details` - (Optional) Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - (Optional) A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
 	* `notebook_session_shape_config_details` - (Optional) Details for the notebook session shape configuration.
+		* `cpu_baseline` - (Optional) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - (Optional) The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - (Optional) The total number of OCPUs available to the notebook session instance. 
 	* `private_endpoint_id` - (Optional) The OCID of a Data Science private endpoint. 
@@ -102,6 +105,7 @@ The following arguments are supported:
 * `notebook_session_configuration_details` - (Optional) (Updatable) Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - (Optional) (Updatable) A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
 	* `notebook_session_shape_config_details` - (Optional) (Updatable) Details for the notebook session shape configuration.
+		* `cpu_baseline` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the notebook session instance. 
 	* `private_endpoint_id` - (Optional) (Updatable) The OCID of a Data Science private endpoint. 
@@ -141,6 +145,7 @@ The following attributes are exported:
 * `notebook_session_config_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
 	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
@@ -149,6 +154,7 @@ The following attributes are exported:
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
 	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
