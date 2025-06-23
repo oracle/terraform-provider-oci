@@ -61,6 +61,7 @@ The following attributes are exported:
 * `node_count` - The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
 * `node_memory_in_gbs` - The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
+* `oci_cache_config_set_id` - The ID of the corresponding Oracle Cloud Infrastructure Cache Config Set for the cluster.
 * `primary_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's primary node.
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's replica nodes.
