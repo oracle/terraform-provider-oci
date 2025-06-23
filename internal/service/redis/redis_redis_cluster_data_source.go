@@ -102,6 +102,10 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
+	if s.Res.OciCacheConfigSetId != nil {
+		s.D.Set("oci_cache_config_set_id", *s.Res.OciCacheConfigSetId)
+	}
+
 	if s.Res.PrimaryEndpointIpAddress != nil {
 		s.D.Set("primary_endpoint_ip_address", *s.Res.PrimaryEndpointIpAddress)
 	}
