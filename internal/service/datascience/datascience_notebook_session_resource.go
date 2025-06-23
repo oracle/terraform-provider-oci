@@ -93,6 +93,12 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"cpu_baseline": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"memory_in_gbs": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -162,6 +168,11 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"cpu_baseline": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"memory_in_gbs": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -935,6 +946,10 @@ func NotebookSessionRuntimeConfigDetailsToMap(obj *oci_datascience.NotebookSessi
 func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionShapeConfigDetails(fieldKeyFormat string) (oci_datascience.NotebookSessionShapeConfigDetails, error) {
 	result := oci_datascience.NotebookSessionShapeConfigDetails{}
 
+	if cpuBaseline, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpu_baseline")); ok {
+		result.CpuBaseline = oci_datascience.NotebookSessionShapeConfigDetailsCpuBaselineEnum(cpuBaseline.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -950,6 +965,8 @@ func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionShapeConfig
 
 func NotebookSessionShapeConfigDetailsToMap(obj *oci_datascience.NotebookSessionShapeConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["cpu_baseline"] = string(obj.CpuBaseline)
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
