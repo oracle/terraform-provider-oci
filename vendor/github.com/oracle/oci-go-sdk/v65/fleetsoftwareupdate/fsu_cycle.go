@@ -176,6 +176,10 @@ func (m *fsucycle) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := PatchFsuCycle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "UPGRADE":
+		mm := UpgradeFsuCycle{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for FsuCycle: %s.", m.Type)
 		return *m, nil

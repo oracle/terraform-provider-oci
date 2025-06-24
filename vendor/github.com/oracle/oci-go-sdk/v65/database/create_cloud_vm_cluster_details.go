@@ -27,14 +27,15 @@ type CreateCloudVmClusterDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the cloud VM cluster.
 	BackupSubnetId *string `mandatory:"true" json:"backupSubnetId"`
 
-	// The number of CPU cores to enable for a cloud VM cluster. Valid values depend on the specified shape:
-	// - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
-	// - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
-	// - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
-	// - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
-	// - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
-	// - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
-	// - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
+	// The number of ECPUs (X11M and higher) or number of OCPUs (X10M and earlier) to enable for the VM cluster.
+	//
+	//  - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
+	//  - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
+	//  - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
+	//  - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
+	//  - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
+	//  - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
+	//  - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
 	// The user-friendly name for the cloud VM cluster. The name does not need to be unique.
