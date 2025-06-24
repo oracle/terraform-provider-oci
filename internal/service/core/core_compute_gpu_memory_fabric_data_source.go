@@ -5,6 +5,8 @@ package core
 
 import (
 	"context"
+	"encoding/json"
+	"log"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -67,7 +69,11 @@ func (s *CoreComputeGpuMemoryFabricDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	s.D.Set("additional_data", s.Res.AdditionalData)
+	s.D.Set("additional_data", flattenAdditionalData(s.Res.AdditionalData))
+
+	if s.Res.AvailableHostCount != nil {
+		s.D.Set("available_host_count", strconv.FormatInt(*s.Res.AvailableHostCount, 10))
+	}
 
 	s.D.Set("compute_gpu_memory_fabric_id", *s.Res.Id)
 
@@ -118,4 +124,24 @@ func (s *CoreComputeGpuMemoryFabricDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func flattenAdditionalData(input map[string]interface{}) map[string]interface{} {
+	flatMap := make(map[string]interface{})
+
+	for k, v := range input {
+		if strVal, ok := v.(string); ok {
+			flatMap[k] = strVal
+		} else {
+			jsonStrVal, err := json.Marshal(v)
+			if err != nil {
+				log.Printf("[ERROR] Failed to marshal additional_data[%q]: %v", k, err)
+				flatMap[k] = "" // Optional fallback
+			} else {
+				flatMap[k] = string(jsonStrVal)
+			}
+		}
+	}
+
+	return flatMap
 }
