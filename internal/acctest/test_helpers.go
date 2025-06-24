@@ -725,40 +725,62 @@ func CommonTestVariables() string {
 }
 
 func BaseDBCommonTestVariables() string {
-	return `
-	variable "tenancy_ocid" {
-		default = "` + getEnvSettingWithBlankDefaultVar("tenancy_ocid") + `"
-	}
+	return fmt.Sprintf(`
+variable "tenancy_ocid" {
+default = "%s"
+}
 
-	variable "ssh_public_key" {
-		default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
-	}
+variable "compartment_ocid" {
+default = "%s"
+}
 
-	variable "region" {
-		default = "` + getEnvSettingWithBlankDefaultVar("region") + `"
-	}
-	
-	variable "compartment_ocid" {
-		default = "` + getEnvSettingWithBlankDefaultVar("compartment_ocid") + `"
-	}
+variable "compartment_id" {
+default = "%s"
+}
 
-	variable "compartment_id" {
-		default = "` + getEnvSettingWithBlankDefaultVar("compartment_ocid") + `"
-	}
+variable "region" {
+default = "%s"
+}
 
-	variable "kms_key_id" {
-		default = "` + getEnvSettingWithBlankDefaultVar("kms_key_id") + `"
-	}
-	
-	variable "kms_key_version_id" {
-		default = "` + getEnvSettingWithBlankDefaultVar("kms_key_version_id") + `"
-	}
+variable "ssh_public_key" {
+default = "%s"
+}
 
-	variable "vault_id" {
-		default = "` + getEnvSettingWithBlankDefaultVar("vault_id") + `"
-	}
+variable "kms_key_id" {
+default = "%s"
+}
 
-	`
+variable "kms_key_version_id" {
+default = "%s"
+}
+
+variable "vault_id" {
+default = "%s"
+}
+
+variable "ssl_secret_id" {
+default = "%s"
+}
+
+variable "admin_password" {
+default = "%s"
+}
+
+variable "tag_namespace_name" {
+default = "%s"
+}`,
+		getEnvSettingWithBlankDefaultVar("tenancy_ocid"),
+		getEnvSettingWithBlankDefaultVar("compartment_ocid"),
+		getEnvSettingWithBlankDefaultVar("compartment_ocid"),
+		getEnvSettingWithBlankDefaultVar("region"),
+		getEnvSettingWithBlankDefaultVar("ssh_public_key"),
+		getEnvSettingWithBlankDefaultVar("kms_key_id"),
+		getEnvSettingWithBlankDefaultVar("kms_key_version_id"),
+		getEnvSettingWithBlankDefaultVar("vault_id"),
+		getEnvSettingWithDefaultVar("ssl_secret_id", "test_secret_id"),
+		getEnvSettingWithBlankDefaultVar("admin_password"),
+		getEnvSettingWithDefaultVar("tag_namespace_name", "tfTagNamespace"),
+	)
 }
 
 func BaseDBProviderTestConfig() string {
