@@ -5,6 +5,7 @@ package capacity_management
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_capacity_management "github.com/oracle/oci-go-sdk/v65/capacitymanagement"
 
