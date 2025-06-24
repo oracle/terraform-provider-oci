@@ -65,6 +65,10 @@ func CoreComputeGpuMemoryFabricResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"available_host_count": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"compute_hpc_island_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -286,7 +290,11 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) Update() error {
 }
 
 func (s *CoreComputeGpuMemoryFabricResourceCrud) SetData() error {
-	s.D.Set("additional_data", s.Res.AdditionalData)
+	s.D.Set("additional_data", flattenAdditionalData(s.Res.AdditionalData))
+
+	if s.Res.AvailableHostCount != nil {
+		s.D.Set("available_host_count", strconv.FormatInt(*s.Res.AvailableHostCount, 10))
+	}
 
 	s.D.Set("compute_gpu_memory_fabric_id", *s.Res.Id)
 
@@ -342,6 +350,10 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) SetData() error {
 func ComputeGpuMemoryFabricSummaryToMap(obj oci_core.ComputeGpuMemoryFabricSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AvailableHostCount != nil {
+		result["available_host_count"] = strconv.FormatInt(*obj.AvailableHostCount, 10)
+	}
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
@@ -369,6 +381,10 @@ func ComputeGpuMemoryFabricSummaryToMap(obj oci_core.ComputeGpuMemoryFabricSumma
 	result["fabric_health"] = string(obj.FabricHealth)
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.HealthyHostCount != nil {
+		result["healthy_host_count"] = strconv.FormatInt(*obj.HealthyHostCount, 10)
+	}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
