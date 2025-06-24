@@ -1,3 +1,17 @@
+## 7.7.0 (Unreleased)
+
+### Added
+- Support for BYoIPv6 support on LBaaS (API ONLY Release)
+- Log Analytics EntityTypes CRUD operations support
+- Demand Signal and Internal Demand signal tests - DEXREQ-7202
+- Support for AWS_S3 in database provision
+- Support for Exadata Fleet Update 23ai upgrade fleet support (GI/DB for ExaCS and ExaCC)
+- Support for CMEK for Oracle NoSQL Hosted Environments
+- Support for Integrate native Redis Service authentication with OCI IAM/Identity
+### Bug Fix
+- Updated Schema to include vpc password
+- Fix the nsgIds not working in create DataFlow SQLEndpoint request
+
 ## 7.6.0 (June 18, 2025)
 
 ### Added
