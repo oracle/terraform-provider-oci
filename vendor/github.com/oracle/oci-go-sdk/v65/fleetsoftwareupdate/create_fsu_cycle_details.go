@@ -102,6 +102,10 @@ func (m *createfsucycledetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := CreatePatchFsuCycle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "UPGRADE":
+		mm := CreateUpgradeFsuCycle{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CreateFsuCycleDetails: %s.", m.Type)
 		return *m, nil

@@ -19,15 +19,18 @@ type CycleTypesEnum string
 
 // Set of constants representing the allowable values for CycleTypesEnum
 const (
-	CycleTypesPatch CycleTypesEnum = "PATCH"
+	CycleTypesPatch   CycleTypesEnum = "PATCH"
+	CycleTypesUpgrade CycleTypesEnum = "UPGRADE"
 )
 
 var mappingCycleTypesEnum = map[string]CycleTypesEnum{
-	"PATCH": CycleTypesPatch,
+	"PATCH":   CycleTypesPatch,
+	"UPGRADE": CycleTypesUpgrade,
 }
 
 var mappingCycleTypesEnumLowerCase = map[string]CycleTypesEnum{
-	"patch": CycleTypesPatch,
+	"patch":   CycleTypesPatch,
+	"upgrade": CycleTypesUpgrade,
 }
 
 // GetCycleTypesEnumValues Enumerates the set of values for CycleTypesEnum
@@ -43,6 +46,7 @@ func GetCycleTypesEnumValues() []CycleTypesEnum {
 func GetCycleTypesEnumStringValues() []string {
 	return []string{
 		"PATCH",
+		"UPGRADE",
 	}
 }
 

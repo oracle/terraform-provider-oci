@@ -220,7 +220,7 @@ func (client NosqlClient) createIndex(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// CreateReplica Add a replica for this table
+// CreateReplica Add a replica for this table. The table's schema must be frozen prior to this operation.
 //
 // # See also
 //
@@ -628,6 +628,68 @@ func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetConfiguration Retrieves the current service-level configuration.  The
+// service may of the standard MULTI_TENANCY type, or of the
+// HOSTED environment type.  In the latter case, information about the
+// current state of the environment's global encryption key is
+// included in the response.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
+// A default retry strategy applies to this operation GetConfiguration()
+func (client NosqlClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConfigurationResponse")
+	}
+	return
+}
+
+// getConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client NosqlClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Configuration/GetConfiguration"
+		err = common.PostProcessServiceError(err, "Nosql", "GetConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &configuration{})
 	return response, err
 }
 
@@ -1377,6 +1439,123 @@ func (client NosqlClient) summarizeStatement(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/QueryResultCollection/SummarizeStatement"
 		err = common.PostProcessServiceError(err, "Nosql", "SummarizeStatement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnassignKmsKey Removes the global encryption key, if such exists, from a
+// Hosted Environment, reverting to Oracle-managed encryption.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/UnassignKmsKey.go.html to see an example of how to use UnassignKmsKey API.
+func (client NosqlClient) UnassignKmsKey(ctx context.Context, request UnassignKmsKeyRequest) (response UnassignKmsKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.unassignKmsKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnassignKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnassignKmsKeyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnassignKmsKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnassignKmsKeyResponse")
+	}
+	return
+}
+
+// unassignKmsKey implements the OCIOperation interface (enables retrying operations)
+func (client NosqlClient) unassignKmsKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configuration/actions/unassignkmskey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnassignKmsKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Configuration/UnassignKmsKey"
+		err = common.PostProcessServiceError(err, "Nosql", "UnassignKmsKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateConfiguration Updates the service-level configuration.  The discriminator value
+// `UpdateConfigurationDetails.environment` must match the service's
+// environment type.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
+func (client NosqlClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateConfigurationResponse")
+	}
+	return
+}
+
+// updateConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client NosqlClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Configuration/UpdateConfiguration"
+		err = common.PostProcessServiceError(err, "Nosql", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
 

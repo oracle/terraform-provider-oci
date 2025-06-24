@@ -28,7 +28,7 @@ type CreateVmClusterDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 	ExadataInfrastructureId *string `mandatory:"true" json:"exadataInfrastructureId"`
 
-	// The number of CPU cores to enable for the VM cluster.
+	// The number of ECPUs (X11M and higher) or number of OCPUs (X10M and earlier) to enable for the VM cluster.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
 	// The public key portion of one or more key pairs used for SSH access to the VM cluster.
