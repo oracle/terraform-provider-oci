@@ -453,6 +453,17 @@ var (
 		"encryption_key_location_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseEncryptionKeyLocationDetailsRepresentation},
 	})
 
+	DatabaseDatabaseZdlraRepresenation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseZdlraDatabaseRepresentation},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_hsm_db_home.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	databaseZdlraDatabaseRepresentation = acctest.RepresentationCopyWithNewProperties(databaseDatabaseNoHsmRepresentation2, map[string]interface{}{
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseZdlraDbBackupConfigRepresentation},
+	})
+
 	databaseDatabaseNoHsmRepresentation2 = map[string]interface{}{
 		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myHsmDb2`},
@@ -501,7 +512,14 @@ var (
 	}
 
 	DatabaseDatabaseDatabaseDbBackupConfigDbrsBackupDestinationDetailsRepresentation = map[string]interface{}{
-		"type": acctest.Representation{RepType: acctest.Optional, Create: `AWS`, Update: `OBJECT_STORE`},
+		"type": acctest.Representation{RepType: acctest.Optional, Create: `AWS_S3`, Update: `OBJECT_STORE`},
+	}
+
+	DbBackupConfigZdlraBackupDestinationDetailsRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Optional, Create: `RECOVERY_APPLIANCE`},
+		"id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_zdlra_backup_destination.id}`},
+		"vpc_user":     acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"vpc_password": acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
 	}
 
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
@@ -531,6 +549,11 @@ var (
 	databaseDatabaseDbBackupConfigBackupDestinationDetailsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
+	}
+
+	databaseZdlraDbBackupConfigRepresentation = map[string]interface{}{
+		"auto_backup_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DbBackupConfigZdlraBackupDestinationDetailsRepresentation},
 	}
 
 	dbHomeDatabaseDbrsRepresentation = acctest.RepresentationCopyWithNewProperties(dbHomeDatabaseRepresentationSourceNone, map[string]interface{}{
@@ -870,7 +893,7 @@ func TestDatabaseDatabaseResource_update(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "false"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_IMMEDIATELY"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "AWS"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "AWS_S3"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
@@ -1143,6 +1166,66 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 }
 
 // issue-routing-tag: database/default
+func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
+	httpreplay.SetScenario("TestExaccDatabaseBackupDestination_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	dbHomeResourceName := "oci_database_db_home.test_hsm_db_home"
+	databaseResourceName := "oci_database_database.test_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExaccHsmDbHomeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeNoHsmRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraRepresenation), "database", "database", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		// verify create database with ZDLRA backup config
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraRepresenation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb2"),
+				resource.TestCheckResourceAttrSet(databaseResourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(databaseResourceName, "source", "NONE"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+				resource.TestCheckResourceAttrSet(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
+
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config + DatabaseRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"database",
+				"db_version",
+				"kms_key_migration",
+				"kms_key_rotation",
+				"kms_key_version_id",
+				"key_store_id",
+				"data_guard_group",
+				"source",
+			},
+			ResourceName: databaseResourceName,
+		},
+	})
+}
+
 func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestExaccHsmDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

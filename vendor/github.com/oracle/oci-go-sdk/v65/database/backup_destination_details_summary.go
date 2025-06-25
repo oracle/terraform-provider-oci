@@ -83,6 +83,7 @@ const (
 	BackupDestinationDetailsSummaryTypeObjectStore       BackupDestinationDetailsSummaryTypeEnum = "OBJECT_STORE"
 	BackupDestinationDetailsSummaryTypeLocal             BackupDestinationDetailsSummaryTypeEnum = "LOCAL"
 	BackupDestinationDetailsSummaryTypeDbrs              BackupDestinationDetailsSummaryTypeEnum = "DBRS"
+	BackupDestinationDetailsSummaryTypeAwsS3             BackupDestinationDetailsSummaryTypeEnum = "AWS_S3"
 )
 
 var mappingBackupDestinationDetailsSummaryTypeEnum = map[string]BackupDestinationDetailsSummaryTypeEnum{
@@ -91,6 +92,7 @@ var mappingBackupDestinationDetailsSummaryTypeEnum = map[string]BackupDestinatio
 	"OBJECT_STORE":       BackupDestinationDetailsSummaryTypeObjectStore,
 	"LOCAL":              BackupDestinationDetailsSummaryTypeLocal,
 	"DBRS":               BackupDestinationDetailsSummaryTypeDbrs,
+	"AWS_S3":             BackupDestinationDetailsSummaryTypeAwsS3,
 }
 
 var mappingBackupDestinationDetailsSummaryTypeEnumLowerCase = map[string]BackupDestinationDetailsSummaryTypeEnum{
@@ -99,6 +101,7 @@ var mappingBackupDestinationDetailsSummaryTypeEnumLowerCase = map[string]BackupD
 	"object_store":       BackupDestinationDetailsSummaryTypeObjectStore,
 	"local":              BackupDestinationDetailsSummaryTypeLocal,
 	"dbrs":               BackupDestinationDetailsSummaryTypeDbrs,
+	"aws_s3":             BackupDestinationDetailsSummaryTypeAwsS3,
 }
 
 // GetBackupDestinationDetailsSummaryTypeEnumValues Enumerates the set of values for BackupDestinationDetailsSummaryTypeEnum
@@ -118,6 +121,7 @@ func GetBackupDestinationDetailsSummaryTypeEnumStringValues() []string {
 		"OBJECT_STORE",
 		"LOCAL",
 		"DBRS",
+		"AWS_S3",
 	}
 }
 

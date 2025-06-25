@@ -64,6 +64,11 @@ type CreateLoadBalancerDetails struct {
 	// Example: "ipMode":"IPV6"
 	IpMode CreateLoadBalancerDetailsIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
 
+	// Applies to IPV6 LB creation only.
+	// Used to disambiguate which subnet prefix should be used to create an IPv6 LB.
+	// Example: "2002::1234:abcd:ffff:c0a8:101/64"
+	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
+
 	// Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
 	// If "true", the load balancer will attach a unique request id header to every request
 	// passed through from the load balancer to load balancer backends. This same request id

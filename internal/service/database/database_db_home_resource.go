@@ -166,6 +166,15 @@ func DatabaseDbHomeResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"vpc_user": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+												"vpc_password": {
+													Type:      schema.TypeString,
+													Optional:  true,
+													Sensitive: true,
+												},
 
 												// Computed
 											},
@@ -1083,6 +1092,16 @@ func (s *DatabaseDbHomeResourceCrud) mapToBackupDestinationDetails(fieldKeyForma
 		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
 	}
 
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
+		tmp := vpcPassword.(string)
+		result.VpcPassword = &tmp
+	}
+
+	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
+		tmp := vpcUser.(string)
+		result.VpcUser = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1824,7 +1843,7 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 	}
 
 	if obj.DbBackupConfig != nil {
-		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+		result["db_backup_config"] = []interface{}{s.DatabaseBackupConfigToMap(obj.DbBackupConfig)}
 	}
 
 	if obj.DbName != nil {
@@ -1879,6 +1898,78 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		if obj.EncryptionKeyLocationDetails != nil {
 			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&obj.EncryptionKeyLocationDetails, hsmPassword.(string))}
 		}
+	}
+
+	return result
+}
+
+func (s *DatabaseDbHomeResourceCrud) DatabaseBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AutoBackupEnabled != nil {
+		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
+	}
+
+	if obj.AutoBackupWindow != "" {
+		result["auto_backup_window"] = string(obj.AutoBackupWindow)
+	}
+
+	result["auto_full_backup_day"] = string(obj.AutoFullBackupDay)
+
+	if obj.AutoFullBackupWindow != "" {
+		result["auto_full_backup_window"] = string(obj.AutoFullBackupWindow)
+	}
+
+	result["backup_deletion_policy"] = string(obj.BackupDeletionPolicy)
+
+	backupDestinationDetails := []interface{}{}
+	for _, item := range obj.BackupDestinationDetails {
+		backupDestinationDetails = append(backupDestinationDetails, s.BackupDestinationDetailsToMap(item))
+	}
+	result["backup_destination_details"] = backupDestinationDetails
+
+	if obj.RecoveryWindowInDays != nil {
+		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	if obj.RunImmediateFullBackup != nil {
+		result["run_immediate_full_backup"] = bool(*obj.RunImmediateFullBackup)
+	}
+
+	return result
+}
+
+func (s *DatabaseDbHomeResourceCrud) BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DbrsPolicyId != nil {
+		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InternetProxy != nil {
+		result["internet_proxy"] = string(*obj.InternetProxy)
+	}
+
+	if obj.IsRemote != nil {
+		result["is_remote"] = bool(*obj.IsRemote)
+	}
+
+	if obj.RemoteRegion != nil {
+		result["remote_region"] = string(*obj.RemoteRegion)
+	}
+
+	result["type"] = string(obj.Type)
+
+	if vpcPassword, ok := s.D.GetOkExists("database.0.db_backup_config.0.backup_destination_details.0.vpc_password"); ok && vpcPassword != nil {
+		result["vpc_password"] = vpcPassword.(string)
+	}
+
+	if obj.VpcUser != nil {
+		result["vpc_user"] = string(*obj.VpcUser)
 	}
 
 	return result

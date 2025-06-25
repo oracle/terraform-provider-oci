@@ -10,7 +10,7 @@ description: |-
 # oci_nosql_table_replica
 This resource provides the Table Replica resource in Oracle Cloud Infrastructure NoSQL Database service.
 
-Add a replica for this table
+Add a replica for this table. The table's schema must be frozen prior to this operation.
 
 ## Example Usage
 
@@ -39,7 +39,7 @@ The following arguments are supported:
 
 
 ** IMPORTANT **
-Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+Any change to a property that is not identified as "Updateable" will force the destruction and recreation of the resource with the new property values.
 
 ## Attributes Reference
 

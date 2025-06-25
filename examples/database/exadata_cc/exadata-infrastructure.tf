@@ -20,9 +20,11 @@ variable "compartment_ocid" {
 }
 
 variable "ssh_public_key" {
+ default = "ssh-rsa sampelekey"
 }
 
 provider "oci" {
+#   version = "7.4.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

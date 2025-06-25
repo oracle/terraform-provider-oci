@@ -153,6 +153,15 @@ func DataflowSqlEndpointResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 
 						// Computed
 					},
@@ -990,6 +999,13 @@ func SqlEndpointNetworkConfigurationToMap(obj *oci_dataflow.SqlEndpointNetworkCo
 		if v.VcnId != nil {
 			result["vcn_id"] = string(*v.VcnId)
 		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		result["nsg_ids"] = nsgIds
+
 	default:
 		log.Printf("[WARN] Received 'network_type' of unknown type %v", *obj)
 		return nil

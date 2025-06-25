@@ -25,6 +25,7 @@ type ReservedIp struct {
 	// field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
 	// Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 	// Example: "ocid1.publicip.oc1.phx.unique_ID"
+	// IPV6 example: "ocid1.ipv6.oc1.phx.unique_ID"
 	Id *string `mandatory:"false" json:"id"`
 }
 
