@@ -73,6 +73,7 @@ The following attributes are exported:
 
             Example: "ocid1.publicip.oc1.phx.unique_ID" 
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead.
+
 * `is_delete_protection_enabled` - Whether or not the load balancer has delete protection enabled.
 
 	If "true", the loadbalancer will be protected against deletion if configured to accept traffic.

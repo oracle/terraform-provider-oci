@@ -10,6 +10,7 @@ import (
 
 func init() {
 	exportNosqlIndexHints.GetIdFn = getNosqlIndexId
+	exportNosqlConfigurationHints.GetIdFn = getNosqlConfigurationId
 	exportNosqlIndexHints.ProcessDiscoveredResourcesFn = processNosqlIndex
 	tf_export.RegisterCompartmentGraphs("nosql", nosqlResourceGraph)
 }
@@ -33,6 +34,14 @@ func getNosqlIndexId(resource *tf_export.OCIResource) (string, error) {
 	}
 	tableNameOrId := resource.Parent.Id
 	return GetIndexCompositeId(indexName, tableNameOrId), nil
+}
+
+func getNosqlConfigurationId(resource *tf_export.OCIResource) (string, error) {
+	compartmentId, ok := resource.SourceAttributes["compartment_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find compartment for Nosql Configuration")
+	}
+	return GetConfigurationCompositeId(compartmentId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -63,9 +72,16 @@ var exportNosqlTableReplicaHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "table_replica",
 }
 
+var exportNosqlConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_nosql_configuration",
+	DatasourceClass:      "oci_nosql_configuration",
+	ResourceAbbreviation: "configuration",
+}
+
 var nosqlResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportNosqlTableHints},
+		{TerraformResourceHints: exportNosqlConfigurationHints},
 	},
 	"oci_nosql_table": {
 		{

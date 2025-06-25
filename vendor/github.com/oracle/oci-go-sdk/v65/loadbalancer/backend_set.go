@@ -42,8 +42,9 @@ type BackendSet struct {
 
 	// The maximum number of simultaneous connections the load balancer can make to any backend
 	// in the backend set unless the backend has its own maxConnections setting. If this is not
-	// set then the number of simultaneous connections the load balancer can make to any backend
-	// in the backend set unless the backend has its own maxConnections setting is unlimited.
+	// set or set to 0 then the number of simultaneous connections the load balancer can make
+	// to any backend in the backend set unless the backend has its own maxConnections setting
+	// is unlimited.
 	// Example: `300`
 	BackendMaxConnections *int `mandatory:"false" json:"backendMaxConnections"`
 

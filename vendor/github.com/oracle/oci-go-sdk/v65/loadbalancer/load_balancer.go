@@ -138,6 +138,12 @@ type LoadBalancer struct {
 	RuleSets map[string]RuleSet `mandatory:"false" json:"ruleSets"`
 
 	RoutingPolicies map[string]RoutingPolicy `mandatory:"false" json:"routingPolicies"`
+
+	// Whether the load balancer has an IPv4 or IPv6 IP address.
+	//   If "IPV4", the service assigns an IPv4 address and the load balancer supports IPv4 traffic.
+	//   If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
+	//   Example: "ipMode":"IPV6"
+	IpMode LoadBalancerIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
 }
 
 func (m LoadBalancer) String() string {
@@ -153,6 +159,9 @@ func (m LoadBalancer) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLoadBalancerLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingLoadBalancerIpModeEnum(string(m.IpMode)); !ok && m.IpMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetLoadBalancerIpModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -210,5 +219,47 @@ func GetLoadBalancerLifecycleStateEnumStringValues() []string {
 // GetMappingLoadBalancerLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingLoadBalancerLifecycleStateEnum(val string) (LoadBalancerLifecycleStateEnum, bool) {
 	enum, ok := mappingLoadBalancerLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// LoadBalancerIpModeEnum Enum with underlying type: string
+type LoadBalancerIpModeEnum string
+
+// Set of constants representing the allowable values for LoadBalancerIpModeEnum
+const (
+	LoadBalancerIpModeIpv4 LoadBalancerIpModeEnum = "IPV4"
+	LoadBalancerIpModeIpv6 LoadBalancerIpModeEnum = "IPV6"
+)
+
+var mappingLoadBalancerIpModeEnum = map[string]LoadBalancerIpModeEnum{
+	"IPV4": LoadBalancerIpModeIpv4,
+	"IPV6": LoadBalancerIpModeIpv6,
+}
+
+var mappingLoadBalancerIpModeEnumLowerCase = map[string]LoadBalancerIpModeEnum{
+	"ipv4": LoadBalancerIpModeIpv4,
+	"ipv6": LoadBalancerIpModeIpv6,
+}
+
+// GetLoadBalancerIpModeEnumValues Enumerates the set of values for LoadBalancerIpModeEnum
+func GetLoadBalancerIpModeEnumValues() []LoadBalancerIpModeEnum {
+	values := make([]LoadBalancerIpModeEnum, 0)
+	for _, v := range mappingLoadBalancerIpModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetLoadBalancerIpModeEnumStringValues Enumerates the set of values in String for LoadBalancerIpModeEnum
+func GetLoadBalancerIpModeEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV6",
+	}
+}
+
+// GetMappingLoadBalancerIpModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingLoadBalancerIpModeEnum(val string) (LoadBalancerIpModeEnum, bool) {
+	enum, ok := mappingLoadBalancerIpModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
