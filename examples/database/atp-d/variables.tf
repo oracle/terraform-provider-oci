@@ -52,3 +52,7 @@ variable "cloud_exadata_infrastructure_compute_count" {
 variable "cloud_exadata_infrastructure_storage_count" {
   default = "3"
 }
+
+variable "tenant_subscription_id" {
+  default = null
+}

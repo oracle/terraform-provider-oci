@@ -316,6 +316,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["subnet_id"] = *r.SubnetId
 		}
 
+		if r.SubscriptionId != nil {
+			cloudAutonomousVmCluster["subscription_id"] = *r.SubscriptionId
+		}
+
 		if r.TimeCreated != nil {
 			cloudAutonomousVmCluster["time_created"] = r.TimeCreated.String()
 		}
