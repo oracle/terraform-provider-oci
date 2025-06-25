@@ -1,4 +1,4 @@
-## 7.7.0 (Unreleased)
+## 7.7.0 (June 25, 2025)
 
 ### Added
 - Support for BYoIPv6 support on LBaaS (API ONLY Release)
