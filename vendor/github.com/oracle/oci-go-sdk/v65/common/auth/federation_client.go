@@ -404,7 +404,7 @@ func newAuthClient(region common.Region, provider common.KeyProvider, authBasePa
 func (c *x509FederationClient) KeyID() (string, error) {
 	tenancy := c.tenancyID
 	fingerprint := fingerprint(c.leafCertificateRetriever.Certificate())
-	return fmt.Sprintf("%s/fed-x509/%s", tenancy, fingerprint), nil
+	return fmt.Sprintf("%s/fed-x509-sha256/%s", tenancy, fingerprint), nil
 }
 
 // For authClient to sign requests to X509 Federation Endpoint
@@ -533,6 +533,7 @@ type X509FederationDetails struct {
 	PublicKey                string   `mandatory:"true" json:"publicKey,omitempty"`
 	IntermediateCertificates []string `mandatory:"false" json:"intermediateCertificates,omitempty"`
 	Purpose                  string   `mandatory:"true" json:"purpose,omitempty"`
+	FingerprintAlgorithm     string   `mandatory:"false" json:"fingerprintAlgorithm,omitempty"`
 }
 
 type x509FederationResponse struct {
@@ -557,6 +558,7 @@ func (c *x509FederationClient) makeX509FederationRequest() *x509FederationReques
 		PublicKey:                publicKey,
 		IntermediateCertificates: intermediateCertificates,
 		Purpose:                  c.tokenPurpose,
+		FingerprintAlgorithm:     "SHA256",
 	}
 	return &x509FederationRequest{details}
 }
