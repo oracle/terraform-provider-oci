@@ -1,15 +1,14 @@
 resource "oci_generative_ai_agent_data_source" "test_data_source" {
   #Required
   compartment_id                 = var.compartment_ocid
-  knowledge_base_id              = oci_generative_ai_agent_knowledge_base.test_service_managed_knowledge_base.id
+  knowledge_base_id              = var.test_knowledge_base_id
   data_source_config  {
     data_source_config_type      = "OCI_OBJECT_STORAGE"
     object_storage_prefixes {
-      bucket = "oci-docs"
-      namespace = data.oci_objectstorage_namespace.ns.namespace
-      prefix = var.test_data_source_prefix
+      bucket = var.test_bucket
+      namespace = var.test_namespace
+      prefix = var.test_prefix
     }
-    should_enable_multi_modality = var.should_enable_multi_modality
   }
 
   #Optional
@@ -27,14 +26,4 @@ data "oci_generative_ai_agent_data_source" "test_data_source" {
 data "oci_generative_ai_agent_data_sources" "test_data_sources" {
   #Required
   compartment_id                = var.compartment_ocid
-}
-
-data "oci_objectstorage_namespace" "ns" {
-  #Optional
-  compartment_id = var.compartment_ocid
-}
-
-data "oci_objectstorage_bucket" "bucket" {
-  name                         = "oci-docs"
-  namespace                    = data.oci_objectstorage_namespace.ns.namespace
 }

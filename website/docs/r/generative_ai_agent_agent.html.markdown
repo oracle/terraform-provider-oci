@@ -25,12 +25,16 @@ resource "oci_generative_ai_agent_agent" "test_agent" {
 	description = var.agent_description
 	display_name = var.agent_display_name
 	freeform_tags = {"Department"= "Finance"}
-	generation_llm_customization {
+	knowledge_base_ids = var.agent_knowledge_base_ids
+	llm_config {
 
 		#Optional
-		preamble_override = var.agent_generation_llm_customization_preamble_override
+		routing_llm_customization {
+
+			#Optional
+			instruction = var.agent_llm_config_routing_llm_customization_instruction
+		}
 	}
-	knowledge_base_ids = var.agent_knowledge_base_ids
 	welcome_message = var.agent_welcome_message
 }
 ```
@@ -44,9 +48,10 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Description about the agent.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `generation_llm_customization` - (Optional) (Updatable) Configuration to customize LLM. 
-	* `preamble_override` - (Optional) (Updatable) If specified, the default preamble is replaced with provided preamble.
-* `knowledge_base_ids` - (Optional) (Updatable) List of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent.
+* `knowledge_base_ids` - (Optional) (Updatable) List of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent. This field is deprecated and will be removed after March 26 2026.
+* `llm_config` - (Optional) (Updatable) Configuration to Agent LLM. 
+	* `routing_llm_customization` - (Optional) (Updatable) Configuration to customize LLM. 
+		* `instruction` - (Optional) (Updatable) If specified, the default instruction is replaced with provided instruction.
 * `welcome_message` - (Optional) (Updatable) Details about purpose and responsibility of the agent
 
 
@@ -62,11 +67,12 @@ The following attributes are exported:
 * `description` - Description about the agent.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `generation_llm_customization` - Configuration to customize LLM. 
-	* `preamble_override` - If specified, the default preamble is replaced with provided preamble.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent.
-* `knowledge_base_ids` - List of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent.
+* `knowledge_base_ids` - List of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent. This field is deprecated and will be removed after March 26 2026.
 * `lifecycle_details` - A message that describes the current state of the agent in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
+* `llm_config` - Configuration to Agent LLM. 
+	* `routing_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
 * `state` - The current state of the agent.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the agent was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

@@ -12,6 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
@@ -96,6 +97,178 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"guardrail_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"content_moderation_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"input_guardrail_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"output_guardrail_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"personally_identifiable_information_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"input_guardrail_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"output_guardrail_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"prompt_injection_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"input_guardrail_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"human_input_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"should_enable_human_input": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"output_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"output_location": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"bucket": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"output_location_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"OBJECT_STORAGE_PREFIX",
+										}, true),
+									},
+
+									// Optional
+									"prefix": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+						"retention_period_in_minutes": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"session_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -118,6 +291,11 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				},
 			},
 			"should_enable_citation": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"should_enable_multi_language": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -274,6 +452,43 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if guardrailConfig, ok := s.D.GetOkExists("guardrail_config"); ok {
+		if tmpList := guardrailConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "guardrail_config", 0)
+			tmp, err := s.mapToGuardrailConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GuardrailConfig = &tmp
+		}
+	}
+
+	if humanInputConfig, ok := s.D.GetOkExists("human_input_config"); ok {
+		if tmpList := humanInputConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "human_input_config", 0)
+			tmp, err := s.mapToHumanInputConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.HumanInputConfig = &tmp
+		}
+	}
+
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
+	}
+
+	if outputConfig, ok := s.D.GetOkExists("output_config"); ok {
+		if tmpList := outputConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "output_config", 0)
+			tmp, err := s.mapToOutputConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OutputConfig = &tmp
+		}
+	}
+
 	if sessionConfig, ok := s.D.GetOkExists("session_config"); ok {
 		if tmpList := sessionConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_config", 0)
@@ -288,6 +503,11 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) Create() error {
 	if shouldEnableCitation, ok := s.D.GetOkExists("should_enable_citation"); ok {
 		tmp := shouldEnableCitation.(bool)
 		request.ShouldEnableCitation = &tmp
+	}
+
+	if shouldEnableMultiLanguage, ok := s.D.GetOkExists("should_enable_multi_language"); ok {
+		tmp := shouldEnableMultiLanguage.(bool)
+		request.ShouldEnableMultiLanguage = &tmp
 	}
 
 	if shouldEnableSession, ok := s.D.GetOkExists("should_enable_session"); ok {
@@ -508,6 +728,43 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if guardrailConfig, ok := s.D.GetOkExists("guardrail_config"); ok {
+		if tmpList := guardrailConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "guardrail_config", 0)
+			tmp, err := s.mapToGuardrailConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GuardrailConfig = &tmp
+		}
+	}
+
+	if humanInputConfig, ok := s.D.GetOkExists("human_input_config"); ok {
+		if tmpList := humanInputConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "human_input_config", 0)
+			tmp, err := s.mapToHumanInputConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.HumanInputConfig = &tmp
+		}
+	}
+
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
+	}
+
+	if outputConfig, ok := s.D.GetOkExists("output_config"); ok {
+		if tmpList := outputConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "output_config", 0)
+			tmp, err := s.mapToOutputConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OutputConfig = &tmp
+		}
+	}
+
 	if sessionConfig, ok := s.D.GetOkExists("session_config"); ok {
 		if tmpList := sessionConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_config", 0)
@@ -522,6 +779,11 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) Update() error {
 	if shouldEnableCitation, ok := s.D.GetOkExists("should_enable_citation"); ok {
 		tmp := shouldEnableCitation.(bool)
 		request.ShouldEnableCitation = &tmp
+	}
+
+	if shouldEnableMultiLanguage, ok := s.D.GetOkExists("should_enable_multi_language"); ok {
+		tmp := shouldEnableMultiLanguage.(bool)
+		request.ShouldEnableMultiLanguage = &tmp
 	}
 
 	if shouldEnableTrace, ok := s.D.GetOkExists("should_enable_trace"); ok {
@@ -589,8 +851,28 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GuardrailConfig != nil {
+		s.D.Set("guardrail_config", []interface{}{GuardrailConfigToMap(s.Res.GuardrailConfig)})
+	} else {
+		s.D.Set("guardrail_config", nil)
+	}
+
+	if s.Res.HumanInputConfig != nil {
+		s.D.Set("human_input_config", []interface{}{HumanInputConfigToMap(s.Res.HumanInputConfig)})
+	} else {
+		s.D.Set("human_input_config", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	s.D.Set("metadata", s.Res.Metadata)
+
+	if s.Res.OutputConfig != nil {
+		s.D.Set("output_config", []interface{}{OutputConfigToMap(s.Res.OutputConfig)})
+	} else {
+		s.D.Set("output_config", nil)
 	}
 
 	if s.Res.SessionConfig != nil {
@@ -601,6 +883,10 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) SetData() error {
 
 	if s.Res.ShouldEnableCitation != nil {
 		s.D.Set("should_enable_citation", *s.Res.ShouldEnableCitation)
+	}
+
+	if s.Res.ShouldEnableMultiLanguage != nil {
+		s.D.Set("should_enable_multi_language", *s.Res.ShouldEnableMultiLanguage)
 	}
 
 	if s.Res.ShouldEnableSession != nil {
@@ -657,6 +943,14 @@ func AgentEndpointSummaryToMap(obj oci_generative_ai_agent.AgentEndpointSummary)
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.GuardrailConfig != nil {
+		result["guardrail_config"] = []interface{}{GuardrailConfigToMap(obj.GuardrailConfig)}
+	}
+
+	if obj.HumanInputConfig != nil {
+		result["human_input_config"] = []interface{}{HumanInputConfigToMap(obj.HumanInputConfig)}
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -665,12 +959,22 @@ func AgentEndpointSummaryToMap(obj oci_generative_ai_agent.AgentEndpointSummary)
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	result["metadata"] = obj.Metadata
+
+	if obj.OutputConfig != nil {
+		result["output_config"] = []interface{}{OutputConfigToMap(obj.OutputConfig)}
+	}
+
 	if obj.SessionConfig != nil {
 		result["session_config"] = []interface{}{SessionConfigToMap(obj.SessionConfig)}
 	}
 
 	if obj.ShouldEnableCitation != nil {
 		result["should_enable_citation"] = bool(*obj.ShouldEnableCitation)
+	}
+
+	if obj.ShouldEnableMultiLanguage != nil {
+		result["should_enable_multi_language"] = bool(*obj.ShouldEnableMultiLanguage)
 	}
 
 	if obj.ShouldEnableSession != nil {
@@ -724,6 +1028,247 @@ func ContentModerationConfigToMap(obj *oci_generative_ai_agent.ContentModeration
 	if obj.ShouldEnableOnOutput != nil {
 		result["should_enable_on_output"] = bool(*obj.ShouldEnableOnOutput)
 	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToContentModerationGuardrailConfig(fieldKeyFormat string) (oci_generative_ai_agent.ContentModerationGuardrailConfig, error) {
+	result := oci_generative_ai_agent.ContentModerationGuardrailConfig{}
+
+	if inputGuardrailMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "input_guardrail_mode")); ok {
+		result.InputGuardrailMode = oci_generative_ai_agent.GuardrailModeEnum(inputGuardrailMode.(string))
+	}
+
+	if outputGuardrailMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output_guardrail_mode")); ok {
+		result.OutputGuardrailMode = oci_generative_ai_agent.GuardrailModeEnum(outputGuardrailMode.(string))
+	}
+
+	return result, nil
+}
+
+func ContentModerationGuardrailConfigToMap(obj *oci_generative_ai_agent.ContentModerationGuardrailConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["input_guardrail_mode"] = string(obj.InputGuardrailMode)
+
+	result["output_guardrail_mode"] = string(obj.OutputGuardrailMode)
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToGuardrailConfig(fieldKeyFormat string) (oci_generative_ai_agent.GuardrailConfig, error) {
+	result := oci_generative_ai_agent.GuardrailConfig{}
+
+	if contentModerationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content_moderation_config")); ok {
+		if tmpList := contentModerationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "content_moderation_config"), 0)
+			tmp, err := s.mapToContentModerationGuardrailConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert content_moderation_config, encountered error: %v", err)
+			}
+			result.ContentModerationConfig = &tmp
+		}
+	}
+
+	if personallyIdentifiableInformationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "personally_identifiable_information_config")); ok {
+		if tmpList := personallyIdentifiableInformationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "personally_identifiable_information_config"), 0)
+			tmp, err := s.mapToPersonallyIdentifiableInformationGuardrailConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert personally_identifiable_information_config, encountered error: %v", err)
+			}
+			result.PersonallyIdentifiableInformationConfig = &tmp
+		}
+	}
+
+	if promptInjectionConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "prompt_injection_config")); ok {
+		if tmpList := promptInjectionConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "prompt_injection_config"), 0)
+			tmp, err := s.mapToPromptInjectionGuardrailConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert prompt_injection_config, encountered error: %v", err)
+			}
+			result.PromptInjectionConfig = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func GuardrailConfigToMap(obj *oci_generative_ai_agent.GuardrailConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ContentModerationConfig != nil {
+		result["content_moderation_config"] = []interface{}{ContentModerationGuardrailConfigToMap(obj.ContentModerationConfig)}
+	}
+
+	if obj.PersonallyIdentifiableInformationConfig != nil {
+		result["personally_identifiable_information_config"] = []interface{}{PersonallyIdentifiableInformationGuardrailConfigToMap(obj.PersonallyIdentifiableInformationConfig)}
+	}
+
+	if obj.PromptInjectionConfig != nil {
+		result["prompt_injection_config"] = []interface{}{PromptInjectionGuardrailConfigToMap(obj.PromptInjectionConfig)}
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToHumanInputConfig(fieldKeyFormat string) (oci_generative_ai_agent.HumanInputConfig, error) {
+	result := oci_generative_ai_agent.HumanInputConfig{}
+
+	if shouldEnableHumanInput, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_enable_human_input")); ok {
+		tmp := shouldEnableHumanInput.(bool)
+		result.ShouldEnableHumanInput = &tmp
+	}
+
+	return result, nil
+}
+
+func HumanInputConfigToMap(obj *oci_generative_ai_agent.HumanInputConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ShouldEnableHumanInput != nil {
+		result["should_enable_human_input"] = bool(*obj.ShouldEnableHumanInput)
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToOutputConfig(fieldKeyFormat string) (oci_generative_ai_agent.OutputConfig, error) {
+	result := oci_generative_ai_agent.OutputConfig{}
+
+	if outputLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output_location")); ok {
+		if tmpList := outputLocation.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "output_location"), 0)
+			tmp, err := s.mapToOutputLocation(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert output_location, encountered error: %v", err)
+			}
+			result.OutputLocation = tmp
+		}
+	}
+
+	if retentionPeriodInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_period_in_minutes")); ok {
+		tmp := retentionPeriodInMinutes.(int)
+		result.RetentionPeriodInMinutes = &tmp
+	}
+
+	return result, nil
+}
+
+func OutputConfigToMap(obj *oci_generative_ai_agent.OutputConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.OutputLocation != nil {
+		outputLocationArray := []interface{}{}
+		if outputLocationMap := OutputLocationToMap(&obj.OutputLocation); outputLocationMap != nil {
+			outputLocationArray = append(outputLocationArray, outputLocationMap)
+		}
+		result["output_location"] = outputLocationArray
+	}
+
+	if obj.RetentionPeriodInMinutes != nil {
+		result["retention_period_in_minutes"] = int(*obj.RetentionPeriodInMinutes)
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToOutputLocation(fieldKeyFormat string) (oci_generative_ai_agent.OutputLocation, error) {
+	var baseObject oci_generative_ai_agent.OutputLocation
+	//discriminator
+	outputLocationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output_location_type"))
+	var outputLocationType string
+	if ok {
+		outputLocationType = outputLocationTypeRaw.(string)
+	} else {
+		outputLocationType = "OBJECT_STORAGE_PREFIX" // default value
+	}
+	switch strings.ToLower(outputLocationType) {
+	case strings.ToLower("OBJECT_STORAGE_PREFIX"):
+		details := oci_generative_ai_agent.ObjectStoragePrefixOutputLocation{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.BucketName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if prefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "prefix")); ok {
+			tmp := prefix.(string)
+			details.Prefix = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown output_location_type '%v' was specified", outputLocationType)
+	}
+	return baseObject, nil
+}
+
+func OutputLocationToMap(obj *oci_generative_ai_agent.OutputLocation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_generative_ai_agent.ObjectStoragePrefixOutputLocation:
+		result["output_location_type"] = "OBJECT_STORAGE_PREFIX"
+
+		if v.BucketName != nil {
+			result["bucket"] = string(*v.BucketName)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
+		}
+
+		if v.Prefix != nil {
+			result["prefix"] = string(*v.Prefix)
+		}
+	default:
+		log.Printf("[WARN] Received 'output_location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToPersonallyIdentifiableInformationGuardrailConfig(fieldKeyFormat string) (oci_generative_ai_agent.PersonallyIdentifiableInformationGuardrailConfig, error) {
+	result := oci_generative_ai_agent.PersonallyIdentifiableInformationGuardrailConfig{}
+
+	if inputGuardrailMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "input_guardrail_mode")); ok {
+		result.InputGuardrailMode = oci_generative_ai_agent.GuardrailModeEnum(inputGuardrailMode.(string))
+	}
+
+	if outputGuardrailMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output_guardrail_mode")); ok {
+		result.OutputGuardrailMode = oci_generative_ai_agent.GuardrailModeEnum(outputGuardrailMode.(string))
+	}
+
+	return result, nil
+}
+
+func PersonallyIdentifiableInformationGuardrailConfigToMap(obj *oci_generative_ai_agent.PersonallyIdentifiableInformationGuardrailConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["input_guardrail_mode"] = string(obj.InputGuardrailMode)
+
+	result["output_guardrail_mode"] = string(obj.OutputGuardrailMode)
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToPromptInjectionGuardrailConfig(fieldKeyFormat string) (oci_generative_ai_agent.PromptInjectionGuardrailConfig, error) {
+	result := oci_generative_ai_agent.PromptInjectionGuardrailConfig{}
+
+	if inputGuardrailMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "input_guardrail_mode")); ok {
+		result.InputGuardrailMode = oci_generative_ai_agent.GuardrailModeEnum(inputGuardrailMode.(string))
+	}
+
+	return result, nil
+}
+
+func PromptInjectionGuardrailConfigToMap(obj *oci_generative_ai_agent.PromptInjectionGuardrailConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["input_guardrail_mode"] = string(obj.InputGuardrailMode)
 
 	return result
 }

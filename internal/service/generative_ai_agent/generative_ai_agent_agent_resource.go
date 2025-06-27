@@ -25,15 +25,11 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("50m"),
-			Update: tfresource.GetTimeoutDuration("30m"),
-			Delete: tfresource.GetTimeoutDuration("30m"),
-		},
-		Create: createGenerativeAiAgentAgent,
-		Read:   readGenerativeAiAgentAgent,
-		Update: updateGenerativeAiAgentAgent,
-		Delete: deleteGenerativeAiAgentAgent,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createGenerativeAiAgentAgent,
+		Read:     readGenerativeAiAgentAgent,
+		Update:   updateGenerativeAiAgentAgent,
+		Delete:   deleteGenerativeAiAgentAgent,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -65,7 +61,15 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"generation_llm_customization": {
+			"knowledge_base_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"llm_config": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
@@ -76,22 +80,30 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 						// Required
 
 						// Optional
-						"preamble_override": {
-							Type:     schema.TypeString,
+						"routing_llm_customization": {
+							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"instruction": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
 					},
-				},
-			},
-			"knowledge_base_ids": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
 				},
 			},
 			"welcome_message": {
@@ -224,17 +236,6 @@ func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	//if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
-	//	if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
-	//		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
-	//		tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
-	//		if err != nil {
-	//			return err
-	//		}
-	//		request.GenerationLlmCustomization = &tmp
-	//	}
-	//}
-
 	if knowledgeBaseIds, ok := s.D.GetOkExists("knowledge_base_ids"); ok {
 		interfaces := knowledgeBaseIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -245,6 +246,17 @@ func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("knowledge_base_ids") {
 			request.KnowledgeBaseIds = tmp
+		}
+	}
+
+	if llmConfig, ok := s.D.GetOkExists("llm_config"); ok {
+		if tmpList := llmConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "llm_config", 0)
+			tmp, err := s.mapToLlmConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LlmConfig = &tmp
 		}
 	}
 
@@ -450,17 +462,6 @@ func (s *GenerativeAiAgentAgentResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	//if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
-	//	if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
-	//		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
-	//		tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
-	//		if err != nil {
-	//			return err
-	//		}
-	//		request.GenerationLlmCustomization = &tmp
-	//	}
-	//}
-
 	if knowledgeBaseIds, ok := s.D.GetOkExists("knowledge_base_ids"); ok {
 		interfaces := knowledgeBaseIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -471,6 +472,17 @@ func (s *GenerativeAiAgentAgentResourceCrud) Update() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("knowledge_base_ids") {
 			request.KnowledgeBaseIds = tmp
+		}
+	}
+
+	if llmConfig, ok := s.D.GetOkExists("llm_config"); ok {
+		if tmpList := llmConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "llm_config", 0)
+			tmp, err := s.mapToLlmConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LlmConfig = &tmp
 		}
 	}
 
@@ -529,16 +541,16 @@ func (s *GenerativeAiAgentAgentResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	//if s.Res.GenerationLlmCustomization != nil {
-	//	s.D.Set("generation_llm_customization", []interface{}{LlmCustomizationToMap(s.Res.GenerationLlmCustomization)})
-	//} else {
-	//	s.D.Set("generation_llm_customization", nil)
-	//}
-
 	s.D.Set("knowledge_base_ids", s.Res.KnowledgeBaseIds)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LlmConfig != nil {
+		s.D.Set("llm_config", []interface{}{LlmConfigToMap(s.Res.LlmConfig)})
+	} else {
+		s.D.Set("llm_config", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -583,10 +595,6 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 
 	result["freeform_tags"] = obj.FreeformTags
 
-	//if obj.GenerationLlmCustomization != nil {
-	//	result["generation_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.GenerationLlmCustomization)}
-	//}
-
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -595,6 +603,10 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.LlmConfig != nil {
+		result["llm_config"] = []interface{}{LlmConfigToMap(obj.LlmConfig)}
 	}
 
 	result["state"] = string(obj.LifecycleState)
@@ -618,13 +630,40 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 	return result
 }
 
+func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmConfig(fieldKeyFormat string) (oci_generative_ai_agent.LlmConfig, error) {
+	result := oci_generative_ai_agent.LlmConfig{}
+
+	if routingLlmCustomization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "routing_llm_customization")); ok {
+		if tmpList := routingLlmCustomization.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "routing_llm_customization"), 0)
+			tmp, err := s.mapToLlmCustomization(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert routing_llm_customization, encountered error: %v", err)
+			}
+			result.RoutingLlmCustomization = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func LlmConfigToMap(obj *oci_generative_ai_agent.LlmConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.RoutingLlmCustomization != nil {
+		result["routing_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.RoutingLlmCustomization)}
+	}
+
+	return result
+}
+
 func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyFormat string) (oci_generative_ai_agent.LlmCustomization, error) {
 	result := oci_generative_ai_agent.LlmCustomization{}
 
-	/*if preambleOverride, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preamble_override")); ok {
-		tmp := preambleOverride.(string)
-		result.PreambleOverride = &tmp
-	}*/
+	if instruction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instruction")); ok {
+		tmp := instruction.(string)
+		result.Instruction = &tmp
+	}
 
 	return result, nil
 }
@@ -632,9 +671,9 @@ func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyForma
 func LlmCustomizationToMap(obj *oci_generative_ai_agent.LlmCustomization) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	/*if obj.PreambleOverride != nil {
-		result["preamble_override"] = string(*obj.PreambleOverride)
-	}*/
+	if obj.Instruction != nil {
+		result["instruction"] = string(*obj.Instruction)
+	}
 
 	return result
 }

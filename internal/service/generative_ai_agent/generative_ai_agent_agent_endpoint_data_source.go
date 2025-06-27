@@ -94,8 +94,28 @@ func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GuardrailConfig != nil {
+		s.D.Set("guardrail_config", []interface{}{GuardrailConfigToMap(s.Res.GuardrailConfig)})
+	} else {
+		s.D.Set("guardrail_config", nil)
+	}
+
+	if s.Res.HumanInputConfig != nil {
+		s.D.Set("human_input_config", []interface{}{HumanInputConfigToMap(s.Res.HumanInputConfig)})
+	} else {
+		s.D.Set("human_input_config", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	s.D.Set("metadata", s.Res.Metadata)
+
+	if s.Res.OutputConfig != nil {
+		s.D.Set("output_config", []interface{}{OutputConfigToMap(s.Res.OutputConfig)})
+	} else {
+		s.D.Set("output_config", nil)
 	}
 
 	if s.Res.SessionConfig != nil {
@@ -106,6 +126,10 @@ func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) SetData() error {
 
 	if s.Res.ShouldEnableCitation != nil {
 		s.D.Set("should_enable_citation", *s.Res.ShouldEnableCitation)
+	}
+
+	if s.Res.ShouldEnableMultiLanguage != nil {
+		s.D.Set("should_enable_multi_language", *s.Res.ShouldEnableMultiLanguage)
 	}
 
 	if s.Res.ShouldEnableSession != nil {

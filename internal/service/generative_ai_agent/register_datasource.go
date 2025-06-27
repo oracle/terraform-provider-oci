@@ -17,4 +17,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_agent_data_sources", GenerativeAiAgentDataSourcesDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_agent_knowledge_base", GenerativeAiAgentKnowledgeBaseDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_agent_knowledge_bases", GenerativeAiAgentKnowledgeBasesDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_agent_tool", GenerativeAiAgentToolDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_agent_tools", GenerativeAiAgentToolsDataSource())
 }
