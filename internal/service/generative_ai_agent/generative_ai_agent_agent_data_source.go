@@ -90,6 +90,12 @@ func (s *GenerativeAiAgentAgentDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LlmConfig != nil {
+		s.D.Set("llm_config", []interface{}{LlmConfigToMap(s.Res.LlmConfig)})
+	} else {
+		s.D.Set("llm_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

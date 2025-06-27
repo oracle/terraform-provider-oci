@@ -13,44 +13,44 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func GenerativeAiAgentDataSourceDataSource() *schema.Resource {
+func GenerativeAiAgentToolDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
-	fieldMap["data_source_id"] = &schema.Schema{
+	fieldMap["tool_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiAgentDataSourceResource(), fieldMap, readSingularGenerativeAiAgentDataSource)
+	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiAgentToolResource(), fieldMap, readSingularGenerativeAiAgentTool)
 }
 
-func readSingularGenerativeAiAgentDataSource(d *schema.ResourceData, m interface{}) error {
-	sync := &GenerativeAiAgentDataSourceDataSourceCrud{}
+func readSingularGenerativeAiAgentTool(d *schema.ResourceData, m interface{}) error {
+	sync := &GenerativeAiAgentToolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type GenerativeAiAgentDataSourceDataSourceCrud struct {
+type GenerativeAiAgentToolDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_generative_ai_agent.GenerativeAiAgentClient
-	Res    *oci_generative_ai_agent.GetDataSourceResponse
+	Res    *oci_generative_ai_agent.GetToolResponse
 }
 
-func (s *GenerativeAiAgentDataSourceDataSourceCrud) VoidState() {
+func (s *GenerativeAiAgentToolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentDataSourceDataSourceCrud) Get() error {
-	request := oci_generative_ai_agent.GetDataSourceRequest{}
+func (s *GenerativeAiAgentToolDataSourceCrud) Get() error {
+	request := oci_generative_ai_agent.GetToolRequest{}
 
-	if dataSourceId, ok := s.D.GetOkExists("data_source_id"); ok {
-		tmp := dataSourceId.(string)
-		request.DataSourceId = &tmp
+	if toolId, ok := s.D.GetOkExists("tool_id"); ok {
+		tmp := toolId.(string)
+		request.ToolId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.GetDataSource(context.Background(), request)
+	response, err := s.Client.GetTool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -59,25 +59,19 @@ func (s *GenerativeAiAgentDataSourceDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiAgentDataSourceDataSourceCrud) SetData() error {
+func (s *GenerativeAiAgentToolDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	if s.Res.AgentId != nil {
+		s.D.Set("agent_id", *s.Res.AgentId)
 	}
 
-	if s.Res.DataSourceConfig != nil {
-		dataSourceConfigArray := []interface{}{}
-		if dataSourceConfigMap := DataSourceConfigToMap(&s.Res.DataSourceConfig); dataSourceConfigMap != nil {
-			dataSourceConfigArray = append(dataSourceConfigArray, dataSourceConfigMap)
-		}
-		s.D.Set("data_source_config", dataSourceConfigArray)
-	} else {
-		s.D.Set("data_source_config", nil)
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -94,14 +88,6 @@ func (s *GenerativeAiAgentDataSourceDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.KnowledgeBaseId != nil {
-		s.D.Set("knowledge_base_id", *s.Res.KnowledgeBaseId)
-	}
-
-	if s.Res.LifecycleDetails != nil {
-		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
-	}
-
 	s.D.Set("metadata", s.Res.Metadata)
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -116,6 +102,16 @@ func (s *GenerativeAiAgentDataSourceDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.ToolConfig != nil {
+		toolConfigArray := []interface{}{}
+		if toolConfigMap := ToolConfigToMap(&s.Res.ToolConfig); toolConfigMap != nil {
+			toolConfigArray = append(toolConfigArray, toolConfigMap)
+		}
+		s.D.Set("tool_config", toolConfigArray)
+	} else {
+		s.D.Set("tool_config", nil)
 	}
 
 	return nil

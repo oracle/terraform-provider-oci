@@ -40,6 +40,7 @@ resource "oci_generative_ai_agent_data_source" "test_data_source" {
 	description = var.data_source_description
 	display_name = var.data_source_display_name
 	freeform_tags = {"Department"= "Finance"}
+	metadata = var.data_source_metadata
 }
 ```
 
@@ -62,6 +63,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `knowledge_base_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent KnowledgeBase.
+* `metadata` - (Optional) (Updatable) Key-value pairs to allow additional configurations.
 
 
 ** IMPORTANT **
@@ -88,6 +90,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data source.
 * `knowledge_base_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent KnowledgeBase.
 * `lifecycle_details` - A message that describes the current state of the data source in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
+* `metadata` - Key-value pairs to allow additional configurations.
 * `state` - The current state of the data source.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the data source was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
