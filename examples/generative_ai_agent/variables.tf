@@ -53,6 +53,14 @@ variable "test_agent_endpoint_description" {
   default = "test agent endpoint"
 }
 
+variable "test_agent_tool_display_name" {
+  default = "test_agent_tool"
+}
+
+variable "test_agent_tool_description" {
+  default = "test agent tool"
+}
+
 variable "test_knowledge_base_display_name" {
   default = "test_knowledge_base"
 }
@@ -85,4 +93,74 @@ variable "test_freeform_tags" {
   default = {
     "bar-key" = "value"
   }
+}
+
+variable "should_enable_multi_modality"{
+  default = "true"
+}
+
+variable "test_agent_id" {}
+
+variable "test_knowledge_base_id" {}
+
+variable "test_bucket" {}
+
+variable "test_namespace" {}
+
+variable "test_prefix" {}
+
+variable "agent_endpoint_guardrail_config_content_moderation_config_input_guardrail_mode" {
+  default = "DISABLE"
+}
+
+variable "agent_endpoint_guardrail_config_content_moderation_config_output_guardrail_mode" {
+  default = "DISABLE"
+}
+
+variable "agent_endpoint_guardrail_config_personally_identifiable_information_config_input_guardrail_mode" {
+  default = "DISABLE"
+}
+
+variable "agent_endpoint_guardrail_config_personally_identifiable_information_config_output_guardrail_mode" {
+  default = "DISABLE"
+}
+
+variable "agent_endpoint_guardrail_config_prompt_injection_config_input_guardrail_mode" {
+  default = "DISABLE"
+}
+
+variable "agent_endpoint_human_input_config_should_enable_human_input" {
+  default = false
+}
+
+variable "agent_endpoint_metadata" {
+  default = "metadata"
+}
+
+variable "agent_endpoint_output_config_output_location_bucket" {
+  default = "bucket"
+}
+
+variable "agent_endpoint_output_config_output_location_namespace" {
+  default = "namespace"
+}
+
+variable "agent_endpoint_output_config_output_location_output_location_type" {
+  default = "OBJECT_STORAGE_PREFIX"
+}
+
+variable "agent_endpoint_output_config_output_location_prefix" {
+  default = "prefix"
+}
+
+variable "agent_endpoint_output_config_retention_period_in_minutes" {
+  default = 10
+}
+
+variable "agent_endpoint_should_enable_multi_language" {
+  default = false
+}
+
+variable "agent_llm_config_routing_llm_customization_instruction" {
+  default = "instruction"
 }

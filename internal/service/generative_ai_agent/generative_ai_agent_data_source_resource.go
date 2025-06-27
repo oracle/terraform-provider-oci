@@ -121,6 +121,12 @@ func GenerativeAiAgentDataSourceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -260,6 +266,10 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Create() error {
 	if knowledgeBaseId, ok := s.D.GetOkExists("knowledge_base_id"); ok {
 		tmp := knowledgeBaseId.(string)
 		request.KnowledgeBaseId = &tmp
+	}
+
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
@@ -461,6 +471,10 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
 	response, err := s.Client.UpdateDataSource(context.Background(), request)
@@ -528,6 +542,8 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("metadata", s.Res.Metadata)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
