@@ -58,6 +58,35 @@ func DatabaseMigrationJobResource() *schema.Resource {
 			},
 
 			// Computed
+			"collect_traces_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"bucket": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"collect_traces_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"object": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -482,6 +511,12 @@ func (s *DatabaseMigrationJobResourceCrud) Delete() error {
 }
 
 func (s *DatabaseMigrationJobResourceCrud) SetData() error {
+	if s.Res.CollectTracesData != nil {
+		s.D.Set("collect_traces_data", []interface{}{CollectTracesDataToMap(s.Res.CollectTracesData)})
+	} else {
+		s.D.Set("collect_traces_data", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -559,6 +594,26 @@ func (s *DatabaseMigrationJobResourceCrud) SuspendJob() error {
 
 	s.Res = &response.Job
 	return nil
+}
+
+func CollectTracesDataToMap(obj *oci_database_migration.CollectTracesData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	result["collect_traces_state"] = string(obj.CollectTracesState)
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
+	}
+
+	if obj.ObjectName != nil {
+		result["object"] = string(*obj.ObjectName)
+	}
+
+	return result
 }
 
 func JobSummaryToMap(obj oci_database_migration.JobSummary) map[string]interface{} {
