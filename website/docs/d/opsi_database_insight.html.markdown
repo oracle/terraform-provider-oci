@@ -33,13 +33,14 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment identifier of the database
-* `connection_credential_details` - User credential details to connect to the database. 
+* `connection_credential_details` - User credential details to connect to the database.
     * `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-    * `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+    * `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. CREDENTIALS_BY_NAMED_CREDS is supplied by Management Agent service to connect for Macs Managed Cloud Database or Autonomous Database.  
+    * `named_credential_id` - The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
     * `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
     * `role` - database user role.
     * `user_name` - database user name.
-    * `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
+    * `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored
 * `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
     * `host_name` - Name of the listener host that will be used to create the connect string to the database.
     * `hosts` - List of hosts and port for private endpoint accessed database resource.
@@ -49,9 +50,9 @@ The following attributes are exported:
     * `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
     * `service_name` - Database service name used for connection requests.
 * `connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of External Database Connector
-* `credential_details` - User credential details to connect to the database. 
+* `credential_details` - User credential details to connect to the database.
     * `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-    * `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+    * `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. CREDENTIALS_BY_NAMED_CREDS is supplied by Management Agent service to connect for Macs Managed Cloud Database or Autonomous Database.
     * `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
     * `role` - database user role.
     * `user_name` - database user name.
