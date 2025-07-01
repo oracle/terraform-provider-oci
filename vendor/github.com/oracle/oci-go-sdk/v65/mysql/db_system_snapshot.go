@@ -113,6 +113,8 @@ type DbSystemSnapshot struct {
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
+
 	// The region identifier of the region where the DB system exists.
 	// For more information, please see Regions and Availability Domains (https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
 	Region *string `mandatory:"false" json:"region"`

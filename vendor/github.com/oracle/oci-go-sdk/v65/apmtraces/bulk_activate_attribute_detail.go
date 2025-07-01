@@ -25,7 +25,10 @@ type BulkActivateAttributeDetail struct {
 	// Type of the attribute to be activated.
 	AttributeType BulkActivateAttributeDetailAttributeTypeEnum `mandatory:"true" json:"attributeType"`
 
-	// Unit of the attribute to be updated.
+	// Attribute expression if this attribute is an alias
+	AttributeExpression *string `mandatory:"false" json:"attributeExpression"`
+
+	// Unit of the attribute to be updated.  If unit is not specified, it defaults to NONE.
 	Unit BulkActivateAttributeDetailUnitEnum `mandatory:"false" json:"unit,omitempty"`
 
 	// Namespace of the attribute to be activated.  The attributeNameSpace will default to TRACES if it is
@@ -65,16 +68,19 @@ type BulkActivateAttributeDetailAttributeTypeEnum string
 const (
 	BulkActivateAttributeDetailAttributeTypeNumeric BulkActivateAttributeDetailAttributeTypeEnum = "NUMERIC"
 	BulkActivateAttributeDetailAttributeTypeString  BulkActivateAttributeDetailAttributeTypeEnum = "STRING"
+	BulkActivateAttributeDetailAttributeTypeNone    BulkActivateAttributeDetailAttributeTypeEnum = "NONE"
 )
 
 var mappingBulkActivateAttributeDetailAttributeTypeEnum = map[string]BulkActivateAttributeDetailAttributeTypeEnum{
 	"NUMERIC": BulkActivateAttributeDetailAttributeTypeNumeric,
 	"STRING":  BulkActivateAttributeDetailAttributeTypeString,
+	"NONE":    BulkActivateAttributeDetailAttributeTypeNone,
 }
 
 var mappingBulkActivateAttributeDetailAttributeTypeEnumLowerCase = map[string]BulkActivateAttributeDetailAttributeTypeEnum{
 	"numeric": BulkActivateAttributeDetailAttributeTypeNumeric,
 	"string":  BulkActivateAttributeDetailAttributeTypeString,
+	"none":    BulkActivateAttributeDetailAttributeTypeNone,
 }
 
 // GetBulkActivateAttributeDetailAttributeTypeEnumValues Enumerates the set of values for BulkActivateAttributeDetailAttributeTypeEnum
@@ -91,6 +97,7 @@ func GetBulkActivateAttributeDetailAttributeTypeEnumStringValues() []string {
 	return []string{
 		"NUMERIC",
 		"STRING",
+		"NONE",
 	}
 }
 
@@ -169,16 +176,19 @@ type BulkActivateAttributeDetailAttributeNameSpaceEnum string
 const (
 	BulkActivateAttributeDetailAttributeNameSpaceTraces    BulkActivateAttributeDetailAttributeNameSpaceEnum = "TRACES"
 	BulkActivateAttributeDetailAttributeNameSpaceSynthetic BulkActivateAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+	BulkActivateAttributeDetailAttributeNameSpaceLogs      BulkActivateAttributeDetailAttributeNameSpaceEnum = "LOGS"
 )
 
 var mappingBulkActivateAttributeDetailAttributeNameSpaceEnum = map[string]BulkActivateAttributeDetailAttributeNameSpaceEnum{
 	"TRACES":    BulkActivateAttributeDetailAttributeNameSpaceTraces,
 	"SYNTHETIC": BulkActivateAttributeDetailAttributeNameSpaceSynthetic,
+	"LOGS":      BulkActivateAttributeDetailAttributeNameSpaceLogs,
 }
 
 var mappingBulkActivateAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkActivateAttributeDetailAttributeNameSpaceEnum{
 	"traces":    BulkActivateAttributeDetailAttributeNameSpaceTraces,
 	"synthetic": BulkActivateAttributeDetailAttributeNameSpaceSynthetic,
+	"logs":      BulkActivateAttributeDetailAttributeNameSpaceLogs,
 }
 
 // GetBulkActivateAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkActivateAttributeDetailAttributeNameSpaceEnum
@@ -195,6 +205,7 @@ func GetBulkActivateAttributeDetailAttributeNameSpaceEnumStringValues() []string
 	return []string{
 		"TRACES",
 		"SYNTHETIC",
+		"LOGS",
 	}
 }
 

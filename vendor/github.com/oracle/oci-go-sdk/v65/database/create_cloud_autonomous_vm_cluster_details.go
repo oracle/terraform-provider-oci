@@ -90,6 +90,9 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 }
 
 func (m CreateCloudAutonomousVmClusterDetails) String() string {
