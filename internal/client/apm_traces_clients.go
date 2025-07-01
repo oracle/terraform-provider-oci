@@ -10,8 +10,30 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_apm_traces.AttributesClient", &OracleClient{InitClientFn: initApmtracesAttributesClient})
 	RegisterOracleClient("oci_apm_traces.QueryClient", &OracleClient{InitClientFn: initApmtracesQueryClient})
+	RegisterOracleClient("oci_apm_traces.ScheduledQueryClient", &OracleClient{InitClientFn: initApmtracesScheduledQueryClient})
 	RegisterOracleClient("oci_apm_traces.TraceClient", &OracleClient{InitClientFn: initApmtracesTraceClient})
+}
+
+func initApmtracesAttributesClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_apm_traces.NewAttributesClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) AttributesClient() *oci_apm_traces.AttributesClient {
+	return m.GetClient("oci_apm_traces.AttributesClient").(*oci_apm_traces.AttributesClient)
 }
 
 func initApmtracesQueryClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -32,6 +54,26 @@ func initApmtracesQueryClient(configProvider oci_common.ConfigurationProvider, c
 
 func (m *OracleClients) QueryClient() *oci_apm_traces.QueryClient {
 	return m.GetClient("oci_apm_traces.QueryClient").(*oci_apm_traces.QueryClient)
+}
+
+func initApmtracesScheduledQueryClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_apm_traces.NewScheduledQueryClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ScheduledQueryClient() *oci_apm_traces.ScheduledQueryClient {
+	return m.GetClient("oci_apm_traces.ScheduledQueryClient").(*oci_apm_traces.ScheduledQueryClient)
 }
 
 func initApmtracesTraceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
