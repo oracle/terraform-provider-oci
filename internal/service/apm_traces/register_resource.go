@@ -3,5 +3,8 @@
 
 package apm_traces
 
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 func RegisterResource() {
+	tfresource.RegisterResource("oci_apm_traces_scheduled_query", ApmTracesScheduledQueryResource())
 }

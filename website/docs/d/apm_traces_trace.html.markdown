@@ -33,8 +33,8 @@ data "oci_apm_traces_trace" "test_trace" {
 The following arguments are supported:
 
 * `apm_domain_id` - (Required) The APM Domain ID for the intended request. 
-* `time_trace_started_greater_than_or_equal_to` - (Optional) Include traces that have a `minTraceStartTime` equal to or greater than this value. 
-* `time_trace_started_less_than` - (Optional) Include traces that have a `minTraceStartTime` less than this value. 
+* `time_trace_started_greater_than_or_equal_to` - (Optional) Include traces that have a minTraceStartTime equal to or greater than this value. 
+* `time_trace_started_less_than` - (Optional) Include traces that have a minTraceStartTime less than this value. 
 * `trace_key` - (Required) Unique Application Performance Monitoring trace identifier (traceId). 
 * `trace_namespace` - (Optional) Name space from which the trace details need to be retrieved. 
 
@@ -95,7 +95,7 @@ The following attributes are exported:
 		* `tag_value` - Value associated with the tag key. 
 	* `tags_metadata` - Metadata about the tags in the span. 
 		* `tag_type` - Type associated with the tag key. 
-		* `tag_unit` - Unit associated with the tag key. 
+		* `tag_unit` - Unit associated with the tag key.  If unit is not specified, it defaults to NONE. 
 	* `time_ended` - Span end time.  Timestamp when the span was completed. 
 	* `time_started` - Span start time.  Timestamp when the span was started. 
 	* `trace_key` - Unique identifier for the trace. 
