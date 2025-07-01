@@ -17,78 +17,128 @@ Create an Exadata insight resource for an Exadata system in Operations Insights.
 
 ```hcl
 resource "oci_opsi_exadata_insight" "test_exadata_insight" {
-  #Required
-  compartment_id = var.compartment_id
-  enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
-  enterprise_manager_entity_identifier = var.exadata_insight_enterprise_manager_entity_identifier
-  enterprise_manager_identifier = var.exadata_insight_enterprise_manager_identifier
-  entity_source = var.exadata_insight_entity_source
+	#Required
+	compartment_id = var.compartment_id
+	entity_source = var.exadata_insight_entity_source
 
-  #Optional
-  defined_tags = {"foo-namespace.bar-key"= "value"}
-  freeform_tags = {"bar-key"= "value"}
-  is_auto_sync_enabled = var.exadata_insight_is_auto_sync_enabled
-  member_vm_cluster_details {
+	#Optional* `credential_source_name` - (Required) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
+	enterprise_manager_entity_identifier = var.exadata_insight_enterprise_manager_entity_identifier
+	enterprise_manager_identifier = var.exadata_insight_enterprise_manager_identifier
+	exadata_infra_id = oci_opsi_exadata_infra.test_exadata_infra.id
+	freeform_tags = {"bar-key"= "value"}
+	is_auto_sync_enabled = var.exadata_insight_is_auto_sync_enabled
+	member_vm_cluster_details {
 
-    #Optional
-    compartment_id = var.compartment_id
-    dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
-    member_database_details {
+		#Optional
+		compartment_id = var.compartment_id
+		dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+		member_autonomous_details {
 
-      #Optional
-      compartment_id = var.compartment_id
-      connection_credential_details {
-        #Required
-        credential_type = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_credential_details_credential_type
+			#Optional
+			compartment_id = var.compartment_id
+			connection_credential_details {
+				#Required
+				credential_type = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_connection_credential_details_credential_type
 
-        #Optional
-        credential_source_name = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_credential_details_credential_source_name
-        password_secret_id = oci_vault_secret.test_secret.id
-        role = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_credential_details_role
-        user_name = oci_identity_user.test_user.name
-        wallet_secret_id = oci_vault_secret.test_secret.id
-      }
-      connection_details {
+				#Optional
+				credential_source_name = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_connection_credential_details_credential_source_name
+				named_credential_id = oci_database_management_named_credential.test_named_credential.id
+				password_secret_id = oci_vault_secret.test_secret.id
+				role = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_connection_credential_details_role
+				user_name = oci_identity_user.test_user.name
+				wallet_secret_id = oci_vault_secret.test_secret.id
+			}
+			connection_details {
 
-        #Optional
-        host_name = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_host_name
-        hosts {
+				#Optional
+				host_name = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_connection_details_host_name
+				port = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_connection_details_port
+				protocol = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_connection_details_protocol
+				service_name = oci_announcements_service_service.test_service.name
+			}
+			credential_details {
+				#Required
+				credential_type = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_credential_details_credential_type
 
-          #Optional
-          host_ip = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_hosts_host_ip
-          port = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_hosts_port
-        }
-        port = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_port
-        protocol = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_protocol
-        service_name = oci_core_service.test_service.name
-      }
-      credential_details {
-        #Required
-        credential_type = var.exadata_insight_member_vm_cluster_details_member_database_details_credential_details_credential_type
+				#Optional
+				credential_source_name = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_credential_details_credential_source_name
+				named_credential_id = oci_database_management_named_credential.test_named_credential.id
+				password_secret_id = oci_vault_secret.test_secret.id
+				role = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_credential_details_role
+				user_name = oci_identity_user.test_user.name
+				wallet_secret_id = oci_vault_secret.test_secret.id
+			}
+			database_id = oci_database_database.test_database.id
+			database_resource_type = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_database_resource_type
+			defined_tags = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_defined_tags
+			deployment_type = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_deployment_type
+			entity_source = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_entity_source
+			freeform_tags = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_freeform_tags
+			is_advanced_features_enabled = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_is_advanced_features_enabled
+			management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+			opsi_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+			system_tags = var.exadata_insight_member_vm_cluster_details_member_autonomous_details_system_tags
+		}
+		member_database_details {
 
-        #Optional
-        credential_source_name = var.exadata_insight_member_vm_cluster_details_member_database_details_credential_details_credential_source_name
-        password_secret_id = oci_vault_secret.test_secret.id
-        role = var.exadata_insight_member_vm_cluster_details_member_database_details_credential_details_role
-        user_name = oci_identity_user.test_user.name
-        wallet_secret_id = oci_vault_secret.test_secret.id
-      }
-      database_id = oci_database_database.test_database.id
-      database_resource_type = var.exadata_insight_member_vm_cluster_details_member_database_details_database_resource_type
-      dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
-      defined_tags = var.exadata_insight_member_vm_cluster_details_member_database_details_defined_tags
-      deployment_type = var.exadata_insight_member_vm_cluster_details_member_database_details_deployment_type
-      entity_source = var.exadata_insight_member_vm_cluster_details_member_database_details_entity_source
-      freeform_tags = var.exadata_insight_member_vm_cluster_details_member_database_details_freeform_tags
-      management_agent_id = oci_management_agent_management_agent.test_management_agent.id
-      opsi_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
-      service_name = oci_core_service.test_service.name
-      system_tags = var.exadata_insight_member_vm_cluster_details_member_database_details_system_tags
-    }
-    opsi_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
-    vm_cluster_type = var.exadata_insight_member_vm_cluster_details_vm_cluster_type
-    vmcluster_id = oci_opsi_vmcluster.test_vmcluster.id
-  }
+			#Optional
+			compartment_id = var.compartment_id
+			connection_credential_details {
+				#Required
+				credential_type = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_credential_details_credential_type
+
+				#Optional
+				credential_source_name = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_credential_details_credential_source_name
+				named_credential_id = oci_database_management_named_credential.test_named_credential.id
+				password_secret_id = oci_vault_secret.test_secret.id
+				role = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_credential_details_role
+				user_name = oci_identity_user.test_user.name
+				wallet_secret_id = oci_vault_secret.test_secret.id
+			}
+			connection_details {
+
+				#Optional
+				host_name = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_host_name
+				hosts {
+
+					#Optional
+					host_ip = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_hosts_host_ip
+					port = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_hosts_port
+				}
+				port = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_port
+				protocol = var.exadata_insight_member_vm_cluster_details_member_database_details_connection_details_protocol
+				service_name = oci_announcements_service_service.test_service.name
+			}
+			credential_details {
+				#Required
+				credential_type = var.exadata_insight_member_vm_cluster_details_member_database_details_credential_details_credential_type
+
+				#Optional
+				credential_source_name = var.exadata_insight_member_vm_cluster_details_member_database_details_credential_details_credential_source_name
+				named_credential_id = oci_database_management_named_credential.test_named_credential.id
+				password_secret_id = oci_vault_secret.test_secret.id
+				role = var.exadata_insight_member_vm_cluster_details_member_database_details_credential_details_role
+				user_name = oci_identity_user.test_user.name
+				wallet_secret_id = oci_vault_secret.test_secret.id
+			}
+			database_id = oci_database_database.test_database.id
+			database_resource_type = var.exadata_insight_member_vm_cluster_details_member_database_details_database_resource_type
+			dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+			defined_tags = var.exadata_insight_member_vm_cluster_details_member_database_details_defined_tags
+			deployment_type = var.exadata_insight_member_vm_cluster_details_member_database_details_deployment_type
+			entity_source = var.exadata_insight_member_vm_cluster_details_member_database_details_entity_source
+			freeform_tags = var.exadata_insight_member_vm_cluster_details_member_database_details_freeform_tags
+			management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+			opsi_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+			service_name = oci_announcements_service_service.test_service.name
+			system_tags = var.exadata_insight_member_vm_cluster_details_member_database_details_system_tags
+		}
+		opsi_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+		vm_cluster_type = var.exadata_insight_member_vm_cluster_details_vm_cluster_type
+		vmcluster_id = oci_opsi_vmcluster.test_vmcluster.id
+	}
 }
 ```
 
@@ -105,47 +155,82 @@ The following arguments are supported:
 * `exadata_infra_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 * `is_auto_sync_enabled` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_EXADATA) (Updatable) Set to true to enable automatic enablement and disablement of related targets from Enterprise Manager. New resources (e.g. Database Insights) will be placed in the same compartment as the related Exadata Insight.
-* `member_vm_cluster_details` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA)
-    * `compartment_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-    * `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
-    * `member_database_details` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The databases that belong to the VM Cluster
-        * `compartment_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) (Updatable) Compartment Identifier of database
-        * `connection_credential_details` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) User credential details to connect to the database.
-            * `credential_source_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-            * `credential_type` - (Required) Credential type.
-            * `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
-            * `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
-            * `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
-            * `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
-        * `connection_details` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Connection details to connect to the database. HostName, protocol, and port should be specified.
-            * `host_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) Name of the listener host that will be used to create the connect string to the database.
-            * `hosts` - (Required when entity_source=PE_COMANAGED_EXADATA) List of hosts and port for private endpoint accessed database resource.
-                * `host_ip` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Host IP used for connection requests for Cloud DB resource.
-                * `port` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Listener port number used for connection requests for rivate endpoint accessed db resource.
-            * `port` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) Listener port number used for connection requests.
-            * `protocol` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Protocol used for connection requests for private endpoint accssed database resource.
-            * `service_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Database service name used for connection requests.
-        * `credential_details` - (Required when entity_source=PE_COMANAGED_EXADATA) User credential details to connect to the database.
-			* `credential_source_name` - (Required when entity_source=PE_COMANAGED_EXADATA) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+* `member_vm_cluster_details` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) 
+	* `compartment_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	* `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
+	* `member_autonomous_details` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The autonomous databases that belong to the Autonomous VM Cluster
+		* `compartment_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) (Updatable) Compartment Identifier of database
+		* `connection_credential_details` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) User credential details to connect to the database. 
+			* `credential_source_name` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA) Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
 			* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+			* `named_credential_id` - (Applicable when credential_type=CREDENTIALS_BY_NAMED_CREDS) The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
 			* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 			* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
 			* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
-			* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.This is used for TCPS support in BM/VM/ExaCS cases.
-        * `database_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
-        * `database_resource_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Oracle Cloud Infrastructure database resource type
-        * `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
-        * `defined_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
-        * `deployment_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Database Deployment Type (EXACS will be supported in the future)
-        * `entity_source` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Source of the database entity.
-        * `freeform_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
-        * `management_agent_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
-        * `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
-        * `service_name` - (Required when entity_source=PE_COMANAGED_EXADATA) Database service name used for connection requests.
-        * `system_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}`
-    * `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
-    * `vm_cluster_type` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA) Exadata VMCluster type
-    * `vmcluster_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster.
+			* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
+		* `connection_details` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Connection details to connect to the database. HostName, protocol, and port should be specified.
+			* `host_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Name of the listener host that will be used to create the connect string to the database.
+			* `port` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Listener port number used for connection requests.
+			* `protocol` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Protocol used for connection requests.
+			* `service_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Database service name used for connection requests.
+		* `credential_details` - (Applicable when entity_source=PE_COMANAGED_EXADATA) User credential details to connect to the database. 
+			* `credential_source_name` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
+			* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+			* `named_credential_id` - (Applicable when credential_type=CREDENTIALS_BY_NAMED_CREDS) The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
+			* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+			* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
+			* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
+			* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
+		* `database_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+		* `database_resource_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Oracle Cloud Infrastructure database resource type
+		* `defined_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+		* `deployment_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) Database Deployment Type
+		* `entity_source` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Source of the database entity.
+		* `freeform_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+		* `is_advanced_features_enabled` - (Required when entity_source=PE_COMANAGED_EXADATA) Flag is to identify if advanced features for autonomous database is enabled or not
+		* `management_agent_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+		* `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+		* `system_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+	* `member_database_details` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The databases that belong to the VM Cluster
+		* `compartment_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) (Updatable) Compartment Identifier of database
+		* `connection_credential_details` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) User credential details to connect to the database. 
+			* `credential_source_name` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA) Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
+			* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+			* `named_credential_id` - (Applicable when credential_type=CREDENTIALS_BY_NAMED_CREDS) The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
+			* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+			* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
+			* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
+			* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
+		* `connection_details` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Connection details to connect to the database. HostName, protocol, and port should be specified.
+			* `host_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) Name of the listener host that will be used to create the connect string to the database.
+			* `hosts` - (Required when entity_source=PE_COMANAGED_EXADATA) List of hosts and port for private endpoint accessed database resource.
+				* `host_ip` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Host IP used for connection requests for Cloud DB resource.
+				* `port` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Listener port number used for connection requests for rivate endpoint accessed db resource.
+			* `port` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) Listener port number used for connection requests.
+			* `protocol` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Protocol used for connection requests for private endpoint accssed database resource.
+			* `service_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Database service name used for connection requests.
+		* `credential_details` - (Required when entity_source=PE_COMANAGED_EXADATA) User credential details to connect to the database. 
+			* `credential_source_name` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
+			* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+			* `named_credential_id` - (Applicable when credential_type=CREDENTIALS_BY_NAMED_CREDS) The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
+			* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+			* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
+			* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
+			* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
+		* `database_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+		* `database_resource_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Oracle Cloud Infrastructure database resource type
+		* `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
+		* `defined_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+		* `deployment_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Database Deployment Type (EXACS will be supported in the future)
+		* `entity_source` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Source of the database entity.
+		* `freeform_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+		* `management_agent_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+		* `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+		* `service_name` - (Required when entity_source=PE_COMANAGED_EXADATA) Database service name used for connection requests.
+		* `system_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+	* `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	* `vm_cluster_type` - (Applicable when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Exadata VMCluster type
+	* `vmcluster_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster.
 * `status` - (Optional) (Updatable) Status of the resource. Example: "ENABLED", "DISABLED". Resource can be either enabled or disabled by updating the value of status field to either "ENABLED" or "DISABLED"
 
 
