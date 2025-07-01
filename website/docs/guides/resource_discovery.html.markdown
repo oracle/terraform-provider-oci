@@ -133,6 +133,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `apm` - Discovers apm resources within the specified compartment
     * `apm_config` - Discovers apm_config resources within the specified compartment
     * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
+    * `apm_traces` - Discovers apm_traces resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `bastion` - Discovers bastion resources within the specified compartment
@@ -398,6 +399,10 @@ apm_synthetics
 * oci\_apm\_synthetics\_dedicated\_vantage\_point
 * oci\_apm\_synthetics\_on\_premise\_vantage\_point\_worker
 * oci\_apm\_synthetics\_on\_premise\_vantage\_point
+
+apm_traces
+    
+* oci\_apm\_traces\_scheduled\_query
 
 artifacts
 
