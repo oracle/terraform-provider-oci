@@ -24,6 +24,19 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 	entity_source = var.database_insight_entity_source
 
 	#Optional
+	connection_credential_details {
+		#Required
+		credential_type = var.database_insight_connection_credential_details_credential_type
+
+		#Optional
+		credential_source_name = var.database_insight_connection_credential_details_credential_source_name
+		named_credential_id = oci_database_management_named_credential.test_named_credential.id
+		password_secret_id = oci_vault_secret.test_secret.id
+		role = var.database_insight_connection_credential_details_role
+		user_name = oci_identity_user.test_user.name
+		wallet_secret_id = oci_vault_secret.test_secret.id
+	}
+
 	connection_details {
 		#Required
 		protocol = var.database_insight_connection_details_protocol
@@ -40,25 +53,15 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 		port = var.database_insight_connection_details_port
 	}
 	entity_source = var.database_insight_entity_source
-
-	#Optional
-	connection_credential_details {
-		#Required
-		credential_source_name = var.database_insight_connection_credential_details_credential_source_name
-		credential_type = var.database_insight_connection_credential_details_credential_type
-
-		#Optional
-		password_secret_id = oci_vault_secret.test_secret.id
-		role = var.database_insight_connection_credential_details_role
-		user_name = oci_identity_user.test_user.name
-		wallet_secret_id = oci_vault_secret.test_secret.id
-	}
+	
 	credential_details {
 		#Required
 		credential_source_name = var.database_insight_credential_details_credential_source_name
 		credential_type = var.database_insight_credential_details_credential_type
 
 		#Optional
+		credential_source_name = var.database_insight_credential_details_credential_source_name
+		named_credential_id = oci_database_management_named_credential.test_named_credential.id
 		password_secret_id = oci_vault_secret.test_secret.id
 		role = var.database_insight_credential_details_role
 		user_name = oci_identity_user.test_user.name
@@ -85,24 +88,26 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier of database
-* `connection_credential_details` - (Required when entity_source=MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) User credential details to connect to the database.
-	* `credential_source_name` - (Required) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+* `connection_credential_details` - (Required when entity_source=MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) User credential details to connect to the database. 
+	* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+	* `named_credential_id` - (Applicable when credential_type=CREDENTIALS_BY_NAMED_CREDS) The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
 	* `credential_type` - (Required) Credential type.
 	* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
 	* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
 	* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
-* `connection_details` - (Required) Connection details to connect to the database. HostName, protocol, and port should be specified.
-	* `host_name` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Name of the listener host that will be used to create the connect string to the database.
+* `connection_details` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | PE_COMANAGED_DATABASE) Connection details to connect to the database. HostName, protocol, and port should be specified.
+	* `host_name` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Name of the listener host that will be used to create the connect string to the database.
 	* `hosts` - (Required when entity_source=PE_COMANAGED_DATABASE) List of hosts and port for private endpoint accessed database resource.
 		* `host_ip` - (Applicable when entity_source=PE_COMANAGED_DATABASE) Host IP used for connection requests for Cloud DB resource.
 		* `port` - (Applicable when entity_source=PE_COMANAGED_DATABASE) Listener port number used for connection requests for rivate endpoint accessed db resource.
-	* `port` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Listener port number used for connection requests.
-	* `protocol` - (Required) Protocol used for connection requests for private endpoint accssed database resource.
-	* `service_name` - (Required) Database service name used for connection requests.
-* `credential_details` - (Required when entity_source=AUTONOMOUS_DATABASE | PE_COMANAGED_DATABASE) User credential details to connect to the database.
-	* `credential_source_name` - (Required) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-	* `credential_type` - (Required) Credential type.
+	* `port` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Listener port number used for connection requests.
+	* `protocol` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | PE_COMANAGED_DATABASE) Protocol used for connection requests for private endpoint accssed database resource.
+	* `service_name` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | PE_COMANAGED_DATABASE) Database service name used for connection requests.
+* `credential_details` - (Required when entity_source=AUTONOMOUS_DATABASE | PE_COMANAGED_DATABASE) User credential details to connect to the database. 
+	* `credential_source_name` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_DATABASE) Credential source name that had been added in Management Agent wallet. This value is only required when credential set by CREDENTIALS_BY_SOURCE and is optional properties for the others.
+	* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+	* `named_credential_id` - (Applicable when credential_type=CREDENTIALS_BY_NAMED_CREDS) The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in the Management Agent to connect the Autonomous Database.
 	* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
 	* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
@@ -120,11 +125,11 @@ The following arguments are supported:
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 * `is_advanced_features_enabled` - (Required when entity_source=AUTONOMOUS_DATABASE) Flag is to identify if advanced features for autonomous database is enabled or not
-* `management_agent_id` - (Required when entity_source=MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+* `management_agent_id` - (Required when entity_source=MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 * `opsi_private_endpoint_id` - (Applicable when entity_source=AUTONOMOUS_DATABASE | PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 * `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint. This field and opsi_private_endpoint_id are mutually exclusive. If DBM private endpoint ID is provided, a new OPSI private endpoint ID will be created.
 * `service_name` - (Required when entity_source=PE_COMANAGED_DATABASE) Database service name used for connection requests.
-* `system_tags` - (Applicable when entity_source=MACS_MANAGED_CLOUD_DATABASE | PE_COMANAGED_DATABASE) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}`
+* `system_tags` - (Applicable when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | PE_COMANAGED_DATABASE) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `status` - (Optional) (Updatable) Status of the resource. Example: "ENABLED", "DISABLED". Resource can be either enabled or disabled by updating the value of status field to either "ENABLED" or "DISABLED"
 
 ** IMPORTANT **
@@ -135,13 +140,14 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment identifier of the database
-* `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service.
-* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-* `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
-* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
-* `role` - database user role.
-* `user_name` - database user name.
-* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
+* `connection_credential_details` - User credential details to connect to the database. 
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
+	* `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+	* `named_credential_id` - The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
 * `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
 	* `host_name` - Name of the listener host that will be used to create the connect string to the database.
 	* `hosts` - List of hosts and port for private endpoint accessed database resource.
@@ -151,9 +157,10 @@ The following attributes are exported:
 	* `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
 	* `service_name` - Database service name used for connection requests.
 * `connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of External Database Connector
-* `credential_details` - User credential details to connect to the database.
-* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-* `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+* `credential_details` - User credential details to connect to the database. 
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
+	* `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+	* `named_credential_id` - The credential [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) stored in management agent.
 	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - database user role.
 	* `user_name` - database user name.

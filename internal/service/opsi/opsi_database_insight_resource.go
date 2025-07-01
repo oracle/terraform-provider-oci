@@ -10,15 +10,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OpsiDatabaseInsightResource() *schema.Resource {
@@ -42,15 +42,19 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"AUTONOMOUS_DATABASE",
 					"EM_MANAGED_EXTERNAL_DATABASE",
 					"EXTERNAL_MYSQL_DATABASE_SYSTEM",
+					"MACS_MANAGED_AUTONOMOUS_DATABASE",
 					"MACS_MANAGED_CLOUD_DATABASE",
+					"MACS_MANAGED_EXTERNAL_DATABASE",
 					"MDS_MYSQL_DATABASE_SYSTEM",
 					"PE_COMANAGED_DATABASE",
-					"AUTONOMOUS_DATABASE",
 				}, true),
 			},
+
 			// Optional
+			// credential detailf for MACS Managed resource
 			"connection_credential_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -61,19 +65,25 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"credential_type": {
-							Type:     schema.TypeString,
-							Required: true,
-							//ForceNew:         true,
+							Type:             schema.TypeString,
+							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"CREDENTIALS_BY_NAMED_CREDS",
 								"CREDENTIALS_BY_SOURCE",
 								"CREDENTIALS_BY_VAULT",
 							}, true),
 						},
+
 						// Optional
 						"credential_source_name": {
 							Type:     schema.TypeString,
 							Optional: true,
+						},
+						"named_credential_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"password_secret_id": {
 							Type:      schema.TypeString,
@@ -89,6 +99,8 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
+
+						// Computed
 					},
 				},
 			},
@@ -96,10 +108,13 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Computed: true,
 				Optional: true,
+				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
 						// Optional
 						"host_name": {
 							Type:     schema.TypeString,
@@ -110,13 +125,12 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Computed: true,
 							Optional: true,
+							ForceNew: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
 
 									// Optional
-
-									// Computed
 									"host_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -127,6 +141,8 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+
+									// Computed
 								},
 							},
 						},
@@ -145,21 +161,25 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+
+						// Computed
 					},
 				},
 			},
+			// Credential detail for other resources
 			"credential_details": {
 				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
+				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 						"credential_type": {
-							Type:     schema.TypeString,
-							Required: true,
-							//ForceNew:         true,
+							Type:             schema.TypeString,
+							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"CREDENTIALS_BY_IAM",
@@ -172,35 +192,32 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 						"credential_source_name": {
 							Type:     schema.TypeString,
 							Optional: true,
-							//Computed: true,
-							//ForceNew: true,
 						},
-						"password_secret_id": {
+						"named_credential_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							//Computed:  true,
-							//ForceNew:  true,
+						},
+						"password_secret_id": {
+							Type:      schema.TypeString,
+							Optional:  true,
 							Sensitive: true,
 						},
 						"role": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							//ForceNew: true,
 						},
 						"user_name": {
 							Type:     schema.TypeString,
 							Optional: true,
-							//Computed: true,
-							//ForceNew: true,
 						},
 						"wallet_secret_id": {
 							Type:      schema.TypeString,
 							Optional:  true,
 							Sensitive: true,
-							//Computed: true,
-							//ForceNew: true,
 						},
+
+						// Computed
 					},
 				},
 			},
@@ -242,6 +259,7 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 			},
 			"system_tags": {
 				Type:     schema.TypeMap,
+				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
@@ -279,13 +297,10 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				//ForceNew: true,
 			},
 			"management_agent_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				//Computed: true,
-				//ForceNew: true,
 			},
 			"opsi_private_endpoint_id": {
 				Type:     schema.TypeString,
@@ -305,7 +320,6 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
-
 			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -316,8 +330,6 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
-
-			// Computed
 			"database_display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -477,6 +489,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 	}
 
 	// Wait until it finishes
+	// This is our special logic to disable resource first then to be deleted.
 	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
 		oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
@@ -510,7 +523,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OpsiDatabaseInsightResourceCrud) getDatabaseInsightFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -646,9 +659,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Get() error {
 }
 
 func (s *OpsiDatabaseInsightResourceCrud) Update() error {
-
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
-		log.Printf("[DEBUG] Running Update moviing compartment (%s)", compartment)
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
 			err := s.updateCompartment(compartment)
@@ -657,6 +668,8 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 			}
 		}
 	}
+
+	// Special logic to call update api for connection/credential details etc.
 	entitySourceRaw, ok := s.D.GetOkExists("entity_source")
 	var entitySource string
 	if ok {
@@ -689,6 +702,18 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		}
 	}
 
+	if strings.ToLower(entitySource) == strings.ToLower("MACS_MANAGED_AUTONOMOUS_DATABASE") {
+		// For MACS_MANAGED_AUTONOMOUS_DATABASE
+		changeAdbConnRequest := oci_opsi.ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest{}
+		hasChanged := s.populateChangeMacsAdbConnectionDetailsRequest(&changeAdbConnRequest)
+		if hasChanged {
+			err := s.updateMacsAdbConnectionDetails(&changeAdbConnRequest)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	// For AUTONOMOUS_DATABASE
 	if strings.ToLower(entitySource) == strings.ToLower("AUTONOMOUS_DATABASE") {
 		updateAdbFullFeatureRequest := oci_opsi.ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest{}
@@ -714,7 +739,6 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 			}
 		}
 	}
-
 	request := oci_opsi.UpdateDatabaseInsightRequest{}
 	err := s.populateTopLevelPolymorphicUpdateDatabaseInsightRequest(&request)
 	if err != nil {
@@ -729,7 +753,8 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	// Wait until it finishes
+
+	// speical logic to disable resource
 	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
@@ -799,6 +824,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 	}
 
 	return s.Get()
+
 }
 
 func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
@@ -822,6 +848,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 			return disableWorkRequestErr
 		}
 	}
+
 	request := oci_opsi.DeleteDatabaseInsightRequest{}
 
 	tmp := s.D.Id()
@@ -844,6 +871,8 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
 	case oci_opsi.AutonomousDatabaseInsight:
+		s.D.Set("entity_source", "AUTONOMOUS_DATABASE")
+
 		if v.ConnectionDetails != nil {
 			s.D.Set("connection_details", []interface{}{ConnectionDetailsToMap(v.ConnectionDetails)})
 		} else {
@@ -876,8 +905,16 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("database_type", *v.DatabaseType)
 		}
 
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
 		if v.DatabaseResourceType != nil {
 			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.IsAdvancedFeaturesEnabled != nil {
+			s.D.Set("is_advanced_features_enabled", *v.IsAdvancedFeaturesEnabled)
 		}
 
 		if v.OpsiPrivateEndpointId != nil {
@@ -902,8 +939,8 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
-		if v.ProcessorCount != nil {
-			s.D.Set("processor_count", *v.ProcessorCount)
+		if v.OpsiPrivateEndpointId != nil {
+			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -921,7 +958,6 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	case oci_opsi.EmManagedExternalDatabaseInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_DATABASE")
 
@@ -969,6 +1005,10 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
 		}
 
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
@@ -977,10 +1017,6 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 
 		if v.ProcessorCount != nil {
 			s.D.Set("processor_count", *v.ProcessorCount)
-		}
-
-		if v.ExadataInsightId != nil {
-			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -1019,6 +1055,98 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 
 		if v.DatabaseConnectionStatusDetails != nil {
 			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseType != nil {
+			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_opsi.MacsManagedAutonomousDatabaseInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_AUTONOMOUS_DATABASE")
+
+		if v.ConnectionCredentialDetails != nil {
+			connectionCredentialDetailsArray := []interface{}{}
+			if connectionCredentialDetailsMap := CredentialDetailsToMap(&v.ConnectionCredentialDetails); connectionCredentialDetailsMap != nil {
+				connectionCredentialDetailsArray = append(connectionCredentialDetailsArray, connectionCredentialDetailsMap)
+			}
+			s.D.Set("connection_credential_details", connectionCredentialDetailsArray)
+		} else {
+			s.D.Set("connection_credential_details", nil)
+		}
+
+		if v.ConnectionDetails != nil {
+			s.D.Set("connection_details", []interface{}{ConnectionDetailsToMap(v.ConnectionDetails)})
+		} else {
+			s.D.Set("connection_details", nil)
+		}
+
+		if v.DatabaseDisplayName != nil {
+			s.D.Set("database_display_name", *v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.DatabaseResourceType != nil {
+			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.ManagementAgentId != nil {
+			s.D.Set("management_agent_id", *v.ManagementAgentId)
+		}
+
+		if v.ParentId != nil {
+			s.D.Set("parent_id", *v.ParentId)
+		}
+
+		if v.RootId != nil {
+			s.D.Set("root_id", *v.RootId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
 		}
 
 		if v.DatabaseType != nil {
@@ -1113,6 +1241,94 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
 		}
 
+		if v.DatabaseType != nil {
+			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_opsi.MacsManagedExternalDatabaseInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_DATABASE")
+
+		if v.ConnectionCredentialDetails != nil {
+			connectionCredentialDetailsArray := []interface{}{}
+			if connectionCredentialDetailsMap := CredentialDetailsToMap(&v.ConnectionCredentialDetails); connectionCredentialDetailsMap != nil {
+				connectionCredentialDetailsArray = append(connectionCredentialDetailsArray, connectionCredentialDetailsMap)
+			}
+			s.D.Set("connection_credential_details", connectionCredentialDetailsArray)
+		} else {
+			s.D.Set("connection_credential_details", nil)
+		}
+
+		if v.ConnectionDetails != nil {
+			s.D.Set("connection_details", []interface{}{ConnectionDetailsToMap(v.ConnectionDetails)})
+		} else {
+			s.D.Set("connection_details", nil)
+		}
+
+		if v.ConnectorId != nil {
+			s.D.Set("connector_id", *v.ConnectorId)
+		}
+
+		if v.DatabaseDisplayName != nil {
+			s.D.Set("database_display_name", *v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.DatabaseResourceType != nil {
+			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.ManagementAgentId != nil {
+			s.D.Set("management_agent_id", *v.ManagementAgentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
 		if v.DatabaseId != nil {
 			s.D.Set("database_id", *v.DatabaseId)
 		}
@@ -1154,7 +1370,6 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	case oci_opsi.MdsMySqlDatabaseInsight:
 		s.D.Set("entity_source", "MDS_MYSQL_DATABASE_SYSTEM")
 
@@ -1188,6 +1403,10 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 
 		if v.DatabaseConnectionStatusDetails != nil {
 			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
 		}
 
 		if v.DatabaseType != nil {
@@ -1230,6 +1449,12 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 	case oci_opsi.PeComanagedDatabaseInsight:
 		s.D.Set("entity_source", "PE_COMANAGED_DATABASE")
 
+		if v.ConnectionDetails != nil {
+			s.D.Set("connection_details", []interface{}{PeComanagedDatabaseConnectionDetailsToMap(v.ConnectionDetails)})
+		} else {
+			s.D.Set("connection_details", nil)
+		}
+
 		if v.CredentialDetails != nil {
 			credentialDetailsArray := []interface{}{}
 			if credentialDetailsMap := CredentialDetailsToMap(&v.CredentialDetails); credentialDetailsMap != nil {
@@ -1238,15 +1463,6 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("credential_details", credentialDetailsArray)
 		} else {
 			s.D.Set("credential_details", nil)
-		}
-		if v.ConnectionDetails != nil {
-			connectionDetailsArray := []interface{}{}
-			if connectionDetailsMap := PeComanagedDatabaseConnectionDetailsToMap(v.ConnectionDetails); connectionDetailsMap != nil {
-				connectionDetailsArray = append(connectionDetailsArray, connectionDetailsMap)
-			}
-			s.D.Set("connection_details", connectionDetailsArray)
-		} else {
-			s.D.Set("connection_details", nil)
 		}
 
 		if v.DatabaseDisplayName != nil {
@@ -1293,6 +1509,10 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("database_type", *v.DatabaseType)
 		}
 
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
@@ -1301,6 +1521,10 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.OpsiPrivateEndpointId != nil {
+			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
 		}
 
 		if v.ProcessorCount != nil {
@@ -1327,6 +1551,22 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 		return nil
 	}
 	return nil
+}
+
+func (s *OpsiDatabaseInsightResourceCrud) ChangeExternalMysqlDatabaseInsightConnection(updateRequest *oci_opsi.ChangeExternalMysqlDatabaseInsightConnectionRequest) error {
+	idTmp := s.D.Id()
+	updateRequest.DatabaseInsightId = &idTmp
+
+	updateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
+
+	response, err := s.Client.ChangeExternalMysqlDatabaseInsightConnection(context.Background(), *updateRequest)
+	log.Printf("Running Update after change EXTERNAL_MYSQL_DATABASE_SYSTEM")
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OpsiDatabaseInsightResourceCrud) mapToConnectionDetails(fieldKeyFormat string) (oci_opsi.ConnectionDetails, error) {
@@ -1367,8 +1607,6 @@ func ConnectionDetailsToMap(obj *oci_opsi.ConnectionDetails) map[string]interfac
 
 	result["protocol"] = string(obj.Protocol)
 
-	log.Printf("[DEBUG] populate for updating (%s)", result["protocol"])
-
 	if obj.ServiceName != nil {
 		result["service_name"] = string(*obj.ServiceName)
 	}
@@ -1394,6 +1632,17 @@ func (s *OpsiDatabaseInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat 
 			details.CredentialSourceName = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("CREDENTIALS_BY_NAMED_CREDS"):
+		details := oci_opsi.CredentialByNamedCredentials{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
+		}
+		if credentialSourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_source_name")); ok {
+			tmp := credentialSourceName.(string)
+			details.CredentialSourceName = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("CREDENTIALS_BY_SOURCE"):
 		details := oci_opsi.CredentialsBySource{}
 		if credentialSourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_source_name")); ok {
@@ -1405,7 +1654,6 @@ func (s *OpsiDatabaseInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat 
 		details := oci_opsi.CredentialByVault{}
 		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
 			tmp := passwordSecretId.(string)
-			log.Printf("[INFO] In mapToCredentialDetails password secrete id %s", tmp)
 			details.PasswordSecretId = &tmp
 		}
 		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
@@ -1419,6 +1667,10 @@ func (s *OpsiDatabaseInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat 
 			tmp := walletSecretId.(string)
 			details.WalletSecretId = &tmp
 		}
+		if credentialSourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_source_name")); ok {
+			tmp := credentialSourceName.(string)
+			details.CredentialSourceName = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
@@ -1431,6 +1683,12 @@ func CredentialDetailsToMap(obj *oci_opsi.CredentialDetails) map[string]interfac
 	switch v := (*obj).(type) {
 	case oci_opsi.CredentialByIam:
 		result["credential_type"] = "CREDENTIALS_BY_IAM"
+	case oci_opsi.CredentialByNamedCredentials:
+		result["credential_type"] = "CREDENTIALS_BY_NAMED_CREDS"
+
+		if v.NamedCredentialId != nil {
+			result["named_credential_id"] = string(*v.NamedCredentialId)
+		}
 	case oci_opsi.CredentialsBySource:
 		result["credential_type"] = "CREDENTIALS_BY_SOURCE"
 	case oci_opsi.CredentialByVault:
@@ -1439,6 +1697,7 @@ func CredentialDetailsToMap(obj *oci_opsi.CredentialDetails) map[string]interfac
 		if v.PasswordSecretId != nil {
 			result["password_secret_id"] = string(*v.PasswordSecretId)
 		}
+
 		result["role"] = string(v.Role)
 
 		if v.UserName != nil {
@@ -1448,9 +1707,8 @@ func CredentialDetailsToMap(obj *oci_opsi.CredentialDetails) map[string]interfac
 		if v.WalletSecretId != nil {
 			result["wallet_secret_id"] = string(*v.WalletSecretId)
 		}
-
 	default:
-		log.Printf("[WARN] Received 'credential_type' of unknown type %T", v)
+		log.Printf("[WARN] Received 'credential_type' of unknown type %v", *obj)
 		return nil
 	}
 
@@ -1459,63 +1717,9 @@ func CredentialDetailsToMap(obj *oci_opsi.CredentialDetails) map[string]interfac
 
 func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string]interface{} {
 	result := map[string]interface{}{}
-
 	switch v := (obj).(type) {
 	case oci_opsi.AutonomousDatabaseInsightSummary:
 		result["entity_source"] = "AUTONOMOUS_DATABASE"
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
-		}
-
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
-		}
-
-		if v.CompartmentId != nil {
-			result["compartment_id"] = string(*v.CompartmentId)
-		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
-
-		if v.DefinedTags != nil {
-			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
-		}
 
 		if v.DatabaseResourceType != nil {
 			result["database_resource_type"] = string(*v.DatabaseResourceType)
@@ -1524,70 +1728,8 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 		if v.IsAdvancedFeaturesEnabled != nil {
 			result["is_advanced_features_enabled"] = bool(*v.IsAdvancedFeaturesEnabled)
 		}
-
 	case oci_opsi.EmManagedExternalDatabaseInsightSummary:
 		result["entity_source"] = "EM_MANAGED_EXTERNAL_DATABASE"
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
-		}
-
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
-		}
-
-		if v.CompartmentId != nil {
-			result["compartment_id"] = string(*v.CompartmentId)
-		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		if v.ProcessorCount != nil {
-			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
-		}
-
-		if v.DatabaseHostNames != nil {
-			result["database_host_names"] = v.DatabaseHostNames
-		}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
-
-		if v.DefinedTags != nil {
-			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
-		}
 
 		if v.EnterpriseManagerBridgeId != nil {
 			result["enterprise_manager_bridge_id"] = string(*v.EnterpriseManagerBridgeId)
@@ -1616,69 +1758,41 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 		if v.ExadataInsightId != nil {
 			result["exadata_insight_id"] = string(*v.ExadataInsightId)
 		}
+	case oci_opsi.ExternalMysqlDatabaseInsightSummary:
+		result["entity_source"] = "EXTERNAL_MYSQL_DATABASE_SYSTEM"
+
+		if v.AgentId != nil {
+			result["agent_id"] = string(*v.AgentId)
+		}
+
+		if v.DatabaseConnectorId != nil {
+			result["database_connector_id"] = string(*v.DatabaseConnectorId)
+		}
+
+		if v.DatabaseResourceType != nil {
+			result["database_resource_type"] = string(*v.DatabaseResourceType)
+		}
+	case oci_opsi.MacsManagedAutonomousDatabaseInsightSummary:
+		result["entity_source"] = "MACS_MANAGED_AUTONOMOUS_DATABASE"
+
+		if v.DatabaseResourceType != nil {
+			result["database_resource_type"] = string(*v.DatabaseResourceType)
+		}
+		log.Printf("[DEBUG] Running SummaryMap, DatabaseType (%s)", *v.DatabaseType)
+
+		if v.ManagementAgentId != nil {
+			result["management_agent_id"] = string(*v.ManagementAgentId)
+		}
+
+		if v.ParentId != nil {
+			result["parent_id"] = string(*v.ParentId)
+		}
+
+		if v.RootId != nil {
+			result["root_id"] = string(*v.RootId)
+		}
 	case oci_opsi.MacsManagedCloudDatabaseInsightSummary:
 		result["entity_source"] = "MACS_MANAGED_CLOUD_DATABASE"
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
-		}
-
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
-		}
-
-		if v.CompartmentId != nil {
-			result["compartment_id"] = string(*v.CompartmentId)
-		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		if v.ProcessorCount != nil {
-			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
-		}
-
-		if v.DatabaseHostNames != nil {
-			result["database_host_names"] = v.DatabaseHostNames
-		}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
-
-		if v.DefinedTags != nil {
-			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
-		}
 
 		if v.DatabaseResourceType != nil {
 			result["database_resource_type"] = string(*v.DatabaseResourceType)
@@ -1695,214 +1809,47 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 		if v.RootId != nil {
 			result["root_id"] = string(*v.RootId)
 		}
+	case oci_opsi.MacsManagedExternalDatabaseInsightSummary:
+		result["entity_source"] = "MACS_MANAGED_EXTERNAL_DATABASE"
 
-	case oci_opsi.PeComanagedDatabaseInsightSummary:
-		result["entity_source"] = "PE_COMANAGED_DATABASE"
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
+		if v.ConnectorId != nil {
+			result["connector_id"] = string(*v.ConnectorId)
 		}
 
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
+		if v.DatabaseResourceType != nil {
+			result["database_resource_type"] = string(*v.DatabaseResourceType)
 		}
 
-		if v.CompartmentId != nil {
-			result["compartment_id"] = string(*v.CompartmentId)
-		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
-
-		if v.DefinedTags != nil {
-			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		if v.ManagementAgentId != nil {
+			result["management_agent_id"] = string(*v.ManagementAgentId)
 		}
 	case oci_opsi.MdsMySqlDatabaseInsightSummary:
 		result["entity_source"] = "MDS_MYSQL_DATABASE_SYSTEM"
 
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
+		if v.DatabaseResourceType != nil {
+			result["database_resource_type"] = string(*v.DatabaseResourceType)
 		}
-
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
-		}
-
-		if v.CompartmentId != nil {
-			result["compartment_id"] = string(*v.CompartmentId)
-		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.DatabaseHostNames != nil {
-			result["database_host_names"] = v.DatabaseHostNames
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		//if v.ProcessorCount != nil {
-		//	result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
-		//}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
-
-		if v.DefinedTags != nil {
-			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
-		}
-
-		if v.DatabaseConnectionStatusDetails != nil {
-			result["database_connection_status_details"] = string(*v.DatabaseConnectionStatusDetails)
-		}
+	case oci_opsi.PeComanagedDatabaseInsightSummary:
+		result["entity_source"] = "PE_COMANAGED_DATABASE"
 
 		if v.DatabaseResourceType != nil {
 			result["database_resource_type"] = string(*v.DatabaseResourceType)
 		}
 
-	case oci_opsi.ExternalMysqlDatabaseInsightSummary:
-		result["entity_source"] = "EXTERNAL_MYSQL_DATABASE_SYSTEM"
-
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
+		if v.OpsiPrivateEndpointId != nil {
+			result["opsi_private_endpoint_id"] = string(*v.OpsiPrivateEndpointId)
 		}
 
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
+		if v.ParentId != nil {
+			result["parent_id"] = string(*v.ParentId)
 		}
 
-		if v.CompartmentId != nil {
-			result["compartment_id"] = string(*v.CompartmentId)
+		if v.RootId != nil {
+			result["root_id"] = string(*v.RootId)
 		}
-
-		if v.AgentId != nil {
-			result["agent_id"] = string(*v.AgentId)
-		}
-
-		if v.DatabaseConnectorId != nil {
-			result["database_connector_id"] = string(*v.DatabaseConnectorId)
-		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.DatabaseHostNames != nil {
-			result["database_host_names"] = v.DatabaseHostNames
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
-
-		if v.DefinedTags != nil {
-			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
-		}
-
-		if v.DatabaseConnectionStatusDetails != nil {
-			result["database_connection_status_details"] = string(*v.DatabaseConnectionStatusDetails)
-		}
-
-		if v.DatabaseResourceType != nil {
-			result["database_resource_type"] = string(*v.DatabaseResourceType)
-		}
-
 	default:
 		log.Printf("[WARN] Received 'entity_source' of unknown type %v", obj)
+		return nil
 	}
 
 	return result
@@ -1987,6 +1934,12 @@ func PeComanagedDatabaseHostDetailsToMap(obj oci_opsi.PeComanagedDatabaseHostDet
 
 	return result
 }
+
+/*func (s *OpsiDatabaseInsightResourceCrud) mapToobject(fieldKeyFormat string) (oci_opsi.Object, error) {
+	result := oci_opsi.Object{}
+
+	return result, nil
+}*/
 
 func (s *OpsiDatabaseInsightResourceCrud) populateChangePeComanagedDatabaseInsightRequest(updateRequest *oci_opsi.ChangePeComanagedDatabaseInsightRequest) bool {
 	hasChanged := false
@@ -2086,6 +2039,41 @@ func (s *OpsiDatabaseInsightResourceCrud) populateChangeMacsCloudConnectionDetai
 	return hasChanged
 }
 
+func (s *OpsiDatabaseInsightResourceCrud) populateChangeMacsAdbConnectionDetailsRequest(updateRequest *oci_opsi.ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest) bool {
+	hasChanged := false
+	if connectionCredentialDetails, ok := s.D.GetOkExists("connection_credential_details"); ok {
+		if s.D.HasChange("connection_credential_details.0.named_credential_id") {
+			hasChanged = true
+		}
+		if tmpList := connectionCredentialDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_credential_details", 0)
+			tmp, err := s.mapToCredentialDetails(fieldKeyFormat)
+			if err != nil {
+				return false
+			}
+			updateRequest.ConnectionCredentialDetails = tmp
+		}
+	}
+	if connectionDetails, ok := s.D.GetOkExists("connection_details"); ok {
+		if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_details", 0)
+			tmp, err := s.mapToConnectionDetails(fieldKeyFormat)
+			if err != nil {
+				return false
+			}
+			updateRequest.ConnectionDetails = &tmp
+		}
+	}
+	if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
+		if s.D.HasChange("management_agent_id") {
+			hasChanged = true
+		}
+		tmp := managementAgentId.(string)
+		updateRequest.ManagementAgentId = &tmp
+	}
+	return hasChanged
+}
+
 func (s *OpsiDatabaseInsightResourceCrud) populateChangeExternalMysqlDatabaseInsightConnectionRequest(updateRequest *oci_opsi.ChangeExternalMysqlDatabaseInsightConnectionRequest) bool {
 	hasChanged := false
 	if databaseConnectorId, ok := s.D.GetOkExists("database_connector_id"); ok {
@@ -2101,7 +2089,6 @@ func (s *OpsiDatabaseInsightResourceCrud) populateChangeExternalMysqlDatabaseIns
 func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatabaseInsightRequest(request *oci_opsi.CreateDatabaseInsightRequest) error {
 	//discriminator
 	entitySourceRaw, ok := s.D.GetOkExists("entity_source")
-
 	var entitySource string
 	if ok {
 		entitySource = entitySourceRaw.(string)
@@ -2147,10 +2134,16 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			tmp := opsiPrivateEndpointId.(string)
 			details.OpsiPrivateEndpointId = &tmp
 		}
-
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -2162,14 +2155,10 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
-		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
-			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.SystemTags = convertedSystemTags
+		if opsiPrivateEndpointId, ok := s.D.GetOkExists("opsi_private_endpoint_id"); ok {
+			tmp := opsiPrivateEndpointId.(string)
+			details.OpsiPrivateEndpointId = &tmp
 		}
-
 		request.CreateDatabaseInsightDetails = details
 	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
 		details := oci_opsi.CreateEmManagedExternalDatabaseInsightDetails{}
@@ -2225,8 +2214,73 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDatabaseInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_AUTONOMOUS_DATABASE"):
+		details := oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetails{}
+		if connectionCredentialDetails, ok := s.D.GetOkExists("connection_credential_details"); ok {
+			if tmpList := connectionCredentialDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_credential_details", 0)
+				tmp, err := s.mapToCredentialDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ConnectionCredentialDetails = tmp
+			}
+		}
+		if connectionDetails, ok := s.D.GetOkExists("connection_details"); ok {
+			if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_details", 0)
+				tmp, err := s.mapToConnectionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ConnectionDetails = &tmp
+			}
+		}
+		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
+		if databaseResourceType, ok := s.D.GetOkExists("database_resource_type"); ok {
+			tmp := databaseResourceType.(string)
+			details.DatabaseResourceType = &tmp
+		}
+		if deploymentType, ok := s.D.GetOkExists("deployment_type"); ok {
+			details.DeploymentType = oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetailsDeploymentTypeEnum(deploymentType.(string))
+		}
+		if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
+			tmp := managementAgentId.(string)
+			details.ManagementAgentId = &tmp
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
+		}
+		request.CreateDatabaseInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_CLOUD_DATABASE"):
-		log.Printf("[DEBUG] populate MACS Cloud database .... ")
 		details := oci_opsi.CreateMacsManagedCloudDatabaseInsightDetails{}
 		if connectionCredentialDetails, ok := s.D.GetOkExists("connection_credential_details"); ok {
 			if tmpList := connectionCredentialDetails.([]interface{}); len(tmpList) > 0 {
@@ -2285,9 +2339,6 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
 		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
 			if err != nil {
@@ -2306,6 +2357,10 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {
@@ -2319,7 +2374,6 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		request.CreateDatabaseInsightDetails = details
 	case strings.ToLower("PE_COMANAGED_DATABASE"):
 		details := oci_opsi.CreatePeComanagedDatabaseInsightDetails{}
-
 		if connectionDetails, ok := s.D.GetOkExists("connection_details"); ok {
 			if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_details", 0)
@@ -2348,6 +2402,10 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			tmp := databaseResourceType.(string)
 			details.DatabaseResourceType = &tmp
 		}
+		if dbmPrivateEndpointId, ok := s.D.GetOkExists("dbm_private_endpoint_id"); ok {
+			tmp := dbmPrivateEndpointId.(string)
+			details.DbmPrivateEndpointId = &tmp
+		}
 		if deploymentType, ok := s.D.GetOkExists("deployment_type"); ok {
 			details.DeploymentType = oci_opsi.CreatePeComanagedDatabaseInsightDetailsDeploymentTypeEnum(deploymentType.(string))
 		}
@@ -2355,13 +2413,16 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			tmp := opsiPrivateEndpointId.(string)
 			details.OpsiPrivateEndpointId = &tmp
 		}
-		if dbmPrivateEndpointId, ok := s.D.GetOkExists("dbm_private_endpoint_id"); ok {
-			tmp := dbmPrivateEndpointId.(string)
-			details.DbmPrivateEndpointId = &tmp
-		}
 		if serviceName, ok := s.D.GetOkExists("service_name"); ok {
 			tmp := serviceName.(string)
 			details.ServiceName = &tmp
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -2376,13 +2437,6 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
-			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.SystemTags = convertedSystemTags
 		}
 		request.CreateDatabaseInsightDetails = details
 	default:
@@ -2400,10 +2454,9 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 	} else {
 		entitySource = "" // default value
 	}
-	log.Printf("[DEBUG] populate for updating (%s)", entitySourceRaw)
 	switch strings.ToLower(entitySource) {
-	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
-		details := oci_opsi.UpdateEmManagedExternalDatabaseInsightDetails{}
+	case strings.ToLower("AUTONOMOUS_DATABASE"):
+		details := oci_opsi.UpdateAutonomousDatabaseInsightDetails{}
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -2417,8 +2470,8 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDatabaseInsightDetails = details
-	case strings.ToLower("MACS_MANAGED_CLOUD_DATABASE"):
-		details := oci_opsi.UpdateMacsManagedCloudDatabaseInsightDetails{}
+	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
+		details := oci_opsi.UpdateEmManagedExternalDatabaseInsightDetails{}
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -2447,8 +2500,8 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDatabaseInsightDetails = details
-	case strings.ToLower("PE_COMANAGED_DATABASE"):
-		details := oci_opsi.UpdatePeComanagedDatabaseInsightDetails{}
+	case strings.ToLower("MACS_MANAGED_AUTONOMOUS_DATABASE"):
+		details := oci_opsi.UpdateMacsManagedAutonomousDatabaseInsightDetails{}
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -2462,8 +2515,23 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDatabaseInsightDetails = details
-	case strings.ToLower("AUTONOMOUS_DATABASE"):
-		details := oci_opsi.UpdateAutonomousDatabaseInsightDetails{}
+	case strings.ToLower("MACS_MANAGED_CLOUD_DATABASE"):
+		details := oci_opsi.UpdateMacsManagedCloudDatabaseInsightDetails{}
+		tmp := s.D.Id()
+		request.DatabaseInsightId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDatabaseInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_EXTERNAL_DATABASE"):
+		details := oci_opsi.UpdateMacsManagedExternalDatabaseInsightDetails{}
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -2479,6 +2547,21 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 		request.UpdateDatabaseInsightDetails = details
 	case strings.ToLower("MDS_MYSQL_DATABASE_SYSTEM"):
 		details := oci_opsi.UpdateMdsMySqlDatabaseInsight{}
+		tmp := s.D.Id()
+		request.DatabaseInsightId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDatabaseInsightDetails = details
+	case strings.ToLower("PE_COMANAGED_DATABASE"):
+		details := oci_opsi.UpdatePeComanagedDatabaseInsightDetails{}
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -2635,6 +2718,50 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatab
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+
+		request.EnableDatabaseInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_AUTONOMOUS_DATABASE"):
+		details := oci_opsi.EnableMacsManagedAutonomousDatabaseInsightDetails{}
+		if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
+			tmp := managementAgentId.(string)
+			details.ManagementAgentId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+
+		if connectionCredentialDetails, ok := s.D.GetOkExists("connection_credential_details"); ok {
+			if tmpList := connectionCredentialDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_credential_details", 0)
+				tmp, err := s.mapToCredentialDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ConnectionCredentialDetails = tmp
+			}
+		}
+		if connectionDetails, ok := s.D.GetOkExists("connection_details"); ok {
+			if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_details", 0)
+				tmp, err := s.mapToConnectionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ConnectionDetails = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+
 		request.EnableDatabaseInsightDetails = details
 	case strings.ToLower("MDS_MYSQL_DATABASE_SYSTEM"):
 		details := oci_opsi.EnableMdsMySqlDatabaseInsightDetails{}
@@ -2687,27 +2814,23 @@ func (s *OpsiDatabaseInsightResourceCrud) updatePecomanagedDetails(updateRequest
 	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) ChangeExternalMysqlDatabaseInsightConnection(updateRequest *oci_opsi.ChangeExternalMysqlDatabaseInsightConnectionRequest) error {
-	idTmp := s.D.Id()
-	updateRequest.DatabaseInsightId = &idTmp
-
-	updateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
-
-	response, err := s.Client.ChangeExternalMysqlDatabaseInsightConnection(context.Background(), *updateRequest)
-	log.Printf("Running Update after change EXTERNAL_MYSQL_DATABASE_SYSTEM")
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-}
-
 func (s *OpsiDatabaseInsightResourceCrud) updateConnectionDetails(changeConnectionRequest *oci_opsi.ChangeMacsManagedCloudDatabaseInsightConnectionRequest) error {
 	idTmp := s.D.Id()
 	changeConnectionRequest.DatabaseInsightId = &idTmp
 	changeConnectionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 	response, err := s.Client.ChangeMacsManagedCloudDatabaseInsightConnection(context.Background(), *changeConnectionRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *OpsiDatabaseInsightResourceCrud) updateMacsAdbConnectionDetails(changeAdbConnectionRequest *oci_opsi.ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest) error {
+	idTmp := s.D.Id()
+	changeAdbConnectionRequest.DatabaseInsightId = &idTmp
+	changeAdbConnectionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	response, err := s.Client.ChangeMacsManagedAutonomousDatabaseInsightConnection(context.Background(), *changeAdbConnectionRequest)
 	if err != nil {
 		return err
 	}
