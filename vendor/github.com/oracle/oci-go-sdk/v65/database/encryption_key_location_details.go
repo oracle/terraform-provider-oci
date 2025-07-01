@@ -54,6 +54,10 @@ func (m *encryptionkeylocationdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := ExternalHsmEncryptionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AZURE":
+		mm := AzureEncryptionKeyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for EncryptionKeyLocationDetails: %s.", m.ProviderType)
 		return *m, nil
@@ -82,14 +86,17 @@ type EncryptionKeyLocationDetailsProviderTypeEnum string
 // Set of constants representing the allowable values for EncryptionKeyLocationDetailsProviderTypeEnum
 const (
 	EncryptionKeyLocationDetailsProviderTypeExternal EncryptionKeyLocationDetailsProviderTypeEnum = "EXTERNAL"
+	EncryptionKeyLocationDetailsProviderTypeAzure    EncryptionKeyLocationDetailsProviderTypeEnum = "AZURE"
 )
 
 var mappingEncryptionKeyLocationDetailsProviderTypeEnum = map[string]EncryptionKeyLocationDetailsProviderTypeEnum{
 	"EXTERNAL": EncryptionKeyLocationDetailsProviderTypeExternal,
+	"AZURE":    EncryptionKeyLocationDetailsProviderTypeAzure,
 }
 
 var mappingEncryptionKeyLocationDetailsProviderTypeEnumLowerCase = map[string]EncryptionKeyLocationDetailsProviderTypeEnum{
 	"external": EncryptionKeyLocationDetailsProviderTypeExternal,
+	"azure":    EncryptionKeyLocationDetailsProviderTypeAzure,
 }
 
 // GetEncryptionKeyLocationDetailsProviderTypeEnumValues Enumerates the set of values for EncryptionKeyLocationDetailsProviderTypeEnum
@@ -105,6 +112,7 @@ func GetEncryptionKeyLocationDetailsProviderTypeEnumValues() []EncryptionKeyLoca
 func GetEncryptionKeyLocationDetailsProviderTypeEnumStringValues() []string {
 	return []string{
 		"EXTERNAL",
+		"AZURE",
 	}
 }
 

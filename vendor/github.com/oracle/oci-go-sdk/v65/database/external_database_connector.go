@@ -57,6 +57,10 @@ type ExternalDatabaseConnector interface {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	GetSystemTags() map[string]map[string]interface{}
+
 	// Additional information about the current lifecycle state.
 	GetLifecycleDetails() *string
 }
@@ -65,6 +69,7 @@ type externaldatabaseconnector struct {
 	JsonData                        []byte
 	FreeformTags                    map[string]string                           `mandatory:"false" json:"freeformTags"`
 	DefinedTags                     map[string]map[string]interface{}           `mandatory:"false" json:"definedTags"`
+	SystemTags                      map[string]map[string]interface{}           `mandatory:"false" json:"systemTags"`
 	LifecycleDetails                *string                                     `mandatory:"false" json:"lifecycleDetails"`
 	CompartmentId                   *string                                     `mandatory:"true" json:"compartmentId"`
 	DisplayName                     *string                                     `mandatory:"true" json:"displayName"`
@@ -98,6 +103,7 @@ func (m *externaldatabaseconnector) UnmarshalJSON(data []byte) error {
 	m.TimeConnectionStatusLastUpdated = s.Model.TimeConnectionStatusLastUpdated
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.ConnectorType = s.Model.ConnectorType
 
@@ -131,6 +137,11 @@ func (m externaldatabaseconnector) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m externaldatabaseconnector) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m externaldatabaseconnector) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 // GetLifecycleDetails returns LifecycleDetails

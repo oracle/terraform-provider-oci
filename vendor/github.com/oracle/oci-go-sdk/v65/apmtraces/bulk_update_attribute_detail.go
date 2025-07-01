@@ -21,7 +21,7 @@ type BulkUpdateAttributeDetail struct {
 	// Name of the attribute for which notes are to be updated.
 	AttributeName *string `mandatory:"true" json:"attributeName"`
 
-	// Unit of the attribute to be updated.
+	// Unit of the attribute to be updated.  If unit is not specified, it defaults to NONE.
 	Unit BulkUpdateAttributeDetailUnitEnum `mandatory:"false" json:"unit,omitempty"`
 
 	// Namespace of the attribute for which the properties are to be updated.
@@ -119,16 +119,19 @@ type BulkUpdateAttributeDetailAttributeNameSpaceEnum string
 const (
 	BulkUpdateAttributeDetailAttributeNameSpaceTraces    BulkUpdateAttributeDetailAttributeNameSpaceEnum = "TRACES"
 	BulkUpdateAttributeDetailAttributeNameSpaceSynthetic BulkUpdateAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+	BulkUpdateAttributeDetailAttributeNameSpaceLogs      BulkUpdateAttributeDetailAttributeNameSpaceEnum = "LOGS"
 )
 
 var mappingBulkUpdateAttributeDetailAttributeNameSpaceEnum = map[string]BulkUpdateAttributeDetailAttributeNameSpaceEnum{
 	"TRACES":    BulkUpdateAttributeDetailAttributeNameSpaceTraces,
 	"SYNTHETIC": BulkUpdateAttributeDetailAttributeNameSpaceSynthetic,
+	"LOGS":      BulkUpdateAttributeDetailAttributeNameSpaceLogs,
 }
 
 var mappingBulkUpdateAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkUpdateAttributeDetailAttributeNameSpaceEnum{
 	"traces":    BulkUpdateAttributeDetailAttributeNameSpaceTraces,
 	"synthetic": BulkUpdateAttributeDetailAttributeNameSpaceSynthetic,
+	"logs":      BulkUpdateAttributeDetailAttributeNameSpaceLogs,
 }
 
 // GetBulkUpdateAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkUpdateAttributeDetailAttributeNameSpaceEnum
@@ -145,6 +148,7 @@ func GetBulkUpdateAttributeDetailAttributeNameSpaceEnumStringValues() []string {
 	return []string{
 		"TRACES",
 		"SYNTHETIC",
+		"LOGS",
 	}
 }
 

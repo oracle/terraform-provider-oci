@@ -21,7 +21,7 @@ type TagMetadata struct {
 	// Type associated with the tag key.
 	TagType TagMetadataTagTypeEnum `mandatory:"false" json:"tagType,omitempty"`
 
-	// Unit associated with the tag key.
+	// Unit associated with the tag key.  If unit is not specified, it defaults to NONE.
 	TagUnit TagMetadataTagUnitEnum `mandatory:"false" json:"tagUnit,omitempty"`
 }
 

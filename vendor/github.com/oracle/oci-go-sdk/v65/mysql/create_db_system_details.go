@@ -130,6 +130,8 @@ type CreateDbSystemDetails struct {
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
+
 	// The database mode indicating the types of statements that will be allowed to run in the DB system.
 	// This mode will apply only to statements run by user connections. Replicated write statements will continue
 	// to be allowed regardless of the DatabaseMode.
@@ -209,6 +211,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		DatabaseManagement   DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		SecureConnections    *SecureConnectionDetails          `json:"secureConnections"`
+		EncryptData          *EncryptDataDetails               `json:"encryptData"`
 		DatabaseMode         DbSystemDatabaseModeEnum          `json:"databaseMode"`
 		AccessMode           DbSystemAccessModeEnum            `json:"accessMode"`
 		CustomerContacts     []CustomerContact                 `json:"customerContacts"`
@@ -282,6 +285,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DatabaseManagement = model.DatabaseManagement
 
 	m.SecureConnections = model.SecureConnections
+
+	m.EncryptData = model.EncryptData
 
 	m.DatabaseMode = model.DatabaseMode
 

@@ -93,6 +93,8 @@ type BackupSummary struct {
 	TimeCopyCreated *common.SDKTime `mandatory:"false" json:"timeCopyCreated"`
 
 	DbSystemSnapshotSummary *DbSystemSnapshotSummary `mandatory:"false" json:"dbSystemSnapshotSummary"`
+
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
 }
 
 func (m BackupSummary) String() string {

@@ -22,7 +22,7 @@ type AutoActivateToggleStatus struct {
 	Status AutoActivateToggleStatusStatusEnum `mandatory:"true" json:"status"`
 
 	// State of autoactivation in this APM Domain.  If "ON" auto-activate is set to true, if "OFF" auto-activate is set to false.
-	State *string `mandatory:"true" json:"state"`
+	State AutoActivateToggleStatusStateEnum `mandatory:"true" json:"state"`
 
 	// Data key type for which auto-activate needs needs to be turned on or off.
 	DataKey AutoActivateToggleStatusDataKeyEnum `mandatory:"true" json:"dataKey"`
@@ -39,6 +39,9 @@ func (m AutoActivateToggleStatus) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingAutoActivateToggleStatusStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetAutoActivateToggleStatusStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutoActivateToggleStatusStateEnum(string(m.State)); !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetAutoActivateToggleStatusStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingAutoActivateToggleStatusDataKeyEnum(string(m.DataKey)); !ok && m.DataKey != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataKey: %s. Supported values are: %s.", m.DataKey, strings.Join(GetAutoActivateToggleStatusDataKeyEnumStringValues(), ",")))
@@ -85,6 +88,48 @@ func GetAutoActivateToggleStatusStatusEnumStringValues() []string {
 // GetMappingAutoActivateToggleStatusStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutoActivateToggleStatusStatusEnum(val string) (AutoActivateToggleStatusStatusEnum, bool) {
 	enum, ok := mappingAutoActivateToggleStatusStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutoActivateToggleStatusStateEnum Enum with underlying type: string
+type AutoActivateToggleStatusStateEnum string
+
+// Set of constants representing the allowable values for AutoActivateToggleStatusStateEnum
+const (
+	AutoActivateToggleStatusStateOn  AutoActivateToggleStatusStateEnum = "ON"
+	AutoActivateToggleStatusStateOff AutoActivateToggleStatusStateEnum = "OFF"
+)
+
+var mappingAutoActivateToggleStatusStateEnum = map[string]AutoActivateToggleStatusStateEnum{
+	"ON":  AutoActivateToggleStatusStateOn,
+	"OFF": AutoActivateToggleStatusStateOff,
+}
+
+var mappingAutoActivateToggleStatusStateEnumLowerCase = map[string]AutoActivateToggleStatusStateEnum{
+	"on":  AutoActivateToggleStatusStateOn,
+	"off": AutoActivateToggleStatusStateOff,
+}
+
+// GetAutoActivateToggleStatusStateEnumValues Enumerates the set of values for AutoActivateToggleStatusStateEnum
+func GetAutoActivateToggleStatusStateEnumValues() []AutoActivateToggleStatusStateEnum {
+	values := make([]AutoActivateToggleStatusStateEnum, 0)
+	for _, v := range mappingAutoActivateToggleStatusStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutoActivateToggleStatusStateEnumStringValues Enumerates the set of values in String for AutoActivateToggleStatusStateEnum
+func GetAutoActivateToggleStatusStateEnumStringValues() []string {
+	return []string{
+		"ON",
+		"OFF",
+	}
+}
+
+// GetMappingAutoActivateToggleStatusStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutoActivateToggleStatusStateEnum(val string) (AutoActivateToggleStatusStateEnum, bool) {
+	enum, ok := mappingAutoActivateToggleStatusStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

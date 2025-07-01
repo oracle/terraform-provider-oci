@@ -206,6 +206,13 @@ type CloudAutonomousVmClusterSummary struct {
 
 	// The lowest value to which maximum number of ACDs can be scaled down.
 	MaxAcdsLowestScaledValue *int `mandatory:"false" json:"maxAcdsLowestScaledValue"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {
