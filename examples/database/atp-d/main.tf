@@ -55,6 +55,10 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   rotate_key_trigger = "true"
   version_preference = "LATEST_RELEASE_UPDATE"
   is_dst_file_update_enabled = false
+
+  // OKV related
+  key_store_id = oci_database_key_store.test_key_store.id
+  okv_end_point_group_name = "DUMMY_OKV_EPG_GROUP"
 }
 
 resource "oci_database_autonomous_database_software_image" "autonomous_database_software_image" {
@@ -225,4 +229,16 @@ resource "oci_database_autonomous_container_database_dataguard_association" "tes
   peer_cloud_autonomous_vm_cluster_id               = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_standby.id
   peer_autonomous_container_database_display_name   = "StandbyACD"
   peer_autonomous_container_database_compartment_id = var.compartment_ocid
+}
+
+resource "oci_database_key_store" "test_key_store" {
+  compartment_id           = var.compartment_ocid
+  display_name             = "example-key-store"
+  type_details {
+    admin_username = "example-username"
+    connection_ips = ["192.1.1.1"]
+    secret_id      = var.okv_secret
+    type           = "ORACLE_KEY_VAULT"
+    vault_id       = var.kms_vault_ocid
+  }
 }

@@ -66,3 +66,10 @@ variable "tenant_subscription_id" {
 variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
   default = []
 }
+// key Store related var
+variable "okv_secret" {
+}
+
+// key Store related var
+variable "kms_vault_ocid" {
+}

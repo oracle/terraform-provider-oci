@@ -79,6 +79,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
 	net_services_architecture = var.autonomous_container_database_net_services_architecture
+	okv_end_point_group_name = var.autonomous_container_database_okv_end_point_group_name
 	peer_autonomous_container_database_display_name = var.autonomous_container_database_peer_autonomous_container_database_display_name
 	peer_cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	protection_mode = var.autonomous_container_database_protection_mode
@@ -169,6 +170,7 @@ The following arguments are supported:
 	* `skip_ru` - (Optional) (Updatable) If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter.
     * `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `net_services_architecture` - (Optional) Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+* `okv_end_point_group_name` - (Optional) (Updatable) The OKV End Point Group name for the Autonomous Container Database. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
 * `peer_autonomous_exadata_infrastructure_id` - (End of Life) The OCID of the peer Autonomous Exadata Infrastructure for autonomous dataguard. Please use peer_cloud_autonomous_vm_cluster_id instead.
@@ -329,6 +331,7 @@ The following attributes are exported:
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per ECPU or OCPU in the Autonomous VM Cluster.
 * `net_services_architecture` - Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
+* `okv_end_point_group_name` - The OKV End Point Group name for the Autonomous Container Database. 
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 * `patch_model` - Database patch model preference.
 * `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database. 

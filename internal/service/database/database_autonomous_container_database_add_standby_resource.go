@@ -632,6 +632,10 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"okv_end_point_group_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"patch_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1046,6 +1050,10 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) SetData() er
 
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
+	}
+
+	if s.Res.OkvEndPointGroupName != nil {
+		s.D.Set("okv_end_point_group_name", *s.Res.OkvEndPointGroupName)
 	}
 
 	if s.Res.PatchId != nil {

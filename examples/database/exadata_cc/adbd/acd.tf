@@ -6,7 +6,7 @@ resource "random_string" "db_unique_name" {
 
 resource "oci_database_autonomous_container_database" "autonomous_container_database" {
   autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
-  db_version = "19.25.0.1.0"
+  db_version = "19.26.0.1.0"
   backup_config {
     backup_destination_details {
       type = "LOCAL"
@@ -26,6 +26,23 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   service_level_agreement_type = "STANDARD"
   version_preference = "LATEST_RELEASE_UPDATE"
   is_dst_file_update_enabled = false
+
+  #Optional
+  // OKV related
+  key_store_id = oci_database_key_store.test_key_store.id
+  okv_end_point_group_name = "DUMMY_OKV_EPG_GROUP"
+}
+
+resource "oci_database_key_store" "test_key_store" {
+  compartment_id           = var.compartment_ocid
+  display_name             = "example-key-store"
+  type_details {
+    admin_username = "example-username"
+    connection_ips = ["192.1.1.1"]
+    secret_id      = var.okv_secret
+    type           = "ORACLE_KEY_VAULT"
+    vault_id       = var.kms_vault_ocid
+  }
 }
 
 data "oci_database_autonomous_container_database_resource_usage" "test_autonomous_container_database_resource_usages" {
