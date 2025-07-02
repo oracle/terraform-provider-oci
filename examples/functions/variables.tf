@@ -20,7 +20,7 @@ variable "compartment_ocid" {
 }
 
 variable "config" {
-  type = map(string) 
+  type = map(string)
   default = {
     "MEDIA_WORKFLOW_ID" = "someworkflowid"
   }
@@ -69,10 +69,6 @@ variable "function_image" {
 variable "function_image_digest" {
 }
 
-variable "dry_run" {
-  default = "false"
-}
-
 variable "function_trace_config" {
   type = object({
     is_enabled = bool
@@ -83,11 +79,15 @@ variable "function_trace_config" {
 }
 
 variable "function_memory_in_mbs" {
-  default = 128
+  default = 256
 }
 
 variable "function_timeout_in_seconds" {
   default = 30
+}
+
+variable "function_detached_mode_timeout_in_seconds" {
+  default = 301
 }
 
 variable "kms_key_ocid" {
