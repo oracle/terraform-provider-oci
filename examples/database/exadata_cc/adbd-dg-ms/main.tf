@@ -294,7 +294,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   autonomous_vm_cluster_id             = oci_database_autonomous_vm_cluster.primary_autonomous_vm_cluster.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.25.0.1.0"
+  db_version                           = "19.26.0.1.0"
   db_name                              = "PRIMARY"
 
   #Optional
@@ -355,8 +355,11 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 resource "oci_database_autonomous_container_database_add_standby" "test_autonomous_container_database_add_standby" {
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database_primary.id
-  fast_start_fail_over_lag_limit_in_seconds = "0"
-  is_automatic_failover_enabled = "true"
+
+#  add standby blocked auto fail over
+#  fast_start_fail_over_lag_limit_in_seconds = "0"
+#  is_automatic_failover_enabled = "true"
+
   peer_autonomous_container_database_backup_config {
     backup_destination_details {
       type = "LOCAL"

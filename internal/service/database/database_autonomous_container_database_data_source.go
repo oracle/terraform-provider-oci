@@ -220,6 +220,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
+	if s.Res.OkvEndPointGroupName != nil {
+		s.D.Set("okv_end_point_group_name", *s.Res.OkvEndPointGroupName)
+	}
+
 	if s.Res.PatchId != nil {
 		s.D.Set("patch_id", *s.Res.PatchId)
 	}

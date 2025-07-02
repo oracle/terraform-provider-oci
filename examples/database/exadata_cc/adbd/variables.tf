@@ -22,3 +22,11 @@ variable "ssh_public_key" {
 variable "avm_certificate_id"{
 
 }
+
+// key Store related var
+variable "okv_secret" {
+}
+
+// key Store related var
+variable "kms_vault_ocid" {
+}

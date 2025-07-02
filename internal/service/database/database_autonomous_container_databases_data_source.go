@@ -317,6 +317,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
 
+		if r.OkvEndPointGroupName != nil {
+			autonomousContainerDatabase["okv_end_point_group_name"] = *r.OkvEndPointGroupName
+		}
+
 		if r.PatchId != nil {
 			autonomousContainerDatabase["patch_id"] = *r.PatchId
 		}
