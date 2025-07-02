@@ -128,8 +128,22 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
+		if r.DetachedModeTimeoutInSeconds != nil {
+			function["detached_mode_timeout_in_seconds"] = *r.DetachedModeTimeoutInSeconds
+		}
+
 		if r.DisplayName != nil {
 			function["display_name"] = *r.DisplayName
+		}
+
+		if r.FailureDestination != nil {
+			failureDestinationArray := []interface{}{}
+			if failureDestinationMap := FailureDestinationDetailsToMap(&r.FailureDestination); failureDestinationMap != nil {
+				failureDestinationArray = append(failureDestinationArray, failureDestinationMap)
+			}
+			function["failure_destination"] = failureDestinationArray
+		} else {
+			function["failure_destination"] = nil
 		}
 
 		function["freeform_tags"] = r.FreeformTags
@@ -177,6 +191,16 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 		}
 
 		function["state"] = r.LifecycleState
+
+		if r.SuccessDestination != nil {
+			successDestinationArray := []interface{}{}
+			if successDestinationMap := SuccessDestinationDetailsToMap(&r.SuccessDestination); successDestinationMap != nil {
+				successDestinationArray = append(successDestinationArray, successDestinationMap)
+			}
+			function["success_destination"] = successDestinationArray
+		} else {
+			function["success_destination"] = nil
+		}
 
 		if r.TimeCreated != nil {
 			function["time_created"] = r.TimeCreated.String()

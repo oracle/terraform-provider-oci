@@ -58,19 +58,28 @@ var (
 	}
 
 	FunctionsFunctionRepresentation = map[string]interface{}{
-		"application_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_application.test_application.id}`},
-		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `ExampleFunction`},
-		"memory_in_mbs":                  acctest.Representation{RepType: acctest.Required, Create: `128`, Update: `256`},
-		"config":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
-		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"image":                          acctest.Representation{RepType: acctest.Required, Create: `${var.image}`, Update: `${var.image_for_update}`},
-		"image_digest":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.image_digest}`, Update: `${var.image_digest_for_update}`},
-		"provisioned_concurrency_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionProvisionedConcurrencyConfigRepresentation},
-		"source_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: FunctionsFunctionSourceDetailsRepresentation},
-		"timeout_in_seconds":             acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `31`},
-		"trace_config":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionTraceConfigRepresentation},
-		//"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: fnDefinedTagsIgnoreRepresentation},
+		"application_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_application.test_application.id}`},
+		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `ExampleFunction`},
+		"memory_in_mbs":                    acctest.Representation{RepType: acctest.Required, Create: `256`, Update: `512`},
+		"config":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
+		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"detached_mode_timeout_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `301`, Update: `302`},
+		"failure_destination":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionFailureDestinationRepresentation},
+		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image":                            acctest.Representation{RepType: acctest.Required, Create: `${var.image}`, Update: `${var.image_for_update}`},
+		"image_digest":                     acctest.Representation{RepType: acctest.Optional, Create: `${var.image_digest}`, Update: `${var.image_digest_for_update}`},
+		"provisioned_concurrency_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionProvisionedConcurrencyConfigRepresentation},
+		"source_details":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: FunctionsFunctionSourceDetailsRepresentation},
+		"success_destination":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionSuccessDestinationRepresentation},
+		"timeout_in_seconds":               acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `31`},
+		"trace_config":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionTraceConfigRepresentation},
+	}
+
+	FunctionsFunctionFailureDestinationRepresentation = map[string]interface{}{
+		"kind":       acctest.Representation{RepType: acctest.Required, Create: `QUEUE`, Update: `STREAM`},
+		"channel_id": acctest.Representation{RepType: acctest.Optional, Create: `failure123`, Update: ``},
+		"queue_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_queue_queue.test_queue.id}`, Update: ``},
+		"stream_id":  acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `${oci_streaming_stream.test_stream.id}`},
 	}
 
 	FunctionsFunctionImageSourceRepresentation            = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"source_details"}, FunctionsFunctionRepresentation)
@@ -89,17 +98,23 @@ var (
 		"pbf_listing_id": acctest.Representation{RepType: acctest.Required, Create: `${var.pbf_listing_id}`},
 		"source_type":    acctest.Representation{RepType: acctest.Required, Create: `PRE_BUILT_FUNCTIONS`},
 	}
+	FunctionsFunctionSuccessDestinationRepresentation = map[string]interface{}{
+		"kind":       acctest.Representation{RepType: acctest.Required, Create: `QUEUE`, Update: `STREAM`},
+		"channel_id": acctest.Representation{RepType: acctest.Optional, Create: `success123`, Update: ``},
+		"queue_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_queue_queue.test_queue.id}`, Update: ``},
+		"stream_id":  acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `${oci_streaming_stream.test_stream.id}`},
+	}
 	FunctionsFunctionTraceConfigRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-
-	functionApplicationDisplayName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	FunctionsFunctionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig
+		KeyResourceDependencyConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Required, acctest.Create, QueueQueueRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation)
 )
 
 // issue-routing-tag: functions/default
@@ -152,7 +167,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", pbfFunctionDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "source_details.0.pbf_listing_id", pbfListingId),
-				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -176,7 +191,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.0.pbf_listing_id", pbfListingId),
-				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.count", "40"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.strategy", "CONSTANT"),
@@ -210,7 +225,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 				resource.TestCheckResourceAttr(resourceName, "image", image),
-				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -229,15 +244,24 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detached_mode_timeout_in_seconds", "301"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(resourceName, "failure_destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "failure_destination.0.kind", "QUEUE"),
+				resource.TestCheckResourceAttrSet(resourceName, "failure_destination.0.queue_id"),
+				resource.TestCheckResourceAttr(resourceName, "failure_destination.0.channel_id", "failure123"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image", image),
 				resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigest),
-				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.count", "40"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.strategy", "CONSTANT"),
+				resource.TestCheckResourceAttr(resourceName, "success_destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "success_destination.0.kind", "QUEUE"),
+				resource.TestCheckResourceAttrSet(resourceName, "success_destination.0.queue_id"),
+				resource.TestCheckResourceAttr(resourceName, "success_destination.0.channel_id", "success123"),
 				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
 				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
@@ -262,15 +286,22 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detached_mode_timeout_in_seconds", "302"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(resourceName, "failure_destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "failure_destination.0.kind", "STREAM"),
+				resource.TestCheckResourceAttrSet(resourceName, "failure_destination.0.stream_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image", imageU),
 				resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigestU),
-				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "512"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.count", "0"),
 				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.strategy", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "success_destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "success_destination.0.kind", "STREAM"),
+				resource.TestCheckResourceAttrSet(resourceName, "success_destination.0.stream_id"),
 				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "31"),
 				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
@@ -299,18 +330,25 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "functions.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.detached_mode_timeout_in_seconds", "302"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.failure_destination.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.failure_destination.0.kind", "STREAM"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.failure_destination.0.stream_id"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.image", imageU),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.image_digest", imageDigestU),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.invoke_endpoint"),
-				resource.TestCheckResourceAttr(datasourceName, "functions.0.memory_in_mbs", "256"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.memory_in_mbs", "512"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.provisioned_concurrency_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.provisioned_concurrency_config.0.count", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.provisioned_concurrency_config.0.strategy", "NONE"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.success_destination.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.success_destination.0.kind", "STREAM"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.success_destination.0.stream_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.timeout_in_seconds", "31"),
@@ -328,18 +366,25 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "detached_mode_timeout_in_seconds", "302"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "failure_destination.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "failure_destination.0.kind", "STREAM"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "failure_destination.0.stream_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image", imageU),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_digest", imageDigestU),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "invoke_endpoint"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "memory_in_mbs", "256"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "memory_in_mbs", "512"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_concurrency_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_concurrency_config.0.count", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_concurrency_config.0.strategy", "NONE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "success_destination.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "success_destination.0.kind", "STREAM"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "success_destination.0.stream_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "31"),

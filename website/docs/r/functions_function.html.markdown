@@ -24,6 +24,17 @@ resource "oci_functions_function" "test_function" {
 	#Optional
 	config = var.function_config
 	defined_tags = {"Operations.CostCenter"= "42"}
+	detached_mode_timeout_in_seconds = var.function_detached_mode_timeout_in_seconds
+	failure_destination {
+		#Required
+		kind = var.function_failure_destination_kind
+
+		#Optional
+		channel_id = oci_mysql_channel.test_channel.id
+		queue_id = oci_queue_queue.test_queue.id
+		stream_id = oci_streaming_stream.test_stream.id
+		topic_id = oci_ons_notification_topic.test_notification_topic.id
+	}
 	freeform_tags = {"Department"= "Finance"}
 	image = var.function_image
 	image_digest = var.function_image_digest
@@ -38,6 +49,16 @@ resource "oci_functions_function" "test_function" {
 		#Required
 		pbf_listing_id = oci_functions_pbf_listing.test_pbf_listing.id
 		source_type = var.function_source_details_source_type
+	}
+	success_destination {
+		#Required
+		kind = var.function_success_destination_kind
+
+		#Optional
+		channel_id = oci_mysql_channel.test_channel.id
+		queue_id = oci_queue_queue.test_queue.id
+		stream_id = oci_streaming_stream.test_stream.id
+		topic_id = oci_ons_notification_topic.test_notification_topic.id
 	}
 	timeout_in_seconds = var.function_timeout_in_seconds
 	trace_config {
@@ -57,7 +78,14 @@ The following arguments are supported:
 
 	The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `detached_mode_timeout_in_seconds` - (Optional) (Updatable) Timeout for detached function invocations. Value in seconds.
 * `display_name` - (Required) The display name of the function. The display name must be unique within the application containing the function. Avoid entering confidential information. 
+* `failure_destination` - (Optional) (Updatable) An object that represents the destination to which Oracle Functions will send an invocation record with the details of the error of the failed detached function invocation. A notification is an example of a failure destination.  Example: `{"kind": "NOTIFICATION", "topicId": "topic_OCID"}` 
+	* `channel_id` - (Applicable when kind=QUEUE) (Updatable) The ID of the channel in the queue. 
+	* `kind` - (Required) (Updatable) The type of destination for the response to a failed detached function invocation. 
+	* `queue_id` - (Required when kind=QUEUE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue. 
+	* `stream_id` - (Required when kind=STREAM) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
+	* `topic_id` - (Required when kind=NOTIFICATION) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image` - (Optional) (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: `phx.ocir.io/ten/functions/function:0.0.1`
 * `image_digest` - (Optional) (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
@@ -67,7 +95,13 @@ The following arguments are supported:
 	* `strategy` - (Required) (Updatable) The strategy for provisioned concurrency to be used. 
 * `source_details` - (Optional) The source details for the Function. The function can be created from various sources. 
 	* `pbf_listing_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this function is sourced from. 
-	* `source_type` - (Required) Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS. 
+	* `source_type` - (Required) Type of the Function Source. Possible values: PBF. 
+* `success_destination` - (Optional) (Updatable) An object that represents the destination to which Oracle Functions will send an invocation record with the details of the successful detached function invocation. A stream is an example of a success destination.  Example: `{"kind": "STREAM", "streamId": "stream_OCID"}` 
+	* `channel_id` - (Applicable when kind=QUEUE) (Updatable) The ID of the channel in the queue. 
+	* `kind` - (Required) (Updatable) The type of destination for the response to a successful detached function invocation. 
+	* `queue_id` - (Required when kind=QUEUE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue. 
+	* `stream_id` - (Required when kind=STREAM) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
+	* `topic_id` - (Required when kind=NOTIFICATION) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout for executions of the function. Value in seconds.
 * `trace_config` - (Optional) (Updatable) Define the tracing configuration for a function. 
 	* `is_enabled` - (Optional) (Updatable) Define if tracing is enabled for the resource. 
@@ -86,7 +120,14 @@ The following attributes are exported:
 
 	The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `detached_mode_timeout_in_seconds` - Timeout for detached function invocations. Value in seconds.  Example: `{"detachedModeTimeoutInSeconds": 900}` 
 * `display_name` - The display name of the function. The display name is unique within the application containing the function. 
+* `failure_destination` - An object that represents the destination to which Oracle Functions will send an invocation record with the details of the error of the failed detached function invocation. A notification is an example of a failure destination.  Example: `{"kind": "NOTIFICATION", "topicId": "topic_OCID"}` 
+	* `channel_id` - The ID of the channel in the queue. 
+	* `kind` - The type of destination for the response to a failed detached function invocation. 
+	* `queue_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue. 
+	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
+	* `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 * `image` - The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: `phx.ocir.io/ten/functions/function:0.0.1` 
@@ -101,6 +142,12 @@ The following attributes are exported:
 	* `pbf_listing_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this function is sourced from. 
 	* `source_type` - Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS. 
 * `state` - The current state of the function. 
+* `success_destination` - An object that represents the destination to which Oracle Functions will send an invocation record with the details of the successful detached function invocation. A stream is an example of a success destination.  Example: `{"kind": "STREAM", "streamId": "stream_OCID"}` 
+	* `channel_id` - The ID of the channel in the queue. 
+	* `kind` - The type of destination for the response to a successful detached function invocation. 
+	* `queue_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue. 
+	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
+	* `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `time_created` - The time the function was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the function was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `timeout_in_seconds` - Timeout for executions of the function. Value in seconds.

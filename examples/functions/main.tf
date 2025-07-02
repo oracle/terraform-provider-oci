@@ -50,6 +50,19 @@ resource "oci_core_subnet" "test_subnet" {
   vcn_id                     = oci_core_vcn.test_vcn.id
 }
 
+resource "oci_queue_queue" "test_queue" {
+  #Required
+  compartment_id = var.compartment_ocid
+  display_name   = "example-function-test-queue"
+}
+
+resource "oci_streaming_stream" "test_stream" {
+  compartment_id     = var.compartment_ocid
+  name               = "example-function-test-stream"
+  partitions         = "1"
+  retention_in_hours = "24"
+}
+
 # Terraform will take 5 minutes after destroying an application due to a known service issue.
 # please refer: https://docs.cloud.oracle.com/iaas/Content/Functions/Tasks/functionsdeleting.htm
 resource "oci_functions_application" "test_application" {
@@ -94,20 +107,31 @@ resource "oci_functions_function" "test_function" {
   application_id = oci_functions_application.test_application.id
   display_name   = "example-function-test"
   image          = var.function_image
-  memory_in_mbs  = "128"
+  memory_in_mbs  = var.function_memory_in_mbs
 
   #Optional
   config             = var.config
   image_digest       = var.function_image_digest
-  timeout_in_seconds = "30"
+  timeout_in_seconds = var.function_timeout_in_seconds
   trace_config {
     is_enabled = var.function_trace_config.is_enabled
   }
-  is_dry_run         = var.dry_run
 
   provisioned_concurrency_config {
     strategy = "CONSTANT"
     count = 40
+  }
+
+  detached_mode_timeout_in_seconds = var.function_detached_mode_timeout_in_seconds
+  failure_destination {
+    kind = "QUEUE"
+    channel_id = "failure123"
+    queue_id = oci_queue_queue.test_queue.id
+  }
+
+  success_destination {
+    kind = "STREAM"
+    stream_id = oci_streaming_stream.test_stream.id
   }
 }
 
@@ -142,7 +166,7 @@ data "oci_functions_pbf_listing_triggers" "test_triggers" {
 resource "oci_functions_function" "test_pre_built_function" {
   application_id = oci_functions_application.test_application.id
   display_name = "example-pre-built-function"
-  memory_in_mbs = "128"
+  memory_in_mbs = var.function_memory_in_mbs
   source_details {
     pbf_listing_id = var.pbf_listing_id
     source_type = "PRE_BUILT_FUNCTIONS"

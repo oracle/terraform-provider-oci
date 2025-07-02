@@ -116,6 +116,58 @@ func FunctionsFunctionResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"detached_mode_timeout_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"failure_destination": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"kind": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"NONE",
+								"NOTIFICATION",
+								"QUEUE",
+								"STREAM",
+							}, true),
+						},
+
+						// Optional
+						"channel_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"queue_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"stream_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"topic_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -192,6 +244,53 @@ func FunctionsFunctionResource() *schema.Resource {
 						},
 
 						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"success_destination": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"kind": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"NONE",
+								"NOTIFICATION",
+								"QUEUE",
+								"STREAM",
+							}, true),
+						},
+
+						// Optional
+						"channel_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"queue_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"stream_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"topic_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -355,9 +454,25 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if detachedModeTimeoutInSeconds, ok := s.D.GetOkExists("detached_mode_timeout_in_seconds"); ok {
+		tmp := detachedModeTimeoutInSeconds.(int)
+		request.DetachedModeTimeoutInSeconds = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if failureDestination, ok := s.D.GetOkExists("failure_destination"); ok {
+		if tmpList := failureDestination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "failure_destination", 0)
+			tmp, err := s.mapToFailureDestinationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.FailureDestination = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -406,6 +521,17 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 				return err
 			}
 			request.SourceDetails = tmp
+		}
+	}
+
+	if successDestination, ok := s.D.GetOkExists("success_destination"); ok {
+		if tmpList := successDestination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "success_destination", 0)
+			tmp, err := s.mapToSuccessDestinationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SuccessDestination = tmp
 		}
 	}
 
@@ -468,6 +594,22 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if detachedModeTimeoutInSeconds, ok := s.D.GetOkExists("detached_mode_timeout_in_seconds"); ok {
+		tmp := detachedModeTimeoutInSeconds.(int)
+		request.DetachedModeTimeoutInSeconds = &tmp
+	}
+
+	if failureDestination, ok := s.D.GetOkExists("failure_destination"); ok {
+		if tmpList := failureDestination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "failure_destination", 0)
+			tmp, err := s.mapToFailureDestinationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.FailureDestination = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -505,6 +647,17 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 				return err
 			}
 			request.ProvisionedConcurrencyConfig = tmp
+		}
+	}
+
+	if successDestination, ok := s.D.GetOkExists("success_destination"); ok {
+		if tmpList := successDestination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "success_destination", 0)
+			tmp, err := s.mapToSuccessDestinationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SuccessDestination = tmp
 		}
 	}
 
@@ -562,8 +715,22 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DetachedModeTimeoutInSeconds != nil {
+		s.D.Set("detached_mode_timeout_in_seconds", *s.Res.DetachedModeTimeoutInSeconds)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.FailureDestination != nil {
+		failureDestinationArray := []interface{}{}
+		if failureDestinationMap := FailureDestinationDetailsToMap(&s.Res.FailureDestination); failureDestinationMap != nil {
+			failureDestinationArray = append(failureDestinationArray, failureDestinationMap)
+		}
+		s.D.Set("failure_destination", failureDestinationArray)
+	} else {
+		s.D.Set("failure_destination", nil)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -611,6 +778,16 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SuccessDestination != nil {
+		successDestinationArray := []interface{}{}
+		if successDestinationMap := SuccessDestinationDetailsToMap(&s.Res.SuccessDestination); successDestinationMap != nil {
+			successDestinationArray = append(successDestinationArray, successDestinationMap)
+		}
+		s.D.Set("success_destination", successDestinationArray)
+	} else {
+		s.D.Set("success_destination", nil)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -630,6 +807,86 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *FunctionsFunctionResourceCrud) mapToFailureDestinationDetails(fieldKeyFormat string) (oci_functions.FailureDestinationDetails, error) {
+	var baseObject oci_functions.FailureDestinationDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("NONE"):
+		details := oci_functions.NoneFailureDestinationDetails{}
+		baseObject = details
+	case strings.ToLower("NOTIFICATION"):
+		details := oci_functions.NotificationFailureDestinationDetails{}
+		if topicId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "topic_id")); ok {
+			tmp := topicId.(string)
+			details.TopicId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("QUEUE"):
+		details := oci_functions.QueueFailureDestinationDetails{}
+		if channelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "channel_id")); ok {
+			tmp := channelId.(string)
+			details.ChannelId = &tmp
+		}
+		if queueId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "queue_id")); ok {
+			tmp := queueId.(string)
+			details.QueueId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("STREAM"):
+		details := oci_functions.StreamFailureDestinationDetails{}
+		if streamId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stream_id")); ok {
+			tmp := streamId.(string)
+			details.StreamId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func FailureDestinationDetailsToMap(obj *oci_functions.FailureDestinationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_functions.NoneFailureDestinationDetails:
+		result["kind"] = "NONE"
+	case oci_functions.NotificationFailureDestinationDetails:
+		result["kind"] = "NOTIFICATION"
+
+		if v.TopicId != nil {
+			result["topic_id"] = string(*v.TopicId)
+		}
+	case oci_functions.QueueFailureDestinationDetails:
+		result["kind"] = "QUEUE"
+
+		if v.ChannelId != nil {
+			result["channel_id"] = string(*v.ChannelId)
+		}
+
+		if v.QueueId != nil {
+			result["queue_id"] = string(*v.QueueId)
+		}
+	case oci_functions.StreamFailureDestinationDetails:
+		result["kind"] = "STREAM"
+
+		if v.StreamId != nil {
+			result["stream_id"] = string(*v.StreamId)
+		}
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *FunctionsFunctionResourceCrud) mapToFunctionProvisionedConcurrencyConfig(fieldKeyFormat string) (oci_functions.FunctionProvisionedConcurrencyConfig, error) {
@@ -735,6 +992,86 @@ func FunctionTraceConfigToMap(obj *oci_functions.FunctionTraceConfig) map[string
 
 	if obj.IsEnabled != nil {
 		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
+}
+
+func (s *FunctionsFunctionResourceCrud) mapToSuccessDestinationDetails(fieldKeyFormat string) (oci_functions.SuccessDestinationDetails, error) {
+	var baseObject oci_functions.SuccessDestinationDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("NONE"):
+		details := oci_functions.NoneSuccessDestinationDetails{}
+		baseObject = details
+	case strings.ToLower("NOTIFICATION"):
+		details := oci_functions.NotificationSuccessDestinationDetails{}
+		if topicId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "topic_id")); ok {
+			tmp := topicId.(string)
+			details.TopicId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("QUEUE"):
+		details := oci_functions.QueueSuccessDestinationDetails{}
+		if channelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "channel_id")); ok {
+			tmp := channelId.(string)
+			details.ChannelId = &tmp
+		}
+		if queueId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "queue_id")); ok {
+			tmp := queueId.(string)
+			details.QueueId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("STREAM"):
+		details := oci_functions.StreamSuccessDestinationDetails{}
+		if streamId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stream_id")); ok {
+			tmp := streamId.(string)
+			details.StreamId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func SuccessDestinationDetailsToMap(obj *oci_functions.SuccessDestinationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_functions.NoneSuccessDestinationDetails:
+		result["kind"] = "NONE"
+	case oci_functions.NotificationSuccessDestinationDetails:
+		result["kind"] = "NOTIFICATION"
+
+		if v.TopicId != nil {
+			result["topic_id"] = string(*v.TopicId)
+		}
+	case oci_functions.QueueSuccessDestinationDetails:
+		result["kind"] = "QUEUE"
+
+		if v.ChannelId != nil {
+			result["channel_id"] = string(*v.ChannelId)
+		}
+
+		if v.QueueId != nil {
+			result["queue_id"] = string(*v.QueueId)
+		}
+	case oci_functions.StreamSuccessDestinationDetails:
+		result["kind"] = "STREAM"
+
+		if v.StreamId != nil {
+			result["stream_id"] = string(*v.StreamId)
+		}
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
