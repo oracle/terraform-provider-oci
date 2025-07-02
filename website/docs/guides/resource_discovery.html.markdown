@@ -426,6 +426,8 @@ bds
 * oci\_bds\_bds\_instance\_metastore\_config
 * oci\_bds\_bds\_instance\_resource\_principal\_configuration
 * oci\_bds\_bds\_instance\_identity\_configuration
+* oci\_bds\_bds\_instance\_node\_replace\_configuration
+* oci\_bds\_bds\_instance\_node\_backup\_configuration
 
 blockchain
 
