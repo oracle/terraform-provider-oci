@@ -74,9 +74,8 @@ var (
 		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`, Update: `${var.bootstrap_script_urlU}`},
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
-
-		"is_cloud_sql_configured": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
+		"is_cloud_sql_configured":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"kms_key_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
 		//"cloud_sql_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceNodesOdhCloudSqlRepresentation}, // capacity issue
 
 		//Uncomment this when running in home region (PHX)

@@ -57,11 +57,11 @@ variable "bds_instance_freeform_tags" {
 }
 
 variable "bds_instance_is_high_availability" {
-  default = false
+  default = true
 }
 
 variable "bds_instance_is_secure" {
-  default = false
+  default = true
 }
 
 variable "bds_instance_network_config_cidr_block" {
@@ -146,33 +146,35 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   display_name           = var.bds_instance_display_name
   is_high_availability   = var.bds_instance_is_high_availability
   is_secure              = var.bds_instance_is_secure
-  kms_key_id             = var.kms_key_id
+ // kms_key_id             = var.kms_key_id
   cluster_profile        = var.cluster_profile
   bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/Lk5JT9tnUIOG4yLm6S21QVR7m3Rm2uj1RAS2Olx5v14onLU2Y-b0lIc_N0RuUIge/n/idpbwtq1b3ta/b/bucket-20230214-1316/o/execute_bootstrap_script.sh"
 
   master_node {
     #Required
-    shape = "VM.Standard.E4.Flex"
+    shape = "VM.DenseIO.E5.Flex"
 
     subnet_id                = var.subnet_id
-    block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
-    number_of_nodes          = 1
+ //   block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+    number_of_nodes          = 2
     shape_config {
-            memory_in_gbs = 120
+           memory_in_gbs = 96
            ocpus         = 8
+           nvmes         = 1
         }
   }
 
   util_node {
     #Required
-    shape = "VM.Standard.E4.Flex"
+    shape = "VM.DenseIO.Generic"
 
     subnet_id                = var.subnet_id
-    block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
-    number_of_nodes          = 1
+ //   block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+    number_of_nodes          = 3
     shape_config {
-            memory_in_gbs = 120
-            ocpus         = 8
+              memory_in_gbs = 96
+              ocpus         = 8
+              nvmes         = 1
         }
   }
 
@@ -180,11 +182,14 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     #Required
     shape = var.bds_instance_worker_node_shape
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+    shape = "VM.DenseIO.E5.Flex"
+   // block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     subnet_id                = var.subnet_id
-    number_of_nodes          = 3
+    number_of_nodes          = 4
        shape_config {
-              memory_in_gbs = 120
-              ocpus         = 8
+               memory_in_gbs = 96
+                        ocpus         = 8
+                        nvmes         = 1
          }
       }
 
