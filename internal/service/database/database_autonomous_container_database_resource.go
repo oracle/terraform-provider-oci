@@ -354,6 +354,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"okv_end_point_group_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"peer_autonomous_container_database_backup_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1367,6 +1372,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
+	if okvEndPointGroupName, ok := s.D.GetOkExists("okv_end_point_group_name"); ok && s.D.HasChange("okv_end_point_group_name") {
+		tmp := okvEndPointGroupName.(string)
+		request.OkvEndPointGroupName = &tmp
+	}
+
 	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok && s.D.HasChange("version_preference") {
 		request.VersionPreference = oci_database.UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
 	}
@@ -1558,6 +1568,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
+	}
+
+	if s.Res.OkvEndPointGroupName != nil {
+		s.D.Set("okv_end_point_group_name", *s.Res.OkvEndPointGroupName)
 	}
 
 	if s.Res.PatchId != nil {
@@ -2368,6 +2382,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
 			details.NetServicesArchitecture = oci_database.CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum(netServicesArchitecture.(string))
 		}
+		if okvEndPointGroupName, ok := s.D.GetOkExists("okv_end_point_group_name"); ok {
+			tmp := okvEndPointGroupName.(string)
+			details.OkvEndPointGroupName = &tmp
+		}
 		if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
 			details.PatchModel = oci_database.CreateAutonomousContainerDatabaseBasePatchModelEnum(patchModel.(string))
 		}
@@ -2528,6 +2546,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		}
 		if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
 			details.NetServicesArchitecture = oci_database.CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum(netServicesArchitecture.(string))
+		}
+		if okvEndPointGroupName, ok := s.D.GetOkExists("okv_end_point_group_name"); ok {
+			tmp := okvEndPointGroupName.(string)
+			details.OkvEndPointGroupName = &tmp
 		}
 		if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
 			details.PatchModel = oci_database.CreateAutonomousContainerDatabaseBasePatchModelEnum(patchModel.(string))

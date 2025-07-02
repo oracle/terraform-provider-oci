@@ -117,6 +117,10 @@ func DatabaseKeyStoreResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"db_unique_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -428,6 +432,10 @@ func KeyStoreAssociatedDatabaseDetailsToMap(obj oci_database.KeyStoreAssociatedD
 
 	if obj.DbName != nil {
 		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
 	}
 
 	if obj.Id != nil {
