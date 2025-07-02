@@ -12,9 +12,13 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_bds_bds_instance_api_key", BdsBdsInstanceApiKeyResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_identity_configuration", BdsBdsInstanceIdentityConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_metastore_config", BdsBdsInstanceMetastoreConfigResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_node_backup_configuration", BdsBdsInstanceNodeBackupConfigurationResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_node_replace_configuration", BdsBdsInstanceNodeReplaceConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_operation_certificate_managements_management", BdsBdsInstanceOperationCertificateManagementsManagementResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_patch_action", BdsBdsInstancePatchActionResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_resource_principal_configuration", BdsBdsInstanceResourcePrincipalConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_os_patch_action", BdsBdsInstanceOSPatchActionResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_software_update_action", BdsBdsInstanceSoftwareUpdateResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_node_backup", BdsBdsInstanceNodeBackupResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_replace_node_action", BdsBdsInstanceReplaceNodeActionResource())
 }
