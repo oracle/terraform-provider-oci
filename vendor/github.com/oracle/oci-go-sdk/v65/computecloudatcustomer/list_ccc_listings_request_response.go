@@ -14,14 +14,14 @@ import (
 // ListCccListingsRequest wrapper for the ListCccListings operation
 type ListCccListingsRequest struct {
 
-	// The name of the listing.
-	Name []string `contributesTo:"query" name:"name" collectionFormat:"multi"`
+	// A filter to return only resources that match the entire display name given.
+	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
+
+	// A filter to return only resources whose display name contains the substring.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
 	// The unique identifier for the listing.
 	CccListingId *string `mandatory:"false" contributesTo:"query" name:"cccListingId"`
-
-	// A filter to return only packages that match the given package type exactly.
-	PackageType ListCccListingsPackageTypeEnum `mandatory:"false" contributesTo:"query" name:"packageType" omitEmpty:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to
 	// list resources.
@@ -36,24 +36,11 @@ type ListCccListingsRequest struct {
 	// A token representing the position at which to start retrieving results. This must come from the `opc-next-page` header field of a previous response.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The field to use to sort listed results. You can only specify one field to sort by.
-	// `timeReleased` displays results in descending order by default.
-	// You can change your preference by specifying a different sort order.
+	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListCccListingsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListCccListingsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
-
-	// Name of the product category or categories. If you specify multiple categories, then Marketplace returns any listing with
-	// one or more matching categories.
-	Category []string `contributesTo:"query" name:"category" collectionFormat:"multi"`
-
-	// Name of the pricing type. If multiple pricing types are provided, then any listing with
-	// one or more matching pricing models will be returned.
-	Pricing []ListCccListingsPricingEnum `contributesTo:"query" name:"pricing" omitEmpty:"true" collectionFormat:"multi"`
-
-	// The operating system of the listing.
-	OperatingSystems []string `contributesTo:"query" name:"operatingSystems" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -91,21 +78,12 @@ func (request ListCccListingsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListCccListingsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListCccListingsPackageTypeEnum(string(request.PackageType)); !ok && request.PackageType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", request.PackageType, strings.Join(GetListCccListingsPackageTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingListCccListingsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCccListingsSortByEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListCccListingsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCccListingsSortOrderEnumStringValues(), ",")))
 	}
-	for _, val := range request.Pricing {
-		if _, ok := GetMappingListCccListingsPricingEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Pricing: %s. Supported values are: %s.", val, strings.Join(GetListCccListingsPricingEnumStringValues(), ",")))
-		}
-	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -145,74 +123,23 @@ func (response ListCccListingsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
 
-// ListCccListingsPackageTypeEnum Enum with underlying type: string
-type ListCccListingsPackageTypeEnum string
-
-// Set of constants representing the allowable values for ListCccListingsPackageTypeEnum
-const (
-	ListCccListingsPackageTypeOrchestration ListCccListingsPackageTypeEnum = "Orchestration"
-	ListCccListingsPackageTypeImage         ListCccListingsPackageTypeEnum = "Image"
-	ListCccListingsPackageTypeContainer     ListCccListingsPackageTypeEnum = "Container"
-	ListCccListingsPackageTypeKubernetes    ListCccListingsPackageTypeEnum = "Kubernetes"
-	ListCccListingsPackageTypeSaas          ListCccListingsPackageTypeEnum = "Saas"
-)
-
-var mappingListCccListingsPackageTypeEnum = map[string]ListCccListingsPackageTypeEnum{
-	"Orchestration": ListCccListingsPackageTypeOrchestration,
-	"Image":         ListCccListingsPackageTypeImage,
-	"Container":     ListCccListingsPackageTypeContainer,
-	"Kubernetes":    ListCccListingsPackageTypeKubernetes,
-	"Saas":          ListCccListingsPackageTypeSaas,
-}
-
-var mappingListCccListingsPackageTypeEnumLowerCase = map[string]ListCccListingsPackageTypeEnum{
-	"orchestration": ListCccListingsPackageTypeOrchestration,
-	"image":         ListCccListingsPackageTypeImage,
-	"container":     ListCccListingsPackageTypeContainer,
-	"kubernetes":    ListCccListingsPackageTypeKubernetes,
-	"saas":          ListCccListingsPackageTypeSaas,
-}
-
-// GetListCccListingsPackageTypeEnumValues Enumerates the set of values for ListCccListingsPackageTypeEnum
-func GetListCccListingsPackageTypeEnumValues() []ListCccListingsPackageTypeEnum {
-	values := make([]ListCccListingsPackageTypeEnum, 0)
-	for _, v := range mappingListCccListingsPackageTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListCccListingsPackageTypeEnumStringValues Enumerates the set of values in String for ListCccListingsPackageTypeEnum
-func GetListCccListingsPackageTypeEnumStringValues() []string {
-	return []string{
-		"Orchestration",
-		"Image",
-		"Container",
-		"Kubernetes",
-		"Saas",
-	}
-}
-
-// GetMappingListCccListingsPackageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListCccListingsPackageTypeEnum(val string) (ListCccListingsPackageTypeEnum, bool) {
-	enum, ok := mappingListCccListingsPackageTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
 // ListCccListingsSortByEnum Enum with underlying type: string
 type ListCccListingsSortByEnum string
 
 // Set of constants representing the allowable values for ListCccListingsSortByEnum
 const (
-	ListCccListingsSortByTimereleased ListCccListingsSortByEnum = "timeReleased"
+	ListCccListingsSortByTimecreated ListCccListingsSortByEnum = "timeCreated"
+	ListCccListingsSortByDisplayname ListCccListingsSortByEnum = "displayName"
 )
 
 var mappingListCccListingsSortByEnum = map[string]ListCccListingsSortByEnum{
-	"timeReleased": ListCccListingsSortByTimereleased,
+	"timeCreated": ListCccListingsSortByTimecreated,
+	"displayName": ListCccListingsSortByDisplayname,
 }
 
 var mappingListCccListingsSortByEnumLowerCase = map[string]ListCccListingsSortByEnum{
-	"timereleased": ListCccListingsSortByTimereleased,
+	"timecreated": ListCccListingsSortByTimecreated,
+	"displayname": ListCccListingsSortByDisplayname,
 }
 
 // GetListCccListingsSortByEnumValues Enumerates the set of values for ListCccListingsSortByEnum
@@ -227,7 +154,8 @@ func GetListCccListingsSortByEnumValues() []ListCccListingsSortByEnum {
 // GetListCccListingsSortByEnumStringValues Enumerates the set of values in String for ListCccListingsSortByEnum
 func GetListCccListingsSortByEnumStringValues() []string {
 	return []string{
-		"timeReleased",
+		"timeCreated",
+		"displayName",
 	}
 }
 
@@ -276,51 +204,5 @@ func GetListCccListingsSortOrderEnumStringValues() []string {
 // GetMappingListCccListingsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListCccListingsSortOrderEnum(val string) (ListCccListingsSortOrderEnum, bool) {
 	enum, ok := mappingListCccListingsSortOrderEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListCccListingsPricingEnum Enum with underlying type: string
-type ListCccListingsPricingEnum string
-
-// Set of constants representing the allowable values for ListCccListingsPricingEnum
-const (
-	ListCccListingsPricingFree  ListCccListingsPricingEnum = "Free"
-	ListCccListingsPricingByol  ListCccListingsPricingEnum = "BYOL"
-	ListCccListingsPricingPaygo ListCccListingsPricingEnum = "PayGo"
-)
-
-var mappingListCccListingsPricingEnum = map[string]ListCccListingsPricingEnum{
-	"Free":  ListCccListingsPricingFree,
-	"BYOL":  ListCccListingsPricingByol,
-	"PayGo": ListCccListingsPricingPaygo,
-}
-
-var mappingListCccListingsPricingEnumLowerCase = map[string]ListCccListingsPricingEnum{
-	"free":  ListCccListingsPricingFree,
-	"byol":  ListCccListingsPricingByol,
-	"paygo": ListCccListingsPricingPaygo,
-}
-
-// GetListCccListingsPricingEnumValues Enumerates the set of values for ListCccListingsPricingEnum
-func GetListCccListingsPricingEnumValues() []ListCccListingsPricingEnum {
-	values := make([]ListCccListingsPricingEnum, 0)
-	for _, v := range mappingListCccListingsPricingEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListCccListingsPricingEnumStringValues Enumerates the set of values in String for ListCccListingsPricingEnum
-func GetListCccListingsPricingEnumStringValues() []string {
-	return []string{
-		"Free",
-		"BYOL",
-		"PayGo",
-	}
-}
-
-// GetMappingListCccListingsPricingEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListCccListingsPricingEnum(val string) (ListCccListingsPricingEnum, bool) {
-	enum, ok := mappingListCccListingsPricingEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

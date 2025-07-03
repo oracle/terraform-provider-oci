@@ -112,6 +112,10 @@ func (m *discoveredclouddbsystemcomponent) UnmarshalPolymorphicJSON(data []byte)
 		mm := DiscoveredCloudListener{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATABASE_INSTANCE":
+		mm := DiscoveredCloudDbInstance{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := DiscoveredCloudDatabase{}
 		err = json.Unmarshal(data, &mm)

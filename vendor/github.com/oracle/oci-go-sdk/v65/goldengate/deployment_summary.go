@@ -83,9 +83,13 @@ type DeploymentSummary struct {
 	// The loadbalancer of the public deployment created in the customer subnet.
 	LoadBalancerId *string `mandatory:"false" json:"loadBalancerId"`
 
+	// Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit.
+	// If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit.
+	IsByolCpuCoreCountLimitEnabled *bool `mandatory:"false" json:"isByolCpuCoreCountLimitEnabled"`
+
 	// The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type.
 	// Any CPU usage above this limit is considered as License Included and billed.
-	ByolComputeCountLimit *int `mandatory:"false" json:"byolComputeCountLimit"`
+	ByolCpuCoreCountLimit *int `mandatory:"false" json:"byolCpuCoreCountLimit"`
 
 	// Specifies whether the deployment is used in a production or development/testing environment.
 	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
@@ -139,6 +143,9 @@ type DeploymentSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`

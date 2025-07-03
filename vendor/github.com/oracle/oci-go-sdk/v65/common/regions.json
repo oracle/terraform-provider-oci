@@ -610,5 +610,17 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-delhi-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "pyz",
+        "realmKey": "oc47",
+        "regionIdentifier": "uk-london-4",
+        "realmDomainComponent": "oraclecloud47.com"
+    },
+    {
+        "regionKey": "swq",
+        "realmKey": "oc1",
+        "regionIdentifier": "sa-riodejaneiro-2",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

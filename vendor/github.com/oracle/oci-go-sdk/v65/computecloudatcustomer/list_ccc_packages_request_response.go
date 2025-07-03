@@ -15,7 +15,7 @@ import (
 type ListCccPackagesRequest struct {
 
 	// The unique identifier for the listing.
-	CccListingId *string `mandatory:"true" contributesTo:"query" name:"cccListingId"`
+	CccListingId *string `mandatory:"false" contributesTo:"query" name:"cccListingId"`
 
 	// The version of the package. Package versions are unique within a listing.
 	CccPackageId *string `mandatory:"false" contributesTo:"query" name:"cccPackageId"`
@@ -27,8 +27,8 @@ type ListCccPackagesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only packages that match the given package type exactly.
-	PackageType ListCccPackagesPackageTypeEnum `mandatory:"false" contributesTo:"query" name:"packageType" omitEmpty:"true"`
+	// A filter to return only resources whose display name contains the substring.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
 	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -39,9 +39,7 @@ type ListCccPackagesRequest struct {
 	// A token representing the position at which to start retrieving results. This must come from the `opc-next-page` header field of a previous response.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The field to use to sort listed results. You can only specify one field to sort by.
-	// `timeReleased` displays results in descending order by default.
-	// You can change your preference by specifying a different sort order.
+	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListCccPackagesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
@@ -83,9 +81,6 @@ func (request ListCccPackagesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListCccPackagesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListCccPackagesPackageTypeEnum(string(request.PackageType)); !ok && request.PackageType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", request.PackageType, strings.Join(GetListCccPackagesPackageTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingListCccPackagesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCccPackagesSortByEnumStringValues(), ",")))
 	}
@@ -115,6 +110,11 @@ type ListCccPackagesResponse struct {
 	// then a partial list might have been returned. Include this value as the `page` parameter for the
 	// subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// For pagination of a list of items. When paging through a list, if this header appears in the response,
+	// then a partial list might have been returned. Include this value as the `page` parameter for the
+	// subsequent GET request to get the previous batch of items.
+	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 }
 
 func (response ListCccPackagesResponse) String() string {
@@ -126,74 +126,23 @@ func (response ListCccPackagesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
 
-// ListCccPackagesPackageTypeEnum Enum with underlying type: string
-type ListCccPackagesPackageTypeEnum string
-
-// Set of constants representing the allowable values for ListCccPackagesPackageTypeEnum
-const (
-	ListCccPackagesPackageTypeOrchestration ListCccPackagesPackageTypeEnum = "Orchestration"
-	ListCccPackagesPackageTypeImage         ListCccPackagesPackageTypeEnum = "Image"
-	ListCccPackagesPackageTypeContainer     ListCccPackagesPackageTypeEnum = "Container"
-	ListCccPackagesPackageTypeKubernetes    ListCccPackagesPackageTypeEnum = "Kubernetes"
-	ListCccPackagesPackageTypeSaas          ListCccPackagesPackageTypeEnum = "Saas"
-)
-
-var mappingListCccPackagesPackageTypeEnum = map[string]ListCccPackagesPackageTypeEnum{
-	"Orchestration": ListCccPackagesPackageTypeOrchestration,
-	"Image":         ListCccPackagesPackageTypeImage,
-	"Container":     ListCccPackagesPackageTypeContainer,
-	"Kubernetes":    ListCccPackagesPackageTypeKubernetes,
-	"Saas":          ListCccPackagesPackageTypeSaas,
-}
-
-var mappingListCccPackagesPackageTypeEnumLowerCase = map[string]ListCccPackagesPackageTypeEnum{
-	"orchestration": ListCccPackagesPackageTypeOrchestration,
-	"image":         ListCccPackagesPackageTypeImage,
-	"container":     ListCccPackagesPackageTypeContainer,
-	"kubernetes":    ListCccPackagesPackageTypeKubernetes,
-	"saas":          ListCccPackagesPackageTypeSaas,
-}
-
-// GetListCccPackagesPackageTypeEnumValues Enumerates the set of values for ListCccPackagesPackageTypeEnum
-func GetListCccPackagesPackageTypeEnumValues() []ListCccPackagesPackageTypeEnum {
-	values := make([]ListCccPackagesPackageTypeEnum, 0)
-	for _, v := range mappingListCccPackagesPackageTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListCccPackagesPackageTypeEnumStringValues Enumerates the set of values in String for ListCccPackagesPackageTypeEnum
-func GetListCccPackagesPackageTypeEnumStringValues() []string {
-	return []string{
-		"Orchestration",
-		"Image",
-		"Container",
-		"Kubernetes",
-		"Saas",
-	}
-}
-
-// GetMappingListCccPackagesPackageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListCccPackagesPackageTypeEnum(val string) (ListCccPackagesPackageTypeEnum, bool) {
-	enum, ok := mappingListCccPackagesPackageTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
 // ListCccPackagesSortByEnum Enum with underlying type: string
 type ListCccPackagesSortByEnum string
 
 // Set of constants representing the allowable values for ListCccPackagesSortByEnum
 const (
-	ListCccPackagesSortByTimereleased ListCccPackagesSortByEnum = "timeReleased"
+	ListCccPackagesSortByTimecreated ListCccPackagesSortByEnum = "timeCreated"
+	ListCccPackagesSortByDisplayname ListCccPackagesSortByEnum = "displayName"
 )
 
 var mappingListCccPackagesSortByEnum = map[string]ListCccPackagesSortByEnum{
-	"timeReleased": ListCccPackagesSortByTimereleased,
+	"timeCreated": ListCccPackagesSortByTimecreated,
+	"displayName": ListCccPackagesSortByDisplayname,
 }
 
 var mappingListCccPackagesSortByEnumLowerCase = map[string]ListCccPackagesSortByEnum{
-	"timereleased": ListCccPackagesSortByTimereleased,
+	"timecreated": ListCccPackagesSortByTimecreated,
+	"displayname": ListCccPackagesSortByDisplayname,
 }
 
 // GetListCccPackagesSortByEnumValues Enumerates the set of values for ListCccPackagesSortByEnum
@@ -208,7 +157,8 @@ func GetListCccPackagesSortByEnumValues() []ListCccPackagesSortByEnum {
 // GetListCccPackagesSortByEnumStringValues Enumerates the set of values in String for ListCccPackagesSortByEnum
 func GetListCccPackagesSortByEnumStringValues() []string {
 	return []string{
-		"timeReleased",
+		"timeCreated",
+		"displayName",
 	}
 }
 

@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Safe API
+// Stack Monitoring API
 //
-// APIs for using Oracle Data Safe.
+// Stack Monitoring API.
 //
 
-package datasafe
+package stackmonitoring
 
 import (
 	"fmt"
@@ -15,21 +15,25 @@ import (
 	"strings"
 )
 
-// TargetAlertPolicyUnassociatedCollection Collection of unassociated target alert policy association summary.
-type TargetAlertPolicyUnassociatedCollection struct {
+// MonitoringTemplateResourceAggregation The count of monitoring templates for specified dimension.
+type MonitoringTemplateResourceAggregation struct {
 
-	// Array of unassociated target alert policy association summary.
-	Items []TargetAlertPolicyUnassociatedSummary `mandatory:"true" json:"items"`
+	// Unique combination of dimension values.
+	// Each dimension takes the form of a key-value pair.
+	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
+
+	// The count of this metric
+	Count *int `mandatory:"true" json:"count"`
 }
 
-func (m TargetAlertPolicyUnassociatedCollection) String() string {
+func (m MonitoringTemplateResourceAggregation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TargetAlertPolicyUnassociatedCollection) ValidateEnumValue() (bool, error) {
+func (m MonitoringTemplateResourceAggregation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

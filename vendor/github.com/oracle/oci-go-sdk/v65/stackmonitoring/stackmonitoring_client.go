@@ -4256,6 +4256,61 @@ func (client StackMonitoringClient) requestSummarizedMetricExtensionsResources(c
 	return response, err
 }
 
+// RequestSummarizedMonitoringTemplatesResources Gets monitoring template resources count based on the aggregation criteria specified using request body.
+// Either monitoringTemplateId or compartmentId should be passed, if no other property is passed.
+// A default retry strategy applies to this operation RequestSummarizedMonitoringTemplatesResources()
+func (client StackMonitoringClient) RequestSummarizedMonitoringTemplatesResources(ctx context.Context, request RequestSummarizedMonitoringTemplatesResourcesRequest) (response RequestSummarizedMonitoringTemplatesResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedMonitoringTemplatesResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestSummarizedMonitoringTemplatesResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestSummarizedMonitoringTemplatesResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestSummarizedMonitoringTemplatesResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestSummarizedMonitoringTemplatesResourcesResponse")
+	}
+	return
+}
+
+// requestSummarizedMonitoringTemplatesResources implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) requestSummarizedMonitoringTemplatesResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoringTemplates/actions/summarizeResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestSummarizedMonitoringTemplatesResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoringTemplate/RequestSummarizedMonitoringTemplatesResources"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "RequestSummarizedMonitoringTemplatesResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RetryFailedMaintenanceWindowOperation Retry the last failed operation. The operation failed will be the most recent one. It won't apply for previous failed operations.
 func (client StackMonitoringClient) RetryFailedMaintenanceWindowOperation(ctx context.Context, request RetryFailedMaintenanceWindowOperationRequest) (response RetryFailedMaintenanceWindowOperationResponse, err error) {
 	var ociResponse common.OCIResponse

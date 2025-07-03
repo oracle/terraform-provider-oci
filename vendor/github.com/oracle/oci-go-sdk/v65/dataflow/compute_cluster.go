@@ -155,6 +155,8 @@ type ComputeCluster struct {
 
 	// Indicates whether this compute cluster should be created as default cluster
 	IsDefaultComputeCluster *bool `mandatory:"false" json:"isDefaultComputeCluster"`
+
+	Subscription []SubscriptionDetails `mandatory:"false" json:"subscription"`
 }
 
 func (m ComputeCluster) String() string {

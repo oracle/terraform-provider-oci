@@ -66,6 +66,15 @@ type DiscoveredCloudDatabase struct {
 	// The list of Pluggable Databases.
 	PluggableDatabases []DiscoveredCloudPluggableDatabase `mandatory:"false" json:"pluggableDatabases"`
 
+	// The list of database instances.
+	DbInstances []DiscoveredCloudDbInstance `mandatory:"false" json:"dbInstances"`
+
+	// Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
+	CanEnableAllCurrentPdbs *bool `mandatory:"false" json:"canEnableAllCurrentPdbs"`
+
+	// Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
+	IsAutoEnablePluggableDatabase *bool `mandatory:"false" json:"isAutoEnablePluggableDatabase"`
+
 	Connector CloudDbSystemDiscoveryConnector `mandatory:"false" json:"connector"`
 
 	// The role of the Oracle Database in Oracle Data Guard configuration.
@@ -161,25 +170,28 @@ func (m DiscoveredCloudDatabase) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *DiscoveredCloudDatabase) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ResourceId              *string                                    `json:"resourceId"`
-		DbaasId                 *string                                    `json:"dbaasId"`
-		IsSelectedForMonitoring *bool                                      `json:"isSelectedForMonitoring"`
-		Status                  DiscoveredCloudDbSystemComponentStatusEnum `json:"status"`
-		AssociatedComponents    []AssociatedCloudComponent                 `json:"associatedComponents"`
-		DbType                  DatabaseSubTypeEnum                        `json:"dbType"`
-		IsCluster               *bool                                      `json:"isCluster"`
-		DbEdition               *string                                    `json:"dbEdition"`
-		DbId                    *string                                    `json:"dbId"`
-		DbPacks                 *string                                    `json:"dbPacks"`
-		DbRole                  DiscoveredCloudDatabaseDbRoleEnum          `json:"dbRole"`
-		DbVersion               *string                                    `json:"dbVersion"`
-		PluggableDatabases      []DiscoveredCloudPluggableDatabase         `json:"pluggableDatabases"`
-		Connector               clouddbsystemdiscoveryconnector            `json:"connector"`
-		ComponentId             *string                                    `json:"componentId"`
-		DisplayName             *string                                    `json:"displayName"`
-		ComponentName           *string                                    `json:"componentName"`
-		CompartmentId           *string                                    `json:"compartmentId"`
-		DbUniqueName            *string                                    `json:"dbUniqueName"`
+		ResourceId                    *string                                    `json:"resourceId"`
+		DbaasId                       *string                                    `json:"dbaasId"`
+		IsSelectedForMonitoring       *bool                                      `json:"isSelectedForMonitoring"`
+		Status                        DiscoveredCloudDbSystemComponentStatusEnum `json:"status"`
+		AssociatedComponents          []AssociatedCloudComponent                 `json:"associatedComponents"`
+		DbType                        DatabaseSubTypeEnum                        `json:"dbType"`
+		IsCluster                     *bool                                      `json:"isCluster"`
+		DbEdition                     *string                                    `json:"dbEdition"`
+		DbId                          *string                                    `json:"dbId"`
+		DbPacks                       *string                                    `json:"dbPacks"`
+		DbRole                        DiscoveredCloudDatabaseDbRoleEnum          `json:"dbRole"`
+		DbVersion                     *string                                    `json:"dbVersion"`
+		PluggableDatabases            []DiscoveredCloudPluggableDatabase         `json:"pluggableDatabases"`
+		DbInstances                   []DiscoveredCloudDbInstance                `json:"dbInstances"`
+		CanEnableAllCurrentPdbs       *bool                                      `json:"canEnableAllCurrentPdbs"`
+		IsAutoEnablePluggableDatabase *bool                                      `json:"isAutoEnablePluggableDatabase"`
+		Connector                     clouddbsystemdiscoveryconnector            `json:"connector"`
+		ComponentId                   *string                                    `json:"componentId"`
+		DisplayName                   *string                                    `json:"displayName"`
+		ComponentName                 *string                                    `json:"componentName"`
+		CompartmentId                 *string                                    `json:"compartmentId"`
+		DbUniqueName                  *string                                    `json:"dbUniqueName"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -213,6 +225,12 @@ func (m *DiscoveredCloudDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.PluggableDatabases = make([]DiscoveredCloudPluggableDatabase, len(model.PluggableDatabases))
 	copy(m.PluggableDatabases, model.PluggableDatabases)
+	m.DbInstances = make([]DiscoveredCloudDbInstance, len(model.DbInstances))
+	copy(m.DbInstances, model.DbInstances)
+	m.CanEnableAllCurrentPdbs = model.CanEnableAllCurrentPdbs
+
+	m.IsAutoEnablePluggableDatabase = model.IsAutoEnablePluggableDatabase
+
 	nn, e = model.Connector.UnmarshalPolymorphicJSON(model.Connector.JsonData)
 	if e != nil {
 		return

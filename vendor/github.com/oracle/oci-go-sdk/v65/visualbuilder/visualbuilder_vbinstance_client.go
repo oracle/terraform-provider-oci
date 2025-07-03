@@ -261,6 +261,68 @@ func (client VbInstanceClient) deleteVbInstance(ctx context.Context, request com
 	return response, err
 }
 
+// DisasterRecoveryFailover Initiates a failover to the peer Vb instance that was previously in an STANDBY state for disaster recovery.
+// Applicable only to Vb instance with Disaster Recovery enabled.
+// This API should be called in the remote region where the peer Vb instance resides.
+// If the previous state is not STANDBY, then failover call will be ignored and a 409 response returned.
+// A default retry strategy applies to this operation DisasterRecoveryFailover()
+func (client VbInstanceClient) DisasterRecoveryFailover(ctx context.Context, request DisasterRecoveryFailoverRequest) (response DisasterRecoveryFailoverResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disasterRecoveryFailover, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisasterRecoveryFailoverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisasterRecoveryFailoverResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisasterRecoveryFailoverResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisasterRecoveryFailoverResponse")
+	}
+	return
+}
+
+// disasterRecoveryFailover implements the OCIOperation interface (enables retrying operations)
+func (client VbInstanceClient) disasterRecoveryFailover(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vbInstances/{vbInstanceId}/actions/failover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisasterRecoveryFailoverResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/DisasterRecoveryFailover"
+		err = common.PostProcessServiceError(err, "VbInstance", "DisasterRecoveryFailover", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetVbInstance Gets a VbInstance by identifier
 // A default retry strategy applies to this operation GetVbInstance()
 func (client VbInstanceClient) GetVbInstance(ctx context.Context, request GetVbInstanceRequest) (response GetVbInstanceResponse, err error) {

@@ -70,15 +70,18 @@ type UpdateLdapIdmapDetailsSchemaTypeEnum string
 
 // Set of constants representing the allowable values for UpdateLdapIdmapDetailsSchemaTypeEnum
 const (
-	UpdateLdapIdmapDetailsSchemaTypeRfc2307 UpdateLdapIdmapDetailsSchemaTypeEnum = "RFC2307"
+	UpdateLdapIdmapDetailsSchemaTypeRfc2307    UpdateLdapIdmapDetailsSchemaTypeEnum = "RFC2307"
+	UpdateLdapIdmapDetailsSchemaTypeRfc2307bis UpdateLdapIdmapDetailsSchemaTypeEnum = "RFC2307BIS"
 )
 
 var mappingUpdateLdapIdmapDetailsSchemaTypeEnum = map[string]UpdateLdapIdmapDetailsSchemaTypeEnum{
-	"RFC2307": UpdateLdapIdmapDetailsSchemaTypeRfc2307,
+	"RFC2307":    UpdateLdapIdmapDetailsSchemaTypeRfc2307,
+	"RFC2307BIS": UpdateLdapIdmapDetailsSchemaTypeRfc2307bis,
 }
 
 var mappingUpdateLdapIdmapDetailsSchemaTypeEnumLowerCase = map[string]UpdateLdapIdmapDetailsSchemaTypeEnum{
-	"rfc2307": UpdateLdapIdmapDetailsSchemaTypeRfc2307,
+	"rfc2307":    UpdateLdapIdmapDetailsSchemaTypeRfc2307,
+	"rfc2307bis": UpdateLdapIdmapDetailsSchemaTypeRfc2307bis,
 }
 
 // GetUpdateLdapIdmapDetailsSchemaTypeEnumValues Enumerates the set of values for UpdateLdapIdmapDetailsSchemaTypeEnum
@@ -94,6 +97,7 @@ func GetUpdateLdapIdmapDetailsSchemaTypeEnumValues() []UpdateLdapIdmapDetailsSch
 func GetUpdateLdapIdmapDetailsSchemaTypeEnumStringValues() []string {
 	return []string{
 		"RFC2307",
+		"RFC2307BIS",
 	}
 }
 

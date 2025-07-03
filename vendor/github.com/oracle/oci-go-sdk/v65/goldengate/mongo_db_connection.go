@@ -111,10 +111,6 @@ type MongoDbConnection struct {
 	// Note: When provided, 'tlsCertificateKeyFilePassword' field must not be provided.
 	TlsCertificateKeyFilePasswordSecretId *string `mandatory:"false" json:"tlsCertificateKeyFilePasswordSecretId"`
 
-	// Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL).
-	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
-	TlsCaFile *string `mandatory:"false" json:"tlsCaFile"`
-
 	// The MongoDB technology type.
 	TechnologyType MongoDbConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 

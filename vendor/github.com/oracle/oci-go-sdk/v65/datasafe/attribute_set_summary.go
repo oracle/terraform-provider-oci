@@ -91,18 +91,18 @@ type AttributeSetSummaryInUseEnum string
 
 // Set of constants representing the allowable values for AttributeSetSummaryInUseEnum
 const (
-	AttributeSetSummaryInUseYes  AttributeSetSummaryInUseEnum = "YES"
-	AttributeSetSummaryInUseNone AttributeSetSummaryInUseEnum = "NONE"
+	AttributeSetSummaryInUseYes AttributeSetSummaryInUseEnum = "YES"
+	AttributeSetSummaryInUseNo  AttributeSetSummaryInUseEnum = "NO"
 )
 
 var mappingAttributeSetSummaryInUseEnum = map[string]AttributeSetSummaryInUseEnum{
-	"YES":  AttributeSetSummaryInUseYes,
-	"NONE": AttributeSetSummaryInUseNone,
+	"YES": AttributeSetSummaryInUseYes,
+	"NO":  AttributeSetSummaryInUseNo,
 }
 
 var mappingAttributeSetSummaryInUseEnumLowerCase = map[string]AttributeSetSummaryInUseEnum{
-	"yes":  AttributeSetSummaryInUseYes,
-	"none": AttributeSetSummaryInUseNone,
+	"yes": AttributeSetSummaryInUseYes,
+	"no":  AttributeSetSummaryInUseNo,
 }
 
 // GetAttributeSetSummaryInUseEnumValues Enumerates the set of values for AttributeSetSummaryInUseEnum
@@ -118,7 +118,7 @@ func GetAttributeSetSummaryInUseEnumValues() []AttributeSetSummaryInUseEnum {
 func GetAttributeSetSummaryInUseEnumStringValues() []string {
 	return []string{
 		"YES",
-		"NONE",
+		"NO",
 	}
 }
 

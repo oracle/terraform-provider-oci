@@ -45,9 +45,6 @@ type SecurityPolicyDeploymentSummary struct {
 	// Indicates whether the security policy deployment is for a target database or a target database group.
 	TargetType SecurityPolicyDeploymentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
 
-	// Indicates whether the security policy will be un-deployed when a target is removed from a target group.
-	AutomaticUndeploy SecurityPolicyDeploymentAutomaticUndeployEnum `mandatory:"false" json:"automaticUndeploy,omitempty"`
-
 	// The last date and time the security policy was deployed, in the format defined by RFC3339.
 	TimeDeployed *common.SDKTime `mandatory:"false" json:"timeDeployed"`
 
@@ -85,9 +82,6 @@ func (m SecurityPolicyDeploymentSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingSecurityPolicyDeploymentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetSecurityPolicyDeploymentTargetTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingSecurityPolicyDeploymentAutomaticUndeployEnum(string(m.AutomaticUndeploy)); !ok && m.AutomaticUndeploy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutomaticUndeploy: %s. Supported values are: %s.", m.AutomaticUndeploy, strings.Join(GetSecurityPolicyDeploymentAutomaticUndeployEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

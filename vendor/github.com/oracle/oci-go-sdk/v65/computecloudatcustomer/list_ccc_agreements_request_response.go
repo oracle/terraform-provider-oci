@@ -27,6 +27,9 @@ type ListCccAgreementsRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources whose display name contains the substring.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
 	// The client request OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -95,6 +98,11 @@ type ListCccAgreementsResponse struct {
 	// then a partial list might have been returned. Include this value as the `page` parameter for the
 	// subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// For pagination of a list of items. When paging through a list, if this header appears in the response,
+	// then a partial list might have been returned. Include this value as the `page` parameter for the
+	// subsequent GET request to get the previous batch of items.
+	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 }
 
 func (response ListCccAgreementsResponse) String() string {

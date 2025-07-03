@@ -20,21 +20,24 @@ type CloudDbSystemDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for CloudDbSystemDeploymentTypeEnum
 const (
-	CloudDbSystemDeploymentTypeVm    CloudDbSystemDeploymentTypeEnum = "VM"
-	CloudDbSystemDeploymentTypeExacs CloudDbSystemDeploymentTypeEnum = "EXACS"
-	CloudDbSystemDeploymentTypeExacc CloudDbSystemDeploymentTypeEnum = "EXACC"
+	CloudDbSystemDeploymentTypeVm        CloudDbSystemDeploymentTypeEnum = "VM"
+	CloudDbSystemDeploymentTypeExadata   CloudDbSystemDeploymentTypeEnum = "EXADATA"
+	CloudDbSystemDeploymentTypeExadataCc CloudDbSystemDeploymentTypeEnum = "EXADATA_CC"
+	CloudDbSystemDeploymentTypeExadataXs CloudDbSystemDeploymentTypeEnum = "EXADATA_XS"
 )
 
 var mappingCloudDbSystemDeploymentTypeEnum = map[string]CloudDbSystemDeploymentTypeEnum{
-	"VM":    CloudDbSystemDeploymentTypeVm,
-	"EXACS": CloudDbSystemDeploymentTypeExacs,
-	"EXACC": CloudDbSystemDeploymentTypeExacc,
+	"VM":         CloudDbSystemDeploymentTypeVm,
+	"EXADATA":    CloudDbSystemDeploymentTypeExadata,
+	"EXADATA_CC": CloudDbSystemDeploymentTypeExadataCc,
+	"EXADATA_XS": CloudDbSystemDeploymentTypeExadataXs,
 }
 
 var mappingCloudDbSystemDeploymentTypeEnumLowerCase = map[string]CloudDbSystemDeploymentTypeEnum{
-	"vm":    CloudDbSystemDeploymentTypeVm,
-	"exacs": CloudDbSystemDeploymentTypeExacs,
-	"exacc": CloudDbSystemDeploymentTypeExacc,
+	"vm":         CloudDbSystemDeploymentTypeVm,
+	"exadata":    CloudDbSystemDeploymentTypeExadata,
+	"exadata_cc": CloudDbSystemDeploymentTypeExadataCc,
+	"exadata_xs": CloudDbSystemDeploymentTypeExadataXs,
 }
 
 // GetCloudDbSystemDeploymentTypeEnumValues Enumerates the set of values for CloudDbSystemDeploymentTypeEnum
@@ -50,8 +53,9 @@ func GetCloudDbSystemDeploymentTypeEnumValues() []CloudDbSystemDeploymentTypeEnu
 func GetCloudDbSystemDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"VM",
-		"EXACS",
-		"EXACC",
+		"EXADATA",
+		"EXADATA_CC",
+		"EXADATA_XS",
 	}
 }
 

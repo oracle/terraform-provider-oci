@@ -62,6 +62,8 @@ type VbInstance struct {
 	// Visual Builder is enabled or not.
 	IsVisualBuilderEnabled *bool `mandatory:"false" json:"isVisualBuilderEnabled"`
 
+	DisasterRecoveryDetails *DisasterRecoveryDetails `mandatory:"false" json:"disasterRecoveryDetails"`
+
 	CustomEndpoint *CustomEndpointDetails `mandatory:"false" json:"customEndpoint"`
 
 	// A list of alternate custom endpoints used for the vb instance URL.
@@ -117,6 +119,7 @@ func (m *VbInstance) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
 		IsVisualBuilderEnabled   *bool                             `json:"isVisualBuilderEnabled"`
+		DisasterRecoveryDetails  *DisasterRecoveryDetails          `json:"disasterRecoveryDetails"`
 		CustomEndpoint           *CustomEndpointDetails            `json:"customEndpoint"`
 		AlternateCustomEndpoints []CustomEndpointDetails           `json:"alternateCustomEndpoints"`
 		ConsumptionModel         VbInstanceConsumptionModelEnum    `json:"consumptionModel"`
@@ -151,6 +154,8 @@ func (m *VbInstance) UnmarshalJSON(data []byte) (e error) {
 	m.SystemTags = model.SystemTags
 
 	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.DisasterRecoveryDetails = model.DisasterRecoveryDetails
 
 	m.CustomEndpoint = model.CustomEndpoint
 

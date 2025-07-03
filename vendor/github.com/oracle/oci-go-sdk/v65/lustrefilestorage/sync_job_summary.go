@@ -27,6 +27,20 @@ type SyncJobSummary struct {
 	// The current state of the sync job.
 	LifecycleState SyncJobLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
 	// The flag is an identifier to tell whether this specific job run has overwrite enabled.
 	// If `isOverwrite` is false, the file to be imported or exported will be skipped if it already exists.
 	// If `isOverwrite` is true, the file to be imported or exported will be overwritten if it already exists.
@@ -59,6 +73,14 @@ type SyncJobSummary struct {
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2020-07-25T21:10:29.600Z`
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
+
+	// The path in the Lustre file system used for this Object Storage link.
+	// Example: `myFileSystem/mount/myDirectory`
+	LustreFileSystemPath *string `mandatory:"true" json:"lustreFileSystemPath"`
+
+	// The Object Storage namespace and bucket name, including optional object prefix string, to use as the source for imports or destination for exports.
+	// Example: `objectStorageNamespace:/bucketName/optionalFolder/optionalPrefix`
+	ObjectStoragePath *string `mandatory:"true" json:"objectStoragePath"`
 
 	// A message that describes the current state of the sync job in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.

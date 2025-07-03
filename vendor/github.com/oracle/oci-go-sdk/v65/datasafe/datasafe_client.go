@@ -16001,60 +16001,6 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 	return response, err
 }
 
-// ListTargetAlertPolicyUnassociatedMembers Gets the details of target-alert policy association and its unassociated members by its ID.
-// A default retry strategy applies to this operation ListTargetAlertPolicyUnassociatedMembers()
-func (client DataSafeClient) ListTargetAlertPolicyUnassociatedMembers(ctx context.Context, request ListTargetAlertPolicyUnassociatedMembersRequest) (response ListTargetAlertPolicyUnassociatedMembersResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listTargetAlertPolicyUnassociatedMembers, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListTargetAlertPolicyUnassociatedMembersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListTargetAlertPolicyUnassociatedMembersResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListTargetAlertPolicyUnassociatedMembersResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListTargetAlertPolicyUnassociatedMembersResponse")
-	}
-	return
-}
-
-// listTargetAlertPolicyUnassociatedMembers implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listTargetAlertPolicyUnassociatedMembers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetAlertPolicyAssociations/{targetAlertPolicyAssociationId}/unassociatedTargetMembers", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListTargetAlertPolicyUnassociatedMembersResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/ListTargetAlertPolicyUnassociatedMembers"
-		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyUnassociatedMembers", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListTargetDatabaseGroups Retrieves a list of target database groups according to the specified query parameters.
 // A default retry strategy applies to this operation ListTargetDatabaseGroups()
 func (client DataSafeClient) ListTargetDatabaseGroups(ctx context.Context, request ListTargetDatabaseGroupsRequest) (response ListTargetDatabaseGroupsResponse, err error) {

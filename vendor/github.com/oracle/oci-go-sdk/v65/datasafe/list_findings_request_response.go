@@ -92,6 +92,9 @@ type ListFindingsRequest struct {
 	// The field to sort by. You can specify only one sort order(sortOrder). The default order for category is alphabetical.
 	SortBy ListFindingsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// The sort order to use, either ascending (ASC) or descending (DESC).
+	SortOrder ListFindingsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
 	// Each finding in security assessment has an associated key (think of key as a finding's name).
 	// For a given finding, the key will be the same across targets. The user can use these keys to filter the findings.
 	FindingKey *string `mandatory:"false" contributesTo:"query" name:"findingKey"`
@@ -164,6 +167,9 @@ func (request ListFindingsRequest) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingListFindingsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFindingsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListFindingsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFindingsSortOrderEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -584,5 +590,47 @@ func GetListFindingsSortByEnumStringValues() []string {
 // GetMappingListFindingsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListFindingsSortByEnum(val string) (ListFindingsSortByEnum, bool) {
 	enum, ok := mappingListFindingsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListFindingsSortOrderEnum Enum with underlying type: string
+type ListFindingsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListFindingsSortOrderEnum
+const (
+	ListFindingsSortOrderAsc  ListFindingsSortOrderEnum = "ASC"
+	ListFindingsSortOrderDesc ListFindingsSortOrderEnum = "DESC"
+)
+
+var mappingListFindingsSortOrderEnum = map[string]ListFindingsSortOrderEnum{
+	"ASC":  ListFindingsSortOrderAsc,
+	"DESC": ListFindingsSortOrderDesc,
+}
+
+var mappingListFindingsSortOrderEnumLowerCase = map[string]ListFindingsSortOrderEnum{
+	"asc":  ListFindingsSortOrderAsc,
+	"desc": ListFindingsSortOrderDesc,
+}
+
+// GetListFindingsSortOrderEnumValues Enumerates the set of values for ListFindingsSortOrderEnum
+func GetListFindingsSortOrderEnumValues() []ListFindingsSortOrderEnum {
+	values := make([]ListFindingsSortOrderEnum, 0)
+	for _, v := range mappingListFindingsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListFindingsSortOrderEnumStringValues Enumerates the set of values in String for ListFindingsSortOrderEnum
+func GetListFindingsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
+}
+
+// GetMappingListFindingsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListFindingsSortOrderEnum(val string) (ListFindingsSortOrderEnum, bool) {
+	enum, ok := mappingListFindingsSortOrderEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

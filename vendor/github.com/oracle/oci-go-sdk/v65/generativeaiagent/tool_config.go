@@ -66,6 +66,10 @@ func (m *toolconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := HttpEndpointToolConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AGENT_TOOL_CONFIG":
+		mm := AgentToolConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "RAG_TOOL_CONFIG":
 		mm := RagToolConfig{}
 		err = json.Unmarshal(data, &mm)
@@ -101,6 +105,7 @@ const (
 	ToolConfigToolConfigTypeRagToolConfig             ToolConfigToolConfigTypeEnum = "RAG_TOOL_CONFIG"
 	ToolConfigToolConfigTypeFunctionCallingToolConfig ToolConfigToolConfigTypeEnum = "FUNCTION_CALLING_TOOL_CONFIG"
 	ToolConfigToolConfigTypeHttpEndpointToolConfig    ToolConfigToolConfigTypeEnum = "HTTP_ENDPOINT_TOOL_CONFIG"
+	ToolConfigToolConfigTypeAgentToolConfig           ToolConfigToolConfigTypeEnum = "AGENT_TOOL_CONFIG"
 )
 
 var mappingToolConfigToolConfigTypeEnum = map[string]ToolConfigToolConfigTypeEnum{
@@ -108,6 +113,7 @@ var mappingToolConfigToolConfigTypeEnum = map[string]ToolConfigToolConfigTypeEnu
 	"RAG_TOOL_CONFIG":              ToolConfigToolConfigTypeRagToolConfig,
 	"FUNCTION_CALLING_TOOL_CONFIG": ToolConfigToolConfigTypeFunctionCallingToolConfig,
 	"HTTP_ENDPOINT_TOOL_CONFIG":    ToolConfigToolConfigTypeHttpEndpointToolConfig,
+	"AGENT_TOOL_CONFIG":            ToolConfigToolConfigTypeAgentToolConfig,
 }
 
 var mappingToolConfigToolConfigTypeEnumLowerCase = map[string]ToolConfigToolConfigTypeEnum{
@@ -115,6 +121,7 @@ var mappingToolConfigToolConfigTypeEnumLowerCase = map[string]ToolConfigToolConf
 	"rag_tool_config":              ToolConfigToolConfigTypeRagToolConfig,
 	"function_calling_tool_config": ToolConfigToolConfigTypeFunctionCallingToolConfig,
 	"http_endpoint_tool_config":    ToolConfigToolConfigTypeHttpEndpointToolConfig,
+	"agent_tool_config":            ToolConfigToolConfigTypeAgentToolConfig,
 }
 
 // GetToolConfigToolConfigTypeEnumValues Enumerates the set of values for ToolConfigToolConfigTypeEnum
@@ -133,6 +140,7 @@ func GetToolConfigToolConfigTypeEnumStringValues() []string {
 		"RAG_TOOL_CONFIG",
 		"FUNCTION_CALLING_TOOL_CONFIG",
 		"HTTP_ENDPOINT_TOOL_CONFIG",
+		"AGENT_TOOL_CONFIG",
 	}
 }
 

@@ -36,8 +36,6 @@ type BulkCreateUnifiedAuditPolicyDetails struct {
 	UnifiedAuditPolicyDefinitionIds []string `mandatory:"false" json:"unifiedAuditPolicyDefinitionIds"`
 
 	// The list of unified audit policy names to be imported.
-	// If policy names are not provided, then all the audit policies
-	// from the target database will be imported.
 	PolicyNames []string `mandatory:"false" json:"policyNames"`
 
 	// Indicates whether the casing of the policy names provided in the request payload should be preserved during creation.

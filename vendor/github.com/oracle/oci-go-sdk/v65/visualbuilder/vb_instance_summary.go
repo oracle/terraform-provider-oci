@@ -71,6 +71,8 @@ type VbInstanceSummary struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+
+	DisasterRecoveryDetails *DisasterRecoveryDetails `mandatory:"false" json:"disasterRecoveryDetails"`
 }
 
 func (m VbInstanceSummary) String() string {
@@ -109,6 +111,7 @@ func (m *VbInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags              map[string]map[string]interface{}     `json:"definedTags"`
 		SystemTags               map[string]map[string]interface{}     `json:"systemTags"`
 		NetworkEndpointDetails   networkendpointdetails                `json:"networkEndpointDetails"`
+		DisasterRecoveryDetails  *DisasterRecoveryDetails              `json:"disasterRecoveryDetails"`
 		Id                       *string                               `json:"id"`
 		DisplayName              *string                               `json:"displayName"`
 		CompartmentId            *string                               `json:"compartmentId"`
@@ -151,6 +154,8 @@ func (m *VbInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.NetworkEndpointDetails = nil
 	}
+
+	m.DisasterRecoveryDetails = model.DisasterRecoveryDetails
 
 	m.Id = model.Id
 

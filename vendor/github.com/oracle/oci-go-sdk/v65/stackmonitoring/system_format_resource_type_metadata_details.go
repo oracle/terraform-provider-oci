@@ -50,6 +50,9 @@ type SystemFormatResourceTypeMetadataDetails struct {
 	// Example: `{ "osType": ["Linux","Windows","Solaris"]}`
 	ValidPropertyValues map[string][]string `mandatory:"false" json:"validPropertyValues"`
 
+	// List of allowed association pairs.
+	AllowedAssociationPairs []AssociationPairDetails `mandatory:"false" json:"allowedAssociationPairs"`
+
 	// List of valid sub-resource types for a composite resource type.
 	// The sub-resource types will be obtained from the valid association pairs corresponding to the composite resource types.
 	// It will be empty for non composite resource types

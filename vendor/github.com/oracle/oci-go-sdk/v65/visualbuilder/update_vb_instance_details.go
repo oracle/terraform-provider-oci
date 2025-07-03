@@ -42,6 +42,8 @@ type UpdateVbInstanceDetails struct {
 	// Enable Visual Builder. If Visual Builder is enabled alredy, then it cannot be disabled.
 	IsVisualBuilderEnabled *bool `mandatory:"false" json:"isVisualBuilderEnabled"`
 
+	DisasterRecoveryDetails *UpdateDisasterRecoveryDetails `mandatory:"false" json:"disasterRecoveryDetails"`
+
 	CustomEndpoint *UpdateCustomEndpointDetails `mandatory:"false" json:"customEndpoint"`
 
 	// A list of alternate custom endpoints to be used for the vb instance URL
@@ -76,6 +78,7 @@ func (m *UpdateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IdcsOpenId               *string                           `json:"idcsOpenId"`
 		NodeCount                *int                              `json:"nodeCount"`
 		IsVisualBuilderEnabled   *bool                             `json:"isVisualBuilderEnabled"`
+		DisasterRecoveryDetails  *UpdateDisasterRecoveryDetails    `json:"disasterRecoveryDetails"`
 		CustomEndpoint           *UpdateCustomEndpointDetails      `json:"customEndpoint"`
 		AlternateCustomEndpoints []UpdateCustomEndpointDetails     `json:"alternateCustomEndpoints"`
 		NetworkEndpointDetails   updatenetworkendpointdetails      `json:"networkEndpointDetails"`
@@ -97,6 +100,8 @@ func (m *UpdateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.NodeCount = model.NodeCount
 
 	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.DisasterRecoveryDetails = model.DisasterRecoveryDetails
 
 	m.CustomEndpoint = model.CustomEndpoint
 

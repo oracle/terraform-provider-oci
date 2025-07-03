@@ -65,6 +65,16 @@ type MonitoredResourceType struct {
 	// RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The resource group to use while fetching metrics from telemetry.
+	// If not specified, resource group will be skipped in the list metrics request.
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
+	// The resource type name as SMB understands. If not specified its same as resource type.
+	SmbResourceType *string `mandatory:"false" json:"smbResourceType"`
+
+	// List of additional namespace details.
+	AdditionalNamespaces []NamespaceDetails `mandatory:"false" json:"additionalNamespaces"`
+
 	// Key/Value pair for additional namespaces used by stack monitoring services for SYSTEM (SMB) resource types.
 	AdditionalNamespaceMap map[string]string `mandatory:"false" json:"additionalNamespaceMap"`
 
@@ -123,6 +133,9 @@ func (m *MonitoredResourceType) UnmarshalJSON(data []byte) (e error) {
 		ResourceCategory          ResourceCategoryEnum                `json:"resourceCategory"`
 		TimeCreated               *common.SDKTime                     `json:"timeCreated"`
 		TimeUpdated               *common.SDKTime                     `json:"timeUpdated"`
+		ResourceGroup             *string                             `json:"resourceGroup"`
+		SmbResourceType           *string                             `json:"smbResourceType"`
+		AdditionalNamespaces      []NamespaceDetails                  `json:"additionalNamespaces"`
 		AdditionalNamespaceMap    map[string]string                   `json:"additionalNamespaceMap"`
 		Metadata                  resourcetypemetadatadetails         `json:"metadata"`
 		FreeformTags              map[string]string                   `json:"freeformTags"`
@@ -162,6 +175,12 @@ func (m *MonitoredResourceType) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeUpdated = model.TimeUpdated
 
+	m.ResourceGroup = model.ResourceGroup
+
+	m.SmbResourceType = model.SmbResourceType
+
+	m.AdditionalNamespaces = make([]NamespaceDetails, len(model.AdditionalNamespaces))
+	copy(m.AdditionalNamespaces, model.AdditionalNamespaces)
 	m.AdditionalNamespaceMap = model.AdditionalNamespaceMap
 
 	nn, e = model.Metadata.UnmarshalPolymorphicJSON(model.Metadata.JsonData)

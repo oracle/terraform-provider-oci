@@ -42,6 +42,7 @@ const (
 	OperationTypeUpdateResourceTypeConfigs OperationTypeEnum = "UPDATE_RESOURCE_TYPE_CONFIGS"
 	OperationTypeCreateDiagnosticAction    OperationTypeEnum = "CREATE_DIAGNOSTIC_ACTION"
 	OperationTypeDeleteDiagnosticAction    OperationTypeEnum = "DELETE_DIAGNOSTIC_ACTION"
+	OperationTypeDisableResourcesForAgent  OperationTypeEnum = "DISABLE_RESOURCES_FOR_AGENT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -69,6 +70,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_RESOURCE_TYPE_CONFIGS": OperationTypeUpdateResourceTypeConfigs,
 	"CREATE_DIAGNOSTIC_ACTION":     OperationTypeCreateDiagnosticAction,
 	"DELETE_DIAGNOSTIC_ACTION":     OperationTypeDeleteDiagnosticAction,
+	"DISABLE_RESOURCES_FOR_AGENT":  OperationTypeDisableResourcesForAgent,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -96,6 +98,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_resource_type_configs": OperationTypeUpdateResourceTypeConfigs,
 	"create_diagnostic_action":     OperationTypeCreateDiagnosticAction,
 	"delete_diagnostic_action":     OperationTypeDeleteDiagnosticAction,
+	"disable_resources_for_agent":  OperationTypeDisableResourcesForAgent,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -134,6 +137,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_RESOURCE_TYPE_CONFIGS",
 		"CREATE_DIAGNOSTIC_ACTION",
 		"DELETE_DIAGNOSTIC_ACTION",
+		"DISABLE_RESOURCES_FOR_AGENT",
 	}
 }
 

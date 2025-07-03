@@ -11,23 +11,14 @@ import (
 	"strings"
 )
 
-// ChangePipelineSubscriptionRequest wrapper for the ChangePipelineSubscription operation
-type ChangePipelineSubscriptionRequest struct {
-
-	// Associate a GoldenGate pipeline with a different subscription.
-	ChangePipelineSubscriptionDetails `contributesTo:"body"`
+// PausePipelineRequest wrapper for the PausePipeline operation
+type PausePipelineRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline created.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
-	// A token that uniquely identifies a request so it can be retried, in case of a timeout or server error,
-	// without the risk of executing that same action again. Retry tokens expire after 24 hours but can be
-	// invalidated before then due to conflicting operations. For example, if a resource was deleted and purged
-	// from the system, then a retry of the original creation request is rejected.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
-
-	// Unique identifier for the request.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+	// Details to pause the pipeline.
+	PausePipelineDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
 	// `if-match` parameter to the value of the etag from a previous GET or POST response for that
@@ -35,17 +26,29 @@ type ChangePipelineSubscriptionRequest struct {
 	// resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// The client request ID for tracing.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// A token that uniquely identifies a request so it can be retried, in case of a timeout or server error,
+	// without the risk of executing that same action again. Retry tokens expire after 24 hours but can be
+	// invalidated before then due to conflicting operations. For example, if a resource was deleted and purged
+	// from the system, then a retry of the original creation request is rejected.
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ChangePipelineSubscriptionRequest) String() string {
+func (request PausePipelineRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangePipelineSubscriptionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request PausePipelineRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +58,21 @@ func (request ChangePipelineSubscriptionRequest) HTTPRequest(method, path string
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ChangePipelineSubscriptionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request PausePipelineRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangePipelineSubscriptionRequest) RetryPolicy() *common.RetryPolicy {
+func (request PausePipelineRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ChangePipelineSubscriptionRequest) ValidateEnumValue() (bool, error) {
+func (request PausePipelineRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -77,8 +80,8 @@ func (request ChangePipelineSubscriptionRequest) ValidateEnumValue() (bool, erro
 	return false, nil
 }
 
-// ChangePipelineSubscriptionResponse wrapper for the ChangePipelineSubscription operation
-type ChangePipelineSubscriptionResponse struct {
+// PausePipelineResponse wrapper for the PausePipeline operation
+type PausePipelineResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -92,11 +95,11 @@ type ChangePipelineSubscriptionResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response ChangePipelineSubscriptionResponse) String() string {
+func (response PausePipelineResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ChangePipelineSubscriptionResponse) HTTPResponse() *http.Response {
+func (response PausePipelineResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

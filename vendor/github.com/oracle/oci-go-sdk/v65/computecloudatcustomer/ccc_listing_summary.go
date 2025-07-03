@@ -22,8 +22,8 @@ type CccListingSummary struct {
 	// The unique identifier for the listing in Marketplace.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the listing.
-	Name *string `mandatory:"true" json:"name"`
+	// Compute Cloud@Customer marketplace listing display name.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// A description of the listing.
 	Description *string `mandatory:"true" json:"description"`

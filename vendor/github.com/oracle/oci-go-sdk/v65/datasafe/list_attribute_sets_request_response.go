@@ -283,18 +283,18 @@ type ListAttributeSetsInUseEnum string
 
 // Set of constants representing the allowable values for ListAttributeSetsInUseEnum
 const (
-	ListAttributeSetsInUseYes  ListAttributeSetsInUseEnum = "YES"
-	ListAttributeSetsInUseNone ListAttributeSetsInUseEnum = "NONE"
+	ListAttributeSetsInUseYes ListAttributeSetsInUseEnum = "YES"
+	ListAttributeSetsInUseNo  ListAttributeSetsInUseEnum = "NO"
 )
 
 var mappingListAttributeSetsInUseEnum = map[string]ListAttributeSetsInUseEnum{
-	"YES":  ListAttributeSetsInUseYes,
-	"NONE": ListAttributeSetsInUseNone,
+	"YES": ListAttributeSetsInUseYes,
+	"NO":  ListAttributeSetsInUseNo,
 }
 
 var mappingListAttributeSetsInUseEnumLowerCase = map[string]ListAttributeSetsInUseEnum{
-	"yes":  ListAttributeSetsInUseYes,
-	"none": ListAttributeSetsInUseNone,
+	"yes": ListAttributeSetsInUseYes,
+	"no":  ListAttributeSetsInUseNo,
 }
 
 // GetListAttributeSetsInUseEnumValues Enumerates the set of values for ListAttributeSetsInUseEnum
@@ -310,7 +310,7 @@ func GetListAttributeSetsInUseEnumValues() []ListAttributeSetsInUseEnum {
 func GetListAttributeSetsInUseEnumStringValues() []string {
 	return []string{
 		"YES",
-		"NONE",
+		"NO",
 	}
 }
 

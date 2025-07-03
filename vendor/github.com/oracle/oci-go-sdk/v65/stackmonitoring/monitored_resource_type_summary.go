@@ -59,6 +59,16 @@ type MonitoredResourceTypeSummary struct {
 	// Key/Value pair for additional namespaces used by stack monitoring services for SYSTEM (SMB) resource types.
 	AdditionalNamespaceMap map[string]string `mandatory:"false" json:"additionalNamespaceMap"`
 
+	// The resource group to use while fetching metrics from telemetry.
+	// If not specified, resource group will be skipped in the list metrics request.
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
+	// The resource type name as SMB understands. If not specified its same as resource type.
+	SmbResourceType *string `mandatory:"false" json:"smbResourceType"`
+
+	// List of additional namespace details.
+	AdditionalNamespaces []NamespaceDetails `mandatory:"false" json:"additionalNamespaces"`
+
 	// The date and time when the monitored resource type was created, expressed in
 	// RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -119,6 +129,9 @@ func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 		ResourceCategory          ResourceCategoryEnum                `json:"resourceCategory"`
 		Metadata                  resourcetypemetadatadetails         `json:"metadata"`
 		AdditionalNamespaceMap    map[string]string                   `json:"additionalNamespaceMap"`
+		ResourceGroup             *string                             `json:"resourceGroup"`
+		SmbResourceType           *string                             `json:"smbResourceType"`
+		AdditionalNamespaces      []NamespaceDetails                  `json:"additionalNamespaces"`
 		TimeCreated               *common.SDKTime                     `json:"timeCreated"`
 		TimeUpdated               *common.SDKTime                     `json:"timeUpdated"`
 		FreeformTags              map[string]string                   `json:"freeformTags"`
@@ -164,6 +177,12 @@ func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.AdditionalNamespaceMap = model.AdditionalNamespaceMap
 
+	m.ResourceGroup = model.ResourceGroup
+
+	m.SmbResourceType = model.SmbResourceType
+
+	m.AdditionalNamespaces = make([]NamespaceDetails, len(model.AdditionalNamespaces))
+	copy(m.AdditionalNamespaces, model.AdditionalNamespaces)
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated

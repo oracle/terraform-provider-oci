@@ -24,9 +24,6 @@ type UpdateSecurityPolicyDeploymentDetails struct {
 	// The description of the security policy deployment.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Indicates whether the security policy will be un-deployed when a target is removed from a target group.
-	AutomaticUndeploy SecurityPolicyDeploymentAutomaticUndeployEnum `mandatory:"false" json:"automaticUndeploy,omitempty"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -46,9 +43,6 @@ func (m UpdateSecurityPolicyDeploymentDetails) String() string {
 func (m UpdateSecurityPolicyDeploymentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingSecurityPolicyDeploymentAutomaticUndeployEnum(string(m.AutomaticUndeploy)); !ok && m.AutomaticUndeploy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutomaticUndeploy: %s. Supported values are: %s.", m.AutomaticUndeploy, strings.Join(GetSecurityPolicyDeploymentAutomaticUndeployEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

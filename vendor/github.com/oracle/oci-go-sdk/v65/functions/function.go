@@ -69,6 +69,8 @@ type Function struct {
 
 	FailureDestination FailureDestinationDetails `mandatory:"false" json:"failureDestination"`
 
+	SuccessDestination SuccessDestinationDetails `mandatory:"false" json:"successDestination"`
+
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -136,6 +138,7 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
 		DetachedModeTimeoutInSeconds *int                                 `json:"detachedModeTimeoutInSeconds"`
 		FailureDestination           failuredestinationdetails            `json:"failureDestination"`
+		SuccessDestination           successdestinationdetails            `json:"successDestination"`
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		InvokeEndpoint               *string                              `json:"invokeEndpoint"`
@@ -201,6 +204,16 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		m.FailureDestination = nn.(FailureDestinationDetails)
 	} else {
 		m.FailureDestination = nil
+	}
+
+	nn, e = model.SuccessDestination.UnmarshalPolymorphicJSON(model.SuccessDestination.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SuccessDestination = nn.(SuccessDestinationDetails)
+	} else {
+		m.SuccessDestination = nil
 	}
 
 	m.TraceConfig = model.TraceConfig

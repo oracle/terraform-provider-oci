@@ -134,21 +134,24 @@ type ListCloudDbSystemsDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for ListCloudDbSystemsDeploymentTypeEnum
 const (
-	ListCloudDbSystemsDeploymentTypeVm    ListCloudDbSystemsDeploymentTypeEnum = "VM"
-	ListCloudDbSystemsDeploymentTypeExacs ListCloudDbSystemsDeploymentTypeEnum = "EXACS"
-	ListCloudDbSystemsDeploymentTypeExacc ListCloudDbSystemsDeploymentTypeEnum = "EXACC"
+	ListCloudDbSystemsDeploymentTypeVm        ListCloudDbSystemsDeploymentTypeEnum = "VM"
+	ListCloudDbSystemsDeploymentTypeExadata   ListCloudDbSystemsDeploymentTypeEnum = "EXADATA"
+	ListCloudDbSystemsDeploymentTypeExadataCc ListCloudDbSystemsDeploymentTypeEnum = "EXADATA_CC"
+	ListCloudDbSystemsDeploymentTypeExadataXs ListCloudDbSystemsDeploymentTypeEnum = "EXADATA_XS"
 )
 
 var mappingListCloudDbSystemsDeploymentTypeEnum = map[string]ListCloudDbSystemsDeploymentTypeEnum{
-	"VM":    ListCloudDbSystemsDeploymentTypeVm,
-	"EXACS": ListCloudDbSystemsDeploymentTypeExacs,
-	"EXACC": ListCloudDbSystemsDeploymentTypeExacc,
+	"VM":         ListCloudDbSystemsDeploymentTypeVm,
+	"EXADATA":    ListCloudDbSystemsDeploymentTypeExadata,
+	"EXADATA_CC": ListCloudDbSystemsDeploymentTypeExadataCc,
+	"EXADATA_XS": ListCloudDbSystemsDeploymentTypeExadataXs,
 }
 
 var mappingListCloudDbSystemsDeploymentTypeEnumLowerCase = map[string]ListCloudDbSystemsDeploymentTypeEnum{
-	"vm":    ListCloudDbSystemsDeploymentTypeVm,
-	"exacs": ListCloudDbSystemsDeploymentTypeExacs,
-	"exacc": ListCloudDbSystemsDeploymentTypeExacc,
+	"vm":         ListCloudDbSystemsDeploymentTypeVm,
+	"exadata":    ListCloudDbSystemsDeploymentTypeExadata,
+	"exadata_cc": ListCloudDbSystemsDeploymentTypeExadataCc,
+	"exadata_xs": ListCloudDbSystemsDeploymentTypeExadataXs,
 }
 
 // GetListCloudDbSystemsDeploymentTypeEnumValues Enumerates the set of values for ListCloudDbSystemsDeploymentTypeEnum
@@ -164,8 +167,9 @@ func GetListCloudDbSystemsDeploymentTypeEnumValues() []ListCloudDbSystemsDeploym
 func GetListCloudDbSystemsDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"VM",
-		"EXACS",
-		"EXACC",
+		"EXADATA",
+		"EXADATA_CC",
+		"EXADATA_XS",
 	}
 }
 

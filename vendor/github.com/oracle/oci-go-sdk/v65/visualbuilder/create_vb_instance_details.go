@@ -45,6 +45,8 @@ type CreateVbInstanceDetails struct {
 	// Visual Builder is enabled or not.
 	IsVisualBuilderEnabled *bool `mandatory:"false" json:"isVisualBuilderEnabled"`
 
+	DisasterRecoveryDetails *CreateDisasterRecoveryDetails `mandatory:"false" json:"disasterRecoveryDetails"`
+
 	CustomEndpoint *CreateCustomEndpointDetails `mandatory:"false" json:"customEndpoint"`
 
 	// A list of alternate custom endpoints to be used for the vb instance URL
@@ -83,6 +85,7 @@ func (m *CreateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags              map[string]map[string]interface{}           `json:"definedTags"`
 		IdcsOpenId               *string                                     `json:"idcsOpenId"`
 		IsVisualBuilderEnabled   *bool                                       `json:"isVisualBuilderEnabled"`
+		DisasterRecoveryDetails  *CreateDisasterRecoveryDetails              `json:"disasterRecoveryDetails"`
 		CustomEndpoint           *CreateCustomEndpointDetails                `json:"customEndpoint"`
 		AlternateCustomEndpoints []CreateCustomEndpointDetails               `json:"alternateCustomEndpoints"`
 		ConsumptionModel         CreateVbInstanceDetailsConsumptionModelEnum `json:"consumptionModel"`
@@ -104,6 +107,8 @@ func (m *CreateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IdcsOpenId = model.IdcsOpenId
 
 	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.DisasterRecoveryDetails = model.DisasterRecoveryDetails
 
 	m.CustomEndpoint = model.CustomEndpoint
 

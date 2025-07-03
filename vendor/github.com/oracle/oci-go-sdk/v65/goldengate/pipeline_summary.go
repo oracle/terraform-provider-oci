@@ -80,8 +80,9 @@ type PipelineSummary interface {
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
-	GetSubscriptionId() *string
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	GetSubnetId() *string
 }
 
 type pipelinesummary struct {
@@ -93,7 +94,7 @@ type pipelinesummary struct {
 	Locks                   []ResourceLock                    `mandatory:"false" json:"locks"`
 	LifecycleSubState       PipelineLifecycleSubStateEnum     `mandatory:"false" json:"lifecycleSubState,omitempty"`
 	LifecycleDetails        *string                           `mandatory:"false" json:"lifecycleDetails"`
-	SubscriptionId          *string                           `mandatory:"false" json:"subscriptionId"`
+	SubnetId                *string                           `mandatory:"false" json:"subnetId"`
 	Id                      *string                           `mandatory:"true" json:"id"`
 	DisplayName             *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
@@ -137,7 +138,7 @@ func (m *pipelinesummary) UnmarshalJSON(data []byte) error {
 	m.Locks = s.Model.Locks
 	m.LifecycleSubState = s.Model.LifecycleSubState
 	m.LifecycleDetails = s.Model.LifecycleDetails
-	m.SubscriptionId = s.Model.SubscriptionId
+	m.SubnetId = s.Model.SubnetId
 	m.RecipeType = s.Model.RecipeType
 
 	return err
@@ -197,9 +198,9 @@ func (m pipelinesummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetSubscriptionId returns SubscriptionId
-func (m pipelinesummary) GetSubscriptionId() *string {
-	return m.SubscriptionId
+// GetSubnetId returns SubnetId
+func (m pipelinesummary) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 // GetId returns Id

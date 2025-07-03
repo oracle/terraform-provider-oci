@@ -20,18 +20,18 @@ import (
 	"strings"
 )
 
-// HttpEndpointNoAuthConfig Indicates that no authentication is required for invoking the endpoint.
-type HttpEndpointNoAuthConfig struct {
+// HttpEndpointNoAuthScopeConfig Specifies that no authentication is required, no credentials are resolved or injected during runtime.
+type HttpEndpointNoAuthScopeConfig struct {
 }
 
-func (m HttpEndpointNoAuthConfig) String() string {
+func (m HttpEndpointNoAuthScopeConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m HttpEndpointNoAuthConfig) ValidateEnumValue() (bool, error) {
+func (m HttpEndpointNoAuthScopeConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -41,14 +41,14 @@ func (m HttpEndpointNoAuthConfig) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m HttpEndpointNoAuthConfig) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeHttpEndpointNoAuthConfig HttpEndpointNoAuthConfig
+func (m HttpEndpointNoAuthScopeConfig) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeHttpEndpointNoAuthScopeConfig HttpEndpointNoAuthScopeConfig
 	s := struct {
-		DiscriminatorParam string `json:"httpEndpointAuthConfigType"`
-		MarshalTypeHttpEndpointNoAuthConfig
+		DiscriminatorParam string `json:"httpEndpointAuthScopeConfigType"`
+		MarshalTypeHttpEndpointNoAuthScopeConfig
 	}{
-		"HTTP_ENDPOINT_NO_AUTH_CONFIG",
-		(MarshalTypeHttpEndpointNoAuthConfig)(m),
+		"HTTP_ENDPOINT_NO_AUTH_SCOPE_CONFIG",
+		(MarshalTypeHttpEndpointNoAuthScopeConfig)(m),
 	}
 
 	return json.Marshal(&s)

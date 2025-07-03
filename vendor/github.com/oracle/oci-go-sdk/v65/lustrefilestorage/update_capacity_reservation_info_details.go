@@ -21,10 +21,10 @@ type UpdateCapacityReservationInfoDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the LFS service CPG.
 	LfsCpgId *string `mandatory:"false" json:"lfsCpgId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer CPG.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer CPG. Use empty string to unset the value.
 	CustomerCpgId *string `mandatory:"false" json:"customerCpgId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer tenancy.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer tenancy. Use empty string to unset the value.
 	CustomerTenancyId *string `mandatory:"false" json:"customerTenancyId"`
 
 	// Provisional cell capacity available for creating new filesystems on the cell. Measured in GB.
@@ -34,6 +34,10 @@ type UpdateCapacityReservationInfoDetails struct {
 
 	// If set to true, update capacity requests would not be sent.
 	IsUpdateRequestPaused *bool `mandatory:"false" json:"isUpdateRequestPaused"`
+
+	// A list of CPG OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) with block capacity
+	// A maximum of 10 is allowed.
+	BlockCpgIds []string `mandatory:"false" json:"blockCpgIds"`
 }
 
 func (m UpdateCapacityReservationInfoDetails) String() string {

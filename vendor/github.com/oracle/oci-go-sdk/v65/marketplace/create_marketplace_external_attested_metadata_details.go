@@ -20,6 +20,9 @@ type CreateMarketplaceExternalAttestedMetadataDetails struct {
 
 	// unique id that identifies the associated instance
 	InstanceId *string `mandatory:"true" json:"instanceId"`
+
+	// compartment that associated instance is in
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
 func (m CreateMarketplaceExternalAttestedMetadataDetails) String() string {

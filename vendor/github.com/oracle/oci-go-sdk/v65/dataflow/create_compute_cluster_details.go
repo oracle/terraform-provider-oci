@@ -118,6 +118,8 @@ type CreateComputeClusterDetails struct {
 
 	// Tag slug from user tenancy passed from Datalake as Base64.getEncoder().encodeToString(data)
 	UserTenancyTagSlug *string `mandatory:"false" json:"userTenancyTagSlug"`
+
+	Subscription []SubscriptionDetails `mandatory:"false" json:"subscription"`
 }
 
 func (m CreateComputeClusterDetails) String() string {

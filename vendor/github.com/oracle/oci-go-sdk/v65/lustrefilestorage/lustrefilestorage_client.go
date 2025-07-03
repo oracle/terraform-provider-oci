@@ -1026,6 +1026,66 @@ func (client LustreFileStorageClient) listWorkRequests(ctx context.Context, requ
 	return response, err
 }
 
+// PauseSyncJob Pauses the object sync job in progress. The object sync job can either have Object Storage or Lustre File
+// System as either source or target.
+// A default retry strategy applies to this operation PauseSyncJob()
+func (client LustreFileStorageClient) PauseSyncJob(ctx context.Context, request PauseSyncJobRequest) (response PauseSyncJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.pauseSyncJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PauseSyncJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PauseSyncJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PauseSyncJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PauseSyncJobResponse")
+	}
+	return
+}
+
+// pauseSyncJob implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) pauseSyncJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/objectStorageLinks/{objectStorageLinkId}/actions/pauseSyncJob", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PauseSyncJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ObjectStorageLink/PauseSyncJob"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "PauseSyncJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartExportToObject Starts the export of data from the Lustre file system to Object Storage.
 // The Lustre file system path and Object Storage object prefix are defined in the Object Storage link resource.
 // A default retry strategy applies to this operation StartExportToObject()
@@ -1259,6 +1319,66 @@ func (client LustreFileStorageClient) stopImportFromObject(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ObjectStorageLink/StopImportFromObject"
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "StopImportFromObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnpauseSyncJob Unpauses the object sync job in progress. The object sync job can either have Object Storage or Lustre File
+// System as either source or target.
+// A default retry strategy applies to this operation UnpauseSyncJob()
+func (client LustreFileStorageClient) UnpauseSyncJob(ctx context.Context, request UnpauseSyncJobRequest) (response UnpauseSyncJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unpauseSyncJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnpauseSyncJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnpauseSyncJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnpauseSyncJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnpauseSyncJobResponse")
+	}
+	return
+}
+
+// unpauseSyncJob implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) unpauseSyncJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/objectStorageLinks/{objectStorageLinkId}/actions/unpauseSyncJob", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnpauseSyncJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ObjectStorageLink/UnpauseSyncJob"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "UnpauseSyncJob", apiReferenceLink)
 		return response, err
 	}
 

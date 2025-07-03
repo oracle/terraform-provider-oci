@@ -70,15 +70,18 @@ type LdapIdmapSchemaTypeEnum string
 
 // Set of constants representing the allowable values for LdapIdmapSchemaTypeEnum
 const (
-	LdapIdmapSchemaTypeRfc2307 LdapIdmapSchemaTypeEnum = "RFC2307"
+	LdapIdmapSchemaTypeRfc2307    LdapIdmapSchemaTypeEnum = "RFC2307"
+	LdapIdmapSchemaTypeRfc2307bis LdapIdmapSchemaTypeEnum = "RFC2307BIS"
 )
 
 var mappingLdapIdmapSchemaTypeEnum = map[string]LdapIdmapSchemaTypeEnum{
-	"RFC2307": LdapIdmapSchemaTypeRfc2307,
+	"RFC2307":    LdapIdmapSchemaTypeRfc2307,
+	"RFC2307BIS": LdapIdmapSchemaTypeRfc2307bis,
 }
 
 var mappingLdapIdmapSchemaTypeEnumLowerCase = map[string]LdapIdmapSchemaTypeEnum{
-	"rfc2307": LdapIdmapSchemaTypeRfc2307,
+	"rfc2307":    LdapIdmapSchemaTypeRfc2307,
+	"rfc2307bis": LdapIdmapSchemaTypeRfc2307bis,
 }
 
 // GetLdapIdmapSchemaTypeEnumValues Enumerates the set of values for LdapIdmapSchemaTypeEnum
@@ -94,6 +97,7 @@ func GetLdapIdmapSchemaTypeEnumValues() []LdapIdmapSchemaTypeEnum {
 func GetLdapIdmapSchemaTypeEnumStringValues() []string {
 	return []string{
 		"RFC2307",
+		"RFC2307BIS",
 	}
 }
 

@@ -51,6 +51,9 @@ type FindingSummary struct {
 	// Provides a recommended approach to take to remediate the finding reported.
 	Oneline *string `mandatory:"false" json:"oneline"`
 
+	// Documentation link provided by Oracle that explains a specific security finding or check.
+	Doclink *string `mandatory:"false" json:"doclink"`
+
 	// Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
 	References *References `mandatory:"false" json:"references"`
 

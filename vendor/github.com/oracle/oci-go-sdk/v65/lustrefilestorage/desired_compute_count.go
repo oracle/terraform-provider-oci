@@ -18,8 +18,8 @@ import (
 // DesiredComputeCount The desired compute configuration.
 type DesiredComputeCount struct {
 
-	// Key/Value pairs of compute config
-	Config map[string]interface{} `mandatory:"false" json:"config"`
+	// List of desired compute configurations.
+	Configs []interface{} `mandatory:"false" json:"configs"`
 }
 
 func (m DesiredComputeCount) String() string {

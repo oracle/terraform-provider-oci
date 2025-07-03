@@ -34,6 +34,10 @@ type UpdateZeroEtlPipelineDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	ProcessOptions *ProcessOptions `mandatory:"false" json:"processOptions"`
 
 	// Mapping for source/target schema/tables for the pipeline data replication.
@@ -66,6 +70,11 @@ func (m UpdateZeroEtlPipelineDetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m UpdateZeroEtlPipelineDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSubnetId returns SubnetId
+func (m UpdateZeroEtlPipelineDetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m UpdateZeroEtlPipelineDetails) String() string {

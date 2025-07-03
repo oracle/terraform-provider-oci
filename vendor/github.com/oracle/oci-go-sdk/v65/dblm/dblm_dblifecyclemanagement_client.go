@@ -141,7 +141,7 @@ func (client DbLifeCycleManagementClient) createSoftwareImage(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/CreateSoftwareImage"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "CreateSoftwareImage", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +200,7 @@ func (client DbLifeCycleManagementClient) createVulnerabilityScan(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/VulnerabilityScan/CreateVulnerabilityScan"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "CreateVulnerabilityScan", apiReferenceLink)
 		return response, err
 	}
@@ -254,7 +254,7 @@ func (client DbLifeCycleManagementClient) deletePatchOperation(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchOperation/DeletePatchOperation"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "DeletePatchOperation", apiReferenceLink)
 		return response, err
 	}
@@ -308,7 +308,7 @@ func (client DbLifeCycleManagementClient) deleteSoftwareImage(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/DeleteSoftwareImage"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "DeleteSoftwareImage", apiReferenceLink)
 		return response, err
 	}
@@ -362,7 +362,7 @@ func (client DbLifeCycleManagementClient) getPatchManagement(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/DblmPatchManagement/GetPatchManagement"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetPatchManagement", apiReferenceLink)
 		return response, err
 	}
@@ -416,7 +416,7 @@ func (client DbLifeCycleManagementClient) getPatchOperation(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchOperation/GetPatchOperation"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetPatchOperation", apiReferenceLink)
 		return response, err
 	}
@@ -470,7 +470,7 @@ func (client DbLifeCycleManagementClient) getSoftwareImage(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/GetSoftwareImage"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetSoftwareImage", apiReferenceLink)
 		return response, err
 	}
@@ -524,7 +524,7 @@ func (client DbLifeCycleManagementClient) getVulnerability(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/DblmVulnerability/GetVulnerability"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetVulnerability", apiReferenceLink)
 		return response, err
 	}
@@ -578,7 +578,7 @@ func (client DbLifeCycleManagementClient) getVulnerabilityScan(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/VulnerabilityScan/GetVulnerabilityScan"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetVulnerabilityScan", apiReferenceLink)
 		return response, err
 	}
@@ -632,7 +632,7 @@ func (client DbLifeCycleManagementClient) getWorkRequest(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -686,7 +686,7 @@ func (client DbLifeCycleManagementClient) listAggregatedVulnerabilityData(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/DblmVulnerability/ListAggregatedVulnerabilityData"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListAggregatedVulnerabilityData", apiReferenceLink)
 		return response, err
 	}
@@ -740,7 +740,7 @@ func (client DbLifeCycleManagementClient) listDatabases(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchDatabasesCollection/ListDatabases"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListDatabases", apiReferenceLink)
 		return response, err
 	}
@@ -794,7 +794,7 @@ func (client DbLifeCycleManagementClient) listNotifications(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/NotificationCollection/ListNotifications"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListNotifications", apiReferenceLink)
 		return response, err
 	}
@@ -848,7 +848,7 @@ func (client DbLifeCycleManagementClient) listPatchOperations(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchOperationCollection/ListPatchOperations"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListPatchOperations", apiReferenceLink)
 		return response, err
 	}
@@ -902,7 +902,7 @@ func (client DbLifeCycleManagementClient) listPatchTaskSteps(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchTaskStepCollection/ListPatchTaskSteps"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListPatchTaskSteps", apiReferenceLink)
 		return response, err
 	}
@@ -956,7 +956,7 @@ func (client DbLifeCycleManagementClient) listPatchTasks(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchTaskCollection/ListPatchTasks"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListPatchTasks", apiReferenceLink)
 		return response, err
 	}
@@ -1010,7 +1010,7 @@ func (client DbLifeCycleManagementClient) listSoftwareImages(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImagesCollection/ListSoftwareImages"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListSoftwareImages", apiReferenceLink)
 		return response, err
 	}
@@ -1069,7 +1069,7 @@ func (client DbLifeCycleManagementClient) listVulnerabilities(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/DblmVulnerability/ListVulnerabilities"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListVulnerabilities", apiReferenceLink)
 		return response, err
 	}
@@ -1123,7 +1123,7 @@ func (client DbLifeCycleManagementClient) listVulnerabilityResources(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/VulnerabilityResourceCollection/ListVulnerabilityResources"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListVulnerabilityResources", apiReferenceLink)
 		return response, err
 	}
@@ -1177,7 +1177,7 @@ func (client DbLifeCycleManagementClient) listVulnerabilityScans(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/VulnerabilityScanCollection/ListVulnerabilityScans"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListVulnerabilityScans", apiReferenceLink)
 		return response, err
 	}
@@ -1231,7 +1231,7 @@ func (client DbLifeCycleManagementClient) listWorkRequestErrors(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1285,7 +1285,7 @@ func (client DbLifeCycleManagementClient) listWorkRequestLogs(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1339,7 +1339,7 @@ func (client DbLifeCycleManagementClient) listWorkRequests(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1398,7 +1398,7 @@ func (client DbLifeCycleManagementClient) patchResources(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchOperation/PatchResources"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "PatchResources", apiReferenceLink)
 		return response, err
 	}
@@ -1452,7 +1452,7 @@ func (client DbLifeCycleManagementClient) patchSoftwareImage(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/PatchSoftwareImage"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "PatchSoftwareImage", apiReferenceLink)
 		return response, err
 	}
@@ -1511,7 +1511,7 @@ func (client DbLifeCycleManagementClient) subscribeResource(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/SubscribeResource"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "SubscribeResource", apiReferenceLink)
 		return response, err
 	}
@@ -1570,7 +1570,7 @@ func (client DbLifeCycleManagementClient) unsubscribeResource(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/UnsubscribeResource"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "UnsubscribeResource", apiReferenceLink)
 		return response, err
 	}
@@ -1624,7 +1624,7 @@ func (client DbLifeCycleManagementClient) updatePatchOperation(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/PatchOperation/UpdatePatchOperation"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "UpdatePatchOperation", apiReferenceLink)
 		return response, err
 	}
@@ -1678,7 +1678,7 @@ func (client DbLifeCycleManagementClient) updateSoftwareImage(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dbmgmt/20240102/SoftwareImage/UpdateSoftwareImage"
 		err = common.PostProcessServiceError(err, "DbLifeCycleManagement", "UpdateSoftwareImage", apiReferenceLink)
 		return response, err
 	}

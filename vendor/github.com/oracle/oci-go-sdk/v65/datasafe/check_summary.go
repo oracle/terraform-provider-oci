@@ -27,7 +27,7 @@ type CheckSummary struct {
 	// The explanation of the issue in this check. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 	Remarks *string `mandatory:"false" json:"remarks"`
 
-	// Provides information on whether the check is related to a CIS Oracle Database Benchmark recommendation, STIG rule, GDPR Article/Recital or related to the Oracle Best Practice.
+	// Provides information on whether the check is related to a CIS Oracle Database Benchmark recommendation, STIG rule, GDPR Article/Recital or related to the Oracle Recommended Practice.
 	References *References `mandatory:"false" json:"references"`
 
 	// The category to which the check belongs to.

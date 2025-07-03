@@ -22,8 +22,8 @@ type CccListing struct {
 	// The unique identifier an Oracle Compute Cloud@Customer marketplace listing.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the listing.
-	Name *string `mandatory:"true" json:"name"`
+	// Compute Cloud@Customer marketplace listing display name.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// A description of the listing.
 	Description *string `mandatory:"true" json:"description"`

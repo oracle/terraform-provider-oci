@@ -56,6 +56,15 @@ type CreateStandbyDetails struct {
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 
 	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateStandbyDetails) String() string {
@@ -88,6 +97,8 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 		DbUniqueName                       *string                                `json:"dbUniqueName"`
 		SidPrefix                          *string                                `json:"sidPrefix"`
 		StorageSizeDetails                 *DatabaseStorageSizeDetails            `json:"storageSizeDetails"`
+		FreeformTags                       map[string]string                      `json:"freeformTags"`
+		DefinedTags                        map[string]map[string]interface{}      `json:"definedTags"`
 		SourceDatabaseId                   *string                                `json:"sourceDatabaseId"`
 		DatabaseAdminPassword              *string                                `json:"databaseAdminPassword"`
 		SourceTdeWalletPassword            *string                                `json:"sourceTdeWalletPassword"`
@@ -117,6 +128,10 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SidPrefix = model.SidPrefix
 
 	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 

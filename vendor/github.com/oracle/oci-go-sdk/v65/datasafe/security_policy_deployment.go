@@ -45,9 +45,6 @@ type SecurityPolicyDeployment struct {
 	// Indicates whether the security policy deployment is for a target database or a target database group.
 	TargetType SecurityPolicyDeploymentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
 
-	// Indicates whether the security policy will be un-deployed when a target is removed from a target group.
-	AutomaticUndeploy SecurityPolicyDeploymentAutomaticUndeployEnum `mandatory:"false" json:"automaticUndeploy,omitempty"`
-
 	// The last date and time the security policy was deployed, in the format defined by RFC3339.
 	TimeDeployed *common.SDKTime `mandatory:"false" json:"timeDeployed"`
 
@@ -85,9 +82,6 @@ func (m SecurityPolicyDeployment) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingSecurityPolicyDeploymentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetSecurityPolicyDeploymentTargetTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingSecurityPolicyDeploymentAutomaticUndeployEnum(string(m.AutomaticUndeploy)); !ok && m.AutomaticUndeploy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutomaticUndeploy: %s. Supported values are: %s.", m.AutomaticUndeploy, strings.Join(GetSecurityPolicyDeploymentAutomaticUndeployEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -134,47 +128,5 @@ func GetSecurityPolicyDeploymentTargetTypeEnumStringValues() []string {
 // GetMappingSecurityPolicyDeploymentTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSecurityPolicyDeploymentTargetTypeEnum(val string) (SecurityPolicyDeploymentTargetTypeEnum, bool) {
 	enum, ok := mappingSecurityPolicyDeploymentTargetTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// SecurityPolicyDeploymentAutomaticUndeployEnum Enum with underlying type: string
-type SecurityPolicyDeploymentAutomaticUndeployEnum string
-
-// Set of constants representing the allowable values for SecurityPolicyDeploymentAutomaticUndeployEnum
-const (
-	SecurityPolicyDeploymentAutomaticUndeployEnabled  SecurityPolicyDeploymentAutomaticUndeployEnum = "ENABLED"
-	SecurityPolicyDeploymentAutomaticUndeployDisabled SecurityPolicyDeploymentAutomaticUndeployEnum = "DISABLED"
-)
-
-var mappingSecurityPolicyDeploymentAutomaticUndeployEnum = map[string]SecurityPolicyDeploymentAutomaticUndeployEnum{
-	"ENABLED":  SecurityPolicyDeploymentAutomaticUndeployEnabled,
-	"DISABLED": SecurityPolicyDeploymentAutomaticUndeployDisabled,
-}
-
-var mappingSecurityPolicyDeploymentAutomaticUndeployEnumLowerCase = map[string]SecurityPolicyDeploymentAutomaticUndeployEnum{
-	"enabled":  SecurityPolicyDeploymentAutomaticUndeployEnabled,
-	"disabled": SecurityPolicyDeploymentAutomaticUndeployDisabled,
-}
-
-// GetSecurityPolicyDeploymentAutomaticUndeployEnumValues Enumerates the set of values for SecurityPolicyDeploymentAutomaticUndeployEnum
-func GetSecurityPolicyDeploymentAutomaticUndeployEnumValues() []SecurityPolicyDeploymentAutomaticUndeployEnum {
-	values := make([]SecurityPolicyDeploymentAutomaticUndeployEnum, 0)
-	for _, v := range mappingSecurityPolicyDeploymentAutomaticUndeployEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSecurityPolicyDeploymentAutomaticUndeployEnumStringValues Enumerates the set of values in String for SecurityPolicyDeploymentAutomaticUndeployEnum
-func GetSecurityPolicyDeploymentAutomaticUndeployEnumStringValues() []string {
-	return []string{
-		"ENABLED",
-		"DISABLED",
-	}
-}
-
-// GetMappingSecurityPolicyDeploymentAutomaticUndeployEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSecurityPolicyDeploymentAutomaticUndeployEnum(val string) (SecurityPolicyDeploymentAutomaticUndeployEnum, bool) {
-	enum, ok := mappingSecurityPolicyDeploymentAutomaticUndeployEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

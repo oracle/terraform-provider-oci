@@ -913,65 +913,6 @@ func (client GoldenGateClient) changePipelineCompartment(ctx context.Context, re
 	return response, err
 }
 
-// ChangePipelineSubscription Associate a GoldanGate pipeline with a different subscription.
-// A default retry strategy applies to this operation ChangePipelineSubscription()
-func (client GoldenGateClient) ChangePipelineSubscription(ctx context.Context, request ChangePipelineSubscriptionRequest) (response ChangePipelineSubscriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changePipelineSubscription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangePipelineSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangePipelineSubscriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangePipelineSubscriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangePipelineSubscriptionResponse")
-	}
-	return
-}
-
-// changePipelineSubscription implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) changePipelineSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pipelines/{pipelineId}/actions/changeSubscription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangePipelineSubscriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Pipeline/ChangePipelineSubscription"
-		err = common.PostProcessServiceError(err, "GoldenGate", "ChangePipelineSubscription", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CollectDeploymentDiagnostic Collects the diagnostic of a Deployment. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation CollectDeploymentDiagnostic()
 func (client GoldenGateClient) CollectDeploymentDiagnostic(ctx context.Context, request CollectDeploymentDiagnosticRequest) (response CollectDeploymentDiagnosticResponse, err error) {
@@ -3957,6 +3898,65 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "GoldenGate", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PausePipeline Pauses the pipeline.
+// A default retry strategy applies to this operation PausePipeline()
+func (client GoldenGateClient) PausePipeline(ctx context.Context, request PausePipelineRequest) (response PausePipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.pausePipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PausePipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PausePipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PausePipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PausePipelineResponse")
+	}
+	return
+}
+
+// pausePipeline implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) pausePipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pipelines/{pipelineId}/actions/pause", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PausePipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Pipeline/PausePipeline"
+		err = common.PostProcessServiceError(err, "GoldenGate", "PausePipeline", apiReferenceLink)
 		return response, err
 	}
 

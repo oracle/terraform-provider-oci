@@ -20,19 +20,31 @@ import (
 	"strings"
 )
 
-// HttpEndpointIdcsAuthConfig Specifies authentication using Oracle Identity Cloud Service (IDCS), leveraging OAuth 2.0 for token-based authentication.
-type HttpEndpointIdcsAuthConfig struct {
-	IdcsSecret *IdcsSecret `mandatory:"true" json:"idcsSecret"`
+// HttpEndpointIdcsAuthScopeConfig Specifies authentication using Oracle Identity Cloud Service (IDCS), leveraging OAuth 2.0 Client Credentials grant type.
+// - Only supported with `authScope = AGENT`.
+type HttpEndpointIdcsAuthScopeConfig struct {
+
+	// IDCS OpenID discovery endpoint.
+	IdcsUrl *string `mandatory:"true" json:"idcsUrl"`
+
+	// OAuth2 scopes for token generation.
+	ScopeUrl *string `mandatory:"true" json:"scopeUrl"`
+
+	// IDCS client ID.
+	ClientId *string `mandatory:"true" json:"clientId"`
+
+	// Vault secret OCID containing the client secret.
+	VaultSecretId *string `mandatory:"true" json:"vaultSecretId"`
 }
 
-func (m HttpEndpointIdcsAuthConfig) String() string {
+func (m HttpEndpointIdcsAuthScopeConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m HttpEndpointIdcsAuthConfig) ValidateEnumValue() (bool, error) {
+func (m HttpEndpointIdcsAuthScopeConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -42,14 +54,14 @@ func (m HttpEndpointIdcsAuthConfig) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m HttpEndpointIdcsAuthConfig) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeHttpEndpointIdcsAuthConfig HttpEndpointIdcsAuthConfig
+func (m HttpEndpointIdcsAuthScopeConfig) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeHttpEndpointIdcsAuthScopeConfig HttpEndpointIdcsAuthScopeConfig
 	s := struct {
-		DiscriminatorParam string `json:"httpEndpointAuthConfigType"`
-		MarshalTypeHttpEndpointIdcsAuthConfig
+		DiscriminatorParam string `json:"httpEndpointAuthScopeConfigType"`
+		MarshalTypeHttpEndpointIdcsAuthScopeConfig
 	}{
-		"HTTP_ENDPOINT_IDCS_AUTH_CONFIG",
-		(MarshalTypeHttpEndpointIdcsAuthConfig)(m),
+		"HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG",
+		(MarshalTypeHttpEndpointIdcsAuthScopeConfig)(m),
 	}
 
 	return json.Marshal(&s)

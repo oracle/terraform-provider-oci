@@ -20,16 +20,19 @@ type ConditionTypeEnum string
 const (
 	ConditionTypeFixed        ConditionTypeEnum = "FIXED"
 	ConditionTypeAvailability ConditionTypeEnum = "AVAILABILITY"
+	ConditionTypeBaselineable ConditionTypeEnum = "BASELINEABLE"
 )
 
 var mappingConditionTypeEnum = map[string]ConditionTypeEnum{
 	"FIXED":        ConditionTypeFixed,
 	"AVAILABILITY": ConditionTypeAvailability,
+	"BASELINEABLE": ConditionTypeBaselineable,
 }
 
 var mappingConditionTypeEnumLowerCase = map[string]ConditionTypeEnum{
 	"fixed":        ConditionTypeFixed,
 	"availability": ConditionTypeAvailability,
+	"baselineable": ConditionTypeBaselineable,
 }
 
 // GetConditionTypeEnumValues Enumerates the set of values for ConditionTypeEnum
@@ -46,6 +49,7 @@ func GetConditionTypeEnumStringValues() []string {
 	return []string{
 		"FIXED",
 		"AVAILABILITY",
+		"BASELINEABLE",
 	}
 }
 

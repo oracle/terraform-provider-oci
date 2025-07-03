@@ -370,18 +370,24 @@ type ListSecurityAssessmentsSortByEnum string
 
 // Set of constants representing the allowable values for ListSecurityAssessmentsSortByEnum
 const (
-	ListSecurityAssessmentsSortByTimecreated ListSecurityAssessmentsSortByEnum = "timeCreated"
-	ListSecurityAssessmentsSortByDisplayname ListSecurityAssessmentsSortByEnum = "displayName"
+	ListSecurityAssessmentsSortByTimecreated      ListSecurityAssessmentsSortByEnum = "timeCreated"
+	ListSecurityAssessmentsSortByDisplayname      ListSecurityAssessmentsSortByEnum = "displayName"
+	ListSecurityAssessmentsSortByTimelastassessed ListSecurityAssessmentsSortByEnum = "timeLastAssessed"
+	ListSecurityAssessmentsSortByTimeupdated      ListSecurityAssessmentsSortByEnum = "timeUpdated"
 )
 
 var mappingListSecurityAssessmentsSortByEnum = map[string]ListSecurityAssessmentsSortByEnum{
-	"timeCreated": ListSecurityAssessmentsSortByTimecreated,
-	"displayName": ListSecurityAssessmentsSortByDisplayname,
+	"timeCreated":      ListSecurityAssessmentsSortByTimecreated,
+	"displayName":      ListSecurityAssessmentsSortByDisplayname,
+	"timeLastAssessed": ListSecurityAssessmentsSortByTimelastassessed,
+	"timeUpdated":      ListSecurityAssessmentsSortByTimeupdated,
 }
 
 var mappingListSecurityAssessmentsSortByEnumLowerCase = map[string]ListSecurityAssessmentsSortByEnum{
-	"timecreated": ListSecurityAssessmentsSortByTimecreated,
-	"displayname": ListSecurityAssessmentsSortByDisplayname,
+	"timecreated":      ListSecurityAssessmentsSortByTimecreated,
+	"displayname":      ListSecurityAssessmentsSortByDisplayname,
+	"timelastassessed": ListSecurityAssessmentsSortByTimelastassessed,
+	"timeupdated":      ListSecurityAssessmentsSortByTimeupdated,
 }
 
 // GetListSecurityAssessmentsSortByEnumValues Enumerates the set of values for ListSecurityAssessmentsSortByEnum
@@ -398,6 +404,8 @@ func GetListSecurityAssessmentsSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
 		"displayName",
+		"timeLastAssessed",
+		"timeUpdated",
 	}
 }
 

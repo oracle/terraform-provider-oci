@@ -20,19 +20,23 @@ import (
 	"strings"
 )
 
-// HttpEndpointDelegatedBearerAuthConfig Specifies Bearer Token Authentication, where the same Bearer token received as part of the Agent Chat API request is used to invoke
-// the external endpoint.
-type HttpEndpointDelegatedBearerAuthConfig struct {
+// HttpEndpointBearerAuthScopeConfig Specifies authentication using a Bearer token, which is injected into the `Authorization` header at runtime.
+// - If `authScope = AGENT`: A static token is retrieved securely from OCI Vault using the agent’s resource principal.
+type HttpEndpointBearerAuthScopeConfig struct {
+
+	// The OCID of the vault secret with the bearer token.
+	// Required when `authScope` is AGENT.
+	VaultSecretId *string `mandatory:"false" json:"vaultSecretId"`
 }
 
-func (m HttpEndpointDelegatedBearerAuthConfig) String() string {
+func (m HttpEndpointBearerAuthScopeConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m HttpEndpointDelegatedBearerAuthConfig) ValidateEnumValue() (bool, error) {
+func (m HttpEndpointBearerAuthScopeConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -42,14 +46,14 @@ func (m HttpEndpointDelegatedBearerAuthConfig) ValidateEnumValue() (bool, error)
 }
 
 // MarshalJSON marshals to json representation
-func (m HttpEndpointDelegatedBearerAuthConfig) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeHttpEndpointDelegatedBearerAuthConfig HttpEndpointDelegatedBearerAuthConfig
+func (m HttpEndpointBearerAuthScopeConfig) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeHttpEndpointBearerAuthScopeConfig HttpEndpointBearerAuthScopeConfig
 	s := struct {
-		DiscriminatorParam string `json:"httpEndpointAuthConfigType"`
-		MarshalTypeHttpEndpointDelegatedBearerAuthConfig
+		DiscriminatorParam string `json:"httpEndpointAuthScopeConfigType"`
+		MarshalTypeHttpEndpointBearerAuthScopeConfig
 	}{
-		"HTTP_ENDPOINT_DELEGATED_BEARER_AUTH_CONFIG",
-		(MarshalTypeHttpEndpointDelegatedBearerAuthConfig)(m),
+		"HTTP_ENDPOINT_BEARER_AUTH_SCOPE_CONFIG",
+		(MarshalTypeHttpEndpointBearerAuthScopeConfig)(m),
 	}
 
 	return json.Marshal(&s)

@@ -40,8 +40,14 @@ type FindingAnalyticsDimensions struct {
 	// The severity (risk level) of the finding.
 	Severity FindingAnalyticsDimensionsSeverityEnum `mandatory:"false" json:"severity,omitempty"`
 
+	// The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
+	Remarks *string `mandatory:"false" json:"remarks"`
+
 	// The OCID of the target database.
 	TargetId *string `mandatory:"false" json:"targetId"`
+
+	// Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+	References *References `mandatory:"false" json:"references"`
 }
 
 func (m FindingAnalyticsDimensions) String() string {

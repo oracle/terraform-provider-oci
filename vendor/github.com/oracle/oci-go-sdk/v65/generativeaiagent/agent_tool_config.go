@@ -20,18 +20,21 @@ import (
 	"strings"
 )
 
-// HttpEndpointOciResourcePrincipalAuthConfig Specifies authentication using Oracle Cloud Infrastructure (OCI) Resource Principal, leveraging OCI's identity-based authentication mechanism.
-type HttpEndpointOciResourcePrincipalAuthConfig struct {
+// AgentToolConfig The configuration for Agent as a Tool.
+type AgentToolConfig struct {
+
+	// The AgentEndpoint OCID to be used as a tool in this agent.
+	AgentEndpointId *string `mandatory:"true" json:"agentEndpointId"`
 }
 
-func (m HttpEndpointOciResourcePrincipalAuthConfig) String() string {
+func (m AgentToolConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m HttpEndpointOciResourcePrincipalAuthConfig) ValidateEnumValue() (bool, error) {
+func (m AgentToolConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -41,14 +44,14 @@ func (m HttpEndpointOciResourcePrincipalAuthConfig) ValidateEnumValue() (bool, e
 }
 
 // MarshalJSON marshals to json representation
-func (m HttpEndpointOciResourcePrincipalAuthConfig) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeHttpEndpointOciResourcePrincipalAuthConfig HttpEndpointOciResourcePrincipalAuthConfig
+func (m AgentToolConfig) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeAgentToolConfig AgentToolConfig
 	s := struct {
-		DiscriminatorParam string `json:"httpEndpointAuthConfigType"`
-		MarshalTypeHttpEndpointOciResourcePrincipalAuthConfig
+		DiscriminatorParam string `json:"toolConfigType"`
+		MarshalTypeAgentToolConfig
 	}{
-		"HTTP_ENDPOINT_OCI_RESOURCE_PRINCIPAL_AUTH_CONFIG",
-		(MarshalTypeHttpEndpointOciResourcePrincipalAuthConfig)(m),
+		"AGENT_TOOL_CONFIG",
+		(MarshalTypeAgentToolConfig)(m),
 	}
 
 	return json.Marshal(&s)

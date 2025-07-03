@@ -37,6 +37,10 @@ type CreateCapacityReservationInfoDetails struct {
 
 	// If set to true, update capacity requests would not be sent.
 	IsUpdateRequestPaused *bool `mandatory:"false" json:"isUpdateRequestPaused"`
+
+	// A list of CPG OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) with block capacity
+	// A maximum of 10 is allowed.
+	BlockCpgIds []string `mandatory:"false" json:"blockCpgIds"`
 }
 
 func (m CreateCapacityReservationInfoDetails) String() string {

@@ -44,8 +44,9 @@ type CreateZeroEtlPipelineDetails struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
-	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	ProcessOptions *ProcessOptions `mandatory:"false" json:"processOptions"`
 
@@ -98,9 +99,9 @@ func (m CreateZeroEtlPipelineDetails) GetTargetConnectionDetails() *TargetPipeli
 	return m.TargetConnectionDetails
 }
 
-// GetSubscriptionId returns SubscriptionId
-func (m CreateZeroEtlPipelineDetails) GetSubscriptionId() *string {
-	return m.SubscriptionId
+// GetSubnetId returns SubnetId
+func (m CreateZeroEtlPipelineDetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m CreateZeroEtlPipelineDetails) String() string {
