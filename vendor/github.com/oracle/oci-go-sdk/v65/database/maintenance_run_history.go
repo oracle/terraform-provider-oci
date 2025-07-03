@@ -31,6 +31,10 @@ type MaintenanceRunHistory struct {
 
 	// The list of granular maintenance history details.
 	GranularMaintenanceHistory []GranularMaintenanceHistoryDetails `mandatory:"false" json:"granularMaintenanceHistory"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m MaintenanceRunHistory) String() string {

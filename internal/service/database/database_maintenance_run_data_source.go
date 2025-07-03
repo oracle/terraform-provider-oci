@@ -153,6 +153,10 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TargetDbServerVersion != nil {
 		s.D.Set("target_db_server_version", *s.Res.TargetDbServerVersion)
 	}

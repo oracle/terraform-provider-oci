@@ -569,6 +569,7 @@ func TestDatabaseMaintenanceRunResource(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
 				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", `false`),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", `ROLLING`),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				func(s *terraform.State) (err error) {
 					_, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err

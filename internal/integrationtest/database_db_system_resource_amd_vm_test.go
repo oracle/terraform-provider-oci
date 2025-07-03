@@ -97,6 +97,7 @@ func TestResourceDatabaseDBSystemAmdVM(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "db_home.0.db_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home.0.display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 			),
 		},
 		// verify update
@@ -106,6 +107,7 @@ func TestResourceDatabaseDBSystemAmdVM(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DB System Resource tests
 				resource.TestCheckResourceAttr(resourceName, "kms_key_version_id", kmsKeyVersionId),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 			),
 		},
 	})

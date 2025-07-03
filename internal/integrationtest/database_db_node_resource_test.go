@@ -68,6 +68,7 @@ func TestDatabaseDbNodeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.host_ip_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.host_ipv6id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.vnic2id"),
+					resource.TestCheckResourceAttr(datasourceName, "db_nodes.0.system_tags.%", "0"),
 				),
 			},
 			// verify singular datasource
@@ -85,6 +86,7 @@ func TestDatabaseDbNodeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_ip_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_ipv6id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic2id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				),
 			},
 		},

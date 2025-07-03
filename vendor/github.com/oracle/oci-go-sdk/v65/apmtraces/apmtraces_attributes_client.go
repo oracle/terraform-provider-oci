@@ -91,9 +91,9 @@ func (client *AttributesClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// BulkActivateAttribute Activates a set of attributes for the given APM Domain.  The API is not case-sensitive.  Any duplicates present in the bulk activation
+// BulkActivateAttribute Activates a set of attributes for the given APM Domain.  Attribute names are not case-sensitive.  Any duplicates present in the bulk activation
 // request are deduplicated and only unique attributes are activated.  A maximum number of 700 string attributes and 100 numeric attributes
-// can be activated in an APM Domain subject to the available string and numeric slots.  Once an attribute has been activated, it may take sometime
+// can be activated in an APM Domain subject to the available string and numeric slots.  Once an attribute has been activated, it may take some time
 // for it to be appear in searches as ingest might not have picked up the changes or any associated caches might not have refreshed.  The
 // bulk activation operation is atomic, and the operation succeeds only if all the attributes in the request have been processed successfully and they
 // get a success status back.  If the processing of any attribute results in a processing or validation error, then none of the attributes in the bulk
@@ -154,10 +154,10 @@ func (client AttributesClient) bulkActivateAttribute(ctx context.Context, reques
 	return response, err
 }
 
-// BulkDeActivateAttribute Deactivates a set of attributes for the given APM Domain.  The API is case in-sensitive.  Any duplicates present in the bulk deactivation
+// BulkDeActivateAttribute Deactivates a set of attributes for the given APM Domain.  Attribute names are not case-sensitive.  Any duplicates present in the bulk deactivation
 // request are deduplicated and only unique attributes are deactivated.  A maximum number of 700 string attributes and 100 numeric attributes
 // can be deactivated in an APM Domain subject to the available string and numeric slots.  Out of box attributes (Trace and Span) cannot be
-// deactivated, and will result in a processing error.  Once an attribute has been deactivated, it may take sometime for it to disappear in
+// deactivated, and will result in a processing error.  Once an attribute has been deactivated, it may take some time for it to disappear in
 // searches as ingest might not have picked up the changes or any associated caches might not have refreshed.  The bulk deactivation
 // operation is atomic, and the operation succeeds only if all the attributes in the request have been processed successfully and they get a success
 // status back.  If the processing of any attribute results in a processing or validation error, then none of the attributes in the bulk request

@@ -304,6 +304,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["storage_server_version"] = *r.StorageServerVersion
 		}
 
+		if r.SystemTags != nil {
+			exadataInfrastructure["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			exadataInfrastructure["time_created"] = r.TimeCreated.String()
 		}

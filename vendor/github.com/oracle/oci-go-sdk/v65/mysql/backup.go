@@ -98,6 +98,8 @@ type Backup struct {
 
 	// The date and time the DB system backup copy was created, as described by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeCopyCreated *common.SDKTime `mandatory:"false" json:"timeCopyCreated"`
+
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
 }
 
 func (m Backup) String() string {

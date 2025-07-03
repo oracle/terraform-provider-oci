@@ -38,7 +38,7 @@ variable "db_admin_password" {
 }
 
 variable "db_version" {
-  default = "12.2.0.1"
+  default = "18.13.0.0"
 }
 
 variable "db_disk_redundancy" {

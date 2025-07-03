@@ -57,9 +57,11 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 	}
 	memory_per_oracle_compute_unit_in_gbs = var.cloud_autonomous_vm_cluster_memory_per_oracle_compute_unit_in_gbs
 	nsg_ids = var.cloud_autonomous_vm_cluster_nsg_ids
+	opc_dry_run = var.cloud_autonomous_vm_cluster_opc_dry_run
 	scan_listener_port_non_tls = var.cloud_autonomous_vm_cluster_scan_listener_port_non_tls
 	scan_listener_port_tls = var.cloud_autonomous_vm_cluster_scan_listener_port_tls
 	security_attributes = var.cloud_autonomous_vm_cluster_security_attributes
+	subscription_id = oci_onesubscription_subscription.test_subscription.id
 	total_container_databases = var.cloud_autonomous_vm_cluster_total_container_databases
 }
 ```
@@ -103,11 +105,13 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `memory_per_oracle_compute_unit_in_gbs` - (Optional) The amount of memory (in GBs) to be enabled per OCPU or ECPU.  
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-    * A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
+	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
+* `opc_dry_run` - (Optional) (Updatable) Indicates that the request is a dry run, if set to "true". A dry run request does not actually  creating or updating a resource and is used only to perform validation on the submitted data.
 * `scan_listener_port_non_tls` - (Optional) The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - (Optional) The SCAN Listener TLS port. Default is 2484.
 * `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with. 
+* `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `total_container_databases` - (Optional) (Updatable) The total number of Autonomous Container Databases that can be created.
 
 ** IMPORTANT **
@@ -191,9 +195,9 @@ The following attributes are exported:
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with.
 
   **Subnet Restrictions:**
-	* For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.
-
-  These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet.
+	* For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20. These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet.
+* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `time_created` - The date and time that the cloud Autonomous VM cluster was created.
 * `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
 * `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.

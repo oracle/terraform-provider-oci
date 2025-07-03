@@ -21,14 +21,16 @@ type QueryRequest struct {
 	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// Include spans that have a `spanStartTime` equal to or greater than this value.
+	// Include spans that have a `spanStartTime` equal to or greater than this value.  Also, include logs and traces
+	// that have startTime greater than this value.
 	TimeSpanStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timeSpanStartedGreaterThanOrEqualTo"`
 
-	// Include spans that have a `spanStartTime`less than this value.
+	// Include spans that have a `spanStartTime` less than this value.  Also, include traces that have startTime less than this value
+	// and logs that have endTime less than this value.
 	TimeSpanStartedLessThan *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timeSpanStartedLessThan"`
 
-	// Request body containing the query to be run against the trace data and to filter and
-	// retrieve trace data results.
+	// Request body containing the query to be run against the trace, span, services, background queries and other metric data and to filter and
+	// retrieve the results.
 	QueryDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a

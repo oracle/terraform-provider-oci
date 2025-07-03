@@ -91,6 +91,10 @@ func DatabaseBackupResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"azure_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"hsm_password": {
 							Type:      schema.TypeString,
 							Computed:  true,

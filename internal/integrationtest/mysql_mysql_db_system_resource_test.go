@@ -122,6 +122,11 @@ var (
 		"certificate_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`, Update: `BYOC`},
 		"certificate_id":              acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `${var.certificate_id}`},
 	}
+
+	MysqlMysqlDbSystemEncryptDataWithBYOKRepresentation = map[string]interface{}{
+		"key_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`, Update: `BYOK`},
+		"key_id":              acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `${var.key_id}`},
+	}
 )
 
 func TestMysqlMysqlDbSystemResource_sourcePitr(t *testing.T) {
@@ -941,6 +946,64 @@ func TestMysqlMysqlDbSystemResource_hostnameLabel(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestMysqlMysqlDbSystemResource_encryptData(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_encryptData")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	keyId := utils.GetEnvSettingWithBlankDefault("key_ocid")
+	keyIdVariableStr := fmt.Sprintf("variable \"key_id\" { default = \"%s\" }\n", keyId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("encrypt_data", acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemEncryptDataWithBYOKRepresentation},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create with optional fields
+		{
+			Config: config + compartmentIdVariableStr + keyIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.0.key_generation_type", "SYSTEM"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + keyIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encrypt_data.0.key_generation_type", "BYOK"),
+				resource.TestCheckResourceAttrSet(resourceName, "encrypt_data.0.key_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

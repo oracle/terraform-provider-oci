@@ -484,3 +484,16 @@ resource "oci_database_vm_cluster" "test_exascale_vm_cluster" {
 variable "exadata_infrastructure_configure_exascale_management_total_storage_in_gbs" {
   default = 4096
 }
+
+data "oci_database_backup_destinations" "test_database_backup_destinations" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  type = "NFS"
+}
+
+data "oci_database_backup_destination" "test_database_backup_destination" {
+  #Required
+  id = oci_database_backup_destination.test_backup_destination_nfs.id
+}

@@ -234,21 +234,27 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"hsm_password": {
-										Type:      schema.TypeString,
-										Required:  true,
-										Sensitive: true,
-									},
 									"provider_type": {
 										Type:             schema.TypeString,
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AZURE",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
+									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Sensitive: true,
+									},
 
 									// Computed
 								},
@@ -328,6 +334,7 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AZURE",
 											"EXTERNAL",
 										}, true),
 									},
@@ -703,6 +710,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -988,6 +1000,8 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -1613,6 +1627,13 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 		providerType = "" // default value
 	}
 	switch strings.ToLower(providerType) {
+	case strings.ToLower("AZURE"):
+		details := oci_database.AzureEncryptionKeyDetails{}
+		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
+			tmp := azureEncryptionKeyId.(string)
+			details.AzureEncryptionKeyId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database.ExternalHsmEncryptionDetails{}
 		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
@@ -1628,7 +1649,13 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 
 func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails, hsmPassword string) map[string]interface{} {
 	result := map[string]interface{}{}
-	switch (*obj).(type) {
+	switch v := (*obj).(type) {
+	case oci_database.AzureEncryptionKeyDetails:
+		result["provider_type"] = "AZURE"
+
+		if v.AzureEncryptionKeyId != nil {
+			result["azure_encryption_key_id"] = string(*v.AzureEncryptionKeyId)
+		}
 	case oci_database.ExternalHsmEncryptionDetails:
 		result["provider_type"] = "EXTERNAL"
 		result["hsm_password"] = hsmPassword
